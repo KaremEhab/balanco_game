@@ -1,4 +1,4 @@
-package com.example.balanco_game
+package com.balanco.balanco
 
 import io.flutter.embedding.android.FlutterActivity
 

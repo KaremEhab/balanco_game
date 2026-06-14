@@ -8,7 +8,7 @@
 PRODUCT_NAME = balanco_game
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.balancoGame
+PRODUCT_BUNDLE_IDENTIFIER = com.balanco.balanco
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2026 com.example. All rights reserved.
