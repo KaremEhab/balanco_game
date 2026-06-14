@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="25" height="23" fill="none" viewBox="0 0 25 23">
+  <path fill="url(#a)" fill-rule="evenodd" d="M.015 7.895v.01c-.34 5.8 5.11 13.01 8.04 14.38 4.24 1.98 14.46-2.95 15.8-10.15.42-2.28.17-4.3-.58-6.01-2.51-5.69-10.66-7.94-18.61-4.49-3.18 1.39-4.49 3.69-4.65 6.26Z" clip-rule="evenodd"/>
+  <path fill="url(#b)" fill-rule="evenodd" d="M.015 7.915c-.34 5.8 5.11 13.01 8.04 14.38 4.24 1.98 14.46-2.95 15.8-10.15.42-2.28.17-4.3-.58-6.01l-.01-.01s1.76 10.98-8.59 12.66c-10.2 1.64-14.3-8.02-14.66-10.87Z" clip-rule="evenodd" opacity=".8"/>
+  <path fill="#FCC400" fill-rule="evenodd" d="M18.405 16.786c5.43-4.02-4.77-12.91-14.25-10.37-9.48 2.54 4.45 17.62 14.25 10.37Z" clip-rule="evenodd" opacity=".3"/>
+  <path fill="#FCC400" fill-rule="evenodd" d="M14.675 18.775c2.68-.58-4.49-4.65-8.74-5.55-4.25-.9-.08 7.48 8.74 5.55Z" clip-rule="evenodd" opacity=".4"/>
+  <path fill="url(#c)" fill-rule="evenodd" d="M19.435 16.895s-1.14-1.05-2.97-.3c-1.84.76-2.02 2.23-2.02 2.23s3.83 1.35 4.99-1.93Z" clip-rule="evenodd"/>
+  <path fill="#CC81B3" fill-rule="evenodd" d="M18.355 16.386c.88.36-.5 2.01-1.74 2.22-1.24.21-1.93-.45-1.93-.45s1.07-2.05 3.67-1.77Z" clip-rule="evenodd" opacity=".8"/>
+  <path fill="#D46D31" fill-rule="evenodd" d="M19.365 17.085s-1.2 2.16-4.68 1.81c-.01 0 3.17 1.5 4.68-1.81Z" clip-rule="evenodd"/>
+  <path fill="#DB7F40" fill-rule="evenodd" d="M22.675 12.355s-1.85 3-2.76 3.45c-.91.45-1.96-.06-3.61.56-1.66.62-2.13 1.98-3.98 2.28-1.85.3-4.8-.66-4.8-.66s3.62 1.96 6.91.84c0 0 .51-1.64 2.21-2.27 1.7-.63 2.78.34 2.78.34s2.79-1.4 3.25-4.54Z" clip-rule="evenodd"/>
+  <path fill="#CC7CD4" fill-rule="evenodd" d="M16.365 1.155c3.63.64 2.61 5.12 2.26 5.68-.35.55-5.13-.96-11.1-.97-5.96-.01-7.11 1.81-7.11 1.81s.22-9.31 15.95-6.52Z" clip-rule="evenodd" opacity=".3"/>
+  <path fill="#E88C40" fill-rule="evenodd" d="M14.675 14.145c1.61 1.17.15 1.62-1.25.8-1.39-.83.24-1.53 1.25-.8Zm.35 1.62c.73.18.06.57-.24.6-.3.02-.11-.69.24-.6Zm-11.2-3.589c2.55 1.5 2.1 3.96.22 2.25-1.87-1.71-1.07-2.75-.22-2.25Zm17.94-1.891c2.13.02.29 3-.67 3.04-.95.03-1.05-3.05.67-3.04Z" clip-rule="evenodd"/>
+  <defs>
+    <linearGradient id="a" x1="12.031" x2="12.031" y1="22.728" y2=".003" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#C35934"/>
+      <stop offset=".347" stop-color="#C5632E"/>
+      <stop offset=".945" stop-color="#C97F1F"/>
+      <stop offset="1" stop-color="#CA821D"/>
+    </linearGradient>
+    <linearGradient id="b" x1="12.031" x2="12.031" y1="22.728" y2="6.119" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#B1765E"/>
+      <stop offset=".176" stop-color="#C28E72"/>
+      <stop offset=".547" stop-color="#E3BB97"/>
+      <stop offset=".834" stop-color="#F7D7AD"/>
+      <stop offset="1" stop-color="#FFE1B6"/>
+    </linearGradient>
+    <linearGradient id="c" x1="16.94" x2="16.94" y1="19.1" y2="16.321" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#B8661D"/>
+      <stop offset=".059" stop-color="#B55F1E"/>
+      <stop offset=".482" stop-color="#A33224"/>
+      <stop offset=".81" stop-color="#971628"/>
+      <stop offset="1" stop-color="#930C29"/>
+    </linearGradient>
+  </defs>
+</svg>
