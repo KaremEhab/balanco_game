@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
-import 'package:iconly/iconly.dart';
+
 import '../game_area.dart';
 
 class StarComponent extends Component with HasGameReference<BalancoGame> {
@@ -23,10 +23,10 @@ class StarComponent extends Component with HasGameReference<BalancoGame> {
   StarComponent(this.fractionalPosition) {
     textPainter = TextPainter(
       text: TextSpan(
-        text: String.fromCharCode(IconlyBold.star.codePoint),
+        text: String.fromCharCode(Icons.star.codePoint),
         style: TextStyle(
-          fontFamily: IconlyBold.star.fontFamily,
-          package: IconlyBold.star.fontPackage,
+          fontFamily: Icons.star.fontFamily,
+          package: Icons.star.fontPackage,
           color: Colors.yellow.shade100,
           fontSize: 14,
           shadows: [

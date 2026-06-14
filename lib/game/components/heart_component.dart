@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
-import 'package:iconly/iconly.dart';
+
 import '../game_area.dart';
 
 class HeartComponent extends Component with HasGameReference<BalancoGame> {
@@ -23,10 +23,10 @@ class HeartComponent extends Component with HasGameReference<BalancoGame> {
   HeartComponent(this.fractionalPosition) {
     textPainter = TextPainter(
       text: TextSpan(
-        text: String.fromCharCode(IconlyBold.heart.codePoint),
+        text: String.fromCharCode(Icons.favorite.codePoint),
         style: TextStyle(
-          fontFamily: IconlyBold.heart.fontFamily,
-          package: IconlyBold.heart.fontPackage,
+          fontFamily: Icons.favorite.fontFamily,
+          package: Icons.favorite.fontPackage,
           color: Colors.pink.shade100,
           fontSize: 14,
           shadows: [

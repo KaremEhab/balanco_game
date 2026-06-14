@@ -2,7 +2,7 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/text.dart';
 import 'package:flutter/material.dart';
-import 'package:iconly/iconly.dart';
+
 import '../game_area.dart';
 
 class FinishLineComponent extends PositionComponent
@@ -354,7 +354,7 @@ class FinishLineComponent extends PositionComponent
   }
 
   void _drawStar(Canvas canvas, Offset center, bool filled, double alpha) {
-    IconData starIcon = filled ? IconlyBold.star : IconlyLight.star;
+    IconData starIcon = filled ? Icons.star : Icons.star_border;
     Color starColor = filled ? Colors.orange : Colors.orange;
 
     TextPainter textPainter = TextPainter(

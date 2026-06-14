@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:iconly/iconly.dart';
+
 import 'main_screen.dart';
 
 class ModesScreen extends StatelessWidget {
@@ -108,7 +108,7 @@ class ModesScreen extends StatelessWidget {
                                 child: Column(
                                   children: [
                                     Icon(
-                                      IconlyBold.profile,
+                                      Icons.person,
                                       size: 40,
                                       color: !isMultiplayer
                                           ? (isDark ? Colors.cyanAccent : Colors.blueAccent)
@@ -154,7 +154,7 @@ class ModesScreen extends StatelessWidget {
                                 child: Column(
                                   children: [
                                     Icon(
-                                      IconlyBold.user_2,
+                                      Icons.people,
                                       size: 40,
                                       color: isMultiplayer
                                           ? (isDark ? Colors.pinkAccent : Colors.orangeAccent)
@@ -264,7 +264,7 @@ class ModesScreen extends StatelessWidget {
                       color: isDark ? Colors.purpleAccent.withValues(alpha: 0.2) : Colors.deepPurple.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Icon(IconlyBold.game, size: 32, color: isDark ? Colors.purpleAccent : Colors.deepPurple),
+                    child: Icon(Icons.sports_esports, size: 32, color: isDark ? Colors.purpleAccent : Colors.deepPurple),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
@@ -287,7 +287,7 @@ class ModesScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const Icon(IconlyLight.lock, color: Colors.grey),
+                  const Icon(Icons.lock_outline, color: Colors.grey),
                 ],
               ),
             ),
@@ -306,7 +306,7 @@ class ModesScreen extends StatelessWidget {
                       color: isDark ? Colors.greenAccent.withValues(alpha: 0.2) : Colors.green.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Icon(IconlyBold.time_circle, size: 32, color: isDark ? Colors.greenAccent : Colors.green),
+                    child: Icon(Icons.timer, size: 32, color: isDark ? Colors.greenAccent : Colors.green),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
@@ -329,7 +329,7 @@ class ModesScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const Icon(IconlyLight.lock, color: Colors.grey),
+                  const Icon(Icons.lock_outline, color: Colors.grey),
                 ],
               ),
             ),

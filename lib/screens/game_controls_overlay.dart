@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:iconly/iconly.dart';
+
 import '../game/game_area.dart';
 
 class GameControlsOverlay extends StatelessWidget {
@@ -149,12 +149,12 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
             // Track indicators
             Positioned(
               top: 10,
-              child: Icon(IconlyBold.arrow_up, size: 16, color: Colors.white54),
+              child: Icon(Icons.keyboard_arrow_up, size: 16, color: Colors.white54),
             ),
             Positioned(
               bottom: 10,
               child: Icon(
-                IconlyBold.arrow_down,
+                Icons.keyboard_arrow_down,
                 size: 16,
                 color: Colors.white54,
               ),

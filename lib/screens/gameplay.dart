@@ -3,7 +3,7 @@ import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flame/game.dart';
-import 'package:iconly/iconly.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 
 import '../game/game_area.dart';
@@ -57,8 +57,8 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                 children: List.generate(3, (index) {
                   return Icon(
                     index < widget.game.currentPoints.value
-                        ? IconlyBold.star
-                        : IconlyLight.star,
+                        ? Icons.star
+                        : Icons.star_border,
                     color: Colors.amber,
                     size: 36,
                   );
@@ -71,7 +71,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                   foregroundColor: Colors.white,
                   minimumSize: const Size(200, 48),
                 ),
-                icon: const Icon(IconlyBold.play),
+                icon: const Icon(Icons.play_arrow),
                 label: const Text('Continue'),
                 onPressed: () {
                   Navigator.pop(context);
@@ -85,7 +85,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                   foregroundColor: Colors.white,
                   minimumSize: const Size(200, 48),
                 ),
-                icon: const Icon(IconlyBold.danger),
+                icon: const Icon(Icons.refresh),
                 label: const Text('Reset Level'),
                 onPressed: () {
                   Navigator.pop(context);
@@ -99,7 +99,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                   foregroundColor: Colors.redAccent,
                   minimumSize: const Size(200, 48),
                 ),
-                icon: const Icon(IconlyBold.home),
+                icon: const Icon(Icons.home),
                 label: const Text('Leave to Lobby'),
                 onPressed: () {
                   Navigator.pop(context); // close dialog
@@ -203,7 +203,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                                 );
                               },
                           child: Icon(
-                            hasLife ? IconlyBold.heart : IconlyLight.heart,
+                            hasLife ? Icons.favorite : Icons.favorite_border,
                             key: ValueKey<bool>(hasLife),
                             color: hasLife
                                 ? Colors.redAccent
@@ -245,7 +245,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                                 );
                               },
                           child: Icon(
-                            hasStar ? IconlyBold.star : IconlyLight.star,
+                            hasStar ? Icons.star : Icons.star_border,
                             key: ValueKey<bool>(hasStar),
                             color: Colors.amber,
                             size: 24,

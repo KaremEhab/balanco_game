@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iconly/iconly.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import '../theme/app_theme.dart';
 import '../map/map_screen.dart';
@@ -166,7 +166,7 @@ class _MainScreenState extends State<MainScreen> {
               ],
             ),
             child: Icon(
-              IconlyBold.profile,
+              Icons.person,
               color: strokeColor,
               size: 28,
             ),
@@ -325,21 +325,21 @@ class _MainScreenState extends State<MainScreen> {
         mainAxisSize: MainAxisSize.min,
         children: [
           _buildNavItem(
-            icon: IconlyBold.location,
+            icon: Icons.map,
             label: 'Map',
             index: 0,
             isDark: isDark,
           ),
           const SizedBox(width: 10),
           _buildNavItem(
-            icon: IconlyBold.category,
+            icon: Icons.category,
             label: 'Modes',
             index: 1,
             isDark: isDark,
           ),
           // const SizedBox(width: 10),
           // _buildNavItem(
-          //   icon: IconlyBold.setting,
+          //   icon: Icons.settings,
           //   label: 'Edit',
           //   index: 2,
           //   isDark: isDark,

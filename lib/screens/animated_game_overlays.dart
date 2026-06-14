@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:iconly/iconly.dart';
+
 import '../game/game_area.dart';
 
 class AnimatedLevelCompleteOverlay extends StatefulWidget {
@@ -128,8 +128,8 @@ class _AnimatedLevelCompleteOverlayState
                     children: List.generate(3, (index) {
                       return Icon(
                         index < widget.game.currentPoints.value
-                            ? IconlyBold.star
-                            : IconlyLight.star,
+                            ? Icons.star
+                            : Icons.star_border,
                         color: Colors.amber,
                         size: 36,
                       );
@@ -146,7 +146,7 @@ class _AnimatedLevelCompleteOverlayState
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      icon: const Icon(IconlyBold.home),
+                      icon: const Icon(Icons.home),
                       label: const Text(
                         'Return to Lobby',
                         style: TextStyle(fontWeight: FontWeight.bold),
@@ -163,7 +163,7 @@ class _AnimatedLevelCompleteOverlayState
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      icon: const Icon(IconlyBold.play),
+                      icon: const Icon(Icons.play_arrow),
                       label: const Text(
                         'Next Level',
                         style: TextStyle(fontWeight: FontWeight.bold),
@@ -180,7 +180,7 @@ class _AnimatedLevelCompleteOverlayState
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      icon: const Icon(IconlyBold.danger),
+                      icon: const Icon(Icons.refresh),
                       label: const Text(
                         'Restart Level',
                         style: TextStyle(fontWeight: FontWeight.bold),
@@ -195,7 +195,7 @@ class _AnimatedLevelCompleteOverlayState
                         foregroundColor: isDark ? Colors.white54 : Colors.black54,
                         minimumSize: const Size(double.infinity, 48),
                       ),
-                      icon: const Icon(IconlyBold.home),
+                      icon: const Icon(Icons.home),
                       label: const Text('Leave to Lobby'),
                       onPressed: _returnToLobby,
                     ),
@@ -321,7 +321,7 @@ class _AnimatedGameOverOverlayState extends State<AnimatedGameOverOverlay>
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
-                        icon: const Icon(IconlyBold.danger),
+                        icon: const Icon(Icons.refresh),
                         label: const Text(
                           'Restart Level',
                           style: TextStyle(fontWeight: FontWeight.bold),
@@ -334,7 +334,7 @@ class _AnimatedGameOverOverlayState extends State<AnimatedGameOverOverlay>
                           foregroundColor: isDark ? Colors.white54 : Colors.black54,
                           minimumSize: const Size(double.infinity, 48),
                         ),
-                        icon: const Icon(IconlyBold.home),
+                        icon: const Icon(Icons.home),
                         label: const Text('Leave to Lobby'),
                         onPressed: _returnToLobby,
                       ),
