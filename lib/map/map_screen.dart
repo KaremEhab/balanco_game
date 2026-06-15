@@ -394,9 +394,8 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-    double scaleX = screenWidth / 400.0;
+    // We force a 400-width virtual coordinate system that scales natively!
+    double scaleX = 1.0; 
 
     return ValueListenableBuilder<List<IslandData>>(
       valueListenable: MapLayoutConfig.instance.islands,
@@ -418,43 +417,46 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
             controller: widget.scrollController,
             physics: const BouncingScrollPhysics(),
             reverse: true, // Start at the bottom (Level 1)
-            child: GestureDetector(
-              onTapDown: (details) =>
-                  _handleTapDown(details.localPosition, scaleX),
-              onTapUp: (details) => _handleTapUp(details.localPosition, scaleX),
-              onTapCancel: _handleTapCancel,
-              child: SizedBox(
-                width: screenWidth,
-                height: _virtualHeight,
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    // 1. The Rendering Engine - Split into highly optimized layers
-                    // We DO NOT wrap this in a scroll listener!
-                    // Flutter will render this massive canvas ONCE, cache it via RepaintBoundary,
-                    // and simply slide the cached texture up and down natively. Zero dropped frames!
-                    Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        // Layer 1: Sea Waves (Animates via wave controller)
-                        RepaintBoundary(
-                          child: AnimatedBuilder(
-                            animation: _waveController,
-                            builder: (context, child) {
-                              return CustomPaint(
-                                size: Size(screenWidth, _virtualHeight),
-                                painter: SeaWavesLayerPainter(
-                                  waveProgress: _waveController.value,
-                                ),
-                              );
-                            },
+            child: FittedBox(
+              fit: BoxFit.fitWidth,
+              alignment: Alignment.topCenter,
+              child: GestureDetector(
+                onTapDown: (details) =>
+                    _handleTapDown(details.localPosition, scaleX),
+                onTapUp: (details) => _handleTapUp(details.localPosition, scaleX),
+                onTapCancel: _handleTapCancel,
+                child: SizedBox(
+                  width: 400.0,
+                  height: _virtualHeight,
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      // 1. The Rendering Engine - Split into highly optimized layers
+                      // We DO NOT wrap this in a scroll listener!
+                      // Flutter will render this massive canvas ONCE, cache it via RepaintBoundary,
+                      // and simply slide the cached texture up and down natively. Zero dropped frames!
+                      Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          // Layer 1: Sea Waves (Animates via wave controller)
+                          RepaintBoundary(
+                            child: AnimatedBuilder(
+                              animation: _waveController,
+                              builder: (context, child) {
+                                return CustomPaint(
+                                  size: Size(400.0, _virtualHeight),
+                                  painter: SeaWavesLayerPainter(
+                                    waveProgress: _waveController.value,
+                                  ),
+                                );
+                              },
                           ),
                         ),
                         
                         // Layer 2: Static Shores & Trees (Animates NEVER. Painted ONCE)
                         RepaintBoundary(
                           child: CustomPaint(
-                            size: Size(screenWidth, _virtualHeight),
+                            size: Size(400.0, _virtualHeight),
                             painter: StaticShoresLayerPainter(),
                           ),
                         ),
@@ -483,7 +485,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                               }
 
                               return CustomPaint(
-                                size: Size(screenWidth, _virtualHeight),
+                                size: Size(400.0, _virtualHeight),
                                 painter: DynamicIslandsLayerPainter(
                                   totalLevels: totalLevels,
                                   highestLevel: highestLevel,
@@ -504,7 +506,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                         // Layer 4: Static Trees (Animates NEVER. Painted ONCE. Above islands)
                         RepaintBoundary(
                           child: CustomPaint(
-                            size: Size(screenWidth, _virtualHeight),
+                            size: Size(400.0, _virtualHeight),
                             painter: StaticTreesLayerPainter(),
                           ),
                         ),
@@ -597,6 +599,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                   ],
                 ),
               ),
+            ),
             ),
           ),
         );

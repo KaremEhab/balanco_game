@@ -190,8 +190,8 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double scaleX = screenWidth / 400.0;
+    // Lock the editor to a virtual 400-width coordinate system
+    double scaleX = 1.0;
     double virtualHeight = MapLayoutConfig.instance.virtualHeight;
 
     return Scaffold(
@@ -227,56 +227,57 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
             controller: _scrollController,
             physics: const BouncingScrollPhysics(),
             reverse: true, // Start at bottom
-            child: DragTarget<Map<String, dynamic>>(
-              onAcceptWithDetails: (details) {
-                final RenderBox renderBox =
-                    _canvasKey.currentContext!.findRenderObject() as RenderBox;
-                final localOffset = renderBox.globalToLocal(details.offset);
+            child: FittedBox(
+              fit: BoxFit.fitWidth,
+              alignment: Alignment.topCenter,
+              child: DragTarget<Map<String, dynamic>>(
+                onAcceptWithDetails: (details) {
+                  final RenderBox renderBox =
+                      _canvasKey.currentContext!.findRenderObject() as RenderBox;
+                  final localOffset = renderBox.globalToLocal(details.offset);
 
-                final payload = details.data;
-                if (payload['category'] == 'island') {
-                  int type = payload['type'];
-                  int maxLevel = 0;
-                  for (var island in _localIslands) {
-                    if (island.level > maxLevel) maxLevel = island.level;
+                  final payload = details.data;
+                  if (payload['category'] == 'island') {
+                    int type = payload['type'];
+                    int maxLevel = 0;
+                    for (var island in _localIslands) {
+                      if (island.level > maxLevel) maxLevel = island.level;
+                    }
+                    setState(() {
+                      _localIslands.add(
+                        IslandData(
+                          x: localOffset.dx, // Already in 400-width space!
+                          y: localOffset.dy,
+                          level: maxLevel + 1,
+                          type: type,
+                          buttonDx: 0.0,
+                          buttonDy: 0.0,
+                        ),
+                      );
+                    });
+                  } else if (payload['category'] == 'stone') {
+                    int type = payload['type'];
+                    setState(() {
+                      _localStones.add(
+                        StoneData(
+                          id: 'stone_${DateTime.now().millisecondsSinceEpoch}',
+                          x: localOffset.dx, // Already in 400-width space!
+                          y: localOffset.dy,
+                          scale: 1.0,
+                          rotation: 0.0,
+                          type: type,
+                        ),
+                      );
+                    });
                   }
-                  double scaleX = MediaQuery.of(context).size.width / 400.0;
-                  setState(() {
-                    _localIslands.add(
-                      IslandData(
-                        x: localOffset.dx / scaleX,
-                        y: localOffset.dy,
-                        level: maxLevel + 1,
-                        type: type,
-                        buttonDx: 0.0,
-                        buttonDy: 0.0,
-                      ),
-                    );
-                  });
-                } else if (payload['category'] == 'stone') {
-                  int type = payload['type'];
-                  double scaleX = MediaQuery.of(context).size.width / 400.0;
-                  setState(() {
-                    _localStones.add(
-                      StoneData(
-                        id: 'stone_${DateTime.now().millisecondsSinceEpoch}',
-                        x: localOffset.dx / scaleX,
-                        y: localOffset.dy,
-                        scale: 1.0,
-                        rotation: 0.0,
-                        type: type,
-                      ),
-                    );
-                  });
-                }
-              },
-              builder: (context, candidateData, rejectedData) {
-                return SizedBox(
-                  key: _canvasKey,
-                  width: screenWidth,
-                  height: virtualHeight,
-                  child: Stack(
-                    clipBehavior: Clip.none,
+                },
+                builder: (context, candidateData, rejectedData) {
+                  return SizedBox(
+                    key: _canvasKey,
+                    width: 400.0,
+                    height: virtualHeight,
+                    child: Stack(
+                      clipBehavior: Clip.none,
                     children: [
                       // Tap background to clear isolation
                       Positioned.fill(
@@ -293,7 +294,7 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
 
                       // Draw an invisible line connecting the islands so user can see the general path
                       CustomPaint(
-                        size: Size(screenWidth, virtualHeight),
+                        size: Size(400.0, virtualHeight),
                         painter: _PathPreviewPainter(
                           islands: _localIslands,
                           scaleX: scaleX,
@@ -478,6 +479,7 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
                   ),
                 );
               },
+            ),
             ),
           ),
 
