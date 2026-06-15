@@ -229,7 +229,7 @@ class MapLayoutConfig {
       ),
       IslandData(
         x: 156.45974164417726,
-        y: 1353.4889, // SPACED OUT properly from level 8
+        y: 1458.0861, // Closer to level 8
         level: 9,
         type: 10,
         buttonDx: -22.962962962962884,
@@ -271,22 +271,7 @@ class MapLayoutConfig {
         rotation: -0.08802919013081978,
         type: 1,
       ),
-      StoneData(
-        id: 'stone_18',
-        x: 335.141597276381,
-        y: 2108.0851,
-        scale: 0.7496719071538926,
-        rotation: 0.2842305900336187,
-        type: 5,
-      ),
-      StoneData(
-        id: 'stone_20',
-        x: 295.1774202724945,
-        y: 2104.3378,
-        scale: 0.6385581097439276,
-        rotation: 0.10840337379811482,
-        type: 6,
-      ),
+
       StoneData(
         id: 'stone_21',
         x: 209.72308264331102,
@@ -312,6 +297,14 @@ class MapLayoutConfig {
         type: 1,
       ),
       StoneData(
+        id: 'stone_level2_3_1',
+        x: 290.0,
+        y: 2264.0,
+        scale: 0.8,
+        rotation: 0.1,
+        type: 3,
+      ),
+      StoneData(
         id: 'stone_1781298649056',
         x: 183.00925925925895,
         y: 2154.3083,
@@ -335,10 +328,11 @@ class MapLayoutConfig {
         rotation: 0.0,
         type: 4,
       ),
+
       StoneData(
         id: 'stone_level8_9_1',
         x: 140.0,
-        y: 1528.4889,
+        y: 1564.0861,
         scale: 0.8,
         rotation: 0.1,
         type: 2,
@@ -346,7 +340,7 @@ class MapLayoutConfig {
       StoneData(
         id: 'stone_level8_9_2',
         x: 165.0,
-        y: 1440.9889,
+        y: 1511.0861,
         scale: 0.9,
         rotation: -0.2,
         type: 5,

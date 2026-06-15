@@ -92,7 +92,17 @@ class DynamicIslandsLayerPainter extends CustomPainter {
       canvas.scale(stone.scale * scaleX * squishScale, stone.scale * scaleX * squishScale);
       canvas.translate(-stoneSize / 2, -stoneSize / 2);
 
-      bool isStoneLocked = stone.y < highestUnlockedY - 40.0;
+      bool isStoneLocked = false;
+      // Find the island this stone leads to. Islands are sorted from bottom to top (L1..L9)
+      // The island it leads to is the first island with Y < stone.y
+      for (var island in islands) {
+        if (island.y < stone.y) {
+          if (island.level > highestLevel) {
+            isStoneLocked = true;
+          }
+          break;
+        }
+      }
 
       if (isStoneLocked) {
         canvas.saveLayer(

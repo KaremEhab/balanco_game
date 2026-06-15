@@ -342,23 +342,53 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     Path path = Path();
     if (s >= e || s < 1 || e > _buttonNodes.length) return path;
 
-    path.moveTo(_buttonNodes[s - 1].dx, _buttonNodes[s - 1].dy);
+    List<Offset> waypoints = [];
+    waypoints.add(_buttonNodes[s - 1]);
+    
+    double scaleX = MediaQuery.of(context).size.width / 400.0;
+
     for (int i = s - 1; i < e - 1; i++) {
       Offset p1 = _buttonNodes[i];
       Offset p2 = _buttonNodes[i + 1];
-      double controlOffset = 80.0;
-      double sign1 = sin((i + 1) * (pi / 2.5)) >= 0 ? 1 : -1;
-      double sign2 = sin((i + 2) * (pi / 2.5)) >= 0 ? 1 : -1;
+      
+      List<Offset> localStones = [];
+      for (var stone in MapLayoutConfig.instance.stones.value) {
+        double sy = stone.y;
+        double sx = stone.x * scaleX;
+        // p1.dy > p2.dy because it goes from bottom to top
+        if (sy < p1.dy && sy > p2.dy) {
+          localStones.add(Offset(sx, sy));
+        }
+      }
+      
+      // Sort ascending by Y (descending visually, so bottom to top)
+      localStones.sort((a, b) => b.dy.compareTo(a.dy));
+      
+      waypoints.addAll(localStones);
+      waypoints.add(p2);
+    }
+
+    path.moveTo(waypoints.first.dx, waypoints.first.dy);
+    for (int i = 0; i < waypoints.length - 1; i++) {
+      Offset wp1 = waypoints[i];
+      Offset wp2 = waypoints[i + 1];
+      
+      double sign1 = i % 2 == 0 ? 1 : -1;
+      double sign2 = (i + 1) % 2 == 0 ? 1 : -1;
+      double controlOffset = 40.0;
+      
       Offset cp1 = Offset(
-        p1.dx + sign1 * controlOffset,
-        p1.dy - (p1.dy - p2.dy) * 0.3,
+        wp1.dx + sign1 * controlOffset,
+        wp1.dy - (wp1.dy - wp2.dy) * 0.3,
       );
       Offset cp2 = Offset(
-        p2.dx + sign2 * controlOffset,
-        p2.dy + (p1.dy - p2.dy) * 0.3,
+        wp2.dx + sign2 * controlOffset,
+        wp2.dy + (wp1.dy - wp2.dy) * 0.3,
       );
-      path.cubicTo(cp1.dx, cp1.dy, cp2.dx, cp2.dy, p2.dx, p2.dy);
+      
+      path.cubicTo(cp1.dx, cp1.dy, cp2.dx, cp2.dy, wp2.dx, wp2.dy);
     }
+    
     return path;
   }
 
