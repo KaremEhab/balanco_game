@@ -5,6 +5,7 @@ import '../theme/app_theme.dart';
 import '../map/map_screen.dart';
 import 'modes_screen.dart';
 import 'map_editor_screen.dart';
+import 'bg_editor_screen.dart';
 
 // Global Game Configuration Notifiers
 final ValueNotifier<bool> isMultiplayerNotifier = ValueNotifier<bool>(false);
@@ -32,6 +33,12 @@ class _MainScreenState extends State<MainScreen> {
     _screens = [
       MapScreen(scrollController: _mapScrollController),
       const ModesScreen(),
+      BgEditorScreen(onExit: () {
+        setState(() {
+          _currentIndex = 0;
+          _isNavbarVisible = true;
+        });
+      }),
       // const MapEditorScreen(),
     ];
 
@@ -73,8 +80,9 @@ class _MainScreenState extends State<MainScreen> {
           IndexedStack(index: _currentIndex, children: _screens),
 
           // Floating Top App Bar (Profile, Stats, Theme) - Always Fixed
-          Positioned(
-            top: MediaQuery.of(context).padding.top + 10,
+          if (_currentIndex != 2)
+            Positioned(
+              top: MediaQuery.of(context).padding.top + 10,
             left: 20,
             right: 20,
             child: RepaintBoundary(
@@ -83,8 +91,9 @@ class _MainScreenState extends State<MainScreen> {
           ),
 
           // Collapsible Center Navbar
-          Positioned(
-            bottom: 20,
+          if (_currentIndex != 2)
+            Positioned(
+              bottom: 20,
             left: 0,
             right: 0,
             child: GestureDetector(
@@ -337,11 +346,18 @@ class _MainScreenState extends State<MainScreen> {
             index: 1,
             isDark: isDark,
           ),
+          const SizedBox(width: 10),
+          _buildNavItem(
+            icon: Icons.layers,
+            label: 'Bg Edit',
+            index: 2,
+            isDark: isDark,
+          ),
           // const SizedBox(width: 10),
           // _buildNavItem(
           //   icon: Icons.settings,
           //   label: 'Edit',
-          //   index: 2,
+          //   index: 3,
           //   isDark: isDark,
           // ),
         ],

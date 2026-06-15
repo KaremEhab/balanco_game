@@ -22,12 +22,12 @@ class HoleComponent extends PositionComponent
   late final Paint _rivetShadowPaint;
   late final Paint _rivetMetalPaint;
   late final Paint _glowPaint;
-  
+
   // Sucking hole specific paints
   late final Paint _boundaryPaint;
   late final Paint _windStreakPaint;
   late final Paint _windAreaPaint;
-  
+
   // Cached Paths
   final List<Path> _teethPaths = [];
   final List<Path> _windStreakPaths = [];
@@ -38,11 +38,7 @@ class HoleComponent extends PositionComponent
     double rotation, {
     this.isSuckingHole = false,
     this.suckRadius = 0.0,
-  }) : super(
-         size: Vector2.all(holeSize),
-         anchor: Anchor.center,
-         angle: 0,
-       ) {
+  }) : super(size: Vector2.all(holeSize), anchor: Anchor.center, angle: 0) {
     _rotation = rotation;
   }
 
@@ -71,20 +67,26 @@ class HoleComponent extends PositionComponent
     _rimHighlightPaint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2.0
-      ..shader = RadialGradient(
+      ..shader =
+          RadialGradient(
             center: const Alignment(-0.5, -0.5),
             radius: 1.0,
             colors: [Colors.white.withValues(alpha: 0.4), Colors.transparent],
-          ).createShader(Rect.fromCircle(center: Offset.zero, radius: radius + 3.0));
+          ).createShader(
+            Rect.fromCircle(center: Offset.zero, radius: radius + 3.0),
+          );
 
     _rimShadowPaint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2.0
-      ..shader = RadialGradient(
+      ..shader =
+          RadialGradient(
             center: const Alignment(0.5, 0.5),
             radius: 1.0,
             colors: [Colors.black.withValues(alpha: 0.6), Colors.transparent],
-          ).createShader(Rect.fromCircle(center: Offset.zero, radius: radius + 3.0));
+          ).createShader(
+            Rect.fromCircle(center: Offset.zero, radius: radius + 3.0),
+          );
 
     _teethPaint = Paint()..color = Colors.blueGrey.shade900;
     _rivetShadowPaint = Paint()..color = Colors.black54;
@@ -108,16 +110,19 @@ class HoleComponent extends PositionComponent
         ..strokeCap = StrokeCap.round;
 
       _windAreaPaint = Paint()
-        ..shader = RadialGradient(
+        ..shader =
+            RadialGradient(
               center: Alignment.center,
               radius: 1.0,
               colors: [
                 Colors.cyanAccent.withValues(alpha: 0.05),
                 Colors.transparent,
               ],
-            ).createShader(Rect.fromCircle(center: Offset.zero, radius: suckRadius));
+            ).createShader(
+              Rect.fromCircle(center: Offset.zero, radius: suckRadius),
+            );
     }
-    
+
     // Initialize 8 empty paths for teeth to avoid allocating inside render
     for (int i = 0; i < 8; i++) {
       _teethPaths.add(Path());
@@ -238,7 +243,7 @@ class HoleComponent extends PositionComponent
 
     if (game.activeHole == this) {
       double glowAlpha = (0.3 + 0.7 * sin(_pulseTime)).clamp(0.0, 1.0);
-      _glowPaint.color = Colors.white.withValues(alpha: glowAlpha); 
+      _glowPaint.color = Colors.white.withValues(alpha: glowAlpha);
       // Flame handles setting Paint.color alpha as a multiplier on Shader colors natively.
       canvas.drawCircle(Offset.zero, radius, _glowPaint);
     }

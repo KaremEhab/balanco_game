@@ -4,14 +4,6 @@ import 'package:flutter/material.dart';
 import '../game_area.dart';
 
 class BarComponent extends Component with HasGameReference<BalancoGame> {
-  final Paint basePaint = Paint()..color = Colors.blueGrey.shade700;
-  final Paint highlightPaint = Paint()
-    ..color = Colors.white.withValues(alpha: 0.3);
-  final Paint shadowPaint = Paint()
-    ..color = Colors.black.withValues(alpha: 0.4);
-  final Paint rivetPaint = Paint()..color = Colors.blueGrey.shade300;
-  final Paint capPaint = Paint()..color = Colors.blueGrey.shade900;
-
   @override
   void render(Canvas canvas) {
     if (game.isBoardHidden) return;
@@ -28,94 +20,28 @@ class BarComponent extends Component with HasGameReference<BalancoGame> {
     canvas.translate(leftPoint.x, leftPoint.y);
     canvas.rotate(angle);
 
-    double thickness = 16.0;
+    // --- RUSTIC WOODEN TILTING BAR RENDER ---
+    double barHeight = 18.0;
+    Rect woodenBarRect = Rect.fromLTRB(0, -barHeight / 2, barLength, barHeight / 2);
 
-    // 1. Draw base bar
-    Rect barRect = Rect.fromLTRB(0, -thickness / 2, barLength, thickness / 2);
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(barRect, const Radius.circular(8)),
-      basePaint,
-    );
+    // Draw main organic log wooden texture skin casing
+    final Paint woodPaint = Paint()..color = const Color(0xFF8D6E63);
+    canvas.drawRRect(RRect.fromRectAndRadius(woodenBarRect, const Radius.circular(6)), woodPaint);
 
-    // 2. Draw top highlight (3D edge)
-    Rect topHighlight = Rect.fromLTRB(
-      4,
-      -thickness / 2 + 1,
-      barLength - 4,
-      -thickness / 2 + 4,
-    );
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(topHighlight, const Radius.circular(2)),
-      highlightPaint,
-    );
+    // Add wooden bark visual line grain textures
+    final Paint grainPaint = Paint()
+      ..color = const Color(0xFF5D4037)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.5;
+    canvas.drawLine(Offset(barLength * 0.1, -2), Offset(barLength * 0.8, -2), grainPaint);
+    canvas.drawLine(Offset(barLength * 0.3, 3), Offset(barLength * 0.9, 3), grainPaint);
 
-    // 3. Draw bottom shadow
-    Rect bottomShadow = Rect.fromLTRB(
-      4,
-      thickness / 2 - 4,
-      barLength - 4,
-      thickness / 2 - 1,
-    );
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(bottomShadow, const Radius.circular(2)),
-      shadowPaint,
-    );
-
-    // 4. Draw mechanical rivets evenly spaced
-    int numRivets = 8;
-    double spacing = barLength / numRivets;
-    for (int i = 1; i < numRivets; i++) {
-      // Shadow under rivet
-      canvas.drawCircle(Offset(i * spacing, 1), 3, shadowPaint);
-      // Rivet
-      canvas.drawCircle(Offset(i * spacing, 0), 2.5, rivetPaint);
+    // Draw safe structural metallic rivet bolts along the balance platform log
+    final Paint rivetPaint = Paint()..color = const Color(0xFFB0BEC5);
+    for (int r = 1; r <= 9; r++) {
+      if (r == 5) continue;
+      canvas.drawCircle(Offset(r * (barLength / 10), 0), 2.5, rivetPaint);
     }
-
-    // 5. Draw end caps (rail connectors)
-    double capWidth = 14.0;
-    double capHeight = thickness + 8.0;
-    // Left Cap
-    canvas.drawRRect(
-      RRect.fromLTRBR(
-        -capWidth / 2,
-        -capHeight / 2,
-        capWidth / 2,
-        capHeight / 2,
-        const Radius.circular(4),
-      ),
-      capPaint,
-    );
-    canvas.drawRRect(
-      RRect.fromLTRBR(
-        -capWidth / 2 + 2,
-        -capHeight / 2 + 2,
-        capWidth / 2 - 2,
-        -capHeight / 2 + 4,
-        const Radius.circular(1),
-      ),
-      highlightPaint,
-    );
-    // Right Cap
-    canvas.drawRRect(
-      RRect.fromLTRBR(
-        barLength - capWidth / 2,
-        -capHeight / 2,
-        barLength + capWidth / 2,
-        capHeight / 2,
-        const Radius.circular(4),
-      ),
-      capPaint,
-    );
-    canvas.drawRRect(
-      RRect.fromLTRBR(
-        barLength - capWidth / 2 + 2,
-        -capHeight / 2 + 2,
-        barLength + capWidth / 2 - 2,
-        -capHeight / 2 + 4,
-        const Radius.circular(1),
-      ),
-      highlightPaint,
-    );
 
     canvas.restore();
   }

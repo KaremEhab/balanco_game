@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import '../game_area.dart';
@@ -80,27 +82,34 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
     canvas.drawCircle(Offset.zero, game.ballRadius, _dropShadowPaint);
     canvas.restore();
 
-    // 1. Base color
-    canvas.drawCircle(Offset.zero, game.ballRadius, basePaint);
+    // 1. Base color (Shell white)
+    canvas.drawCircle(Offset.zero, game.ballRadius, Paint()..color = const Color(0xFFFFF3E0));
 
-    // 2. Rotating markings (to show 3D rolling effect)
+    // 2. Rotating swirl markings
     canvas.save();
     double angle = (game.isFalling || game.isFallingInHole)
         ? game.fallRotation
         : (game.ballP / game.ballRadius);
     canvas.rotate(angle);
 
-    canvas.drawLine(
-      Offset(-game.ballRadius, 0),
-      Offset(game.ballRadius, 0),
-      _stripePaint,
-    );
-    canvas.drawLine(
-      Offset(0, -game.ballRadius),
-      Offset(0, game.ballRadius),
-      _stripePaint,
-    );
-    canvas.drawCircle(Offset.zero, game.ballRadius * 0.4, _stripePaint);
+    Paint swirlPaint = Paint()
+      ..color = const Color(0xFFD32F2F)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 3.5
+      ..strokeCap = StrokeCap.round;
+
+    for (int i = 0; i < 3; i++) {
+      canvas.rotate(2 * pi / 3);
+      Path stripe = Path();
+      stripe.moveTo(0, 0);
+      stripe.quadraticBezierTo(
+        game.ballRadius * 0.5, 
+        -game.ballRadius * 0.8, 
+        game.ballRadius, 
+        0,
+      );
+      canvas.drawPath(stripe, swirlPaint);
+    }
     canvas.restore();
 
     // 3. 3D shading overlay (stationary highlight)
