@@ -258,18 +258,15 @@ class DynamicIslandsLayerPainter extends CustomPainter {
 
     LevelButtonPainter().paint(canvas, Size(buttonDrawSize, buttonDrawSize));
 
-    if (isLocked) {
-      canvas.restore();
-    }
-    canvas.restore();
-
+    // Draw the text INSIDE the button's scaled coordinates so the text and its shadow 
+    // perfectly move and scale together.
     TextPainter textPainter = TextPainter(
       text: TextSpan(
         text: '$level',
         style: GoogleFonts.luckiestGuy(
           textStyle: TextStyle(
             color: isLocked ? const Color.fromARGB(255, 125, 125, 125) : const Color(0xFFD32F2F),
-            fontSize: 22.0 * scaleX,
+            fontSize: 22.0, // Unscaled, relies on canvas.scale
             fontWeight: FontWeight.w900,
             shadows: [
               Shadow(color: Colors.white, offset: const Offset(0, 0), blurRadius: 2),
@@ -285,10 +282,15 @@ class DynamicIslandsLayerPainter extends CustomPainter {
     textPainter.paint(
       canvas,
       Offset(
-        badgeX - textPainter.width / 2,
-        badgeY - textPainter.height / 2 - 2 * scaleX * bounceScale,
+        (buttonDrawSize / 2) - (textPainter.width / 2),
+        (buttonDrawSize / 2) - (textPainter.height / 2) - 2.0, // -2 for visual centering on the button
       ),
     );
+
+    if (isLocked) {
+      canvas.restore();
+    }
+    canvas.restore();
 
     if (!isLocked) {
       _drawStars(canvas, badgeX, badgeY, scaleX, starsCount);

@@ -157,7 +157,7 @@ class MapLayoutConfig {
     List<IslandData> defaultIslands = [
       IslandData(
         x: 74.81481481481508,
-        y: 2296.0888888888926,
+        y: 2286.1000,
         level: 1,
         type: 5,
         buttonDx: 0.7407407407407232,
@@ -166,7 +166,7 @@ class MapLayoutConfig {
       ),
       IslandData(
         x: 294.07407407407413,
-        y: 2336.04444444446,
+        y: 2336.0445,
         level: 2,
         type: 4,
         buttonDx: -23.33333333333326,
@@ -175,7 +175,7 @@ class MapLayoutConfig {
       ),
       IslandData(
         x: 286.6666666666665,
-        y: 2221.24444444446,
+        y: 2192.5445,
         level: 3,
         type: 7,
         buttonDx: 34.07407407407401,
@@ -184,7 +184,7 @@ class MapLayoutConfig {
       ),
       IslandData(
         x: 121.85185185185205,
-        y: 2153.5555555555698,
+        y: 2107.9333,
         level: 4,
         type: 10,
         buttonDx: -23.703703703703713,
@@ -193,7 +193,7 @@ class MapLayoutConfig {
       ),
       IslandData(
         x: 267.4074074074074,
-        y: 2072.133333333334,
+        y: 2006.1556,
         level: 5,
         type: 9,
         buttonDx: -11.111111111111072,
@@ -202,7 +202,7 @@ class MapLayoutConfig {
       ),
       IslandData(
         x: 111.3300859922821,
-        y: 1988.8092277623145,
+        y: 1902.0004,
         level: 6,
         type: 8,
         buttonDx: -11.111111111111011,
@@ -211,7 +211,7 @@ class MapLayoutConfig {
       ),
       IslandData(
         x: 299.212962962963,
-        y: 1920.5909968217707,
+        y: 1816.7276,
         level: 7,
         type: 2,
         buttonDx: -7.777777777777752,
@@ -220,7 +220,7 @@ class MapLayoutConfig {
       ),
       IslandData(
         x: 154.78009259259292,
-        y: 1761.6777777777781,
+        y: 1618.0861,
         level: 8,
         type: 3,
         buttonDx: -9.259259259259197,
@@ -229,7 +229,7 @@ class MapLayoutConfig {
       ),
       IslandData(
         x: 156.45974164417726,
-        y: 1550.0, // SPACED OUT properly from level 8
+        y: 1353.4889, // SPACED OUT properly from level 8
         level: 9,
         type: 10,
         buttonDx: -22.962962962962884,
@@ -242,7 +242,7 @@ class MapLayoutConfig {
       StoneData(
         id: 'stone_7',
         x: 244.61540981361085,
-        y: 2360.1566805701887,
+        y: 2366.1848,
         scale: 0.8408392680818797,
         rotation: 0.2734329649607917,
         type: 6,
@@ -250,7 +250,7 @@ class MapLayoutConfig {
       StoneData(
         id: 'stone_10',
         x: 222.01613350253774,
-        y: 2003.4246674443839,
+        y: 1920.2697,
         scale: 0.7744999315388634,
         rotation: -0.17822569022914117,
         type: 5,
@@ -258,7 +258,7 @@ class MapLayoutConfig {
       StoneData(
         id: 'stone_11',
         x: 245.3840534644118,
-        y: 1861.3773269218102,
+        y: 1742.7106,
         scale: 0.8782746624903588,
         rotation: -0.245182278235656,
         type: 5,
@@ -266,7 +266,7 @@ class MapLayoutConfig {
       StoneData(
         id: 'stone_12',
         x: 161.27326951803764,
-        y: 2090.8622009805513,
+        y: 2029.5667,
         scale: 0.7787374745826761,
         rotation: -0.08802919013081978,
         type: 1,
@@ -274,7 +274,7 @@ class MapLayoutConfig {
       StoneData(
         id: 'stone_18',
         x: 335.141597276381,
-        y: 2153.6769262656558,
+        y: 2108.0851,
         scale: 0.7496719071538926,
         rotation: 0.2842305900336187,
         type: 5,
@@ -282,7 +282,7 @@ class MapLayoutConfig {
       StoneData(
         id: 'stone_20',
         x: 295.1774202724945,
-        y: 2150.679104126098,
+        y: 2104.3378,
         scale: 0.6385581097439276,
         rotation: 0.10840337379811482,
         type: 6,
@@ -290,7 +290,7 @@ class MapLayoutConfig {
       StoneData(
         id: 'stone_21',
         x: 209.72308264331102,
-        y: 1973.3695102096028,
+        y: 1882.7008,
         scale: 0.8554494772682775,
         rotation: 0.0029872160081841903,
         type: 4,
@@ -298,7 +298,7 @@ class MapLayoutConfig {
       StoneData(
         id: 'stone_22',
         x: 234.05663721772123,
-        y: 1946.7449492627206,
+        y: 1849.4201,
         scale: 0.7744986194069415,
         rotation: 0.1420683369913356,
         type: 3,
@@ -306,7 +306,7 @@ class MapLayoutConfig {
       StoneData(
         id: 'stone_23',
         x: 76.18720567113236,
-        y: 1750.2268809688458,
+        y: 1603.7725,
         scale: 0.7246040830481506,
         rotation: 0.09693860886090827,
         type: 1,
@@ -314,7 +314,7 @@ class MapLayoutConfig {
       StoneData(
         id: 'stone_1781298649056',
         x: 183.00925925925895,
-        y: 2190.6555555555537,
+        y: 2154.3083,
         scale: 1.0,
         rotation: 6.283185307179586,
         type: 3,
@@ -322,7 +322,7 @@ class MapLayoutConfig {
       StoneData(
         id: 'stone_1781298674807',
         x: 129.67592592592624,
-        y: 2114.211111111107,
+        y: 2058.7528,
         scale: 1.0,
         rotation: 0.0,
         type: 4,
@@ -330,7 +330,7 @@ class MapLayoutConfig {
       StoneData(
         id: 'stone_1781298688223',
         x: 149.67592592592578,
-        y: 2176.077777777778,
+        y: 2136.0861,
         scale: 1.0,
         rotation: 0.0,
         type: 4,
@@ -338,7 +338,7 @@ class MapLayoutConfig {
       StoneData(
         id: 'stone_level8_9_1',
         x: 140.0,
-        y: 1690.0,
+        y: 1528.4889,
         scale: 0.8,
         rotation: 0.1,
         type: 2,
@@ -346,7 +346,7 @@ class MapLayoutConfig {
       StoneData(
         id: 'stone_level8_9_2',
         x: 165.0,
-        y: 1620.0,
+        y: 1440.9889,
         scale: 0.9,
         rotation: -0.2,
         type: 5,

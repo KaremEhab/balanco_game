@@ -19,7 +19,7 @@ class StaticTreesLayerPainter extends CustomPainter {
       FifthTreePainter(),
       SixthTreePainter(),
     ];
-    
+
     // For trees, they are spaced every 220px. We must find the correct starting Y.
     double firstTreeY = (-1000 / 220).ceil() * 220.0;
     while (firstTreeY < startY) {
@@ -28,10 +28,12 @@ class StaticTreesLayerPainter extends CustomPainter {
 
     for (double y = firstTreeY; y <= endY; y += 220) {
       // Seed based on exactly this tree's Y slot to ensure stability!
-      Random treeRandom = Random(y.toInt() + 42); 
-      
-      double noiseL = sin(y * 0.008) * 15.0 + cos(y * 0.015) * 8.0 + sin(y * 0.03) * 5.0;
-      double noiseR = cos(y * 0.009) * 18.0 + sin(y * 0.014) * 9.0 + cos(y * 0.035) * 4.0;
+      Random treeRandom = Random(y.toInt() + 42);
+
+      double noiseL =
+          sin(y * 0.008) * 15.0 + cos(y * 0.015) * 8.0 + sin(y * 0.03) * 5.0;
+      double noiseR =
+          cos(y * 0.009) * 18.0 + sin(y * 0.014) * 9.0 + cos(y * 0.035) * 4.0;
 
       double leftEdge = 35.0 + noiseL;
       double rightEdge = size.width - 35.0 + noiseR;
@@ -39,17 +41,21 @@ class StaticTreesLayerPainter extends CustomPainter {
       // 1. Try Left Shore
       if (treeRandom.nextDouble() > 0.4) {
         canvas.save();
-        double xPos = treeRandom.nextDouble() * (leftEdge - 15.0).clamp(0.0, 100.0);
+        double xPos =
+            treeRandom.nextDouble() * (leftEdge - 15.0).clamp(0.0, 100.0);
         double yPos = y + treeRandom.nextDouble() * 80.0;
-        
+
         canvas.translate(xPos, yPos);
-        
+
         double scale = 0.1 + treeRandom.nextDouble() * 0.04;
-        if (treeRandom.nextBool()) canvas.scale(-scale, scale);
-        else canvas.scale(scale, scale);
-        
-        canvas.translate(-370, -647); 
-        CustomPainter selectedTreePainter = treePainters[treeRandom.nextInt(treePainters.length)];
+        if (treeRandom.nextBool())
+          canvas.scale(-scale, scale);
+        else
+          canvas.scale(scale, scale);
+
+        canvas.translate(-370, -647);
+        CustomPainter selectedTreePainter =
+            treePainters[treeRandom.nextInt(treePainters.length)];
         selectedTreePainter.paint(canvas, const Size(700, 750));
         _drawTreeBaseDetails(canvas, treeRandom);
         canvas.restore();
@@ -58,17 +64,24 @@ class StaticTreesLayerPainter extends CustomPainter {
       // 2. Try Right Shore
       if (treeRandom.nextDouble() > 0.4) {
         canvas.save();
-        double xPos = rightEdge + 15.0 + treeRandom.nextDouble() * (size.width - rightEdge - 15.0).clamp(0.0, 100.0);
+        double xPos =
+            rightEdge +
+            15.0 +
+            treeRandom.nextDouble() *
+                (size.width - rightEdge - 15.0).clamp(0.0, 100.0);
         double yPos = y + treeRandom.nextDouble() * 80.0;
-        
+
         canvas.translate(xPos, yPos);
-        
+
         double scale = 0.1 + treeRandom.nextDouble() * 0.04;
-        if (treeRandom.nextBool()) canvas.scale(-scale, scale);
-        else canvas.scale(scale, scale);
-        
-        canvas.translate(-370, -647); 
-        CustomPainter selectedTreePainter = treePainters[treeRandom.nextInt(treePainters.length)];
+        if (treeRandom.nextBool())
+          canvas.scale(-scale, scale);
+        else
+          canvas.scale(scale, scale);
+
+        canvas.translate(-370, -647);
+        CustomPainter selectedTreePainter =
+            treePainters[treeRandom.nextInt(treePainters.length)];
         selectedTreePainter.paint(canvas, const Size(700, 750));
         _drawTreeBaseDetails(canvas, treeRandom);
         canvas.restore();
@@ -83,9 +96,9 @@ class StaticTreesLayerPainter extends CustomPainter {
       Paint stonePaint = Paint()
         ..color = Color.fromARGB(alpha, 122, 122, 122)
         ..style = PaintingStyle.fill;
-      
-      double dx = 370 + (rnd.nextDouble() * 140 - 70); 
-      double dy = 647 + (rnd.nextDouble() * 30 - 10);  
+
+      double dx = 370 + (rnd.nextDouble() * 140 - 70);
+      double dy = 647 + (rnd.nextDouble() * 30 - 10);
       double rx = 15 + rnd.nextDouble() * 20;
       double ry = 8 + rnd.nextDouble() * 12;
 
@@ -99,14 +112,17 @@ class StaticTreesLayerPainter extends CustomPainter {
         ..style = PaintingStyle.fill;
       canvas.drawOval(
         Rect.fromCenter(
-            center: Offset(dx - rx * 0.2, dy - ry * 0.2), width: rx, height: ry),
+          center: Offset(dx - rx * 0.2, dy - ry * 0.2),
+          width: rx,
+          height: ry,
+        ),
         highlightPaint,
       );
     }
 
     int numGrass = 6 + rnd.nextInt(7);
     Paint grassPaint = Paint()
-      ..color = const Color(0xFF61840B) 
+      ..color = const Color(0xFF61840B)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 6.0
       ..strokeCap = StrokeCap.round;
