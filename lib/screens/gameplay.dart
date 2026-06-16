@@ -15,6 +15,7 @@ import '../game/components/game_area/sky_painter.dart';
 import '../game/components/game_area/mountains_painter.dart';
 import '../game/components/game_area/sea_painter.dart';
 import '../game/components/game_area/trees_painter.dart';
+import 'wooden_frame_painter.dart';
 
 class GamePlayOverlay extends StatefulWidget {
   final BalancoGame game;
@@ -256,37 +257,23 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                   },
                 ),
                 const SizedBox(height: 16),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(24),
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 4.0, sigmaY: 4.0),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.92,
-                      height: MediaQuery.of(context).size.height * 0.62,
-                      decoration: BoxDecoration(
-                        color: isDark
-                            ? Colors.black.withValues(alpha: 0.15)
-                            : Colors.white.withValues(alpha: 0.15),
-                        border: Border.all(
+                CustomPaint(
+                  foregroundPainter: WoodenFramePainter(),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 4.0, sigmaY: 4.0),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.92,
+                        height: MediaQuery.of(context).size.height * 0.62,
+                        decoration: BoxDecoration(
                           color: isDark
-                              ? Colors.white.withValues(alpha: 0.1)
-                              : Colors.white.withValues(alpha: 0.5),
+                              ? Colors.black.withValues(alpha: 0.15)
+                              : Colors.white.withValues(alpha: 0.15),
                         ),
-                        borderRadius: BorderRadius.circular(24),
-                        boxShadow: isDark
-                            ? [
-                                BoxShadow(
-                                  color: Colors.cyanAccent.withValues(
-                                    alpha: 0.05,
-                                  ),
-                                  blurRadius: 20,
-                                ),
-                              ]
-                            : [],
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(24),
-                        child: Stack(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Stack(
                           children: [
                             GameWidget(
                               game: widget.game,
@@ -305,6 +292,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                       ),
                     ),
                   ),
+                ),
                 ),
                 const SizedBox(height: 24),
                 GameControlsOverlay(

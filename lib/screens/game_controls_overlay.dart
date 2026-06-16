@@ -25,8 +25,8 @@ class GameControlsOverlay extends StatelessWidget {
           filter: ImageFilter.blur(sigmaX: 15.0, sigmaY: 15.0),
           child: Container(
             decoration: BoxDecoration(
-              color: isDark ? Colors.black.withValues(alpha: 0.2) : Colors.white.withValues(alpha: 0.3),
-              border: Border.all(color: isDark ? Colors.white.withValues(alpha: 0.1) : Colors.white.withValues(alpha: 0.2)),
+              color: isDark ? Colors.brown.shade900.withValues(alpha: 0.3) : const Color(0xFFFFF3E0).withValues(alpha: 0.4), // Sandy/Woody glass
+              border: Border.all(color: isDark ? Colors.brown.shade300.withValues(alpha: 0.2) : Colors.orangeAccent.withValues(alpha: 0.3)),
               borderRadius: BorderRadius.circular(24),
             ),
             child: Row(
@@ -45,9 +45,10 @@ class GameControlsOverlay extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
+                    color: isDark ? Colors.brown.shade800 : Colors.orange.shade100, // Beachy pause button
                     boxShadow: [
                       BoxShadow(
-                        color: isDark ? Colors.cyanAccent.withValues(alpha: 0.2) : Colors.white.withValues(alpha: 0.3),
+                        color: isDark ? Colors.orangeAccent.withValues(alpha: 0.2) : Colors.orangeAccent.withValues(alpha: 0.4),
                         blurRadius: 15,
                       ),
                     ],
@@ -55,7 +56,7 @@ class GameControlsOverlay extends StatelessWidget {
                   child: IconButton(
                     onPressed: onPausePressed,
                     icon: const Icon(Icons.pause_rounded),
-                    color: isDark ? Colors.cyanAccent : Colors.black87,
+                    color: isDark ? Colors.orangeAccent : Colors.deepOrange,
                     iconSize: 48,
                   ),
                 ),
@@ -132,15 +133,15 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
               width: 16,
               height: 100,
               decoration: BoxDecoration(
-                color: isDark ? Colors.black.withValues(alpha: 0.8) : Colors.black.withValues(alpha: 0.6),
+                color: isDark ? const Color(0xFF3E2723) : const Color(0xFF6D4C41), // Dark wood groove
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
-                  color: isDark ? Colors.cyan.withValues(alpha: 0.3) : Colors.black.withValues(alpha: 0.8),
+                  color: isDark ? const Color(0xFF1B0000) : const Color(0xFF4E342E),
                   width: 1.5,
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: isDark ? Colors.cyanAccent.withValues(alpha: 0.1) : Colors.white.withValues(alpha: 0.15),
+                    color: isDark ? Colors.white.withValues(alpha: 0.05) : Colors.white.withValues(alpha: 0.3),
                     offset: const Offset(0, 1),
                   ),
                 ],
@@ -193,17 +194,17 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
                       height: 42,
                       margin: const EdgeInsets.only(
                         bottom: 6,
-                      ), // Shifted up to expose the black "thickness"
+                      ), // Shifted up to expose the dark "thickness"
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: isDark 
-                             ? [Colors.blueGrey.shade800, Colors.grey.shade900]
-                             : [Colors.grey.shade300, Colors.grey.shade600],
+                             ? [const Color(0xFF8D6E63), const Color(0xFF5D4037)] // Wood texture colors
+                             : [const Color(0xFFD7CCC8), const Color(0xFFA1887F)],
                         ),
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: isDark ? Colors.blueGrey.shade600 : Colors.white60, width: 1),
+                        border: Border.all(color: isDark ? const Color(0xFF4E342E) : const Color(0xFF8D6E63), width: 1.5),
                       ),
                       child: Center(
                         child: Container(
