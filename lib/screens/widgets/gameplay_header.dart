@@ -52,7 +52,10 @@ class GameplayHeader extends StatelessWidget {
                             isActive: index < lives,
                             filledPainter: HeartFilledPainter(),
                             emptyPainter: CircleCardPainter(),
-                            shadowOffset: const Offset(-3, 3), // Heart shadow offset
+                            shadowOffset: const Offset(
+                              -3,
+                              3,
+                            ), // Heart shadow offset
                           ),
                         );
                       }),
@@ -126,7 +129,10 @@ class GameplayHeader extends StatelessWidget {
                             isActive: index < stars,
                             filledPainter: StarFilledPainter(),
                             emptyPainter: CircleCardPainter(),
-                            shadowOffset: const Offset(3, 3), // Star shadow offset
+                            shadowOffset: const Offset(
+                              3,
+                              3,
+                            ), // Star shadow offset
                           ),
                         );
                       }),
