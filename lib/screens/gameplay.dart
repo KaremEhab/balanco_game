@@ -1,22 +1,16 @@
 import 'dart:ui';
-import 'package:balanco_game/game/components/game_background/mountains_painter.dart';
-import 'package:balanco_game/game/components/game_background/sea_painter.dart';
-import 'package:balanco_game/game/components/game_background/sky_painter.dart';
-import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flame/game.dart';
-
-import 'package:google_fonts/google_fonts.dart';
-import 'package:sensors_plus/sensors_plus.dart';
-import 'dart:async';
 
 import '../game/game_area.dart';
 import '../game/components/game_area/gameplay_card_painter.dart';
 
-import 'package:flutter_svg/flutter_svg.dart';
 import 'animated_game_overlays.dart';
 import 'game_controls_overlay.dart';
+
+import 'widgets/gameplay_header.dart';
+import 'widgets/parallax_background_widget.dart';
+import 'overlays/time_stop_overlay.dart';
 
 class GamePlayOverlay extends StatefulWidget {
   final BalancoGame game;
@@ -35,95 +29,183 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
 
   void _showPauseMenu() {
     widget.game.pauseEngine();
-    showDialog(
+    
+    showGeneralDialog(
       context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return AlertDialog(
-          backgroundColor: Theme.of(context).brightness == Brightness.dark
-              ? Colors.grey.shade900.withValues(alpha: 0.95)
-              : Colors.white.withValues(alpha: 0.95),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
+      barrierDismissible: true,
+      barrierLabel: 'Dismiss',
+      barrierColor: Colors.black.withOpacity(0.5),
+      transitionDuration: const Duration(milliseconds: 300),
+      pageBuilder: (context, anim1, anim2) {
+        return Center(
+          child: Material(
+            color: Colors.transparent,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(32),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                child: Container(
+                  width: 300,
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.15),
+                    borderRadius: BorderRadius.circular(32),
+                    border: Border.all(color: Colors.white.withOpacity(0.4), width: 2),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        blurRadius: 20,
+                        spreadRadius: 5,
+                      )
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text(
+                        'PAUSED',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w900, 
+                          fontSize: 32,
+                          color: Colors.white,
+                          letterSpacing: 2.0,
+                          shadows: [
+                            Shadow(color: Colors.black54, offset: Offset(0, 4), blurRadius: 8),
+                          ]
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      const Text(
+                        'Stars Collected',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white70,
+                          fontSize: 16,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: List.generate(3, (index) {
+                          return Icon(
+                            index < widget.game.currentPoints.value
+                                ? Icons.star_rounded
+                                : Icons.star_border_rounded,
+                            color: const Color(0xffF8AE00),
+                            size: 42,
+                            shadows: const [
+                              Shadow(color: Colors.black45, offset: Offset(0, 2), blurRadius: 4),
+                            ],
+                          );
+                        }),
+                      ),
+                      const SizedBox(height: 36),
+                      
+                      // Continue Button
+                      _buildPauseButton(
+                        icon: Icons.play_arrow_rounded,
+                        label: 'Continue',
+                        colors: const [Color(0xff6BABFF), Color(0xff2A75D3)],
+                        onTap: () {
+                          Navigator.pop(context);
+                          widget.game.resumeEngine();
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      
+                      // Reset Button
+                      _buildPauseButton(
+                        icon: Icons.refresh_rounded,
+                        label: 'Restart Level',
+                        colors: const [Color(0xffF8AE00), Color(0xffE88000)],
+                        onTap: () {
+                          Navigator.pop(context);
+                          widget.game.restartCurrentLevel();
+                          widget.game.resumeEngine();
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      
+                      // Leave Button
+                      _buildPauseButton(
+                        icon: Icons.home_rounded,
+                        label: 'Leave to Lobby',
+                        colors: const [Color(0xffFF6B6B), Color(0xffD32A2A)],
+                        onTap: () {
+                          Navigator.pop(context); // close dialog
+                          Navigator.pop(context); // close game route
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ),
-          title: const Text(
-            'PAUSED',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                'Stars Collected:',
-                style: TextStyle(fontWeight: FontWeight.w600),
-              ),
-              const SizedBox(height: 8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(3, (index) {
-                  return Icon(
-                    index < widget.game.currentPoints.value
-                        ? Icons.star
-                        : Icons.star_border,
-                    color: Colors.amber,
-                    size: 36,
-                  );
-                }),
-              ),
-              const SizedBox(height: 24),
-              ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blueAccent,
-                  foregroundColor: Colors.white,
-                  minimumSize: const Size(200, 48),
-                ),
-                icon: const Icon(Icons.play_arrow),
-                label: const Text('Continue'),
-                onPressed: () {
-                  Navigator.pop(context);
-                  widget.game.resumeEngine();
-                },
-              ),
-              const SizedBox(height: 12),
-              ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orangeAccent,
-                  foregroundColor: Colors.white,
-                  minimumSize: const Size(200, 48),
-                ),
-                icon: const Icon(Icons.refresh),
-                label: const Text('Reset Level'),
-                onPressed: () {
-                  Navigator.pop(context);
-                  widget.game.restartCurrentLevel();
-                  widget.game.resumeEngine();
-                },
-              ),
-              const SizedBox(height: 12),
-              TextButton.icon(
-                style: TextButton.styleFrom(
-                  foregroundColor: Colors.redAccent,
-                  minimumSize: const Size(200, 48),
-                ),
-                icon: const Icon(Icons.home),
-                label: const Text('Leave to Lobby'),
-                onPressed: () {
-                  Navigator.pop(context); // close dialog
-                  Navigator.pop(context); // close game route
-                },
-              ),
-            ],
+        );
+      },
+      transitionBuilder: (context, anim1, anim2, child) {
+        return Transform.scale(
+          scale: Curves.easeOutBack.transform(anim1.value),
+          child: FadeTransition(
+            opacity: anim1,
+            child: child,
           ),
         );
       },
     );
   }
 
+  Widget _buildPauseButton({
+    required IconData icon, 
+    required String label, 
+    required List<Color> colors, 
+    required VoidCallback onTap
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 54,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(27),
+          gradient: LinearGradient(
+            colors: colors,
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black45,
+              offset: Offset(0, 4),
+              blurRadius: 6,
+            ),
+          ],
+          border: Border.all(color: Colors.white.withOpacity(0.6), width: 1.5),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: Colors.white, size: 28),
+            const SizedBox(width: 8),
+            Text(
+              label,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                shadows: [Shadow(color: Colors.black45, offset: Offset(0, 2), blurRadius: 2)],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // --- GAMEPLAY CARD COLORS ---
-    // Change these to control the colors of the card frame
     const List<Color> cardBaseGradient = [Color(0xffF8AE00), Color(0xffE88000)];
     const List<Color> cardHighlightGradient = [
       Color.fromARGB(255, 255, 180, 80),
@@ -148,6 +230,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
               );
             },
           ),
+          
           // Big centered blurry container
           Center(
             child: Column(
@@ -155,52 +238,11 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
               children: [
                 SizedBox(height: MediaQuery.of(context).size.height * 0.04),
 
-                // Top Header
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.92,
-                  child: FittedBox(
-                    fit: BoxFit.fitWidth,
-                    child: SizedBox(
-                      width: 411,
-                      height: 105,
-                      child: Stack(
-                        children: [
-                          CustomPaint(
-                            size: const Size(411, 105),
-                            painter: GameplayTopPainter(
-                              baseGradient: cardBaseGradient,
-                              highlightGradient: cardHighlightGradient,
-                            ),
-                          ),
-                          Positioned(
-                            left: 0,
-                            top: 30,
-                            child: const SvgWithShadow(
-                              assetName: 'assets/images/energy.svg',
-                              width: 100,
-                              height: 80,
-                            ),
-                          ),
-                          const Center(
-                            child: SvgWithShadow(
-                              assetName: 'assets/images/hearts.svg',
-                              width: 150,
-                              height: 105,
-                            ),
-                          ),
-                          Positioned(
-                            right: 0,
-                            top: 30,
-                            child: const SvgWithShadow(
-                              assetName: 'assets/images/stars.svg',
-                              width: 100,
-                              height: 80,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                // Top Header (Hearts, Energy, Stars)
+                GameplayHeader(
+                  game: widget.game,
+                  cardBaseGradient: cardBaseGradient,
+                  cardHighlightGradient: cardHighlightGradient,
                 ),
 
                 // Middle Game Area
@@ -250,10 +292,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                 GestureDetector(
                   onTapUp: (_) => _showPauseMenu(),
                   child: SizedBox(
-                    width:
-                        MediaQuery.of(context).size.width *
-                        0.92 *
-                        (270.36 / 410.95),
+                    width: MediaQuery.of(context).size.width * 0.92 * (270.36 / 410.95),
                     child: FittedBox(
                       fit: BoxFit.fitWidth,
                       child: SizedBox(
@@ -271,7 +310,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                   ),
                 ),
 
-                // Joysticks
+                // Joysticks & Controls Overlay
                 GameControlsOverlay(game: widget.game),
                 const SizedBox(height: 16),
               ],
@@ -279,366 +318,6 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
           ),
         ],
       ),
-    );
-  }
-}
-
-class TimeStopOverlay extends StatefulWidget {
-  final ValueNotifier<double> timeNotifier;
-  const TimeStopOverlay({super.key, required this.timeNotifier});
-
-  @override
-  State<TimeStopOverlay> createState() => _TimeStopOverlayState();
-}
-
-class _TimeStopOverlayState extends State<TimeStopOverlay>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _pulseAnimation;
-  dynamic _heartbeatPlayer;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 400),
-    );
-
-    _controller.addStatusListener((status) {
-      if (status == AnimationStatus.forward && widget.timeNotifier.value > 0) {
-        HapticFeedback.heavyImpact();
-      }
-    });
-
-    _pulseAnimation = Tween<double>(
-      begin: 0.2,
-      end: 0.6,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
-
-    widget.timeNotifier.addListener(_onTimeChanged);
-  }
-
-  void _onTimeChanged() async {
-    if (widget.timeNotifier.value > 0) {
-      if (!_controller.isAnimating) {
-        _controller.repeat(reverse: true);
-        try {
-          _heartbeatPlayer?.stop();
-          _heartbeatPlayer = await FlameAudio.play('heartbeat.mp3');
-        } catch (_) {}
-      }
-    } else {
-      if (_controller.isAnimating) {
-        _controller.stop();
-        _controller.value = 0.0;
-        try {
-          _heartbeatPlayer?.stop();
-          _heartbeatPlayer = null;
-        } catch (_) {}
-      }
-    }
-  }
-
-  @override
-  void dispose() {
-    widget.timeNotifier.removeListener(_onTimeChanged);
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ValueListenableBuilder<double>(
-      valueListenable: widget.timeNotifier,
-      builder: (context, timeRemaining, child) {
-        if (timeRemaining <= 0) return const SizedBox.shrink();
-
-        return Stack(
-          alignment: Alignment.center,
-          children: [
-            // Background blur
-            BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-              child: const SizedBox.expand(),
-            ),
-
-            // Pulsating Red Vignette
-            AnimatedBuilder(
-              animation: _pulseAnimation,
-              builder: (context, child) {
-                return Container(
-                  decoration: BoxDecoration(
-                    gradient: RadialGradient(
-                      colors: [
-                        Colors.transparent,
-                        Colors.red.withValues(alpha: _pulseAnimation.value),
-                        Colors.redAccent.shade700.withValues(
-                          alpha: _pulseAnimation.value + 0.3,
-                        ),
-                      ],
-                      stops: const [0.4, 0.8, 1.0],
-                      radius: 1.2,
-                    ),
-                  ),
-                );
-              },
-            ),
-
-            // Countdown Timer
-            Text(
-              timeRemaining.toStringAsFixed(1),
-              style: GoogleFonts.rubikBurned(
-                fontSize: 120,
-                color: Colors.redAccent.shade100,
-                shadows: [
-                  Shadow(color: Colors.red.shade900, blurRadius: 20),
-                  const Shadow(color: Colors.black, blurRadius: 10),
-                ],
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
-}
-
-class ParallaxBackgroundWidget extends StatefulWidget {
-  const ParallaxBackgroundWidget({super.key});
-
-  @override
-  State<ParallaxBackgroundWidget> createState() =>
-      _ParallaxBackgroundWidgetState();
-}
-
-class _ParallaxBackgroundWidgetState extends State<ParallaxBackgroundWidget> {
-  final ValueNotifier<Offset> _accelNotifier = ValueNotifier<Offset>(
-    Offset.zero,
-  );
-  StreamSubscription<AccelerometerEvent>? _accelerometerSubscription;
-
-  @override
-  void initState() {
-    super.initState();
-    _accelerometerSubscription = accelerometerEventStream().listen((
-      AccelerometerEvent event,
-    ) {
-      if (mounted) {
-        // Low-pass filter for smooth motion (increased inertia for smoothness)
-        final current = _accelNotifier.value;
-        final newX = current.dx * 0.95 + event.x * 0.05;
-        final newY = current.dy * 0.95 + event.y * 0.05;
-        _accelNotifier.value = Offset(newX, newY);
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _accelerometerSubscription?.cancel();
-    _accelNotifier.dispose();
-    super.dispose();
-  }
-
-  Widget _buildLayer(
-    CustomPainter painter,
-    double depthMultiplier, {
-    double dx = 0,
-    double dy = 0,
-    double scale = 1.0,
-  }) {
-    // Gentle parallax effect configuration
-    const double maxOffset = 15.0;
-
-    return Positioned.fill(
-      child: ValueListenableBuilder<Offset>(
-        valueListenable: _accelNotifier,
-        builder: (context, accel, child) {
-          // Calculate movement based on tilt.
-          // accel.dx is positive when tilting right. We want background to move left to simulate depth.
-          // accel.dy is positive when tilting up. We want background to move down.
-          final double tiltDx =
-              (accel.dx.clamp(-10.0, 10.0) / 10.0) *
-              maxOffset *
-              depthMultiplier;
-          final double tiltDy =
-              (accel.dy.clamp(-10.0, 10.0) / 10.0) *
-              maxOffset *
-              depthMultiplier;
-
-          return Transform.translate(
-            offset: Offset(dx - tiltDx, dy + tiltDy),
-            child: child,
-          );
-        },
-        child: RepaintBoundary(
-          child: Transform.scale(
-            scale: scale,
-            child: CustomPaint(size: const Size(1000, 475), painter: painter),
-          ),
-        ),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: const Color(0xffCCFFFB), // Base sky color just in case
-      child: ClipRect(
-        // Ensure drawing doesn't bleed out of bounds
-        child: FittedBox(
-          fit: BoxFit.cover, // Make sure the 1000x1000 canvas covers the screen
-          child: SizedBox(
-            width: 1000,
-            height: 475,
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                _buildLayer(SkyPainter(), 0.05, dx: 0.0, dy: 0.0, scale: 1.00),
-                _buildLayer(
-                  FirstCloudPainter(),
-                  0.1,
-                  dx: 193.1,
-                  dy: 46.5,
-                  scale: 0.39,
-                ),
-                _buildLayer(
-                  SecondCloudPainter(),
-                  0.12,
-                  dx: -6.1,
-                  dy: 7.1,
-                  scale: 0.26,
-                ),
-                _buildLayer(
-                  ThirdCloudPainter(),
-                  0.14,
-                  dx: 59.7,
-                  dy: 15.7,
-                  scale: 0.46,
-                ),
-                _buildLayer(
-                  ForthCloudPainter(),
-                  0.16,
-                  dx: 305.0,
-                  dy: 27.0,
-                  scale: 0.63,
-                ),
-                _buildLayer(
-                  FifthCloudPainter(),
-                  0.18,
-                  dx: 127.3,
-                  dy: -85.9,
-                  scale: 0.48,
-                ),
-                _buildLayer(
-                  BirdsPainter(),
-                  0.2,
-                  dx: 230.1,
-                  dy: -11.4,
-                  scale: 0.57,
-                ),
-                _buildLayer(
-                  FurtherSeaPainter(),
-                  0.4,
-                  dx: 4.6,
-                  dy: 178.3,
-                  scale: 0.79,
-                ),
-                _buildLayer(
-                  MountainSeaShadowsPainter(),
-                  0.5,
-                  dx: 52.8,
-                  dy: 166.4,
-                  scale: 0.47,
-                ),
-                _buildLayer(
-                  BackMountainPainter(),
-                  0.3,
-                  dx: 122.0,
-                  dy: 42.6,
-                  scale: 0.50,
-                ),
-                _buildLayer(
-                  CloserSeaPainter(),
-                  0.6,
-                  dx: 166.9,
-                  dy: 401.3,
-                  scale: 1.42,
-                ),
-                _buildLayer(
-                  SeaWaterDropsPainter(),
-                  0.7,
-                  dx: 112.6,
-                  dy: 246.1,
-                  scale: 0.51,
-                ),
-                _buildLayer(
-                  FrontMountainPainter(),
-                  0.8,
-                  dx: 73.2,
-                  dy: 35.3,
-                  scale: 0.32,
-                ),
-                _buildLayer(
-                  SeaMountainWaves(),
-                  0.45,
-                  dx: 7.1,
-                  dy: 9.6,
-                  scale: 0.27,
-                ),
-                // _buildLayer(LeftTreePainter(), 1.0),
-                // _buildLayer(RightTreePainter(), 1.0),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class SvgWithShadow extends StatelessWidget {
-  final String assetName;
-  final double width;
-  final double height;
-  final Offset offset;
-  final double blurRadius;
-
-  const SvgWithShadow({
-    super.key,
-    required this.assetName,
-    required this.width,
-    required this.height,
-    this.offset = const Offset(0, 4),
-    this.blurRadius = 4.0,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Transform.translate(
-          offset: offset,
-          child: ImageFiltered(
-            imageFilter: ImageFilter.blur(
-              sigmaX: blurRadius,
-              sigmaY: blurRadius,
-            ),
-            child: SvgPicture.asset(
-              assetName,
-              width: width,
-              height: height,
-              colorFilter: const ColorFilter.mode(
-                Colors.black45,
-                BlendMode.srcIn,
-              ),
-            ),
-          ),
-        ),
-        SvgPicture.asset(assetName, width: width, height: height),
-      ],
     );
   }
 }
