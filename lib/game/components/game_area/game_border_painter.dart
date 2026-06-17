@@ -39,14 +39,14 @@ class GameBorderPainter extends CustomPainter {
     );
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.shader = ui.Gradient.linear(
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4978382, size.height * 0.02754068),
       Offset(size.width * 0.5055462, size.height * 0.4754882),
       [Color(0xffBD6E15).withOpacity(1), Color(0xff914210).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_0, paint_0_fill);
+    canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
     path_1.moveTo(322.384, 24.563);
@@ -62,9 +62,9 @@ class GameBorderPainter extends CustomPainter {
     path_1.lineTo(322.384, 24.563);
     path_1.close();
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.color = Color(0xff612601).withOpacity(1.0);
-    canvas.drawPath(path_1, paint_1_fill);
+    Paint paint1Fill = Paint()..style = PaintingStyle.fill;
+    paint1Fill.color = Color(0xff612601).withOpacity(1.0);
+    canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
     path_2.moveTo(59.324, 26.593);
@@ -149,9 +149,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.color = Color(0xffFAB43C).withOpacity(1.0);
-    canvas.drawPath(path_2, paint_2_fill);
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.color = Color(0xffFAB43C).withOpacity(1.0);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(292.953, 36.723);
@@ -175,9 +175,9 @@ class GameBorderPainter extends CustomPainter {
     path_3.lineTo(292.953, 36.723);
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.color = Color(0xff612601).withOpacity(1.0);
-    canvas.drawPath(path_3, paint_3_fill);
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.color = Color(0xff612601).withOpacity(1.0);
+    canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
     path_4.moveTo(301.384, 380.773);
@@ -219,14 +219,14 @@ class GameBorderPainter extends CustomPainter {
     );
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.shader = ui.Gradient.linear(
+    Paint paint4Fill = Paint()..style = PaintingStyle.fill;
+    paint4Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.8892139, size.height * 0.01007612),
       Offset(size.width * 0.8892139, size.height * 0.9958451),
       [Color(0xffBD6E15).withOpacity(1), Color(0xff914210).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_4, paint_4_fill);
+    canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
     path_5.moveTo(297.974, 62.573);
@@ -270,9 +270,9 @@ class GameBorderPainter extends CustomPainter {
     path_5.lineTo(288.834, 26.063999999999993);
     path_5.close();
 
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.color = Color(0xff612601).withOpacity(1.0);
-    canvas.drawPath(path_5, paint_5_fill);
+    Paint paint5Fill = Paint()..style = PaintingStyle.fill;
+    paint5Fill.color = Color(0xff612601).withOpacity(1.0);
+    canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
     path_6.moveTo(293.214, 72.363);
@@ -282,9 +282,9 @@ class GameBorderPainter extends CustomPainter {
     path_6.lineTo(293.214, 72.363);
     path_6.close();
 
-    Paint paint_6_fill = Paint()..style = PaintingStyle.fill;
-    paint_6_fill.color = Color(0xff612601).withOpacity(1.0);
-    canvas.drawPath(path_6, paint_6_fill);
+    Paint paint6Fill = Paint()..style = PaintingStyle.fill;
+    paint6Fill.color = Color(0xff612601).withOpacity(1.0);
+    canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
     path_7.moveTo(0.154, 350.483);
@@ -327,14 +327,14 @@ class GameBorderPainter extends CustomPainter {
     );
     path_7.close();
 
-    Paint paint_7_fill = Paint()..style = PaintingStyle.fill;
-    paint_7_fill.shader = ui.Gradient.linear(
+    Paint paint7Fill = Paint()..style = PaintingStyle.fill;
+    paint7Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4856561, size.height * 0.3697717),
       Offset(size.width * 0.4979884, size.height * 0.8891076),
       [Color(0xffBD6E15).withOpacity(1), Color(0xff914210).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_7, paint_7_fill);
+    canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
     path_8.moveTo(293.784, 335.314);
@@ -358,9 +358,9 @@ class GameBorderPainter extends CustomPainter {
     path_8.lineTo(293.78400000000005, 335.314);
     path_8.close();
 
-    Paint paint_8_fill = Paint()..style = PaintingStyle.fill;
-    paint_8_fill.color = Color(0xffE69014).withOpacity(1.0);
-    canvas.drawPath(path_8, paint_8_fill);
+    Paint paint8Fill = Paint()..style = PaintingStyle.fill;
+    paint8Fill.color = Color(0xffE69014).withOpacity(1.0);
+    canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
     path_9.moveTo(331.634, 330.514);
@@ -418,9 +418,9 @@ class GameBorderPainter extends CustomPainter {
     path_9.lineTo(294.73400000000004, 371.7340000000001);
     path_9.close();
 
-    Paint paint_9_fill = Paint()..style = PaintingStyle.fill;
-    paint_9_fill.color = Color(0xff612601).withOpacity(1.0);
-    canvas.drawPath(path_9, paint_9_fill);
+    Paint paint9Fill = Paint()..style = PaintingStyle.fill;
+    paint9Fill.color = Color(0xff612601).withOpacity(1.0);
+    canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
     path_10.moveTo(43.754, 380.773);
@@ -462,14 +462,14 @@ class GameBorderPainter extends CustomPainter {
     );
     path_10.close();
 
-    Paint paint_10_fill = Paint()..style = PaintingStyle.fill;
-    paint_10_fill.shader = ui.Gradient.linear(
+    Paint paint10Fill = Paint()..style = PaintingStyle.fill;
+    paint10Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.1082948, size.height * 0.01007612),
       Offset(size.width * 0.1082948, size.height * 0.9958451),
       [Color(0xffBD6E15).withOpacity(1), Color(0xff914210).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_10, paint_10_fill);
+    canvas.drawPath(path_10, paint10Fill);
 
     Path path_11 = Path();
     path_11.moveTo(51.484, 6.363);
@@ -533,9 +533,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_11.close();
 
-    Paint paint_11_fill = Paint()..style = PaintingStyle.fill;
-    paint_11_fill.color = Color(0xffFAB43C).withOpacity(1.0);
-    canvas.drawPath(path_11, paint_11_fill);
+    Paint paint11Fill = Paint()..style = PaintingStyle.fill;
+    paint11Fill.color = Color(0xffFAB43C).withOpacity(1.0);
+    canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
     path_12.moveTo(293.104, 46.723);
@@ -657,9 +657,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_12.close();
 
-    Paint paint_12_fill = Paint()..style = PaintingStyle.fill;
-    paint_12_fill.color = Color(0xff612601).withOpacity(1.0);
-    canvas.drawPath(path_12, paint_12_fill);
+    Paint paint12Fill = Paint()..style = PaintingStyle.fill;
+    paint12Fill.color = Color(0xff612601).withOpacity(1.0);
+    canvas.drawPath(path_12, paint12Fill);
 
     Path path_13 = Path();
     path_13.moveTo(47.234, 49.223);
@@ -816,9 +816,9 @@ class GameBorderPainter extends CustomPainter {
     path_13.lineTo(22.064000000000004, 58.13300000000001);
     path_13.close();
 
-    Paint paint_13_fill = Paint()..style = PaintingStyle.fill;
-    paint_13_fill.color = Color(0xff612601).withOpacity(1.0);
-    canvas.drawPath(path_13, paint_13_fill);
+    Paint paint13Fill = Paint()..style = PaintingStyle.fill;
+    paint13Fill.color = Color(0xff612601).withOpacity(1.0);
+    canvas.drawPath(path_13, paint13Fill);
 
     Path path_14 = Path();
     path_14.moveTo(48.324, 70.293);
@@ -851,9 +851,9 @@ class GameBorderPainter extends CustomPainter {
     path_14.lineTo(48.324, 70.29300000000005);
     path_14.close();
 
-    Paint paint_14_fill = Paint()..style = PaintingStyle.fill;
-    paint_14_fill.color = Color(0xff612601).withOpacity(1.0);
-    canvas.drawPath(path_14, paint_14_fill);
+    Paint paint14Fill = Paint()..style = PaintingStyle.fill;
+    paint14Fill.color = Color(0xff612601).withOpacity(1.0);
+    canvas.drawPath(path_14, paint14Fill);
 
     Path path_15 = Path();
     path_15.moveTo(59.804, 24.933);
@@ -891,9 +891,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_15.close();
 
-    Paint paint_15_fill = Paint()..style = PaintingStyle.fill;
-    paint_15_fill.color = Color(0xffFAB43C).withOpacity(1.0);
-    canvas.drawPath(path_15, paint_15_fill);
+    Paint paint15Fill = Paint()..style = PaintingStyle.fill;
+    paint15Fill.color = Color(0xffFAB43C).withOpacity(1.0);
+    canvas.drawPath(path_15, paint15Fill);
 
     Path path_16 = Path();
     path_16.moveTo(34.134, 34.463);
@@ -924,9 +924,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_16.close();
 
-    Paint paint_16_fill = Paint()..style = PaintingStyle.fill;
-    paint_16_fill.color = Color(0xffFFF2A5).withOpacity(1.0);
-    canvas.drawPath(path_16, paint_16_fill);
+    Paint paint16Fill = Paint()..style = PaintingStyle.fill;
+    paint16Fill.color = Color(0xffFFF2A5).withOpacity(1.0);
+    canvas.drawPath(path_16, paint16Fill);
 
     Path path_17 = Path();
     path_17.moveTo(23.974, 57.193);
@@ -969,9 +969,9 @@ class GameBorderPainter extends CustomPainter {
     path_17.lineTo(47.034, 22.483000000000004);
     path_17.close();
 
-    Paint paint_17_fill = Paint()..style = PaintingStyle.fill;
-    paint_17_fill.color = Color(0xffD2872C).withOpacity(1.0);
-    canvas.drawPath(path_17, paint_17_fill);
+    Paint paint17Fill = Paint()..style = PaintingStyle.fill;
+    paint17Fill.color = Color(0xffD2872C).withOpacity(1.0);
+    canvas.drawPath(path_17, paint17Fill);
 
     Path path_18 = Path();
     path_18.moveTo(20.804, 58.883);
@@ -1091,9 +1091,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_18.close();
 
-    Paint paint_18_fill = Paint()..style = PaintingStyle.fill;
-    paint_18_fill.color = Color(0xff612601).withOpacity(1.0);
-    canvas.drawPath(path_18, paint_18_fill);
+    Paint paint18Fill = Paint()..style = PaintingStyle.fill;
+    paint18Fill.color = Color(0xff612601).withOpacity(1.0);
+    canvas.drawPath(path_18, paint18Fill);
 
     Path path_19 = Path();
     path_19.moveTo(13.543, 24.553);
@@ -1124,9 +1124,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_19.close();
 
-    Paint paint_19_fill = Paint()..style = PaintingStyle.fill;
-    paint_19_fill.color = Color(0xffFAB43C).withOpacity(1.0);
-    canvas.drawPath(path_19, paint_19_fill);
+    Paint paint19Fill = Paint()..style = PaintingStyle.fill;
+    paint19Fill.color = Color(0xffFAB43C).withOpacity(1.0);
+    canvas.drawPath(path_19, paint19Fill);
 
     Path path_20 = Path();
     path_20.moveTo(53.634, 51.343);
@@ -1164,9 +1164,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_20.close();
 
-    Paint paint_20_fill = Paint()..style = PaintingStyle.fill;
-    paint_20_fill.color = Color(0xffFFF2A5).withOpacity(1.0);
-    canvas.drawPath(path_20, paint_20_fill);
+    Paint paint20Fill = Paint()..style = PaintingStyle.fill;
+    paint20Fill.color = Color(0xffFFF2A5).withOpacity(1.0);
+    canvas.drawPath(path_20, paint20Fill);
 
     Path path_21 = Path();
     path_21.moveTo(41.604, 40.254);
@@ -1245,9 +1245,9 @@ class GameBorderPainter extends CustomPainter {
     path_21.lineTo(32.204, 28.572999999999997);
     path_21.close();
 
-    Paint paint_21_fill = Paint()..style = PaintingStyle.fill;
-    paint_21_fill.color = Color(0xffD2872C).withOpacity(1.0);
-    canvas.drawPath(path_21, paint_21_fill);
+    Paint paint21Fill = Paint()..style = PaintingStyle.fill;
+    paint21Fill.color = Color(0xffD2872C).withOpacity(1.0);
+    canvas.drawPath(path_21, paint21Fill);
 
     Path path_22 = Path();
     path_22.moveTo(52.434, 61.033);
@@ -1325,9 +1325,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_22.close();
 
-    Paint paint_22_fill = Paint()..style = PaintingStyle.fill;
-    paint_22_fill.color = Color(0xff612601).withOpacity(1.0);
-    canvas.drawPath(path_22, paint_22_fill);
+    Paint paint22Fill = Paint()..style = PaintingStyle.fill;
+    paint22Fill.color = Color(0xff612601).withOpacity(1.0);
+    canvas.drawPath(path_22, paint22Fill);
 
     Path path_23 = Path();
     path_23.moveTo(284.354, 328.433);
@@ -1365,9 +1365,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_23.close();
 
-    Paint paint_23_fill = Paint()..style = PaintingStyle.fill;
-    paint_23_fill.color = Color(0xffFAB43C).withOpacity(1.0);
-    canvas.drawPath(path_23, paint_23_fill);
+    Paint paint23Fill = Paint()..style = PaintingStyle.fill;
+    paint23Fill.color = Color(0xffFAB43C).withOpacity(1.0);
+    canvas.drawPath(path_23, paint23Fill);
 
     Path path_24 = Path();
     path_24.moveTo(296.554, 328.423);
@@ -1405,9 +1405,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_24.close();
 
-    Paint paint_24_fill = Paint()..style = PaintingStyle.fill;
-    paint_24_fill.color = Color(0xffFFF2A5).withOpacity(1.0);
-    canvas.drawPath(path_24, paint_24_fill);
+    Paint paint24Fill = Paint()..style = PaintingStyle.fill;
+    paint24Fill.color = Color(0xffFFF2A5).withOpacity(1.0);
+    canvas.drawPath(path_24, paint24Fill);
 
     Path path_25 = Path();
     path_25.moveTo(320.184, 360.693);
@@ -1471,9 +1471,9 @@ class GameBorderPainter extends CustomPainter {
     path_25.lineTo(297.124, 325.9819999999999);
     path_25.close();
 
-    Paint paint_25_fill = Paint()..style = PaintingStyle.fill;
-    paint_25_fill.color = Color(0xffD2872C).withOpacity(1.0);
-    canvas.drawPath(path_25, paint_25_fill);
+    Paint paint25Fill = Paint()..style = PaintingStyle.fill;
+    paint25Fill.color = Color(0xffD2872C).withOpacity(1.0);
+    canvas.drawPath(path_25, paint25Fill);
 
     Path path_26 = Path();
     path_26.moveTo(323.344, 362.383);
@@ -1571,9 +1571,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_26.close();
 
-    Paint paint_26_fill = Paint()..style = PaintingStyle.fill;
-    paint_26_fill.color = Color(0xff612601).withOpacity(1.0);
-    canvas.drawPath(path_26, paint_26_fill);
+    Paint paint26Fill = Paint()..style = PaintingStyle.fill;
+    paint26Fill.color = Color(0xff612601).withOpacity(1.0);
+    canvas.drawPath(path_26, paint26Fill);
 
     Path path_27 = Path();
     path_27.moveTo(330.614, 328.053);
@@ -1611,9 +1611,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_27.close();
 
-    Paint paint_27_fill = Paint()..style = PaintingStyle.fill;
-    paint_27_fill.color = Color(0xffFAB43C).withOpacity(1.0);
-    canvas.drawPath(path_27, paint_27_fill);
+    Paint paint27Fill = Paint()..style = PaintingStyle.fill;
+    paint27Fill.color = Color(0xffFAB43C).withOpacity(1.0);
+    canvas.drawPath(path_27, paint27Fill);
 
     Path path_28 = Path();
     path_28.moveTo(320.604, 318.363);
@@ -1651,9 +1651,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_28.close();
 
-    Paint paint_28_fill = Paint()..style = PaintingStyle.fill;
-    paint_28_fill.color = Color(0xffFFF2A5).withOpacity(1.0);
-    canvas.drawPath(path_28, paint_28_fill);
+    Paint paint28Fill = Paint()..style = PaintingStyle.fill;
+    paint28Fill.color = Color(0xffFFF2A5).withOpacity(1.0);
+    canvas.drawPath(path_28, paint28Fill);
 
     Path path_29 = Path();
     path_29.moveTo(302.544, 343.753);
@@ -1732,9 +1732,9 @@ class GameBorderPainter extends CustomPainter {
     path_29.lineTo(311.953, 332.073);
     path_29.close();
 
-    Paint paint_29_fill = Paint()..style = PaintingStyle.fill;
-    paint_29_fill.color = Color(0xffD2872C).withOpacity(1.0);
-    canvas.drawPath(path_29, paint_29_fill);
+    Paint paint29Fill = Paint()..style = PaintingStyle.fill;
+    paint29Fill.color = Color(0xffD2872C).withOpacity(1.0);
+    canvas.drawPath(path_29, paint29Fill);
 
     Path path_30 = Path();
     path_30.moveTo(291.714, 364.533);
@@ -1854,9 +1854,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_30.close();
 
-    Paint paint_30_fill = Paint()..style = PaintingStyle.fill;
-    paint_30_fill.color = Color(0xff612601).withOpacity(1.0);
-    canvas.drawPath(path_30, paint_30_fill);
+    Paint paint30Fill = Paint()..style = PaintingStyle.fill;
+    paint30Fill.color = Color(0xff612601).withOpacity(1.0);
+    canvas.drawPath(path_30, paint30Fill);
 
     Path path_31 = Path();
     path_31.moveTo(52.984, 60.463);
@@ -1894,9 +1894,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_31.close();
 
-    Paint paint_31_fill = Paint()..style = PaintingStyle.fill;
-    paint_31_fill.color = Color(0xffFAB43C).withOpacity(1.0);
-    canvas.drawPath(path_31, paint_31_fill);
+    Paint paint31Fill = Paint()..style = PaintingStyle.fill;
+    paint31Fill.color = Color(0xffFAB43C).withOpacity(1.0);
+    canvas.drawPath(path_31, paint31Fill);
 
     Path path_32 = Path();
     path_32.moveTo(31.944, 70.944);
@@ -1953,9 +1953,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_32.close();
 
-    Paint paint_32_fill = Paint()..style = PaintingStyle.fill;
-    paint_32_fill.color = Color(0xffFFF2A5).withOpacity(1.0);
-    canvas.drawPath(path_32, paint_32_fill);
+    Paint paint32Fill = Paint()..style = PaintingStyle.fill;
+    paint32Fill.color = Color(0xffFFF2A5).withOpacity(1.0);
+    canvas.drawPath(path_32, paint32Fill);
 
     Path path_33 = Path();
     path_33.moveTo(56.785, 66.363);
@@ -2063,9 +2063,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_33.close();
 
-    Paint paint_33_fill = Paint()..style = PaintingStyle.fill;
-    paint_33_fill.color = Color(0xffD2872C).withOpacity(1.0);
-    canvas.drawPath(path_33, paint_33_fill);
+    Paint paint33Fill = Paint()..style = PaintingStyle.fill;
+    paint33Fill.color = Color(0xffD2872C).withOpacity(1.0);
+    canvas.drawPath(path_33, paint33Fill);
 
     Path path_34 = Path();
     path_34.moveTo(22.774, 86.833);
@@ -2203,9 +2203,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_34.close();
 
-    Paint paint_34_fill = Paint()..style = PaintingStyle.fill;
-    paint_34_fill.color = Color(0xff612601).withOpacity(1.0);
-    canvas.drawPath(path_34, paint_34_fill);
+    Paint paint34Fill = Paint()..style = PaintingStyle.fill;
+    paint34Fill.color = Color(0xff612601).withOpacity(1.0);
+    canvas.drawPath(path_34, paint34Fill);
 
     Path path_35 = Path();
     path_35.moveTo(284.944, 24.933);
@@ -2236,9 +2236,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_35.close();
 
-    Paint paint_35_fill = Paint()..style = PaintingStyle.fill;
-    paint_35_fill.color = Color(0xffFAB43C).withOpacity(1.0);
-    canvas.drawPath(path_35, paint_35_fill);
+    Paint paint35Fill = Paint()..style = PaintingStyle.fill;
+    paint35Fill.color = Color(0xffFAB43C).withOpacity(1.0);
+    canvas.drawPath(path_35, paint35Fill);
 
     Path path_36 = Path();
     path_36.moveTo(292.554, 18.303);
@@ -2276,9 +2276,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_36.close();
 
-    Paint paint_36_fill = Paint()..style = PaintingStyle.fill;
-    paint_36_fill.color = Color(0xffFFF2A5).withOpacity(1.0);
-    canvas.drawPath(path_36, paint_36_fill);
+    Paint paint36Fill = Paint()..style = PaintingStyle.fill;
+    paint36Fill.color = Color(0xffFFF2A5).withOpacity(1.0);
+    canvas.drawPath(path_36, paint36Fill);
 
     Path path_37 = Path();
     path_37.moveTo(321.164, 57.193);
@@ -2335,9 +2335,9 @@ class GameBorderPainter extends CustomPainter {
     path_37.lineTo(298.10400000000004, 22.483000000000004);
     path_37.close();
 
-    Paint paint_37_fill = Paint()..style = PaintingStyle.fill;
-    paint_37_fill.color = Color(0xffD2872C).withOpacity(1.0);
-    canvas.drawPath(path_37, paint_37_fill);
+    Paint paint37Fill = Paint()..style = PaintingStyle.fill;
+    paint37Fill.color = Color(0xffD2872C).withOpacity(1.0);
+    canvas.drawPath(path_37, paint37Fill);
 
     Path path_38 = Path();
     path_38.moveTo(324.334, 58.883);
@@ -2450,9 +2450,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_38.close();
 
-    Paint paint_38_fill = Paint()..style = PaintingStyle.fill;
-    paint_38_fill.color = Color(0xff612601).withOpacity(1.0);
-    canvas.drawPath(path_38, paint_38_fill);
+    Paint paint38Fill = Paint()..style = PaintingStyle.fill;
+    paint38Fill.color = Color(0xff612601).withOpacity(1.0);
+    canvas.drawPath(path_38, paint38Fill);
 
     Path path_39 = Path();
     path_39.moveTo(325.234, 66.133);
@@ -2490,9 +2490,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_39.close();
 
-    Paint paint_39_fill = Paint()..style = PaintingStyle.fill;
-    paint_39_fill.color = Color(0xffFAB43C).withOpacity(1.0);
-    canvas.drawPath(path_39, paint_39_fill);
+    Paint paint39Fill = Paint()..style = PaintingStyle.fill;
+    paint39Fill.color = Color(0xffFAB43C).withOpacity(1.0);
+    canvas.drawPath(path_39, paint39Fill);
 
     Path path_40 = Path();
     path_40.moveTo(324.164, 65.834);
@@ -2531,9 +2531,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_40.close();
 
-    Paint paint_40_fill = Paint()..style = PaintingStyle.fill;
-    paint_40_fill.color = Color(0xffFFF2A5).withOpacity(1.0);
-    canvas.drawPath(path_40, paint_40_fill);
+    Paint paint40Fill = Paint()..style = PaintingStyle.fill;
+    paint40Fill.color = Color(0xffFFF2A5).withOpacity(1.0);
+    canvas.drawPath(path_40, paint40Fill);
 
     Path path_41 = Path();
     path_41.moveTo(323.644, 72.973);
@@ -2641,9 +2641,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_41.close();
 
-    Paint paint_41_fill = Paint()..style = PaintingStyle.fill;
-    paint_41_fill.color = Color(0xffD2872C).withOpacity(1.0);
-    canvas.drawPath(path_41, paint_41_fill);
+    Paint paint41Fill = Paint()..style = PaintingStyle.fill;
+    paint41Fill.color = Color(0xffD2872C).withOpacity(1.0);
+    canvas.drawPath(path_41, paint41Fill);
 
     Path path_42 = Path();
     path_42.moveTo(320.174, 74.403);
@@ -2793,9 +2793,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_42.close();
 
-    Paint paint_42_fill = Paint()..style = PaintingStyle.fill;
-    paint_42_fill.color = Color(0xff612601).withOpacity(1.0);
-    canvas.drawPath(path_42, paint_42_fill);
+    Paint paint42Fill = Paint()..style = PaintingStyle.fill;
+    paint42Fill.color = Color(0xff612601).withOpacity(1.0);
+    canvas.drawPath(path_42, paint42Fill);
 
     Path path_43 = Path();
     path_43.moveTo(24.764, 323.814);
@@ -2833,9 +2833,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_43.close();
 
-    Paint paint_43_fill = Paint()..style = PaintingStyle.fill;
-    paint_43_fill.color = Color(0xffFAB43C).withOpacity(1.0);
-    canvas.drawPath(path_43, paint_43_fill);
+    Paint paint43Fill = Paint()..style = PaintingStyle.fill;
+    paint43Fill.color = Color(0xffFAB43C).withOpacity(1.0);
+    canvas.drawPath(path_43, paint43Fill);
 
     Path path_44 = Path();
     path_44.moveTo(24.765, 323.813);
@@ -2874,9 +2874,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_44.close();
 
-    Paint paint_44_fill = Paint()..style = PaintingStyle.fill;
-    paint_44_fill.color = Color(0xffFFF2A5).withOpacity(1.0);
-    canvas.drawPath(path_44, paint_44_fill);
+    Paint paint44Fill = Paint()..style = PaintingStyle.fill;
+    paint44Fill.color = Color(0xffFFF2A5).withOpacity(1.0);
+    canvas.drawPath(path_44, paint44Fill);
 
     Path path_45 = Path();
     path_45.moveTo(17.864, 329.233);
@@ -2984,9 +2984,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_45.close();
 
-    Paint paint_45_fill = Paint()..style = PaintingStyle.fill;
-    paint_45_fill.color = Color(0xffD2872C).withOpacity(1.0);
-    canvas.drawPath(path_45, paint_45_fill);
+    Paint paint45Fill = Paint()..style = PaintingStyle.fill;
+    paint45Fill.color = Color(0xffD2872C).withOpacity(1.0);
+    canvas.drawPath(path_45, paint45Fill);
 
     Path path_46 = Path();
     path_46.moveTo(53.144, 367.183);
@@ -3138,9 +3138,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_46.close();
 
-    Paint paint_46_fill = Paint()..style = PaintingStyle.fill;
-    paint_46_fill.color = Color(0xff612601).withOpacity(1.0);
-    canvas.drawPath(path_46, paint_46_fill);
+    Paint paint46Fill = Paint()..style = PaintingStyle.fill;
+    paint46Fill.color = Color(0xff612601).withOpacity(1.0);
+    canvas.drawPath(path_46, paint46Fill);
 
     Path path_47 = Path();
     path_47.moveTo(23.735, 366.123);
@@ -3171,9 +3171,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_47.close();
 
-    Paint paint_47_fill = Paint()..style = PaintingStyle.fill;
-    paint_47_fill.color = Color(0xffFAB43C).withOpacity(1.0);
-    canvas.drawPath(path_47, paint_47_fill);
+    Paint paint47Fill = Paint()..style = PaintingStyle.fill;
+    paint47Fill.color = Color(0xffFAB43C).withOpacity(1.0);
+    canvas.drawPath(path_47, paint47Fill);
 
     Path path_48 = Path();
     path_48.moveTo(50.074, 323.643);
@@ -3220,9 +3220,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_48.close();
 
-    Paint paint_48_fill = Paint()..style = PaintingStyle.fill;
-    paint_48_fill.color = Color(0xffFFF2A5).withOpacity(1.0);
-    canvas.drawPath(path_48, paint_48_fill);
+    Paint paint48Fill = Paint()..style = PaintingStyle.fill;
+    paint48Fill.color = Color(0xffFFF2A5).withOpacity(1.0);
+    canvas.drawPath(path_48, paint48Fill);
 
     Path path_49 = Path();
     path_49.moveTo(38.514, 337.553);
@@ -3315,9 +3315,9 @@ class GameBorderPainter extends CustomPainter {
     path_49.lineTo(27.145000000000003, 347.333);
     path_49.close();
 
-    Paint paint_49_fill = Paint()..style = PaintingStyle.fill;
-    paint_49_fill.color = Color(0xffD2872C).withOpacity(1.0);
-    canvas.drawPath(path_49, paint_49_fill);
+    Paint paint49Fill = Paint()..style = PaintingStyle.fill;
+    paint49Fill.color = Color(0xffD2872C).withOpacity(1.0);
+    canvas.drawPath(path_49, paint49Fill);
 
     Path path_50 = Path();
     path_50.moveTo(20.464, 367.253);
@@ -3430,9 +3430,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_50.close();
 
-    Paint paint_50_fill = Paint()..style = PaintingStyle.fill;
-    paint_50_fill.color = Color(0xff612601).withOpacity(1.0);
-    canvas.drawPath(path_50, paint_50_fill);
+    Paint paint50Fill = Paint()..style = PaintingStyle.fill;
+    paint50Fill.color = Color(0xff612601).withOpacity(1.0);
+    canvas.drawPath(path_50, paint50Fill);
 
     Path path_51 = Path();
     path_51.moveTo(82.214, 358.854);
@@ -3456,9 +3456,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_51.close();
 
-    Paint paint_51_fill = Paint()..style = PaintingStyle.fill;
-    paint_51_fill.color = Color(0xffFAB43C).withOpacity(1.0);
-    canvas.drawPath(path_51, paint_51_fill);
+    Paint paint51Fill = Paint()..style = PaintingStyle.fill;
+    paint51Fill.color = Color(0xffFAB43C).withOpacity(1.0);
+    canvas.drawPath(path_51, paint51Fill);
 
     Path path_52 = Path();
     path_52.moveTo(65.123, 321.583);
@@ -3489,9 +3489,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_52.close();
 
-    Paint paint_52_fill = Paint()..style = PaintingStyle.fill;
-    paint_52_fill.color = Color(0xffFFF2A5).withOpacity(1.0);
-    canvas.drawPath(path_52, paint_52_fill);
+    Paint paint52Fill = Paint()..style = PaintingStyle.fill;
+    paint52Fill.color = Color(0xffFFF2A5).withOpacity(1.0);
+    canvas.drawPath(path_52, paint52Fill);
 
     Path path_53 = Path();
     path_53.moveTo(88.294, 355.363);
@@ -3592,9 +3592,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_53.close();
 
-    Paint paint_53_fill = Paint()..style = PaintingStyle.fill;
-    paint_53_fill.color = Color(0xffD2872C).withOpacity(1.0);
-    canvas.drawPath(path_53, paint_53_fill);
+    Paint paint53Fill = Paint()..style = PaintingStyle.fill;
+    paint53Fill.color = Color(0xffD2872C).withOpacity(1.0);
+    canvas.drawPath(path_53, paint53Fill);
 
     Path path_54 = Path();
     path_54.moveTo(84.704, 361.213);
@@ -3724,9 +3724,9 @@ class GameBorderPainter extends CustomPainter {
     );
     path_54.close();
 
-    Paint paint_54_fill = Paint()..style = PaintingStyle.fill;
-    paint_54_fill.color = Color(0xff612601).withOpacity(1.0);
-    canvas.drawPath(path_54, paint_54_fill);
+    Paint paint54Fill = Paint()..style = PaintingStyle.fill;
+    paint54Fill.color = Color(0xff612601).withOpacity(1.0);
+    canvas.drawPath(path_54, paint54Fill);
   }
 
   @override

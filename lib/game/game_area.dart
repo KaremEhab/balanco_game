@@ -29,6 +29,12 @@ class BalancoGame extends FlameGame {
   final ValueNotifier<int> currentPoints = ValueNotifier<int>(0);
   final ValueNotifier<int> currentLives = ValueNotifier<int>(3);
 
+  // Shield state
+  final ValueNotifier<int> remainingShields = ValueNotifier<int>(3);
+  double shieldTimer = 0.0;
+  final ValueNotifier<double> shieldTimerNotifier = ValueNotifier<double>(0.0);
+  bool get isShieldActive => shieldTimer > 0;
+
   double leftJoystickValue = 0.0;
   double rightJoystickValue = 0.0;
 
@@ -352,6 +358,15 @@ class BalancoGame extends FlameGame {
       timeStopNotifier.value = 0.0;
     }
 
+    // Shield Timer
+    if (shieldTimer > 0) {
+      shieldTimer -= dt;
+      if (shieldTimer < 0) shieldTimer = 0.0;
+      shieldTimerNotifier.value = shieldTimer;
+    } else {
+      if (shieldTimerNotifier.value != 0.0) shieldTimerNotifier.value = 0.0;
+    }
+
     double maxY = size.y - 20.0;
     double minY = 10.0;
 
@@ -424,12 +439,19 @@ class BalancoGame extends FlameGame {
       ballP += ballVelocity * dt;
 
       if (ballP < 0 || ballP > barLength) {
-        isFalling = true;
-        HapticFeedback.heavyImpact();
-        try {
-          FlameAudio.play('fall.wav');
-        } catch (_) {}
-        freeFallVelocity = direction * ballVelocity;
+        if (isShieldActive) {
+          // Bounce off edge
+          ballVelocity = -ballVelocity * 0.6;
+          ballP = ballP.clamp(0.0, barLength);
+          HapticFeedback.lightImpact();
+        } else {
+          isFalling = true;
+          HapticFeedback.heavyImpact();
+          try {
+            FlameAudio.play('fall.wav');
+          } catch (_) {}
+          freeFallVelocity = direction * ballVelocity;
+        }
       } else {
         ballPos2D = leftPoint + direction * ballP + normal * (ballRadius + 6.0);
 
@@ -472,6 +494,14 @@ class BalancoGame extends FlameGame {
           double lethalDist = (hole.size.x / 2) - 2.0;
 
           if (dist < lethalDist) {
+            if (isShieldActive) {
+              // Repel ball along the bar
+              double dot = (ballPos2D - hole.position).dot(direction);
+              ballVelocity = (dot > 0 ? 1 : -1) * 200.0;
+              HapticFeedback.lightImpact();
+              continue;
+            }
+
             isFallingInHole = true;
             activeHole = hole;
             HapticFeedback.heavyImpact();
@@ -481,6 +511,9 @@ class BalancoGame extends FlameGame {
             fallTarget = hole.position.clone();
             break;
           } else if (hole.isSuckingHole && dist < hole.suckRadius) {
+            if (isShieldActive) {
+              continue; // Immune to wind/sucking
+            }
             // Sucked by the wind radius!
             isFallingInHole = true;
             activeHole = hole;

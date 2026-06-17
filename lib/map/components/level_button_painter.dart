@@ -58,8 +58,8 @@ class LevelButtonPainter extends CustomPainter {
     );
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.shader = ui.Gradient.linear(
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4945818, size.height * 0.9849038),
       Offset(size.width * 0.4945818, size.height * 0.02307692),
       [
@@ -71,7 +71,7 @@ class LevelButtonPainter extends CustomPainter {
       ],
       [0, 0.181, 0.493, 0.895, 1],
     );
-    canvas.drawPath(path_0, paint_0_fill);
+    canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
     path_1.moveTo(22.616, 49.201);
@@ -126,8 +126,8 @@ class LevelButtonPainter extends CustomPainter {
     );
     path_1.close();
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.shader = ui.Gradient.linear(
+    Paint paint1Fill = Paint()..style = PaintingStyle.fill;
+    paint1Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4945818, size.height * 0.9500000),
       Offset(size.width * 0.4945818, size.height * 0.03511538),
       [
@@ -138,7 +138,7 @@ class LevelButtonPainter extends CustomPainter {
       ],
       [0, 0.226, 0.613, 1],
     );
-    canvas.drawPath(path_1, paint_1_fill);
+    canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
     path_2.moveTo(18.056, 13.431);
@@ -161,8 +161,8 @@ class LevelButtonPainter extends CustomPainter {
     );
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.shader = ui.Gradient.linear(
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4944364, size.height * 0.7810385),
       Offset(size.width * 0.4944364, size.height * 0.2041346),
       [
@@ -173,7 +173,7 @@ class LevelButtonPainter extends CustomPainter {
       ],
       [0, 0.354, 0.963, 1],
     );
-    canvas.drawPath(path_2, paint_2_fill);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(22.616, 49.201);
@@ -220,8 +220,8 @@ class LevelButtonPainter extends CustomPainter {
     path_3.cubicTo(55.126, 33.931, 47.746, 51.491, 22.616, 49.20099999999999);
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.shader = ui.Gradient.linear(
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4945818, size.height * 0.9500000),
       Offset(size.width * 0.4945818, size.height * 0.2955577),
       [
@@ -234,7 +234,7 @@ class LevelButtonPainter extends CustomPainter {
       ],
       [0, 0.178, 0.463, 0.706, 0.892, 1],
     );
-    canvas.drawPath(path_3, paint_3_fill);
+    canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
     path_4.moveTo(12.515, 29.791);
@@ -265,8 +265,8 @@ class LevelButtonPainter extends CustomPainter {
     );
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.shader = ui.Gradient.linear(
+    Paint paint4Fill = Paint()..style = PaintingStyle.fill;
+    paint4Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4885636, size.height * 0.5728462),
       Offset(size.width * 0.4885636, size.height * 0.1542500),
       [
@@ -279,7 +279,7 @@ class LevelButtonPainter extends CustomPainter {
       ],
       [0, 0.094, 0.257, 0.468, 0.72, 1],
     );
-    canvas.drawPath(path_4, paint_4_fill);
+    canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
     path_5.moveTo(4.396, 17.841);
@@ -310,9 +310,9 @@ class LevelButtonPainter extends CustomPainter {
     );
     path_5.close();
 
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.color = Color(0xffFFDBFF).withOpacity(1.0);
-    canvas.drawPath(path_5, paint_5_fill);
+    Paint paint5Fill = Paint()..style = PaintingStyle.fill;
+    paint5Fill.color = Color(0xffFFDBFF).withOpacity(1.0);
+    canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
     path_6.moveTo(13.446, 38.542);
@@ -328,9 +328,9 @@ class LevelButtonPainter extends CustomPainter {
     );
     path_6.close();
 
-    Paint paint_6_fill = Paint()..style = PaintingStyle.fill;
-    paint_6_fill.color = Colors.yellow.withOpacity(1.0);
-    canvas.drawPath(path_6, paint_6_fill);
+    Paint paint6Fill = Paint()..style = PaintingStyle.fill;
+    paint6Fill.color = Colors.yellow.withOpacity(1.0);
+    canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
     path_7.moveTo(4.996, 15.712);
@@ -363,9 +363,9 @@ class LevelButtonPainter extends CustomPainter {
     );
     path_7.close();
 
-    Paint paint_7_fill = Paint()..style = PaintingStyle.fill;
-    paint_7_fill.color = Colors.yellow.withOpacity(1.0);
-    canvas.drawPath(path_7, paint_7_fill);
+    Paint paint7Fill = Paint()..style = PaintingStyle.fill;
+    paint7Fill.color = Colors.yellow.withOpacity(1.0);
+    canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
     path_8.moveTo(2.256, 18.892);
@@ -380,8 +380,8 @@ class LevelButtonPainter extends CustomPainter {
     );
     path_8.close();
 
-    Paint paint_8_fill = Paint()..style = PaintingStyle.fill;
-    paint_8_fill.shader = ui.Gradient.linear(
+    Paint paint8Fill = Paint()..style = PaintingStyle.fill;
+    paint8Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.03245455, size.height * 0.6258654),
       Offset(size.width * 0.3327455, size.height * 0.6258654),
       [
@@ -396,7 +396,7 @@ class LevelButtonPainter extends CustomPainter {
       ],
       [0.011, 0.031, 0.217, 0.398, 0.571, 0.733, 0.88, 1],
     );
-    canvas.drawPath(path_8, paint_8_fill);
+    canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
     path_9.moveTo(48.776, 19.922);
@@ -411,9 +411,9 @@ class LevelButtonPainter extends CustomPainter {
     );
     path_9.close();
 
-    Paint paint_9_fill = Paint()..style = PaintingStyle.fill;
-    paint_9_fill.color = Colors.yellow.withOpacity(1.0);
-    canvas.drawPath(path_9, paint_9_fill);
+    Paint paint9Fill = Paint()..style = PaintingStyle.fill;
+    paint9Fill.color = Colors.yellow.withOpacity(1.0);
+    canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
     path_10.moveTo(12.795, 23.912);
@@ -444,9 +444,9 @@ class LevelButtonPainter extends CustomPainter {
     );
     path_10.close();
 
-    Paint paint_10_fill = Paint()..style = PaintingStyle.fill;
-    paint_10_fill.color = Color(0xffFFF91D).withOpacity(1.0);
-    canvas.drawPath(path_10, paint_10_fill);
+    Paint paint10Fill = Paint()..style = PaintingStyle.fill;
+    paint10Fill.color = Color(0xffFFF91D).withOpacity(1.0);
+    canvas.drawPath(path_10, paint10Fill);
   }
 
   @override

@@ -105,6 +105,25 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
     // 4. Outer border
     canvas.drawCircle(Offset.zero, game.ballRadius, _borderPaint);
 
+    // 5. Shield Effect
+    if (game.isShieldActive) {
+      // Create a nice pulsing effect based on the shieldTimer
+      double pulse = (game.shieldTimer * 3).remainder(1.0);
+      double shieldRadius = game.ballRadius + 6.0 + (pulse * 4.0);
+      
+      final shieldFill = Paint()
+        ..color = const Color(0x446BABFF) // Light transparent blue
+        ..style = PaintingStyle.fill;
+        
+      final shieldStroke = Paint()
+        ..color = const Color(0xAA6BABFF) // Solid blue border
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2.0;
+
+      canvas.drawCircle(Offset.zero, shieldRadius, shieldFill);
+      canvas.drawCircle(Offset.zero, shieldRadius, shieldStroke);
+    }
+
     if (fallFade < 1.0) {
       canvas.restore(); // Restore saveLayer
     }
@@ -124,9 +143,9 @@ class BallPainter extends CustomPainter {
     path_0.cubicTo(41.46, 32.623999999999995, 32.14, 42.056, 20.73, 42.056);
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = Color(0xffEBEBEB).withOpacity(1.0);
-    canvas.drawPath(path_0, paint_0_fill);
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.color = Color(0xffEBEBEB).withOpacity(1.0);
+    canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
     path_1.moveTo(14.307, 1.048);
@@ -151,8 +170,8 @@ class BallPainter extends CustomPainter {
     );
     path_1.close();
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.shader = ui.Gradient.radial(
+    Paint paint1Fill = Paint()..style = PaintingStyle.fill;
+    paint1Fill.shader = ui.Gradient.radial(
       Offset(0, 0),
       size.width * 0.02380952,
       [
@@ -163,7 +182,7 @@ class BallPainter extends CustomPainter {
       ],
       [0, 0.351, 0.714, 0.918],
     );
-    canvas.drawPath(path_1, paint_1_fill);
+    canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
     path_2.moveTo(40.427, 27.59);
@@ -185,8 +204,8 @@ class BallPainter extends CustomPainter {
     path_2.cubicTo(21.606, 9.843, 38.226, 16.108, 40.427, 27.59);
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.shader = ui.Gradient.radial(
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.shader = ui.Gradient.radial(
       Offset(0, 0),
       size.width * 0.02380952,
       [
@@ -197,7 +216,7 @@ class BallPainter extends CustomPainter {
       ],
       [0, 0.351, 0.714, 0.918],
     );
-    canvas.drawPath(path_2, paint_2_fill);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(4.02, 33.49);
@@ -214,8 +233,8 @@ class BallPainter extends CustomPainter {
     path_3.cubicTo(4.716, 16.449, 0.606, 26.13, 4.02, 33.489);
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.shader = ui.Gradient.radial(
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.shader = ui.Gradient.radial(
       Offset(0, 0),
       size.width * 0.02380952,
       [
@@ -226,7 +245,7 @@ class BallPainter extends CustomPainter {
       ],
       [0, 0.351, 0.714, 0.918],
     );
-    canvas.drawPath(path_3, paint_3_fill);
+    canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
     path_4.moveTo(25.244, 41.554);
@@ -242,8 +261,8 @@ class BallPainter extends CustomPainter {
     );
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.shader = ui.Gradient.radial(
+    Paint paint4Fill = Paint()..style = PaintingStyle.fill;
+    paint4Fill.shader = ui.Gradient.radial(
       Offset(0, 0),
       size.width * 0.02380952,
       [
@@ -255,7 +274,7 @@ class BallPainter extends CustomPainter {
       ],
       [0.104, 0.383, 0.56, 0.816, 1],
     );
-    canvas.drawPath(path_4, paint_4_fill);
+    canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
     path_5.moveTo(14.306, 1.049);
@@ -285,8 +304,8 @@ class BallPainter extends CustomPainter {
     );
     path_5.close();
 
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.shader = ui.Gradient.radial(
+    Paint paint5Fill = Paint()..style = PaintingStyle.fill;
+    paint5Fill.shader = ui.Gradient.radial(
       Offset(0, 0),
       size.width * 0.02380952,
       [
@@ -298,7 +317,7 @@ class BallPainter extends CustomPainter {
       ],
       [0.104, 0.383, 0.56, 0.816, 1],
     );
-    canvas.drawPath(path_5, paint_5_fill);
+    canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
     path_6.moveTo(3.144, 9.888);
@@ -334,8 +353,8 @@ class BallPainter extends CustomPainter {
     );
     path_6.close();
 
-    Paint paint_6_fill = Paint()..style = PaintingStyle.fill;
-    paint_6_fill.shader = ui.Gradient.radial(
+    Paint paint6Fill = Paint()..style = PaintingStyle.fill;
+    paint6Fill.shader = ui.Gradient.radial(
       Offset(0, 0),
       size.width * 0.02380952,
       [
@@ -347,7 +366,7 @@ class BallPainter extends CustomPainter {
       ],
       [0.104, 0.383, 0.56, 0.816, 1],
     );
-    canvas.drawPath(path_6, paint_6_fill);
+    canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
     path_7.moveTo(11.903, 6.379);
@@ -371,8 +390,8 @@ class BallPainter extends CustomPainter {
     );
     path_7.close();
 
-    Paint paint_7_fill = Paint()..style = PaintingStyle.fill;
-    paint_7_fill.shader = ui.Gradient.linear(
+    Paint paint7Fill = Paint()..style = PaintingStyle.fill;
+    paint7Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2814524, size.height * 0.1405116),
       Offset(size.width * 0.3721667, size.height * 0.2765116),
       [
@@ -382,7 +401,7 @@ class BallPainter extends CustomPainter {
       ],
       [0, 0.49, 1],
     );
-    canvas.drawPath(path_7, paint_7_fill);
+    canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
     path_8.moveTo(11.971, 6.424);
@@ -406,9 +425,9 @@ class BallPainter extends CustomPainter {
     );
     path_8.close();
 
-    Paint paint_8_fill = Paint()..style = PaintingStyle.fill;
-    paint_8_fill.color = Color(0xffB2D2DF).withOpacity(1.0);
-    canvas.drawPath(path_8, paint_8_fill);
+    Paint paint8Fill = Paint()..style = PaintingStyle.fill;
+    paint8Fill.color = Color(0xffB2D2DF).withOpacity(1.0);
+    canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
     path_9.moveTo(12.06, 6.424);
@@ -432,9 +451,9 @@ class BallPainter extends CustomPainter {
     path_9.cubicTo(16.126, 5.421, 13.88, 5.285, 12.061, 6.424);
     path_9.close();
 
-    Paint paint_9_fill = Paint()..style = PaintingStyle.fill;
-    paint_9_fill.color = Color(0xffB4D3E0).withOpacity(1.0);
-    canvas.drawPath(path_9, paint_9_fill);
+    Paint paint9Fill = Paint()..style = PaintingStyle.fill;
+    paint9Fill.color = Color(0xffB4D3E0).withOpacity(1.0);
+    canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
     path_10.moveTo(12.128, 6.424);
@@ -458,9 +477,9 @@ class BallPainter extends CustomPainter {
     );
     path_10.close();
 
-    Paint paint_10_fill = Paint()..style = PaintingStyle.fill;
-    paint_10_fill.color = Color(0xffB7D5E1).withOpacity(1.0);
-    canvas.drawPath(path_10, paint_10_fill);
+    Paint paint10Fill = Paint()..style = PaintingStyle.fill;
+    paint10Fill.color = Color(0xffB7D5E1).withOpacity(1.0);
+    canvas.drawPath(path_10, paint10Fill);
 
     Path path_11 = Path();
     path_11.moveTo(12.218, 6.423);
@@ -491,9 +510,9 @@ class BallPainter extends CustomPainter {
     );
     path_11.close();
 
-    Paint paint_11_fill = Paint()..style = PaintingStyle.fill;
-    paint_11_fill.color = Color(0xffB9D6E2).withOpacity(1.0);
-    canvas.drawPath(path_11, paint_11_fill);
+    Paint paint11Fill = Paint()..style = PaintingStyle.fill;
+    paint11Fill.color = Color(0xffB9D6E2).withOpacity(1.0);
+    canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
     path_12.moveTo(12.308, 6.424);
@@ -517,9 +536,9 @@ class BallPainter extends CustomPainter {
     );
     path_12.close();
 
-    Paint paint_12_fill = Paint()..style = PaintingStyle.fill;
-    paint_12_fill.color = Color(0xffBCD8E3).withOpacity(1.0);
-    canvas.drawPath(path_12, paint_12_fill);
+    Paint paint12Fill = Paint()..style = PaintingStyle.fill;
+    paint12Fill.color = Color(0xffBCD8E3).withOpacity(1.0);
+    canvas.drawPath(path_12, paint12Fill);
 
     Path path_13 = Path();
     path_13.moveTo(12.375, 6.423);
@@ -543,9 +562,9 @@ class BallPainter extends CustomPainter {
     );
     path_13.close();
 
-    Paint paint_13_fill = Paint()..style = PaintingStyle.fill;
-    paint_13_fill.color = Color(0xffBED9E4).withOpacity(1.0);
-    canvas.drawPath(path_13, paint_13_fill);
+    Paint paint13Fill = Paint()..style = PaintingStyle.fill;
+    paint13Fill.color = Color(0xffBED9E4).withOpacity(1.0);
+    canvas.drawPath(path_13, paint13Fill);
 
     Path path_14 = Path();
     path_14.moveTo(12.465, 6.424);
@@ -569,9 +588,9 @@ class BallPainter extends CustomPainter {
     );
     path_14.close();
 
-    Paint paint_14_fill = Paint()..style = PaintingStyle.fill;
-    paint_14_fill.color = Color(0xffC0DAE5).withOpacity(1.0);
-    canvas.drawPath(path_14, paint_14_fill);
+    Paint paint14Fill = Paint()..style = PaintingStyle.fill;
+    paint14Fill.color = Color(0xffC0DAE5).withOpacity(1.0);
+    canvas.drawPath(path_14, paint14Fill);
 
     Path path_15 = Path();
     path_15.moveTo(12.555, 6.447);
@@ -602,9 +621,9 @@ class BallPainter extends CustomPainter {
     );
     path_15.close();
 
-    Paint paint_15_fill = Paint()..style = PaintingStyle.fill;
-    paint_15_fill.color = Color(0xffC3DCE6).withOpacity(1.0);
-    canvas.drawPath(path_15, paint_15_fill);
+    Paint paint15Fill = Paint()..style = PaintingStyle.fill;
+    paint15Fill.color = Color(0xffC3DCE6).withOpacity(1.0);
+    canvas.drawPath(path_15, paint15Fill);
 
     Path path_16 = Path();
     path_16.moveTo(12.622, 6.446);
@@ -621,9 +640,9 @@ class BallPainter extends CustomPainter {
     );
     path_16.close();
 
-    Paint paint_16_fill = Paint()..style = PaintingStyle.fill;
-    paint_16_fill.color = Color(0xffC5DDE7).withOpacity(1.0);
-    canvas.drawPath(path_16, paint_16_fill);
+    Paint paint16Fill = Paint()..style = PaintingStyle.fill;
+    paint16Fill.color = Color(0xffC5DDE7).withOpacity(1.0);
+    canvas.drawPath(path_16, paint16Fill);
 
     Path path_17 = Path();
     path_17.moveTo(12.712, 6.446);
@@ -661,9 +680,9 @@ class BallPainter extends CustomPainter {
     );
     path_17.close();
 
-    Paint paint_17_fill = Paint()..style = PaintingStyle.fill;
-    paint_17_fill.color = Color(0xffC8DFE8).withOpacity(1.0);
-    canvas.drawPath(path_17, paint_17_fill);
+    Paint paint17Fill = Paint()..style = PaintingStyle.fill;
+    paint17Fill.color = Color(0xffC8DFE8).withOpacity(1.0);
+    canvas.drawPath(path_17, paint17Fill);
 
     Path path_18 = Path();
     path_18.moveTo(12.78, 6.446);
@@ -687,9 +706,9 @@ class BallPainter extends CustomPainter {
     );
     path_18.close();
 
-    Paint paint_18_fill = Paint()..style = PaintingStyle.fill;
-    paint_18_fill.color = Color(0xffCAE0E9).withOpacity(1.0);
-    canvas.drawPath(path_18, paint_18_fill);
+    Paint paint18Fill = Paint()..style = PaintingStyle.fill;
+    paint18Fill.color = Color(0xffCAE0E9).withOpacity(1.0);
+    canvas.drawPath(path_18, paint18Fill);
 
     Path path_19 = Path();
     path_19.moveTo(12.87, 6.447);
@@ -727,9 +746,9 @@ class BallPainter extends CustomPainter {
     );
     path_19.close();
 
-    Paint paint_19_fill = Paint()..style = PaintingStyle.fill;
-    paint_19_fill.color = Color(0xffCCE1EA).withOpacity(1.0);
-    canvas.drawPath(path_19, paint_19_fill);
+    Paint paint19Fill = Paint()..style = PaintingStyle.fill;
+    paint19Fill.color = Color(0xffCCE1EA).withOpacity(1.0);
+    canvas.drawPath(path_19, paint19Fill);
 
     Path path_20 = Path();
     path_20.moveTo(12.96, 6.447);
@@ -746,9 +765,9 @@ class BallPainter extends CustomPainter {
     path_20.cubicTo(15.856, 5.741, 14.238999999999999, 5.649, 12.959, 6.447);
     path_20.close();
 
-    Paint paint_20_fill = Paint()..style = PaintingStyle.fill;
-    paint_20_fill.color = Color(0xffCFE3EB).withOpacity(1.0);
-    canvas.drawPath(path_20, paint_20_fill);
+    Paint paint20Fill = Paint()..style = PaintingStyle.fill;
+    paint20Fill.color = Color(0xffCFE3EB).withOpacity(1.0);
+    canvas.drawPath(path_20, paint20Fill);
 
     Path path_21 = Path();
     path_21.moveTo(13.027, 6.447);
@@ -786,9 +805,9 @@ class BallPainter extends CustomPainter {
     );
     path_21.close();
 
-    Paint paint_21_fill = Paint()..style = PaintingStyle.fill;
-    paint_21_fill.color = Color(0xffD1E4EC).withOpacity(1.0);
-    canvas.drawPath(path_21, paint_21_fill);
+    Paint paint21Fill = Paint()..style = PaintingStyle.fill;
+    paint21Fill.color = Color(0xffD1E4EC).withOpacity(1.0);
+    canvas.drawPath(path_21, paint21Fill);
 
     Path path_22 = Path();
     path_22.moveTo(13.116, 6.446);
@@ -819,9 +838,9 @@ class BallPainter extends CustomPainter {
     );
     path_22.close();
 
-    Paint paint_22_fill = Paint()..style = PaintingStyle.fill;
-    paint_22_fill.color = Color(0xffD4E6ED).withOpacity(1.0);
-    canvas.drawPath(path_22, paint_22_fill);
+    Paint paint22Fill = Paint()..style = PaintingStyle.fill;
+    paint22Fill.color = Color(0xffD4E6ED).withOpacity(1.0);
+    canvas.drawPath(path_22, paint22Fill);
 
     Path path_23 = Path();
     path_23.moveTo(13.206, 6.47);
@@ -838,9 +857,9 @@ class BallPainter extends CustomPainter {
     path_23.cubicTo(15.789, 5.831, 14.352, 5.74, 13.206, 6.469);
     path_23.close();
 
-    Paint paint_23_fill = Paint()..style = PaintingStyle.fill;
-    paint_23_fill.color = Color(0xffD6E7EE).withOpacity(1.0);
-    canvas.drawPath(path_23, paint_23_fill);
+    Paint paint23Fill = Paint()..style = PaintingStyle.fill;
+    paint23Fill.color = Color(0xffD6E7EE).withOpacity(1.0);
+    canvas.drawPath(path_23, paint23Fill);
 
     Path path_24 = Path();
     path_24.moveTo(13.274, 6.47);
@@ -857,9 +876,9 @@ class BallPainter extends CustomPainter {
     path_24.cubicTo(15.767, 5.854, 14.396999999999998, 5.786, 13.274, 6.469);
     path_24.close();
 
-    Paint paint_24_fill = Paint()..style = PaintingStyle.fill;
-    paint_24_fill.color = Color(0xffD9E9EF).withOpacity(1.0);
-    canvas.drawPath(path_24, paint_24_fill);
+    Paint paint24Fill = Paint()..style = PaintingStyle.fill;
+    paint24Fill.color = Color(0xffD9E9EF).withOpacity(1.0);
+    canvas.drawPath(path_24, paint24Fill);
 
     Path path_25 = Path();
     path_25.moveTo(13.364, 6.47);
@@ -883,9 +902,9 @@ class BallPainter extends CustomPainter {
     );
     path_25.close();
 
-    Paint paint_25_fill = Paint()..style = PaintingStyle.fill;
-    paint_25_fill.color = Color(0xffDBEAF0).withOpacity(1.0);
-    canvas.drawPath(path_25, paint_25_fill);
+    Paint paint25Fill = Paint()..style = PaintingStyle.fill;
+    paint25Fill.color = Color(0xffDBEAF0).withOpacity(1.0);
+    canvas.drawPath(path_25, paint25Fill);
 
     Path path_26 = Path();
     path_26.moveTo(13.453, 6.469);
@@ -909,9 +928,9 @@ class BallPainter extends CustomPainter {
     );
     path_26.close();
 
-    Paint paint_26_fill = Paint()..style = PaintingStyle.fill;
-    paint_26_fill.color = Color(0xffDDEBF1).withOpacity(1.0);
-    canvas.drawPath(path_26, paint_26_fill);
+    Paint paint26Fill = Paint()..style = PaintingStyle.fill;
+    paint26Fill.color = Color(0xffDDEBF1).withOpacity(1.0);
+    canvas.drawPath(path_26, paint26Fill);
 
     Path path_27 = Path();
     path_27.moveTo(13.52, 6.469);
@@ -942,9 +961,9 @@ class BallPainter extends CustomPainter {
     );
     path_27.close();
 
-    Paint paint_27_fill = Paint()..style = PaintingStyle.fill;
-    paint_27_fill.color = Color(0xffE0EDF2).withOpacity(1.0);
-    canvas.drawPath(path_27, paint_27_fill);
+    Paint paint27Fill = Paint()..style = PaintingStyle.fill;
+    paint27Fill.color = Color(0xffE0EDF2).withOpacity(1.0);
+    canvas.drawPath(path_27, paint27Fill);
 
     Path path_28 = Path();
     path_28.moveTo(13.61, 6.47);
@@ -961,9 +980,9 @@ class BallPainter extends CustomPainter {
     );
     path_28.close();
 
-    Paint paint_28_fill = Paint()..style = PaintingStyle.fill;
-    paint_28_fill.color = Color(0xffE2EEF3).withOpacity(1.0);
-    canvas.drawPath(path_28, paint_28_fill);
+    Paint paint28Fill = Paint()..style = PaintingStyle.fill;
+    paint28Fill.color = Color(0xffE2EEF3).withOpacity(1.0);
+    canvas.drawPath(path_28, paint28Fill);
 
     Path path_29 = Path();
     path_29.moveTo(13.678, 6.47);
@@ -1001,9 +1020,9 @@ class BallPainter extends CustomPainter {
     );
     path_29.close();
 
-    Paint paint_29_fill = Paint()..style = PaintingStyle.fill;
-    paint_29_fill.color = Color(0xffE5F0F4).withOpacity(1.0);
-    canvas.drawPath(path_29, paint_29_fill);
+    Paint paint29Fill = Paint()..style = PaintingStyle.fill;
+    paint29Fill.color = Color(0xffE5F0F4).withOpacity(1.0);
+    canvas.drawPath(path_29, paint29Fill);
 
     Path path_30 = Path();
     path_30.moveTo(13.768, 6.493);
@@ -1034,9 +1053,9 @@ class BallPainter extends CustomPainter {
     );
     path_30.close();
 
-    Paint paint_30_fill = Paint()..style = PaintingStyle.fill;
-    paint_30_fill.color = Color(0xffE7F1F5).withOpacity(1.0);
-    canvas.drawPath(path_30, paint_30_fill);
+    Paint paint30Fill = Paint()..style = PaintingStyle.fill;
+    paint30Fill.color = Color(0xffE7F1F5).withOpacity(1.0);
+    canvas.drawPath(path_30, paint30Fill);
 
     Path path_31 = Path();
     path_31.moveTo(13.857, 6.49);
@@ -1074,9 +1093,9 @@ class BallPainter extends CustomPainter {
     );
     path_31.close();
 
-    Paint paint_31_fill = Paint()..style = PaintingStyle.fill;
-    paint_31_fill.color = Color(0xffE9F2F6).withOpacity(1.0);
-    canvas.drawPath(path_31, paint_31_fill);
+    Paint paint31Fill = Paint()..style = PaintingStyle.fill;
+    paint31Fill.color = Color(0xffE9F2F6).withOpacity(1.0);
+    canvas.drawPath(path_31, paint31Fill);
 
     Path path_32 = Path();
     path_32.moveTo(13.925, 6.492);
@@ -1100,9 +1119,9 @@ class BallPainter extends CustomPainter {
     );
     path_32.close();
 
-    Paint paint_32_fill = Paint()..style = PaintingStyle.fill;
-    paint_32_fill.color = Color(0xffECF4F7).withOpacity(1.0);
-    canvas.drawPath(path_32, paint_32_fill);
+    Paint paint32Fill = Paint()..style = PaintingStyle.fill;
+    paint32Fill.color = Color(0xffECF4F7).withOpacity(1.0);
+    canvas.drawPath(path_32, paint32Fill);
 
     Path path_33 = Path();
     path_33.moveTo(14.015, 6.493);
@@ -1133,9 +1152,9 @@ class BallPainter extends CustomPainter {
     );
     path_33.close();
 
-    Paint paint_33_fill = Paint()..style = PaintingStyle.fill;
-    paint_33_fill.color = Color(0xffEEF5F8).withOpacity(1.0);
-    canvas.drawPath(path_33, paint_33_fill);
+    Paint paint33Fill = Paint()..style = PaintingStyle.fill;
+    paint33Fill.color = Color(0xffEEF5F8).withOpacity(1.0);
+    canvas.drawPath(path_33, paint33Fill);
 
     Path path_34 = Path();
     path_34.moveTo(14.105, 6.492);
@@ -1166,9 +1185,9 @@ class BallPainter extends CustomPainter {
     );
     path_34.close();
 
-    Paint paint_34_fill = Paint()..style = PaintingStyle.fill;
-    paint_34_fill.color = Color(0xffF1F7F9).withOpacity(1.0);
-    canvas.drawPath(path_34, paint_34_fill);
+    Paint paint34Fill = Paint()..style = PaintingStyle.fill;
+    paint34Fill.color = Color(0xffF1F7F9).withOpacity(1.0);
+    canvas.drawPath(path_34, paint34Fill);
 
     Path path_35 = Path();
     path_35.moveTo(14.172, 6.491);
@@ -1199,9 +1218,9 @@ class BallPainter extends CustomPainter {
     );
     path_35.close();
 
-    Paint paint_35_fill = Paint()..style = PaintingStyle.fill;
-    paint_35_fill.color = Color(0xffF3F8FA).withOpacity(1.0);
-    canvas.drawPath(path_35, paint_35_fill);
+    Paint paint35Fill = Paint()..style = PaintingStyle.fill;
+    paint35Fill.color = Color(0xffF3F8FA).withOpacity(1.0);
+    canvas.drawPath(path_35, paint35Fill);
 
     Path path_36 = Path();
     path_36.moveTo(14.262, 6.491);
@@ -1225,9 +1244,9 @@ class BallPainter extends CustomPainter {
     path_36.cubicTo(15.474, 6.194999999999999, 14.801, 6.172, 14.262, 6.491);
     path_36.close();
 
-    Paint paint_36_fill = Paint()..style = PaintingStyle.fill;
-    paint_36_fill.color = Color(0xffF5F9FB).withOpacity(1.0);
-    canvas.drawPath(path_36, paint_36_fill);
+    Paint paint36Fill = Paint()..style = PaintingStyle.fill;
+    paint36Fill.color = Color(0xffF5F9FB).withOpacity(1.0);
+    canvas.drawPath(path_36, paint36Fill);
 
     Path path_37 = Path();
     path_37.moveTo(14.352, 6.492);
@@ -1258,9 +1277,9 @@ class BallPainter extends CustomPainter {
     );
     path_37.close();
 
-    Paint paint_37_fill = Paint()..style = PaintingStyle.fill;
-    paint_37_fill.color = Color(0xffF8FBFC).withOpacity(1.0);
-    canvas.drawPath(path_37, paint_37_fill);
+    Paint paint37Fill = Paint()..style = PaintingStyle.fill;
+    paint37Fill.color = Color(0xffF8FBFC).withOpacity(1.0);
+    canvas.drawPath(path_37, paint37Fill);
 
     Path path_38 = Path();
     path_38.moveTo(14.42, 6.516);
@@ -1277,9 +1296,9 @@ class BallPainter extends CustomPainter {
     path_38.cubicTo(15.43, 6.265000000000001, 14.868, 6.219, 14.419, 6.516);
     path_38.close();
 
-    Paint paint_38_fill = Paint()..style = PaintingStyle.fill;
-    paint_38_fill.color = Color(0xffFAFCFD).withOpacity(1.0);
-    canvas.drawPath(path_38, paint_38_fill);
+    Paint paint38Fill = Paint()..style = PaintingStyle.fill;
+    paint38Fill.color = Color(0xffFAFCFD).withOpacity(1.0);
+    canvas.drawPath(path_38, paint38Fill);
 
     Path path_39 = Path();
     path_39.moveTo(14.509, 6.516);
@@ -1317,9 +1336,9 @@ class BallPainter extends CustomPainter {
     );
     path_39.close();
 
-    Paint paint_39_fill = Paint()..style = PaintingStyle.fill;
-    paint_39_fill.color = Color(0xffFDFEFE).withOpacity(1.0);
-    canvas.drawPath(path_39, paint_39_fill);
+    Paint paint39Fill = Paint()..style = PaintingStyle.fill;
+    paint39Fill.color = Color(0xffFDFEFE).withOpacity(1.0);
+    canvas.drawPath(path_39, paint39Fill);
 
     Path path_40 = Path();
     path_40.moveTo(14.576, 6.515);
@@ -1343,9 +1362,9 @@ class BallPainter extends CustomPainter {
     path_40.cubicTo(15.385, 6.31, 14.936, 6.286, 14.576, 6.515);
     path_40.close();
 
-    Paint paint_40_fill = Paint()..style = PaintingStyle.fill;
-    paint_40_fill.color = Color(0xffffffff).withOpacity(1.0);
-    canvas.drawPath(path_40, paint_40_fill);
+    Paint paint40Fill = Paint()..style = PaintingStyle.fill;
+    paint40Fill.color = Color(0xffffffff).withOpacity(1.0);
+    canvas.drawPath(path_40, paint40Fill);
 
     Path path_41 = Path();
     path_41.moveTo(12.398, 6.88);
@@ -1383,8 +1402,8 @@ class BallPainter extends CustomPainter {
     );
     path_41.close();
 
-    Paint paint_41_fill = Paint()..style = PaintingStyle.fill;
-    paint_41_fill.shader = ui.Gradient.linear(
+    Paint paint41Fill = Paint()..style = PaintingStyle.fill;
+    paint41Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3111190, size.height * 0.1530930),
       Offset(size.width * 0.3388333, size.height * 0.2542791),
       [
@@ -1394,7 +1413,7 @@ class BallPainter extends CustomPainter {
       ],
       [0, 0.49, 1],
     );
-    canvas.drawPath(path_41, paint_41_fill);
+    canvas.drawPath(path_41, paint41Fill);
 
     Path path_42 = Path();
     path_42.moveTo(12.443, 6.925);
@@ -1432,9 +1451,9 @@ class BallPainter extends CustomPainter {
     );
     path_42.close();
 
-    Paint paint_42_fill = Paint()..style = PaintingStyle.fill;
-    paint_42_fill.color = Color(0xffB2D2DF).withOpacity(1.0);
-    canvas.drawPath(path_42, paint_42_fill);
+    Paint paint42Fill = Paint()..style = PaintingStyle.fill;
+    paint42Fill.color = Color(0xffB2D2DF).withOpacity(1.0);
+    canvas.drawPath(path_42, paint42Fill);
 
     Path path_43 = Path();
     path_43.moveTo(12.465, 6.925);
@@ -1458,9 +1477,9 @@ class BallPainter extends CustomPainter {
     );
     path_43.close();
 
-    Paint paint_43_fill = Paint()..style = PaintingStyle.fill;
-    paint_43_fill.color = Color(0xffB6D4E0).withOpacity(1.0);
-    canvas.drawPath(path_43, paint_43_fill);
+    Paint paint43Fill = Paint()..style = PaintingStyle.fill;
+    paint43Fill.color = Color(0xffB6D4E0).withOpacity(1.0);
+    canvas.drawPath(path_43, paint43Fill);
 
     Path path_44 = Path();
     path_44.moveTo(12.51, 6.925);
@@ -1477,9 +1496,9 @@ class BallPainter extends CustomPainter {
     );
     path_44.close();
 
-    Paint paint_44_fill = Paint()..style = PaintingStyle.fill;
-    paint_44_fill.color = Color(0xffB9D6E2).withOpacity(1.0);
-    canvas.drawPath(path_44, paint_44_fill);
+    Paint paint44Fill = Paint()..style = PaintingStyle.fill;
+    paint44Fill.color = Color(0xffB9D6E2).withOpacity(1.0);
+    canvas.drawPath(path_44, paint44Fill);
 
     Path path_45 = Path();
     path_45.moveTo(12.555, 6.949);
@@ -1510,9 +1529,9 @@ class BallPainter extends CustomPainter {
     );
     path_45.close();
 
-    Paint paint_45_fill = Paint()..style = PaintingStyle.fill;
-    paint_45_fill.color = Color(0xffBDD8E3).withOpacity(1.0);
-    canvas.drawPath(path_45, paint_45_fill);
+    Paint paint45Fill = Paint()..style = PaintingStyle.fill;
+    paint45Fill.color = Color(0xffBDD8E3).withOpacity(1.0);
+    canvas.drawPath(path_45, paint45Fill);
 
     Path path_46 = Path();
     path_46.moveTo(12.6, 6.949);
@@ -1543,9 +1562,9 @@ class BallPainter extends CustomPainter {
     );
     path_46.close();
 
-    Paint paint_46_fill = Paint()..style = PaintingStyle.fill;
-    paint_46_fill.color = Color(0xffC0DAE5).withOpacity(1.0);
-    canvas.drawPath(path_46, paint_46_fill);
+    Paint paint46Fill = Paint()..style = PaintingStyle.fill;
+    paint46Fill.color = Color(0xffC0DAE5).withOpacity(1.0);
+    canvas.drawPath(path_46, paint46Fill);
 
     Path path_47 = Path();
     path_47.moveTo(12.645, 6.972);
@@ -1583,9 +1602,9 @@ class BallPainter extends CustomPainter {
     );
     path_47.close();
 
-    Paint paint_47_fill = Paint()..style = PaintingStyle.fill;
-    paint_47_fill.color = Color(0xffC4DCE6).withOpacity(1.0);
-    canvas.drawPath(path_47, paint_47_fill);
+    Paint paint47Fill = Paint()..style = PaintingStyle.fill;
+    paint47Fill.color = Color(0xffC4DCE6).withOpacity(1.0);
+    canvas.drawPath(path_47, paint47Fill);
 
     Path path_48 = Path();
     path_48.moveTo(12.69, 6.97);
@@ -1602,9 +1621,9 @@ class BallPainter extends CustomPainter {
     path_48.cubicTo(14.891, 6.4239999999999995, 13.677, 6.356, 12.69, 6.971);
     path_48.close();
 
-    Paint paint_48_fill = Paint()..style = PaintingStyle.fill;
-    paint_48_fill.color = Color(0xffC7DEE8).withOpacity(1.0);
-    canvas.drawPath(path_48, paint_48_fill);
+    Paint paint48Fill = Paint()..style = PaintingStyle.fill;
+    paint48Fill.color = Color(0xffC7DEE8).withOpacity(1.0);
+    canvas.drawPath(path_48, paint48Fill);
 
     Path path_49 = Path();
     path_49.moveTo(12.735, 6.97);
@@ -1635,9 +1654,9 @@ class BallPainter extends CustomPainter {
     );
     path_49.close();
 
-    Paint paint_49_fill = Paint()..style = PaintingStyle.fill;
-    paint_49_fill.color = Color(0xffCBE0E9).withOpacity(1.0);
-    canvas.drawPath(path_49, paint_49_fill);
+    Paint paint49Fill = Paint()..style = PaintingStyle.fill;
+    paint49Fill.color = Color(0xffCBE0E9).withOpacity(1.0);
+    canvas.drawPath(path_49, paint49Fill);
 
     Path path_50 = Path();
     path_50.moveTo(12.757, 6.994);
@@ -1668,9 +1687,9 @@ class BallPainter extends CustomPainter {
     );
     path_50.close();
 
-    Paint paint_50_fill = Paint()..style = PaintingStyle.fill;
-    paint_50_fill.color = Color(0xffCEE2EB).withOpacity(1.0);
-    canvas.drawPath(path_50, paint_50_fill);
+    Paint paint50Fill = Paint()..style = PaintingStyle.fill;
+    paint50Fill.color = Color(0xffCEE2EB).withOpacity(1.0);
+    canvas.drawPath(path_50, paint50Fill);
 
     Path path_51 = Path();
     path_51.moveTo(12.802, 6.994);
@@ -1694,9 +1713,9 @@ class BallPainter extends CustomPainter {
     );
     path_51.close();
 
-    Paint paint_51_fill = Paint()..style = PaintingStyle.fill;
-    paint_51_fill.color = Color(0xffD2E4EC).withOpacity(1.0);
-    canvas.drawPath(path_51, paint_51_fill);
+    Paint paint51Fill = Paint()..style = PaintingStyle.fill;
+    paint51Fill.color = Color(0xffD2E4EC).withOpacity(1.0);
+    canvas.drawPath(path_51, paint51Fill);
 
     Path path_52 = Path();
     path_52.moveTo(12.847, 7.017);
@@ -1720,9 +1739,9 @@ class BallPainter extends CustomPainter {
     );
     path_52.close();
 
-    Paint paint_52_fill = Paint()..style = PaintingStyle.fill;
-    paint_52_fill.color = Color(0xffD5E6EE).withOpacity(1.0);
-    canvas.drawPath(path_52, paint_52_fill);
+    Paint paint52Fill = Paint()..style = PaintingStyle.fill;
+    paint52Fill.color = Color(0xffD5E6EE).withOpacity(1.0);
+    canvas.drawPath(path_52, paint52Fill);
 
     Path path_53 = Path();
     path_53.moveTo(12.892, 7.017);
@@ -1746,9 +1765,9 @@ class BallPainter extends CustomPainter {
     );
     path_53.close();
 
-    Paint paint_53_fill = Paint()..style = PaintingStyle.fill;
-    paint_53_fill.color = Color(0xffD9E9EF).withOpacity(1.0);
-    canvas.drawPath(path_53, paint_53_fill);
+    Paint paint53Fill = Paint()..style = PaintingStyle.fill;
+    paint53Fill.color = Color(0xffD9E9EF).withOpacity(1.0);
+    canvas.drawPath(path_53, paint53Fill);
 
     Path path_54 = Path();
     path_54.moveTo(12.937, 7.039);
@@ -1786,9 +1805,9 @@ class BallPainter extends CustomPainter {
     );
     path_54.close();
 
-    Paint paint_54_fill = Paint()..style = PaintingStyle.fill;
-    paint_54_fill.color = Color(0xffDCEBF0).withOpacity(1.0);
-    canvas.drawPath(path_54, paint_54_fill);
+    Paint paint54Fill = Paint()..style = PaintingStyle.fill;
+    paint54Fill.color = Color(0xffDCEBF0).withOpacity(1.0);
+    canvas.drawPath(path_54, paint54Fill);
 
     Path path_55 = Path();
     path_55.moveTo(12.982, 7.038);
@@ -1819,9 +1838,9 @@ class BallPainter extends CustomPainter {
     path_55.cubicTo(14.440999999999999, 6.674, 13.633, 6.628, 12.982, 7.038);
     path_55.close();
 
-    Paint paint_55_fill = Paint()..style = PaintingStyle.fill;
-    paint_55_fill.color = Color(0xffDFEDF2).withOpacity(1.0);
-    canvas.drawPath(path_55, paint_55_fill);
+    Paint paint55Fill = Paint()..style = PaintingStyle.fill;
+    paint55Fill.color = Color(0xffDFEDF2).withOpacity(1.0);
+    canvas.drawPath(path_55, paint55Fill);
 
     Path path_56 = Path();
     path_56.moveTo(13.027, 7.04);
@@ -1859,9 +1878,9 @@ class BallPainter extends CustomPainter {
     );
     path_56.close();
 
-    Paint paint_56_fill = Paint()..style = PaintingStyle.fill;
-    paint_56_fill.color = Color(0xffE3EFF3).withOpacity(1.0);
-    canvas.drawPath(path_56, paint_56_fill);
+    Paint paint56Fill = Paint()..style = PaintingStyle.fill;
+    paint56Fill.color = Color(0xffE3EFF3).withOpacity(1.0);
+    canvas.drawPath(path_56, paint56Fill);
 
     Path path_57 = Path();
     path_57.moveTo(13.071, 7.062);
@@ -1892,9 +1911,9 @@ class BallPainter extends CustomPainter {
     );
     path_57.close();
 
-    Paint paint_57_fill = Paint()..style = PaintingStyle.fill;
-    paint_57_fill.color = Color(0xffE6F1F5).withOpacity(1.0);
-    canvas.drawPath(path_57, paint_57_fill);
+    Paint paint57Fill = Paint()..style = PaintingStyle.fill;
+    paint57Fill.color = Color(0xffE6F1F5).withOpacity(1.0);
+    canvas.drawPath(path_57, paint57Fill);
 
     Path path_58 = Path();
     path_58.moveTo(13.094, 7.062);
@@ -1925,9 +1944,9 @@ class BallPainter extends CustomPainter {
     );
     path_58.close();
 
-    Paint paint_58_fill = Paint()..style = PaintingStyle.fill;
-    paint_58_fill.color = Color(0xffEAF3F6).withOpacity(1.0);
-    canvas.drawPath(path_58, paint_58_fill);
+    Paint paint58Fill = Paint()..style = PaintingStyle.fill;
+    paint58Fill.color = Color(0xffEAF3F6).withOpacity(1.0);
+    canvas.drawPath(path_58, paint58Fill);
 
     Path path_59 = Path();
     path_59.moveTo(13.139, 7.084);
@@ -1965,9 +1984,9 @@ class BallPainter extends CustomPainter {
     );
     path_59.close();
 
-    Paint paint_59_fill = Paint()..style = PaintingStyle.fill;
-    paint_59_fill.color = Color(0xffEDF5F8).withOpacity(1.0);
-    canvas.drawPath(path_59, paint_59_fill);
+    Paint paint59Fill = Paint()..style = PaintingStyle.fill;
+    paint59Fill.color = Color(0xffEDF5F8).withOpacity(1.0);
+    canvas.drawPath(path_59, paint59Fill);
 
     Path path_60 = Path();
     path_60.moveTo(13.184, 7.086);
@@ -1984,9 +2003,9 @@ class BallPainter extends CustomPainter {
     path_60.cubicTo(14.149, 6.8580000000000005, 13.61, 6.812, 13.184, 7.086);
     path_60.close();
 
-    Paint paint_60_fill = Paint()..style = PaintingStyle.fill;
-    paint_60_fill.color = Color(0xffF1F7F9).withOpacity(1.0);
-    canvas.drawPath(path_60, paint_60_fill);
+    Paint paint60Fill = Paint()..style = PaintingStyle.fill;
+    paint60Fill.color = Color(0xffF1F7F9).withOpacity(1.0);
+    canvas.drawPath(path_60, paint60Fill);
 
     Path path_61 = Path();
     path_61.moveTo(13.229, 7.084);
@@ -2024,9 +2043,9 @@ class BallPainter extends CustomPainter {
     );
     path_61.close();
 
-    Paint paint_61_fill = Paint()..style = PaintingStyle.fill;
-    paint_61_fill.color = Color(0xffF4F9FB).withOpacity(1.0);
-    canvas.drawPath(path_61, paint_61_fill);
+    Paint paint61Fill = Paint()..style = PaintingStyle.fill;
+    paint61Fill.color = Color(0xffF4F9FB).withOpacity(1.0);
+    canvas.drawPath(path_61, paint61Fill);
 
     Path path_62 = Path();
     path_62.moveTo(13.274, 7.107);
@@ -2057,9 +2076,9 @@ class BallPainter extends CustomPainter {
     );
     path_62.close();
 
-    Paint paint_62_fill = Paint()..style = PaintingStyle.fill;
-    paint_62_fill.color = Color(0xffF8FBFC).withOpacity(1.0);
-    canvas.drawPath(path_62, paint_62_fill);
+    Paint paint62Fill = Paint()..style = PaintingStyle.fill;
+    paint62Fill.color = Color(0xffF8FBFC).withOpacity(1.0);
+    canvas.drawPath(path_62, paint62Fill);
 
     Path path_63 = Path();
     path_63.moveTo(13.318, 7.108);
@@ -2083,9 +2102,9 @@ class BallPainter extends CustomPainter {
     );
     path_63.close();
 
-    Paint paint_63_fill = Paint()..style = PaintingStyle.fill;
-    paint_63_fill.color = Color(0xffFBFDFE).withOpacity(1.0);
-    canvas.drawPath(path_63, paint_63_fill);
+    Paint paint63Fill = Paint()..style = PaintingStyle.fill;
+    paint63Fill.color = Color(0xffFBFDFE).withOpacity(1.0);
+    canvas.drawPath(path_63, paint63Fill);
 
     Path path_64 = Path();
     path_64.moveTo(13.363, 7.131);
@@ -2116,9 +2135,9 @@ class BallPainter extends CustomPainter {
     );
     path_64.close();
 
-    Paint paint_64_fill = Paint()..style = PaintingStyle.fill;
-    paint_64_fill.color = Color(0xffffffff).withOpacity(1.0);
-    canvas.drawPath(path_64, paint_64_fill);
+    Paint paint64Fill = Paint()..style = PaintingStyle.fill;
+    paint64Fill.color = Color(0xffffffff).withOpacity(1.0);
+    canvas.drawPath(path_64, paint64Fill);
   }
 
   @override

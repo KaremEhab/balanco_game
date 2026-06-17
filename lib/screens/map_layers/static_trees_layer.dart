@@ -48,10 +48,11 @@ class StaticTreesLayerPainter extends CustomPainter {
         canvas.translate(xPos, yPos);
 
         double scale = 0.1 + treeRandom.nextDouble() * 0.04;
-        if (treeRandom.nextBool())
+        if (treeRandom.nextBool()) {
           canvas.scale(-scale, scale);
-        else
+        } else {
           canvas.scale(scale, scale);
+        }
 
         canvas.translate(-370, -647);
         CustomPainter selectedTreePainter =
@@ -74,10 +75,11 @@ class StaticTreesLayerPainter extends CustomPainter {
         canvas.translate(xPos, yPos);
 
         double scale = 0.1 + treeRandom.nextDouble() * 0.04;
-        if (treeRandom.nextBool())
+        if (treeRandom.nextBool()) {
           canvas.scale(-scale, scale);
-        else
+        } else {
           canvas.scale(scale, scale);
+        }
 
         canvas.translate(-370, -647);
         CustomPainter selectedTreePainter =

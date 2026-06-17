@@ -95,11 +95,11 @@ class SeaWavesPainter extends CustomPainter {
     path_0.lineTo(2499.9999999999995, 325.764);
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = const Color(0x73FFFFFF);
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.color = const Color(0x73FFFFFF);
     canvas.save();
     canvas.translate(0, sin(wp + 0.0) * 15.0);
-    canvas.drawPath(path_0, paint_0_fill);
+    canvas.drawPath(path_0, paint0Fill);
     canvas.restore();
 
     Path path_1 = Path();
@@ -288,11 +288,11 @@ class SeaWavesPainter extends CustomPainter {
     );
     path_1.close();
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.color = const Color(0x73FFFFFF);
+    Paint paint1Fill = Paint()..style = PaintingStyle.fill;
+    paint1Fill.color = const Color(0x73FFFFFF);
     canvas.save();
     canvas.translate(0, sin(wp + 1.0) * 12.0);
-    canvas.drawPath(path_1, paint_1_fill);
+    canvas.drawPath(path_1, paint1Fill);
     canvas.restore();
 
     Path path_2 = Path();
@@ -416,11 +416,11 @@ class SeaWavesPainter extends CustomPainter {
     );
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.color = const Color(0x73FFFFFF);
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.color = const Color(0x73FFFFFF);
     canvas.save();
     canvas.translate(0, sin(wp + 2.0) * 18.0);
-    canvas.drawPath(path_2, paint_2_fill);
+    canvas.drawPath(path_2, paint2Fill);
     canvas.restore();
 
     Path path_3 = Path();
@@ -889,11 +889,11 @@ class SeaWavesPainter extends CustomPainter {
     );
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.color = const Color(0x73FFFFFF);
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.color = const Color(0x73FFFFFF);
     canvas.save();
     canvas.translate(0, sin(wp + 3.0) * 14.0);
-    canvas.drawPath(path_3, paint_3_fill);
+    canvas.drawPath(path_3, paint3Fill);
     canvas.restore();
 
     Path path_4 = Path();
@@ -1038,11 +1038,11 @@ class SeaWavesPainter extends CustomPainter {
     );
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.color = const Color(0x73FFFFFF);
+    Paint paint4Fill = Paint()..style = PaintingStyle.fill;
+    paint4Fill.color = const Color(0x73FFFFFF);
     canvas.save();
     canvas.translate(0, sin(wp + 4.0) * 20.0);
-    canvas.drawPath(path_4, paint_4_fill);
+    canvas.drawPath(path_4, paint4Fill);
     canvas.restore();
 
     Path path_5 = Path();
@@ -1182,11 +1182,11 @@ class SeaWavesPainter extends CustomPainter {
     );
     path_5.close();
 
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.color = const Color(0x73FFFFFF);
+    Paint paint5Fill = Paint()..style = PaintingStyle.fill;
+    paint5Fill.color = const Color(0x73FFFFFF);
     canvas.save();
     canvas.translate(0, sin(wp + 5.0) * 16.0);
-    canvas.drawPath(path_5, paint_5_fill);
+    canvas.drawPath(path_5, paint5Fill);
     canvas.restore();
   }
 

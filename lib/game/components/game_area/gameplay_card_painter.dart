@@ -105,9 +105,9 @@ class GameplayBottomPainter extends CustomPainter {
     path_0.cubicTo(36.12, 39.351, 20.003, 26.803, 20.003, 9.681000000000001);
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.shader = ui.Gradient.linear(const Offset(0, 0), Offset(0, size.height), baseGradient, [0.0, 1.0]);
-    canvas.drawPath(path_0, paint_0_fill);
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.shader = ui.Gradient.linear(const Offset(0, 0), Offset(0, size.height), baseGradient, [0.0, 1.0]);
+    canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
     path_1.moveTo(179.802, 35.423);
@@ -236,9 +236,9 @@ class GameplayBottomPainter extends CustomPainter {
     path_1.cubicTo(19.99, 26.799, 36.104, 39.35, 52.708, 35.166);
     path_1.close();
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.shader = ui.Gradient.linear(const Offset(0, 0), Offset(0, size.height), baseGradient, [0.0, 1.0]);
-    canvas.drawPath(path_1, paint_1_fill);
+    Paint paint1Fill = Paint()..style = PaintingStyle.fill;
+    paint1Fill.shader = ui.Gradient.linear(const Offset(0, 0), Offset(0, size.height), baseGradient, [0.0, 1.0]);
+    canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
     path_2.moveTo(20.003, 9.515);
@@ -285,9 +285,9 @@ class GameplayBottomPainter extends CustomPainter {
     path_2.lineTo(20.003, 9.514);
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.shader = ui.Gradient.linear(const Offset(0, 0), Offset(0, size.height), highlightGradient, [0.0, 1.0]);
-    canvas.drawPath(path_2, paint_2_fill);
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.shader = ui.Gradient.linear(const Offset(0, 0), Offset(0, size.height), highlightGradient, [0.0, 1.0]);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(93.192, 0.018);
@@ -303,9 +303,9 @@ class GameplayBottomPainter extends CustomPainter {
     );
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.shader = ui.Gradient.linear(const Offset(0, 0), Offset(0, size.height), baseGradient, [0.0, 1.0]);
-    canvas.drawPath(path_3, paint_3_fill);
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.shader = ui.Gradient.linear(const Offset(0, 0), Offset(0, size.height), baseGradient, [0.0, 1.0]);
+    canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
     path_4.moveTo(93.192, 0.018);
@@ -321,9 +321,9 @@ class GameplayBottomPainter extends CustomPainter {
     );
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.shader = ui.Gradient.linear(const Offset(0, 0), Offset(0, size.height), baseGradient, [0.0, 1.0]);
-    canvas.drawPath(path_4, paint_4_fill);
+    Paint paint4Fill = Paint()..style = PaintingStyle.fill;
+    paint4Fill.shader = ui.Gradient.linear(const Offset(0, 0), Offset(0, size.height), baseGradient, [0.0, 1.0]);
+    canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
     path_5.moveTo(93.192, 0.018);
@@ -339,14 +339,14 @@ class GameplayBottomPainter extends CustomPainter {
     );
     path_5.close();
 
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.shader = ui.Gradient.linear(
+    Paint paint5Fill = Paint()..style = PaintingStyle.fill;
+    paint5Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4988967, size.height * 1.145706),
       Offset(size.width * 0.4988967, size.height * 0.1659216),
       [Color(0xffffffff).withOpacity(1), Color(0xffffffff).withOpacity(0)],
       [0.29, 0.923],
     );
-    canvas.drawPath(path_5, paint_5_fill);
+    canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
     path_6.moveTo(93.168, 0.018);
@@ -386,9 +386,9 @@ class GameplayBottomPainter extends CustomPainter {
     );
     path_6.close();
 
-    Paint paint_6_fill = Paint()..style = PaintingStyle.fill;
-    paint_6_fill.shader = ui.Gradient.linear(const Offset(0, 0), Offset(0, size.height), baseGradient, [0.0, 1.0]);
-    canvas.drawPath(path_6, paint_6_fill);
+    Paint paint6Fill = Paint()..style = PaintingStyle.fill;
+    paint6Fill.shader = ui.Gradient.linear(const Offset(0, 0), Offset(0, size.height), baseGradient, [0.0, 1.0]);
+    canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
     path_7.moveTo(120.948, 8);
@@ -426,9 +426,9 @@ class GameplayBottomPainter extends CustomPainter {
     path_7.lineTo(120.94799999999998, 8);
     path_7.close();
 
-    Paint paint_7_fill = Paint()..style = PaintingStyle.fill;
-    paint_7_fill.shader = ui.Gradient.linear(const Offset(0, 0), Offset(0, size.height), darkAccentGradient, [0.0, 1.0]);
-    canvas.drawPath(path_7, paint_7_fill);
+    Paint paint7Fill = Paint()..style = PaintingStyle.fill;
+    paint7Fill.shader = ui.Gradient.linear(const Offset(0, 0), Offset(0, size.height), darkAccentGradient, [0.0, 1.0]);
+    canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
     path_8.moveTo(121.948, 9);
@@ -466,14 +466,14 @@ class GameplayBottomPainter extends CustomPainter {
     path_8.lineTo(121.94799999999998, 9);
     path_8.close();
 
-    Paint paint_8_fill = Paint()..style = PaintingStyle.fill;
-    paint_8_fill.shader = ui.Gradient.linear(
+    Paint paint8Fill = Paint()..style = PaintingStyle.fill;
+    paint8Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5311734, size.height * -13.72549),
       Offset(size.width * 0.5495609, size.height * 0.3326275),
       [Color(0xffffffff).withOpacity(1), Color(0xffffffff).withOpacity(0)],
       [0.253, 0.807],
     );
-    canvas.drawPath(path_8, paint_8_fill);
+    canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
     path_9.moveTo(136.948, 8);
@@ -511,9 +511,9 @@ class GameplayBottomPainter extends CustomPainter {
     path_9.lineTo(136.948, 8);
     path_9.close();
 
-    Paint paint_9_fill = Paint()..style = PaintingStyle.fill;
-    paint_9_fill.shader = ui.Gradient.linear(const Offset(0, 0), Offset(0, size.height), darkAccentGradient, [0.0, 1.0]);
-    canvas.drawPath(path_9, paint_9_fill);
+    Paint paint9Fill = Paint()..style = PaintingStyle.fill;
+    paint9Fill.shader = ui.Gradient.linear(const Offset(0, 0), Offset(0, size.height), darkAccentGradient, [0.0, 1.0]);
+    canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
     path_10.moveTo(137.948, 9);
@@ -551,14 +551,14 @@ class GameplayBottomPainter extends CustomPainter {
     path_10.lineTo(137.948, 9);
     path_10.close();
 
-    Paint paint_10_fill = Paint()..style = PaintingStyle.fill;
-    paint_10_fill.shader = ui.Gradient.linear(
+    Paint paint10Fill = Paint()..style = PaintingStyle.fill;
+    paint10Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5311734, size.height * -13.72549),
       Offset(size.width * 0.5495609, size.height * 0.3326275),
       [Color(0xffffffff).withOpacity(1), Color(0xffffffff).withOpacity(0)],
       [0.253, 0.807],
     );
-    canvas.drawPath(path_10, paint_10_fill);
+    canvas.drawPath(path_10, paint10Fill);
   }
 
   @override
@@ -654,9 +654,9 @@ class GameplayTopPainter extends CustomPainter {
     path_0.cubicTo(28.775, 24.577, 0.028, 51.046, 0.028, 87.159);
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.shader = ui.Gradient.linear(Offset(0, size.height), const Offset(0, 0), baseGradient, [0.5, 1.0]);
-    canvas.drawPath(path_0, paint_0_fill);
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.shader = ui.Gradient.linear(Offset(0, size.height), const Offset(0, 0), baseGradient, [0.5, 1.0]);
+    canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
     path_1.moveTo(0.056, 87.128);
@@ -727,14 +727,14 @@ class GameplayTopPainter extends CustomPainter {
     path_1.cubicTo(28.787, 24.6, 0.056, 51.063, 0.056, 87.129);
     path_1.close();
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.shader = ui.Gradient.linear(
+    Paint paint1Fill = Paint()..style = PaintingStyle.fill;
+    paint1Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5000097, size.height * -60.16944),
       Offset(size.width * 0.5000097, size.height * 0.8922685),
       [Color(0xffffffff).withOpacity(1), Color(0xffffffff).withOpacity(0)],
       [0.216, 0.923],
     );
-    canvas.drawPath(path_1, paint_1_fill);
+    canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
     path_2.moveTo(285.066, 32.865);
@@ -892,9 +892,9 @@ class GameplayTopPainter extends CustomPainter {
     );
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.shader = ui.Gradient.linear(Offset(0, size.height), const Offset(0, 0), baseGradient, [0.5, 1.0]);
-    canvas.drawPath(path_2, paint_2_fill);
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.shader = ui.Gradient.linear(Offset(0, size.height), const Offset(0, 0), baseGradient, [0.5, 1.0]);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(0.028, 87.501);
@@ -928,9 +928,9 @@ class GameplayTopPainter extends CustomPainter {
     path_3.lineTo(0.028, 87.501);
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.shader = ui.Gradient.linear(Offset(0, size.height), const Offset(0, 0), highlightGradient, [0.5, 1.0]);
-    canvas.drawPath(path_3, paint_3_fill);
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.shader = ui.Gradient.linear(Offset(0, size.height), const Offset(0, 0), highlightGradient, [0.5, 1.0]);
+    canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
     path_4.moveTo(130.571, 107.538);
@@ -953,9 +953,9 @@ class GameplayTopPainter extends CustomPainter {
     );
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.shader = ui.Gradient.linear(Offset(0, size.height), const Offset(0, 0), baseGradient, [0.5, 1.0]);
-    canvas.drawPath(path_4, paint_4_fill);
+    Paint paint4Fill = Paint()..style = PaintingStyle.fill;
+    paint4Fill.shader = ui.Gradient.linear(Offset(0, size.height), const Offset(0, 0), baseGradient, [0.5, 1.0]);
+    canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
     path_5.moveTo(130.571, 107.538);
@@ -978,9 +978,9 @@ class GameplayTopPainter extends CustomPainter {
     );
     path_5.close();
 
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.shader = ui.Gradient.linear(Offset(0, size.height), const Offset(0, 0), baseGradient, [0.5, 1.0]);
-    canvas.drawPath(path_5, paint_5_fill);
+    Paint paint5Fill = Paint()..style = PaintingStyle.fill;
+    paint5Fill.shader = ui.Gradient.linear(Offset(0, size.height), const Offset(0, 0), baseGradient, [0.5, 1.0]);
+    canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
     path_6.moveTo(130.571, 107.538);
@@ -1003,14 +1003,14 @@ class GameplayTopPainter extends CustomPainter {
     );
     path_6.close();
 
-    Paint paint_6_fill = Paint()..style = PaintingStyle.fill;
-    paint_6_fill.shader = ui.Gradient.linear(
+    Paint paint6Fill = Paint()..style = PaintingStyle.fill;
+    paint6Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5000243, size.height * -14.51759),
       Offset(size.width * 0.5000243, size.height * 0.8307870),
       [Color(0xffffffff).withOpacity(1), Color(0xffffffff).withOpacity(0)],
       [0.29, 0.923],
     );
-    canvas.drawPath(path_6, paint_6_fill);
+    canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
     path_7.moveTo(130.531, 107.538);
@@ -1050,9 +1050,9 @@ class GameplayTopPainter extends CustomPainter {
     );
     path_7.close();
 
-    Paint paint_7_fill = Paint()..style = PaintingStyle.fill;
-    paint_7_fill.shader = ui.Gradient.linear(Offset(0, size.height), const Offset(0, 0), baseGradient, [0.5, 1.0]);
-    canvas.drawPath(path_7, paint_7_fill);
+    Paint paint7Fill = Paint()..style = PaintingStyle.fill;
+    paint7Fill.shader = ui.Gradient.linear(Offset(0, size.height), const Offset(0, 0), baseGradient, [0.5, 1.0]);
+    canvas.drawPath(path_7, paint7Fill);
   }
 
   @override

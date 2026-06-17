@@ -60,8 +60,8 @@ class FirstIslandPainter extends CustomPainter {
     );
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.shader = ui.Gradient.linear(
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5637980, size.height * 1.000269),
       Offset(size.width * 0.4478687, size.height * -0.3059701),
       [
@@ -72,7 +72,7 @@ class FirstIslandPainter extends CustomPainter {
       ],
       [0, 0.417, 0.769, 1],
     );
-    canvas.drawPath(path_0, paint_0_fill);
+    canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
     path_1.moveTo(34.268, 56.154);
@@ -87,9 +87,9 @@ class FirstIslandPainter extends CustomPainter {
     path_1.cubicTo(19.988, 49.704, 27.268, 61.844, 34.268, 56.154);
     path_1.close();
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.color = Color(0xffEDE0A9).withOpacity(1.0);
-    canvas.drawPath(path_1, paint_1_fill);
+    Paint paint1Fill = Paint()..style = PaintingStyle.fill;
+    paint1Fill.color = Color(0xffEDE0A9).withOpacity(1.0);
+    canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
     path_2.moveTo(33.978, 51.784);
@@ -122,9 +122,9 @@ class FirstIslandPainter extends CustomPainter {
     );
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.color = Color(0xffCC81B3).withOpacity(1.0);
-    canvas.drawPath(path_2, paint_2_fill);
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.color = Color(0xffCC81B3).withOpacity(1.0);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(98.148, 24.694);
@@ -132,8 +132,8 @@ class FirstIslandPainter extends CustomPainter {
     path_3.cubicTo(98.178, 24.884, 98.158, 24.764, 98.148, 24.694);
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.shader = ui.Gradient.linear(
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.9919394, size.height * 0.3734328),
       Offset(size.width * 0.9913838, size.height * 0.3686269),
       [
@@ -146,7 +146,7 @@ class FirstIslandPainter extends CustomPainter {
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
-    canvas.drawPath(path_3, paint_3_fill);
+    canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
     path_4.moveTo(98.118, 24.594);
@@ -154,8 +154,8 @@ class FirstIslandPainter extends CustomPainter {
     path_4.lineTo(98.118, 24.594);
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.shader = ui.Gradient.linear(
+    Paint paint4Fill = Paint()..style = PaintingStyle.fill;
+    paint4Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.9913535, size.height * 0.3686119),
       Offset(size.width * 0.9911616, size.height * 0.3670149),
       [
@@ -168,7 +168,7 @@ class FirstIslandPainter extends CustomPainter {
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
-    canvas.drawPath(path_4, paint_4_fill);
+    canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
     path_5.moveTo(98.198, 25.023);
@@ -190,8 +190,8 @@ class FirstIslandPainter extends CustomPainter {
     );
     path_5.close();
 
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.shader = ui.Gradient.linear(
+    Paint paint5Fill = Paint()..style = PaintingStyle.fill;
+    paint5Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.9925354, size.height * 0.3791791),
       Offset(size.width * 0.9918687, size.height * 0.3734328),
       [
@@ -204,7 +204,7 @@ class FirstIslandPainter extends CustomPainter {
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
-    canvas.drawPath(path_5, paint_5_fill);
+    canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
     path_6.moveTo(60.318, 66.224);
@@ -242,8 +242,8 @@ class FirstIslandPainter extends CustomPainter {
     );
     path_6.close();
 
-    Paint paint_6_fill = Paint()..style = PaintingStyle.fill;
-    paint_6_fill.shader = ui.Gradient.linear(
+    Paint paint6Fill = Paint()..style = PaintingStyle.fill;
+    paint6Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5637273, size.height * 1.000284),
       Offset(size.width * 0.4776970, size.height * 0.2557612),
       [
@@ -256,7 +256,7 @@ class FirstIslandPainter extends CustomPainter {
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
-    canvas.drawPath(path_6, paint_6_fill);
+    canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
     path_7.moveTo(7.538, 16.674);
@@ -286,8 +286,8 @@ class FirstIslandPainter extends CustomPainter {
     );
     path_7.close();
 
-    Paint paint_7_fill = Paint()..style = PaintingStyle.fill;
-    paint_7_fill.shader = ui.Gradient.linear(
+    Paint paint7Fill = Paint()..style = PaintingStyle.fill;
+    paint7Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5484242, size.height * 0.7330448),
       Offset(size.width * 0.4633434, size.height * -0.3238806),
       [
@@ -298,7 +298,7 @@ class FirstIslandPainter extends CustomPainter {
       ],
       [0, 0.417, 0.769, 1],
     );
-    canvas.drawPath(path_7, paint_7_fill);
+    canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
     path_8.moveTo(89.458, 17.154);
@@ -329,8 +329,8 @@ class FirstIslandPainter extends CustomPainter {
     );
     path_8.close();
 
-    Paint paint_8_fill = Paint()..style = PaintingStyle.fill;
-    paint_8_fill.shader = ui.Gradient.linear(
+    Paint paint8Fill = Paint()..style = PaintingStyle.fill;
+    paint8Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5564646, size.height * 0.7730149),
       Offset(size.width * 0.4860909, size.height * 0.1640448),
       [
@@ -342,7 +342,7 @@ class FirstIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_8, paint_8_fill);
+    canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
     path_9.moveTo(69.748, 39.674);
@@ -364,9 +364,9 @@ class FirstIslandPainter extends CustomPainter {
     );
     path_9.close();
 
-    Paint paint_9_fill = Paint()..style = PaintingStyle.fill;
-    paint_9_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_9, paint_9_fill);
+    Paint paint9Fill = Paint()..style = PaintingStyle.fill;
+    paint9Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
     path_10.moveTo(67.588, 57.924);
@@ -404,9 +404,9 @@ class FirstIslandPainter extends CustomPainter {
     );
     path_10.close();
 
-    Paint paint_10_fill = Paint()..style = PaintingStyle.fill;
-    paint_10_fill.color = Color(0xffFFDD81).withOpacity(1.0);
-    canvas.drawPath(path_10, paint_10_fill);
+    Paint paint10Fill = Paint()..style = PaintingStyle.fill;
+    paint10Fill.color = Color(0xffFFDD81).withOpacity(1.0);
+    canvas.drawPath(path_10, paint10Fill);
 
     Path path_11 = Path();
     path_11.moveTo(96.348, 26.754);
@@ -429,9 +429,9 @@ class FirstIslandPainter extends CustomPainter {
     );
     path_11.close();
 
-    Paint paint_11_fill = Paint()..style = PaintingStyle.fill;
-    paint_11_fill.color = Color(0xffFFDD81).withOpacity(1.0);
-    canvas.drawPath(path_11, paint_11_fill);
+    Paint paint11Fill = Paint()..style = PaintingStyle.fill;
+    paint11Fill.color = Color(0xffFFDD81).withOpacity(1.0);
+    canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
     path_12.moveTo(9.958, 28.654);
@@ -446,9 +446,9 @@ class FirstIslandPainter extends CustomPainter {
     );
     path_12.close();
 
-    Paint paint_12_fill = Paint()..style = PaintingStyle.fill;
-    paint_12_fill.color = Color(0xffD36F3B).withOpacity(1.0);
-    canvas.drawPath(path_12, paint_12_fill);
+    Paint paint12Fill = Paint()..style = PaintingStyle.fill;
+    paint12Fill.color = Color(0xffD36F3B).withOpacity(1.0);
+    canvas.drawPath(path_12, paint12Fill);
 
     Path path_13 = Path();
     path_13.moveTo(9.548, 27.194);
@@ -473,9 +473,9 @@ class FirstIslandPainter extends CustomPainter {
     path_13.cubicTo(12.718, 31.834, 10.318, 28.184, 9.548, 27.194000000000003);
     path_13.close();
 
-    Paint paint_13_fill = Paint()..style = PaintingStyle.fill;
-    paint_13_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_13, paint_13_fill);
+    Paint paint13Fill = Paint()..style = PaintingStyle.fill;
+    paint13Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_13, paint13Fill);
 
     Path path_14 = Path();
     path_14.moveTo(3.978, 27.314);
@@ -490,9 +490,9 @@ class FirstIslandPainter extends CustomPainter {
     path_14.cubicTo(1.6880000000000004, 28.984, 3.208, 27.384, 3.978, 27.314);
     path_14.close();
 
-    Paint paint_14_fill = Paint()..style = PaintingStyle.fill;
-    paint_14_fill.color = Color(0xffE7792C).withOpacity(1.0);
-    canvas.drawPath(path_14, paint_14_fill);
+    Paint paint14Fill = Paint()..style = PaintingStyle.fill;
+    paint14Fill.color = Color(0xffE7792C).withOpacity(1.0);
+    canvas.drawPath(path_14, paint14Fill);
 
     Path path_15 = Path();
     path_15.moveTo(79.448, 52.834);
@@ -556,9 +556,9 @@ class FirstIslandPainter extends CustomPainter {
     );
     path_15.close();
 
-    Paint paint_15_fill = Paint()..style = PaintingStyle.fill;
-    paint_15_fill.color = Color(0xffEDE0A9).withOpacity(1.0);
-    canvas.drawPath(path_15, paint_15_fill);
+    Paint paint15Fill = Paint()..style = PaintingStyle.fill;
+    paint15Fill.color = Color(0xffEDE0A9).withOpacity(1.0);
+    canvas.drawPath(path_15, paint15Fill);
 
     Path path_16 = Path();
     path_16.moveTo(78.818, 47.063);
@@ -584,9 +584,9 @@ class FirstIslandPainter extends CustomPainter {
     path_16.cubicTo(81.758, 52.633, 78.818, 47.063, 78.818, 47.063);
     path_16.close();
 
-    Paint paint_16_fill = Paint()..style = PaintingStyle.fill;
-    paint_16_fill.color = Color(0xffCC81B3).withOpacity(1.0);
-    canvas.drawPath(path_16, paint_16_fill);
+    Paint paint16Fill = Paint()..style = PaintingStyle.fill;
+    paint16Fill.color = Color(0xffCC81B3).withOpacity(1.0);
+    canvas.drawPath(path_16, paint16Fill);
 
     Path path_17 = Path();
     path_17.moveTo(20.598, 47.734);
@@ -626,9 +626,9 @@ class FirstIslandPainter extends CustomPainter {
     );
     path_17.close();
 
-    Paint paint_17_fill = Paint()..style = PaintingStyle.fill;
-    paint_17_fill.color = Color(0xffCC81B3).withOpacity(1.0);
-    canvas.drawPath(path_17, paint_17_fill);
+    Paint paint17Fill = Paint()..style = PaintingStyle.fill;
+    paint17Fill.color = Color(0xffCC81B3).withOpacity(1.0);
+    canvas.drawPath(path_17, paint17Fill);
 
     Path path_18 = Path();
     path_18.moveTo(85.608, 42.904);
@@ -651,9 +651,9 @@ class FirstIslandPainter extends CustomPainter {
     path_18.cubicTo(79.328, 45.444, 84.468, 42.02400000000001, 85.608, 42.904);
     path_18.close();
 
-    Paint paint_18_fill = Paint()..style = PaintingStyle.fill;
-    paint_18_fill.color = Color(0xffEDE0A9).withOpacity(1.0);
-    canvas.drawPath(path_18, paint_18_fill);
+    Paint paint18Fill = Paint()..style = PaintingStyle.fill;
+    paint18Fill.color = Color(0xffEDE0A9).withOpacity(1.0);
+    canvas.drawPath(path_18, paint18Fill);
 
     Path path_19 = Path();
     path_19.moveTo(86.068, 43.353);
@@ -686,9 +686,9 @@ class FirstIslandPainter extends CustomPainter {
     );
     path_19.close();
 
-    Paint paint_19_fill = Paint()..style = PaintingStyle.fill;
-    paint_19_fill.color = Color(0xffCC81B3).withOpacity(1.0);
-    canvas.drawPath(path_19, paint_19_fill);
+    Paint paint19Fill = Paint()..style = PaintingStyle.fill;
+    paint19Fill.color = Color(0xffCC81B3).withOpacity(1.0);
+    canvas.drawPath(path_19, paint19Fill);
 
     Path path_20 = Path();
     path_20.moveTo(54.708, 43.404);
@@ -710,8 +710,8 @@ class FirstIslandPainter extends CustomPainter {
     );
     path_20.close();
 
-    Paint paint_20_fill = Paint()..style = PaintingStyle.fill;
-    paint_20_fill.shader = ui.Gradient.linear(
+    Paint paint20Fill = Paint()..style = PaintingStyle.fill;
+    paint20Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5782929, size.height * 0.5775970),
       Offset(size.width * 0.2553535, size.height * 0.6153284),
       [
@@ -723,7 +723,7 @@ class FirstIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_20, paint_20_fill);
+    canvas.drawPath(path_20, paint20Fill);
 
     Path path_21 = Path();
     path_21.moveTo(22.118, 6.934);
@@ -745,8 +745,8 @@ class FirstIslandPainter extends CustomPainter {
     );
     path_21.close();
 
-    Paint paint_21_fill = Paint()..style = PaintingStyle.fill;
-    paint_21_fill.shader = ui.Gradient.linear(
+    Paint paint21Fill = Paint()..style = PaintingStyle.fill;
+    paint21Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2608687, size.height * 0.1553134),
       Offset(size.width * 0.1020303, size.height * 0.1738657),
       [
@@ -758,7 +758,7 @@ class FirstIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_21, paint_21_fill);
+    canvas.drawPath(path_21, paint21Fill);
 
     Path path_22 = Path();
     path_22.moveTo(56.538, 41.944);
@@ -816,9 +816,9 @@ class FirstIslandPainter extends CustomPainter {
     );
     path_22.close();
 
-    Paint paint_22_fill = Paint()..style = PaintingStyle.fill;
-    paint_22_fill.color = Color(0xff86A500).withOpacity(1.0);
-    canvas.drawPath(path_22, paint_22_fill);
+    Paint paint22Fill = Paint()..style = PaintingStyle.fill;
+    paint22Fill.color = Color(0xff86A500).withOpacity(1.0);
+    canvas.drawPath(path_22, paint22Fill);
 
     Path path_23 = Path();
     path_23.moveTo(35.158, 16.934);
@@ -833,9 +833,9 @@ class FirstIslandPainter extends CustomPainter {
     path_23.cubicTo(35.838, 17.094, 35.548, 17.024, 35.158, 16.934);
     path_23.close();
 
-    Paint paint_23_fill = Paint()..style = PaintingStyle.fill;
-    paint_23_fill.color = Color(0xffA1B3D4).withOpacity(1.0);
-    canvas.drawPath(path_23, paint_23_fill);
+    Paint paint23Fill = Paint()..style = PaintingStyle.fill;
+    paint23Fill.color = Color(0xffA1B3D4).withOpacity(1.0);
+    canvas.drawPath(path_23, paint23Fill);
 
     Path path_24 = Path();
     path_24.moveTo(82.238, 30.154);
@@ -890,9 +890,9 @@ class FirstIslandPainter extends CustomPainter {
     );
     path_24.close();
 
-    Paint paint_24_fill = Paint()..style = PaintingStyle.fill;
-    paint_24_fill.color = Color(0xffEABA13).withOpacity(1.0);
-    canvas.drawPath(path_24, paint_24_fill);
+    Paint paint24Fill = Paint()..style = PaintingStyle.fill;
+    paint24Fill.color = Color(0xffEABA13).withOpacity(1.0);
+    canvas.drawPath(path_24, paint24Fill);
 
     Path path_25 = Path();
     path_25.moveTo(29.488, 28.164);
@@ -1001,9 +1001,9 @@ class FirstIslandPainter extends CustomPainter {
     );
     path_25.close();
 
-    Paint paint_25_fill = Paint()..style = PaintingStyle.fill;
-    paint_25_fill.color = Color(0xffB0FF00).withOpacity(1.0);
-    canvas.drawPath(path_25, paint_25_fill);
+    Paint paint25Fill = Paint()..style = PaintingStyle.fill;
+    paint25Fill.color = Color(0xffB0FF00).withOpacity(1.0);
+    canvas.drawPath(path_25, paint25Fill);
   }
 
   @override
@@ -1103,8 +1103,8 @@ class SecondIslandPainter extends CustomPainter {
     );
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.shader = ui.Gradient.linear(
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4977434, size.height * 0.9980123),
       Offset(size.width * 0.4977434, size.height * -0.01111111),
       [
@@ -1115,7 +1115,7 @@ class SecondIslandPainter extends CustomPainter {
       ],
       [0, 0.417, 0.769, 1],
     );
-    canvas.drawPath(path_0, paint_0_fill);
+    canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
     path_1.moveTo(111.914, 40.785);
@@ -1130,8 +1130,8 @@ class SecondIslandPainter extends CustomPainter {
     path_1.lineTo(111.914, 40.785);
     path_1.close();
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.shader = ui.Gradient.linear(
+    Paint paint1Fill = Paint()..style = PaintingStyle.fill;
+    paint1Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.9904425, size.height * 0.5039012),
       Offset(size.width * 0.9904425, size.height * 0.5035679),
       [
@@ -1144,7 +1144,7 @@ class SecondIslandPainter extends CustomPainter {
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
-    canvas.drawPath(path_1, paint_1_fill);
+    canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
     path_2.moveTo(22.644, 69.396);
@@ -1193,8 +1193,8 @@ class SecondIslandPainter extends CustomPainter {
     );
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.shader = ui.Gradient.linear(
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4977345, size.height * 0.9980370),
       Offset(size.width * 0.4977345, size.height * 0.3452222),
       [
@@ -1207,7 +1207,7 @@ class SecondIslandPainter extends CustomPainter {
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
-    canvas.drawPath(path_2, paint_2_fill);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(6.994, 58.115);
@@ -1245,8 +1245,8 @@ class SecondIslandPainter extends CustomPainter {
     );
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.shader = ui.Gradient.linear(
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4846637, size.height * 0.9980123),
       Offset(size.width * 0.4846637, size.height * 0.7174815),
       [
@@ -1259,7 +1259,7 @@ class SecondIslandPainter extends CustomPainter {
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
-    canvas.drawPath(path_3, paint_3_fill);
+    canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
     path_4.moveTo(91.964, 19.475);
@@ -1282,8 +1282,8 @@ class SecondIslandPainter extends CustomPainter {
     );
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.shader = ui.Gradient.linear(
+    Paint paint4Fill = Paint()..style = PaintingStyle.fill;
+    paint4Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5046195, size.height * 0.7294938),
       Offset(size.width * 0.5046195, size.height * 0.02988889),
       [
@@ -1294,7 +1294,7 @@ class SecondIslandPainter extends CustomPainter {
       ],
       [0, 0.417, 0.769, 1],
     );
-    canvas.drawPath(path_4, paint_4_fill);
+    canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
     path_5.moveTo(96.704, 29.866);
@@ -1341,8 +1341,8 @@ class SecondIslandPainter extends CustomPainter {
     );
     path_5.close();
 
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.shader = ui.Gradient.linear(
+    Paint paint5Fill = Paint()..style = PaintingStyle.fill;
+    paint5Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5046195, size.height * 0.7683457),
       Offset(size.width * 0.5046195, size.height * 0.1631235),
       [
@@ -1354,7 +1354,7 @@ class SecondIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_5, paint_5_fill);
+    canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
     path_6.moveTo(74.184, 52.746);
@@ -1402,9 +1402,9 @@ class SecondIslandPainter extends CustomPainter {
     );
     path_6.close();
 
-    Paint paint_6_fill = Paint()..style = PaintingStyle.fill;
-    paint_6_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_6, paint_6_fill);
+    Paint paint6Fill = Paint()..style = PaintingStyle.fill;
+    paint6Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
     path_7.moveTo(42.404, 4.835);
@@ -1426,8 +1426,8 @@ class SecondIslandPainter extends CustomPainter {
     );
     path_7.close();
 
-    Paint paint_7_fill = Paint()..style = PaintingStyle.fill;
-    paint_7_fill.shader = ui.Gradient.linear(
+    Paint paint7Fill = Paint()..style = PaintingStyle.fill;
+    paint7Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3986637, size.height * 0.1002840),
       Offset(size.width * 0.2906372, size.height * 0.09962963),
       [
@@ -1439,7 +1439,7 @@ class SecondIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_7, paint_7_fill);
+    canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
     path_8.moveTo(44.604, 7.286);
@@ -1463,9 +1463,9 @@ class SecondIslandPainter extends CustomPainter {
     );
     path_8.close();
 
-    Paint paint_8_fill = Paint()..style = PaintingStyle.fill;
-    paint_8_fill.color = Color(0xff86A500).withOpacity(1.0);
-    canvas.drawPath(path_8, paint_8_fill);
+    Paint paint8Fill = Paint()..style = PaintingStyle.fill;
+    paint8Fill.color = Color(0xff86A500).withOpacity(1.0);
+    canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
     path_9.moveTo(49.434, 46.656);
@@ -1487,8 +1487,8 @@ class SecondIslandPainter extends CustomPainter {
     );
     path_9.close();
 
-    Paint paint_9_fill = Paint()..style = PaintingStyle.fill;
-    paint_9_fill.shader = ui.Gradient.linear(
+    Paint paint9Fill = Paint()..style = PaintingStyle.fill;
+    paint9Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4689735, size.height * 0.5077284),
       Offset(size.width * 0.1806903, size.height * 0.4550370),
       [
@@ -1500,7 +1500,7 @@ class SecondIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_9, paint_9_fill);
+    canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
     path_10.moveTo(51.524, 45.455);
@@ -1510,9 +1510,9 @@ class SecondIslandPainter extends CustomPainter {
     path_10.cubicTo(48.194, 48.864999999999995, 51.524, 45.455, 51.524, 45.455);
     path_10.close();
 
-    Paint paint_10_fill = Paint()..style = PaintingStyle.fill;
-    paint_10_fill.color = Color(0xff86A500).withOpacity(1.0);
-    canvas.drawPath(path_10, paint_10_fill);
+    Paint paint10Fill = Paint()..style = PaintingStyle.fill;
+    paint10Fill.color = Color(0xff86A500).withOpacity(1.0);
+    canvas.drawPath(path_10, paint10Fill);
 
     Path path_11 = Path();
     path_11.moveTo(50.164, 24.615);
@@ -1533,9 +1533,9 @@ class SecondIslandPainter extends CustomPainter {
     path_11.cubicTo(26.794, 44.896, 39.824, 56.516, 62.074, 55.156);
     path_11.close();
 
-    Paint paint_11_fill = Paint()..style = PaintingStyle.fill;
-    paint_11_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_11, paint_11_fill);
+    Paint paint11Fill = Paint()..style = PaintingStyle.fill;
+    paint11Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
     path_12.moveTo(40.464, 69.475);
@@ -1559,9 +1559,9 @@ class SecondIslandPainter extends CustomPainter {
     path_12.cubicTo(0.3839999999999959, 59.985, 40.464, 69.475, 40.464, 69.475);
     path_12.close();
 
-    Paint paint_12_fill = Paint()..style = PaintingStyle.fill;
-    paint_12_fill.color = Color(0xffFFDD81).withOpacity(1.0);
-    canvas.drawPath(path_12, paint_12_fill);
+    Paint paint12Fill = Paint()..style = PaintingStyle.fill;
+    paint12Fill.color = Color(0xffFFDD81).withOpacity(1.0);
+    canvas.drawPath(path_12, paint12Fill);
 
     Path path_13 = Path();
     path_13.moveTo(105.024, 57.515);
@@ -1617,9 +1617,9 @@ class SecondIslandPainter extends CustomPainter {
     );
     path_13.close();
 
-    Paint paint_13_fill = Paint()..style = PaintingStyle.fill;
-    paint_13_fill.color = Color(0xffFFDD81).withOpacity(1.0);
-    canvas.drawPath(path_13, paint_13_fill);
+    Paint paint13Fill = Paint()..style = PaintingStyle.fill;
+    paint13Fill.color = Color(0xffFFDD81).withOpacity(1.0);
+    canvas.drawPath(path_13, paint13Fill);
 
     Path path_14 = Path();
     path_14.moveTo(54.454, 10.935);
@@ -1674,9 +1674,9 @@ class SecondIslandPainter extends CustomPainter {
     );
     path_14.close();
 
-    Paint paint_14_fill = Paint()..style = PaintingStyle.fill;
-    paint_14_fill.color = Color(0xffEABA13).withOpacity(1.0);
-    canvas.drawPath(path_14, paint_14_fill);
+    Paint paint14Fill = Paint()..style = PaintingStyle.fill;
+    paint14Fill.color = Color(0xffEABA13).withOpacity(1.0);
+    canvas.drawPath(path_14, paint14Fill);
 
     Path path_15 = Path();
     path_15.moveTo(34.124, 60.925);
@@ -1724,9 +1724,9 @@ class SecondIslandPainter extends CustomPainter {
     );
     path_15.close();
 
-    Paint paint_15_fill = Paint()..style = PaintingStyle.fill;
-    paint_15_fill.color = Color(0xffEDE0A9).withOpacity(1.0);
-    canvas.drawPath(path_15, paint_15_fill);
+    Paint paint15Fill = Paint()..style = PaintingStyle.fill;
+    paint15Fill.color = Color(0xffEDE0A9).withOpacity(1.0);
+    canvas.drawPath(path_15, paint15Fill);
 
     Path path_16 = Path();
     path_16.moveTo(34.924, 57.065);
@@ -1766,9 +1766,9 @@ class SecondIslandPainter extends CustomPainter {
     path_16.cubicTo(35.644, 58.235, 34.924, 57.065, 34.924, 57.065);
     path_16.close();
 
-    Paint paint_16_fill = Paint()..style = PaintingStyle.fill;
-    paint_16_fill.color = Color(0xffCC81B3).withOpacity(1.0);
-    canvas.drawPath(path_16, paint_16_fill);
+    Paint paint16Fill = Paint()..style = PaintingStyle.fill;
+    paint16Fill.color = Color(0xffCC81B3).withOpacity(1.0);
+    canvas.drawPath(path_16, paint16Fill);
 
     Path path_17 = Path();
     path_17.moveTo(50.784, 63.486);
@@ -1776,9 +1776,9 @@ class SecondIslandPainter extends CustomPainter {
     path_17.cubicTo(47.174, 62.866, 50.273999999999994, 62.596, 50.784, 63.486);
     path_17.close();
 
-    Paint paint_17_fill = Paint()..style = PaintingStyle.fill;
-    paint_17_fill.color = Color(0xffEDE0A9).withOpacity(1.0);
-    canvas.drawPath(path_17, paint_17_fill);
+    Paint paint17Fill = Paint()..style = PaintingStyle.fill;
+    paint17Fill.color = Color(0xffEDE0A9).withOpacity(1.0);
+    canvas.drawPath(path_17, paint17Fill);
 
     Path path_18 = Path();
     path_18.moveTo(50.784, 63.485);
@@ -1859,9 +1859,9 @@ class SecondIslandPainter extends CustomPainter {
     );
     path_18.close();
 
-    Paint paint_18_fill = Paint()..style = PaintingStyle.fill;
-    paint_18_fill.color = Color(0xffCC81B3).withOpacity(1.0);
-    canvas.drawPath(path_18, paint_18_fill);
+    Paint paint18Fill = Paint()..style = PaintingStyle.fill;
+    paint18Fill.color = Color(0xffCC81B3).withOpacity(1.0);
+    canvas.drawPath(path_18, paint18Fill);
 
     Path path_19 = Path();
     path_19.moveTo(45.894, 67.135);
@@ -1883,9 +1883,9 @@ class SecondIslandPainter extends CustomPainter {
     );
     path_19.close();
 
-    Paint paint_19_fill = Paint()..style = PaintingStyle.fill;
-    paint_19_fill.color = Color(0xffEDE0A9).withOpacity(1.0);
-    canvas.drawPath(path_19, paint_19_fill);
+    Paint paint19Fill = Paint()..style = PaintingStyle.fill;
+    paint19Fill.color = Color(0xffEDE0A9).withOpacity(1.0);
+    canvas.drawPath(path_19, paint19Fill);
 
     Path path_20 = Path();
     path_20.moveTo(45.914, 61.916);
@@ -1918,9 +1918,9 @@ class SecondIslandPainter extends CustomPainter {
     );
     path_20.close();
 
-    Paint paint_20_fill = Paint()..style = PaintingStyle.fill;
-    paint_20_fill.color = Color(0xffCC81B3).withOpacity(1.0);
-    canvas.drawPath(path_20, paint_20_fill);
+    Paint paint20Fill = Paint()..style = PaintingStyle.fill;
+    paint20Fill.color = Color(0xffCC81B3).withOpacity(1.0);
+    canvas.drawPath(path_20, paint20Fill);
 
     Path path_21 = Path();
     path_21.moveTo(15.994, 22.475);
@@ -1935,9 +1935,9 @@ class SecondIslandPainter extends CustomPainter {
     path_21.cubicTo(5.164, 25.905, 15.934, 28.095000000000002, 15.994, 22.475);
     path_21.close();
 
-    Paint paint_21_fill = Paint()..style = PaintingStyle.fill;
-    paint_21_fill.color = Color(0xffD36F3B).withOpacity(1.0);
-    canvas.drawPath(path_21, paint_21_fill);
+    Paint paint21Fill = Paint()..style = PaintingStyle.fill;
+    paint21Fill.color = Color(0xffD36F3B).withOpacity(1.0);
+    canvas.drawPath(path_21, paint21Fill);
 
     Path path_22 = Path();
     path_22.moveTo(15.684, 20.695);
@@ -1976,9 +1976,9 @@ class SecondIslandPainter extends CustomPainter {
     );
     path_22.close();
 
-    Paint paint_22_fill = Paint()..style = PaintingStyle.fill;
-    paint_22_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_22, paint_22_fill);
+    Paint paint22Fill = Paint()..style = PaintingStyle.fill;
+    paint22Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_22, paint22Fill);
 
     Path path_23 = Path();
     path_23.moveTo(10.044, 20.255);
@@ -1993,9 +1993,9 @@ class SecondIslandPainter extends CustomPainter {
     );
     path_23.close();
 
-    Paint paint_23_fill = Paint()..style = PaintingStyle.fill;
-    paint_23_fill.color = Color(0xffE7792C).withOpacity(1.0);
-    canvas.drawPath(path_23, paint_23_fill);
+    Paint paint23Fill = Paint()..style = PaintingStyle.fill;
+    paint23Fill.color = Color(0xffE7792C).withOpacity(1.0);
+    canvas.drawPath(path_23, paint23Fill);
 
     Path path_24 = Path();
     path_24.moveTo(106.644, 40.925);
@@ -2010,9 +2010,9 @@ class SecondIslandPainter extends CustomPainter {
     );
     path_24.close();
 
-    Paint paint_24_fill = Paint()..style = PaintingStyle.fill;
-    paint_24_fill.color = Color(0xffD36F3B).withOpacity(1.0);
-    canvas.drawPath(path_24, paint_24_fill);
+    Paint paint24Fill = Paint()..style = PaintingStyle.fill;
+    paint24Fill.color = Color(0xffD36F3B).withOpacity(1.0);
+    canvas.drawPath(path_24, paint24Fill);
 
     Path path_25 = Path();
     path_25.moveTo(106.434, 39.145);
@@ -2058,9 +2058,9 @@ class SecondIslandPainter extends CustomPainter {
     );
     path_25.close();
 
-    Paint paint_25_fill = Paint()..style = PaintingStyle.fill;
-    paint_25_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_25, paint_25_fill);
+    Paint paint25Fill = Paint()..style = PaintingStyle.fill;
+    paint25Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_25, paint25Fill);
 
     Path path_26 = Path();
     path_26.moveTo(102.654, 38.705);
@@ -2082,9 +2082,9 @@ class SecondIslandPainter extends CustomPainter {
     );
     path_26.close();
 
-    Paint paint_26_fill = Paint()..style = PaintingStyle.fill;
-    paint_26_fill.color = Color(0xffE7792C).withOpacity(1.0);
-    canvas.drawPath(path_26, paint_26_fill);
+    Paint paint26Fill = Paint()..style = PaintingStyle.fill;
+    paint26Fill.color = Color(0xffE7792C).withOpacity(1.0);
+    canvas.drawPath(path_26, paint26Fill);
 
     Path path_27 = Path();
     path_27.moveTo(68.894, 21.516);
@@ -2208,9 +2208,9 @@ class SecondIslandPainter extends CustomPainter {
     );
     path_27.close();
 
-    Paint paint_27_fill = Paint()..style = PaintingStyle.fill;
-    paint_27_fill.color = Color(0xffB0FF00).withOpacity(1.0);
-    canvas.drawPath(path_27, paint_27_fill);
+    Paint paint27Fill = Paint()..style = PaintingStyle.fill;
+    paint27Fill.color = Color(0xffB0FF00).withOpacity(1.0);
+    canvas.drawPath(path_27, paint27Fill);
 
     Path path_28 = Path();
     path_28.moveTo(69.414, 23.416);
@@ -2218,9 +2218,9 @@ class SecondIslandPainter extends CustomPainter {
     path_28.cubicTo(67.364, 24.386, 67.384, 22.816, 69.414, 23.416);
     path_28.close();
 
-    Paint paint_28_fill = Paint()..style = PaintingStyle.fill;
-    paint_28_fill.color = Color(0xffB0FF00).withOpacity(1.0);
-    canvas.drawPath(path_28, paint_28_fill);
+    Paint paint28Fill = Paint()..style = PaintingStyle.fill;
+    paint28Fill.color = Color(0xffB0FF00).withOpacity(1.0);
+    canvas.drawPath(path_28, paint28Fill);
   }
 
   @override
@@ -2323,8 +2323,8 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.shader = ui.Gradient.linear(
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4986721, size.height * 0.9983409),
       Offset(size.width * 0.4986721, size.height * 0.07239394),
       [
@@ -2335,7 +2335,7 @@ class ThirdIslandPainter extends CustomPainter {
       ],
       [0, 0.417, 0.769, 1],
     );
-    canvas.drawPath(path_0, paint_0_fill);
+    canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
     path_1.moveTo(37.569, 126.498);
@@ -2413,8 +2413,8 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_1.close();
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.shader = ui.Gradient.linear(
+    Paint paint1Fill = Paint()..style = PaintingStyle.fill;
+    paint1Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4986721, size.height * 0.9983409),
       Offset(size.width * 0.4986721, size.height * 0.5770909),
       [
@@ -2427,7 +2427,7 @@ class ThirdIslandPainter extends CustomPainter {
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
-    canvas.drawPath(path_1, paint_1_fill);
+    canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
     path_2.moveTo(235.209, 84.518);
@@ -2497,8 +2497,8 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.shader = ui.Gradient.linear(
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5229631, size.height * 0.8656667),
       Offset(size.width * 0.5229631, size.height * 0.1122803),
       [
@@ -2509,7 +2509,7 @@ class ThirdIslandPainter extends CustomPainter {
       ],
       [0, 0.417, 0.769, 1],
     );
-    canvas.drawPath(path_2, paint_2_fill);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(232.669, 62.707);
@@ -2611,8 +2611,8 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.shader = ui.Gradient.linear(
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5260943, size.height * 0.8836591),
       Offset(size.width * 0.5260943, size.height * 0.4750227),
       [
@@ -2624,7 +2624,7 @@ class ThirdIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_3, paint_3_fill);
+    canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
     path_4.moveTo(86.37, 63.148);
@@ -2657,8 +2657,8 @@ class ThirdIslandPainter extends CustomPainter {
     path_4.cubicTo(89.37, 60.298, 86.37, 63.148, 86.37, 63.148);
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.shader = ui.Gradient.linear(
+    Paint paint4Fill = Paint()..style = PaintingStyle.fill;
+    paint4Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3347459, size.height * 0.4784167),
       Offset(size.width * 0.3347459, size.height * 0.3814091),
       [
@@ -2670,7 +2670,7 @@ class ThirdIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_4, paint_4_fill);
+    canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
     path_5.moveTo(104.529, 87.578);
@@ -2686,9 +2686,9 @@ class ThirdIslandPainter extends CustomPainter {
     path_5.cubicTo(23.319, 73.638, 70.59899999999999, 52.518, 104.529, 87.578);
     path_5.close();
 
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_5, paint_5_fill);
+    Paint paint5Fill = Paint()..style = PaintingStyle.fill;
+    paint5Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
     path_6.moveTo(225.589, 76.887);
@@ -2738,9 +2738,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_6.close();
 
-    Paint paint_6_fill = Paint()..style = PaintingStyle.fill;
-    paint_6_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_6, paint_6_fill);
+    Paint paint6Fill = Paint()..style = PaintingStyle.fill;
+    paint6Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
     path_7.moveTo(66.54, 125.967);
@@ -2778,9 +2778,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_7.close();
 
-    Paint paint_7_fill = Paint()..style = PaintingStyle.fill;
-    paint_7_fill.color = Color(0xffFFDD81).withOpacity(1.0);
-    canvas.drawPath(path_7, paint_7_fill);
+    Paint paint7Fill = Paint()..style = PaintingStyle.fill;
+    paint7Fill.color = Color(0xffFFDD81).withOpacity(1.0);
+    canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
     path_8.moveTo(223.919, 108.727);
@@ -2850,9 +2850,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_8.close();
 
-    Paint paint_8_fill = Paint()..style = PaintingStyle.fill;
-    paint_8_fill.color = Color(0xffFFDD81).withOpacity(1.0);
-    canvas.drawPath(path_8, paint_8_fill);
+    Paint paint8Fill = Paint()..style = PaintingStyle.fill;
+    paint8Fill.color = Color(0xffFFDD81).withOpacity(1.0);
+    canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
     path_9.moveTo(189.319, 116.648);
@@ -2874,9 +2874,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_9.close();
 
-    Paint paint_9_fill = Paint()..style = PaintingStyle.fill;
-    paint_9_fill.color = Color(0xffFFDD81).withOpacity(1.0);
-    canvas.drawPath(path_9, paint_9_fill);
+    Paint paint9Fill = Paint()..style = PaintingStyle.fill;
+    paint9Fill.color = Color(0xffFFDD81).withOpacity(1.0);
+    canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
     path_10.moveTo(1.249, 102.138);
@@ -2914,8 +2914,8 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_10.close();
 
-    Paint paint_10_fill = Paint()..style = PaintingStyle.fill;
-    paint_10_fill.shader = ui.Gradient.linear(
+    Paint paint10Fill = Paint()..style = PaintingStyle.fill;
+    paint10Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5121352, size.height * 0.8860455),
       Offset(size.width * 0.005118852, size.height * 0.8860455),
       [
@@ -2928,7 +2928,7 @@ class ThirdIslandPainter extends CustomPainter {
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
-    canvas.drawPath(path_10, paint_10_fill);
+    canvas.drawPath(path_10, paint10Fill);
 
     Path path_11 = Path();
     path_11.moveTo(157.699, 118.748);
@@ -2966,8 +2966,8 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_11.close();
 
-    Paint paint_11_fill = Paint()..style = PaintingStyle.fill;
-    paint_11_fill.shader = ui.Gradient.linear(
+    Paint paint11Fill = Paint()..style = PaintingStyle.fill;
+    paint11Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.9964467, size.height * 0.8371818),
       Offset(size.width * 0.6463279, size.height * 0.8371818),
       [
@@ -2980,7 +2980,7 @@ class ThirdIslandPainter extends CustomPainter {
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
-    canvas.drawPath(path_11, paint_11_fill);
+    canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
     path_12.moveTo(49.48, 71.357);
@@ -3002,8 +3002,8 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_12.close();
 
-    Paint paint_12_fill = Paint()..style = PaintingStyle.fill;
-    paint_12_fill.shader = ui.Gradient.linear(
+    Paint paint12Fill = Paint()..style = PaintingStyle.fill;
+    paint12Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2177008, size.height * 0.5905682),
       Offset(size.width * 0.1055820, size.height * 0.5905682),
       [
@@ -3015,7 +3015,7 @@ class ThirdIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_12, paint_12_fill);
+    canvas.drawPath(path_12, paint12Fill);
 
     Path path_13 = Path();
     path_13.moveTo(138.559, 20.448);
@@ -3030,8 +3030,8 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_13.close();
 
-    Paint paint_13_fill = Paint()..style = PaintingStyle.fill;
-    paint_13_fill.shader = ui.Gradient.linear(
+    Paint paint13Fill = Paint()..style = PaintingStyle.fill;
+    paint13Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6227582, size.height * 0.2681061),
       Offset(size.width * 0.3478443, size.height * 0.2681061),
       [
@@ -3043,7 +3043,7 @@ class ThirdIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_13, paint_13_fill);
+    canvas.drawPath(path_13, paint13Fill);
 
     Path path_14 = Path();
     path_14.moveTo(184.549, 23.638);
@@ -3065,8 +3065,8 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_14.close();
 
-    Paint paint_14_fill = Paint()..style = PaintingStyle.fill;
-    paint_14_fill.shader = ui.Gradient.linear(
+    Paint paint14Fill = Paint()..style = PaintingStyle.fill;
+    paint14Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7672582, size.height * 0.1844394),
       Offset(size.width * 0.6390287, size.height * 0.1844394),
       [
@@ -3078,7 +3078,7 @@ class ThirdIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_14, paint_14_fill);
+    canvas.drawPath(path_14, paint14Fill);
 
     Path path_15 = Path();
     path_15.moveTo(52.48, 75.638);
@@ -3116,9 +3116,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_15.close();
 
-    Paint paint_15_fill = Paint()..style = PaintingStyle.fill;
-    paint_15_fill.color = Color(0xffFFC74B).withOpacity(1.0);
-    canvas.drawPath(path_15, paint_15_fill);
+    Paint paint15Fill = Paint()..style = PaintingStyle.fill;
+    paint15Fill.color = Color(0xffFFC74B).withOpacity(1.0);
+    canvas.drawPath(path_15, paint15Fill);
 
     Path path_16 = Path();
     path_16.moveTo(151.829, 28.577);
@@ -3190,9 +3190,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_16.close();
 
-    Paint paint_16_fill = Paint()..style = PaintingStyle.fill;
-    paint_16_fill.color = Color(0xff9BB900).withOpacity(1.0);
-    canvas.drawPath(path_16, paint_16_fill);
+    Paint paint16Fill = Paint()..style = PaintingStyle.fill;
+    paint16Fill.color = Color(0xff9BB900).withOpacity(1.0);
+    canvas.drawPath(path_16, paint16Fill);
 
     Path path_17 = Path();
     path_17.moveTo(38.55, 120.608);
@@ -3252,9 +3252,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_17.close();
 
-    Paint paint_17_fill = Paint()..style = PaintingStyle.fill;
-    paint_17_fill.color = Color(0xffEDE0A9).withOpacity(1.0);
-    canvas.drawPath(path_17, paint_17_fill);
+    Paint paint17Fill = Paint()..style = PaintingStyle.fill;
+    paint17Fill.color = Color(0xffEDE0A9).withOpacity(1.0);
+    canvas.drawPath(path_17, paint17Fill);
 
     Path path_18 = Path();
     path_18.moveTo(44.67, 121.678);
@@ -3334,9 +3334,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_18.close();
 
-    Paint paint_18_fill = Paint()..style = PaintingStyle.fill;
-    paint_18_fill.color = Color(0xffEDE0A9).withOpacity(1.0);
-    canvas.drawPath(path_18, paint_18_fill);
+    Paint paint18Fill = Paint()..style = PaintingStyle.fill;
+    paint18Fill.color = Color(0xffEDE0A9).withOpacity(1.0);
+    canvas.drawPath(path_18, paint18Fill);
 
     Path path_19 = Path();
     path_19.moveTo(63.11, 119.067);
@@ -3439,9 +3439,9 @@ class ThirdIslandPainter extends CustomPainter {
     path_19.cubicTo(42.35, 115.258, 42.5, 114.048, 41.910000000000004, 113.208);
     path_19.close();
 
-    Paint paint_19_fill = Paint()..style = PaintingStyle.fill;
-    paint_19_fill.color = Color(0xffCC81B3).withOpacity(1.0);
-    canvas.drawPath(path_19, paint_19_fill);
+    Paint paint19Fill = Paint()..style = PaintingStyle.fill;
+    paint19Fill.color = Color(0xffCC81B3).withOpacity(1.0);
+    canvas.drawPath(path_19, paint19Fill);
 
     Path path_20 = Path();
     path_20.moveTo(130.879, 108.997);
@@ -3463,9 +3463,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_20.close();
 
-    Paint paint_20_fill = Paint()..style = PaintingStyle.fill;
-    paint_20_fill.color = Color(0xffEDE0A9).withOpacity(1.0);
-    canvas.drawPath(path_20, paint_20_fill);
+    Paint paint20Fill = Paint()..style = PaintingStyle.fill;
+    paint20Fill.color = Color(0xffEDE0A9).withOpacity(1.0);
+    canvas.drawPath(path_20, paint20Fill);
 
     Path path_21 = Path();
     path_21.moveTo(130.589, 108.277);
@@ -3483,9 +3483,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_21.close();
 
-    Paint paint_21_fill = Paint()..style = PaintingStyle.fill;
-    paint_21_fill.color = Color(0xffCC81B3).withOpacity(1.0);
-    canvas.drawPath(path_21, paint_21_fill);
+    Paint paint21Fill = Paint()..style = PaintingStyle.fill;
+    paint21Fill.color = Color(0xffCC81B3).withOpacity(1.0);
+    canvas.drawPath(path_21, paint21Fill);
 
     Path path_22 = Path();
     path_22.moveTo(216.409, 110.197);
@@ -3493,9 +3493,9 @@ class ThirdIslandPainter extends CustomPainter {
     path_22.cubicTo(208.829, 106.837, 216.409, 108.037, 216.409, 110.197);
     path_22.close();
 
-    Paint paint_22_fill = Paint()..style = PaintingStyle.fill;
-    paint_22_fill.color = Color(0xffEDE0A9).withOpacity(1.0);
-    canvas.drawPath(path_22, paint_22_fill);
+    Paint paint22Fill = Paint()..style = PaintingStyle.fill;
+    paint22Fill.color = Color(0xffEDE0A9).withOpacity(1.0);
+    canvas.drawPath(path_22, paint22Fill);
 
     Path path_23 = Path();
     path_23.moveTo(216.119, 109.477);
@@ -3710,9 +3710,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_23.close();
 
-    Paint paint_23_fill = Paint()..style = PaintingStyle.fill;
-    paint_23_fill.color = Color(0xffCC81B3).withOpacity(1.0);
-    canvas.drawPath(path_23, paint_23_fill);
+    Paint paint23Fill = Paint()..style = PaintingStyle.fill;
+    paint23Fill.color = Color(0xffCC81B3).withOpacity(1.0);
+    canvas.drawPath(path_23, paint23Fill);
 
     Path path_24 = Path();
     path_24.moveTo(18.39, 74.198);
@@ -3735,9 +3735,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_24.close();
 
-    Paint paint_24_fill = Paint()..style = PaintingStyle.fill;
-    paint_24_fill.color = Color(0xffFFDD81).withOpacity(1.0);
-    canvas.drawPath(path_24, paint_24_fill);
+    Paint paint24Fill = Paint()..style = PaintingStyle.fill;
+    paint24Fill.color = Color(0xffFFDD81).withOpacity(1.0);
+    canvas.drawPath(path_24, paint24Fill);
 
     Path path_25 = Path();
     path_25.moveTo(236.499, 100.188);
@@ -3800,8 +3800,8 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_25.close();
 
-    Paint paint_25_fill = Paint()..style = PaintingStyle.fill;
-    paint_25_fill.shader = ui.Gradient.linear(
+    Paint paint25Fill = Paint()..style = PaintingStyle.fill;
+    paint25Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.8092910, size.height * 0.8866136),
       Offset(size.width * 0.8092910, size.height * 0.7589924),
       [
@@ -3813,7 +3813,7 @@ class ThirdIslandPainter extends CustomPainter {
       ],
       [0, 0.059, 0.482, 0.81, 1],
     );
-    canvas.drawPath(path_25, paint_25_fill);
+    canvas.drawPath(path_25, paint25Fill);
 
     Path path_26 = Path();
     path_26.moveTo(133.469, 45.288);
@@ -3942,8 +3942,8 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_26.close();
 
-    Paint paint_26_fill = Paint()..style = PaintingStyle.fill;
-    paint_26_fill.shader = ui.Gradient.linear(
+    Paint paint26Fill = Paint()..style = PaintingStyle.fill;
+    paint26Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6475533, size.height * 0.3735530),
       Offset(size.width * 0.6350779, size.height * 0.2356061),
       [
@@ -3953,7 +3953,7 @@ class ThirdIslandPainter extends CustomPainter {
       ],
       [0, 0.42, 1],
     );
-    canvas.drawPath(path_26, paint_26_fill);
+    canvas.drawPath(path_26, paint26Fill);
 
     Path path_27 = Path();
     path_27.moveTo(133.469, 45.288);
@@ -4089,8 +4089,8 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_27.close();
 
-    Paint paint_27_fill = Paint()..style = PaintingStyle.fill;
-    paint_27_fill.shader = ui.Gradient.linear(
+    Paint paint27Fill = Paint()..style = PaintingStyle.fill;
+    paint27Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6475533, size.height * 0.3735530),
       Offset(size.width * 0.6353361, size.height * 0.01003788),
       [
@@ -4103,7 +4103,7 @@ class ThirdIslandPainter extends CustomPainter {
       ],
       [0, 0.265, 0.522, 0.738, 0.904, 1],
     );
-    canvas.drawPath(path_27, paint_27_fill);
+    canvas.drawPath(path_27, paint27Fill);
 
     Path path_28 = Path();
     path_28.moveTo(154.159, 44.597);
@@ -4133,9 +4133,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_28.close();
 
-    Paint paint_28_fill = Paint()..style = PaintingStyle.fill;
-    paint_28_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_28, paint_28_fill);
+    Paint paint28Fill = Paint()..style = PaintingStyle.fill;
+    paint28Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_28, paint28Fill);
 
     Path path_29 = Path();
     path_29.moveTo(162.269, 34.288);
@@ -4236,9 +4236,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_29.close();
 
-    Paint paint_29_fill = Paint()..style = PaintingStyle.fill;
-    paint_29_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_29, paint_29_fill);
+    Paint paint29Fill = Paint()..style = PaintingStyle.fill;
+    paint29Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_29, paint29Fill);
 
     Path path_30 = Path();
     path_30.moveTo(157.179, 20.148);
@@ -4260,9 +4260,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_30.close();
 
-    Paint paint_30_fill = Paint()..style = PaintingStyle.fill;
-    paint_30_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_30, paint_30_fill);
+    Paint paint30Fill = Paint()..style = PaintingStyle.fill;
+    paint30Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_30, paint30Fill);
 
     Path path_31 = Path();
     path_31.moveTo(224.649, 110.237);
@@ -4300,8 +4300,8 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_31.close();
 
-    Paint paint_31_fill = Paint()..style = PaintingStyle.fill;
-    paint_31_fill.shader = ui.Gradient.linear(
+    Paint paint31Fill = Paint()..style = PaintingStyle.fill;
+    paint31Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.8518115, size.height * 0.8840152),
       Offset(size.width * 0.8518115, size.height * 0.8351364),
       [
@@ -4314,7 +4314,7 @@ class ThirdIslandPainter extends CustomPainter {
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
-    canvas.drawPath(path_31, paint_31_fill);
+    canvas.drawPath(path_31, paint31Fill);
 
     Path path_32 = Path();
     path_32.moveTo(229.579, 71.498);
@@ -4344,9 +4344,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_32.close();
 
-    Paint paint_32_fill = Paint()..style = PaintingStyle.fill;
-    paint_32_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_32, paint_32_fill);
+    Paint paint32Fill = Paint()..style = PaintingStyle.fill;
+    paint32Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_32, paint32Fill);
 
     Path path_33 = Path();
     path_33.moveTo(162.289, 53.447);
@@ -4370,9 +4370,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_33.close();
 
-    Paint paint_33_fill = Paint()..style = PaintingStyle.fill;
-    paint_33_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_33, paint_33_fill);
+    Paint paint33Fill = Paint()..style = PaintingStyle.fill;
+    paint33Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_33, paint33Fill);
 
     Path path_34 = Path();
     path_34.moveTo(201.629, 87.357);
@@ -4387,9 +4387,9 @@ class ThirdIslandPainter extends CustomPainter {
     path_34.cubicTo(137.839, 90.777, 184.219, 100.247, 201.629, 87.357);
     path_34.close();
 
-    Paint paint_34_fill = Paint()..style = PaintingStyle.fill;
-    paint_34_fill.color = Color(0xffA9B1D4).withOpacity(1.0);
-    canvas.drawPath(path_34, paint_34_fill);
+    Paint paint34Fill = Paint()..style = PaintingStyle.fill;
+    paint34Fill.color = Color(0xffA9B1D4).withOpacity(1.0);
+    canvas.drawPath(path_34, paint34Fill);
 
     Path path_35 = Path();
     path_35.moveTo(206.429, 74.497);
@@ -4411,9 +4411,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_35.close();
 
-    Paint paint_35_fill = Paint()..style = PaintingStyle.fill;
-    paint_35_fill.color = Color(0xffA9B1D4).withOpacity(1.0);
-    canvas.drawPath(path_35, paint_35_fill);
+    Paint paint35Fill = Paint()..style = PaintingStyle.fill;
+    paint35Fill.color = Color(0xffA9B1D4).withOpacity(1.0);
+    canvas.drawPath(path_35, paint35Fill);
 
     Path path_36 = Path();
     path_36.moveTo(158.889, 46.357);
@@ -4443,9 +4443,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_36.close();
 
-    Paint paint_36_fill = Paint()..style = PaintingStyle.fill;
-    paint_36_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_36, paint_36_fill);
+    Paint paint36Fill = Paint()..style = PaintingStyle.fill;
+    paint36Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_36, paint36Fill);
 
     Path path_37 = Path();
     path_37.moveTo(209.379, 51.118);
@@ -4477,8 +4477,8 @@ class ThirdIslandPainter extends CustomPainter {
     path_37.cubicTo(202.899, 57.768, 207.569, 52.478, 209.379, 51.118);
     path_37.close();
 
-    Paint paint_37_fill = Paint()..style = PaintingStyle.fill;
-    paint_37_fill.shader = ui.Gradient.linear(
+    Paint paint37Fill = Paint()..style = PaintingStyle.fill;
+    paint37Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7608525, size.height * 0.4345909),
       Offset(size.width * 0.7608525, size.height * 0.2541212),
       [
@@ -4489,7 +4489,7 @@ class ThirdIslandPainter extends CustomPainter {
       ],
       [0, 0.277, 0.754, 1],
     );
-    canvas.drawPath(path_37, paint_37_fill);
+    canvas.drawPath(path_37, paint37Fill);
 
     Path path_38 = Path();
     path_38.moveTo(209.379, 41.188);
@@ -4535,9 +4535,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_38.close();
 
-    Paint paint_38_fill = Paint()..style = PaintingStyle.fill;
-    paint_38_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_38, paint_38_fill);
+    Paint paint38Fill = Paint()..style = PaintingStyle.fill;
+    paint38Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_38, paint38Fill);
 
     Path path_39 = Path();
     path_39.moveTo(207.089, 40.087);
@@ -4575,9 +4575,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_39.close();
 
-    Paint paint_39_fill = Paint()..style = PaintingStyle.fill;
-    paint_39_fill.color = Color(0xffD96840).withOpacity(1.0);
-    canvas.drawPath(path_39, paint_39_fill);
+    Paint paint39Fill = Paint()..style = PaintingStyle.fill;
+    paint39Fill.color = Color(0xffD96840).withOpacity(1.0);
+    canvas.drawPath(path_39, paint39Fill);
 
     Path path_40 = Path();
     path_40.moveTo(201.329, 44.367);
@@ -4593,9 +4593,9 @@ class ThirdIslandPainter extends CustomPainter {
     path_40.lineTo(201.329, 44.367);
     path_40.close();
 
-    Paint paint_40_fill = Paint()..style = PaintingStyle.fill;
-    paint_40_fill.color = Color(0xffB2562B).withOpacity(1.0);
-    canvas.drawPath(path_40, paint_40_fill);
+    Paint paint40Fill = Paint()..style = PaintingStyle.fill;
+    paint40Fill.color = Color(0xffB2562B).withOpacity(1.0);
+    canvas.drawPath(path_40, paint40Fill);
 
     Path path_41 = Path();
     path_41.moveTo(206.319, 41.308);
@@ -4642,9 +4642,9 @@ class ThirdIslandPainter extends CustomPainter {
     path_41.cubicTo(200.319, 45.458, 203.689, 43.648, 206.319, 41.308);
     path_41.close();
 
-    Paint paint_41_fill = Paint()..style = PaintingStyle.fill;
-    paint_41_fill.color = Color(0xffEA8E40).withOpacity(1.0);
-    canvas.drawPath(path_41, paint_41_fill);
+    Paint paint41Fill = Paint()..style = PaintingStyle.fill;
+    paint41Fill.color = Color(0xffEA8E40).withOpacity(1.0);
+    canvas.drawPath(path_41, paint41Fill);
 
     Path path_42 = Path();
     path_42.moveTo(195.679, 41.688);
@@ -4703,9 +4703,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_42.close();
 
-    Paint paint_42_fill = Paint()..style = PaintingStyle.fill;
-    paint_42_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_42, paint_42_fill);
+    Paint paint42Fill = Paint()..style = PaintingStyle.fill;
+    paint42Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_42, paint42Fill);
 
     Path path_43 = Path();
     path_43.moveTo(158.719, 48.667);
@@ -4743,8 +4743,8 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_43.close();
 
-    Paint paint_43_fill = Paint()..style = PaintingStyle.fill;
-    paint_43_fill.shader = ui.Gradient.linear(
+    Paint paint43Fill = Paint()..style = PaintingStyle.fill;
+    paint43Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6156762, size.height * 0.3841364),
       Offset(size.width * 0.6156762, size.height * 0.3221591),
       [
@@ -4755,7 +4755,7 @@ class ThirdIslandPainter extends CustomPainter {
       ],
       [0, 0.277, 0.754, 1],
     );
-    canvas.drawPath(path_43, paint_43_fill);
+    canvas.drawPath(path_43, paint43Fill);
 
     Path path_44 = Path();
     path_44.moveTo(158.719, 48.667);
@@ -4793,9 +4793,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_44.close();
 
-    Paint paint_44_fill = Paint()..style = PaintingStyle.fill;
-    paint_44_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_44, paint_44_fill);
+    Paint paint44Fill = Paint()..style = PaintingStyle.fill;
+    paint44Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_44, paint44Fill);
 
     Path path_45 = Path();
     path_45.moveTo(156.069, 44.308);
@@ -4833,9 +4833,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_45.close();
 
-    Paint paint_45_fill = Paint()..style = PaintingStyle.fill;
-    paint_45_fill.color = Color(0xffD96840).withOpacity(1.0);
-    canvas.drawPath(path_45, paint_45_fill);
+    Paint paint45Fill = Paint()..style = PaintingStyle.fill;
+    paint45Fill.color = Color(0xffD96840).withOpacity(1.0);
+    canvas.drawPath(path_45, paint45Fill);
 
     Path path_46 = Path();
     path_46.moveTo(153.349, 45.617);
@@ -4865,9 +4865,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_46.close();
 
-    Paint paint_46_fill = Paint()..style = PaintingStyle.fill;
-    paint_46_fill.color = Color(0xffB2562B).withOpacity(1.0);
-    canvas.drawPath(path_46, paint_46_fill);
+    Paint paint46Fill = Paint()..style = PaintingStyle.fill;
+    paint46Fill.color = Color(0xffB2562B).withOpacity(1.0);
+    canvas.drawPath(path_46, paint46Fill);
 
     Path path_47 = Path();
     path_47.moveTo(156.069, 44.308);
@@ -4908,9 +4908,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_47.close();
 
-    Paint paint_47_fill = Paint()..style = PaintingStyle.fill;
-    paint_47_fill.color = Color(0xffEA8E40).withOpacity(1.0);
-    canvas.drawPath(path_47, paint_47_fill);
+    Paint paint47Fill = Paint()..style = PaintingStyle.fill;
+    paint47Fill.color = Color(0xffEA8E40).withOpacity(1.0);
+    canvas.drawPath(path_47, paint47Fill);
 
     Path path_48 = Path();
     path_48.moveTo(102.429, 54.638);
@@ -4932,9 +4932,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_48.close();
 
-    Paint paint_48_fill = Paint()..style = PaintingStyle.fill;
-    paint_48_fill.color = Color(0xffA9B1D4).withOpacity(1.0);
-    canvas.drawPath(path_48, paint_48_fill);
+    Paint paint48Fill = Paint()..style = PaintingStyle.fill;
+    paint48Fill.color = Color(0xffA9B1D4).withOpacity(1.0);
+    canvas.drawPath(path_48, paint48Fill);
 
     Path path_49 = Path();
     path_49.moveTo(67.74, 56.748);
@@ -4949,9 +4949,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_49.close();
 
-    Paint paint_49_fill = Paint()..style = PaintingStyle.fill;
-    paint_49_fill.color = Color(0xffFFDD81).withOpacity(1.0);
-    canvas.drawPath(path_49, paint_49_fill);
+    Paint paint49Fill = Paint()..style = PaintingStyle.fill;
+    paint49Fill.color = Color(0xffFFDD81).withOpacity(1.0);
+    canvas.drawPath(path_49, paint49Fill);
 
     Path path_50 = Path();
     path_50.moveTo(99.29, 101.998);
@@ -4966,9 +4966,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_50.close();
 
-    Paint paint_50_fill = Paint()..style = PaintingStyle.fill;
-    paint_50_fill.color = Color(0xffD36F3B).withOpacity(1.0);
-    canvas.drawPath(path_50, paint_50_fill);
+    Paint paint50Fill = Paint()..style = PaintingStyle.fill;
+    paint50Fill.color = Color(0xffD36F3B).withOpacity(1.0);
+    canvas.drawPath(path_50, paint50Fill);
 
     Path path_51 = Path();
     path_51.moveTo(98.93, 100.458);
@@ -5014,9 +5014,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_51.close();
 
-    Paint paint_51_fill = Paint()..style = PaintingStyle.fill;
-    paint_51_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_51, paint_51_fill);
+    Paint paint51Fill = Paint()..style = PaintingStyle.fill;
+    paint51Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_51, paint51Fill);
 
     Path path_52 = Path();
     path_52.moveTo(92.53, 100.077);
@@ -5024,9 +5024,9 @@ class ThirdIslandPainter extends CustomPainter {
     path_52.cubicTo(89.76, 101.587, 91.64, 100.077, 92.53, 100.077);
     path_52.close();
 
-    Paint paint_52_fill = Paint()..style = PaintingStyle.fill;
-    paint_52_fill.color = Color(0xffE7792C).withOpacity(1.0);
-    canvas.drawPath(path_52, paint_52_fill);
+    Paint paint52Fill = Paint()..style = PaintingStyle.fill;
+    paint52Fill.color = Color(0xffE7792C).withOpacity(1.0);
+    canvas.drawPath(path_52, paint52Fill);
 
     Path path_53 = Path();
     path_53.moveTo(171.049, 56.687);
@@ -5048,9 +5048,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_53.close();
 
-    Paint paint_53_fill = Paint()..style = PaintingStyle.fill;
-    paint_53_fill.color = Color(0xffD36F3B).withOpacity(1.0);
-    canvas.drawPath(path_53, paint_53_fill);
+    Paint paint53Fill = Paint()..style = PaintingStyle.fill;
+    paint53Fill.color = Color(0xffD36F3B).withOpacity(1.0);
+    canvas.drawPath(path_53, paint53Fill);
 
     Path path_54 = Path();
     path_54.moveTo(170.699, 55.148);
@@ -5089,9 +5089,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_54.close();
 
-    Paint paint_54_fill = Paint()..style = PaintingStyle.fill;
-    paint_54_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_54, paint_54_fill);
+    Paint paint54Fill = Paint()..style = PaintingStyle.fill;
+    paint54Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_54, paint54Fill);
 
     Path path_55 = Path();
     path_55.moveTo(164.299, 54.767);
@@ -5106,9 +5106,9 @@ class ThirdIslandPainter extends CustomPainter {
     path_55.cubicTo(161.519, 56.277, 163.399, 54.767, 164.299, 54.767);
     path_55.close();
 
-    Paint paint_55_fill = Paint()..style = PaintingStyle.fill;
-    paint_55_fill.color = Color(0xffE7792C).withOpacity(1.0);
-    canvas.drawPath(path_55, paint_55_fill);
+    Paint paint55Fill = Paint()..style = PaintingStyle.fill;
+    paint55Fill.color = Color(0xffE7792C).withOpacity(1.0);
+    canvas.drawPath(path_55, paint55Fill);
 
     Path path_56 = Path();
     path_56.moveTo(129.939, 48.398);
@@ -5224,9 +5224,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_56.close();
 
-    Paint paint_56_fill = Paint()..style = PaintingStyle.fill;
-    paint_56_fill.color = Color(0xffEABA13).withOpacity(1.0);
-    canvas.drawPath(path_56, paint_56_fill);
+    Paint paint56Fill = Paint()..style = PaintingStyle.fill;
+    paint56Fill.color = Color(0xffEABA13).withOpacity(1.0);
+    canvas.drawPath(path_56, paint56Fill);
 
     Path path_57 = Path();
     path_57.moveTo(88.829, 105.948);
@@ -5295,9 +5295,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_57.close();
 
-    Paint paint_57_fill = Paint()..style = PaintingStyle.fill;
-    paint_57_fill.color = Color(0xffB0FF00).withOpacity(1.0);
-    canvas.drawPath(path_57, paint_57_fill);
+    Paint paint57Fill = Paint()..style = PaintingStyle.fill;
+    paint57Fill.color = Color(0xffB0FF00).withOpacity(1.0);
+    canvas.drawPath(path_57, paint57Fill);
 
     Path path_58 = Path();
     path_58.moveTo(82.539, 103.197);
@@ -5384,9 +5384,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_58.close();
 
-    Paint paint_58_fill = Paint()..style = PaintingStyle.fill;
-    paint_58_fill.color = Color(0xffB0FF00).withOpacity(1.0);
-    canvas.drawPath(path_58, paint_58_fill);
+    Paint paint58Fill = Paint()..style = PaintingStyle.fill;
+    paint58Fill.color = Color(0xffB0FF00).withOpacity(1.0);
+    canvas.drawPath(path_58, paint58Fill);
 
     Path path_59 = Path();
     path_59.moveTo(213.609, 78.067);
@@ -5408,9 +5408,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_59.close();
 
-    Paint paint_59_fill = Paint()..style = PaintingStyle.fill;
-    paint_59_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_59, paint_59_fill);
+    Paint paint59Fill = Paint()..style = PaintingStyle.fill;
+    paint59Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_59, paint59Fill);
 
     Path path_60 = Path();
     path_60.moveTo(210.469, 85.347);
@@ -5448,8 +5448,8 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_60.close();
 
-    Paint paint_60_fill = Paint()..style = PaintingStyle.fill;
-    paint_60_fill.shader = ui.Gradient.linear(
+    Paint paint60Fill = Paint()..style = PaintingStyle.fill;
+    paint60Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7958443, size.height * 0.7190227),
       Offset(size.width * 0.8158238, size.height * 0.4592424),
       [
@@ -5462,7 +5462,7 @@ class ThirdIslandPainter extends CustomPainter {
       ],
       [0, 0.017, 0.359, 0.648, 0.871, 1],
     );
-    canvas.drawPath(path_60, paint_60_fill);
+    canvas.drawPath(path_60, paint60Fill);
 
     Path path_61 = Path();
     path_61.moveTo(204.199, 72.757);
@@ -5485,9 +5485,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_61.close();
 
-    Paint paint_61_fill = Paint()..style = PaintingStyle.fill;
-    paint_61_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_61, paint_61_fill);
+    Paint paint61Fill = Paint()..style = PaintingStyle.fill;
+    paint61Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_61, paint61Fill);
 
     Path path_62 = Path();
     path_62.moveTo(204.199, 70.458);
@@ -5511,9 +5511,9 @@ class ThirdIslandPainter extends CustomPainter {
     path_62.cubicTo(201.479, 66.938, 204.199, 70.458, 204.199, 70.458);
     path_62.close();
 
-    Paint paint_62_fill = Paint()..style = PaintingStyle.fill;
-    paint_62_fill.color = Color(0xffFFA7FF).withOpacity(1.0);
-    canvas.drawPath(path_62, paint_62_fill);
+    Paint paint62Fill = Paint()..style = PaintingStyle.fill;
+    paint62Fill.color = Color(0xffFFA7FF).withOpacity(1.0);
+    canvas.drawPath(path_62, paint62Fill);
 
     Path path_63 = Path();
     path_63.moveTo(201.179, 92.357);
@@ -5551,9 +5551,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_63.close();
 
-    Paint paint_63_fill = Paint()..style = PaintingStyle.fill;
-    paint_63_fill.color = Color(0xffFFA7FF).withOpacity(1.0);
-    canvas.drawPath(path_63, paint_63_fill);
+    Paint paint63Fill = Paint()..style = PaintingStyle.fill;
+    paint63Fill.color = Color(0xffFFA7FF).withOpacity(1.0);
+    canvas.drawPath(path_63, paint63Fill);
 
     Path path_64 = Path();
     path_64.moveTo(199.569, 92.858);
@@ -5583,9 +5583,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_64.close();
 
-    Paint paint_64_fill = Paint()..style = PaintingStyle.fill;
-    paint_64_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_64, paint_64_fill);
+    Paint paint64Fill = Paint()..style = PaintingStyle.fill;
+    paint64Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_64, paint64Fill);
 
     Path path_65 = Path();
     path_65.moveTo(200.049, 79.457);
@@ -5641,9 +5641,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_65.close();
 
-    Paint paint_65_fill = Paint()..style = PaintingStyle.fill;
-    paint_65_fill.color = Colors.yellow.withOpacity(1.0);
-    canvas.drawPath(path_65, paint_65_fill);
+    Paint paint65Fill = Paint()..style = PaintingStyle.fill;
+    paint65Fill.color = Colors.yellow.withOpacity(1.0);
+    canvas.drawPath(path_65, paint65Fill);
 
     Path path_66 = Path();
     path_66.moveTo(198.999, 79.567);
@@ -5673,9 +5673,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_66.close();
 
-    Paint paint_66_fill = Paint()..style = PaintingStyle.fill;
-    paint_66_fill.color = Color(0xffFFB5E8).withOpacity(1.0);
-    canvas.drawPath(path_66, paint_66_fill);
+    Paint paint66Fill = Paint()..style = PaintingStyle.fill;
+    paint66Fill.color = Color(0xffFFB5E8).withOpacity(1.0);
+    canvas.drawPath(path_66, paint66Fill);
 
     Path path_67 = Path();
     path_67.moveTo(188.149, 95.058);
@@ -5698,9 +5698,9 @@ class ThirdIslandPainter extends CustomPainter {
     path_67.cubicTo(171.259, 100.388, 183.239, 94.968, 188.149, 95.058);
     path_67.close();
 
-    Paint paint_67_fill = Paint()..style = PaintingStyle.fill;
-    paint_67_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_67, paint_67_fill);
+    Paint paint67Fill = Paint()..style = PaintingStyle.fill;
+    paint67Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_67, paint67Fill);
 
     Path path_68 = Path();
     path_68.moveTo(190.269, 91.648);
@@ -5731,8 +5731,8 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_68.close();
 
-    Paint paint_68_fill = Paint()..style = PaintingStyle.fill;
-    paint_68_fill.shader = ui.Gradient.linear(
+    Paint paint68Fill = Paint()..style = PaintingStyle.fill;
+    paint68Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7340656, size.height * 0.7673030),
       Offset(size.width * 0.7475410, size.height * 0.5920985),
       [
@@ -5745,7 +5745,7 @@ class ThirdIslandPainter extends CustomPainter {
       ],
       [0, 0.017, 0.359, 0.648, 0.871, 1],
     );
-    canvas.drawPath(path_68, paint_68_fill);
+    canvas.drawPath(path_68, paint68Fill);
 
     Path path_69 = Path();
     path_69.moveTo(180.309, 84.108);
@@ -5761,9 +5761,9 @@ class ThirdIslandPainter extends CustomPainter {
     path_69.cubicTo(170.339, 86.418, 180.309, 84.108, 180.309, 84.108);
     path_69.close();
 
-    Paint paint_69_fill = Paint()..style = PaintingStyle.fill;
-    paint_69_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_69, paint_69_fill);
+    Paint paint69Fill = Paint()..style = PaintingStyle.fill;
+    paint69Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_69, paint69Fill);
 
     Path path_70 = Path();
     path_70.moveTo(180.899, 84.358);
@@ -5794,9 +5794,9 @@ class ThirdIslandPainter extends CustomPainter {
     path_70.cubicTo(178.679, 93.018, 181.189, 90.158, 180.899, 84.358);
     path_70.close();
 
-    Paint paint_70_fill = Paint()..style = PaintingStyle.fill;
-    paint_70_fill.color = Color(0xffFFA7FF).withOpacity(1.0);
-    canvas.drawPath(path_70, paint_70_fill);
+    Paint paint70Fill = Paint()..style = PaintingStyle.fill;
+    paint70Fill.color = Color(0xffFFA7FF).withOpacity(1.0);
+    canvas.drawPath(path_70, paint70Fill);
 
     Path path_71 = Path();
     path_71.moveTo(178.729, 82.808);
@@ -5826,9 +5826,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_71.close();
 
-    Paint paint_71_fill = Paint()..style = PaintingStyle.fill;
-    paint_71_fill.color = Color(0xffFFA7FF).withOpacity(1.0);
-    canvas.drawPath(path_71, paint_71_fill);
+    Paint paint71Fill = Paint()..style = PaintingStyle.fill;
+    paint71Fill.color = Color(0xffFFA7FF).withOpacity(1.0);
+    canvas.drawPath(path_71, paint71Fill);
 
     Path path_72 = Path();
     path_72.moveTo(188.219, 99.488);
@@ -5852,9 +5852,9 @@ class ThirdIslandPainter extends CustomPainter {
     path_72.cubicTo(188.679, 101.258, 188.219, 99.488, 188.219, 99.488);
     path_72.close();
 
-    Paint paint_72_fill = Paint()..style = PaintingStyle.fill;
-    paint_72_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_72, paint_72_fill);
+    Paint paint72Fill = Paint()..style = PaintingStyle.fill;
+    paint72Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_72, paint72Fill);
 
     Path path_73 = Path();
     path_73.moveTo(180.049, 89.778);
@@ -5884,9 +5884,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_73.close();
 
-    Paint paint_73_fill = Paint()..style = PaintingStyle.fill;
-    paint_73_fill.color = Colors.yellow.withOpacity(1.0);
-    canvas.drawPath(path_73, paint_73_fill);
+    Paint paint73Fill = Paint()..style = PaintingStyle.fill;
+    paint73Fill.color = Colors.yellow.withOpacity(1.0);
+    canvas.drawPath(path_73, paint73Fill);
 
     Path path_74 = Path();
     path_74.moveTo(155.579, 92.287);
@@ -5908,9 +5908,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_74.close();
 
-    Paint paint_74_fill = Paint()..style = PaintingStyle.fill;
-    paint_74_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_74, paint_74_fill);
+    Paint paint74Fill = Paint()..style = PaintingStyle.fill;
+    paint74Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_74, paint74Fill);
 
     Path path_75 = Path();
     path_75.moveTo(156.229, 93.578);
@@ -5940,8 +5940,8 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_75.close();
 
-    Paint paint_75_fill = Paint()..style = PaintingStyle.fill;
-    paint_75_fill.shader = ui.Gradient.linear(
+    Paint paint75Fill = Paint()..style = PaintingStyle.fill;
+    paint75Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6127254, size.height * 0.7399848),
       Offset(size.width * 0.6196393, size.height * 0.6500909),
       [
@@ -5954,7 +5954,7 @@ class ThirdIslandPainter extends CustomPainter {
       ],
       [0, 0.017, 0.359, 0.648, 0.871, 1],
     );
-    canvas.drawPath(path_75, paint_75_fill);
+    canvas.drawPath(path_75, paint75Fill);
 
     Path path_76 = Path();
     path_76.moveTo(155.109, 92.028);
@@ -5977,9 +5977,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_76.close();
 
-    Paint paint_76_fill = Paint()..style = PaintingStyle.fill;
-    paint_76_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_76, paint_76_fill);
+    Paint paint76Fill = Paint()..style = PaintingStyle.fill;
+    paint76Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_76, paint76Fill);
 
     Path path_77 = Path();
     path_77.moveTo(154.959, 90.617);
@@ -6017,9 +6017,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_77.close();
 
-    Paint paint_77_fill = Paint()..style = PaintingStyle.fill;
-    paint_77_fill.color = Color(0xffFFA7FF).withOpacity(1.0);
-    canvas.drawPath(path_77, paint_77_fill);
+    Paint paint77Fill = Paint()..style = PaintingStyle.fill;
+    paint77Fill.color = Color(0xffFFA7FF).withOpacity(1.0);
+    canvas.drawPath(path_77, paint77Fill);
 
     Path path_78 = Path();
     path_78.moveTo(151.339, 97.147);
@@ -6043,9 +6043,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_78.close();
 
-    Paint paint_78_fill = Paint()..style = PaintingStyle.fill;
-    paint_78_fill.color = Color(0xffFFA7FF).withOpacity(1.0);
-    canvas.drawPath(path_78, paint_78_fill);
+    Paint paint78Fill = Paint()..style = PaintingStyle.fill;
+    paint78Fill.color = Color(0xffFFA7FF).withOpacity(1.0);
+    canvas.drawPath(path_78, paint78Fill);
 
     Path path_79 = Path();
     path_79.moveTo(150.179, 97.257);
@@ -6068,9 +6068,9 @@ class ThirdIslandPainter extends CustomPainter {
     );
     path_79.close();
 
-    Paint paint_79_fill = Paint()..style = PaintingStyle.fill;
-    paint_79_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_79, paint_79_fill);
+    Paint paint79Fill = Paint()..style = PaintingStyle.fill;
+    paint79Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_79, paint79Fill);
 
     Path path_80 = Path();
     path_80.moveTo(150.819, 93.647);
@@ -6105,9 +6105,9 @@ class ThirdIslandPainter extends CustomPainter {
     path_80.cubicTo(144.599, 92.287, 145.069, 93.807, 147.279, 93.837);
     path_80.close();
 
-    Paint paint_80_fill = Paint()..style = PaintingStyle.fill;
-    paint_80_fill.color = Colors.yellow.withOpacity(1.0);
-    canvas.drawPath(path_80, paint_80_fill);
+    Paint paint80Fill = Paint()..style = PaintingStyle.fill;
+    paint80Fill.color = Colors.yellow.withOpacity(1.0);
+    canvas.drawPath(path_80, paint80Fill);
   }
 
   @override
@@ -6149,8 +6149,8 @@ class ForthIslandPainter extends CustomPainter {
     );
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.shader = ui.Gradient.linear(
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4943882, size.height * 0.9920179),
       Offset(size.width * 0.4943882, size.height * -0.005357143),
       [
@@ -6161,7 +6161,7 @@ class ForthIslandPainter extends CustomPainter {
       ],
       [0, 0.417, 0.769, 1],
     );
-    canvas.drawPath(path_0, paint_0_fill);
+    canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
     path_1.moveTo(75.87, 43.892);
@@ -6186,8 +6186,8 @@ class ForthIslandPainter extends CustomPainter {
     );
     path_1.close();
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.shader = ui.Gradient.linear(
+    Paint paint1Fill = Paint()..style = PaintingStyle.fill;
+    paint1Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4943882, size.height * 0.9920179),
       Offset(size.width * 0.4943882, size.height * 0.3047679),
       [
@@ -6200,7 +6200,7 @@ class ForthIslandPainter extends CustomPainter {
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
-    canvas.drawPath(path_1, paint_1_fill);
+    canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
     path_2.moveTo(66.96, 48.303);
@@ -6231,8 +6231,8 @@ class ForthIslandPainter extends CustomPainter {
     path_2.cubicTo(43.91, 59.32299999999999, 66.96, 48.303, 66.96, 48.303);
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.shader = ui.Gradient.linear(
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4009059, size.height * 0.9904286),
       Offset(size.width * 0.4009059, size.height * 0.5770357),
       [
@@ -6245,7 +6245,7 @@ class ForthIslandPainter extends CustomPainter {
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
-    canvas.drawPath(path_2, paint_2_fill);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(62.19, 44.352);
@@ -6267,9 +6267,9 @@ class ForthIslandPainter extends CustomPainter {
     );
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.color = Color(0xffFFDD4A).withOpacity(1.0);
-    canvas.drawPath(path_3, paint_3_fill);
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.color = Color(0xffFFDD4A).withOpacity(1.0);
+    canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
     path_4.moveTo(58.18, 42.412);
@@ -6285,8 +6285,8 @@ class ForthIslandPainter extends CustomPainter {
     );
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.shader = ui.Gradient.linear(
+    Paint paint4Fill = Paint()..style = PaintingStyle.fill;
+    paint4Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5259294, size.height * 0.8292857),
       Offset(size.width * 0.5259294, size.height * 0.5493571),
       [
@@ -6296,7 +6296,7 @@ class ForthIslandPainter extends CustomPainter {
       ],
       [0, 0.41, 1],
     );
-    canvas.drawPath(path_4, paint_4_fill);
+    canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
     path_5.moveTo(58.53, 39.153);
@@ -6321,8 +6321,8 @@ class ForthIslandPainter extends CustomPainter {
     path_5.cubicTo(58.95, 30.833, 58.53, 39.153, 58.53, 39.153);
     path_5.close();
 
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.shader = ui.Gradient.linear(
+    Paint paint5Fill = Paint()..style = PaintingStyle.fill;
+    paint5Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5247765, size.height * 0.7683393),
       Offset(size.width * 0.5247765, size.height * 0.5509464),
       [
@@ -6335,7 +6335,7 @@ class ForthIslandPainter extends CustomPainter {
       ],
       [0, 0.115, 0.314, 0.572, 0.876, 1],
     );
-    canvas.drawPath(path_5, paint_5_fill);
+    canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
     path_6.moveTo(56.94, 43.303);
@@ -6365,9 +6365,9 @@ class ForthIslandPainter extends CustomPainter {
     );
     path_6.close();
 
-    Paint paint_6_fill = Paint()..style = PaintingStyle.fill;
-    paint_6_fill.color = Color(0xffFFDD5E).withOpacity(1.0);
-    canvas.drawPath(path_6, paint_6_fill);
+    Paint paint6Fill = Paint()..style = PaintingStyle.fill;
+    paint6Fill.color = Color(0xffFFDD5E).withOpacity(1.0);
+    canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
     path_7.moveTo(20.7, 43.893);
@@ -6390,8 +6390,8 @@ class ForthIslandPainter extends CustomPainter {
     );
     path_7.close();
 
-    Paint paint_7_fill = Paint()..style = PaintingStyle.fill;
-    paint_7_fill.shader = ui.Gradient.linear(
+    Paint paint7Fill = Paint()..style = PaintingStyle.fill;
+    paint7Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2453529, size.height * 0.7913750),
       Offset(size.width * 0.2453529, size.height * 0.6368929),
       [
@@ -6401,7 +6401,7 @@ class ForthIslandPainter extends CustomPainter {
       ],
       [0, 0.41, 1],
     );
-    canvas.drawPath(path_7, paint_7_fill);
+    canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
     path_8.moveTo(25.52, 38.602);
@@ -6425,8 +6425,8 @@ class ForthIslandPainter extends CustomPainter {
     );
     path_8.close();
 
-    Paint paint_8_fill = Paint()..style = PaintingStyle.fill;
-    paint_8_fill.shader = ui.Gradient.linear(
+    Paint paint8Fill = Paint()..style = PaintingStyle.fill;
+    paint8Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2451059, size.height * 0.7732857),
       Offset(size.width * 0.2451059, size.height * 0.6353036),
       [
@@ -6439,7 +6439,7 @@ class ForthIslandPainter extends CustomPainter {
       ],
       [0, 0.115, 0.314, 0.572, 0.876, 1],
     );
-    canvas.drawPath(path_8, paint_8_fill);
+    canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
     path_9.moveTo(24.71, 40.623);
@@ -6456,9 +6456,9 @@ class ForthIslandPainter extends CustomPainter {
     );
     path_9.close();
 
-    Paint paint_9_fill = Paint()..style = PaintingStyle.fill;
-    paint_9_fill.color = Color(0xffFFDD5E).withOpacity(1.0);
-    canvas.drawPath(path_9, paint_9_fill);
+    Paint paint9Fill = Paint()..style = PaintingStyle.fill;
+    paint9Fill.color = Color(0xffFFDD5E).withOpacity(1.0);
+    canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
     path_10.moveTo(46.93, 26.943);
@@ -6485,9 +6485,9 @@ class ForthIslandPainter extends CustomPainter {
     path_10.cubicTo(50, 2.192, 70.28999999999999, 6.472, 80.56, 21.552);
     path_10.close();
 
-    Paint paint_10_fill = Paint()..style = PaintingStyle.fill;
-    paint_10_fill.color = Color(0xffFFDD5E).withOpacity(1.0);
-    canvas.drawPath(path_10, paint_10_fill);
+    Paint paint10Fill = Paint()..style = PaintingStyle.fill;
+    paint10Fill.color = Color(0xffFFDD5E).withOpacity(1.0);
+    canvas.drawPath(path_10, paint10Fill);
 
     Path path_11 = Path();
     path_11.moveTo(73.27, 38.013);
@@ -6539,9 +6539,9 @@ class ForthIslandPainter extends CustomPainter {
     );
     path_11.close();
 
-    Paint paint_11_fill = Paint()..style = PaintingStyle.fill;
-    paint_11_fill.color = Color(0xffEDE0A9).withOpacity(1.0);
-    canvas.drawPath(path_11, paint_11_fill);
+    Paint paint11Fill = Paint()..style = PaintingStyle.fill;
+    paint11Fill.color = Color(0xffEDE0A9).withOpacity(1.0);
+    canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
     path_12.moveTo(21.51, 29.232);
@@ -6621,9 +6621,9 @@ class ForthIslandPainter extends CustomPainter {
     );
     path_12.close();
 
-    Paint paint_12_fill = Paint()..style = PaintingStyle.fill;
-    paint_12_fill.color = Color(0xffCC81B3).withOpacity(1.0);
-    canvas.drawPath(path_12, paint_12_fill);
+    Paint paint12Fill = Paint()..style = PaintingStyle.fill;
+    paint12Fill.color = Color(0xffCC81B3).withOpacity(1.0);
+    canvas.drawPath(path_12, paint12Fill);
 
     Path path_13 = Path();
     path_13.moveTo(32.5, 9.763);
@@ -6653,8 +6653,8 @@ class ForthIslandPainter extends CustomPainter {
     );
     path_13.close();
 
-    Paint paint_13_fill = Paint()..style = PaintingStyle.fill;
-    paint_13_fill.shader = ui.Gradient.linear(
+    Paint paint13Fill = Paint()..style = PaintingStyle.fill;
+    paint13Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2207176, size.height * 0.3818214),
       Offset(size.width * 0.2207176, size.height * 0.1117857),
       [
@@ -6665,7 +6665,7 @@ class ForthIslandPainter extends CustomPainter {
       ],
       [0, 0.417, 0.769, 1],
     );
-    canvas.drawPath(path_13, paint_13_fill);
+    canvas.drawPath(path_13, paint13Fill);
 
     Path path_14 = Path();
     path_14.moveTo(32.06, 9.003);
@@ -6683,8 +6683,8 @@ class ForthIslandPainter extends CustomPainter {
     path_14.cubicTo(36.91, 12.563, 32.06, 9.003, 32.06, 9.003);
     path_14.close();
 
-    Paint paint_14_fill = Paint()..style = PaintingStyle.fill;
-    paint_14_fill.shader = ui.Gradient.linear(
+    Paint paint14Fill = Paint()..style = PaintingStyle.fill;
+    paint14Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2232588, size.height * 0.3966429),
       Offset(size.width * 0.2232588, size.height * 0.1607143),
       [
@@ -6696,7 +6696,7 @@ class ForthIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_14, paint_14_fill);
+    canvas.drawPath(path_14, paint14Fill);
   }
 
   @override
@@ -6754,8 +6754,8 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.shader = ui.Gradient.linear(
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4989667, size.height * 0.9983696),
       Offset(size.width * 0.4989667, size.height * 0.1707971),
       [
@@ -6766,7 +6766,7 @@ class FifthIslandPainter extends CustomPainter {
       ],
       [0, 0.417, 0.769, 1],
     );
-    canvas.drawPath(path_0, paint_0_fill);
+    canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
     path_1.moveTo(17.384, 114.407);
@@ -6807,8 +6807,8 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_1.close();
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.shader = ui.Gradient.linear(
+    Paint paint1Fill = Paint()..style = PaintingStyle.fill;
+    paint1Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4989667, size.height * 0.9983696),
       Offset(size.width * 0.4989667, size.height * 0.4785362),
       [
@@ -6821,7 +6821,7 @@ class FifthIslandPainter extends CustomPainter {
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
-    canvas.drawPath(path_1, paint_1_fill);
+    canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
     path_2.moveTo(165.505, 108.277);
@@ -6859,8 +6859,8 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.shader = ui.Gradient.linear(
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4851444, size.height * 0.9978406),
       Offset(size.width * 0.4851444, size.height * 0.7655725),
       [
@@ -6873,7 +6873,7 @@ class FifthIslandPainter extends CustomPainter {
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
-    canvas.drawPath(path_2, paint_2_fill);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(168.364, 59.178);
@@ -6911,8 +6911,8 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.shader = ui.Gradient.linear(
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5030000, size.height * 0.8330942),
       Offset(size.width * 0.5030000, size.height * 0.1959130),
       [
@@ -6923,7 +6923,7 @@ class FifthIslandPainter extends CustomPainter {
       ],
       [0, 0.417, 0.769, 1],
     );
-    canvas.drawPath(path_3, paint_3_fill);
+    canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
     path_4.moveTo(168.365, 59.177);
@@ -6955,8 +6955,8 @@ class FifthIslandPainter extends CustomPainter {
     path_4.cubicTo(167.685, 111.727, 173.945, 76.607, 168.365, 59.177);
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.shader = ui.Gradient.linear(
+    Paint paint4Fill = Paint()..style = PaintingStyle.fill;
+    paint4Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5010667, size.height * 0.8401812),
       Offset(size.width * 0.5010667, size.height * 0.4288116),
       [
@@ -6968,7 +6968,7 @@ class FifthIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_4, paint_4_fill);
+    canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
     path_5.moveTo(99.644, 31.607);
@@ -6998,8 +6998,8 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_5.close();
 
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.shader = ui.Gradient.linear(
+    Paint paint5Fill = Paint()..style = PaintingStyle.fill;
+    paint5Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5607278, size.height * 0.3437754),
       Offset(size.width * 0.1160222, size.height * 0.3437754),
       [
@@ -7010,7 +7010,7 @@ class FifthIslandPainter extends CustomPainter {
       ],
       [0, 0.417, 0.769, 1],
     );
-    canvas.drawPath(path_5, paint_5_fill);
+    canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
     path_6.moveTo(89.284, 26.767);
@@ -7040,8 +7040,8 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_6.close();
 
-    Paint paint_6_fill = Paint()..style = PaintingStyle.fill;
-    paint_6_fill.shader = ui.Gradient.linear(
+    Paint paint6Fill = Paint()..style = PaintingStyle.fill;
+    paint6Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3158667, size.height * 0.4188986),
       Offset(size.width * 0.3158667, size.height * 0.1636522),
       [
@@ -7052,7 +7052,7 @@ class FifthIslandPainter extends CustomPainter {
       ],
       [0, 0.417, 0.769, 1],
     );
-    canvas.drawPath(path_6, paint_6_fill);
+    canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
     path_7.moveTo(88.564, 26.487);
@@ -7106,8 +7106,8 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_7.close();
 
-    Paint paint_7_fill = Paint()..style = PaintingStyle.fill;
-    paint_7_fill.shader = ui.Gradient.linear(
+    Paint paint7Fill = Paint()..style = PaintingStyle.fill;
+    paint7Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3169944, size.height * 0.4265652),
       Offset(size.width * 0.3169944, size.height * 0.1919058),
       [
@@ -7119,7 +7119,7 @@ class FifthIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_7, paint_7_fill);
+    canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
     path_8.moveTo(89.814, 31.387);
@@ -7158,9 +7158,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_8.close();
 
-    Paint paint_8_fill = Paint()..style = PaintingStyle.fill;
-    paint_8_fill.color = Color(0xffA58DA9).withOpacity(1.0);
-    canvas.drawPath(path_8, paint_8_fill);
+    Paint paint8Fill = Paint()..style = PaintingStyle.fill;
+    paint8Fill.color = Color(0xffA58DA9).withOpacity(1.0);
+    canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
     path_9.moveTo(99.305, 40.148);
@@ -7192,8 +7192,8 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_9.close();
 
-    Paint paint_9_fill = Paint()..style = PaintingStyle.fill;
-    paint_9_fill.shader = ui.Gradient.linear(
+    Paint paint9Fill = Paint()..style = PaintingStyle.fill;
+    paint9Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3304778, size.height * 0.5128913),
       Offset(size.width * 0.3304778, size.height * 0.2909420),
       [
@@ -7206,7 +7206,7 @@ class FifthIslandPainter extends CustomPainter {
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
-    canvas.drawPath(path_9, paint_9_fill);
+    canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
     path_10.moveTo(90.294, 30.367);
@@ -7311,8 +7311,8 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_10.close();
 
-    Paint paint_10_fill = Paint()..style = PaintingStyle.fill;
-    paint_10_fill.shader = ui.Gradient.linear(
+    Paint paint10Fill = Paint()..style = PaintingStyle.fill;
+    paint10Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3189056, size.height * 0.3271522),
       Offset(size.width * 0.3189056, 0),
       [
@@ -7322,7 +7322,7 @@ class FifthIslandPainter extends CustomPainter {
       ],
       [0, 0.42, 1],
     );
-    canvas.drawPath(path_10, paint_10_fill);
+    canvas.drawPath(path_10, paint10Fill);
 
     Path path_11 = Path();
     path_11.moveTo(39.964, 89.877);
@@ -7364,9 +7364,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_11.close();
 
-    Paint paint_11_fill = Paint()..style = PaintingStyle.fill;
-    paint_11_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_11, paint_11_fill);
+    Paint paint11Fill = Paint()..style = PaintingStyle.fill;
+    paint11Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
     path_12.moveTo(128.645, 40.388);
@@ -7404,8 +7404,8 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_12.close();
 
-    Paint paint_12_fill = Paint()..style = PaintingStyle.fill;
-    paint_12_fill.shader = ui.Gradient.linear(
+    Paint paint12Fill = Paint()..style = PaintingStyle.fill;
+    paint12Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6221444, size.height * 0.2957029),
       Offset(size.width * 0.6221444, size.height * 0.05426087),
       [
@@ -7416,7 +7416,7 @@ class FifthIslandPainter extends CustomPainter {
       ],
       [0, 0.277, 0.754, 1],
     );
-    canvas.drawPath(path_12, paint_12_fill);
+    canvas.drawPath(path_12, paint12Fill);
 
     Path path_13 = Path();
     path_13.moveTo(39.314, 90.097);
@@ -7446,8 +7446,8 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_13.close();
 
-    Paint paint_13_fill = Paint()..style = PaintingStyle.fill;
-    paint_13_fill.shader = ui.Gradient.linear(
+    Paint paint13Fill = Paint()..style = PaintingStyle.fill;
+    paint13Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.1670833, size.height * 0.6528986),
       Offset(size.width * 0.1670833, size.height * 0.4984783),
       [
@@ -7458,7 +7458,7 @@ class FifthIslandPainter extends CustomPainter {
       ],
       [0, 0.277, 0.754, 1],
     );
-    canvas.drawPath(path_13, paint_13_fill);
+    canvas.drawPath(path_13, paint13Fill);
 
     Path path_14 = Path();
     path_14.moveTo(22.134, 71.997);
@@ -7501,9 +7501,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_14.close();
 
-    Paint paint_14_fill = Paint()..style = PaintingStyle.fill;
-    paint_14_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_14, paint_14_fill);
+    Paint paint14Fill = Paint()..style = PaintingStyle.fill;
+    paint14Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_14, paint14Fill);
 
     Path path_15 = Path();
     path_15.moveTo(37.934, 81.917);
@@ -7560,9 +7560,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_15.close();
 
-    Paint paint_15_fill = Paint()..style = PaintingStyle.fill;
-    paint_15_fill.color = Color(0xffD96840).withOpacity(1.0);
-    canvas.drawPath(path_15, paint_15_fill);
+    Paint paint15Fill = Paint()..style = PaintingStyle.fill;
+    paint15Fill.color = Color(0xffD96840).withOpacity(1.0);
+    canvas.drawPath(path_15, paint15Fill);
 
     Path path_16 = Path();
     path_16.moveTo(28.914, 82.827);
@@ -7590,9 +7590,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_16.close();
 
-    Paint paint_16_fill = Paint()..style = PaintingStyle.fill;
-    paint_16_fill.color = Color(0xffB2562B).withOpacity(1.0);
-    canvas.drawPath(path_16, paint_16_fill);
+    Paint paint16Fill = Paint()..style = PaintingStyle.fill;
+    paint16Fill.color = Color(0xffB2562B).withOpacity(1.0);
+    canvas.drawPath(path_16, paint16Fill);
 
     Path path_17 = Path();
     path_17.moveTo(116.504, 11.697);
@@ -7671,9 +7671,9 @@ class FifthIslandPainter extends CustomPainter {
     path_17.cubicTo(35.714, 80.337, 26.514, 78.157, 25.214, 72.907);
     path_17.close();
 
-    Paint paint_17_fill = Paint()..style = PaintingStyle.fill;
-    paint_17_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_17, paint_17_fill);
+    Paint paint17Fill = Paint()..style = PaintingStyle.fill;
+    paint17Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_17, paint17Fill);
 
     Path path_18 = Path();
     path_18.moveTo(127.205, 50.687);
@@ -7703,9 +7703,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_18.close();
 
-    Paint paint_18_fill = Paint()..style = PaintingStyle.fill;
-    paint_18_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_18, paint_18_fill);
+    Paint paint18Fill = Paint()..style = PaintingStyle.fill;
+    paint18Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_18, paint18Fill);
 
     Path path_19 = Path();
     path_19.moveTo(103.114, 40.877);
@@ -7743,8 +7743,8 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_19.close();
 
-    Paint paint_19_fill = Paint()..style = PaintingStyle.fill;
-    paint_19_fill.shader = ui.Gradient.linear(
+    Paint paint19Fill = Paint()..style = PaintingStyle.fill;
+    paint19Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6416111, size.height * 0.3747899),
       Offset(size.width * 0.6370389, size.height * 0.2305145),
       [
@@ -7755,7 +7755,7 @@ class FifthIslandPainter extends CustomPainter {
       ],
       [0, 0.277, 0.754, 1],
     );
-    canvas.drawPath(path_19, paint_19_fill);
+    canvas.drawPath(path_19, paint19Fill);
 
     Path path_20 = Path();
     path_20.moveTo(121.034, 51.367);
@@ -7785,9 +7785,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_20.close();
 
-    Paint paint_20_fill = Paint()..style = PaintingStyle.fill;
-    paint_20_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_20, paint_20_fill);
+    Paint paint20Fill = Paint()..style = PaintingStyle.fill;
+    paint20Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_20, paint20Fill);
 
     Path path_21 = Path();
     path_21.moveTo(126.354, 45.807);
@@ -7818,9 +7818,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_21.close();
 
-    Paint paint_21_fill = Paint()..style = PaintingStyle.fill;
-    paint_21_fill.color = Color(0xffD96840).withOpacity(1.0);
-    canvas.drawPath(path_21, paint_21_fill);
+    Paint paint21Fill = Paint()..style = PaintingStyle.fill;
+    paint21Fill.color = Color(0xffD96840).withOpacity(1.0);
+    canvas.drawPath(path_21, paint21Fill);
 
     Path path_22 = Path();
     path_22.moveTo(119.125, 46.407);
@@ -7835,9 +7835,9 @@ class FifthIslandPainter extends CustomPainter {
     path_22.cubicTo(113.625, 39.137, 116.075, 43.127, 119.125, 46.407);
     path_22.close();
 
-    Paint paint_22_fill = Paint()..style = PaintingStyle.fill;
-    paint_22_fill.color = Color(0xffB2562B).withOpacity(1.0);
-    canvas.drawPath(path_22, paint_22_fill);
+    Paint paint22Fill = Paint()..style = PaintingStyle.fill;
+    paint22Fill.color = Color(0xffB2562B).withOpacity(1.0);
+    canvas.drawPath(path_22, paint22Fill);
 
     Path path_23 = Path();
     path_23.moveTo(121.974, 38.197);
@@ -7886,9 +7886,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_23.close();
 
-    Paint paint_23_fill = Paint()..style = PaintingStyle.fill;
-    paint_23_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_23, paint_23_fill);
+    Paint paint23Fill = Paint()..style = PaintingStyle.fill;
+    paint23Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_23, paint23Fill);
 
     Path path_24 = Path();
     path_24.moveTo(154.234, 50.227);
@@ -7903,8 +7903,8 @@ class FifthIslandPainter extends CustomPainter {
     path_24.cubicTo(122.334, 58.257, 131.554, 40.467, 154.234, 50.227);
     path_24.close();
 
-    Paint paint_24_fill = Paint()..style = PaintingStyle.fill;
-    paint_24_fill.shader = ui.Gradient.linear(
+    Paint paint24Fill = Paint()..style = PaintingStyle.fill;
+    paint24Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.8684667, size.height * 0.4256812),
       Offset(size.width * 0.7201056, size.height * 0.3836594),
       [
@@ -7916,7 +7916,7 @@ class FifthIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_24, paint_24_fill);
+    canvas.drawPath(path_24, paint24Fill);
 
     Path path_25 = Path();
     path_25.moveTo(156.255, 56.577);
@@ -7947,9 +7947,9 @@ class FifthIslandPainter extends CustomPainter {
     path_25.cubicTo(153.875, 63.517, 156.255, 56.577, 156.255, 56.577);
     path_25.close();
 
-    Paint paint_25_fill = Paint()..style = PaintingStyle.fill;
-    paint_25_fill.color = Color(0xff9BB900).withOpacity(1.0);
-    canvas.drawPath(path_25, paint_25_fill);
+    Paint paint25Fill = Paint()..style = PaintingStyle.fill;
+    paint25Fill.color = Color(0xff9BB900).withOpacity(1.0);
+    canvas.drawPath(path_25, paint25Fill);
 
     Path path_26 = Path();
     path_26.moveTo(71.404, 92.577);
@@ -7971,8 +7971,8 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_26.close();
 
-    Paint paint_26_fill = Paint()..style = PaintingStyle.fill;
-    paint_26_fill.shader = ui.Gradient.linear(
+    Paint paint26Fill = Paint()..style = PaintingStyle.fill;
+    paint26Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4077278, size.height * 0.7293333),
       Offset(size.width * 0.2670611, size.height * 0.6894928),
       [
@@ -7984,7 +7984,7 @@ class FifthIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_26, paint_26_fill);
+    canvas.drawPath(path_26, paint26Fill);
 
     Path path_27 = Path();
     path_27.moveTo(73.324, 98.597);
@@ -8015,9 +8015,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_27.close();
 
-    Paint paint_27_fill = Paint()..style = PaintingStyle.fill;
-    paint_27_fill.color = Color(0xff86A500).withOpacity(1.0);
-    canvas.drawPath(path_27, paint_27_fill);
+    Paint paint27Fill = Paint()..style = PaintingStyle.fill;
+    paint27Fill.color = Color(0xff86A500).withOpacity(1.0);
+    canvas.drawPath(path_27, paint27Fill);
 
     Path path_28 = Path();
     path_28.moveTo(160.685, 65.027);
@@ -8087,9 +8087,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_28.close();
 
-    Paint paint_28_fill = Paint()..style = PaintingStyle.fill;
-    paint_28_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_28, paint_28_fill);
+    Paint paint28Fill = Paint()..style = PaintingStyle.fill;
+    paint28Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_28, paint28Fill);
 
     Path path_29 = Path();
     path_29.moveTo(146.014, 91.647);
@@ -8145,9 +8145,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_29.close();
 
-    Paint paint_29_fill = Paint()..style = PaintingStyle.fill;
-    paint_29_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_29, paint_29_fill);
+    Paint paint29Fill = Paint()..style = PaintingStyle.fill;
+    paint29Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_29, paint29Fill);
 
     Path path_30 = Path();
     path_30.moveTo(127.365, 66.037);
@@ -8198,9 +8198,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_30.close();
 
-    Paint paint_30_fill = Paint()..style = PaintingStyle.fill;
-    paint_30_fill.color = Color(0xffA9B1D4).withOpacity(1.0);
-    canvas.drawPath(path_30, paint_30_fill);
+    Paint paint30Fill = Paint()..style = PaintingStyle.fill;
+    paint30Fill.color = Color(0xffA9B1D4).withOpacity(1.0);
+    canvas.drawPath(path_30, paint30Fill);
 
     Path path_31 = Path();
     path_31.moveTo(96.344, 127.447);
@@ -8276,9 +8276,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_31.close();
 
-    Paint paint_31_fill = Paint()..style = PaintingStyle.fill;
-    paint_31_fill.color = Color(0xffFFDD81).withOpacity(1.0);
-    canvas.drawPath(path_31, paint_31_fill);
+    Paint paint31Fill = Paint()..style = PaintingStyle.fill;
+    paint31Fill.color = Color(0xffFFDD81).withOpacity(1.0);
+    canvas.drawPath(path_31, paint31Fill);
 
     Path path_32 = Path();
     path_32.moveTo(38.024, 83.337);
@@ -8414,9 +8414,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_32.close();
 
-    Paint paint_32_fill = Paint()..style = PaintingStyle.fill;
-    paint_32_fill.color = Color(0xffEA8E40).withOpacity(1.0);
-    canvas.drawPath(path_32, paint_32_fill);
+    Paint paint32Fill = Paint()..style = PaintingStyle.fill;
+    paint32Fill.color = Color(0xffEA8E40).withOpacity(1.0);
+    canvas.drawPath(path_32, paint32Fill);
 
     Path path_33 = Path();
     path_33.moveTo(127.985, 40.737);
@@ -8518,9 +8518,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_33.close();
 
-    Paint paint_33_fill = Paint()..style = PaintingStyle.fill;
-    paint_33_fill.color = Color(0xffEABA13).withOpacity(1.0);
-    canvas.drawPath(path_33, paint_33_fill);
+    Paint paint33Fill = Paint()..style = PaintingStyle.fill;
+    paint33Fill.color = Color(0xffEABA13).withOpacity(1.0);
+    canvas.drawPath(path_33, paint33Fill);
 
     Path path_34 = Path();
     path_34.moveTo(100.165, 70.207);
@@ -8668,9 +8668,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_34.close();
 
-    Paint paint_34_fill = Paint()..style = PaintingStyle.fill;
-    paint_34_fill.color = Color(0xffB0FF00).withOpacity(1.0);
-    canvas.drawPath(path_34, paint_34_fill);
+    Paint paint34Fill = Paint()..style = PaintingStyle.fill;
+    paint34Fill.color = Color(0xffB0FF00).withOpacity(1.0);
+    canvas.drawPath(path_34, paint34Fill);
 
     Path path_35 = Path();
     path_35.moveTo(100.514, 96.548);
@@ -8692,9 +8692,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_35.close();
 
-    Paint paint_35_fill = Paint()..style = PaintingStyle.fill;
-    paint_35_fill.color = Color(0xffB0FF00).withOpacity(1.0);
-    canvas.drawPath(path_35, paint_35_fill);
+    Paint paint35Fill = Paint()..style = PaintingStyle.fill;
+    paint35Fill.color = Color(0xffB0FF00).withOpacity(1.0);
+    canvas.drawPath(path_35, paint35Fill);
 
     Path path_36 = Path();
     path_36.moveTo(115.665, 125.217);
@@ -8838,9 +8838,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_36.close();
 
-    Paint paint_36_fill = Paint()..style = PaintingStyle.fill;
-    paint_36_fill.color = Color(0xffEDE0A9).withOpacity(1.0);
-    canvas.drawPath(path_36, paint_36_fill);
+    Paint paint36Fill = Paint()..style = PaintingStyle.fill;
+    paint36Fill.color = Color(0xffEDE0A9).withOpacity(1.0);
+    canvas.drawPath(path_36, paint36Fill);
 
     Path path_37 = Path();
     path_37.moveTo(45.794, 117.947);
@@ -9104,9 +9104,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_37.close();
 
-    Paint paint_37_fill = Paint()..style = PaintingStyle.fill;
-    paint_37_fill.color = Color(0xffCC81B3).withOpacity(1.0);
-    canvas.drawPath(path_37, paint_37_fill);
+    Paint paint37Fill = Paint()..style = PaintingStyle.fill;
+    paint37Fill.color = Color(0xffCC81B3).withOpacity(1.0);
+    canvas.drawPath(path_37, paint37Fill);
 
     Path path_38 = Path();
     path_38.moveTo(69.855, 47.437);
@@ -9136,9 +9136,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_38.close();
 
-    Paint paint_38_fill = Paint()..style = PaintingStyle.fill;
-    paint_38_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_38, paint_38_fill);
+    Paint paint38Fill = Paint()..style = PaintingStyle.fill;
+    paint38Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_38, paint38Fill);
 
     Path path_39 = Path();
     path_39.moveTo(57.015, 50.317);
@@ -9154,9 +9154,9 @@ class FifthIslandPainter extends CustomPainter {
     path_39.cubicTo(32.925000000000004, 50.927, 41.045, 54.527, 57.015, 50.317);
     path_39.close();
 
-    Paint paint_39_fill = Paint()..style = PaintingStyle.fill;
-    paint_39_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_39, paint_39_fill);
+    Paint paint39Fill = Paint()..style = PaintingStyle.fill;
+    paint39Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_39, paint39Fill);
 
     Path path_40 = Path();
     path_40.moveTo(85.545, 30.527);
@@ -9342,8 +9342,8 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_40.close();
 
-    Paint paint_40_fill = Paint()..style = PaintingStyle.fill;
-    paint_40_fill.shader = ui.Gradient.linear(
+    Paint paint40Fill = Paint()..style = PaintingStyle.fill;
+    paint40Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.1355167, size.height * 0.2049638),
       Offset(size.width * 0.5016389, size.height * 0.2049638),
       [
@@ -9355,7 +9355,7 @@ class FifthIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_40, paint_40_fill);
+    canvas.drawPath(path_40, paint40Fill);
 
     Path path_41 = Path();
     path_41.moveTo(82.834, 32.597);
@@ -9385,9 +9385,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_41.close();
 
-    Paint paint_41_fill = Paint()..style = PaintingStyle.fill;
-    paint_41_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_41, paint_41_fill);
+    Paint paint41Fill = Paint()..style = PaintingStyle.fill;
+    paint41Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_41, paint41Fill);
 
     Path path_42 = Path();
     path_42.moveTo(49.235, 33.177);
@@ -9404,8 +9404,8 @@ class FifthIslandPainter extends CustomPainter {
     path_42.cubicTo(83.125, 34.207, 58.965, 46.107, 49.235, 33.177);
     path_42.close();
 
-    Paint paint_42_fill = Paint()..style = PaintingStyle.fill;
-    paint_42_fill.shader = ui.Gradient.linear(
+    Paint paint42Fill = Paint()..style = PaintingStyle.fill;
+    paint42Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3857833, size.height * 0.2882101),
       Offset(size.width * 0.3242333, size.height * 0.1198261),
       [
@@ -9416,7 +9416,7 @@ class FifthIslandPainter extends CustomPainter {
       ],
       [0, 0.277, 0.754, 1],
     );
-    canvas.drawPath(path_42, paint_42_fill);
+    canvas.drawPath(path_42, paint42Fill);
 
     Path path_43 = Path();
     path_43.moveTo(75.855, 36.547);
@@ -9446,9 +9446,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_43.close();
 
-    Paint paint_43_fill = Paint()..style = PaintingStyle.fill;
-    paint_43_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_43, paint_43_fill);
+    Paint paint43Fill = Paint()..style = PaintingStyle.fill;
+    paint43Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_43, paint43Fill);
 
     Path path_44 = Path();
     path_44.moveTo(79.345, 27.238);
@@ -9472,9 +9472,9 @@ class FifthIslandPainter extends CustomPainter {
     path_44.cubicTo(65.265, 16.188, 75.465, 23.368, 79.345, 27.238);
     path_44.close();
 
-    Paint paint_44_fill = Paint()..style = PaintingStyle.fill;
-    paint_44_fill.color = Color(0xffD96840).withOpacity(1.0);
-    canvas.drawPath(path_44, paint_44_fill);
+    Paint paint44Fill = Paint()..style = PaintingStyle.fill;
+    paint44Fill.color = Color(0xffD96840).withOpacity(1.0);
+    canvas.drawPath(path_44, paint44Fill);
 
     Path path_45 = Path();
     path_45.moveTo(71.064, 31.617);
@@ -9489,9 +9489,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_45.close();
 
-    Paint paint_45_fill = Paint()..style = PaintingStyle.fill;
-    paint_45_fill.color = Color(0xffB2562B).withOpacity(1.0);
-    canvas.drawPath(path_45, paint_45_fill);
+    Paint paint45Fill = Paint()..style = PaintingStyle.fill;
+    paint45Fill.color = Color(0xffB2562B).withOpacity(1.0);
+    canvas.drawPath(path_45, paint45Fill);
 
     Path path_46 = Path();
     path_46.moveTo(70.284, 20.418);
@@ -9540,9 +9540,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_46.close();
 
-    Paint paint_46_fill = Paint()..style = PaintingStyle.fill;
-    paint_46_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_46, paint_46_fill);
+    Paint paint46Fill = Paint()..style = PaintingStyle.fill;
+    paint46Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_46, paint46Fill);
 
     Path path_47 = Path();
     path_47.moveTo(73.284, 29.737);
@@ -9597,9 +9597,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_47.close();
 
-    Paint paint_47_fill = Paint()..style = PaintingStyle.fill;
-    paint_47_fill.color = Color(0xffEA8E40).withOpacity(1.0);
-    canvas.drawPath(path_47, paint_47_fill);
+    Paint paint47Fill = Paint()..style = PaintingStyle.fill;
+    paint47Fill.color = Color(0xffEA8E40).withOpacity(1.0);
+    canvas.drawPath(path_47, paint47Fill);
 
     Path path_48 = Path();
     path_48.moveTo(114.825, 95.767);
@@ -9614,9 +9614,9 @@ class FifthIslandPainter extends CustomPainter {
     path_48.cubicTo(149.365, 92.907, 124.645, 105.577, 114.825, 95.767);
     path_48.close();
 
-    Paint paint_48_fill = Paint()..style = PaintingStyle.fill;
-    paint_48_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_48, paint_48_fill);
+    Paint paint48Fill = Paint()..style = PaintingStyle.fill;
+    paint48Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_48, paint48Fill);
 
     Path path_49 = Path();
     path_49.moveTo(137.664, 90.757);
@@ -9640,8 +9640,8 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_49.close();
 
-    Paint paint_49_fill = Paint()..style = PaintingStyle.fill;
-    paint_49_fill.shader = ui.Gradient.linear(
+    Paint paint49Fill = Paint()..style = PaintingStyle.fill;
+    paint49Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6920167, size.height * 0.7112609),
       Offset(size.width * 0.7170222, size.height * 0.4818116),
       [
@@ -9654,7 +9654,7 @@ class FifthIslandPainter extends CustomPainter {
       ],
       [0, 0.017, 0.359, 0.648, 0.871, 1],
     );
-    canvas.drawPath(path_49, paint_49_fill);
+    canvas.drawPath(path_49, paint49Fill);
 
     Path path_50 = Path();
     path_50.moveTo(138.834, 77.217);
@@ -9677,9 +9677,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_50.close();
 
-    Paint paint_50_fill = Paint()..style = PaintingStyle.fill;
-    paint_50_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_50, paint_50_fill);
+    Paint paint50Fill = Paint()..style = PaintingStyle.fill;
+    paint50Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_50, paint50Fill);
 
     Path path_51 = Path();
     path_51.moveTo(138.864, 76.447);
@@ -9710,9 +9710,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_51.close();
 
-    Paint paint_51_fill = Paint()..style = PaintingStyle.fill;
-    paint_51_fill.color = Color(0xffFFA7FF).withOpacity(1.0);
-    canvas.drawPath(path_51, paint_51_fill);
+    Paint paint51Fill = Paint()..style = PaintingStyle.fill;
+    paint51Fill.color = Color(0xffFFA7FF).withOpacity(1.0);
+    canvas.drawPath(path_51, paint51Fill);
 
     Path path_52 = Path();
     path_52.moveTo(138.994, 77.406);
@@ -9743,9 +9743,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_52.close();
 
-    Paint paint_52_fill = Paint()..style = PaintingStyle.fill;
-    paint_52_fill.color = Color(0xffFFA7FF).withOpacity(1.0);
-    canvas.drawPath(path_52, paint_52_fill);
+    Paint paint52Fill = Paint()..style = PaintingStyle.fill;
+    paint52Fill.color = Color(0xffFFA7FF).withOpacity(1.0);
+    canvas.drawPath(path_52, paint52Fill);
 
     Path path_53 = Path();
     path_53.moveTo(126.184, 96.146);
@@ -9769,9 +9769,9 @@ class FifthIslandPainter extends CustomPainter {
     path_53.cubicTo(115.124, 94.086, 118.484, 98.166, 126.184, 96.146);
     path_53.close();
 
-    Paint paint_53_fill = Paint()..style = PaintingStyle.fill;
-    paint_53_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_53, paint_53_fill);
+    Paint paint53Fill = Paint()..style = PaintingStyle.fill;
+    paint53Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_53, paint53Fill);
 
     Path path_54 = Path();
     path_54.moveTo(129.244, 81.947);
@@ -9813,9 +9813,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_54.close();
 
-    Paint paint_54_fill = Paint()..style = PaintingStyle.fill;
-    paint_54_fill.color = Colors.yellow.withOpacity(1.0);
-    canvas.drawPath(path_54, paint_54_fill);
+    Paint paint54Fill = Paint()..style = PaintingStyle.fill;
+    paint54Fill.color = Colors.yellow.withOpacity(1.0);
+    canvas.drawPath(path_54, paint54Fill);
 
     Path path_55 = Path();
     path_55.moveTo(105.785, 102.527);
@@ -9845,9 +9845,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_55.close();
 
-    Paint paint_55_fill = Paint()..style = PaintingStyle.fill;
-    paint_55_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_55, paint_55_fill);
+    Paint paint55Fill = Paint()..style = PaintingStyle.fill;
+    paint55Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_55, paint55Fill);
 
     Path path_56 = Path();
     path_56.moveTo(104.885, 106.547);
@@ -9885,8 +9885,8 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_56.close();
 
-    Paint paint_56_fill = Paint()..style = PaintingStyle.fill;
-    paint_56_fill.shader = ui.Gradient.linear(
+    Paint paint56Fill = Paint()..style = PaintingStyle.fill;
+    paint56Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5531889, size.height * 0.7869710),
       Offset(size.width * 0.5655667, size.height * 0.6734130),
       [
@@ -9899,7 +9899,7 @@ class FifthIslandPainter extends CustomPainter {
       ],
       [0, 0.017, 0.359, 0.648, 0.871, 1],
     );
-    canvas.drawPath(path_56, paint_56_fill);
+    canvas.drawPath(path_56, paint56Fill);
 
     Path path_57 = Path();
     path_57.moveTo(105.475, 98.577);
@@ -9929,9 +9929,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_57.close();
 
-    Paint paint_57_fill = Paint()..style = PaintingStyle.fill;
-    paint_57_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_57, paint_57_fill);
+    Paint paint57Fill = Paint()..style = PaintingStyle.fill;
+    paint57Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_57, paint57Fill);
 
     Path path_58 = Path();
     path_58.moveTo(103.955, 96.807);
@@ -9955,9 +9955,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_58.close();
 
-    Paint paint_58_fill = Paint()..style = PaintingStyle.fill;
-    paint_58_fill.color = Color(0xffFFA7FF).withOpacity(1.0);
-    canvas.drawPath(path_58, paint_58_fill);
+    Paint paint58Fill = Paint()..style = PaintingStyle.fill;
+    paint58Fill.color = Color(0xffFFA7FF).withOpacity(1.0);
+    canvas.drawPath(path_58, paint58Fill);
 
     Path path_59 = Path();
     path_59.moveTo(106.235, 104.967);
@@ -9988,9 +9988,9 @@ class FifthIslandPainter extends CustomPainter {
     path_59.cubicTo(104.545, 97.217, 107.295, 100.387, 106.235, 104.967);
     path_59.close();
 
-    Paint paint_59_fill = Paint()..style = PaintingStyle.fill;
-    paint_59_fill.color = Color(0xffFFA7FF).withOpacity(1.0);
-    canvas.drawPath(path_59, paint_59_fill);
+    Paint paint59Fill = Paint()..style = PaintingStyle.fill;
+    paint59Fill.color = Color(0xffFFA7FF).withOpacity(1.0);
+    canvas.drawPath(path_59, paint59Fill);
 
     Path path_60 = Path();
     path_60.moveTo(102.065, 107.617);
@@ -10028,9 +10028,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_60.close();
 
-    Paint paint_60_fill = Paint()..style = PaintingStyle.fill;
-    paint_60_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_60, paint_60_fill);
+    Paint paint60Fill = Paint()..style = PaintingStyle.fill;
+    paint60Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_60, paint60Fill);
 
     Path path_61 = Path();
     path_61.moveTo(100.975, 101.217);
@@ -10060,9 +10060,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_61.close();
 
-    Paint paint_61_fill = Paint()..style = PaintingStyle.fill;
-    paint_61_fill.color = Colors.yellow.withOpacity(1.0);
-    canvas.drawPath(path_61, paint_61_fill);
+    Paint paint61Fill = Paint()..style = PaintingStyle.fill;
+    paint61Fill.color = Colors.yellow.withOpacity(1.0);
+    canvas.drawPath(path_61, paint61Fill);
 
     Path path_62 = Path();
     path_62.moveTo(103.994, 97.657);
@@ -10078,9 +10078,9 @@ class FifthIslandPainter extends CustomPainter {
     );
     path_62.close();
 
-    Paint paint_62_fill = Paint()..style = PaintingStyle.fill;
-    paint_62_fill.color = Colors.yellow.withOpacity(1.0);
-    canvas.drawPath(path_62, paint_62_fill);
+    Paint paint62Fill = Paint()..style = PaintingStyle.fill;
+    paint62Fill.color = Colors.yellow.withOpacity(1.0);
+    canvas.drawPath(path_62, paint62Fill);
   }
 
   @override
@@ -10233,8 +10233,8 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.shader = ui.Gradient.linear(
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4987594, size.height * 0.9954805),
       Offset(size.width * 0.4987594, size.height * 0.02630519),
       [
@@ -10245,7 +10245,7 @@ class SixthIslandPainter extends CustomPainter {
       ],
       [0, 0.417, 0.769, 1],
     );
-    canvas.drawPath(path_0, paint_0_fill);
+    canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
     path_1.moveTo(44.626, 148.281);
@@ -10340,8 +10340,8 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_1.close();
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.shader = ui.Gradient.linear(
+    Paint paint1Fill = Paint()..style = PaintingStyle.fill;
+    paint1Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4987642, size.height * 0.9954805),
       Offset(size.width * 0.4987642, size.height * 0.2544091),
       [
@@ -10353,7 +10353,7 @@ class SixthIslandPainter extends CustomPainter {
       ],
       [0, 0.059, 0.482, 0.81, 1],
     );
-    canvas.drawPath(path_1, paint_1_fill);
+    canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
     path_2.moveTo(185.656, 43.77);
@@ -10408,8 +10408,8 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.shader = ui.Gradient.linear(
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4924858, size.height * 0.7943636),
       Offset(size.width * 0.4924858, size.height * 0.06175325),
       [
@@ -10420,7 +10420,7 @@ class SixthIslandPainter extends CustomPainter {
       ],
       [0, 0.417, 0.769, 1],
     );
-    canvas.drawPath(path_2, paint_2_fill);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(185.096, 43.09);
@@ -10467,8 +10467,8 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.shader = ui.Gradient.linear(
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4917736, size.height * 0.8104805),
       Offset(size.width * 0.4917736, size.height * 0.2798117),
       [
@@ -10480,7 +10480,7 @@ class SixthIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_3, paint_3_fill);
+    canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
     path_4.moveTo(165.536, 115.301);
@@ -10527,8 +10527,8 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.shader = ui.Gradient.linear(
+    Paint paint4Fill = Paint()..style = PaintingStyle.fill;
+    paint4Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4412642, size.height * 0.8956623),
       Offset(size.width * 0.4412642, size.height * 0.7403571),
       [
@@ -10540,7 +10540,7 @@ class SixthIslandPainter extends CustomPainter {
       ],
       [0, 0.059, 0.482, 0.81, 1],
     );
-    canvas.drawPath(path_4, paint_4_fill);
+    canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
     path_5.moveTo(122.506, 129.17);
@@ -10562,9 +10562,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_5.close();
 
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.color = Color(0xffFFDD81).withOpacity(1.0);
-    canvas.drawPath(path_5, paint_5_fill);
+    Paint paint5Fill = Paint()..style = PaintingStyle.fill;
+    paint5Fill.color = Color(0xffFFDD81).withOpacity(1.0);
+    canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
     path_6.moveTo(123.036, 132.651);
@@ -10602,9 +10602,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_6.close();
 
-    Paint paint_6_fill = Paint()..style = PaintingStyle.fill;
-    paint_6_fill.color = Color(0xffFFDD81).withOpacity(1.0);
-    canvas.drawPath(path_6, paint_6_fill);
+    Paint paint6Fill = Paint()..style = PaintingStyle.fill;
+    paint6Fill.color = Color(0xffFFDD81).withOpacity(1.0);
+    canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
     path_7.moveTo(138.446, 133.08);
@@ -10635,8 +10635,8 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_7.close();
 
-    Paint paint_7_fill = Paint()..style = PaintingStyle.fill;
-    paint_7_fill.shader = ui.Gradient.linear(
+    Paint paint7Fill = Paint()..style = PaintingStyle.fill;
+    paint7Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3643208, size.height * 0.9876623),
       Offset(size.width * 0.3643208, size.height * 0.8424545),
       [
@@ -10649,7 +10649,7 @@ class SixthIslandPainter extends CustomPainter {
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
-    canvas.drawPath(path_7, paint_7_fill);
+    canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
     path_8.moveTo(130.867, 128.461);
@@ -10695,8 +10695,8 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_8.close();
 
-    Paint paint_8_fill = Paint()..style = PaintingStyle.fill;
-    paint_8_fill.shader = ui.Gradient.linear(
+    Paint paint8Fill = Paint()..style = PaintingStyle.fill;
+    paint8Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4192925, size.height * 0.8935325),
       Offset(size.width * 0.4192925, size.height * 0.8077078),
       [
@@ -10709,7 +10709,7 @@ class SixthIslandPainter extends CustomPainter {
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
-    canvas.drawPath(path_8, paint_8_fill);
+    canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
     path_9.moveTo(18.376, 120.451);
@@ -10747,9 +10747,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_9.close();
 
-    Paint paint_9_fill = Paint()..style = PaintingStyle.fill;
-    paint_9_fill.color = Color(0xffFFDD81).withOpacity(1.0);
-    canvas.drawPath(path_9, paint_9_fill);
+    Paint paint9Fill = Paint()..style = PaintingStyle.fill;
+    paint9Fill.color = Color(0xffFFDD81).withOpacity(1.0);
+    canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
     path_10.moveTo(143.786, 98.95);
@@ -10815,9 +10815,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_10.close();
 
-    Paint paint_10_fill = Paint()..style = PaintingStyle.fill;
-    paint_10_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_10, paint_10_fill);
+    Paint paint10Fill = Paint()..style = PaintingStyle.fill;
+    paint10Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_10, paint10Fill);
 
     Path path_11 = Path();
     path_11.moveTo(158.276, 128.36);
@@ -10878,8 +10878,8 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_11.close();
 
-    Paint paint_11_fill = Paint()..style = PaintingStyle.fill;
-    paint_11_fill.shader = ui.Gradient.linear(
+    Paint paint11Fill = Paint()..style = PaintingStyle.fill;
+    paint11Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.9974953, size.height * 0.6201494),
       Offset(size.width * 0.7465896, size.height * 0.6201494),
       [
@@ -10892,7 +10892,7 @@ class SixthIslandPainter extends CustomPainter {
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
-    canvas.drawPath(path_11, paint_11_fill);
+    canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
     path_12.moveTo(201.286, 54.961);
@@ -10923,9 +10923,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_12.close();
 
-    Paint paint_12_fill = Paint()..style = PaintingStyle.fill;
-    paint_12_fill.color = Color(0xffFFDD81).withOpacity(1.0);
-    canvas.drawPath(path_12, paint_12_fill);
+    Paint paint12Fill = Paint()..style = PaintingStyle.fill;
+    paint12Fill.color = Color(0xffFFDD81).withOpacity(1.0);
+    canvas.drawPath(path_12, paint12Fill);
 
     Path path_13 = Path();
     path_13.moveTo(60.006, 59.46);
@@ -10967,9 +10967,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_13.close();
 
-    Paint paint_13_fill = Paint()..style = PaintingStyle.fill;
-    paint_13_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_13, paint_13_fill);
+    Paint paint13Fill = Paint()..style = PaintingStyle.fill;
+    paint13Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_13, paint13Fill);
 
     Path path_14 = Path();
     path_14.moveTo(168.696, 11.4);
@@ -10992,9 +10992,9 @@ class SixthIslandPainter extends CustomPainter {
     path_14.cubicTo(151.856, 17.12, 167.706, 12.83, 168.696, 11.4);
     path_14.close();
 
-    Paint paint_14_fill = Paint()..style = PaintingStyle.fill;
-    paint_14_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_14, paint_14_fill);
+    Paint paint14Fill = Paint()..style = PaintingStyle.fill;
+    paint14Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_14, paint14Fill);
 
     Path path_15 = Path();
     path_15.moveTo(181.827, 107.1);
@@ -11017,8 +11017,8 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_15.close();
 
-    Paint paint_15_fill = Paint()..style = PaintingStyle.fill;
-    paint_15_fill.shader = ui.Gradient.linear(
+    Paint paint15Fill = Paint()..style = PaintingStyle.fill;
+    paint15Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7610330, size.height * 0.7795260),
       Offset(size.width * 0.7610330, size.height * 0.5451429),
       [
@@ -11029,7 +11029,7 @@ class SixthIslandPainter extends CustomPainter {
       ],
       [0, 0.277, 0.754, 1],
     );
-    canvas.drawPath(path_15, paint_15_fill);
+    canvas.drawPath(path_15, paint15Fill);
 
     Path path_16 = Path();
     path_16.moveTo(170.406, 87.291);
@@ -11060,9 +11060,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_16.close();
 
-    Paint paint_16_fill = Paint()..style = PaintingStyle.fill;
-    paint_16_fill.color = Color(0xffD96840).withOpacity(1.0);
-    canvas.drawPath(path_16, paint_16_fill);
+    Paint paint16Fill = Paint()..style = PaintingStyle.fill;
+    paint16Fill.color = Color(0xffD96840).withOpacity(1.0);
+    canvas.drawPath(path_16, paint16Fill);
 
     Path path_17 = Path();
     path_17.moveTo(182.806, 105.71);
@@ -11108,9 +11108,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_17.close();
 
-    Paint paint_17_fill = Paint()..style = PaintingStyle.fill;
-    paint_17_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_17, paint_17_fill);
+    Paint paint17Fill = Paint()..style = PaintingStyle.fill;
+    paint17Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_17, paint17Fill);
 
     Path path_18 = Path();
     path_18.moveTo(168.116, 105.201);
@@ -11140,9 +11140,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_18.close();
 
-    Paint paint_18_fill = Paint()..style = PaintingStyle.fill;
-    paint_18_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_18, paint_18_fill);
+    Paint paint18Fill = Paint()..style = PaintingStyle.fill;
+    paint18Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_18, paint18Fill);
 
     Path path_19 = Path();
     path_19.moveTo(163.636, 87.471);
@@ -11164,9 +11164,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_19.close();
 
-    Paint paint_19_fill = Paint()..style = PaintingStyle.fill;
-    paint_19_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_19, paint_19_fill);
+    Paint paint19Fill = Paint()..style = PaintingStyle.fill;
+    paint19Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_19, paint19Fill);
 
     Path path_20 = Path();
     path_20.moveTo(139.666, 97.29);
@@ -11189,8 +11189,8 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_20.close();
 
-    Paint paint_20_fill = Paint()..style = PaintingStyle.fill;
-    paint_20_fill.shader = ui.Gradient.linear(
+    Paint paint20Fill = Paint()..style = PaintingStyle.fill;
+    paint20Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6594340, size.height * 0.6499481),
       Offset(size.width * 0.4204009, size.height * 0.6499481),
       [
@@ -11202,7 +11202,7 @@ class SixthIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_20, paint_20_fill);
+    canvas.drawPath(path_20, paint20Fill);
 
     Path path_21 = Path();
     path_21.moveTo(139.006, 98.68);
@@ -11233,9 +11233,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_21.close();
 
-    Paint paint_21_fill = Paint()..style = PaintingStyle.fill;
-    paint_21_fill.color = Color(0xff86A500).withOpacity(1.0);
-    canvas.drawPath(path_21, paint_21_fill);
+    Paint paint21Fill = Paint()..style = PaintingStyle.fill;
+    paint21Fill.color = Color(0xff86A500).withOpacity(1.0);
+    canvas.drawPath(path_21, paint21Fill);
 
     Path path_22 = Path();
     path_22.moveTo(165.536, 78.681);
@@ -11250,8 +11250,8 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_22.close();
 
-    Paint paint_22_fill = Paint()..style = PaintingStyle.fill;
-    paint_22_fill.shader = ui.Gradient.linear(
+    Paint paint22Fill = Paint()..style = PaintingStyle.fill;
+    paint22Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7842877, size.height * 0.4892987),
       Offset(size.width * 0.6562123, size.height * 0.4892987),
       [
@@ -11263,7 +11263,7 @@ class SixthIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_22, paint_22_fill);
+    canvas.drawPath(path_22, paint22Fill);
 
     Path path_23 = Path();
     path_23.moveTo(164.936, 79);
@@ -11301,9 +11301,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_23.close();
 
-    Paint paint_23_fill = Paint()..style = PaintingStyle.fill;
-    paint_23_fill.color = Color(0xff639100).withOpacity(1.0);
-    canvas.drawPath(path_23, paint_23_fill);
+    Paint paint23Fill = Paint()..style = PaintingStyle.fill;
+    paint23Fill.color = Color(0xff639100).withOpacity(1.0);
+    canvas.drawPath(path_23, paint23Fill);
 
     Path path_24 = Path();
     path_24.moveTo(143.856, 64.02);
@@ -11318,8 +11318,8 @@ class SixthIslandPainter extends CustomPainter {
     path_24.cubicTo(123.54599999999999, 64.4, 138.896, 59.63, 143.856, 64.02);
     path_24.close();
 
-    Paint paint_24_fill = Paint()..style = PaintingStyle.fill;
-    paint_24_fill.shader = ui.Gradient.linear(
+    Paint paint24Fill = Paint()..style = PaintingStyle.fill;
+    paint24Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6813160, size.height * 0.4231169),
       Offset(size.width * 0.6077028, size.height * 0.4231169),
       [
@@ -11331,7 +11331,7 @@ class SixthIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_24, paint_24_fill);
+    canvas.drawPath(path_24, paint24Fill);
 
     Path path_25 = Path();
     path_25.moveTo(143.656, 66.35);
@@ -11361,9 +11361,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_25.close();
 
-    Paint paint_25_fill = Paint()..style = PaintingStyle.fill;
-    paint_25_fill.color = Color(0xff639100).withOpacity(1.0);
-    canvas.drawPath(path_25, paint_25_fill);
+    Paint paint25Fill = Paint()..style = PaintingStyle.fill;
+    paint25Fill.color = Color(0xff639100).withOpacity(1.0);
+    canvas.drawPath(path_25, paint25Fill);
 
     Path path_26 = Path();
     path_26.moveTo(139.807, 91.951);
@@ -11393,9 +11393,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_26.close();
 
-    Paint paint_26_fill = Paint()..style = PaintingStyle.fill;
-    paint_26_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_26, paint_26_fill);
+    Paint paint26Fill = Paint()..style = PaintingStyle.fill;
+    paint26Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_26, paint26Fill);
 
     Path path_27 = Path();
     path_27.moveTo(165.006, 108.601);
@@ -11404,9 +11404,9 @@ class SixthIslandPainter extends CustomPainter {
     path_27.cubicTo(152.816, 112.551, 157.796, 113.301, 165.006, 108.601);
     path_27.close();
 
-    Paint paint_27_fill = Paint()..style = PaintingStyle.fill;
-    paint_27_fill.color = Color(0xffB2562B).withOpacity(1.0);
-    canvas.drawPath(path_27, paint_27_fill);
+    Paint paint27Fill = Paint()..style = PaintingStyle.fill;
+    paint27Fill.color = Color(0xffB2562B).withOpacity(1.0);
+    canvas.drawPath(path_27, paint27Fill);
 
     Path path_28 = Path();
     path_28.moveTo(171.546, 114.011);
@@ -11429,9 +11429,9 @@ class SixthIslandPainter extends CustomPainter {
     path_28.cubicTo(149.596, 119.801, 159.816, 119.451, 171.546, 114.011);
     path_28.close();
 
-    Paint paint_28_fill = Paint()..style = PaintingStyle.fill;
-    paint_28_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_28, paint_28_fill);
+    Paint paint28Fill = Paint()..style = PaintingStyle.fill;
+    paint28Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_28, paint28Fill);
 
     Path path_29 = Path();
     path_29.moveTo(172.376, 100.761);
@@ -11493,9 +11493,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_29.close();
 
-    Paint paint_29_fill = Paint()..style = PaintingStyle.fill;
-    paint_29_fill.color = Color(0xffEA8E40).withOpacity(1.0);
-    canvas.drawPath(path_29, paint_29_fill);
+    Paint paint29Fill = Paint()..style = PaintingStyle.fill;
+    paint29Fill.color = Color(0xffEA8E40).withOpacity(1.0);
+    canvas.drawPath(path_29, paint29Fill);
 
     Path path_30 = Path();
     path_30.moveTo(12.346, 102);
@@ -11533,9 +11533,9 @@ class SixthIslandPainter extends CustomPainter {
     path_30.cubicTo(22.946, 123.471, 25.546, 125.191, 27.216, 123.691);
     path_30.close();
 
-    Paint paint_30_fill = Paint()..style = PaintingStyle.fill;
-    paint_30_fill.color = Color(0xffD36F3B).withOpacity(1.0);
-    canvas.drawPath(path_30, paint_30_fill);
+    Paint paint30Fill = Paint()..style = PaintingStyle.fill;
+    paint30Fill.color = Color(0xffD36F3B).withOpacity(1.0);
+    canvas.drawPath(path_30, paint30Fill);
 
     Path path_31 = Path();
     path_31.moveTo(16.356, 92.581);
@@ -11636,9 +11636,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_31.close();
 
-    Paint paint_31_fill = Paint()..style = PaintingStyle.fill;
-    paint_31_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_31, paint_31_fill);
+    Paint paint31Fill = Paint()..style = PaintingStyle.fill;
+    paint31Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_31, paint31Fill);
 
     Path path_32 = Path();
     path_32.moveTo(8.836, 97);
@@ -11671,9 +11671,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_32.close();
 
-    Paint paint_32_fill = Paint()..style = PaintingStyle.fill;
-    paint_32_fill.color = Color(0xffE7792C).withOpacity(1.0);
-    canvas.drawPath(path_32, paint_32_fill);
+    Paint paint32Fill = Paint()..style = PaintingStyle.fill;
+    paint32Fill.color = Color(0xffE7792C).withOpacity(1.0);
+    canvas.drawPath(path_32, paint32Fill);
 
     Path path_33 = Path();
     path_33.moveTo(85.897, 101.56);
@@ -11688,9 +11688,9 @@ class SixthIslandPainter extends CustomPainter {
     path_33.cubicTo(81.62700000000001, 101.34, 84.227, 103.06, 85.897, 101.56);
     path_33.close();
 
-    Paint paint_33_fill = Paint()..style = PaintingStyle.fill;
-    paint_33_fill.color = Color(0xffD36F3B).withOpacity(1.0);
-    canvas.drawPath(path_33, paint_33_fill);
+    Paint paint33Fill = Paint()..style = PaintingStyle.fill;
+    paint33Fill.color = Color(0xffD36F3B).withOpacity(1.0);
+    canvas.drawPath(path_33, paint33Fill);
 
     Path path_34 = Path();
     path_34.moveTo(86.016, 99.96);
@@ -11721,9 +11721,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_34.close();
 
-    Paint paint_34_fill = Paint()..style = PaintingStyle.fill;
-    paint_34_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_34, paint_34_fill);
+    Paint paint34Fill = Paint()..style = PaintingStyle.fill;
+    paint34Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_34, paint34Fill);
 
     Path path_35 = Path();
     path_35.moveTo(84.617, 100.541);
@@ -11746,9 +11746,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_35.close();
 
-    Paint paint_35_fill = Paint()..style = PaintingStyle.fill;
-    paint_35_fill.color = Color(0xffE7792C).withOpacity(1.0);
-    canvas.drawPath(path_35, paint_35_fill);
+    Paint paint35Fill = Paint()..style = PaintingStyle.fill;
+    paint35Fill.color = Color(0xffE7792C).withOpacity(1.0);
+    canvas.drawPath(path_35, paint35Fill);
 
     Path path_36 = Path();
     path_36.moveTo(138.207, 124.28);
@@ -11770,9 +11770,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_36.close();
 
-    Paint paint_36_fill = Paint()..style = PaintingStyle.fill;
-    paint_36_fill.color = Color(0xffD36F3B).withOpacity(1.0);
-    canvas.drawPath(path_36, paint_36_fill);
+    Paint paint36Fill = Paint()..style = PaintingStyle.fill;
+    paint36Fill.color = Color(0xffD36F3B).withOpacity(1.0);
+    canvas.drawPath(path_36, paint36Fill);
 
     Path path_37 = Path();
     path_37.moveTo(138.376, 121.99);
@@ -11803,9 +11803,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_37.close();
 
-    Paint paint_37_fill = Paint()..style = PaintingStyle.fill;
-    paint_37_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_37, paint_37_fill);
+    Paint paint37Fill = Paint()..style = PaintingStyle.fill;
+    paint37Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_37, paint37Fill);
 
     Path path_38 = Path();
     path_38.moveTo(136.366, 122.831);
@@ -11835,9 +11835,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_38.close();
 
-    Paint paint_38_fill = Paint()..style = PaintingStyle.fill;
-    paint_38_fill.color = Color(0xffE7792C).withOpacity(1.0);
-    canvas.drawPath(path_38, paint_38_fill);
+    Paint paint38Fill = Paint()..style = PaintingStyle.fill;
+    paint38Fill.color = Color(0xffE7792C).withOpacity(1.0);
+    canvas.drawPath(path_38, paint38Fill);
 
     Path path_39 = Path();
     path_39.moveTo(79.467, 106.891);
@@ -11859,9 +11859,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_39.close();
 
-    Paint paint_39_fill = Paint()..style = PaintingStyle.fill;
-    paint_39_fill.color = Color(0xffD36F3B).withOpacity(1.0);
-    canvas.drawPath(path_39, paint_39_fill);
+    Paint paint39Fill = Paint()..style = PaintingStyle.fill;
+    paint39Fill.color = Color(0xffD36F3B).withOpacity(1.0);
+    canvas.drawPath(path_39, paint39Fill);
 
     Path path_40 = Path();
     path_40.moveTo(79.106, 105.352);
@@ -11900,9 +11900,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_40.close();
 
-    Paint paint_40_fill = Paint()..style = PaintingStyle.fill;
-    paint_40_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_40, paint_40_fill);
+    Paint paint40Fill = Paint()..style = PaintingStyle.fill;
+    paint40Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_40, paint40Fill);
 
     Path path_41 = Path();
     path_41.moveTo(72.707, 104.971);
@@ -11924,9 +11924,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_41.close();
 
-    Paint paint_41_fill = Paint()..style = PaintingStyle.fill;
-    paint_41_fill.color = Color(0xffE7792C).withOpacity(1.0);
-    canvas.drawPath(path_41, paint_41_fill);
+    Paint paint41Fill = Paint()..style = PaintingStyle.fill;
+    paint41Fill.color = Color(0xffE7792C).withOpacity(1.0);
+    canvas.drawPath(path_41, paint41Fill);
 
     Path path_42 = Path();
     path_42.moveTo(27.917, 61.841);
@@ -11956,8 +11956,8 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_42.close();
 
-    Paint paint_42_fill = Paint()..style = PaintingStyle.fill;
-    paint_42_fill.shader = ui.Gradient.linear(
+    Paint paint42Fill = Paint()..style = PaintingStyle.fill;
+    paint42Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.08434434, size.height * 0.4645260),
       Offset(size.width * 0.08434434, size.height * 0.3169221),
       [
@@ -11968,7 +11968,7 @@ class SixthIslandPainter extends CustomPainter {
       ],
       [0, 0.277, 0.754, 1],
     );
-    canvas.drawPath(path_42, paint_42_fill);
+    canvas.drawPath(path_42, paint42Fill);
 
     Path path_43 = Path();
     path_43.moveTo(16.716, 79);
@@ -11984,8 +11984,8 @@ class SixthIslandPainter extends CustomPainter {
     path_43.cubicTo(2.8260000000000005, 84.27, 11.076, 84.98, 16.716, 79);
     path_43.close();
 
-    Paint paint_43_fill = Paint()..style = PaintingStyle.fill;
-    paint_43_fill.shader = ui.Gradient.linear(
+    Paint paint43Fill = Paint()..style = PaintingStyle.fill;
+    paint43Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.04299528, size.height * 0.5444805),
       Offset(size.width * 0.04299528, size.height * 0.4292403),
       [
@@ -11996,7 +11996,7 @@ class SixthIslandPainter extends CustomPainter {
       ],
       [0, 0.277, 0.754, 1],
     );
-    canvas.drawPath(path_43, paint_43_fill);
+    canvas.drawPath(path_43, paint43Fill);
 
     Path path_44 = Path();
     path_44.moveTo(19.296, 48.83);
@@ -12038,9 +12038,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_44.close();
 
-    Paint paint_44_fill = Paint()..style = PaintingStyle.fill;
-    paint_44_fill.color = Color(0xffD96840).withOpacity(1.0);
-    canvas.drawPath(path_44, paint_44_fill);
+    Paint paint44Fill = Paint()..style = PaintingStyle.fill;
+    paint44Fill.color = Color(0xffD96840).withOpacity(1.0);
+    canvas.drawPath(path_44, paint44Fill);
 
     Path path_45 = Path();
     path_45.moveTo(28.206, 61.361);
@@ -12092,9 +12092,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_45.close();
 
-    Paint paint_45_fill = Paint()..style = PaintingStyle.fill;
-    paint_45_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_45, paint_45_fill);
+    Paint paint45Fill = Paint()..style = PaintingStyle.fill;
+    paint45Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_45, paint45Fill);
 
     Path path_46 = Path();
     path_46.moveTo(9.096, 77.43);
@@ -12171,9 +12171,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_46.close();
 
-    Paint paint_46_fill = Paint()..style = PaintingStyle.fill;
-    paint_46_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_46, paint_46_fill);
+    Paint paint46Fill = Paint()..style = PaintingStyle.fill;
+    paint46Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_46, paint46Fill);
 
     Path path_47 = Path();
     path_47.moveTo(18.666, 62.14);
@@ -12222,9 +12222,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_47.close();
 
-    Paint paint_47_fill = Paint()..style = PaintingStyle.fill;
-    paint_47_fill.color = Color(0xffB2562B).withOpacity(1.0);
-    canvas.drawPath(path_47, paint_47_fill);
+    Paint paint47Fill = Paint()..style = PaintingStyle.fill;
+    paint47Fill.color = Color(0xffB2562B).withOpacity(1.0);
+    canvas.drawPath(path_47, paint47Fill);
 
     Path path_48 = Path();
     path_48.moveTo(13.026, 80.34);
@@ -12297,9 +12297,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_48.close();
 
-    Paint paint_48_fill = Paint()..style = PaintingStyle.fill;
-    paint_48_fill.color = Color(0xffEA8E40).withOpacity(1.0);
-    canvas.drawPath(path_48, paint_48_fill);
+    Paint paint48Fill = Paint()..style = PaintingStyle.fill;
+    paint48Fill.color = Color(0xffEA8E40).withOpacity(1.0);
+    canvas.drawPath(path_48, paint48Fill);
 
     Path path_49 = Path();
     path_49.moveTo(81.886, 32.9);
@@ -12375,8 +12375,8 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_49.close();
 
-    Paint paint_49_fill = Paint()..style = PaintingStyle.fill;
-    paint_49_fill.shader = ui.Gradient.linear(
+    Paint paint49Fill = Paint()..style = PaintingStyle.fill;
+    paint49Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4971651, size.height * 0.2846948),
       Offset(size.width * 0.4971651, size.height * 0.04237013),
       [
@@ -12386,7 +12386,7 @@ class SixthIslandPainter extends CustomPainter {
       ],
       [0, 0.59, 1],
     );
-    canvas.drawPath(path_49, paint_49_fill);
+    canvas.drawPath(path_49, paint49Fill);
 
     Path path_50 = Path();
     path_50.moveTo(81.646, 34.05);
@@ -12474,8 +12474,8 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_50.close();
 
-    Paint paint_50_fill = Paint()..style = PaintingStyle.fill;
-    paint_50_fill.shader = ui.Gradient.linear(
+    Paint paint50Fill = Paint()..style = PaintingStyle.fill;
+    paint50Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4987594, size.height * 0.2901429),
       Offset(size.width * 0.4987594, size.height * 0.1077273),
       [
@@ -12487,7 +12487,7 @@ class SixthIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_50, paint_50_fill);
+    canvas.drawPath(path_50, paint50Fill);
 
     Path path_51 = Path();
     path_51.moveTo(111.486, 13.84);
@@ -12496,8 +12496,8 @@ class SixthIslandPainter extends CustomPainter {
     path_51.lineTo(111.486, 13.84);
     path_51.close();
 
-    Paint paint_51_fill = Paint()..style = PaintingStyle.fill;
-    paint_51_fill.shader = ui.Gradient.linear(
+    Paint paint51Fill = Paint()..style = PaintingStyle.fill;
+    paint51Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5318726, size.height * 0.09480519),
       Offset(size.width * 0.5318726, size.height * 0.04398701),
       [
@@ -12509,7 +12509,7 @@ class SixthIslandPainter extends CustomPainter {
       ],
       [0, 0.303, 0.616, 0.859, 1],
     );
-    canvas.drawPath(path_51, paint_51_fill);
+    canvas.drawPath(path_51, paint51Fill);
 
     Path path_52 = Path();
     path_52.moveTo(124.436, 26.8);
@@ -12568,9 +12568,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_52.close();
 
-    Paint paint_52_fill = Paint()..style = PaintingStyle.fill;
-    paint_52_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_52, paint_52_fill);
+    Paint paint52Fill = Paint()..style = PaintingStyle.fill;
+    paint52Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_52, paint52Fill);
 
     Path path_53 = Path();
     path_53.moveTo(137.086, 16.76);
@@ -12705,9 +12705,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_53.close();
 
-    Paint paint_53_fill = Paint()..style = PaintingStyle.fill;
-    paint_53_fill.color = Color(0xffEABA13).withOpacity(1.0);
-    canvas.drawPath(path_53, paint_53_fill);
+    Paint paint53Fill = Paint()..style = PaintingStyle.fill;
+    paint53Fill.color = Color(0xffEABA13).withOpacity(1.0);
+    canvas.drawPath(path_53, paint53Fill);
 
     Path path_54 = Path();
     path_54.moveTo(90.886, 134.491);
@@ -12771,9 +12771,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_54.close();
 
-    Paint paint_54_fill = Paint()..style = PaintingStyle.fill;
-    paint_54_fill.color = Color(0xffFFDD5E).withOpacity(1.0);
-    canvas.drawPath(path_54, paint_54_fill);
+    Paint paint54Fill = Paint()..style = PaintingStyle.fill;
+    paint54Fill.color = Color(0xffFFDD5E).withOpacity(1.0);
+    canvas.drawPath(path_54, paint54Fill);
 
     Path path_55 = Path();
     path_55.moveTo(111.996, 129.581);
@@ -12839,9 +12839,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_55.close();
 
-    Paint paint_55_fill = Paint()..style = PaintingStyle.fill;
-    paint_55_fill.color = Color(0xffEDE0A9).withOpacity(1.0);
-    canvas.drawPath(path_55, paint_55_fill);
+    Paint paint55Fill = Paint()..style = PaintingStyle.fill;
+    paint55Fill.color = Color(0xffEDE0A9).withOpacity(1.0);
+    canvas.drawPath(path_55, paint55Fill);
 
     Path path_56 = Path();
     path_56.moveTo(112.447, 126.141);
@@ -12888,9 +12888,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_56.close();
 
-    Paint paint_56_fill = Paint()..style = PaintingStyle.fill;
-    paint_56_fill.color = Color(0xffCC81B3).withOpacity(1.0);
-    canvas.drawPath(path_56, paint_56_fill);
+    Paint paint56Fill = Paint()..style = PaintingStyle.fill;
+    paint56Fill.color = Color(0xffCC81B3).withOpacity(1.0);
+    canvas.drawPath(path_56, paint56Fill);
 
     Path path_57 = Path();
     path_57.moveTo(90.516, 125.671);
@@ -12928,9 +12928,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_57.close();
 
-    Paint paint_57_fill = Paint()..style = PaintingStyle.fill;
-    paint_57_fill.color = Color(0xffCC81B3).withOpacity(1.0);
-    canvas.drawPath(path_57, paint_57_fill);
+    Paint paint57Fill = Paint()..style = PaintingStyle.fill;
+    paint57Fill.color = Color(0xffCC81B3).withOpacity(1.0);
+    canvas.drawPath(path_57, paint57Fill);
 
     Path path_58 = Path();
     path_58.moveTo(23.116, 109.29);
@@ -12963,9 +12963,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_58.close();
 
-    Paint paint_58_fill = Paint()..style = PaintingStyle.fill;
-    paint_58_fill.color = Color(0xffCC81B3).withOpacity(1.0);
-    canvas.drawPath(path_58, paint_58_fill);
+    Paint paint58Fill = Paint()..style = PaintingStyle.fill;
+    paint58Fill.color = Color(0xffCC81B3).withOpacity(1.0);
+    canvas.drawPath(path_58, paint58Fill);
 
     Path path_59 = Path();
     path_59.moveTo(89.666, 109.76);
@@ -13232,9 +13232,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_59.close();
 
-    Paint paint_59_fill = Paint()..style = PaintingStyle.fill;
-    paint_59_fill.color = Color(0xffB0FF00).withOpacity(1.0);
-    canvas.drawPath(path_59, paint_59_fill);
+    Paint paint59Fill = Paint()..style = PaintingStyle.fill;
+    paint59Fill.color = Color(0xffB0FF00).withOpacity(1.0);
+    canvas.drawPath(path_59, paint59Fill);
 
     Path path_60 = Path();
     path_60.moveTo(104.557, 102.871);
@@ -13249,9 +13249,9 @@ class SixthIslandPainter extends CustomPainter {
     path_60.cubicTo(134.667, 101.491, 111.377, 111.201, 104.557, 102.871);
     path_60.close();
 
-    Paint paint_60_fill = Paint()..style = PaintingStyle.fill;
-    paint_60_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_60, paint_60_fill);
+    Paint paint60Fill = Paint()..style = PaintingStyle.fill;
+    paint60Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_60, paint60Fill);
 
     Path path_61 = Path();
     path_61.moveTo(125.996, 98.62);
@@ -13282,8 +13282,8 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_61.close();
 
-    Paint paint_61_fill = Paint()..style = PaintingStyle.fill;
-    paint_61_fill.shader = ui.Gradient.linear(
+    Paint paint61Fill = Paint()..style = PaintingStyle.fill;
+    paint61Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5331321, size.height * 0.6819026),
       Offset(size.width * 0.5544292, size.height * 0.5002597),
       [
@@ -13296,7 +13296,7 @@ class SixthIslandPainter extends CustomPainter {
       ],
       [0, 0.017, 0.359, 0.648, 0.871, 1],
     );
-    canvas.drawPath(path_61, paint_61_fill);
+    canvas.drawPath(path_61, paint61Fill);
 
     Path path_62 = Path();
     path_62.moveTo(129.766, 87.14);
@@ -13326,9 +13326,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_62.close();
 
-    Paint paint_62_fill = Paint()..style = PaintingStyle.fill;
-    paint_62_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_62, paint_62_fill);
+    Paint paint62Fill = Paint()..style = PaintingStyle.fill;
+    paint62Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_62, paint62Fill);
 
     Path path_63 = Path();
     path_63.moveTo(129.947, 86.49);
@@ -13352,9 +13352,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_63.close();
 
-    Paint paint_63_fill = Paint()..style = PaintingStyle.fill;
-    paint_63_fill.color = Color(0xffFFA7FF).withOpacity(1.0);
-    canvas.drawPath(path_63, paint_63_fill);
+    Paint paint63Fill = Paint()..style = PaintingStyle.fill;
+    paint63Fill.color = Color(0xffFFA7FF).withOpacity(1.0);
+    canvas.drawPath(path_63, paint63Fill);
 
     Path path_64 = Path();
     path_64.moveTo(129.876, 87.3);
@@ -13371,9 +13371,9 @@ class SixthIslandPainter extends CustomPainter {
     path_64.cubicTo(116.476, 92.481, 123.276, 91.871, 129.876, 87.301);
     path_64.close();
 
-    Paint paint_64_fill = Paint()..style = PaintingStyle.fill;
-    paint_64_fill.color = Color(0xffFFA7FF).withOpacity(1.0);
-    canvas.drawPath(path_64, paint_64_fill);
+    Paint paint64Fill = Paint()..style = PaintingStyle.fill;
+    paint64Fill.color = Color(0xffFFA7FF).withOpacity(1.0);
+    canvas.drawPath(path_64, paint64Fill);
 
     Path path_65 = Path();
     path_65.moveTo(114.656, 103.2);
@@ -13383,9 +13383,9 @@ class SixthIslandPainter extends CustomPainter {
     path_65.cubicTo(105.166, 101.45, 107.356, 104.91, 114.656, 103.2);
     path_65.close();
 
-    Paint paint_65_fill = Paint()..style = PaintingStyle.fill;
-    paint_65_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_65, paint_65_fill);
+    Paint paint65Fill = Paint()..style = PaintingStyle.fill;
+    paint65Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_65, paint65Fill);
 
     Path path_66 = Path();
     path_66.moveTo(120.237, 91.15);
@@ -13406,9 +13406,9 @@ class SixthIslandPainter extends CustomPainter {
     path_66.cubicTo(108.296, 87.88, 110.256, 90.55, 111.72600000000001, 91.22);
     path_66.close();
 
-    Paint paint_66_fill = Paint()..style = PaintingStyle.fill;
-    paint_66_fill.color = Colors.yellow.withOpacity(1.0);
-    canvas.drawPath(path_66, paint_66_fill);
+    Paint paint66Fill = Paint()..style = PaintingStyle.fill;
+    paint66Fill.color = Colors.yellow.withOpacity(1.0);
+    canvas.drawPath(path_66, paint66Fill);
 
     Path path_67 = Path();
     path_67.moveTo(112.687, 103.191);
@@ -13423,9 +13423,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_67.close();
 
-    Paint paint_67_fill = Paint()..style = PaintingStyle.fill;
-    paint_67_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_67, paint_67_fill);
+    Paint paint67Fill = Paint()..style = PaintingStyle.fill;
+    paint67Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_67, paint67Fill);
 
     Path path_68 = Path();
     path_68.moveTo(113.206, 104.481);
@@ -13448,8 +13448,8 @@ class SixthIslandPainter extends CustomPainter {
     path_68.cubicTo(106.116, 109.271, 111.376, 109.191, 113.206, 104.481);
     path_68.close();
 
-    Paint paint_68_fill = Paint()..style = PaintingStyle.fill;
-    paint_68_fill.shader = ui.Gradient.linear(
+    Paint paint68Fill = Paint()..style = PaintingStyle.fill;
+    paint68Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5081321, size.height * 0.7047857),
       Offset(size.width * 0.5160472, size.height * 0.6281688),
       [
@@ -13462,7 +13462,7 @@ class SixthIslandPainter extends CustomPainter {
       ],
       [0, 0.017, 0.359, 0.648, 0.871, 1],
     );
-    canvas.drawPath(path_68, paint_68_fill);
+    canvas.drawPath(path_68, paint68Fill);
 
     Path path_69 = Path();
     path_69.moveTo(112.316, 102.931);
@@ -13492,9 +13492,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_69.close();
 
-    Paint paint_69_fill = Paint()..style = PaintingStyle.fill;
-    paint_69_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_69, paint_69_fill);
+    Paint paint69Fill = Paint()..style = PaintingStyle.fill;
+    paint69Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_69, paint69Fill);
 
     Path path_70 = Path();
     path_70.moveTo(112.196, 101.621);
@@ -13532,9 +13532,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_70.close();
 
-    Paint paint_70_fill = Paint()..style = PaintingStyle.fill;
-    paint_70_fill.color = Color(0xffFFA7FF).withOpacity(1.0);
-    canvas.drawPath(path_70, paint_70_fill);
+    Paint paint70Fill = Paint()..style = PaintingStyle.fill;
+    paint70Fill.color = Color(0xffFFA7FF).withOpacity(1.0);
+    canvas.drawPath(path_70, paint70Fill);
 
     Path path_71 = Path();
     path_71.moveTo(109.317, 108.051);
@@ -13572,9 +13572,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_71.close();
 
-    Paint paint_71_fill = Paint()..style = PaintingStyle.fill;
-    paint_71_fill.color = Color(0xffFFA7FF).withOpacity(1.0);
-    canvas.drawPath(path_71, paint_71_fill);
+    Paint paint71Fill = Paint()..style = PaintingStyle.fill;
+    paint71Fill.color = Color(0xffFFA7FF).withOpacity(1.0);
+    canvas.drawPath(path_71, paint71Fill);
 
     Path path_72 = Path();
     path_72.moveTo(108.396, 108.161);
@@ -13597,9 +13597,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_72.close();
 
-    Paint paint_72_fill = Paint()..style = PaintingStyle.fill;
-    paint_72_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_72, paint_72_fill);
+    Paint paint72Fill = Paint()..style = PaintingStyle.fill;
+    paint72Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_72, paint72Fill);
 
     Path path_73 = Path();
     path_73.moveTo(108.906, 104.551);
@@ -13655,9 +13655,9 @@ class SixthIslandPainter extends CustomPainter {
     );
     path_73.close();
 
-    Paint paint_73_fill = Paint()..style = PaintingStyle.fill;
-    paint_73_fill.color = Colors.yellow.withOpacity(1.0);
-    canvas.drawPath(path_73, paint_73_fill);
+    Paint paint73Fill = Paint()..style = PaintingStyle.fill;
+    paint73Fill.color = Colors.yellow.withOpacity(1.0);
+    canvas.drawPath(path_73, paint73Fill);
   }
 
   @override
@@ -13775,8 +13775,8 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.shader = ui.Gradient.linear(
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4994416, size.height * 0.9971792),
       Offset(size.width * 0.4994416, size.height * 0.007547170),
       [
@@ -13787,7 +13787,7 @@ class SeventhIslandPainter extends CustomPainter {
       ],
       [0, 0.417, 0.769, 1],
     );
-    canvas.drawPath(path_0, paint_0_fill);
+    canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
     path_1.moveTo(63.987, 101.68);
@@ -13849,8 +13849,8 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_1.close();
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.shader = ui.Gradient.linear(
+    Paint paint1Fill = Paint()..style = PaintingStyle.fill;
+    paint1Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4994481, size.height * 0.9971698),
       Offset(size.width * 0.4994481, size.height * 0.2587736),
       [
@@ -13862,7 +13862,7 @@ class SeventhIslandPainter extends CustomPainter {
       ],
       [0, 0.059, 0.482, 0.81, 1],
     );
-    canvas.drawPath(path_1, paint_1_fill);
+    canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
     path_2.moveTo(130.157, 24.26);
@@ -13901,8 +13901,8 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.shader = ui.Gradient.linear(
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5230065, size.height * 0.7539528),
       Offset(size.width * 0.5230065, size.height * 0.02606604),
       [
@@ -13913,7 +13913,7 @@ class SeventhIslandPainter extends CustomPainter {
       ],
       [0, 0.417, 0.769, 1],
     );
-    canvas.drawPath(path_2, paint_2_fill);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(139.027, 35.58);
@@ -13975,8 +13975,8 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.shader = ui.Gradient.linear(
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5187532, size.height * 0.7829340),
       Offset(size.width * 0.5187532, size.height * 0.2302830),
       [
@@ -13988,7 +13988,7 @@ class SeventhIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_3, paint_3_fill);
+    canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
     path_4.moveTo(13.027, 77.14);
@@ -14020,8 +14020,8 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.shader = ui.Gradient.linear(
+    Paint paint4Fill = Paint()..style = PaintingStyle.fill;
+    paint4Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5187532, size.height * 0.9971792),
       Offset(size.width * 0.5187532, size.height * 0.6689811),
       [
@@ -14034,7 +14034,7 @@ class SeventhIslandPainter extends CustomPainter {
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
-    canvas.drawPath(path_4, paint_4_fill);
+    canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
     path_5.moveTo(112.677, 68.08);
@@ -14064,9 +14064,9 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_5.close();
 
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_5, paint_5_fill);
+    Paint paint5Fill = Paint()..style = PaintingStyle.fill;
+    paint5Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
     path_6.moveTo(127.357, 26.33);
@@ -14114,9 +14114,9 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_6.close();
 
-    Paint paint_6_fill = Paint()..style = PaintingStyle.fill;
-    paint_6_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_6, paint_6_fill);
+    Paint paint6Fill = Paint()..style = PaintingStyle.fill;
+    paint6Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
     path_7.moveTo(100.527, 11.95);
@@ -14197,8 +14197,8 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_7.close();
 
-    Paint paint_7_fill = Paint()..style = PaintingStyle.fill;
-    paint_7_fill.shader = ui.Gradient.linear(
+    Paint paint7Fill = Paint()..style = PaintingStyle.fill;
+    paint7Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5607922, size.height * 0.2274811),
       Offset(size.width * 0.5607922, size.height * 0.02627358),
       [
@@ -14208,7 +14208,7 @@ class SeventhIslandPainter extends CustomPainter {
       ],
       [0, 0.59, 1],
     );
-    canvas.drawPath(path_7, paint_7_fill);
+    canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
     path_8.moveTo(107.817, 18.41);
@@ -14247,8 +14247,8 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_8.close();
 
-    Paint paint_8_fill = Paint()..style = PaintingStyle.fill;
-    paint_8_fill.shader = ui.Gradient.linear(
+    Paint paint8Fill = Paint()..style = PaintingStyle.fill;
+    paint8Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5753117, size.height * 0.2377075),
       Offset(size.width * 0.5753117, size.height * 0.1736698),
       [
@@ -14260,7 +14260,7 @@ class SeventhIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_8, paint_8_fill);
+    canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
     path_9.moveTo(102.087, 12.98);
@@ -14349,8 +14349,8 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_9.close();
 
-    Paint paint_9_fill = Paint()..style = PaintingStyle.fill;
-    paint_9_fill.shader = ui.Gradient.linear(
+    Paint paint9Fill = Paint()..style = PaintingStyle.fill;
+    paint9Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5997338, size.height * 0.2129245),
       Offset(size.width * 0.5997338, size.height * 0.1224906),
       [
@@ -14362,7 +14362,7 @@ class SeventhIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_9, paint_9_fill);
+    canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
     path_10.moveTo(72.637, 7.99);
@@ -14386,8 +14386,8 @@ class SeventhIslandPainter extends CustomPainter {
     path_10.lineTo(72.637, 7.990000000000001);
     path_10.close();
 
-    Paint paint_10_fill = Paint()..style = PaintingStyle.fill;
-    paint_10_fill.shader = ui.Gradient.linear(
+    Paint paint10Fill = Paint()..style = PaintingStyle.fill;
+    paint10Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4914286, size.height * 0.1300377),
       Offset(size.width * 0.4914286, size.height * 0.06757547),
       [
@@ -14399,7 +14399,7 @@ class SeventhIslandPainter extends CustomPainter {
       ],
       [0, 0.184, 0.501, 0.91, 1],
     );
-    canvas.drawPath(path_10, paint_10_fill);
+    canvas.drawPath(path_10, paint10Fill);
 
     Path path_11 = Path();
     path_11.moveTo(82.107, 11.68);
@@ -14415,8 +14415,8 @@ class SeventhIslandPainter extends CustomPainter {
     path_11.cubicTo(81.167, 7.599999999999999, 82.107, 11.68, 82.107, 11.68);
     path_11.close();
 
-    Paint paint_11_fill = Paint()..style = PaintingStyle.fill;
-    paint_11_fill.shader = ui.Gradient.linear(
+    Paint paint11Fill = Paint()..style = PaintingStyle.fill;
+    paint11Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5322922, size.height * 0.1007358),
       Offset(size.width * 0.5094091, size.height * 0.1050660),
       [
@@ -14428,7 +14428,7 @@ class SeventhIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_11, paint_11_fill);
+    canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
     path_12.moveTo(92.997, 17.78);
@@ -14522,9 +14522,9 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_12.close();
 
-    Paint paint_12_fill = Paint()..style = PaintingStyle.fill;
-    paint_12_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_12, paint_12_fill);
+    Paint paint12Fill = Paint()..style = PaintingStyle.fill;
+    paint12Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_12, paint12Fill);
 
     Path path_13 = Path();
     path_13.moveTo(65.678, 69.61);
@@ -14546,8 +14546,8 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_13.close();
 
-    Paint paint_13_fill = Paint()..style = PaintingStyle.fill;
-    paint_13_fill.shader = ui.Gradient.linear(
+    Paint paint13Fill = Paint()..style = PaintingStyle.fill;
+    paint13Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4627208, size.height * 0.5393396),
       Offset(size.width * 0.1703766, size.height * 0.5393396),
       [
@@ -14559,7 +14559,7 @@ class SeventhIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_13, paint_13_fill);
+    canvas.drawPath(path_13, paint13Fill);
 
     Path path_14 = Path();
     path_14.moveTo(105.347, 57.17);
@@ -14581,8 +14581,8 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_14.close();
 
-    Paint paint_14_fill = Paint()..style = PaintingStyle.fill;
-    paint_14_fill.shader = ui.Gradient.linear(
+    Paint paint14Fill = Paint()..style = PaintingStyle.fill;
+    paint14Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7142597, size.height * 0.5747736),
       Offset(size.width * 0.5223377, size.height * 0.5747736),
       [
@@ -14594,7 +14594,7 @@ class SeventhIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_14, paint_14_fill);
+    canvas.drawPath(path_14, paint14Fill);
 
     Path path_15 = Path();
     path_15.moveTo(68.517, 69.18);
@@ -14625,9 +14625,9 @@ class SeventhIslandPainter extends CustomPainter {
     path_15.cubicTo(62.81699999999999, 73.33, 68.517, 69.18, 68.517, 69.18);
     path_15.close();
 
-    Paint paint_15_fill = Paint()..style = PaintingStyle.fill;
-    paint_15_fill.color = Color(0xff86A500).withOpacity(1.0);
-    canvas.drawPath(path_15, paint_15_fill);
+    Paint paint15Fill = Paint()..style = PaintingStyle.fill;
+    paint15Fill.color = Color(0xff86A500).withOpacity(1.0);
+    canvas.drawPath(path_15, paint15Fill);
 
     Path path_16 = Path();
     path_16.moveTo(109.537, 62.24);
@@ -14644,9 +14644,9 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_16.close();
 
-    Paint paint_16_fill = Paint()..style = PaintingStyle.fill;
-    paint_16_fill.color = Color(0xff639100).withOpacity(1.0);
-    canvas.drawPath(path_16, paint_16_fill);
+    Paint paint16Fill = Paint()..style = PaintingStyle.fill;
+    paint16Fill.color = Color(0xff639100).withOpacity(1.0);
+    canvas.drawPath(path_16, paint16Fill);
 
     Path path_17 = Path();
     path_17.moveTo(125.877, 55.17);
@@ -14654,9 +14654,9 @@ class SeventhIslandPainter extends CustomPainter {
     path_17.cubicTo(113.577, 58.14, 125.80699999999999, 60.04, 125.877, 55.17);
     path_17.close();
 
-    Paint paint_17_fill = Paint()..style = PaintingStyle.fill;
-    paint_17_fill.color = Color(0xffD36F3B).withOpacity(1.0);
-    canvas.drawPath(path_17, paint_17_fill);
+    Paint paint17Fill = Paint()..style = PaintingStyle.fill;
+    paint17Fill.color = Color(0xffD36F3B).withOpacity(1.0);
+    canvas.drawPath(path_17, paint17Fill);
 
     Path path_18 = Path();
     path_18.moveTo(125.517, 53.62);
@@ -14688,9 +14688,9 @@ class SeventhIslandPainter extends CustomPainter {
     path_18.cubicTo(128.787, 58.69, 126.327, 54.71, 125.517, 53.62);
     path_18.close();
 
-    Paint paint_18_fill = Paint()..style = PaintingStyle.fill;
-    paint_18_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_18, paint_18_fill);
+    Paint paint18Fill = Paint()..style = PaintingStyle.fill;
+    paint18Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_18, paint18Fill);
 
     Path path_19 = Path();
     path_19.moveTo(119.117, 53.24);
@@ -14705,9 +14705,9 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_19.close();
 
-    Paint paint_19_fill = Paint()..style = PaintingStyle.fill;
-    paint_19_fill.color = Color(0xffE7792C).withOpacity(1.0);
-    canvas.drawPath(path_19, paint_19_fill);
+    Paint paint19Fill = Paint()..style = PaintingStyle.fill;
+    paint19Fill.color = Color(0xffE7792C).withOpacity(1.0);
+    canvas.drawPath(path_19, paint19Fill);
 
     Path path_20 = Path();
     path_20.moveTo(124.797, 63.19);
@@ -14715,9 +14715,9 @@ class SeventhIslandPainter extends CustomPainter {
     path_20.cubicTo(117.547, 64.94, 124.757, 66.06, 124.797, 63.19);
     path_20.close();
 
-    Paint paint_20_fill = Paint()..style = PaintingStyle.fill;
-    paint_20_fill.color = Color(0xffD36F3B).withOpacity(1.0);
-    canvas.drawPath(path_20, paint_20_fill);
+    Paint paint20Fill = Paint()..style = PaintingStyle.fill;
+    paint20Fill.color = Color(0xffD36F3B).withOpacity(1.0);
+    canvas.drawPath(path_20, paint20Fill);
 
     Path path_21 = Path();
     path_21.moveTo(124.587, 62.28);
@@ -14756,9 +14756,9 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_21.close();
 
-    Paint paint_21_fill = Paint()..style = PaintingStyle.fill;
-    paint_21_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_21, paint_21_fill);
+    Paint paint21Fill = Paint()..style = PaintingStyle.fill;
+    paint21Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_21, paint21Fill);
 
     Path path_22 = Path();
     path_22.moveTo(120.817, 62.05);
@@ -14780,9 +14780,9 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_22.close();
 
-    Paint paint_22_fill = Paint()..style = PaintingStyle.fill;
-    paint_22_fill.color = Color(0xffE7792C).withOpacity(1.0);
-    canvas.drawPath(path_22, paint_22_fill);
+    Paint paint22Fill = Paint()..style = PaintingStyle.fill;
+    paint22Fill.color = Color(0xffE7792C).withOpacity(1.0);
+    canvas.drawPath(path_22, paint22Fill);
 
     Path path_23 = Path();
     path_23.moveTo(115.437, 88.31);
@@ -14806,9 +14806,9 @@ class SeventhIslandPainter extends CustomPainter {
     path_23.cubicTo(105.717, 101.06, 115.437, 88.31, 115.437, 88.31);
     path_23.close();
 
-    Paint paint_23_fill = Paint()..style = PaintingStyle.fill;
-    paint_23_fill.color = Color(0xffFFDD81).withOpacity(1.0);
-    canvas.drawPath(path_23, paint_23_fill);
+    Paint paint23Fill = Paint()..style = PaintingStyle.fill;
+    paint23Fill.color = Color(0xffFFDD81).withOpacity(1.0);
+    canvas.drawPath(path_23, paint23Fill);
 
     Path path_24 = Path();
     path_24.moveTo(17.087, 23.08);
@@ -14839,9 +14839,9 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_24.close();
 
-    Paint paint_24_fill = Paint()..style = PaintingStyle.fill;
-    paint_24_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_24, paint_24_fill);
+    Paint paint24Fill = Paint()..style = PaintingStyle.fill;
+    paint24Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_24, paint24Fill);
 
     Path path_25 = Path();
     path_25.moveTo(47.967, 21.62);
@@ -14873,8 +14873,8 @@ class SeventhIslandPainter extends CustomPainter {
     path_25.cubicTo(35.447, 30.14, 46.167, 23.82, 47.967, 21.62);
     path_25.close();
 
-    Paint paint_25_fill = Paint()..style = PaintingStyle.fill;
-    paint_25_fill.shader = ui.Gradient.linear(
+    Paint paint25Fill = Paint()..style = PaintingStyle.fill;
+    paint25Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2076753, size.height * 0.2696509),
       Offset(size.width * 0.2076753, size.height * 0.7056604),
       [
@@ -14885,7 +14885,7 @@ class SeventhIslandPainter extends CustomPainter {
       ],
       [0, 0.277, 0.754, 1],
     );
-    canvas.drawPath(path_25, paint_25_fill);
+    canvas.drawPath(path_25, paint25Fill);
 
     Path path_26 = Path();
     path_26.moveTo(47.657, 21.551);
@@ -14915,9 +14915,9 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_26.close();
 
-    Paint paint_26_fill = Paint()..style = PaintingStyle.fill;
-    paint_26_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_26, paint_26_fill);
+    Paint paint26Fill = Paint()..style = PaintingStyle.fill;
+    paint26Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_26, paint26Fill);
 
     Path path_27 = Path();
     path_27.moveTo(42.737, 9.621);
@@ -14940,9 +14940,9 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_27.close();
 
-    Paint paint_27_fill = Paint()..style = PaintingStyle.fill;
-    paint_27_fill.color = Color(0xffD96840).withOpacity(1.0);
-    canvas.drawPath(path_27, paint_27_fill);
+    Paint paint27Fill = Paint()..style = PaintingStyle.fill;
+    paint27Fill.color = Color(0xffD96840).withOpacity(1.0);
+    canvas.drawPath(path_27, paint27Fill);
 
     Path path_28 = Path();
     path_28.moveTo(34.077, 17.481);
@@ -15016,9 +15016,9 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_28.close();
 
-    Paint paint_28_fill = Paint()..style = PaintingStyle.fill;
-    paint_28_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_28, paint_28_fill);
+    Paint paint28Fill = Paint()..style = PaintingStyle.fill;
+    paint28Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_28, paint28Fill);
 
     Path path_29 = Path();
     path_29.moveTo(39.717, 13.22);
@@ -15041,9 +15041,9 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_29.close();
 
-    Paint paint_29_fill = Paint()..style = PaintingStyle.fill;
-    paint_29_fill.color = Color(0xffB2562B).withOpacity(1.0);
-    canvas.drawPath(path_29, paint_29_fill);
+    Paint paint29Fill = Paint()..style = PaintingStyle.fill;
+    paint29Fill.color = Color(0xffB2562B).withOpacity(1.0);
+    canvas.drawPath(path_29, paint29Fill);
 
     Path path_30 = Path();
     path_30.moveTo(42.667, 10.22);
@@ -15076,9 +15076,9 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_30.close();
 
-    Paint paint_30_fill = Paint()..style = PaintingStyle.fill;
-    paint_30_fill.color = Color(0xffEA8E40).withOpacity(1.0);
-    canvas.drawPath(path_30, paint_30_fill);
+    Paint paint30Fill = Paint()..style = PaintingStyle.fill;
+    paint30Fill.color = Color(0xffEA8E40).withOpacity(1.0);
+    canvas.drawPath(path_30, paint30Fill);
 
     Path path_31 = Path();
     path_31.moveTo(34.967, 3.64);
@@ -15108,9 +15108,9 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_31.close();
 
-    Paint paint_31_fill = Paint()..style = PaintingStyle.fill;
-    paint_31_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_31, paint_31_fill);
+    Paint paint31Fill = Paint()..style = PaintingStyle.fill;
+    paint31Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_31, paint31Fill);
 
     Path path_32 = Path();
     path_32.moveTo(27.997, 1.06);
@@ -15126,9 +15126,9 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_32.close();
 
-    Paint paint_32_fill = Paint()..style = PaintingStyle.fill;
-    paint_32_fill.color = Color(0xffEA8E40).withOpacity(1.0);
-    canvas.drawPath(path_32, paint_32_fill);
+    Paint paint32Fill = Paint()..style = PaintingStyle.fill;
+    paint32Fill.color = Color(0xffEA8E40).withOpacity(1.0);
+    canvas.drawPath(path_32, paint32Fill);
 
     Path path_33 = Path();
     path_33.moveTo(109.197, 92.27);
@@ -15208,9 +15208,9 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_33.close();
 
-    Paint paint_33_fill = Paint()..style = PaintingStyle.fill;
-    paint_33_fill.color = Color(0xffEDE0A9).withOpacity(1.0);
-    canvas.drawPath(path_33, paint_33_fill);
+    Paint paint33Fill = Paint()..style = PaintingStyle.fill;
+    paint33Fill.color = Color(0xffEDE0A9).withOpacity(1.0);
+    canvas.drawPath(path_33, paint33Fill);
 
     Path path_34 = Path();
     path_34.moveTo(49.117, 90.34);
@@ -15225,9 +15225,9 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_34.close();
 
-    Paint paint_34_fill = Paint()..style = PaintingStyle.fill;
-    paint_34_fill.color = Color(0xffEDE0A9).withOpacity(1.0);
-    canvas.drawPath(path_34, paint_34_fill);
+    Paint paint34Fill = Paint()..style = PaintingStyle.fill;
+    paint34Fill.color = Color(0xffEDE0A9).withOpacity(1.0);
+    canvas.drawPath(path_34, paint34Fill);
 
     Path path_35 = Path();
     path_35.moveTo(72.687, 88.93);
@@ -15315,9 +15315,9 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_35.close();
 
-    Paint paint_35_fill = Paint()..style = PaintingStyle.fill;
-    paint_35_fill.color = Color(0xffCC81B3).withOpacity(1.0);
-    canvas.drawPath(path_35, paint_35_fill);
+    Paint paint35Fill = Paint()..style = PaintingStyle.fill;
+    paint35Fill.color = Color(0xffCC81B3).withOpacity(1.0);
+    canvas.drawPath(path_35, paint35Fill);
 
     Path path_36 = Path();
     path_36.moveTo(27.147, 69.69);
@@ -15332,9 +15332,9 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_36.close();
 
-    Paint paint_36_fill = Paint()..style = PaintingStyle.fill;
-    paint_36_fill.color = Color(0xffEDE0A9).withOpacity(1.0);
-    canvas.drawPath(path_36, paint_36_fill);
+    Paint paint36Fill = Paint()..style = PaintingStyle.fill;
+    paint36Fill.color = Color(0xffEDE0A9).withOpacity(1.0);
+    canvas.drawPath(path_36, paint36Fill);
 
     Path path_37 = Path();
     path_37.moveTo(27.147, 69.69);
@@ -15351,9 +15351,9 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_37.close();
 
-    Paint paint_37_fill = Paint()..style = PaintingStyle.fill;
-    paint_37_fill.color = Color(0xffCC81B3).withOpacity(1.0);
-    canvas.drawPath(path_37, paint_37_fill);
+    Paint paint37Fill = Paint()..style = PaintingStyle.fill;
+    paint37Fill.color = Color(0xffCC81B3).withOpacity(1.0);
+    canvas.drawPath(path_37, paint37Fill);
 
     Path path_38 = Path();
     path_38.moveTo(90.677, 94.49);
@@ -15368,9 +15368,9 @@ class SeventhIslandPainter extends CustomPainter {
     path_38.cubicTo(86.587, 93.95, 90.107, 93.72, 90.677, 94.49);
     path_38.close();
 
-    Paint paint_38_fill = Paint()..style = PaintingStyle.fill;
-    paint_38_fill.color = Color(0xffEDE0A9).withOpacity(1.0);
-    canvas.drawPath(path_38, paint_38_fill);
+    Paint paint38Fill = Paint()..style = PaintingStyle.fill;
+    paint38Fill.color = Color(0xffEDE0A9).withOpacity(1.0);
+    canvas.drawPath(path_38, paint38Fill);
 
     Path path_39 = Path();
     path_39.moveTo(90.677, 94.49);
@@ -15394,9 +15394,9 @@ class SeventhIslandPainter extends CustomPainter {
     path_39.cubicTo(91.787, 96.36, 90.677, 94.49, 90.677, 94.49);
     path_39.close();
 
-    Paint paint_39_fill = Paint()..style = PaintingStyle.fill;
-    paint_39_fill.color = Color(0xffCC81B3).withOpacity(1.0);
-    canvas.drawPath(path_39, paint_39_fill);
+    Paint paint39Fill = Paint()..style = PaintingStyle.fill;
+    paint39Fill.color = Color(0xffCC81B3).withOpacity(1.0);
+    canvas.drawPath(path_39, paint39Fill);
 
     Path path_40 = Path();
     path_40.moveTo(84.167, 87.54);
@@ -15418,9 +15418,9 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_40.close();
 
-    Paint paint_40_fill = Paint()..style = PaintingStyle.fill;
-    paint_40_fill.color = Color(0xffEDE0A9).withOpacity(1.0);
-    canvas.drawPath(path_40, paint_40_fill);
+    Paint paint40Fill = Paint()..style = PaintingStyle.fill;
+    paint40Fill.color = Color(0xffEDE0A9).withOpacity(1.0);
+    canvas.drawPath(path_40, paint40Fill);
 
     Path path_41 = Path();
     path_41.moveTo(84.167, 87.54);
@@ -15537,9 +15537,9 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_41.close();
 
-    Paint paint_41_fill = Paint()..style = PaintingStyle.fill;
-    paint_41_fill.color = Color(0xffCC81B3).withOpacity(1.0);
-    canvas.drawPath(path_41, paint_41_fill);
+    Paint paint41Fill = Paint()..style = PaintingStyle.fill;
+    paint41Fill.color = Color(0xffCC81B3).withOpacity(1.0);
+    canvas.drawPath(path_41, paint41Fill);
 
     Path path_42 = Path();
     path_42.moveTo(117.067, 82.59);
@@ -15569,9 +15569,9 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_42.close();
 
-    Paint paint_42_fill = Paint()..style = PaintingStyle.fill;
-    paint_42_fill.color = Color(0xffEDE0A9).withOpacity(1.0);
-    canvas.drawPath(path_42, paint_42_fill);
+    Paint paint42Fill = Paint()..style = PaintingStyle.fill;
+    paint42Fill.color = Color(0xffEDE0A9).withOpacity(1.0);
+    canvas.drawPath(path_42, paint42Fill);
 
     Path path_43 = Path();
     path_43.moveTo(117.567, 83.1);
@@ -15647,9 +15647,9 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_43.close();
 
-    Paint paint_43_fill = Paint()..style = PaintingStyle.fill;
-    paint_43_fill.color = Color(0xffCC81B3).withOpacity(1.0);
-    canvas.drawPath(path_43, paint_43_fill);
+    Paint paint43Fill = Paint()..style = PaintingStyle.fill;
+    paint43Fill.color = Color(0xffCC81B3).withOpacity(1.0);
+    canvas.drawPath(path_43, paint43Fill);
 
     Path path_44 = Path();
     path_44.moveTo(85.137, 97.66);
@@ -15657,9 +15657,9 @@ class SeventhIslandPainter extends CustomPainter {
     path_44.cubicTo(69.25699999999999, 89.71, 76.637, 102.88, 85.137, 97.66);
     path_44.close();
 
-    Paint paint_44_fill = Paint()..style = PaintingStyle.fill;
-    paint_44_fill.color = Color(0xffEDE0A9).withOpacity(1.0);
-    canvas.drawPath(path_44, paint_44_fill);
+    Paint paint44Fill = Paint()..style = PaintingStyle.fill;
+    paint44Fill.color = Color(0xffEDE0A9).withOpacity(1.0);
+    canvas.drawPath(path_44, paint44Fill);
 
     Path path_45 = Path();
     path_45.moveTo(85.157, 93.13);
@@ -15706,9 +15706,9 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_45.close();
 
-    Paint paint_45_fill = Paint()..style = PaintingStyle.fill;
-    paint_45_fill.color = Color(0xffCC81B3).withOpacity(1.0);
-    canvas.drawPath(path_45, paint_45_fill);
+    Paint paint45Fill = Paint()..style = PaintingStyle.fill;
+    paint45Fill.color = Color(0xffCC81B3).withOpacity(1.0);
+    canvas.drawPath(path_45, paint45Fill);
 
     Path path_46 = Path();
     path_46.moveTo(14.907, 47.45);
@@ -15716,9 +15716,9 @@ class SeventhIslandPainter extends CustomPainter {
     path_46.cubicTo(2.607, 50.42, 14.837, 52.32, 14.907, 47.45);
     path_46.close();
 
-    Paint paint_46_fill = Paint()..style = PaintingStyle.fill;
-    paint_46_fill.color = Color(0xffD36F3B).withOpacity(1.0);
-    canvas.drawPath(path_46, paint_46_fill);
+    Paint paint46Fill = Paint()..style = PaintingStyle.fill;
+    paint46Fill.color = Color(0xffD36F3B).withOpacity(1.0);
+    canvas.drawPath(path_46, paint46Fill);
 
     Path path_47 = Path();
     path_47.moveTo(14.547, 45.9);
@@ -15750,9 +15750,9 @@ class SeventhIslandPainter extends CustomPainter {
     path_47.cubicTo(17.817, 50.97, 15.357, 46.99, 14.547, 45.9);
     path_47.close();
 
-    Paint paint_47_fill = Paint()..style = PaintingStyle.fill;
-    paint_47_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_47, paint_47_fill);
+    Paint paint47Fill = Paint()..style = PaintingStyle.fill;
+    paint47Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_47, paint47Fill);
 
     Path path_48 = Path();
     path_48.moveTo(8.147, 45.52);
@@ -15760,9 +15760,9 @@ class SeventhIslandPainter extends CustomPainter {
     path_48.cubicTo(5.377, 47.040000000000006, 7.257, 45.52, 8.147, 45.52);
     path_48.close();
 
-    Paint paint_48_fill = Paint()..style = PaintingStyle.fill;
-    paint_48_fill.color = Color(0xffE7792C).withOpacity(1.0);
-    canvas.drawPath(path_48, paint_48_fill);
+    Paint paint48Fill = Paint()..style = PaintingStyle.fill;
+    paint48Fill.color = Color(0xffE7792C).withOpacity(1.0);
+    canvas.drawPath(path_48, paint48Fill);
 
     Path path_49 = Path();
     path_49.moveTo(88.247, 73.46);
@@ -15900,9 +15900,9 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_49.close();
 
-    Paint paint_49_fill = Paint()..style = PaintingStyle.fill;
-    paint_49_fill.color = Color(0xffB0FF00).withOpacity(1.0);
-    canvas.drawPath(path_49, paint_49_fill);
+    Paint paint49Fill = Paint()..style = PaintingStyle.fill;
+    paint49Fill.color = Color(0xffB0FF00).withOpacity(1.0);
+    canvas.drawPath(path_49, paint49Fill);
 
     Path path_50 = Path();
     path_50.moveTo(54.787, 57.61);
@@ -15910,9 +15910,9 @@ class SeventhIslandPainter extends CustomPainter {
     path_50.cubicTo(16.026999999999997, 62.38, 40.067, 53.22, 54.787, 57.61);
     path_50.close();
 
-    Paint paint_50_fill = Paint()..style = PaintingStyle.fill;
-    paint_50_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_50, paint_50_fill);
+    Paint paint50Fill = Paint()..style = PaintingStyle.fill;
+    paint50Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_50, paint50Fill);
 
     Path path_51 = Path();
     path_51.moveTo(50.917, 62.77);
@@ -15929,8 +15929,8 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_51.close();
 
-    Paint paint_51_fill = Paint()..style = PaintingStyle.fill;
-    paint_51_fill.shader = ui.Gradient.linear(
+    Paint paint51Fill = Paint()..style = PaintingStyle.fill;
+    paint51Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2351883, size.height * 0.6343774),
       Offset(size.width * 0.3025584, size.height * 0.3871792),
       [
@@ -15943,7 +15943,7 @@ class SeventhIslandPainter extends CustomPainter {
       ],
       [0, 0.017, 0.359, 0.648, 0.871, 1],
     );
-    canvas.drawPath(path_51, paint_51_fill);
+    canvas.drawPath(path_51, paint51Fill);
 
     Path path_52 = Path();
     path_52.moveTo(48.358, 51.62);
@@ -15973,9 +15973,9 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_52.close();
 
-    Paint paint_52_fill = Paint()..style = PaintingStyle.fill;
-    paint_52_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_52, paint_52_fill);
+    Paint paint52Fill = Paint()..style = PaintingStyle.fill;
+    paint52Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_52, paint52Fill);
 
     Path path_53 = Path();
     path_53.moveTo(48.797, 49.8);
@@ -16013,9 +16013,9 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_53.close();
 
-    Paint paint_53_fill = Paint()..style = PaintingStyle.fill;
-    paint_53_fill.color = Color(0xffFFA7FF).withOpacity(1.0);
-    canvas.drawPath(path_53, paint_53_fill);
+    Paint paint53Fill = Paint()..style = PaintingStyle.fill;
+    paint53Fill.color = Color(0xffFFA7FF).withOpacity(1.0);
+    canvas.drawPath(path_53, paint53Fill);
 
     Path path_54 = Path();
     path_54.moveTo(42.237, 66.55);
@@ -16053,9 +16053,9 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_54.close();
 
-    Paint paint_54_fill = Paint()..style = PaintingStyle.fill;
-    paint_54_fill.color = Color(0xffFFA7FF).withOpacity(1.0);
-    canvas.drawPath(path_54, paint_54_fill);
+    Paint paint54Fill = Paint()..style = PaintingStyle.fill;
+    paint54Fill.color = Color(0xffFFA7FF).withOpacity(1.0);
+    canvas.drawPath(path_54, paint54Fill);
 
     Path path_55 = Path();
     path_55.moveTo(40.868, 66.65);
@@ -16085,9 +16085,9 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_55.close();
 
-    Paint paint_55_fill = Paint()..style = PaintingStyle.fill;
-    paint_55_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_55, paint_55_fill);
+    Paint paint55Fill = Paint()..style = PaintingStyle.fill;
+    paint55Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_55, paint55Fill);
 
     Path path_56 = Path();
     path_56.moveTo(43.798, 56.13);
@@ -16115,9 +16115,9 @@ class SeventhIslandPainter extends CustomPainter {
     path_56.cubicTo(28.007, 55.62, 29.877000000000002, 56.93, 32.517, 57.86);
     path_56.close();
 
-    Paint paint_56_fill = Paint()..style = PaintingStyle.fill;
-    paint_56_fill.color = Colors.yellow.withOpacity(1.0);
-    canvas.drawPath(path_56, paint_56_fill);
+    Paint paint56Fill = Paint()..style = PaintingStyle.fill;
+    paint56Fill.color = Colors.yellow.withOpacity(1.0);
+    canvas.drawPath(path_56, paint56Fill);
 
     Path path_57 = Path();
     path_57.moveTo(42.947, 56.02);
@@ -16133,9 +16133,9 @@ class SeventhIslandPainter extends CustomPainter {
     path_57.cubicTo(30.867, 57.19, 36.377, 59.38, 42.947, 56.02);
     path_57.close();
 
-    Paint paint_57_fill = Paint()..style = PaintingStyle.fill;
-    paint_57_fill.color = Color(0xffFFB5E8).withOpacity(1.0);
-    canvas.drawPath(path_57, paint_57_fill);
+    Paint paint57Fill = Paint()..style = PaintingStyle.fill;
+    paint57Fill.color = Color(0xffFFB5E8).withOpacity(1.0);
+    canvas.drawPath(path_57, paint57Fill);
 
     Path path_58 = Path();
     path_58.moveTo(58.557, 63.22);
@@ -16151,9 +16151,9 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_58.close();
 
-    Paint paint_58_fill = Paint()..style = PaintingStyle.fill;
-    paint_58_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_58, paint_58_fill);
+    Paint paint58Fill = Paint()..style = PaintingStyle.fill;
+    paint58Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_58, paint58Fill);
 
     Path path_59 = Path();
     path_59.moveTo(56.867, 66.4);
@@ -16177,8 +16177,8 @@ class SeventhIslandPainter extends CustomPainter {
     path_59.cubicTo(55.407, 67.23, 56.867, 66.4, 56.867, 66.4);
     path_59.close();
 
-    Paint paint_59_fill = Paint()..style = PaintingStyle.fill;
-    paint_59_fill.shader = ui.Gradient.linear(
+    Paint paint59Fill = Paint()..style = PaintingStyle.fill;
+    paint59Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3337208, size.height * 0.6313774),
       Offset(size.width * 0.3667013, size.height * 0.5103491),
       [
@@ -16191,7 +16191,7 @@ class SeventhIslandPainter extends CustomPainter {
       ],
       [0, 0.017, 0.359, 0.648, 0.871, 1],
     );
-    canvas.drawPath(path_59, paint_59_fill);
+    canvas.drawPath(path_59, paint59Fill);
 
     Path path_60 = Path();
     path_60.moveTo(59.047, 59.82);
@@ -16207,9 +16207,9 @@ class SeventhIslandPainter extends CustomPainter {
     path_60.cubicTo(49.056999999999995, 57.83, 57.217, 55.78, 59.047, 59.82);
     path_60.close();
 
-    Paint paint_60_fill = Paint()..style = PaintingStyle.fill;
-    paint_60_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_60, paint_60_fill);
+    Paint paint60Fill = Paint()..style = PaintingStyle.fill;
+    paint60Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_60, paint60Fill);
 
     Path path_61 = Path();
     path_61.moveTo(57.937, 57.97);
@@ -16247,9 +16247,9 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_61.close();
 
-    Paint paint_61_fill = Paint()..style = PaintingStyle.fill;
-    paint_61_fill.color = Color(0xffFFA7FF).withOpacity(1.0);
-    canvas.drawPath(path_61, paint_61_fill);
+    Paint paint61Fill = Paint()..style = PaintingStyle.fill;
+    paint61Fill.color = Color(0xffFFA7FF).withOpacity(1.0);
+    canvas.drawPath(path_61, paint61Fill);
 
     Path path_62 = Path();
     path_62.moveTo(58.497, 65.38);
@@ -16287,9 +16287,9 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_62.close();
 
-    Paint paint_62_fill = Paint()..style = PaintingStyle.fill;
-    paint_62_fill.color = Color(0xffFFA7FF).withOpacity(1.0);
-    canvas.drawPath(path_62, paint_62_fill);
+    Paint paint62Fill = Paint()..style = PaintingStyle.fill;
+    paint62Fill.color = Color(0xffFFA7FF).withOpacity(1.0);
+    canvas.drawPath(path_62, paint62Fill);
 
     Path path_63 = Path();
     path_63.moveTo(53.897, 66.63);
@@ -16320,9 +16320,9 @@ class SeventhIslandPainter extends CustomPainter {
     );
     path_63.close();
 
-    Paint paint_63_fill = Paint()..style = PaintingStyle.fill;
-    paint_63_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_63, paint_63_fill);
+    Paint paint63Fill = Paint()..style = PaintingStyle.fill;
+    paint63Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_63, paint63Fill);
 
     Path path_64 = Path();
     path_64.moveTo(54.137, 60.99);
@@ -16336,9 +16336,9 @@ class SeventhIslandPainter extends CustomPainter {
     path_64.cubicTo(54.187, 61.01, 55.957, 59.94, 57.797, 58.699999999999996);
     path_64.close();
 
-    Paint paint_64_fill = Paint()..style = PaintingStyle.fill;
-    paint_64_fill.color = Colors.yellow.withOpacity(1.0);
-    canvas.drawPath(path_64, paint_64_fill);
+    Paint paint64Fill = Paint()..style = PaintingStyle.fill;
+    paint64Fill.color = Colors.yellow.withOpacity(1.0);
+    canvas.drawPath(path_64, paint64Fill);
   }
 
   @override
@@ -16459,8 +16459,8 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.shader = ui.Gradient.linear(
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4980630, size.height * 0.9982900),
       Offset(size.width * 0.4980630, size.height * 0.04988000),
       [
@@ -16471,7 +16471,7 @@ class EighthIslandPainter extends CustomPainter {
       ],
       [0, 0.417, 0.769, 1],
     );
-    canvas.drawPath(path_0, paint_0_fill);
+    canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
     path_1.moveTo(50.722, 99.443);
@@ -16517,8 +16517,8 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_1.close();
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.shader = ui.Gradient.linear(
+    Paint paint1Fill = Paint()..style = PaintingStyle.fill;
+    paint1Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4980630, size.height * 0.9982900),
       Offset(size.width * 0.4980630, size.height * 0.4083800),
       [
@@ -16531,7 +16531,7 @@ class EighthIslandPainter extends CustomPainter {
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
-    canvas.drawPath(path_1, paint_1_fill);
+    canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
     path_2.moveTo(5.962, 83.853);
@@ -16569,8 +16569,8 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.shader = ui.Gradient.linear(
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4982835, size.height * 0.9982900),
       Offset(size.width * 0.4982835, size.height * 0.7489400),
       [
@@ -16583,7 +16583,7 @@ class EighthIslandPainter extends CustomPainter {
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
-    canvas.drawPath(path_2, paint_2_fill);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(115.172, 41.433);
@@ -16630,8 +16630,8 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.shader = ui.Gradient.linear(
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5001024, size.height * 0.8353800),
       Offset(size.width * 0.5001024, size.height * 0.09196000),
       [
@@ -16642,7 +16642,7 @@ class EighthIslandPainter extends CustomPainter {
       ],
       [0, 0.417, 0.769, 1],
     );
-    canvas.drawPath(path_3, paint_3_fill);
+    canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
     path_4.moveTo(117.872, 46.133);
@@ -16689,8 +16689,8 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.shader = ui.Gradient.linear(
+    Paint paint4Fill = Paint()..style = PaintingStyle.fill;
+    paint4Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4990945, size.height * 0.8527300),
       Offset(size.width * 0.4990945, size.height * 0.4333800),
       [
@@ -16702,7 +16702,7 @@ class EighthIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_4, paint_4_fill);
+    canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
     path_5.moveTo(26.472, 17.394);
@@ -16740,8 +16740,8 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_5.close();
 
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.shader = ui.Gradient.linear(
+    Paint paint5Fill = Paint()..style = PaintingStyle.fill;
+    paint5Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2139921, size.height * 0.3213200),
       Offset(size.width * 0.2139921, size.height * 0.1739200),
       [
@@ -16753,7 +16753,7 @@ class EighthIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_5, paint_5_fill);
+    canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
     path_6.moveTo(90.382, 76.043);
@@ -16783,9 +16783,9 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_6.close();
 
-    Paint paint_6_fill = Paint()..style = PaintingStyle.fill;
-    paint_6_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_6, paint_6_fill);
+    Paint paint6Fill = Paint()..style = PaintingStyle.fill;
+    paint6Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
     path_7.moveTo(96.882, 31.713);
@@ -16841,9 +16841,9 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_7.close();
 
-    Paint paint_7_fill = Paint()..style = PaintingStyle.fill;
-    paint_7_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_7, paint_7_fill);
+    Paint paint7Fill = Paint()..style = PaintingStyle.fill;
+    paint7Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
     path_8.moveTo(53.882, 14.093);
@@ -16858,8 +16858,8 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_8.close();
 
-    Paint paint_8_fill = Paint()..style = PaintingStyle.fill;
-    paint_8_fill.shader = ui.Gradient.linear(
+    Paint paint8Fill = Paint()..style = PaintingStyle.fill;
+    paint8Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4393780, size.height * 0.2054000),
       Offset(size.width * 0.2515591, size.height * 0.1536100),
       [
@@ -16871,7 +16871,7 @@ class EighthIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_8, paint_8_fill);
+    canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
     path_9.moveTo(55.682, 18.403);
@@ -16902,9 +16902,9 @@ class EighthIslandPainter extends CustomPainter {
     path_9.cubicTo(53.562, 23.093, 55.682, 18.403, 55.682, 18.403);
     path_9.close();
 
-    Paint paint_9_fill = Paint()..style = PaintingStyle.fill;
-    paint_9_fill.color = Color(0xff9BB900).withOpacity(1.0);
-    canvas.drawPath(path_9, paint_9_fill);
+    Paint paint9Fill = Paint()..style = PaintingStyle.fill;
+    paint9Fill.color = Color(0xff9BB900).withOpacity(1.0);
+    canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
     path_10.moveTo(89.962, 68.423);
@@ -16926,8 +16926,8 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_10.close();
 
-    Paint paint_10_fill = Paint()..style = PaintingStyle.fill;
-    paint_10_fill.shader = ui.Gradient.linear(
+    Paint paint10Fill = Paint()..style = PaintingStyle.fill;
+    paint10Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7204252, size.height * 0.7337100),
       Offset(size.width * 0.5570315, size.height * 0.6886400),
       [
@@ -16939,7 +16939,7 @@ class EighthIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_10, paint_10_fill);
+    canvas.drawPath(path_10, paint10Fill);
 
     Path path_11 = Path();
     path_11.moveTo(91.382, 71.803);
@@ -16963,9 +16963,9 @@ class EighthIslandPainter extends CustomPainter {
     path_11.cubicTo(89.712, 75.503, 91.382, 71.803, 91.382, 71.803);
     path_11.close();
 
-    Paint paint_11_fill = Paint()..style = PaintingStyle.fill;
-    paint_11_fill.color = Color(0xffFFB04B).withOpacity(1.0);
-    canvas.drawPath(path_11, paint_11_fill);
+    Paint paint11Fill = Paint()..style = PaintingStyle.fill;
+    paint11Fill.color = Color(0xffFFB04B).withOpacity(1.0);
+    canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
     path_12.moveTo(35.142, 41.044);
@@ -16980,9 +16980,9 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_12.close();
 
-    Paint paint_12_fill = Paint()..style = PaintingStyle.fill;
-    paint_12_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_12, paint_12_fill);
+    Paint paint12Fill = Paint()..style = PaintingStyle.fill;
+    paint12Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_12, paint12Fill);
 
     Path path_13 = Path();
     path_13.moveTo(62.532, 93.983);
@@ -17004,9 +17004,9 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_13.close();
 
-    Paint paint_13_fill = Paint()..style = PaintingStyle.fill;
-    paint_13_fill.color = Color(0xffFFDD81).withOpacity(1.0);
-    canvas.drawPath(path_13, paint_13_fill);
+    Paint paint13Fill = Paint()..style = PaintingStyle.fill;
+    paint13Fill.color = Color(0xffFFDD81).withOpacity(1.0);
+    canvas.drawPath(path_13, paint13Fill);
 
     Path path_14 = Path();
     path_14.moveTo(21.202, 14.983);
@@ -17044,9 +17044,9 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_14.close();
 
-    Paint paint_14_fill = Paint()..style = PaintingStyle.fill;
-    paint_14_fill.color = Color(0xffFFDD81).withOpacity(1.0);
-    canvas.drawPath(path_14, paint_14_fill);
+    Paint paint14Fill = Paint()..style = PaintingStyle.fill;
+    paint14Fill.color = Color(0xffFFDD81).withOpacity(1.0);
+    canvas.drawPath(path_14, paint14Fill);
 
     Path path_15 = Path();
     path_15.moveTo(121.972, 59.423);
@@ -17092,9 +17092,9 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_15.close();
 
-    Paint paint_15_fill = Paint()..style = PaintingStyle.fill;
-    paint_15_fill.color = Color(0xffFFDD81).withOpacity(1.0);
-    canvas.drawPath(path_15, paint_15_fill);
+    Paint paint15Fill = Paint()..style = PaintingStyle.fill;
+    paint15Fill.color = Color(0xffFFDD81).withOpacity(1.0);
+    canvas.drawPath(path_15, paint15Fill);
 
     Path path_16 = Path();
     path_16.moveTo(37.192, 90.413);
@@ -17117,9 +17117,9 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_16.close();
 
-    Paint paint_16_fill = Paint()..style = PaintingStyle.fill;
-    paint_16_fill.color = Color(0xffFFDD81).withOpacity(1.0);
-    canvas.drawPath(path_16, paint_16_fill);
+    Paint paint16Fill = Paint()..style = PaintingStyle.fill;
+    paint16Fill.color = Color(0xffFFDD81).withOpacity(1.0);
+    canvas.drawPath(path_16, paint16Fill);
 
     Path path_17 = Path();
     path_17.moveTo(56.112, 91.653);
@@ -17172,9 +17172,9 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_17.close();
 
-    Paint paint_17_fill = Paint()..style = PaintingStyle.fill;
-    paint_17_fill.color = Color(0xffEDE0A9).withOpacity(1.0);
-    canvas.drawPath(path_17, paint_17_fill);
+    Paint paint17Fill = Paint()..style = PaintingStyle.fill;
+    paint17Fill.color = Color(0xffEDE0A9).withOpacity(1.0);
+    canvas.drawPath(path_17, paint17Fill);
 
     Path path_18 = Path();
     path_18.moveTo(61.002, 91.893);
@@ -17204,9 +17204,9 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_18.close();
 
-    Paint paint_18_fill = Paint()..style = PaintingStyle.fill;
-    paint_18_fill.color = Color(0xffEDE0A9).withOpacity(1.0);
-    canvas.drawPath(path_18, paint_18_fill);
+    Paint paint18Fill = Paint()..style = PaintingStyle.fill;
+    paint18Fill.color = Color(0xffEDE0A9).withOpacity(1.0);
+    canvas.drawPath(path_18, paint18Fill);
 
     Path path_19 = Path();
     path_19.moveTo(75.152, 88.053);
@@ -17344,9 +17344,9 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_19.close();
 
-    Paint paint_19_fill = Paint()..style = PaintingStyle.fill;
-    paint_19_fill.color = Color(0xffCC81B3).withOpacity(1.0);
-    canvas.drawPath(path_19, paint_19_fill);
+    Paint paint19Fill = Paint()..style = PaintingStyle.fill;
+    paint19Fill.color = Color(0xffCC81B3).withOpacity(1.0);
+    canvas.drawPath(path_19, paint19Fill);
 
     Path path_20 = Path();
     path_20.moveTo(91.682, 87.183);
@@ -17376,9 +17376,9 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_20.close();
 
-    Paint paint_20_fill = Paint()..style = PaintingStyle.fill;
-    paint_20_fill.color = Color(0xffEDE0A9).withOpacity(1.0);
-    canvas.drawPath(path_20, paint_20_fill);
+    Paint paint20Fill = Paint()..style = PaintingStyle.fill;
+    paint20Fill.color = Color(0xffEDE0A9).withOpacity(1.0);
+    canvas.drawPath(path_20, paint20Fill);
 
     Path path_21 = Path();
     path_21.moveTo(91.882, 84.483);
@@ -17424,9 +17424,9 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_21.close();
 
-    Paint paint_21_fill = Paint()..style = PaintingStyle.fill;
-    paint_21_fill.color = Color(0xffCC81B3).withOpacity(1.0);
-    canvas.drawPath(path_21, paint_21_fill);
+    Paint paint21Fill = Paint()..style = PaintingStyle.fill;
+    paint21Fill.color = Color(0xffCC81B3).withOpacity(1.0);
+    canvas.drawPath(path_21, paint21Fill);
 
     Path path_22 = Path();
     path_22.moveTo(69.082, 75.693);
@@ -17448,9 +17448,9 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_22.close();
 
-    Paint paint_22_fill = Paint()..style = PaintingStyle.fill;
-    paint_22_fill.color = Color(0xffD36F3B).withOpacity(1.0);
-    canvas.drawPath(path_22, paint_22_fill);
+    Paint paint22Fill = Paint()..style = PaintingStyle.fill;
+    paint22Fill.color = Color(0xffD36F3B).withOpacity(1.0);
+    canvas.drawPath(path_22, paint22Fill);
 
     Path path_23 = Path();
     path_23.moveTo(68.772, 74.323);
@@ -17496,9 +17496,9 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_23.close();
 
-    Paint paint_23_fill = Paint()..style = PaintingStyle.fill;
-    paint_23_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_23, paint_23_fill);
+    Paint paint23Fill = Paint()..style = PaintingStyle.fill;
+    paint23Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_23, paint23Fill);
 
     Path path_24 = Path();
     path_24.moveTo(63.062, 73.983);
@@ -17520,9 +17520,9 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_24.close();
 
-    Paint paint_24_fill = Paint()..style = PaintingStyle.fill;
-    paint_24_fill.color = Color(0xffE7792C).withOpacity(1.0);
-    canvas.drawPath(path_24, paint_24_fill);
+    Paint paint24Fill = Paint()..style = PaintingStyle.fill;
+    paint24Fill.color = Color(0xffE7792C).withOpacity(1.0);
+    canvas.drawPath(path_24, paint24Fill);
 
     Path path_25 = Path();
     path_25.moveTo(112.112, 33.983);
@@ -17570,9 +17570,9 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_25.close();
 
-    Paint paint_25_fill = Paint()..style = PaintingStyle.fill;
-    paint_25_fill.color = Color(0xffD36F3B).withOpacity(1.0);
-    canvas.drawPath(path_25, paint_25_fill);
+    Paint paint25Fill = Paint()..style = PaintingStyle.fill;
+    paint25Fill.color = Color(0xffD36F3B).withOpacity(1.0);
+    canvas.drawPath(path_25, paint25Fill);
 
     Path path_26 = Path();
     path_26.moveTo(23.272, 19.063);
@@ -17660,9 +17660,9 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_26.close();
 
-    Paint paint_26_fill = Paint()..style = PaintingStyle.fill;
-    paint_26_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_26, paint_26_fill);
+    Paint paint26Fill = Paint()..style = PaintingStyle.fill;
+    paint26Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_26, paint26Fill);
 
     Path path_27 = Path();
     path_27.moveTo(109.792, 30.693);
@@ -17704,9 +17704,9 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_27.close();
 
-    Paint paint_27_fill = Paint()..style = PaintingStyle.fill;
-    paint_27_fill.color = Color(0xffE7792C).withOpacity(1.0);
-    canvas.drawPath(path_27, paint_27_fill);
+    Paint paint27Fill = Paint()..style = PaintingStyle.fill;
+    paint27Fill.color = Color(0xffE7792C).withOpacity(1.0);
+    canvas.drawPath(path_27, paint27Fill);
 
     Path path_28 = Path();
     path_28.moveTo(70.662, 35.553);
@@ -17730,9 +17730,9 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_28.close();
 
-    Paint paint_28_fill = Paint()..style = PaintingStyle.fill;
-    paint_28_fill.color = Color(0xffA990D4).withOpacity(1.0);
-    canvas.drawPath(path_28, paint_28_fill);
+    Paint paint28Fill = Paint()..style = PaintingStyle.fill;
+    paint28Fill.color = Color(0xffA990D4).withOpacity(1.0);
+    canvas.drawPath(path_28, paint28Fill);
 
     Path path_29 = Path();
     path_29.moveTo(82.032, 21.743);
@@ -17827,9 +17827,9 @@ class EighthIslandPainter extends CustomPainter {
     path_29.cubicTo(86.652, 46.57299999999999, 96.052, 45.413, 99.412, 46.693);
     path_29.close();
 
-    Paint paint_29_fill = Paint()..style = PaintingStyle.fill;
-    paint_29_fill.color = Color(0xffEABA13).withOpacity(1.0);
-    canvas.drawPath(path_29, paint_29_fill);
+    Paint paint29Fill = Paint()..style = PaintingStyle.fill;
+    paint29Fill.color = Color(0xffEABA13).withOpacity(1.0);
+    canvas.drawPath(path_29, paint29Fill);
 
     Path path_30 = Path();
     path_30.moveTo(65.992, 33.353);
@@ -17900,8 +17900,8 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_30.close();
 
-    Paint paint_30_fill = Paint()..style = PaintingStyle.fill;
-    paint_30_fill.shader = ui.Gradient.linear(
+    Paint paint30Fill = Paint()..style = PaintingStyle.fill;
+    paint30Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6572992, size.height * 0.3292500),
       Offset(size.width * 0.6375039, size.height * 0.01121000),
       [
@@ -17912,7 +17912,7 @@ class EighthIslandPainter extends CustomPainter {
       ],
       [0, 0.324, 0.879, 1],
     );
-    canvas.drawPath(path_30, paint_30_fill);
+    canvas.drawPath(path_30, paint30Fill);
 
     Path path_31 = Path();
     path_31.moveTo(97.382, 0.373);
@@ -17950,8 +17950,8 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_31.close();
 
-    Paint paint_31_fill = Paint()..style = PaintingStyle.fill;
-    paint_31_fill.shader = ui.Gradient.linear(
+    Paint paint31Fill = Paint()..style = PaintingStyle.fill;
+    paint31Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6482992, size.height * 0.3084300),
       Offset(size.width * 0.6300236, size.height * 0.01474000),
       [
@@ -17964,7 +17964,7 @@ class EighthIslandPainter extends CustomPainter {
       ],
       [0, 0.265, 0.522, 0.738, 0.904, 1],
     );
-    canvas.drawPath(path_31, paint_31_fill);
+    canvas.drawPath(path_31, paint31Fill);
 
     Path path_32 = Path();
     path_32.moveTo(65.992, 33.353);
@@ -18046,9 +18046,9 @@ class EighthIslandPainter extends CustomPainter {
     path_32.cubicTo(69.45200000000001, 33.203, 67.462, 33.353, 65.992, 33.353);
     path_32.close();
 
-    Paint paint_32_fill = Paint()..style = PaintingStyle.fill;
-    paint_32_fill.color = Color(0xffA1B3D4).withOpacity(1.0);
-    canvas.drawPath(path_32, paint_32_fill);
+    Paint paint32Fill = Paint()..style = PaintingStyle.fill;
+    paint32Fill.color = Color(0xffA1B3D4).withOpacity(1.0);
+    canvas.drawPath(path_32, paint32Fill);
 
     Path path_33 = Path();
     path_33.moveTo(96.802, 0.413);
@@ -18078,9 +18078,9 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_33.close();
 
-    Paint paint_33_fill = Paint()..style = PaintingStyle.fill;
-    paint_33_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_33, paint_33_fill);
+    Paint paint33Fill = Paint()..style = PaintingStyle.fill;
+    paint33Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_33, paint33Fill);
 
     Path path_34 = Path();
     path_34.moveTo(81.372, 37.983);
@@ -18110,8 +18110,8 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_34.close();
 
-    Paint paint_34_fill = Paint()..style = PaintingStyle.fill;
-    paint_34_fill.shader = ui.Gradient.linear(
+    Paint paint34Fill = Paint()..style = PaintingStyle.fill;
+    paint34Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5409528, size.height * 0.4224000),
       Offset(size.width * 0.6027559, size.height * 0.2323300),
       [
@@ -18122,7 +18122,7 @@ class EighthIslandPainter extends CustomPainter {
       ],
       [0, 0.277, 0.754, 1],
     );
-    canvas.drawPath(path_34, paint_34_fill);
+    canvas.drawPath(path_34, paint34Fill);
 
     Path path_35 = Path();
     path_35.moveTo(101.112, 61.613);
@@ -18145,8 +18145,8 @@ class EighthIslandPainter extends CustomPainter {
     path_35.cubicTo(112.562, 60.903, 106.792, 63.823, 101.112, 61.613);
     path_35.close();
 
-    Paint paint_35_fill = Paint()..style = PaintingStyle.fill;
-    paint_35_fill.shader = ui.Gradient.linear(
+    Paint paint35Fill = Paint()..style = PaintingStyle.fill;
+    paint35Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.8496535, size.height * 0.6250300),
       Offset(size.width * 0.8121102, size.height * 0.5095800),
       [
@@ -18157,7 +18157,7 @@ class EighthIslandPainter extends CustomPainter {
       ],
       [0, 0.277, 0.754, 1],
     );
-    canvas.drawPath(path_35, paint_35_fill);
+    canvas.drawPath(path_35, paint35Fill);
 
     Path path_36 = Path();
     path_36.moveTo(77.862, 23.793);
@@ -18199,9 +18199,9 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_36.close();
 
-    Paint paint_36_fill = Paint()..style = PaintingStyle.fill;
-    paint_36_fill.color = Color(0xffD96840).withOpacity(1.0);
-    canvas.drawPath(path_36, paint_36_fill);
+    Paint paint36Fill = Paint()..style = PaintingStyle.fill;
+    paint36Fill.color = Color(0xffD96840).withOpacity(1.0);
+    canvas.drawPath(path_36, paint36Fill);
 
     Path path_37 = Path();
     path_37.moveTo(81.802, 37.694);
@@ -18253,9 +18253,9 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_37.close();
 
-    Paint paint_37_fill = Paint()..style = PaintingStyle.fill;
-    paint_37_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_37, paint_37_fill);
+    Paint paint37Fill = Paint()..style = PaintingStyle.fill;
+    paint37Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_37, paint37Fill);
 
     Path path_38 = Path();
     path_38.moveTo(106.192, 58.324);
@@ -18311,9 +18311,9 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_38.close();
 
-    Paint paint_38_fill = Paint()..style = PaintingStyle.fill;
-    paint_38_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_38, paint_38_fill);
+    Paint paint38Fill = Paint()..style = PaintingStyle.fill;
+    paint38Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_38, paint38Fill);
 
     Path path_39 = Path();
     path_39.moveTo(72.682, 34.683);
@@ -18362,9 +18362,9 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_39.close();
 
-    Paint paint_39_fill = Paint()..style = PaintingStyle.fill;
-    paint_39_fill.color = Color(0xffB2562B).withOpacity(1.0);
-    canvas.drawPath(path_39, paint_39_fill);
+    Paint paint39Fill = Paint()..style = PaintingStyle.fill;
+    paint39Fill.color = Color(0xffB2562B).withOpacity(1.0);
+    canvas.drawPath(path_39, paint39Fill);
 
     Path path_40 = Path();
     path_40.moveTo(104.142, 61.393);
@@ -18423,9 +18423,9 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_40.close();
 
-    Paint paint_40_fill = Paint()..style = PaintingStyle.fill;
-    paint_40_fill.color = Color(0xffEA8E40).withOpacity(1.0);
-    canvas.drawPath(path_40, paint_40_fill);
+    Paint paint40Fill = Paint()..style = PaintingStyle.fill;
+    paint40Fill.color = Color(0xffEA8E40).withOpacity(1.0);
+    canvas.drawPath(path_40, paint40Fill);
 
     Path path_41 = Path();
     path_41.moveTo(57.262, 33.394);
@@ -18531,9 +18531,9 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_41.close();
 
-    Paint paint_41_fill = Paint()..style = PaintingStyle.fill;
-    paint_41_fill.color = Color(0xffB0FF00).withOpacity(1.0);
-    canvas.drawPath(path_41, paint_41_fill);
+    Paint paint41Fill = Paint()..style = PaintingStyle.fill;
+    paint41Fill.color = Color(0xffB0FF00).withOpacity(1.0);
+    canvas.drawPath(path_41, paint41Fill);
 
     Path path_42 = Path();
     path_42.moveTo(62.802, 54.553);
@@ -18541,9 +18541,9 @@ class EighthIslandPainter extends CustomPainter {
     path_42.cubicTo(55.802, 55.853, 59.942, 52.303, 62.802, 54.553);
     path_42.close();
 
-    Paint paint_42_fill = Paint()..style = PaintingStyle.fill;
-    paint_42_fill.color = Color(0xffB0FF00).withOpacity(1.0);
-    canvas.drawPath(path_42, paint_42_fill);
+    Paint paint42Fill = Paint()..style = PaintingStyle.fill;
+    paint42Fill.color = Color(0xffB0FF00).withOpacity(1.0);
+    canvas.drawPath(path_42, paint42Fill);
 
     Path path_43 = Path();
     path_43.moveTo(51.772, 50.053);
@@ -18565,9 +18565,9 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_43.close();
 
-    Paint paint_43_fill = Paint()..style = PaintingStyle.fill;
-    paint_43_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_43, paint_43_fill);
+    Paint paint43Fill = Paint()..style = PaintingStyle.fill;
+    paint43Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_43, paint43Fill);
 
     Path path_44 = Path();
     path_44.moveTo(71.112, 45.833);
@@ -18605,8 +18605,8 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_44.close();
 
-    Paint paint_44_fill = Paint()..style = PaintingStyle.fill;
-    paint_44_fill.shader = ui.Gradient.linear(
+    Paint paint44Fill = Paint()..style = PaintingStyle.fill;
+    paint44Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4821102, size.height * 0.5217700),
       Offset(size.width * 0.5125197, size.height * 0.2630000),
       [
@@ -18619,7 +18619,7 @@ class EighthIslandPainter extends CustomPainter {
       ],
       [0, 0.017, 0.359, 0.648, 0.871, 1],
     );
-    canvas.drawPath(path_44, paint_44_fill);
+    canvas.drawPath(path_44, paint44Fill);
 
     Path path_45 = Path();
     path_45.moveTo(69.382, 34.433);
@@ -18642,9 +18642,9 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_45.close();
 
-    Paint paint_45_fill = Paint()..style = PaintingStyle.fill;
-    paint_45_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_45, paint_45_fill);
+    Paint paint45Fill = Paint()..style = PaintingStyle.fill;
+    paint45Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_45, paint45Fill);
 
     Path path_46 = Path();
     path_46.moveTo(69.252, 33.784);
@@ -18682,9 +18682,9 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_46.close();
 
-    Paint paint_46_fill = Paint()..style = PaintingStyle.fill;
-    paint_46_fill.color = Color(0xffFFA7FF).withOpacity(1.0);
-    canvas.drawPath(path_46, paint_46_fill);
+    Paint paint46Fill = Paint()..style = PaintingStyle.fill;
+    paint46Fill.color = Color(0xffFFA7FF).withOpacity(1.0);
+    canvas.drawPath(path_46, paint46Fill);
 
     Path path_47 = Path();
     path_47.moveTo(69.572, 34.583);
@@ -18708,9 +18708,9 @@ class EighthIslandPainter extends CustomPainter {
     path_47.cubicTo(58.682, 39.733, 65.162, 39.123, 69.572, 34.583);
     path_47.close();
 
-    Paint paint_47_fill = Paint()..style = PaintingStyle.fill;
-    paint_47_fill.color = Color(0xffFFA7FF).withOpacity(1.0);
-    canvas.drawPath(path_47, paint_47_fill);
+    Paint paint47Fill = Paint()..style = PaintingStyle.fill;
+    paint47Fill.color = Color(0xffFFA7FF).withOpacity(1.0);
+    canvas.drawPath(path_47, paint47Fill);
 
     Path path_48 = Path();
     path_48.moveTo(61.982, 50.374);
@@ -18741,9 +18741,9 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_48.close();
 
-    Paint paint_48_fill = Paint()..style = PaintingStyle.fill;
-    paint_48_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_48, paint_48_fill);
+    Paint paint48Fill = Paint()..style = PaintingStyle.fill;
+    paint48Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_48, paint48Fill);
 
     Path path_49 = Path();
     path_49.moveTo(61.792, 38.413);
@@ -18785,9 +18785,9 @@ class EighthIslandPainter extends CustomPainter {
     path_49.cubicTo(48.332, 35.163, 51.562, 37.812999999999995, 53.342, 38.483);
     path_49.close();
 
-    Paint paint_49_fill = Paint()..style = PaintingStyle.fill;
-    paint_49_fill.color = Colors.yellow.withOpacity(1.0);
-    canvas.drawPath(path_49, paint_49_fill);
+    Paint paint49Fill = Paint()..style = PaintingStyle.fill;
+    paint49Fill.color = Colors.yellow.withOpacity(1.0);
+    canvas.drawPath(path_49, paint49Fill);
 
     Path path_50 = Path();
     path_50.moveTo(45.382, 49.914);
@@ -18809,9 +18809,9 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_50.close();
 
-    Paint paint_50_fill = Paint()..style = PaintingStyle.fill;
-    paint_50_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_50, paint_50_fill);
+    Paint paint50Fill = Paint()..style = PaintingStyle.fill;
+    paint50Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_50, paint50Fill);
 
     Path path_51 = Path();
     path_51.moveTo(45.842, 51.063);
@@ -18841,8 +18841,8 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_51.close();
 
-    Paint paint_51_fill = Paint()..style = PaintingStyle.fill;
-    paint_51_fill.shader = ui.Gradient.linear(
+    Paint paint51Fill = Paint()..style = PaintingStyle.fill;
+    paint51Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3224488, size.height * 0.5468800),
       Offset(size.width * 0.3342283, size.height * 0.4416000),
       [
@@ -18855,7 +18855,7 @@ class EighthIslandPainter extends CustomPainter {
       ],
       [0, 0.017, 0.359, 0.648, 0.871, 1],
     );
-    canvas.drawPath(path_51, paint_51_fill);
+    canvas.drawPath(path_51, paint51Fill);
 
     Path path_52 = Path();
     path_52.moveTo(45.042, 49.684);
@@ -18864,9 +18864,9 @@ class EighthIslandPainter extends CustomPainter {
     path_52.cubicTo(42.812000000000005, 46.684, 44.712, 48.384, 45.042, 49.684);
     path_52.close();
 
-    Paint paint_52_fill = Paint()..style = PaintingStyle.fill;
-    paint_52_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_52, paint_52_fill);
+    Paint paint52Fill = Paint()..style = PaintingStyle.fill;
+    paint52Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_52, paint52Fill);
 
     Path path_53 = Path();
     path_53.moveTo(44.942, 48.513);
@@ -18876,9 +18876,9 @@ class EighthIslandPainter extends CustomPainter {
     path_53.cubicTo(42.732, 46.643, 44.461999999999996, 47.373, 44.942, 48.513);
     path_53.close();
 
-    Paint paint_53_fill = Paint()..style = PaintingStyle.fill;
-    paint_53_fill.color = Color(0xffFFA7FF).withOpacity(1.0);
-    canvas.drawPath(path_53, paint_53_fill);
+    Paint paint53Fill = Paint()..style = PaintingStyle.fill;
+    paint53Fill.color = Color(0xffFFA7FF).withOpacity(1.0);
+    canvas.drawPath(path_53, paint53Fill);
 
     Path path_54 = Path();
     path_54.moveTo(42.372, 54.254);
@@ -18909,9 +18909,9 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_54.close();
 
-    Paint paint_54_fill = Paint()..style = PaintingStyle.fill;
-    paint_54_fill.color = Color(0xffFFA7FF).withOpacity(1.0);
-    canvas.drawPath(path_54, paint_54_fill);
+    Paint paint54Fill = Paint()..style = PaintingStyle.fill;
+    paint54Fill.color = Color(0xffFFA7FF).withOpacity(1.0);
+    canvas.drawPath(path_54, paint54Fill);
 
     Path path_55 = Path();
     path_55.moveTo(41.542, 54.353);
@@ -18941,9 +18941,9 @@ class EighthIslandPainter extends CustomPainter {
     );
     path_55.close();
 
-    Paint paint_55_fill = Paint()..style = PaintingStyle.fill;
-    paint_55_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_55, paint_55_fill);
+    Paint paint55Fill = Paint()..style = PaintingStyle.fill;
+    paint55Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_55, paint55Fill);
 
     Path path_56 = Path();
     path_56.moveTo(42.002, 51.134);
@@ -18978,9 +18978,9 @@ class EighthIslandPainter extends CustomPainter {
     path_56.cubicTo(37.592, 49.903, 37.922, 51.272999999999996, 39.492, 51.293);
     path_56.close();
 
-    Paint paint_56_fill = Paint()..style = PaintingStyle.fill;
-    paint_56_fill.color = Colors.yellow.withOpacity(1.0);
-    canvas.drawPath(path_56, paint_56_fill);
+    Paint paint56Fill = Paint()..style = PaintingStyle.fill;
+    paint56Fill.color = Colors.yellow.withOpacity(1.0);
+    canvas.drawPath(path_56, paint56Fill);
   }
 
   @override
@@ -19087,8 +19087,8 @@ class NinthIslandPainter extends CustomPainter {
     );
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.shader = ui.Gradient.linear(
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4461413, size.height * 1.011875),
       Offset(size.width * 0.5893587, size.height * 0.04639583),
       [
@@ -19099,7 +19099,7 @@ class NinthIslandPainter extends CustomPainter {
       ],
       [0, 0.417, 0.769, 1],
     );
-    canvas.drawPath(path_0, paint_0_fill);
+    canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
     path_1.moveTo(13.462, 31.004);
@@ -19156,8 +19156,8 @@ class NinthIslandPainter extends CustomPainter {
     );
     path_1.close();
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.shader = ui.Gradient.linear(
+    Paint paint1Fill = Paint()..style = PaintingStyle.fill;
+    paint1Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.1539239, size.height * 1.048281),
       Offset(size.width * 0.3119239, size.height * -1.684375),
       [
@@ -19168,7 +19168,7 @@ class NinthIslandPainter extends CustomPainter {
       ],
       [0, 0.417, 0.769, 1],
     );
-    canvas.drawPath(path_1, paint_1_fill);
+    canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
     path_2.moveTo(0.092, 64.485);
@@ -19223,8 +19223,8 @@ class NinthIslandPainter extends CustomPainter {
     );
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.shader = ui.Gradient.linear(
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4968913, size.height * 0.9967708),
       Offset(size.width * 0.4968913, size.height * 0.5756562),
       [
@@ -19237,7 +19237,7 @@ class NinthIslandPainter extends CustomPainter {
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
-    canvas.drawPath(path_2, paint_2_fill);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(13.462, 31.004);
@@ -19269,8 +19269,8 @@ class NinthIslandPainter extends CustomPainter {
     );
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.shader = ui.Gradient.linear(
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.1137065, size.height * 0.3305729),
       Offset(size.width * 0.1137065, size.height * 0.1322292),
       [
@@ -19283,7 +19283,7 @@ class NinthIslandPainter extends CustomPainter {
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
-    canvas.drawPath(path_3, paint_3_fill);
+    canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
     path_4.moveTo(44.791, 23.324);
@@ -19318,8 +19318,8 @@ class NinthIslandPainter extends CustomPainter {
     );
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.shader = ui.Gradient.linear(
+    Paint paint4Fill = Paint()..style = PaintingStyle.fill;
+    paint4Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5271304, size.height * 0.2459687),
       Offset(size.width * 0.5271304, size.height * 0.1131042),
       [
@@ -19332,7 +19332,7 @@ class NinthIslandPainter extends CustomPainter {
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
-    canvas.drawPath(path_4, paint_4_fill);
+    canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
     path_5.moveTo(80.152, 42.585);
@@ -19355,9 +19355,9 @@ class NinthIslandPainter extends CustomPainter {
     );
     path_5.close();
 
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.color = Color(0xffFFDD4A).withOpacity(1.0);
-    canvas.drawPath(path_5, paint_5_fill);
+    Paint paint5Fill = Paint()..style = PaintingStyle.fill;
+    paint5Fill.color = Color(0xffFFDD4A).withOpacity(1.0);
+    canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
     path_6.moveTo(50.002, 9.195);
@@ -19387,9 +19387,9 @@ class NinthIslandPainter extends CustomPainter {
     );
     path_6.close();
 
-    Paint paint_6_fill = Paint()..style = PaintingStyle.fill;
-    paint_6_fill.color = Color(0xffFFDD4A).withOpacity(1.0);
-    canvas.drawPath(path_6, paint_6_fill);
+    Paint paint6Fill = Paint()..style = PaintingStyle.fill;
+    paint6Fill.color = Color(0xffFFDD4A).withOpacity(1.0);
+    canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
     path_7.moveTo(59.882, 66.214);
@@ -19412,8 +19412,8 @@ class NinthIslandPainter extends CustomPainter {
     );
     path_7.close();
 
-    Paint paint_7_fill = Paint()..style = PaintingStyle.fill;
-    paint_7_fill.shader = ui.Gradient.linear(
+    Paint paint7Fill = Paint()..style = PaintingStyle.fill;
+    paint7Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4763478, size.height * 0.7370937),
       Offset(size.width * 0.4763478, size.height * 0.5527083),
       [
@@ -19423,7 +19423,7 @@ class NinthIslandPainter extends CustomPainter {
       ],
       [0, 0.41, 1],
     );
-    canvas.drawPath(path_7, paint_7_fill);
+    canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
     path_8.moveTo(70.712, 50.924);
@@ -19431,8 +19431,8 @@ class NinthIslandPainter extends CustomPainter {
     path_8.cubicTo(42.71200000000001, 47.594, 68.462, 57.584, 70.712, 50.924);
     path_8.close();
 
-    Paint paint_8_fill = Paint()..style = PaintingStyle.fill;
-    paint_8_fill.shader = ui.Gradient.linear(
+    Paint paint8Fill = Paint()..style = PaintingStyle.fill;
+    paint8Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6570761, size.height * 0.5537500),
       Offset(size.width * 0.6570761, size.height * 0.4489896),
       [
@@ -19442,7 +19442,7 @@ class NinthIslandPainter extends CustomPainter {
       ],
       [0, 0.41, 1],
     );
-    canvas.drawPath(path_8, paint_8_fill);
+    canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
     path_9.moveTo(60.302, 62.534);
@@ -19481,8 +19481,8 @@ class NinthIslandPainter extends CustomPainter {
     );
     path_9.close();
 
-    Paint paint_9_fill = Paint()..style = PaintingStyle.fill;
-    paint_9_fill.shader = ui.Gradient.linear(
+    Paint paint9Fill = Paint()..style = PaintingStyle.fill;
+    paint9Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4750761, size.height * 0.6969375),
       Offset(size.width * 0.4750761, size.height * 0.5537500),
       [
@@ -19495,7 +19495,7 @@ class NinthIslandPainter extends CustomPainter {
       ],
       [0, 0.115, 0.314, 0.572, 0.876, 1],
     );
-    canvas.drawPath(path_9, paint_9_fill);
+    canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
     path_10.moveTo(69.622, 52.295);
@@ -19534,8 +19534,8 @@ class NinthIslandPainter extends CustomPainter {
     );
     path_10.close();
 
-    Paint paint_10_fill = Paint()..style = PaintingStyle.fill;
-    paint_10_fill.shader = ui.Gradient.linear(
+    Paint paint10Fill = Paint()..style = PaintingStyle.fill;
+    paint10Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6572174, size.height * 0.5447812),
       Offset(size.width * 0.6572174, size.height * 0.4475104),
       [
@@ -19548,7 +19548,7 @@ class NinthIslandPainter extends CustomPainter {
       ],
       [0, 0.115, 0.314, 0.572, 0.876, 1],
     );
-    canvas.drawPath(path_10, paint_10_fill);
+    canvas.drawPath(path_10, paint10Fill);
 
     Path path_11 = Path();
     path_11.moveTo(84.892, 63.885);
@@ -19579,8 +19579,8 @@ class NinthIslandPainter extends CustomPainter {
     );
     path_11.close();
 
-    Paint paint_11_fill = Paint()..style = PaintingStyle.fill;
-    paint_11_fill.shader = ui.Gradient.linear(
+    Paint paint11Fill = Paint()..style = PaintingStyle.fill;
+    paint11Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4968913, size.height * 0.9248437),
       Offset(size.width * 0.4968913, size.height * 0.6655104),
       [
@@ -19592,7 +19592,7 @@ class NinthIslandPainter extends CustomPainter {
       ],
       [0, 0.059, 0.482, 0.81, 1],
     );
-    canvas.drawPath(path_11, paint_11_fill);
+    canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
     path_12.moveTo(63.992, 85.274);
@@ -19608,8 +19608,8 @@ class NinthIslandPainter extends CustomPainter {
     );
     path_12.close();
 
-    Paint paint_12_fill = Paint()..style = PaintingStyle.fill;
-    paint_12_fill.shader = ui.Gradient.linear(
+    Paint paint12Fill = Paint()..style = PaintingStyle.fill;
+    paint12Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4183043, size.height * 0.9255833),
       Offset(size.width * 0.4183043, size.height * 0.8107292),
       [
@@ -19622,7 +19622,7 @@ class NinthIslandPainter extends CustomPainter {
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
-    canvas.drawPath(path_12, paint_12_fill);
+    canvas.drawPath(path_12, paint12Fill);
 
     Path path_13 = Path();
     path_13.moveTo(45.712, 8.024);
@@ -19652,8 +19652,8 @@ class NinthIslandPainter extends CustomPainter {
     );
     path_13.close();
 
-    Paint paint_13_fill = Paint()..style = PaintingStyle.fill;
-    paint_13_fill.shader = ui.Gradient.linear(
+    Paint paint13Fill = Paint()..style = PaintingStyle.fill;
+    paint13Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2886630, size.height * 0.2194062),
       Offset(size.width * 0.2886630, size.height * 0.02178125),
       [
@@ -19664,7 +19664,7 @@ class NinthIslandPainter extends CustomPainter {
       ],
       [0, 0.417, 0.769, 1],
     );
-    canvas.drawPath(path_13, paint_13_fill);
+    canvas.drawPath(path_13, paint13Fill);
 
     Path path_14 = Path();
     path_14.moveTo(46.642, 8.935);
@@ -19695,8 +19695,8 @@ class NinthIslandPainter extends CustomPainter {
     );
     path_14.close();
 
-    Paint paint_14_fill = Paint()..style = PaintingStyle.fill;
-    paint_14_fill.shader = ui.Gradient.linear(
+    Paint paint14Fill = Paint()..style = PaintingStyle.fill;
+    paint14Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2877391, size.height * 0.2269479),
       Offset(size.width * 0.2877391, size.height * 0.09309375),
       [
@@ -19708,7 +19708,7 @@ class NinthIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_14, paint_14_fill);
+    canvas.drawPath(path_14, paint14Fill);
 
     Path path_15 = Path();
     path_15.moveTo(38.392, 6.014);
@@ -19738,9 +19738,9 @@ class NinthIslandPainter extends CustomPainter {
     );
     path_15.close();
 
-    Paint paint_15_fill = Paint()..style = PaintingStyle.fill;
-    paint_15_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_15, paint_15_fill);
+    Paint paint15Fill = Paint()..style = PaintingStyle.fill;
+    paint15Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_15, paint15Fill);
 
     Path path_16 = Path();
     path_16.moveTo(44.792, 43.754);
@@ -19763,9 +19763,9 @@ class NinthIslandPainter extends CustomPainter {
     );
     path_16.close();
 
-    Paint paint_16_fill = Paint()..style = PaintingStyle.fill;
-    paint_16_fill.color = Color(0xffFFDD5E).withOpacity(1.0);
-    canvas.drawPath(path_16, paint_16_fill);
+    Paint paint16Fill = Paint()..style = PaintingStyle.fill;
+    paint16Fill.color = Color(0xffFFDD5E).withOpacity(1.0);
+    canvas.drawPath(path_16, paint16Fill);
 
     Path path_17 = Path();
     path_17.moveTo(75.802, 73.175);
@@ -19787,9 +19787,9 @@ class NinthIslandPainter extends CustomPainter {
     );
     path_17.close();
 
-    Paint paint_17_fill = Paint()..style = PaintingStyle.fill;
-    paint_17_fill.color = Color(0xffFFDD5E).withOpacity(1.0);
-    canvas.drawPath(path_17, paint_17_fill);
+    Paint paint17Fill = Paint()..style = PaintingStyle.fill;
+    paint17Fill.color = Color(0xffFFDD5E).withOpacity(1.0);
+    canvas.drawPath(path_17, paint17Fill);
 
     Path path_18 = Path();
     path_18.moveTo(19.152, 73.955);
@@ -19855,9 +19855,9 @@ class NinthIslandPainter extends CustomPainter {
     );
     path_18.close();
 
-    Paint paint_18_fill = Paint()..style = PaintingStyle.fill;
-    paint_18_fill.color = Color(0xffEDE0A9).withOpacity(1.0);
-    canvas.drawPath(path_18, paint_18_fill);
+    Paint paint18Fill = Paint()..style = PaintingStyle.fill;
+    paint18Fill.color = Color(0xffEDE0A9).withOpacity(1.0);
+    canvas.drawPath(path_18, paint18Fill);
 
     Path path_19 = Path();
     path_19.moveTo(88.382, 56.395);
@@ -19987,9 +19987,9 @@ class NinthIslandPainter extends CustomPainter {
     );
     path_19.close();
 
-    Paint paint_19_fill = Paint()..style = PaintingStyle.fill;
-    paint_19_fill.color = Color(0xffCC81B3).withOpacity(1.0);
-    canvas.drawPath(path_19, paint_19_fill);
+    Paint paint19Fill = Paint()..style = PaintingStyle.fill;
+    paint19Fill.color = Color(0xffCC81B3).withOpacity(1.0);
+    canvas.drawPath(path_19, paint19Fill);
 
     Path path_20 = Path();
     path_20.moveTo(58.402, 67.225);
@@ -20049,9 +20049,9 @@ class NinthIslandPainter extends CustomPainter {
     );
     path_20.close();
 
-    Paint paint_20_fill = Paint()..style = PaintingStyle.fill;
-    paint_20_fill.color = Color(0xffFFDD5E).withOpacity(1.0);
-    canvas.drawPath(path_20, paint_20_fill);
+    Paint paint20Fill = Paint()..style = PaintingStyle.fill;
+    paint20Fill.color = Color(0xffFFDD5E).withOpacity(1.0);
+    canvas.drawPath(path_20, paint20Fill);
   }
 
   @override
@@ -20143,8 +20143,8 @@ class TenthIslandPainter extends CustomPainter {
     path_0.cubicTo(42.782, -7.23, -3.158, 5.42, 0.172, 29.65);
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.shader = ui.Gradient.linear(
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4994286, size.height * 0.9893167),
       Offset(size.width * 0.4994286, size.height * -0.006666667),
       [
@@ -20155,7 +20155,7 @@ class TenthIslandPainter extends CustomPainter {
       ],
       [0, 0.417, 0.769, 1],
     );
-    canvas.drawPath(path_0, paint_0_fill);
+    canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
     path_1.moveTo(0.362, 30.79);
@@ -20194,8 +20194,8 @@ class TenthIslandPainter extends CustomPainter {
     );
     path_1.close();
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.shader = ui.Gradient.linear(
+    Paint paint1Fill = Paint()..style = PaintingStyle.fill;
+    paint1Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5002381, size.height * 0.9893167),
       Offset(size.width * 0.5002381, size.height * 0.5132333),
       [
@@ -20208,7 +20208,7 @@ class TenthIslandPainter extends CustomPainter {
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
-    canvas.drawPath(path_1, paint_1_fill);
+    canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
     path_2.moveTo(5.552, 44.55);
@@ -20247,8 +20247,8 @@ class TenthIslandPainter extends CustomPainter {
     );
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.shader = ui.Gradient.linear(
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3423095, size.height * 0.9893000),
       Offset(size.width * 0.3423095, size.height * 0.7425000),
       [
@@ -20261,7 +20261,7 @@ class TenthIslandPainter extends CustomPainter {
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
-    canvas.drawPath(path_2, paint_2_fill);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(56.892, 48.34);
@@ -20284,8 +20284,8 @@ class TenthIslandPainter extends CustomPainter {
     );
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.shader = ui.Gradient.linear(
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5458571, size.height * 0.8660667),
       Offset(size.width * 0.5458571, size.height * 0.6310667),
       [
@@ -20295,7 +20295,7 @@ class TenthIslandPainter extends CustomPainter {
       ],
       [0, 0.41, 1],
     );
-    canvas.drawPath(path_3, paint_3_fill);
+    canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
     path_4.moveTo(57.181, 45.41);
@@ -20341,8 +20341,8 @@ class TenthIslandPainter extends CustomPainter {
     );
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.shader = ui.Gradient.linear(
+    Paint paint4Fill = Paint()..style = PaintingStyle.fill;
+    paint4Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5448929, size.height * 0.8149000),
       Offset(size.width * 0.5448929, size.height * 0.6324167),
       [
@@ -20355,7 +20355,7 @@ class TenthIslandPainter extends CustomPainter {
       ],
       [0, 0.115, 0.314, 0.572, 0.876, 1],
     );
-    canvas.drawPath(path_4, paint_4_fill);
+    canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
     path_5.moveTo(55.882, 49.14);
@@ -20364,9 +20364,9 @@ class TenthIslandPainter extends CustomPainter {
     path_5.cubicTo(36.372, 49.89, 47.342, 55.49, 55.882000000000005, 49.14);
     path_5.close();
 
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.color = Color(0xffFFDD5E).withOpacity(1.0);
-    canvas.drawPath(path_5, paint_5_fill);
+    Paint paint5Fill = Paint()..style = PaintingStyle.fill;
+    paint5Fill.color = Color(0xffFFDD5E).withOpacity(1.0);
+    canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
     path_6.moveTo(23.412, 44.23);
@@ -20396,8 +20396,8 @@ class TenthIslandPainter extends CustomPainter {
     );
     path_6.close();
 
-    Paint paint_6_fill = Paint()..style = PaintingStyle.fill;
-    paint_6_fill.shader = ui.Gradient.linear(
+    Paint paint6Fill = Paint()..style = PaintingStyle.fill;
+    paint6Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2815714, size.height * 0.7465500),
       Offset(size.width * 0.2815714, size.height * 0.5581500),
       [
@@ -20407,7 +20407,7 @@ class TenthIslandPainter extends CustomPainter {
       ],
       [0, 0.41, 1],
     );
-    canvas.drawPath(path_6, paint_6_fill);
+    canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
     path_7.moveTo(30.892, 37.33);
@@ -20438,8 +20438,8 @@ class TenthIslandPainter extends CustomPainter {
     );
     path_7.close();
 
-    Paint paint_7_fill = Paint()..style = PaintingStyle.fill;
-    paint_7_fill.shader = ui.Gradient.linear(
+    Paint paint7Fill = Paint()..style = PaintingStyle.fill;
+    paint7Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2811786, size.height * 0.7244833),
       Offset(size.width * 0.2811786, size.height * 0.5562333),
       [
@@ -20452,7 +20452,7 @@ class TenthIslandPainter extends CustomPainter {
       ],
       [0, 0.115, 0.314, 0.572, 0.876, 1],
     );
-    canvas.drawPath(path_7, paint_7_fill);
+    canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
     path_8.moveTo(29.642, 39.96);
@@ -20483,9 +20483,9 @@ class TenthIslandPainter extends CustomPainter {
     );
     path_8.close();
 
-    Paint paint_8_fill = Paint()..style = PaintingStyle.fill;
-    paint_8_fill.color = Color(0xffFFDD5E).withOpacity(1.0);
-    canvas.drawPath(path_8, paint_8_fill);
+    Paint paint8Fill = Paint()..style = PaintingStyle.fill;
+    paint8Fill.color = Color(0xffFFDD5E).withOpacity(1.0);
+    canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
     path_9.moveTo(68.292, 9.94);
@@ -20516,9 +20516,9 @@ class TenthIslandPainter extends CustomPainter {
     );
     path_9.close();
 
-    Paint paint_9_fill = Paint()..style = PaintingStyle.fill;
-    paint_9_fill.color = Color(0xffFFDD5E).withOpacity(1.0);
-    canvas.drawPath(path_9, paint_9_fill);
+    Paint paint9Fill = Paint()..style = PaintingStyle.fill;
+    paint9Fill.color = Color(0xffFFDD5E).withOpacity(1.0);
+    canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
     path_10.moveTo(69.162, 45.08);
@@ -20548,9 +20548,9 @@ class TenthIslandPainter extends CustomPainter {
     );
     path_10.close();
 
-    Paint paint_10_fill = Paint()..style = PaintingStyle.fill;
-    paint_10_fill.color = Color(0xffFFDD4A).withOpacity(1.0);
-    canvas.drawPath(path_10, paint_10_fill);
+    Paint paint10Fill = Paint()..style = PaintingStyle.fill;
+    paint10Fill.color = Color(0xffFFDD4A).withOpacity(1.0);
+    canvas.drawPath(path_10, paint10Fill);
 
     Path path_11 = Path();
     path_11.moveTo(36.371, 54.12);
@@ -20590,9 +20590,9 @@ class TenthIslandPainter extends CustomPainter {
     );
     path_11.close();
 
-    Paint paint_11_fill = Paint()..style = PaintingStyle.fill;
-    paint_11_fill.color = Color(0xffFFDD5E).withOpacity(1.0);
-    canvas.drawPath(path_11, paint_11_fill);
+    Paint paint11Fill = Paint()..style = PaintingStyle.fill;
+    paint11Fill.color = Color(0xffFFDD5E).withOpacity(1.0);
+    canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
     path_12.moveTo(71.652, 42.93);
@@ -20648,9 +20648,9 @@ class TenthIslandPainter extends CustomPainter {
     path_12.cubicTo(57.252, 22.05, 69.482, 18.53, 73.162, 25.71);
     path_12.close();
 
-    Paint paint_12_fill = Paint()..style = PaintingStyle.fill;
-    paint_12_fill.color = Color(0xffEDE0A9).withOpacity(1.0);
-    canvas.drawPath(path_12, paint_12_fill);
+    Paint paint12Fill = Paint()..style = PaintingStyle.fill;
+    paint12Fill.color = Color(0xffEDE0A9).withOpacity(1.0);
+    canvas.drawPath(path_12, paint12Fill);
 
     Path path_13 = Path();
     path_13.moveTo(73.162, 25.71);
@@ -20708,9 +20708,9 @@ class TenthIslandPainter extends CustomPainter {
     path_13.cubicTo(31.252, 50.72, 31.332, 47.01, 30.592, 45.88999999999999);
     path_13.close();
 
-    Paint paint_13_fill = Paint()..style = PaintingStyle.fill;
-    paint_13_fill.color = Color(0xffCC81B3).withOpacity(1.0);
-    canvas.drawPath(path_13, paint_13_fill);
+    Paint paint13Fill = Paint()..style = PaintingStyle.fill;
+    paint13Fill.color = Color(0xffCC81B3).withOpacity(1.0);
+    canvas.drawPath(path_13, paint13Fill);
 
     Path path_14 = Path();
     path_14.moveTo(77.012, 33.58);
@@ -20718,9 +20718,9 @@ class TenthIslandPainter extends CustomPainter {
     path_14.cubicTo(68.102, 34.65, 73.712, 30.279999999999998, 77.012, 33.58);
     path_14.close();
 
-    Paint paint_14_fill = Paint()..style = PaintingStyle.fill;
-    paint_14_fill.color = Color(0xffEDE0A9).withOpacity(1.0);
-    canvas.drawPath(path_14, paint_14_fill);
+    Paint paint14Fill = Paint()..style = PaintingStyle.fill;
+    paint14Fill.color = Color(0xffEDE0A9).withOpacity(1.0);
+    canvas.drawPath(path_14, paint14Fill);
 
     Path path_15 = Path();
     path_15.moveTo(77.951, 34.92);
@@ -20744,9 +20744,9 @@ class TenthIslandPainter extends CustomPainter {
     );
     path_15.close();
 
-    Paint paint_15_fill = Paint()..style = PaintingStyle.fill;
-    paint_15_fill.color = Color(0xffCC81B3).withOpacity(1.0);
-    canvas.drawPath(path_15, paint_15_fill);
+    Paint paint15Fill = Paint()..style = PaintingStyle.fill;
+    paint15Fill.color = Color(0xffCC81B3).withOpacity(1.0);
+    canvas.drawPath(path_15, paint15Fill);
 
     Path path_16 = Path();
     path_16.moveTo(81.492, 29.34);
@@ -20768,9 +20768,9 @@ class TenthIslandPainter extends CustomPainter {
     );
     path_16.close();
 
-    Paint paint_16_fill = Paint()..style = PaintingStyle.fill;
-    paint_16_fill.color = Color(0xffEDE0A9).withOpacity(1.0);
-    canvas.drawPath(path_16, paint_16_fill);
+    Paint paint16Fill = Paint()..style = PaintingStyle.fill;
+    paint16Fill.color = Color(0xffEDE0A9).withOpacity(1.0);
+    canvas.drawPath(path_16, paint16Fill);
 
     Path path_17 = Path();
     path_17.moveTo(82.022, 30.09);
@@ -20836,9 +20836,9 @@ class TenthIslandPainter extends CustomPainter {
     );
     path_17.close();
 
-    Paint paint_17_fill = Paint()..style = PaintingStyle.fill;
-    paint_17_fill.color = Color(0xffCC81B3).withOpacity(1.0);
-    canvas.drawPath(path_17, paint_17_fill);
+    Paint paint17Fill = Paint()..style = PaintingStyle.fill;
+    paint17Fill.color = Color(0xffCC81B3).withOpacity(1.0);
+    canvas.drawPath(path_17, paint17Fill);
 
     Path path_18 = Path();
     path_18.moveTo(10.342, 39.06);
@@ -20846,9 +20846,9 @@ class TenthIslandPainter extends CustomPainter {
     path_18.cubicTo(5.652000000000001, 37.73, 9.492, 40.1, 10.342, 39.06);
     path_18.close();
 
-    Paint paint_18_fill = Paint()..style = PaintingStyle.fill;
-    paint_18_fill.color = Color(0xffEDE0A9).withOpacity(1.0);
-    canvas.drawPath(path_18, paint_18_fill);
+    Paint paint18Fill = Paint()..style = PaintingStyle.fill;
+    paint18Fill.color = Color(0xffEDE0A9).withOpacity(1.0);
+    canvas.drawPath(path_18, paint18Fill);
 
     Path path_19 = Path();
     path_19.moveTo(10.642, 37.43);
@@ -20873,9 +20873,9 @@ class TenthIslandPainter extends CustomPainter {
     path_19.cubicTo(11.272, 39.81, 10.882, 38.14, 10.642, 37.43);
     path_19.close();
 
-    Paint paint_19_fill = Paint()..style = PaintingStyle.fill;
-    paint_19_fill.color = Color(0xffCC81B3).withOpacity(1.0);
-    canvas.drawPath(path_19, paint_19_fill);
+    Paint paint19Fill = Paint()..style = PaintingStyle.fill;
+    paint19Fill.color = Color(0xffCC81B3).withOpacity(1.0);
+    canvas.drawPath(path_19, paint19Fill);
 
     Path path_20 = Path();
     path_20.moveTo(65.031, 5.08);
@@ -20923,8 +20923,8 @@ class TenthIslandPainter extends CustomPainter {
     path_20.cubicTo(49.912, -2.12, 63.552, 2.94, 65.03200000000001, 5.08);
     path_20.close();
 
-    Paint paint_20_fill = Paint()..style = PaintingStyle.fill;
-    paint_20_fill.shader = ui.Gradient.linear(
+    Paint paint20Fill = Paint()..style = PaintingStyle.fill;
+    paint20Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4074405, size.height * 0.5073167),
       Offset(size.width * 0.4074405, size.height * 1.300000),
       [
@@ -20935,7 +20935,7 @@ class TenthIslandPainter extends CustomPainter {
       ],
       [0, 0.417, 0.769, 1],
     );
-    canvas.drawPath(path_20, paint_20_fill);
+    canvas.drawPath(path_20, paint20Fill);
 
     Path path_21 = Path();
     path_21.moveTo(66.742, 7.91);
@@ -21015,8 +21015,8 @@ class TenthIslandPainter extends CustomPainter {
     );
     path_21.close();
 
-    Paint paint_21_fill = Paint()..style = PaintingStyle.fill;
-    paint_21_fill.shader = ui.Gradient.linear(
+    Paint paint21Fill = Paint()..style = PaintingStyle.fill;
+    paint21Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4091667, size.height * 0.5216000),
       Offset(size.width * 0.4091667, size.height * 0.1317833),
       [
@@ -21028,7 +21028,7 @@ class TenthIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_21, paint_21_fill);
+    canvas.drawPath(path_21, paint21Fill);
 
     Path path_22 = Path();
     path_22.moveTo(55.882, 21.7);
@@ -21103,9 +21103,9 @@ class TenthIslandPainter extends CustomPainter {
     );
     path_22.close();
 
-    Paint paint_22_fill = Paint()..style = PaintingStyle.fill;
-    paint_22_fill.color = Color(0xff9ADD00).withOpacity(1.0);
-    canvas.drawPath(path_22, paint_22_fill);
+    Paint paint22Fill = Paint()..style = PaintingStyle.fill;
+    paint22Fill.color = Color(0xff9ADD00).withOpacity(1.0);
+    canvas.drawPath(path_22, paint22Fill);
 
     Path path_23 = Path();
     path_23.moveTo(53.862, 18.32);
@@ -21120,8 +21120,8 @@ class TenthIslandPainter extends CustomPainter {
     );
     path_23.close();
 
-    Paint paint_23_fill = Paint()..style = PaintingStyle.fill;
-    paint_23_fill.shader = ui.Gradient.linear(
+    Paint paint23Fill = Paint()..style = PaintingStyle.fill;
+    paint23Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6416429, size.height * 0.3380333),
       Offset(size.width * 0.4206905, size.height * 0.3380333),
       [
@@ -21133,7 +21133,7 @@ class TenthIslandPainter extends CustomPainter {
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
-    canvas.drawPath(path_23, paint_23_fill);
+    canvas.drawPath(path_23, paint23Fill);
 
     Path path_24 = Path();
     path_24.moveTo(53.681, 18.95);
@@ -21163,9 +21163,9 @@ class TenthIslandPainter extends CustomPainter {
     );
     path_24.close();
 
-    Paint paint_24_fill = Paint()..style = PaintingStyle.fill;
-    paint_24_fill.color = Color(0xffFFB04B).withOpacity(1.0);
-    canvas.drawPath(path_24, paint_24_fill);
+    Paint paint24Fill = Paint()..style = PaintingStyle.fill;
+    paint24Fill.color = Color(0xffFFB04B).withOpacity(1.0);
+    canvas.drawPath(path_24, paint24Fill);
 
     Path path_25 = Path();
     path_25.moveTo(57.122, 9.44);
@@ -21188,9 +21188,9 @@ class TenthIslandPainter extends CustomPainter {
     );
     path_25.close();
 
-    Paint paint_25_fill = Paint()..style = PaintingStyle.fill;
-    paint_25_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_25, paint_25_fill);
+    Paint paint25Fill = Paint()..style = PaintingStyle.fill;
+    paint25Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_25, paint25Fill);
 
     Path path_26 = Path();
     path_26.moveTo(55.462, 13.05);
@@ -21228,8 +21228,8 @@ class TenthIslandPainter extends CustomPainter {
     );
     path_26.close();
 
-    Paint paint_26_fill = Paint()..style = PaintingStyle.fill;
-    paint_26_fill.shader = ui.Gradient.linear(
+    Paint paint26Fill = Paint()..style = PaintingStyle.fill;
+    paint26Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5937738, size.height * 0.2097667),
       Offset(size.width * 0.6818690, size.height * -2.073333),
       [
@@ -21242,7 +21242,7 @@ class TenthIslandPainter extends CustomPainter {
       ],
       [0, 0.017, 0.359, 0.648, 0.871, 1],
     );
-    canvas.drawPath(path_26, paint_26_fill);
+    canvas.drawPath(path_26, paint26Fill);
 
     Path path_27 = Path();
     path_27.moveTo(60.932, 7.26);
@@ -21272,9 +21272,9 @@ class TenthIslandPainter extends CustomPainter {
     );
     path_27.close();
 
-    Paint paint_27_fill = Paint()..style = PaintingStyle.fill;
-    paint_27_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_27, paint_27_fill);
+    Paint paint27Fill = Paint()..style = PaintingStyle.fill;
+    paint27Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_27, paint27Fill);
 
     Path path_28 = Path();
     path_28.moveTo(60.502, 4.58);
@@ -21305,9 +21305,9 @@ class TenthIslandPainter extends CustomPainter {
     );
     path_28.close();
 
-    Paint paint_28_fill = Paint()..style = PaintingStyle.fill;
-    paint_28_fill.color = Color(0xffFFA7FF).withOpacity(1.0);
-    canvas.drawPath(path_28, paint_28_fill);
+    Paint paint28Fill = Paint()..style = PaintingStyle.fill;
+    paint28Fill.color = Color(0xffFFA7FF).withOpacity(1.0);
+    canvas.drawPath(path_28, paint28Fill);
 
     Path path_29 = Path();
     path_29.moveTo(57.482, 12.56);
@@ -21317,9 +21317,9 @@ class TenthIslandPainter extends CustomPainter {
     path_29.cubicTo(60.922, 5.34, 61.632, 9.66, 57.482, 12.56);
     path_29.close();
 
-    Paint paint_29_fill = Paint()..style = PaintingStyle.fill;
-    paint_29_fill.color = Color(0xffFFA7FF).withOpacity(1.0);
-    canvas.drawPath(path_29, paint_29_fill);
+    Paint paint29Fill = Paint()..style = PaintingStyle.fill;
+    paint29Fill.color = Color(0xffFFA7FF).withOpacity(1.0);
+    canvas.drawPath(path_29, paint29Fill);
 
     Path path_30 = Path();
     path_30.moveTo(52.532, 12.81);
@@ -21350,9 +21350,9 @@ class TenthIslandPainter extends CustomPainter {
     );
     path_30.close();
 
-    Paint paint_30_fill = Paint()..style = PaintingStyle.fill;
-    paint_30_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_30, paint_30_fill);
+    Paint paint30Fill = Paint()..style = PaintingStyle.fill;
+    paint30Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_30, paint30Fill);
 
     Path path_31 = Path();
     path_31.moveTo(53.902, 8.03);
@@ -21408,9 +21408,9 @@ class TenthIslandPainter extends CustomPainter {
     );
     path_31.close();
 
-    Paint paint_31_fill = Paint()..style = PaintingStyle.fill;
-    paint_31_fill.color = Colors.yellow.withOpacity(1.0);
-    canvas.drawPath(path_31, paint_31_fill);
+    Paint paint31Fill = Paint()..style = PaintingStyle.fill;
+    paint31Fill.color = Colors.yellow.withOpacity(1.0);
+    canvas.drawPath(path_31, paint31Fill);
 
     Path path_32 = Path();
     path_32.moveTo(49.342, 11.14);
@@ -21425,9 +21425,9 @@ class TenthIslandPainter extends CustomPainter {
     );
     path_32.close();
 
-    Paint paint_32_fill = Paint()..style = PaintingStyle.fill;
-    paint_32_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_32, paint_32_fill);
+    Paint paint32Fill = Paint()..style = PaintingStyle.fill;
+    paint32Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_32, paint32Fill);
 
     Path path_33 = Path();
     path_33.moveTo(48.552, 11.73);
@@ -21443,8 +21443,8 @@ class TenthIslandPainter extends CustomPainter {
     );
     path_33.close();
 
-    Paint paint_33_fill = Paint()..style = PaintingStyle.fill;
-    paint_33_fill.shader = ui.Gradient.linear(
+    Paint paint33Fill = Paint()..style = PaintingStyle.fill;
+    paint33Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5202500, size.height * 0.2448167),
       Offset(size.width * 0.5347381, size.height * 0.1021667),
       [
@@ -21457,7 +21457,7 @@ class TenthIslandPainter extends CustomPainter {
       ],
       [0, 0.017, 0.359, 0.648, 0.871, 1],
     );
-    canvas.drawPath(path_33, paint_33_fill);
+    canvas.drawPath(path_33, paint33Fill);
 
     Path path_34 = Path();
     path_34.moveTo(47.742, 10.61);
@@ -21466,9 +21466,9 @@ class TenthIslandPainter extends CustomPainter {
     path_34.cubicTo(45.472, 8.190000000000001, 47.402, 9.56, 47.742, 10.61);
     path_34.close();
 
-    Paint paint_34_fill = Paint()..style = PaintingStyle.fill;
-    paint_34_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_34, paint_34_fill);
+    Paint paint34Fill = Paint()..style = PaintingStyle.fill;
+    paint34Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_34, paint34Fill);
 
     Path path_35 = Path();
     path_35.moveTo(47.632, 9.6);
@@ -21499,9 +21499,9 @@ class TenthIslandPainter extends CustomPainter {
     path_35.cubicTo(45.392, 7.949999999999999, 47.152, 8.68, 47.632, 9.6);
     path_35.close();
 
-    Paint paint_35_fill = Paint()..style = PaintingStyle.fill;
-    paint_35_fill.color = Color(0xffFFA7FF).withOpacity(1.0);
-    canvas.drawPath(path_35, paint_35_fill);
+    Paint paint35Fill = Paint()..style = PaintingStyle.fill;
+    paint35Fill.color = Color(0xffFFA7FF).withOpacity(1.0);
+    canvas.drawPath(path_35, paint35Fill);
 
     Path path_36 = Path();
     path_36.moveTo(45.032, 14.3);
@@ -21539,9 +21539,9 @@ class TenthIslandPainter extends CustomPainter {
     );
     path_36.close();
 
-    Paint paint_36_fill = Paint()..style = PaintingStyle.fill;
-    paint_36_fill.color = Color(0xffFFA7FF).withOpacity(1.0);
-    canvas.drawPath(path_36, paint_36_fill);
+    Paint paint36Fill = Paint()..style = PaintingStyle.fill;
+    paint36Fill.color = Color(0xffFFA7FF).withOpacity(1.0);
+    canvas.drawPath(path_36, paint36Fill);
 
     Path path_37 = Path();
     path_37.moveTo(44.182, 14.39);
@@ -21557,9 +21557,9 @@ class TenthIslandPainter extends CustomPainter {
     path_37.cubicTo(39.902, 10.77, 39.222, 14.08, 44.182, 14.39);
     path_37.close();
 
-    Paint paint_37_fill = Paint()..style = PaintingStyle.fill;
-    paint_37_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_37, paint_37_fill);
+    Paint paint37Fill = Paint()..style = PaintingStyle.fill;
+    paint37Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_37, paint37Fill);
 
     Path path_38 = Path();
     path_38.moveTo(44.652, 11.78);
@@ -21601,9 +21601,9 @@ class TenthIslandPainter extends CustomPainter {
     );
     path_38.close();
 
-    Paint paint_38_fill = Paint()..style = PaintingStyle.fill;
-    paint_38_fill.color = Colors.yellow.withOpacity(1.0);
-    canvas.drawPath(path_38, paint_38_fill);
+    Paint paint38Fill = Paint()..style = PaintingStyle.fill;
+    paint38Fill.color = Colors.yellow.withOpacity(1.0);
+    canvas.drawPath(path_38, paint38Fill);
 
     Path path_39 = Path();
     path_39.moveTo(19.502, 20.41);
@@ -21611,9 +21611,9 @@ class TenthIslandPainter extends CustomPainter {
     path_39.cubicTo(10.552, 21.32, 15.192, 17.11, 19.502, 20.41);
     path_39.close();
 
-    Paint paint_39_fill = Paint()..style = PaintingStyle.fill;
-    paint_39_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_39, paint_39_fill);
+    Paint paint39Fill = Paint()..style = PaintingStyle.fill;
+    paint39Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_39, paint39Fill);
 
     Path path_40 = Path();
     path_40.moveTo(18.732, 20.72);
@@ -21643,8 +21643,8 @@ class TenthIslandPainter extends CustomPainter {
     );
     path_40.close();
 
-    Paint paint_40_fill = Paint()..style = PaintingStyle.fill;
-    paint_40_fill.shader = ui.Gradient.linear(
+    Paint paint40Fill = Paint()..style = PaintingStyle.fill;
+    paint40Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.1701667, size.height * 0.3689167),
       Offset(size.width * 0.2076071, size.height * 0.2551000),
       [
@@ -21657,7 +21657,7 @@ class TenthIslandPainter extends CustomPainter {
       ],
       [0, 0.017, 0.359, 0.648, 0.871, 1],
     );
-    canvas.drawPath(path_40, paint_40_fill);
+    canvas.drawPath(path_40, paint40Fill);
 
     Path path_41 = Path();
     path_41.moveTo(18.652, 19.73);
@@ -21687,9 +21687,9 @@ class TenthIslandPainter extends CustomPainter {
     );
     path_41.close();
 
-    Paint paint_41_fill = Paint()..style = PaintingStyle.fill;
-    paint_41_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_41, paint_41_fill);
+    Paint paint41Fill = Paint()..style = PaintingStyle.fill;
+    paint41Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_41, paint41Fill);
 
     Path path_42 = Path();
     path_42.moveTo(18.992, 18.94);
@@ -21713,9 +21713,9 @@ class TenthIslandPainter extends CustomPainter {
     path_42.cubicTo(18.182, 17.3, 19.052, 18.16, 18.991999999999997, 18.94);
     path_42.close();
 
-    Paint paint_42_fill = Paint()..style = PaintingStyle.fill;
-    paint_42_fill.color = Color(0xffFFA7FF).withOpacity(1.0);
-    canvas.drawPath(path_42, paint_42_fill);
+    Paint paint42Fill = Paint()..style = PaintingStyle.fill;
+    paint42Fill.color = Color(0xffFFA7FF).withOpacity(1.0);
+    canvas.drawPath(path_42, paint42Fill);
 
     Path path_43 = Path();
     path_43.moveTo(15.332, 22.07);
@@ -21746,9 +21746,9 @@ class TenthIslandPainter extends CustomPainter {
     );
     path_43.close();
 
-    Paint paint_43_fill = Paint()..style = PaintingStyle.fill;
-    paint_43_fill.color = Color(0xffFFA7FF).withOpacity(1.0);
-    canvas.drawPath(path_43, paint_43_fill);
+    Paint paint43Fill = Paint()..style = PaintingStyle.fill;
+    paint43Fill.color = Color(0xffFFA7FF).withOpacity(1.0);
+    canvas.drawPath(path_43, paint43Fill);
 
     Path path_44 = Path();
     path_44.moveTo(14.742, 21.99);
@@ -21778,9 +21778,9 @@ class TenthIslandPainter extends CustomPainter {
     );
     path_44.close();
 
-    Paint paint_44_fill = Paint()..style = PaintingStyle.fill;
-    paint_44_fill.color = Color(0xffDB83A9).withOpacity(1.0);
-    canvas.drawPath(path_44, paint_44_fill);
+    Paint paint44Fill = Paint()..style = PaintingStyle.fill;
+    paint44Fill.color = Color(0xffDB83A9).withOpacity(1.0);
+    canvas.drawPath(path_44, paint44Fill);
 
     Path path_45 = Path();
     path_45.moveTo(16.112, 20.09);
@@ -21829,9 +21829,9 @@ class TenthIslandPainter extends CustomPainter {
     );
     path_45.close();
 
-    Paint paint_45_fill = Paint()..style = PaintingStyle.fill;
-    paint_45_fill.color = Colors.yellow.withOpacity(1.0);
-    canvas.drawPath(path_45, paint_45_fill);
+    Paint paint45Fill = Paint()..style = PaintingStyle.fill;
+    paint45Fill.color = Colors.yellow.withOpacity(1.0);
+    canvas.drawPath(path_45, paint45Fill);
   }
 
   @override

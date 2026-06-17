@@ -13,9 +13,9 @@ class SkyPainter extends CustomPainter {
     path_0.lineTo(1000, 0);
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = Color(0xffCCFFFB).withOpacity(1.0);
-    canvas.drawPath(path_0, paint_0_fill);
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.color = Color(0xffCCFFFB).withOpacity(1.0);
+    canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
     path_1.moveTo(1000, 193.69);
@@ -25,9 +25,9 @@ class SkyPainter extends CustomPainter {
     path_1.lineTo(1000, 193.69);
     path_1.close();
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.color = Color(0xffBFFAFF).withOpacity(1.0);
-    canvas.drawPath(path_1, paint_1_fill);
+    Paint paint1Fill = Paint()..style = PaintingStyle.fill;
+    paint1Fill.color = Color(0xffBFFAFF).withOpacity(1.0);
+    canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
     path_2.moveTo(1000, 90.29);
@@ -37,9 +37,9 @@ class SkyPainter extends CustomPainter {
     path_2.lineTo(1000, 90.29);
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.color = Color(0xffA6FBFF).withOpacity(1.0);
-    canvas.drawPath(path_2, paint_2_fill);
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.color = Color(0xffA6FBFF).withOpacity(1.0);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(735.95, 222.661);
@@ -220,9 +220,9 @@ class SkyPainter extends CustomPainter {
     path_3.lineTo(1000, 75.661);
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.color = Color(0xffE5FFFB).withOpacity(1.0);
-    canvas.drawPath(path_3, paint_3_fill);
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.color = Color(0xffE5FFFB).withOpacity(1.0);
+    canvas.drawPath(path_3, paint3Fill);
   }
 
   @override
@@ -431,9 +431,9 @@ class BirdsPainter extends CustomPainter {
     );
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = Color(0xff8DA8B0).withOpacity(1.0);
-    canvas.drawPath(path_0, paint_0_fill);
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.color = Color(0xff8DA8B0).withOpacity(1.0);
+    canvas.drawPath(path_0, paint0Fill);
   }
 
   @override
@@ -552,9 +552,9 @@ class FirstCloudPainter extends CustomPainter {
     );
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = Color(0xffE9FFFC).withOpacity(1.0);
-    canvas.drawPath(path_0, paint_0_fill);
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.color = Color(0xffE9FFFC).withOpacity(1.0);
+    canvas.drawPath(path_0, paint0Fill);
   }
 
   @override
@@ -673,9 +673,9 @@ class SecondCloudPainter extends CustomPainter {
     path_0.cubicTo(515.08, 36.842, 510.2, 39.812, 505.85, 43.141999999999996);
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = Color(0xffE9FFFC).withOpacity(1.0);
-    canvas.drawPath(path_0, paint_0_fill);
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.color = Color(0xffE9FFFC).withOpacity(1.0);
+    canvas.drawPath(path_0, paint0Fill);
   }
 
   @override
@@ -748,9 +748,9 @@ class ThirdCloudPainter extends CustomPainter {
     path_0.cubicTo(339.059, 36.627, 424.629, 57.067, 424.629, 57.067);
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = Color(0xffE9FFFC).withOpacity(1.0);
-    canvas.drawPath(path_0, paint_0_fill);
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.color = Color(0xffE9FFFC).withOpacity(1.0);
+    canvas.drawPath(path_0, paint0Fill);
   }
 
   @override
@@ -832,9 +832,9 @@ class ForthCloudPainter extends CustomPainter {
     );
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = Color(0xffE9FFFC).withOpacity(1.0);
-    canvas.drawPath(path_0, paint_0_fill);
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.color = Color(0xffE9FFFC).withOpacity(1.0);
+    canvas.drawPath(path_0, paint0Fill);
   }
 
   @override
@@ -931,9 +931,9 @@ class FifthCloudPainter extends CustomPainter {
     );
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = Color(0xffE9FFFC).withOpacity(1.0);
-    canvas.drawPath(path_0, paint_0_fill);
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.color = Color(0xffE9FFFC).withOpacity(1.0);
+    canvas.drawPath(path_0, paint0Fill);
   }
 
   @override

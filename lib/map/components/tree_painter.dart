@@ -137,9 +137,9 @@ class FirstTreePainter extends CustomPainter {
     );
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = Color(0xff773B00).withOpacity(1.0);
-    canvas.drawPath(path_0, paint_0_fill);
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.color = Color(0xff773B00).withOpacity(1.0);
+    canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
     path_1.moveTo(374.274, 256.285);
@@ -149,9 +149,9 @@ class FirstTreePainter extends CustomPainter {
     path_1.lineTo(374.27400000000006, 256.285);
     path_1.close();
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.color = Color(0xff99601C).withOpacity(1.0);
-    canvas.drawPath(path_1, paint_1_fill);
+    Paint paint1Fill = Paint()..style = PaintingStyle.fill;
+    paint1Fill.color = Color(0xff99601C).withOpacity(1.0);
+    canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
     path_2.moveTo(360.405, 447.799);
@@ -383,9 +383,9 @@ class FirstTreePainter extends CustomPainter {
     path_2.lineTo(409.6609999999999, 713.3330000000002);
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.color = Color(0xff773B00).withOpacity(1.0);
-    canvas.drawPath(path_2, paint_2_fill);
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.color = Color(0xff773B00).withOpacity(1.0);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(385.003, 264.277);
@@ -407,9 +407,9 @@ class FirstTreePainter extends CustomPainter {
     );
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.color = Color(0xff4F6802).withOpacity(1.0);
-    canvas.drawPath(path_3, paint_3_fill);
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.color = Color(0xff4F6802).withOpacity(1.0);
+    canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
     path_4.moveTo(385.003, 264.275);
@@ -431,9 +431,9 @@ class FirstTreePainter extends CustomPainter {
     );
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.color = Color(0xff4F6802).withOpacity(1.0);
-    canvas.drawPath(path_4, paint_4_fill);
+    Paint paint4Fill = Paint()..style = PaintingStyle.fill;
+    paint4Fill.color = Color(0xff4F6802).withOpacity(1.0);
+    canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
     path_5.moveTo(375.25, 264.648);
@@ -448,9 +448,9 @@ class FirstTreePainter extends CustomPainter {
     );
     path_5.close();
 
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.color = Color(0xff4F6802).withOpacity(1.0);
-    canvas.drawPath(path_5, paint_5_fill);
+    Paint paint5Fill = Paint()..style = PaintingStyle.fill;
+    paint5Fill.color = Color(0xff4F6802).withOpacity(1.0);
+    canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
     path_6.moveTo(382.97, 270.473);
@@ -472,9 +472,9 @@ class FirstTreePainter extends CustomPainter {
     );
     path_6.close();
 
-    Paint paint_6_fill = Paint()..style = PaintingStyle.fill;
-    paint_6_fill.color = Color(0xff4F6802).withOpacity(1.0);
-    canvas.drawPath(path_6, paint_6_fill);
+    Paint paint6Fill = Paint()..style = PaintingStyle.fill;
+    paint6Fill.color = Color(0xff4F6802).withOpacity(1.0);
+    canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
     path_7.moveTo(382.97, 270.471);
@@ -496,9 +496,9 @@ class FirstTreePainter extends CustomPainter {
     );
     path_7.close();
 
-    Paint paint_7_fill = Paint()..style = PaintingStyle.fill;
-    paint_7_fill.color = Color(0xff4F6802).withOpacity(1.0);
-    canvas.drawPath(path_7, paint_7_fill);
+    Paint paint7Fill = Paint()..style = PaintingStyle.fill;
+    paint7Fill.color = Color(0xff4F6802).withOpacity(1.0);
+    canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
     path_8.moveTo(381.986, 259.45);
@@ -513,9 +513,9 @@ class FirstTreePainter extends CustomPainter {
     );
     path_8.close();
 
-    Paint paint_8_fill = Paint()..style = PaintingStyle.fill;
-    paint_8_fill.color = Color(0xff4F6802).withOpacity(1.0);
-    canvas.drawPath(path_8, paint_8_fill);
+    Paint paint8Fill = Paint()..style = PaintingStyle.fill;
+    paint8Fill.color = Color(0xff4F6802).withOpacity(1.0);
+    canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
     path_9.moveTo(366.232, 277.763);
@@ -537,9 +537,9 @@ class FirstTreePainter extends CustomPainter {
     );
     path_9.close();
 
-    Paint paint_9_fill = Paint()..style = PaintingStyle.fill;
-    paint_9_fill.color = Color(0xff4F6802).withOpacity(1.0);
-    canvas.drawPath(path_9, paint_9_fill);
+    Paint paint9Fill = Paint()..style = PaintingStyle.fill;
+    paint9Fill.color = Color(0xff4F6802).withOpacity(1.0);
+    canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
     path_10.moveTo(366.232, 277.764);
@@ -561,9 +561,9 @@ class FirstTreePainter extends CustomPainter {
     );
     path_10.close();
 
-    Paint paint_10_fill = Paint()..style = PaintingStyle.fill;
-    paint_10_fill.color = Color(0xff4F6802).withOpacity(1.0);
-    canvas.drawPath(path_10, paint_10_fill);
+    Paint paint10Fill = Paint()..style = PaintingStyle.fill;
+    paint10Fill.color = Color(0xff4F6802).withOpacity(1.0);
+    canvas.drawPath(path_10, paint10Fill);
 
     Path path_11 = Path();
     path_11.moveTo(375.832, 275.771);
@@ -578,9 +578,9 @@ class FirstTreePainter extends CustomPainter {
     path_11.cubicTo(606.425, 316.988, 499.078, 331.736, 375.832, 275.771);
     path_11.close();
 
-    Paint paint_11_fill = Paint()..style = PaintingStyle.fill;
-    paint_11_fill.color = Color(0xff4F6802).withOpacity(1.0);
-    canvas.drawPath(path_11, paint_11_fill);
+    Paint paint11Fill = Paint()..style = PaintingStyle.fill;
+    paint11Fill.color = Color(0xff4F6802).withOpacity(1.0);
+    canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
     path_12.moveTo(335.28, 226.373);
@@ -1135,9 +1135,9 @@ class FirstTreePainter extends CustomPainter {
     );
     path_12.close();
 
-    Paint paint_12_fill = Paint()..style = PaintingStyle.fill;
-    paint_12_fill.color = Color(0xff9DD341).withOpacity(1.0);
-    canvas.drawPath(path_12, paint_12_fill);
+    Paint paint12Fill = Paint()..style = PaintingStyle.fill;
+    paint12Fill.color = Color(0xff9DD341).withOpacity(1.0);
+    canvas.drawPath(path_12, paint12Fill);
 
     Path path_13 = Path();
     path_13.moveTo(242.129, 520.533);
@@ -1145,9 +1145,9 @@ class FirstTreePainter extends CustomPainter {
     path_13.cubicTo(116.553, 743.967, 147.623, 626.37, 242.129, 520.533);
     path_13.close();
 
-    Paint paint_13_fill = Paint()..style = PaintingStyle.fill;
-    paint_13_fill.color = Color(0xff61840B).withOpacity(1.0);
-    canvas.drawPath(path_13, paint_13_fill);
+    Paint paint13Fill = Paint()..style = PaintingStyle.fill;
+    paint13Fill.color = Color(0xff61840B).withOpacity(1.0);
+    canvas.drawPath(path_13, paint13Fill);
 
     Path path_14 = Path();
     path_14.moveTo(242.129, 520.533);
@@ -1169,9 +1169,9 @@ class FirstTreePainter extends CustomPainter {
     );
     path_14.close();
 
-    Paint paint_14_fill = Paint()..style = PaintingStyle.fill;
-    paint_14_fill.color = Color(0xff61840B).withOpacity(1.0);
-    canvas.drawPath(path_14, paint_14_fill);
+    Paint paint14Fill = Paint()..style = PaintingStyle.fill;
+    paint14Fill.color = Color(0xff61840B).withOpacity(1.0);
+    canvas.drawPath(path_14, paint14Fill);
 
     Path path_15 = Path();
     path_15.moveTo(233.102, 524.749);
@@ -1186,9 +1186,9 @@ class FirstTreePainter extends CustomPainter {
     );
     path_15.close();
 
-    Paint paint_15_fill = Paint()..style = PaintingStyle.fill;
-    paint_15_fill.color = Color(0xff61840B).withOpacity(1.0);
-    canvas.drawPath(path_15, paint_15_fill);
+    Paint paint15Fill = Paint()..style = PaintingStyle.fill;
+    paint15Fill.color = Color(0xff61840B).withOpacity(1.0);
+    canvas.drawPath(path_15, paint15Fill);
 
     Path path_16 = Path();
     path_16.moveTo(242.129, 527.144);
@@ -1210,9 +1210,9 @@ class FirstTreePainter extends CustomPainter {
     );
     path_16.close();
 
-    Paint paint_16_fill = Paint()..style = PaintingStyle.fill;
-    paint_16_fill.color = Color(0xff61840B).withOpacity(1.0);
-    canvas.drawPath(path_16, paint_16_fill);
+    Paint paint16Fill = Paint()..style = PaintingStyle.fill;
+    paint16Fill.color = Color(0xff61840B).withOpacity(1.0);
+    canvas.drawPath(path_16, paint16Fill);
 
     Path path_17 = Path();
     path_17.moveTo(242.129, 527.142);
@@ -1227,9 +1227,9 @@ class FirstTreePainter extends CustomPainter {
     path_17.cubicTo(105.595, 312.158, 190.377, 388.351, 242.129, 527.142);
     path_17.close();
 
-    Paint paint_17_fill = Paint()..style = PaintingStyle.fill;
-    paint_17_fill.color = Color(0xff61840B).withOpacity(1.0);
-    canvas.drawPath(path_17, paint_17_fill);
+    Paint paint17Fill = Paint()..style = PaintingStyle.fill;
+    paint17Fill.color = Color(0xff61840B).withOpacity(1.0);
+    canvas.drawPath(path_17, paint17Fill);
 
     Path path_18 = Path();
     path_18.moveTo(237.817, 517.204);
@@ -1251,9 +1251,9 @@ class FirstTreePainter extends CustomPainter {
     );
     path_18.close();
 
-    Paint paint_18_fill = Paint()..style = PaintingStyle.fill;
-    paint_18_fill.color = Color(0xff61840B).withOpacity(1.0);
-    canvas.drawPath(path_18, paint_18_fill);
+    Paint paint18Fill = Paint()..style = PaintingStyle.fill;
+    paint18Fill.color = Color(0xff61840B).withOpacity(1.0);
+    canvas.drawPath(path_18, paint18Fill);
 
     Path path_19 = Path();
     path_19.moveTo(228.684, 540.609);
@@ -1275,9 +1275,9 @@ class FirstTreePainter extends CustomPainter {
     );
     path_19.close();
 
-    Paint paint_19_fill = Paint()..style = PaintingStyle.fill;
-    paint_19_fill.color = Color(0xff61840B).withOpacity(1.0);
-    canvas.drawPath(path_19, paint_19_fill);
+    Paint paint19Fill = Paint()..style = PaintingStyle.fill;
+    paint19Fill.color = Color(0xff61840B).withOpacity(1.0);
+    canvas.drawPath(path_19, paint19Fill);
 
     Path path_20 = Path();
     path_20.moveTo(228.684, 540.611);
@@ -1299,9 +1299,9 @@ class FirstTreePainter extends CustomPainter {
     );
     path_20.close();
 
-    Paint paint_20_fill = Paint()..style = PaintingStyle.fill;
-    paint_20_fill.color = Color(0xff61840B).withOpacity(1.0);
-    canvas.drawPath(path_20, paint_20_fill);
+    Paint paint20Fill = Paint()..style = PaintingStyle.fill;
+    paint20Fill.color = Color(0xff61840B).withOpacity(1.0);
+    canvas.drawPath(path_20, paint20Fill);
 
     Path path_21 = Path();
     path_21.moveTo(237.066, 534.947);
@@ -1309,9 +1309,9 @@ class FirstTreePainter extends CustomPainter {
     path_21.cubicTo(465.822, 482.168, 369.767, 538.533, 237.066, 534.947);
     path_21.close();
 
-    Paint paint_21_fill = Paint()..style = PaintingStyle.fill;
-    paint_21_fill.color = Color(0xff61840B).withOpacity(1.0);
-    canvas.drawPath(path_21, paint_21_fill);
+    Paint paint21Fill = Paint()..style = PaintingStyle.fill;
+    paint21Fill.color = Color(0xff61840B).withOpacity(1.0);
+    canvas.drawPath(path_21, paint21Fill);
 
     Path path_22 = Path();
     path_22.moveTo(228.696, 463.442);
@@ -1966,9 +1966,9 @@ class FirstTreePainter extends CustomPainter {
     );
     path_22.close();
 
-    Paint paint_22_fill = Paint()..style = PaintingStyle.fill;
-    paint_22_fill.color = Color(0xff4F6802).withOpacity(1.0);
-    canvas.drawPath(path_22, paint_22_fill);
+    Paint paint22Fill = Paint()..style = PaintingStyle.fill;
+    paint22Fill.color = Color(0xff4F6802).withOpacity(1.0);
+    canvas.drawPath(path_22, paint22Fill);
 
     Path path_23 = Path();
     path_23.moveTo(522.908, 340.732);
@@ -1990,9 +1990,9 @@ class FirstTreePainter extends CustomPainter {
     );
     path_23.close();
 
-    Paint paint_23_fill = Paint()..style = PaintingStyle.fill;
-    paint_23_fill.color = Color(0xff61840B).withOpacity(1.0);
-    canvas.drawPath(path_23, paint_23_fill);
+    Paint paint23Fill = Paint()..style = PaintingStyle.fill;
+    paint23Fill.color = Color(0xff61840B).withOpacity(1.0);
+    canvas.drawPath(path_23, paint23Fill);
 
     Path path_24 = Path();
     path_24.moveTo(522.908, 340.731);
@@ -2007,9 +2007,9 @@ class FirstTreePainter extends CustomPainter {
     );
     path_24.close();
 
-    Paint paint_24_fill = Paint()..style = PaintingStyle.fill;
-    paint_24_fill.color = Color(0xff61840B).withOpacity(1.0);
-    canvas.drawPath(path_24, paint_24_fill);
+    Paint paint24Fill = Paint()..style = PaintingStyle.fill;
+    paint24Fill.color = Color(0xff61840B).withOpacity(1.0);
+    canvas.drawPath(path_24, paint24Fill);
 
     Path path_25 = Path();
     path_25.moveTo(518.192, 333.187);
@@ -2031,9 +2031,9 @@ class FirstTreePainter extends CustomPainter {
     );
     path_25.close();
 
-    Paint paint_25_fill = Paint()..style = PaintingStyle.fill;
-    paint_25_fill.color = Color(0xff61840B).withOpacity(1.0);
-    canvas.drawPath(path_25, paint_25_fill);
+    Paint paint25Fill = Paint()..style = PaintingStyle.fill;
+    paint25Fill.color = Color(0xff61840B).withOpacity(1.0);
+    canvas.drawPath(path_25, paint25Fill);
 
     Path path_26 = Path();
     path_26.moveTo(517.042, 341.449);
@@ -2055,9 +2055,9 @@ class FirstTreePainter extends CustomPainter {
     );
     path_26.close();
 
-    Paint paint_26_fill = Paint()..style = PaintingStyle.fill;
-    paint_26_fill.color = Color(0xff61840B).withOpacity(1.0);
-    canvas.drawPath(path_26, paint_26_fill);
+    Paint paint26Fill = Paint()..style = PaintingStyle.fill;
+    paint26Fill.color = Color(0xff61840B).withOpacity(1.0);
+    canvas.drawPath(path_26, paint26Fill);
 
     Path path_27 = Path();
     path_27.moveTo(517.042, 341.45);
@@ -2079,9 +2079,9 @@ class FirstTreePainter extends CustomPainter {
     );
     path_27.close();
 
-    Paint paint_27_fill = Paint()..style = PaintingStyle.fill;
-    paint_27_fill.color = Color(0xff61840B).withOpacity(1.0);
-    canvas.drawPath(path_27, paint_27_fill);
+    Paint paint27Fill = Paint()..style = PaintingStyle.fill;
+    paint27Fill.color = Color(0xff61840B).withOpacity(1.0);
+    canvas.drawPath(path_27, paint27Fill);
 
     Path path_28 = Path();
     path_28.moveTo(525.39, 336.55);
@@ -2103,9 +2103,9 @@ class FirstTreePainter extends CustomPainter {
     );
     path_28.close();
 
-    Paint paint_28_fill = Paint()..style = PaintingStyle.fill;
-    paint_28_fill.color = Color(0xff61840B).withOpacity(1.0);
-    canvas.drawPath(path_28, paint_28_fill);
+    Paint paint28Fill = Paint()..style = PaintingStyle.fill;
+    paint28Fill.color = Color(0xff61840B).withOpacity(1.0);
+    canvas.drawPath(path_28, paint28Fill);
 
     Path path_29 = Path();
     path_29.moveTo(503.64, 330.98);
@@ -2127,9 +2127,9 @@ class FirstTreePainter extends CustomPainter {
     );
     path_29.close();
 
-    Paint paint_29_fill = Paint()..style = PaintingStyle.fill;
-    paint_29_fill.color = Color(0xff61840B).withOpacity(1.0);
-    canvas.drawPath(path_29, paint_29_fill);
+    Paint paint29Fill = Paint()..style = PaintingStyle.fill;
+    paint29Fill.color = Color(0xff61840B).withOpacity(1.0);
+    canvas.drawPath(path_29, paint29Fill);
 
     Path path_30 = Path();
     path_30.moveTo(503.64, 330.979);
@@ -2151,9 +2151,9 @@ class FirstTreePainter extends CustomPainter {
     );
     path_30.close();
 
-    Paint paint_30_fill = Paint()..style = PaintingStyle.fill;
-    paint_30_fill.color = Color(0xff61840B).withOpacity(1.0);
-    canvas.drawPath(path_30, paint_30_fill);
+    Paint paint30Fill = Paint()..style = PaintingStyle.fill;
+    paint30Fill.color = Color(0xff61840B).withOpacity(1.0);
+    canvas.drawPath(path_30, paint30Fill);
 
     Path path_31 = Path();
     path_31.moveTo(509.577, 337.805);
@@ -2168,9 +2168,9 @@ class FirstTreePainter extends CustomPainter {
     );
     path_31.close();
 
-    Paint paint_31_fill = Paint()..style = PaintingStyle.fill;
-    paint_31_fill.color = Color(0xff61840B).withOpacity(1.0);
-    canvas.drawPath(path_31, paint_31_fill);
+    Paint paint31Fill = Paint()..style = PaintingStyle.fill;
+    paint31Fill.color = Color(0xff61840B).withOpacity(1.0);
+    canvas.drawPath(path_31, paint31Fill);
 
     Path path_32 = Path();
     path_32.moveTo(572.092, 322.649);
@@ -2860,9 +2860,9 @@ class FirstTreePainter extends CustomPainter {
     );
     path_32.close();
 
-    Paint paint_32_fill = Paint()..style = PaintingStyle.fill;
-    paint_32_fill.color = Color(0xff4F6802).withOpacity(1.0);
-    canvas.drawPath(path_32, paint_32_fill);
+    Paint paint32Fill = Paint()..style = PaintingStyle.fill;
+    paint32Fill.color = Color(0xff4F6802).withOpacity(1.0);
+    canvas.drawPath(path_32, paint32Fill);
   }
 
   @override
@@ -2994,9 +2994,9 @@ class SecondTreePainter extends CustomPainter {
     path_0.lineTo(163.53800000000004, 561.931);
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = Color(0xff99601C).withOpacity(1.0);
-    canvas.drawPath(path_0, paint_0_fill);
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.color = Color(0xff99601C).withOpacity(1.0);
+    canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
     path_1.moveTo(215.222, 104.766);
@@ -3049,9 +3049,9 @@ class SecondTreePainter extends CustomPainter {
     path_1.lineTo(215.222, 104.76599999999999);
     path_1.close();
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.color = Color(0xff61840B).withOpacity(1.0);
-    canvas.drawPath(path_1, paint_1_fill);
+    Paint paint1Fill = Paint()..style = PaintingStyle.fill;
+    paint1Fill.color = Color(0xff61840B).withOpacity(1.0);
+    canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
     path_2.moveTo(168.716, 155.226);
@@ -3097,9 +3097,9 @@ class SecondTreePainter extends CustomPainter {
     path_2.lineTo(168.716, 155.22599999999997);
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.color = Color(0xff4F6802).withOpacity(1.0);
-    canvas.drawPath(path_2, paint_2_fill);
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.color = Color(0xff4F6802).withOpacity(1.0);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(141.423, 133.911);
@@ -3145,9 +3145,9 @@ class SecondTreePainter extends CustomPainter {
     path_3.lineTo(141.42299999999997, 133.91100000000003);
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.color = Color(0xff61840B).withOpacity(1.0);
-    canvas.drawPath(path_3, paint_3_fill);
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.color = Color(0xff61840B).withOpacity(1.0);
+    canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
     path_4.moveTo(154.295, 97.31);
@@ -3193,9 +3193,9 @@ class SecondTreePainter extends CustomPainter {
     path_4.lineTo(154.29500000000002, 97.31099999999999);
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.color = Color(0xff4F6802).withOpacity(1.0);
-    canvas.drawPath(path_4, paint_4_fill);
+    Paint paint4Fill = Paint()..style = PaintingStyle.fill;
+    paint4Fill.color = Color(0xff4F6802).withOpacity(1.0);
+    canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
     path_5.moveTo(212.421, 164.643);
@@ -3255,9 +3255,9 @@ class SecondTreePainter extends CustomPainter {
     path_5.lineTo(212.42099999999994, 164.64300000000003);
     path_5.close();
 
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.color = Color(0xff61840B).withOpacity(1.0);
-    canvas.drawPath(path_5, paint_5_fill);
+    Paint paint5Fill = Paint()..style = PaintingStyle.fill;
+    paint5Fill.color = Color(0xff61840B).withOpacity(1.0);
+    canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
     path_6.moveTo(215.638, 137.016);
@@ -3303,9 +3303,9 @@ class SecondTreePainter extends CustomPainter {
     path_6.lineTo(215.63799999999998, 137.01600000000002);
     path_6.close();
 
-    Paint paint_6_fill = Paint()..style = PaintingStyle.fill;
-    paint_6_fill.color = Color(0xff4F6802).withOpacity(1.0);
-    canvas.drawPath(path_6, paint_6_fill);
+    Paint paint6Fill = Paint()..style = PaintingStyle.fill;
+    paint6Fill.color = Color(0xff4F6802).withOpacity(1.0);
+    canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
     path_7.moveTo(197.63, 164.456);
@@ -3936,9 +3936,9 @@ class SecondTreePainter extends CustomPainter {
     );
     path_7.close();
 
-    Paint paint_7_fill = Paint()..style = PaintingStyle.fill;
-    paint_7_fill.color = Color(0xff773B00).withOpacity(1.0);
-    canvas.drawPath(path_7, paint_7_fill);
+    Paint paint7Fill = Paint()..style = PaintingStyle.fill;
+    paint7Fill.color = Color(0xff773B00).withOpacity(1.0);
+    canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
     path_8.moveTo(272.214, 659.399);
@@ -3988,9 +3988,9 @@ class SecondTreePainter extends CustomPainter {
     path_8.lineTo(272.214, 659.399);
     path_8.close();
 
-    Paint paint_8_fill = Paint()..style = PaintingStyle.fill;
-    paint_8_fill.color = Color(0xff99601C).withOpacity(1.0);
-    canvas.drawPath(path_8, paint_8_fill);
+    Paint paint8Fill = Paint()..style = PaintingStyle.fill;
+    paint8Fill.color = Color(0xff99601C).withOpacity(1.0);
+    canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
     path_9.moveTo(297.585, 549.485);
@@ -4423,9 +4423,9 @@ class SecondTreePainter extends CustomPainter {
     );
     path_9.close();
 
-    Paint paint_9_fill = Paint()..style = PaintingStyle.fill;
-    paint_9_fill.color = Color(0xff773B00).withOpacity(1.0);
-    canvas.drawPath(path_9, paint_9_fill);
+    Paint paint9Fill = Paint()..style = PaintingStyle.fill;
+    paint9Fill.color = Color(0xff773B00).withOpacity(1.0);
+    canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
     path_10.moveTo(360.439, 389.402);
@@ -4485,9 +4485,9 @@ class SecondTreePainter extends CustomPainter {
     path_10.lineTo(360.439, 389.40200000000004);
     path_10.close();
 
-    Paint paint_10_fill = Paint()..style = PaintingStyle.fill;
-    paint_10_fill.color = Color(0xff61840B).withOpacity(1.0);
-    canvas.drawPath(path_10, paint_10_fill);
+    Paint paint10Fill = Paint()..style = PaintingStyle.fill;
+    paint10Fill.color = Color(0xff61840B).withOpacity(1.0);
+    canvas.drawPath(path_10, paint10Fill);
 
     Path path_11 = Path();
     path_11.moveTo(315.376, 438.292);
@@ -4540,9 +4540,9 @@ class SecondTreePainter extends CustomPainter {
     path_11.lineTo(315.37600000000003, 438.2920000000001);
     path_11.close();
 
-    Paint paint_11_fill = Paint()..style = PaintingStyle.fill;
-    paint_11_fill.color = Color(0xff4F6802).withOpacity(1.0);
-    canvas.drawPath(path_11, paint_11_fill);
+    Paint paint11Fill = Paint()..style = PaintingStyle.fill;
+    paint11Fill.color = Color(0xff4F6802).withOpacity(1.0);
+    canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
     path_12.moveTo(288.931, 417.639);
@@ -4595,9 +4595,9 @@ class SecondTreePainter extends CustomPainter {
     path_12.lineTo(288.931, 417.63900000000007);
     path_12.close();
 
-    Paint paint_12_fill = Paint()..style = PaintingStyle.fill;
-    paint_12_fill.color = Color(0xff61840B).withOpacity(1.0);
-    canvas.drawPath(path_12, paint_12_fill);
+    Paint paint12Fill = Paint()..style = PaintingStyle.fill;
+    paint12Fill.color = Color(0xff61840B).withOpacity(1.0);
+    canvas.drawPath(path_12, paint12Fill);
 
     Path path_13 = Path();
     path_13.moveTo(301.404, 382.174);
@@ -4657,9 +4657,9 @@ class SecondTreePainter extends CustomPainter {
     path_13.lineTo(301.404, 382.17400000000004);
     path_13.close();
 
-    Paint paint_13_fill = Paint()..style = PaintingStyle.fill;
-    paint_13_fill.color = Color(0xff4F6802).withOpacity(1.0);
-    canvas.drawPath(path_13, paint_13_fill);
+    Paint paint13Fill = Paint()..style = PaintingStyle.fill;
+    paint13Fill.color = Color(0xff4F6802).withOpacity(1.0);
+    canvas.drawPath(path_13, paint13Fill);
 
     Path path_14 = Path();
     path_14.moveTo(357.723, 447.415);
@@ -4712,9 +4712,9 @@ class SecondTreePainter extends CustomPainter {
     path_14.lineTo(357.72300000000007, 447.4150000000001);
     path_14.close();
 
-    Paint paint_14_fill = Paint()..style = PaintingStyle.fill;
-    paint_14_fill.color = Color(0xff61840B).withOpacity(1.0);
-    canvas.drawPath(path_14, paint_14_fill);
+    Paint paint14Fill = Paint()..style = PaintingStyle.fill;
+    paint14Fill.color = Color(0xff61840B).withOpacity(1.0);
+    canvas.drawPath(path_14, paint14Fill);
 
     Path path_15 = Path();
     path_15.moveTo(360.842, 420.648);
@@ -4767,9 +4767,9 @@ class SecondTreePainter extends CustomPainter {
     path_15.lineTo(360.84200000000004, 420.64800000000014);
     path_15.close();
 
-    Paint paint_15_fill = Paint()..style = PaintingStyle.fill;
-    paint_15_fill.color = Color(0xff4F6802).withOpacity(1.0);
-    canvas.drawPath(path_15, paint_15_fill);
+    Paint paint15Fill = Paint()..style = PaintingStyle.fill;
+    paint15Fill.color = Color(0xff4F6802).withOpacity(1.0);
+    canvas.drawPath(path_15, paint15Fill);
   }
 
   @override
@@ -4811,9 +4811,9 @@ class ThirdTreePainter extends CustomPainter {
     );
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = Color(0xff4F6802).withOpacity(1.0);
-    canvas.drawPath(path_0, paint_0_fill);
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.color = Color(0xff4F6802).withOpacity(1.0);
+    canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
     path_1.moveTo(279.796, 376.275);
@@ -5321,9 +5321,9 @@ class ThirdTreePainter extends CustomPainter {
     );
     path_1.close();
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.color = Color(0xff99601C).withOpacity(1.0);
-    canvas.drawPath(path_1, paint_1_fill);
+    Paint paint1Fill = Paint()..style = PaintingStyle.fill;
+    paint1Fill.color = Color(0xff99601C).withOpacity(1.0);
+    canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
     path_2.moveTo(285.839, 161.733);
@@ -5333,9 +5333,9 @@ class ThirdTreePainter extends CustomPainter {
     path_2.lineTo(285.839, 161.733);
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.color = Color(0xff773B00).withOpacity(1.0);
-    canvas.drawPath(path_2, paint_2_fill);
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.color = Color(0xff773B00).withOpacity(1.0);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(172.737, 231.03);
@@ -5468,9 +5468,9 @@ class ThirdTreePainter extends CustomPainter {
     );
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.color = Color(0xff61840B).withOpacity(1.0);
-    canvas.drawPath(path_3, paint_3_fill);
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.color = Color(0xff61840B).withOpacity(1.0);
+    canvas.drawPath(path_3, paint3Fill);
   }
 
   @override
@@ -5498,9 +5498,9 @@ class ForthTreePainter extends CustomPainter {
     path_0.lineTo(159.383, 543.0079999999999);
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = Color(0xff99601C).withOpacity(1.0);
-    canvas.drawPath(path_0, paint_0_fill);
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.color = Color(0xff99601C).withOpacity(1.0);
+    canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
     path_1.moveTo(298.464, 599.864);
@@ -5515,9 +5515,9 @@ class ForthTreePainter extends CustomPainter {
     path_1.lineTo(298.464, 599.8639999999999);
     path_1.close();
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.color = Color(0xff4F6802).withOpacity(1.0);
-    canvas.drawPath(path_1, paint_1_fill);
+    Paint paint1Fill = Paint()..style = PaintingStyle.fill;
+    paint1Fill.color = Color(0xff4F6802).withOpacity(1.0);
+    canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
     path_2.moveTo(94.051, 466.475);
@@ -5537,9 +5537,9 @@ class ForthTreePainter extends CustomPainter {
     path_2.lineTo(80.237, 550.693);
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.color = Color(0xffCCEA81).withOpacity(1.0);
-    canvas.drawPath(path_2, paint_2_fill);
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.color = Color(0xffCCEA81).withOpacity(1.0);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(298.464, 436.84);
@@ -5557,9 +5557,9 @@ class ForthTreePainter extends CustomPainter {
     path_3.lineTo(298.46400000000006, 436.84);
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.color = Color(0xff61840B).withOpacity(1.0);
-    canvas.drawPath(path_3, paint_3_fill);
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.color = Color(0xff61840B).withOpacity(1.0);
+    canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
     path_4.moveTo(322.849, 459.216);
@@ -5580,9 +5580,9 @@ class ForthTreePainter extends CustomPainter {
     path_4.lineTo(322.849, 459.21600000000007);
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.color = Color(0xffCCEA81).withOpacity(1.0);
-    canvas.drawPath(path_4, paint_4_fill);
+    Paint paint4Fill = Paint()..style = PaintingStyle.fill;
+    paint4Fill.color = Color(0xffCCEA81).withOpacity(1.0);
+    canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
     path_5.moveTo(293.986, 289.937);
@@ -5597,9 +5597,9 @@ class ForthTreePainter extends CustomPainter {
     path_5.cubicTo(296.112, 300.713, 293.986, 289.937, 293.986, 289.937);
     path_5.close();
 
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.color = Color(0xff4F6802).withOpacity(1.0);
-    canvas.drawPath(path_5, paint_5_fill);
+    Paint paint5Fill = Paint()..style = PaintingStyle.fill;
+    paint5Fill.color = Color(0xff4F6802).withOpacity(1.0);
+    canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
     path_6.moveTo(194.265, 81.498);
@@ -5672,9 +5672,9 @@ class ForthTreePainter extends CustomPainter {
     path_6.cubicTo(305.988, 281.123, 179.666, 90.869, 176.16, 89.265);
     path_6.close();
 
-    Paint paint_6_fill = Paint()..style = PaintingStyle.fill;
-    paint_6_fill.color = Color(0xffCCEA81).withOpacity(1.0);
-    canvas.drawPath(path_6, paint_6_fill);
+    Paint paint6Fill = Paint()..style = PaintingStyle.fill;
+    paint6Fill.color = Color(0xffCCEA81).withOpacity(1.0);
+    canvas.drawPath(path_6, paint6Fill);
   }
 
   @override
@@ -5773,9 +5773,9 @@ class FifthTreePainter extends CustomPainter {
     );
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = Color(0xff99601C).withOpacity(1.0);
-    canvas.drawPath(path_0, paint_0_fill);
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.color = Color(0xff99601C).withOpacity(1.0);
+    canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
     path_1.moveTo(189.966, 425.654);
@@ -5884,9 +5884,9 @@ class FifthTreePainter extends CustomPainter {
     );
     path_1.close();
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.color = Color(0xff99601C).withOpacity(1.0);
-    canvas.drawPath(path_1, paint_1_fill);
+    Paint paint1Fill = Paint()..style = PaintingStyle.fill;
+    paint1Fill.color = Color(0xff99601C).withOpacity(1.0);
+    canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
     path_2.moveTo(309.621, 419.269);
@@ -5926,9 +5926,9 @@ class FifthTreePainter extends CustomPainter {
     );
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.color = Color(0xff773B00).withOpacity(1.0);
-    canvas.drawPath(path_2, paint_2_fill);
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.color = Color(0xff773B00).withOpacity(1.0);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(345.411, 529.876);
@@ -6022,9 +6022,9 @@ class FifthTreePainter extends CustomPainter {
     );
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.color = Color(0xff99601C).withOpacity(1.0);
-    canvas.drawPath(path_3, paint_3_fill);
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.color = Color(0xff99601C).withOpacity(1.0);
+    canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
     path_4.moveTo(533.369, 425.656);
@@ -6108,9 +6108,9 @@ class FifthTreePainter extends CustomPainter {
     );
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.color = Color(0xff773B00).withOpacity(1.0);
-    canvas.drawPath(path_4, paint_4_fill);
+    Paint paint4Fill = Paint()..style = PaintingStyle.fill;
+    paint4Fill.color = Color(0xff773B00).withOpacity(1.0);
+    canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
     path_5.moveTo(380.182, 462.566);
@@ -6139,9 +6139,9 @@ class FifthTreePainter extends CustomPainter {
     );
     path_5.close();
 
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.color = Color(0xff99601C).withOpacity(1.0);
-    canvas.drawPath(path_5, paint_5_fill);
+    Paint paint5Fill = Paint()..style = PaintingStyle.fill;
+    paint5Fill.color = Color(0xff99601C).withOpacity(1.0);
+    canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
     path_6.moveTo(438.117, 419.269);
@@ -6181,9 +6181,9 @@ class FifthTreePainter extends CustomPainter {
     );
     path_6.close();
 
-    Paint paint_6_fill = Paint()..style = PaintingStyle.fill;
-    paint_6_fill.color = Color(0xff773B00).withOpacity(1.0);
-    canvas.drawPath(path_6, paint_6_fill);
+    Paint paint6Fill = Paint()..style = PaintingStyle.fill;
+    paint6Fill.color = Color(0xff773B00).withOpacity(1.0);
+    canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
     path_7.moveTo(340.551, 490.042);
@@ -6200,9 +6200,9 @@ class FifthTreePainter extends CustomPainter {
     path_7.lineTo(340.551, 490.0419999999999);
     path_7.close();
 
-    Paint paint_7_fill = Paint()..style = PaintingStyle.fill;
-    paint_7_fill.color = Color(0xff99601C).withOpacity(1.0);
-    canvas.drawPath(path_7, paint_7_fill);
+    Paint paint7Fill = Paint()..style = PaintingStyle.fill;
+    paint7Fill.color = Color(0xff99601C).withOpacity(1.0);
+    canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
     path_8.moveTo(78.671, 203.773);
@@ -6230,9 +6230,9 @@ class FifthTreePainter extends CustomPainter {
     );
     path_8.close();
 
-    Paint paint_8_fill = Paint()..style = PaintingStyle.fill;
-    paint_8_fill.color = Color(0xff61840B).withOpacity(1.0);
-    canvas.drawPath(path_8, paint_8_fill);
+    Paint paint8Fill = Paint()..style = PaintingStyle.fill;
+    paint8Fill.color = Color(0xff61840B).withOpacity(1.0);
+    canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
     path_9.moveTo(373.056, 108.698);
@@ -6274,9 +6274,9 @@ class FifthTreePainter extends CustomPainter {
     );
     path_9.close();
 
-    Paint paint_9_fill = Paint()..style = PaintingStyle.fill;
-    paint_9_fill.color = Color(0xff9DD341).withOpacity(1.0);
-    canvas.drawPath(path_9, paint_9_fill);
+    Paint paint9Fill = Paint()..style = PaintingStyle.fill;
+    paint9Fill.color = Color(0xff9DD341).withOpacity(1.0);
+    canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
     path_10.moveTo(143.672, 87.512);
@@ -6356,9 +6356,9 @@ class FifthTreePainter extends CustomPainter {
     );
     path_10.close();
 
-    Paint paint_10_fill = Paint()..style = PaintingStyle.fill;
-    paint_10_fill.color = Color(0xff4F6802).withOpacity(1.0);
-    canvas.drawPath(path_10, paint_10_fill);
+    Paint paint10Fill = Paint()..style = PaintingStyle.fill;
+    paint10Fill.color = Color(0xff4F6802).withOpacity(1.0);
+    canvas.drawPath(path_10, paint10Fill);
 
     Path path_11 = Path();
     path_11.moveTo(285.303, 0);
@@ -6379,9 +6379,9 @@ class FifthTreePainter extends CustomPainter {
     path_11.cubicTo(229.639, 24.921, 254.559, 0, 285.303, 0);
     path_11.close();
 
-    Paint paint_11_fill = Paint()..style = PaintingStyle.fill;
-    paint_11_fill.color = Color(0xff61840B).withOpacity(1.0);
-    canvas.drawPath(path_11, paint_11_fill);
+    Paint paint11Fill = Paint()..style = PaintingStyle.fill;
+    paint11Fill.color = Color(0xff61840B).withOpacity(1.0);
+    canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
     path_12.moveTo(279.247, 187.761);
@@ -6794,9 +6794,9 @@ class FifthTreePainter extends CustomPainter {
     );
     path_12.close();
 
-    Paint paint_12_fill = Paint()..style = PaintingStyle.fill;
-    paint_12_fill.color = Color(0xffCCEA81).withOpacity(1.0);
-    canvas.drawPath(path_12, paint_12_fill);
+    Paint paint12Fill = Paint()..style = PaintingStyle.fill;
+    paint12Fill.color = Color(0xffCCEA81).withOpacity(1.0);
+    canvas.drawPath(path_12, paint12Fill);
   }
 
   @override
@@ -6955,9 +6955,9 @@ class SixthTreePainter extends CustomPainter {
     );
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = Color(0xff773B00).withOpacity(1.0);
-    canvas.drawPath(path_0, paint_0_fill);
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.color = Color(0xff773B00).withOpacity(1.0);
+    canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
     path_1.moveTo(293.676, 460.26);
@@ -7006,9 +7006,9 @@ class SixthTreePainter extends CustomPainter {
     );
     path_1.close();
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.color = Color(0xff99601C).withOpacity(1.0);
-    canvas.drawPath(path_1, paint_1_fill);
+    Paint paint1Fill = Paint()..style = PaintingStyle.fill;
+    paint1Fill.color = Color(0xff99601C).withOpacity(1.0);
+    canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
     path_2.moveTo(259.711, 0);
@@ -7017,9 +7017,9 @@ class SixthTreePainter extends CustomPainter {
     path_2.cubicTo(127.057, 59.395, 186.447, 0, 259.711, 0);
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.color = Color(0xff61840B).withOpacity(1.0);
-    canvas.drawPath(path_2, paint_2_fill);
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.color = Color(0xff61840B).withOpacity(1.0);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(147.033, 132.468);
@@ -7138,9 +7138,9 @@ class SixthTreePainter extends CustomPainter {
     );
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.color = Color(0xff4F6802).withOpacity(1.0);
-    canvas.drawPath(path_3, paint_3_fill);
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.color = Color(0xff4F6802).withOpacity(1.0);
+    canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
     path_4.moveTo(256.563, 57.994);
@@ -7164,9 +7164,9 @@ class SixthTreePainter extends CustomPainter {
     );
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.color = Color(0xff4F6802).withOpacity(1.0);
-    canvas.drawPath(path_4, paint_4_fill);
+    Paint paint4Fill = Paint()..style = PaintingStyle.fill;
+    paint4Fill.color = Color(0xff4F6802).withOpacity(1.0);
+    canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
     path_5.moveTo(256.563, 70.726);
@@ -7190,9 +7190,9 @@ class SixthTreePainter extends CustomPainter {
     );
     path_5.close();
 
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.color = Color(0xff4F6802).withOpacity(1.0);
-    canvas.drawPath(path_5, paint_5_fill);
+    Paint paint5Fill = Paint()..style = PaintingStyle.fill;
+    paint5Fill.color = Color(0xff4F6802).withOpacity(1.0);
+    canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
     path_6.moveTo(144.372, 125.787);
@@ -7261,9 +7261,9 @@ class SixthTreePainter extends CustomPainter {
     );
     path_6.close();
 
-    Paint paint_6_fill = Paint()..style = PaintingStyle.fill;
-    paint_6_fill.color = Color(0xff61840B).withOpacity(1.0);
-    canvas.drawPath(path_6, paint_6_fill);
+    Paint paint6Fill = Paint()..style = PaintingStyle.fill;
+    paint6Fill.color = Color(0xff61840B).withOpacity(1.0);
+    canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
     path_7.moveTo(47.41, 400.944);
@@ -7437,9 +7437,9 @@ class SixthTreePainter extends CustomPainter {
     );
     path_7.close();
 
-    Paint paint_7_fill = Paint()..style = PaintingStyle.fill;
-    paint_7_fill.color = Color(0xff4F6802).withOpacity(1.0);
-    canvas.drawPath(path_7, paint_7_fill);
+    Paint paint7Fill = Paint()..style = PaintingStyle.fill;
+    paint7Fill.color = Color(0xff4F6802).withOpacity(1.0);
+    canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
     path_8.moveTo(138.673, 255.885);
@@ -7728,9 +7728,9 @@ class SixthTreePainter extends CustomPainter {
     );
     path_8.close();
 
-    Paint paint_8_fill = Paint()..style = PaintingStyle.fill;
-    paint_8_fill.color = Color(0xffCCEA81).withOpacity(1.0);
-    canvas.drawPath(path_8, paint_8_fill);
+    Paint paint8Fill = Paint()..style = PaintingStyle.fill;
+    paint8Fill.color = Color(0xffCCEA81).withOpacity(1.0);
+    canvas.drawPath(path_8, paint8Fill);
   }
 
   @override

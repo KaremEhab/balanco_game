@@ -35,8 +35,8 @@ class FirstStonePainter extends CustomPainter {
     path_0.cubicTo(-3.636, 31.867999999999995, 31.714, 45.528, 50.454, 43.458);
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.shader = ui.Gradient.linear(
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4984062, size.height * 0.9924318),
       Offset(size.width * 0.4984062, size.height * -0.004545455),
       [
@@ -47,7 +47,7 @@ class FirstStonePainter extends CustomPainter {
       ],
       [0, 0.277, 0.754, 1],
     );
-    canvas.drawPath(path_0, paint_0_fill);
+    canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
     path_1.moveTo(50.454, 43.458);
@@ -79,8 +79,8 @@ class FirstStonePainter extends CustomPainter {
     );
     path_1.close();
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.shader = ui.Gradient.linear(
+    Paint paint1Fill = Paint()..style = PaintingStyle.fill;
+    paint1Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4984062, size.height * 0.9924318),
       Offset(size.width * 0.4984062, size.height * 0.3268864),
       [
@@ -92,7 +92,7 @@ class FirstStonePainter extends CustomPainter {
       ],
       [0, 0.176, 0.547, 0.834, 1],
     );
-    canvas.drawPath(path_1, paint_1_fill);
+    canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
     path_2.moveTo(58.304, 29.028);
@@ -132,9 +132,9 @@ class FirstStonePainter extends CustomPainter {
     );
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.color = Color(0xffFCC400).withOpacity(1.0);
-    canvas.drawPath(path_2, paint_2_fill);
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.color = Color(0xffFCC400).withOpacity(1.0);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(57.114, 32.208);
@@ -172,8 +172,8 @@ class FirstStonePainter extends CustomPainter {
     );
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.shader = ui.Gradient.linear(
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7767969, size.height * 0.9296136),
       Offset(size.width * 0.7767969, size.height * 0.7178864),
       [
@@ -185,7 +185,7 @@ class FirstStonePainter extends CustomPainter {
       ],
       [0, 0.059, 0.482, 0.81, 1],
     );
-    canvas.drawPath(path_3, paint_3_fill);
+    canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
     path_4.moveTo(10.794, 28.438);
@@ -207,8 +207,8 @@ class FirstStonePainter extends CustomPainter {
     );
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.shader = ui.Gradient.linear(
+    Paint paint4Fill = Paint()..style = PaintingStyle.fill;
+    paint4Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.1193750, size.height * 0.6495455),
       Offset(size.width * 0.1193750, size.height * 0.5309318),
       [
@@ -220,7 +220,7 @@ class FirstStonePainter extends CustomPainter {
       ],
       [0, 0.059, 0.482, 0.81, 1],
     );
-    canvas.drawPath(path_4, paint_4_fill);
+    canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
     path_5.moveTo(9.914, 25.968);
@@ -269,9 +269,9 @@ class FirstStonePainter extends CustomPainter {
     );
     path_5.close();
 
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.color = Color(0xffCC81B3).withOpacity(1.0);
-    canvas.drawPath(path_5, paint_5_fill);
+    Paint paint5Fill = Paint()..style = PaintingStyle.fill;
+    paint5Fill.color = Color(0xffCC81B3).withOpacity(1.0);
+    canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
     path_6.moveTo(56.414, 35.618);
@@ -321,9 +321,9 @@ class FirstStonePainter extends CustomPainter {
     );
     path_6.close();
 
-    Paint paint_6_fill = Paint()..style = PaintingStyle.fill;
-    paint_6_fill.color = Color(0xffD46D31).withOpacity(1.0);
-    canvas.drawPath(path_6, paint_6_fill);
+    Paint paint6Fill = Paint()..style = PaintingStyle.fill;
+    paint6Fill.color = Color(0xffD46D31).withOpacity(1.0);
+    canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
     path_7.moveTo(51.904, 6.768);
@@ -374,9 +374,9 @@ class FirstStonePainter extends CustomPainter {
     );
     path_7.close();
 
-    Paint paint_7_fill = Paint()..style = PaintingStyle.fill;
-    paint_7_fill.color = Color(0xffCC7CD4).withOpacity(1.0);
-    canvas.drawPath(path_7, paint_7_fill);
+    Paint paint7Fill = Paint()..style = PaintingStyle.fill;
+    paint7Fill.color = Color(0xffCC7CD4).withOpacity(1.0);
+    canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
     path_8.moveTo(50.984, 26.028);
@@ -391,9 +391,9 @@ class FirstStonePainter extends CustomPainter {
     path_8.cubicTo(24.514, 23.328, 44.994, 28.528, 50.984, 26.028);
     path_8.close();
 
-    Paint paint_8_fill = Paint()..style = PaintingStyle.fill;
-    paint_8_fill.color = Color(0xffF3CAB6).withOpacity(1.0);
-    canvas.drawPath(path_8, paint_8_fill);
+    Paint paint8Fill = Paint()..style = PaintingStyle.fill;
+    paint8Fill.color = Color(0xffF3CAB6).withOpacity(1.0);
+    canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
     path_9.moveTo(53.514, 23.767);
@@ -411,8 +411,8 @@ class FirstStonePainter extends CustomPainter {
     path_9.cubicTo(56.164, 18.017, 53.514, 23.767, 53.514, 23.767);
     path_9.close();
 
-    Paint paint_9_fill = Paint()..style = PaintingStyle.fill;
-    paint_9_fill.shader = ui.Gradient.linear(
+    Paint paint9Fill = Paint()..style = PaintingStyle.fill;
+    paint9Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6768437, size.height * 0.5401818),
       Offset(size.width * 0.6768437, size.height * 0.3861136),
       [
@@ -424,7 +424,7 @@ class FirstStonePainter extends CustomPainter {
       ],
       [0, 0.059, 0.482, 0.81, 1],
     );
-    canvas.drawPath(path_9, paint_9_fill);
+    canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
     path_10.moveTo(59.144, 29.948);
@@ -458,9 +458,9 @@ class FirstStonePainter extends CustomPainter {
     path_10.lineTo(59.144, 29.947999999999993);
     path_10.close();
 
-    Paint paint_10_fill = Paint()..style = PaintingStyle.fill;
-    paint_10_fill.color = Color(0xffC55A40).withOpacity(1.0);
-    canvas.drawPath(path_10, paint_10_fill);
+    Paint paint10Fill = Paint()..style = PaintingStyle.fill;
+    paint10Fill.color = Color(0xffC55A40).withOpacity(1.0);
+    canvas.drawPath(path_10, paint10Fill);
 
     Path path_11 = Path();
     path_11.moveTo(27.254, 37.908);
@@ -468,9 +468,9 @@ class FirstStonePainter extends CustomPainter {
     path_11.cubicTo(10.634, 28.578, 24.424, 35.608000000000004, 27.254, 37.908);
     path_11.close();
 
-    Paint paint_11_fill = Paint()..style = PaintingStyle.fill;
-    paint_11_fill.color = Color(0xffD96E40).withOpacity(1.0);
-    canvas.drawPath(path_11, paint_11_fill);
+    Paint paint11Fill = Paint()..style = PaintingStyle.fill;
+    paint11Fill.color = Color(0xffD96E40).withOpacity(1.0);
+    canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
     path_12.moveTo(49.994, 43.498);
@@ -500,9 +500,9 @@ class FirstStonePainter extends CustomPainter {
     );
     path_12.close();
 
-    Paint paint_12_fill = Paint()..style = PaintingStyle.fill;
-    paint_12_fill.color = Color(0xffCC81B3).withOpacity(1.0);
-    canvas.drawPath(path_12, paint_12_fill);
+    Paint paint12Fill = Paint()..style = PaintingStyle.fill;
+    paint12Fill.color = Color(0xffCC81B3).withOpacity(1.0);
+    canvas.drawPath(path_12, paint12Fill);
 
     Path path_13 = Path();
     path_13.moveTo(58.984, 27.658);
@@ -614,9 +614,9 @@ class FirstStonePainter extends CustomPainter {
     );
     path_13.close();
 
-    Paint paint_13_fill = Paint()..style = PaintingStyle.fill;
-    paint_13_fill.color = Color(0xffD96E40).withOpacity(1.0);
-    canvas.drawPath(path_13, paint_13_fill);
+    Paint paint13Fill = Paint()..style = PaintingStyle.fill;
+    paint13Fill.color = Color(0xffD96E40).withOpacity(1.0);
+    canvas.drawPath(path_13, paint13Fill);
   }
 
   @override
@@ -654,8 +654,8 @@ class SecondStonePainter extends CustomPainter {
     );
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.shader = ui.Gradient.linear(
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4990882, size.height * 0.9997800),
       Offset(size.width * 0.4990882, size.height * 0.01400000),
       [
@@ -666,7 +666,7 @@ class SecondStonePainter extends CustomPainter {
       ],
       [0, 0.347, 0.945, 1],
     );
-    canvas.drawPath(path_0, paint_0_fill);
+    canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
     path_1.moveTo(6.473, 45.93);
@@ -714,8 +714,8 @@ class SecondStonePainter extends CustomPainter {
     );
     path_1.close();
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.shader = ui.Gradient.linear(
+    Paint paint1Fill = Paint()..style = PaintingStyle.fill;
+    paint1Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4990882, size.height * 0.9997600),
       Offset(size.width * 0.4990882, size.height * 0.2525400),
       [
@@ -727,7 +727,7 @@ class SecondStonePainter extends CustomPainter {
       ],
       [0, 0.176, 0.547, 0.834, 1],
     );
-    canvas.drawPath(path_1, paint_1_fill);
+    canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
     path_2.moveTo(53.502, 38.35);
@@ -767,9 +767,9 @@ class SecondStonePainter extends CustomPainter {
     );
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.color = Color(0xffFCC400).withOpacity(1.0);
-    canvas.drawPath(path_2, paint_2_fill);
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.color = Color(0xffFCC400).withOpacity(1.0);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(30.543, 43.149);
@@ -791,9 +791,9 @@ class SecondStonePainter extends CustomPainter {
     );
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.color = Color(0xffFCC400).withOpacity(1.0);
-    canvas.drawPath(path_3, paint_3_fill);
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.color = Color(0xffFCC400).withOpacity(1.0);
+    canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
     path_4.moveTo(19.232, 6.05);
@@ -830,9 +830,9 @@ class SecondStonePainter extends CustomPainter {
     );
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.color = Color(0xffCC7CD4).withOpacity(1.0);
-    canvas.drawPath(path_4, paint_4_fill);
+    Paint paint4Fill = Paint()..style = PaintingStyle.fill;
+    paint4Fill.color = Color(0xffCC7CD4).withOpacity(1.0);
+    canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
     path_5.moveTo(58.962, 35.74);
@@ -847,8 +847,8 @@ class SecondStonePainter extends CustomPainter {
     );
     path_5.close();
 
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.shader = ui.Gradient.linear(
+    Paint paint5Fill = Paint()..style = PaintingStyle.fill;
+    paint5Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6977206, size.height * 0.8969000),
       Offset(size.width * 0.6977206, size.height * 0.7147600),
       [
@@ -860,7 +860,7 @@ class SecondStonePainter extends CustomPainter {
       ],
       [0, 0.059, 0.482, 0.81, 1],
     );
-    canvas.drawPath(path_5, paint_5_fill);
+    canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
     path_6.moveTo(55.842, 37.02);
@@ -876,9 +876,9 @@ class SecondStonePainter extends CustomPainter {
     path_6.lineTo(55.842, 37.02);
     path_6.close();
 
-    Paint paint_6_fill = Paint()..style = PaintingStyle.fill;
-    paint_6_fill.color = Color(0xffDB90D4).withOpacity(1.0);
-    canvas.drawPath(path_6, paint_6_fill);
+    Paint paint6Fill = Paint()..style = PaintingStyle.fill;
+    paint6Fill.color = Color(0xffDB90D4).withOpacity(1.0);
+    canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
     path_7.moveTo(46.992, 40.59);
@@ -909,9 +909,9 @@ class SecondStonePainter extends CustomPainter {
     path_7.cubicTo(36.902, 44.85, 40.772, 42.03, 46.992000000000004, 40.59);
     path_7.close();
 
-    Paint paint_7_fill = Paint()..style = PaintingStyle.fill;
-    paint_7_fill.color = Color(0xffDB7F40).withOpacity(1.0);
-    canvas.drawPath(path_7, paint_7_fill);
+    Paint paint7Fill = Paint()..style = PaintingStyle.fill;
+    paint7Fill.color = Color(0xffDB7F40).withOpacity(1.0);
+    canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
     path_8.moveTo(23.613, 40.229);
@@ -926,9 +926,9 @@ class SecondStonePainter extends CustomPainter {
     path_8.cubicTo(3.3529999999999998, 38.169, 19.023, 42.149, 23.613, 40.229);
     path_8.close();
 
-    Paint paint_8_fill = Paint()..style = PaintingStyle.fill;
-    paint_8_fill.color = Color(0xffF3CAB6).withOpacity(1.0);
-    canvas.drawPath(path_8, paint_8_fill);
+    Paint paint8Fill = Paint()..style = PaintingStyle.fill;
+    paint8Fill.color = Color(0xffF3CAB6).withOpacity(1.0);
+    canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
     path_9.moveTo(25.543, 38.5);
@@ -953,8 +953,8 @@ class SecondStonePainter extends CustomPainter {
     );
     path_9.close();
 
-    Paint paint_9_fill = Paint()..style = PaintingStyle.fill;
-    paint_9_fill.shader = ui.Gradient.linear(
+    Paint paint9Fill = Paint()..style = PaintingStyle.fill;
+    paint9Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2608971, size.height * 0.7700600),
       Offset(size.width * 0.2608971, size.height * 0.6663200),
       [
@@ -966,7 +966,7 @@ class SecondStonePainter extends CustomPainter {
       ],
       [0, 0.059, 0.482, 0.81, 1],
     );
-    canvas.drawPath(path_9, paint_9_fill);
+    canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
     path_10.moveTo(35.213, 32.749);
@@ -1014,9 +1014,9 @@ class SecondStonePainter extends CustomPainter {
     );
     path_10.close();
 
-    Paint paint_10_fill = Paint()..style = PaintingStyle.fill;
-    paint_10_fill.color = Color(0xffDB7F40).withOpacity(1.0);
-    canvas.drawPath(path_10, paint_10_fill);
+    Paint paint10Fill = Paint()..style = PaintingStyle.fill;
+    paint10Fill.color = Color(0xffDB7F40).withOpacity(1.0);
+    canvas.drawPath(path_10, paint10Fill);
   }
 
   @override
@@ -1075,8 +1075,8 @@ class ThirdStonePainter extends CustomPainter {
     );
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.shader = ui.Gradient.linear(
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4977544, size.height * 0.9871667),
       Offset(size.width * 0.4977544, size.height * -0.005555556),
       [
@@ -1087,7 +1087,7 @@ class ThirdStonePainter extends CustomPainter {
       ],
       [0, 0.277, 0.754, 1],
     );
-    canvas.drawPath(path_0, paint_0_fill);
+    canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
     path_1.moveTo(0.19, 25.515);
@@ -1127,8 +1127,8 @@ class ThirdStonePainter extends CustomPainter {
     );
     path_1.close();
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.shader = ui.Gradient.linear(
+    Paint paint1Fill = Paint()..style = PaintingStyle.fill;
+    paint1Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4977719, size.height * 0.9871667),
       Offset(size.width * 0.4977719, size.height * 0.3406667),
       [
@@ -1140,7 +1140,7 @@ class ThirdStonePainter extends CustomPainter {
       ],
       [0, 0.176, 0.547, 0.834, 1],
     );
-    canvas.drawPath(path_1, paint_1_fill);
+    canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
     path_2.moveTo(47.28, 24.345);
@@ -1156,9 +1156,9 @@ class ThirdStonePainter extends CustomPainter {
     path_2.cubicTo(38, 33.545, 47.28, 24.345, 47.28, 24.345);
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.color = Color(0xffFCC400).withOpacity(1.0);
-    canvas.drawPath(path_2, paint_2_fill);
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.color = Color(0xffFCC400).withOpacity(1.0);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(50.88, 11.895);
@@ -1173,9 +1173,9 @@ class ThirdStonePainter extends CustomPainter {
     );
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.color = Color(0xffFCC400).withOpacity(1.0);
-    canvas.drawPath(path_3, paint_3_fill);
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.color = Color(0xffFCC400).withOpacity(1.0);
+    canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
     path_4.moveTo(23.94, 30.815);
@@ -1197,9 +1197,9 @@ class ThirdStonePainter extends CustomPainter {
     );
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.color = Color(0xffFCC400).withOpacity(1.0);
-    canvas.drawPath(path_4, paint_4_fill);
+    Paint paint4Fill = Paint()..style = PaintingStyle.fill;
+    paint4Fill.color = Color(0xffFCC400).withOpacity(1.0);
+    canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
     path_5.moveTo(51.74, 22.625);
@@ -1215,8 +1215,8 @@ class ThirdStonePainter extends CustomPainter {
     path_5.cubicTo(37.99, 31.155, 50.61, 30.335, 51.74, 22.625);
     path_5.close();
 
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.shader = ui.Gradient.linear(
+    Paint paint5Fill = Paint()..style = PaintingStyle.fill;
+    paint5Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7867193, size.height * 0.8656389),
       Offset(size.width * 0.7867193, size.height * 0.5983611),
       [
@@ -1228,7 +1228,7 @@ class ThirdStonePainter extends CustomPainter {
       ],
       [0, 0.059, 0.482, 0.81, 1],
     );
-    canvas.drawPath(path_5, paint_5_fill);
+    canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
     path_6.moveTo(48.13, 22.095);
@@ -1258,9 +1258,9 @@ class ThirdStonePainter extends CustomPainter {
     );
     path_6.close();
 
-    Paint paint_6_fill = Paint()..style = PaintingStyle.fill;
-    paint_6_fill.color = Color(0xffCC81B3).withOpacity(1.0);
-    canvas.drawPath(path_6, paint_6_fill);
+    Paint paint6Fill = Paint()..style = PaintingStyle.fill;
+    paint6Fill.color = Color(0xffCC81B3).withOpacity(1.0);
+    canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
     path_7.moveTo(51.74, 22.625);
@@ -1284,9 +1284,9 @@ class ThirdStonePainter extends CustomPainter {
     path_7.cubicTo(38.24, 31.735, 49.4, 30.975, 51.739999999999995, 22.625);
     path_7.close();
 
-    Paint paint_7_fill = Paint()..style = PaintingStyle.fill;
-    paint_7_fill.color = Color(0xffD46D31).withOpacity(1.0);
-    canvas.drawPath(path_7, paint_7_fill);
+    Paint paint7Fill = Paint()..style = PaintingStyle.fill;
+    paint7Fill.color = Color(0xffD46D31).withOpacity(1.0);
+    canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
     path_8.moveTo(30.85, 7.315);
@@ -1326,9 +1326,9 @@ class ThirdStonePainter extends CustomPainter {
     );
     path_8.close();
 
-    Paint paint_8_fill = Paint()..style = PaintingStyle.fill;
-    paint_8_fill.color = Color(0xffCC7CD4).withOpacity(1.0);
-    canvas.drawPath(path_8, paint_8_fill);
+    Paint paint8Fill = Paint()..style = PaintingStyle.fill;
+    paint8Fill.color = Color(0xffCC7CD4).withOpacity(1.0);
+    canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
     path_9.moveTo(37.74, 32.185);
@@ -1358,9 +1358,9 @@ class ThirdStonePainter extends CustomPainter {
     );
     path_9.close();
 
-    Paint paint_9_fill = Paint()..style = PaintingStyle.fill;
-    paint_9_fill.color = Color(0xffD96E40).withOpacity(1.0);
-    canvas.drawPath(path_9, paint_9_fill);
+    Paint paint9Fill = Paint()..style = PaintingStyle.fill;
+    paint9Fill.color = Color(0xffD96E40).withOpacity(1.0);
+    canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
     path_10.moveTo(37.74, 32.185);
@@ -1390,9 +1390,9 @@ class ThirdStonePainter extends CustomPainter {
     );
     path_10.close();
 
-    Paint paint_10_fill = Paint()..style = PaintingStyle.fill;
-    paint_10_fill.color = Color(0xff9A3116).withOpacity(1.0);
-    canvas.drawPath(path_10, paint_10_fill);
+    Paint paint10Fill = Paint()..style = PaintingStyle.fill;
+    paint10Fill.color = Color(0xff9A3116).withOpacity(1.0);
+    canvas.drawPath(path_10, paint10Fill);
 
     Path path_11 = Path();
     path_11.moveTo(21.14, 32.945);
@@ -1431,9 +1431,9 @@ class ThirdStonePainter extends CustomPainter {
     );
     path_11.close();
 
-    Paint paint_11_fill = Paint()..style = PaintingStyle.fill;
-    paint_11_fill.color = Color(0xffD96E40).withOpacity(1.0);
-    canvas.drawPath(path_11, paint_11_fill);
+    Paint paint11Fill = Paint()..style = PaintingStyle.fill;
+    paint11Fill.color = Color(0xffD96E40).withOpacity(1.0);
+    canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
     path_12.moveTo(21.41, 17.634);
@@ -1441,9 +1441,9 @@ class ThirdStonePainter extends CustomPainter {
     path_12.cubicTo(5.450000000000001, 15.244, 17.79, 19.854, 21.41, 17.634);
     path_12.close();
 
-    Paint paint_12_fill = Paint()..style = PaintingStyle.fill;
-    paint_12_fill.color = Color(0xffF3CAB6).withOpacity(1.0);
-    canvas.drawPath(path_12, paint_12_fill);
+    Paint paint12Fill = Paint()..style = PaintingStyle.fill;
+    paint12Fill.color = Color(0xffF3CAB6).withOpacity(1.0);
+    canvas.drawPath(path_12, paint12Fill);
 
     Path path_13 = Path();
     path_13.moveTo(22.93, 15.635);
@@ -1489,8 +1489,8 @@ class ThirdStonePainter extends CustomPainter {
     );
     path_13.close();
 
-    Paint paint_13_fill = Paint()..style = PaintingStyle.fill;
-    paint_13_fill.shader = ui.Gradient.linear(
+    Paint paint13Fill = Paint()..style = PaintingStyle.fill;
+    paint13Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2945088, size.height * 0.4344167),
       Offset(size.width * 0.2945088, size.height * 0.2678333),
       [
@@ -1502,7 +1502,7 @@ class ThirdStonePainter extends CustomPainter {
       ],
       [0, 0.059, 0.482, 0.81, 1],
     );
-    canvas.drawPath(path_13, paint_13_fill);
+    canvas.drawPath(path_13, paint13Fill);
 
     Path path_14 = Path();
     path_14.moveTo(26.65, 31.135);
@@ -1596,9 +1596,9 @@ class ThirdStonePainter extends CustomPainter {
     );
     path_14.close();
 
-    Paint paint_14_fill = Paint()..style = PaintingStyle.fill;
-    paint_14_fill.color = Color(0xffD96E40).withOpacity(1.0);
-    canvas.drawPath(path_14, paint_14_fill);
+    Paint paint14Fill = Paint()..style = PaintingStyle.fill;
+    paint14Fill.color = Color(0xffD96E40).withOpacity(1.0);
+    canvas.drawPath(path_14, paint14Fill);
 
     Path path_15 = Path();
     path_15.moveTo(23.7, 27.254);
@@ -1613,9 +1613,9 @@ class ThirdStonePainter extends CustomPainter {
     path_15.cubicTo(19.71, 27.094, 22.71, 26.244, 23.7, 27.254);
     path_15.close();
 
-    Paint paint_15_fill = Paint()..style = PaintingStyle.fill;
-    paint_15_fill.color = Color(0xffD96E40).withOpacity(1.0);
-    canvas.drawPath(path_15, paint_15_fill);
+    Paint paint15Fill = Paint()..style = PaintingStyle.fill;
+    paint15Fill.color = Color(0xffD96E40).withOpacity(1.0);
+    canvas.drawPath(path_15, paint15Fill);
   }
 
   @override
@@ -1680,8 +1680,8 @@ class FourthStonePainter extends CustomPainter {
     );
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.shader = ui.Gradient.linear(
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4887692, size.height * 1.000458),
       Offset(size.width * 0.4887692, size.height * -0.02083333),
       [
@@ -1692,7 +1692,7 @@ class FourthStonePainter extends CustomPainter {
       ],
       [0, 0.277, 0.754, 1],
     );
-    canvas.drawPath(path_0, paint_0_fill);
+    canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
     path_1.moveTo(21.65, 23.783);
@@ -1738,8 +1738,8 @@ class FourthStonePainter extends CustomPainter {
     );
     path_1.close();
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.shader = ui.Gradient.linear(
+    Paint paint1Fill = Paint()..style = PaintingStyle.fill;
+    paint1Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4887692, size.height * 1.000417),
       Offset(size.width * 0.4887692, size.height * 0.2912917),
       [
@@ -1751,7 +1751,7 @@ class FourthStonePainter extends CustomPainter {
       ],
       [0, 0.176, 0.547, 0.834, 1],
     );
-    canvas.drawPath(path_1, paint_1_fill);
+    canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
     path_2.moveTo(32.34, 16.573);
@@ -1781,9 +1781,9 @@ class FourthStonePainter extends CustomPainter {
     );
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.color = Color(0xffFCC400).withOpacity(1.0);
-    canvas.drawPath(path_2, paint_2_fill);
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.color = Color(0xffFCC400).withOpacity(1.0);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(32.34, 15.504);
@@ -1805,9 +1805,9 @@ class FourthStonePainter extends CustomPainter {
     );
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.color = Color(0xffFCC400).withOpacity(1.0);
-    canvas.drawPath(path_3, paint_3_fill);
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.color = Color(0xffFCC400).withOpacity(1.0);
+    canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
     path_4.moveTo(33.149, 4.953);
@@ -1831,9 +1831,9 @@ class FourthStonePainter extends CustomPainter {
     path_4.cubicTo(26.739, -0.41699999999999937, 33.149, 4.953, 33.149, 4.953);
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.color = Color(0xffCC7CD4).withOpacity(1.0);
-    canvas.drawPath(path_4, paint_4_fill);
+    Paint paint4Fill = Paint()..style = PaintingStyle.fill;
+    paint4Fill.color = Color(0xffCC7CD4).withOpacity(1.0);
+    canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
     path_5.moveTo(30.509, 19.013);
@@ -1871,9 +1871,9 @@ class FourthStonePainter extends CustomPainter {
     );
     path_5.close();
 
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.color = Color(0xffCC6D40).withOpacity(1.0);
-    canvas.drawPath(path_5, paint_5_fill);
+    Paint paint5Fill = Paint()..style = PaintingStyle.fill;
+    paint5Fill.color = Color(0xffCC6D40).withOpacity(1.0);
+    canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
     path_6.moveTo(19.39, 19.874);
@@ -1888,9 +1888,9 @@ class FourthStonePainter extends CustomPainter {
     path_6.cubicTo(10.719999999999999, 18.524, 17.78, 20.404, 19.39, 19.874);
     path_6.close();
 
-    Paint paint_6_fill = Paint()..style = PaintingStyle.fill;
-    paint_6_fill.color = Color(0xffDB7F40).withOpacity(1.0);
-    canvas.drawPath(path_6, paint_6_fill);
+    Paint paint6Fill = Paint()..style = PaintingStyle.fill;
+    paint6Fill.color = Color(0xffDB7F40).withOpacity(1.0);
+    canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
     path_7.moveTo(18.799, 15.864);
@@ -1909,9 +1909,9 @@ class FourthStonePainter extends CustomPainter {
     path_7.cubicTo(8.25, 15.184, 12.37, 12.664, 14.37, 13.863999999999999);
     path_7.close();
 
-    Paint paint_7_fill = Paint()..style = PaintingStyle.fill;
-    paint_7_fill.color = Color(0xffDB7F40).withOpacity(1.0);
-    canvas.drawPath(path_7, paint_7_fill);
+    Paint paint7Fill = Paint()..style = PaintingStyle.fill;
+    paint7Fill.color = Color(0xffDB7F40).withOpacity(1.0);
+    canvas.drawPath(path_7, paint7Fill);
   }
 
   @override
@@ -1955,8 +1955,8 @@ class FifthStonePainter extends CustomPainter {
     path_0.cubicTo(2.384, 3.63, 0.274, 6.4, 0.024, 9.5);
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.shader = ui.Gradient.linear(
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4965897, size.height * 0.9759286),
       Offset(size.width * 0.4965897, size.height * 0.01071429),
       [
@@ -1967,7 +1967,7 @@ class FifthStonePainter extends CustomPainter {
       ],
       [0, 0.347, 0.945, 1],
     );
-    canvas.drawPath(path_0, paint_0_fill);
+    canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
     path_1.moveTo(0.024, 9.51);
@@ -2020,8 +2020,8 @@ class FifthStonePainter extends CustomPainter {
     );
     path_1.close();
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.shader = ui.Gradient.linear(
+    Paint paint1Fill = Paint()..style = PaintingStyle.fill;
+    paint1Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4965897, size.height * 0.9759286),
       Offset(size.width * 0.4965897, size.height * 0.2627500),
       [
@@ -2033,7 +2033,7 @@ class FifthStonePainter extends CustomPainter {
       ],
       [0, 0.176, 0.547, 0.834, 1],
     );
-    canvas.drawPath(path_1, paint_1_fill);
+    canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
     path_2.moveTo(29.634, 20.181);
@@ -2048,9 +2048,9 @@ class FifthStonePainter extends CustomPainter {
     path_2.cubicTo(-8.566, 10.771, 13.854, 28.901000000000003, 29.634, 20.181);
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.color = Color(0xffFCC400).withOpacity(1.0);
-    canvas.drawPath(path_2, paint_2_fill);
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.color = Color(0xffFCC400).withOpacity(1.0);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(23.624, 22.57);
@@ -2072,9 +2072,9 @@ class FifthStonePainter extends CustomPainter {
     );
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.color = Color(0xffFCC400).withOpacity(1.0);
-    canvas.drawPath(path_3, paint_3_fill);
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.color = Color(0xffFCC400).withOpacity(1.0);
+    canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
     path_4.moveTo(31.294, 20.31);
@@ -2097,8 +2097,8 @@ class FifthStonePainter extends CustomPainter {
     );
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.shader = ui.Gradient.linear(
+    Paint paint4Fill = Paint()..style = PaintingStyle.fill;
+    paint4Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6992308, size.height * 0.8201071),
       Offset(size.width * 0.6992308, size.height * 0.7007857),
       [
@@ -2110,7 +2110,7 @@ class FifthStonePainter extends CustomPainter {
       ],
       [0, 0.059, 0.482, 0.81, 1],
     );
-    canvas.drawPath(path_4, paint_4_fill);
+    canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
     path_5.moveTo(29.544, 19.7);
@@ -2133,9 +2133,9 @@ class FifthStonePainter extends CustomPainter {
     );
     path_5.close();
 
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.color = Color(0xffCC81B3).withOpacity(1.0);
-    canvas.drawPath(path_5, paint_5_fill);
+    Paint paint5Fill = Paint()..style = PaintingStyle.fill;
+    paint5Fill.color = Color(0xffCC81B3).withOpacity(1.0);
+    canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
     path_6.moveTo(31.174, 20.541);
@@ -2143,9 +2143,9 @@ class FifthStonePainter extends CustomPainter {
     path_6.cubicTo(23.634, 22.721, 28.754, 24.521, 31.174, 20.541);
     path_6.close();
 
-    Paint paint_6_fill = Paint()..style = PaintingStyle.fill;
-    paint_6_fill.color = Color(0xffD46D31).withOpacity(1.0);
-    canvas.drawPath(path_6, paint_6_fill);
+    Paint paint6Fill = Paint()..style = PaintingStyle.fill;
+    paint6Fill.color = Color(0xffD46D31).withOpacity(1.0);
+    canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
     path_7.moveTo(36.514, 14.85);
@@ -2187,9 +2187,9 @@ class FifthStonePainter extends CustomPainter {
     );
     path_7.close();
 
-    Paint paint_7_fill = Paint()..style = PaintingStyle.fill;
-    paint_7_fill.color = Color(0xffDB7F40).withOpacity(1.0);
-    canvas.drawPath(path_7, paint_7_fill);
+    Paint paint7Fill = Paint()..style = PaintingStyle.fill;
+    paint7Fill.color = Color(0xffDB7F40).withOpacity(1.0);
+    canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
     path_8.moveTo(26.354, 1.39);
@@ -2206,9 +2206,9 @@ class FifthStonePainter extends CustomPainter {
     );
     path_8.close();
 
-    Paint paint_8_fill = Paint()..style = PaintingStyle.fill;
-    paint_8_fill.color = Color(0xffCC7CD4).withOpacity(1.0);
-    canvas.drawPath(path_8, paint_8_fill);
+    Paint paint8Fill = Paint()..style = PaintingStyle.fill;
+    paint8Fill.color = Color(0xffCC7CD4).withOpacity(1.0);
+    canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
     path_9.moveTo(23.634, 17.01);
@@ -2256,9 +2256,9 @@ class FifthStonePainter extends CustomPainter {
     );
     path_9.close();
 
-    Paint paint_9_fill = Paint()..style = PaintingStyle.fill;
-    paint_9_fill.color = Color(0xffE88C40).withOpacity(1.0);
-    canvas.drawPath(path_9, paint_9_fill);
+    Paint paint9Fill = Paint()..style = PaintingStyle.fill;
+    paint9Fill.color = Color(0xffE88C40).withOpacity(1.0);
+    canvas.drawPath(path_9, paint9Fill);
   }
 
   @override
@@ -2318,8 +2318,8 @@ class SixthStonePainter extends CustomPainter {
     );
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.shader = ui.Gradient.linear(
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4976735, size.height * 0.9710690),
       Offset(size.width * 0.4976735, size.height * -0.02758621),
       [
@@ -2330,7 +2330,7 @@ class SixthStonePainter extends CustomPainter {
       ],
       [0, 0.347, 0.945, 1],
     );
-    canvas.drawPath(path_0, paint_0_fill);
+    canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
     path_1.moveTo(0.107, 13.218);
@@ -2385,8 +2385,8 @@ class SixthStonePainter extends CustomPainter {
     );
     path_1.close();
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.shader = ui.Gradient.linear(
+    Paint paint1Fill = Paint()..style = PaintingStyle.fill;
+    paint1Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4976735, size.height * 0.9710690),
       Offset(size.width * 0.4976735, size.height * 0.2632414),
       [
@@ -2398,7 +2398,7 @@ class SixthStonePainter extends CustomPainter {
       ],
       [0, 0.176, 0.547, 0.834, 1],
     );
-    canvas.drawPath(path_1, paint_1_fill);
+    canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
     path_2.moveTo(41.796, 17.047);
@@ -2428,9 +2428,9 @@ class SixthStonePainter extends CustomPainter {
     );
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.color = Color(0xffFCC400).withOpacity(1.0);
-    canvas.drawPath(path_2, paint_2_fill);
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.color = Color(0xffFCC400).withOpacity(1.0);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(42.056, 16.707);
@@ -2470,9 +2470,9 @@ class SixthStonePainter extends CustomPainter {
     );
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.color = Color(0xffFCC400).withOpacity(1.0);
-    canvas.drawPath(path_3, paint_3_fill);
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.color = Color(0xffFCC400).withOpacity(1.0);
+    canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
     path_4.moveTo(34.106, 4.717);
@@ -2502,9 +2502,9 @@ class SixthStonePainter extends CustomPainter {
     );
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.color = Color(0xffCC7CD4).withOpacity(1.0);
-    canvas.drawPath(path_4, paint_4_fill);
+    Paint paint4Fill = Paint()..style = PaintingStyle.fill;
+    paint4Fill.color = Color(0xffCC7CD4).withOpacity(1.0);
+    canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
     path_5.moveTo(30.326, 23.618);
@@ -2512,9 +2512,9 @@ class SixthStonePainter extends CustomPainter {
     path_5.cubicTo(4.815999999999999, 17.008, 11.186, 28.198, 30.326, 23.618);
     path_5.close();
 
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.color = Color(0xffDB7F40).withOpacity(1.0);
-    canvas.drawPath(path_5, paint_5_fill);
+    Paint paint5Fill = Paint()..style = PaintingStyle.fill;
+    paint5Fill.color = Color(0xffDB7F40).withOpacity(1.0);
+    canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
     path_6.moveTo(44.896, 21.207);
@@ -2538,8 +2538,8 @@ class SixthStonePainter extends CustomPainter {
     path_6.cubicTo(31.076, 29.807, 44.896, 21.207, 44.896, 21.207);
     path_6.close();
 
-    Paint paint_6_fill = Paint()..style = PaintingStyle.fill;
-    paint_6_fill.shader = ui.Gradient.linear(
+    Paint paint6Fill = Paint()..style = PaintingStyle.fill;
+    paint6Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.9162449, size.height * 0.7769655),
       Offset(size.width * 0.03514286, size.height * 0.7769655),
       [
@@ -2551,7 +2551,7 @@ class SixthStonePainter extends CustomPainter {
       ],
       [0, 0.176, 0.547, 0.834, 1],
     );
-    canvas.drawPath(path_6, paint_6_fill);
+    canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
     path_7.moveTo(26.337, 21.237);
@@ -2577,9 +2577,9 @@ class SixthStonePainter extends CustomPainter {
     );
     path_7.close();
 
-    Paint paint_7_fill = Paint()..style = PaintingStyle.fill;
-    paint_7_fill.color = Color(0xffE88C40).withOpacity(1.0);
-    canvas.drawPath(path_7, paint_7_fill);
+    Paint paint7Fill = Paint()..style = PaintingStyle.fill;
+    paint7Fill.color = Color(0xffE88C40).withOpacity(1.0);
+    canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
     path_8.moveTo(22.876, 19.347);
@@ -2641,9 +2641,9 @@ class SixthStonePainter extends CustomPainter {
     );
     path_8.close();
 
-    Paint paint_8_fill = Paint()..style = PaintingStyle.fill;
-    paint_8_fill.color = Color(0xffE88C40).withOpacity(1.0);
-    canvas.drawPath(path_8, paint_8_fill);
+    Paint paint8Fill = Paint()..style = PaintingStyle.fill;
+    paint8Fill.color = Color(0xffE88C40).withOpacity(1.0);
+    canvas.drawPath(path_8, paint8Fill);
   }
 
   @override

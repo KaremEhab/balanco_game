@@ -323,8 +323,9 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
                                 );
                               },
                               onPanUpdate: (details) {
-                                if (!isIsolated)
+                                if (!isIsolated) {
                                   return; // Must double tap to unlock dragging
+                                }
                                 setState(() {
                                   stone.x += details.delta.dx / scaleX;
                                   stone.y += details.delta.dy;
@@ -370,8 +371,9 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
                                 );
                               },
                               onPanUpdate: (details) {
-                                if (!isIsolated)
+                                if (!isIsolated) {
                                   return; // Must double tap to unlock dragging
+                                }
                                 setState(() {
                                   island.x += details.delta.dx / scaleX;
                                   island.y += details.delta.dy;
@@ -424,8 +426,9 @@ class _MapEditorScreenState extends State<MapEditorScreen> {
                                 );
                               },
                               onPanUpdate: (details) {
-                                if (!isIsolated)
+                                if (!isIsolated) {
                                   return; // Must double tap to unlock dragging
+                                }
                                 setState(() {
                                   island.buttonDx += details.delta.dx / scaleX;
                                   island.buttonDy += details.delta.dy / scaleX;

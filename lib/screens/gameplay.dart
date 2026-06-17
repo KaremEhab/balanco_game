@@ -12,7 +12,9 @@ import 'package:sensors_plus/sensors_plus.dart';
 import 'dart:async';
 
 import '../game/game_area.dart';
-import '../game/components/game_area/gameplay_painter.dart';
+import '../game/components/game_area/gameplay_card_painter.dart';
+
+import 'package:flutter_svg/flutter_svg.dart';
 import 'animated_game_overlays.dart';
 import 'game_controls_overlay.dart';
 
@@ -123,8 +125,14 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
     // --- GAMEPLAY CARD COLORS ---
     // Change these to control the colors of the card frame
     const List<Color> cardBaseGradient = [Color(0xffF8AE00), Color(0xffE88000)];
-    const List<Color> cardHighlightGradient = [Color.fromARGB(255, 255, 180, 80), Color.fromARGB(255, 229, 145, 49)];
-    const List<Color> cardDarkAccentGradient = [Color(0xff503040), Color(0xff301525)];
+    const List<Color> cardHighlightGradient = [
+      Color.fromARGB(255, 255, 180, 80),
+      Color.fromARGB(255, 229, 145, 49),
+    ];
+    const List<Color> cardDarkAccentGradient = [
+      Color(0xff503040),
+      Color(0xff301525),
+    ];
 
     return Scaffold(
       body: Stack(
@@ -155,11 +163,41 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                     child: SizedBox(
                       width: 411,
                       height: 105,
-                      child: CustomPaint(
-                        painter: GameplayTopPainter(
-                          baseGradient: cardBaseGradient,
-                          highlightGradient: cardHighlightGradient,
-                        ),
+                      child: Stack(
+                        children: [
+                          CustomPaint(
+                            size: const Size(411, 105),
+                            painter: GameplayTopPainter(
+                              baseGradient: cardBaseGradient,
+                              highlightGradient: cardHighlightGradient,
+                            ),
+                          ),
+                          Positioned(
+                            left: 0,
+                            top: 30,
+                            child: const SvgWithShadow(
+                              assetName: 'assets/images/energy.svg',
+                              width: 100,
+                              height: 80,
+                            ),
+                          ),
+                          const Center(
+                            child: SvgWithShadow(
+                              assetName: 'assets/images/hearts.svg',
+                              width: 150,
+                              height: 105,
+                            ),
+                          ),
+                          Positioned(
+                            right: 0,
+                            top: 30,
+                            child: const SvgWithShadow(
+                              assetName: 'assets/images/stars.svg',
+                              width: 100,
+                              height: 80,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -178,7 +216,10 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                         width: MediaQuery.of(context).size.width * 0.92,
                         decoration: BoxDecoration(
                           color: const Color(0x33FFFFFF), // 20% white
-                          border: Border.all(color: cardBaseGradient.first, width: 4),
+                          border: Border.all(
+                            color: cardBaseGradient.first,
+                            width: 4,
+                          ),
                           borderRadius: const BorderRadius.only(
                             bottomLeft: Radius.circular(24),
                             bottomRight: Radius.circular(24),
@@ -554,6 +595,50 @@ class _ParallaxBackgroundWidgetState extends State<ParallaxBackgroundWidget> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class SvgWithShadow extends StatelessWidget {
+  final String assetName;
+  final double width;
+  final double height;
+  final Offset offset;
+  final double blurRadius;
+
+  const SvgWithShadow({
+    super.key,
+    required this.assetName,
+    required this.width,
+    required this.height,
+    this.offset = const Offset(0, 4),
+    this.blurRadius = 4.0,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Transform.translate(
+          offset: offset,
+          child: ImageFiltered(
+            imageFilter: ImageFilter.blur(
+              sigmaX: blurRadius,
+              sigmaY: blurRadius,
+            ),
+            child: SvgPicture.asset(
+              assetName,
+              width: width,
+              height: height,
+              colorFilter: const ColorFilter.mode(
+                Colors.black45,
+                BlendMode.srcIn,
+              ),
+            ),
+          ),
+        ),
+        SvgPicture.asset(assetName, width: width, height: height),
+      ],
     );
   }
 }

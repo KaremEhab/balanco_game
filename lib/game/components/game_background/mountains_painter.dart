@@ -28,14 +28,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.shader = ui.Gradient.linear(
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6775870, size.height * 0.3904359),
       Offset(size.width * 0.5844933, size.height * 0.5124799),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_0, paint_0_fill);
+    canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
     path_1.moveTo(332.58, 121.78);
@@ -52,14 +52,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_1.close();
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.shader = ui.Gradient.linear(
+    Paint paint1Fill = Paint()..style = PaintingStyle.fill;
+    paint1Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6597801, size.height * 0.3233040),
       Offset(size.width * 0.5604455, size.height * 0.4535311),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_1, paint_1_fill);
+    canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
     path_2.moveTo(333.21, 121.76);
@@ -90,14 +90,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.shader = ui.Gradient.linear(
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6679063, size.height * 0.3492967),
       Offset(size.width * 0.5676329, size.height * 0.4807546),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_2, paint_2_fill);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(157.02, 134.249);
@@ -240,14 +240,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.shader = ui.Gradient.linear(
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3301950, size.height * 0.5760842),
       Offset(size.width * 0.3094857, size.height * 0.5359707),
       [Color(0xff867E1D).withOpacity(1), Color(0xff68641B).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_3, paint_3_fill);
+    canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
     path_4.moveTo(222.37, 21.61);
@@ -2001,14 +2001,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.shader = ui.Gradient.linear(
+    Paint paint4Fill = Paint()..style = PaintingStyle.fill;
+    paint4Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4485277, size.height * 0.03206960),
       Offset(size.width * 0.4289101, size.height * 0.09402198),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_4, paint_4_fill);
+    canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
     path_5.moveTo(431, 210.77);
@@ -3632,14 +3632,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_5.close();
 
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.shader = ui.Gradient.linear(
+    Paint paint5Fill = Paint()..style = PaintingStyle.fill;
+    paint5Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.8179866, size.height * 0.7435458),
       Offset(size.width * 0.7078891, size.height * 0.8501392),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_5, paint_5_fill);
+    canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
     path_6.moveTo(240.3, 2.86);
@@ -5343,14 +5343,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_6.close();
 
-    Paint paint_6_fill = Paint()..style = PaintingStyle.fill;
-    paint_6_fill.shader = ui.Gradient.linear(
+    Paint paint6Fill = Paint()..style = PaintingStyle.fill;
+    paint6Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4613461, size.height * -2.752015),
       Offset(size.width * 0.4088279, size.height * 0.1542418),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_6, paint_6_fill);
+    canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
     path_7.moveTo(65.08, 205.961);
@@ -5376,9 +5376,9 @@ class BackMountainPainter extends CustomPainter {
     );
     path_7.close();
 
-    Paint paint_7_fill = Paint()..style = PaintingStyle.fill;
-    paint_7_fill.color = Color(0xff68641B).withOpacity(1.0);
-    canvas.drawPath(path_7, paint_7_fill);
+    Paint paint7Fill = Paint()..style = PaintingStyle.fill;
+    paint7Fill.color = Color(0xff68641B).withOpacity(1.0);
+    canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
     path_8.moveTo(49.68, 197.82);
@@ -5405,14 +5405,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_8.close();
 
-    Paint paint_8_fill = Paint()..style = PaintingStyle.fill;
-    paint_8_fill.shader = ui.Gradient.linear(
+    Paint paint8Fill = Paint()..style = PaintingStyle.fill;
+    paint8Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.08596750, size.height * 0.7340513),
       Offset(size.width * 0.1122581, size.height * 0.7471355),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_8, paint_8_fill);
+    canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
     path_9.moveTo(318.51, 99.84);
@@ -5586,14 +5586,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_9.close();
 
-    Paint paint_9_fill = Paint()..style = PaintingStyle.fill;
-    paint_9_fill.shader = ui.Gradient.linear(
+    Paint paint9Fill = Paint()..style = PaintingStyle.fill;
+    paint9Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5746807, size.height * 0.4554359),
       Offset(size.width * 0.6200440, size.height * 0.3374872),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_9, paint_9_fill);
+    canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
     path_10.moveTo(383.98, 175.939);
@@ -5767,14 +5767,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_10.close();
 
-    Paint paint_10_fill = Paint()..style = PaintingStyle.fill;
-    paint_10_fill.shader = ui.Gradient.linear(
+    Paint paint10Fill = Paint()..style = PaintingStyle.fill;
+    paint10Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6805315, size.height * 0.7258608),
       Offset(size.width * 0.7527036, size.height * 0.6229084),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_10, paint_10_fill);
+    canvas.drawPath(path_10, paint10Fill);
 
     Path path_11 = Path();
     path_11.moveTo(246.31, 16.49);
@@ -5969,14 +5969,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_11.close();
 
-    Paint paint_11_fill = Paint()..style = PaintingStyle.fill;
-    paint_11_fill.shader = ui.Gradient.linear(
+    Paint paint11Fill = Paint()..style = PaintingStyle.fill;
+    paint11Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4395354, size.height * 0.1384762),
       Offset(size.width * 0.4811549, size.height * 0.03605128),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_11, paint_11_fill);
+    canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
     path_12.moveTo(176.17, 98.43);
@@ -6157,14 +6157,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_12.close();
 
-    Paint paint_12_fill = Paint()..style = PaintingStyle.fill;
-    paint_12_fill.shader = ui.Gradient.linear(
+    Paint paint12Fill = Paint()..style = PaintingStyle.fill;
+    paint12Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3829713, size.height * 0.4465238),
       Offset(size.width * 0.3190497, size.height * 0.3411282),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_12, paint_12_fill);
+    canvas.drawPath(path_12, paint12Fill);
 
     Path path_13 = Path();
     path_13.moveTo(73.48, 205.52);
@@ -6254,14 +6254,14 @@ class BackMountainPainter extends CustomPainter {
     path_13.lineTo(73.48, 205.5199999999999);
     path_13.close();
 
-    Paint paint_13_fill = Paint()..style = PaintingStyle.fill;
-    paint_13_fill.shader = ui.Gradient.linear(
+    Paint paint13Fill = Paint()..style = PaintingStyle.fill;
+    paint13Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.07283939, size.height * 0.8029304),
       Offset(size.width * 0.1095086, size.height * 0.8504249),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_13, paint_13_fill);
+    canvas.drawPath(path_13, paint13Fill);
 
     Path path_14 = Path();
     path_14.moveTo(349.56, 122.84);
@@ -6288,14 +6288,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_14.close();
 
-    Paint paint_14_fill = Paint()..style = PaintingStyle.fill;
-    paint_14_fill.shader = ui.Gradient.linear(
+    Paint paint14Fill = Paint()..style = PaintingStyle.fill;
+    paint14Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6767361, size.height * 0.4050220),
       Offset(size.width * 0.6277208, size.height * 0.4744542),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_14, paint_14_fill);
+    canvas.drawPath(path_14, paint14Fill);
 
     Path path_15 = Path();
     path_15.moveTo(337.87, 134.231);
@@ -6321,14 +6321,14 @@ class BackMountainPainter extends CustomPainter {
     path_15.lineTo(337.87000000000006, 134.231);
     path_15.close();
 
-    Paint paint_15_fill = Paint()..style = PaintingStyle.fill;
-    paint_15_fill.shader = ui.Gradient.linear(
+    Paint paint15Fill = Paint()..style = PaintingStyle.fill;
+    paint15Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6580727, size.height * 0.4117729),
       Offset(size.width * 0.6211568, size.height * 0.5422381),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_15, paint_15_fill);
+    canvas.drawPath(path_15, paint15Fill);
 
     Path path_16 = Path();
     path_16.moveTo(348.24, 122.57);
@@ -6355,14 +6355,14 @@ class BackMountainPainter extends CustomPainter {
     path_16.lineTo(348.24000000000007, 122.57000000000004);
     path_16.close();
 
-    Paint paint_16_fill = Paint()..style = PaintingStyle.fill;
-    paint_16_fill.shader = ui.Gradient.linear(
+    Paint paint16Fill = Paint()..style = PaintingStyle.fill;
+    paint16Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6791912, size.height * 0.4371941),
       Offset(size.width * 0.6414952, size.height * 0.5704212),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_16, paint_16_fill);
+    canvas.drawPath(path_16, paint16Fill);
 
     Path path_17 = Path();
     path_17.moveTo(285.58, 26.26);
@@ -6378,9 +6378,9 @@ class BackMountainPainter extends CustomPainter {
     path_17.lineTo(284.43, 29.150000000000002);
     path_17.close();
 
-    Paint paint_17_fill = Paint()..style = PaintingStyle.fill;
-    paint_17_fill.color = Color(0xff84811F).withOpacity(1.0);
-    canvas.drawPath(path_17, paint_17_fill);
+    Paint paint17Fill = Paint()..style = PaintingStyle.fill;
+    paint17Fill.color = Color(0xff84811F).withOpacity(1.0);
+    canvas.drawPath(path_17, paint17Fill);
 
     Path path_18 = Path();
     path_18.moveTo(273.41, 27.32);
@@ -6404,9 +6404,9 @@ class BackMountainPainter extends CustomPainter {
     path_18.lineTo(273.41, 27.32);
     path_18.close();
 
-    Paint paint_18_fill = Paint()..style = PaintingStyle.fill;
-    paint_18_fill.color = Color(0xff9E9826).withOpacity(1.0);
-    canvas.drawPath(path_18, paint_18_fill);
+    Paint paint18Fill = Paint()..style = PaintingStyle.fill;
+    paint18Fill.color = Color(0xff9E9826).withOpacity(1.0);
+    canvas.drawPath(path_18, paint18Fill);
 
     Path path_19 = Path();
     path_19.moveTo(105.6, 192.61);
@@ -6508,14 +6508,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_19.close();
 
-    Paint paint_19_fill = Paint()..style = PaintingStyle.fill;
-    paint_19_fill.shader = ui.Gradient.linear(
+    Paint paint19Fill = Paint()..style = PaintingStyle.fill;
+    paint19Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2633939, size.height * 0.4091832),
       Offset(size.width * 0.3148011, size.height * 0.6273773),
       [Color(0xff867E1D).withOpacity(1), Color(0xff68641B).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_19, paint_19_fill);
+    canvas.drawPath(path_19, paint19Fill);
 
     Path path_20 = Path();
     path_20.moveTo(72.87, 204.5);
@@ -6543,14 +6543,14 @@ class BackMountainPainter extends CustomPainter {
     path_20.lineTo(72.86999999999999, 204.49999999999997);
     path_20.close();
 
-    Paint paint_20_fill = Paint()..style = PaintingStyle.fill;
-    paint_20_fill.shader = ui.Gradient.linear(
+    Paint paint20Fill = Paint()..style = PaintingStyle.fill;
+    paint20Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.1006730, size.height * 0.6738535),
       Offset(size.width * 0.1485201, size.height * 0.7064432),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_20, paint_20_fill);
+    canvas.drawPath(path_20, paint20Fill);
 
     Path path_21 = Path();
     path_21.moveTo(380.42, 208.89);
@@ -6575,14 +6575,14 @@ class BackMountainPainter extends CustomPainter {
     path_21.lineTo(380.4200000000001, 208.88999999999996);
     path_21.close();
 
-    Paint paint_21_fill = Paint()..style = PaintingStyle.fill;
-    paint_21_fill.shader = ui.Gradient.linear(
+    Paint paint21Fill = Paint()..style = PaintingStyle.fill;
+    paint21Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4246864, size.height * 0.3886996),
       Offset(size.width * 0.4067533, size.height * 0.2380586),
       [Color(0xffB59478).withOpacity(1), Color(0xff8E776C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_21, paint_21_fill);
+    canvas.drawPath(path_21, paint21Fill);
 
     Path path_22 = Path();
     path_22.moveTo(223.09, 154.99);
@@ -6598,14 +6598,14 @@ class BackMountainPainter extends CustomPainter {
     path_22.lineTo(223.09000000000003, 154.98999999999998);
     path_22.close();
 
-    Paint paint_22_fill = Paint()..style = PaintingStyle.fill;
-    paint_22_fill.shader = ui.Gradient.linear(
+    Paint paint22Fill = Paint()..style = PaintingStyle.fill;
+    paint22Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4618967, size.height * 0.6293846),
       Offset(size.width * 0.4444359, size.height * 0.4249524),
       [Color(0xffB59478).withOpacity(1), Color(0xff8E776C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_22, paint_22_fill);
+    canvas.drawPath(path_22, paint22Fill);
 
     Path path_23 = Path();
     path_23.moveTo(290.52, 59.23);
@@ -6628,14 +6628,14 @@ class BackMountainPainter extends CustomPainter {
     path_23.lineTo(290.5199999999999, 59.230000000000004);
     path_23.close();
 
-    Paint paint_23_fill = Paint()..style = PaintingStyle.fill;
-    paint_23_fill.shader = ui.Gradient.linear(
+    Paint paint23Fill = Paint()..style = PaintingStyle.fill;
+    paint23Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4892141, size.height * 0.4426410),
       Offset(size.width * 0.5346367, size.height * 0.1483993),
       [Color(0xffB59478).withOpacity(1), Color(0xff755C52).withOpacity(1)],
       [0, 0.992],
     );
-    canvas.drawPath(path_23, paint_23_fill);
+    canvas.drawPath(path_23, paint23Fill);
 
     Path path_24 = Path();
     path_24.moveTo(256.56, 165.161);
@@ -6673,14 +6673,14 @@ class BackMountainPainter extends CustomPainter {
     path_24.lineTo(256.56000000000006, 165.16099999999997);
     path_24.close();
 
-    Paint paint_24_fill = Paint()..style = PaintingStyle.fill;
-    paint_24_fill.shader = ui.Gradient.linear(
+    Paint paint24Fill = Paint()..style = PaintingStyle.fill;
+    paint24Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5914168, size.height * 0.3798498),
       Offset(size.width * 0.5185010, size.height * 0.4408242),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_24, paint_24_fill);
+    canvas.drawPath(path_24, paint24Fill);
 
     Path path_25 = Path();
     path_25.moveTo(340.7, 160.96);
@@ -6704,14 +6704,14 @@ class BackMountainPainter extends CustomPainter {
     path_25.lineTo(340.6999999999999, 160.95999999999998);
     path_25.close();
 
-    Paint paint_25_fill = Paint()..style = PaintingStyle.fill;
-    paint_25_fill.shader = ui.Gradient.linear(
+    Paint paint25Fill = Paint()..style = PaintingStyle.fill;
+    paint25Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7705717, size.height * 0.1750000),
       Offset(size.width * 0.5970918, size.height * 0.5291429),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_25, paint_25_fill);
+    canvas.drawPath(path_25, paint25Fill);
 
     Path path_26 = Path();
     path_26.moveTo(285.86, 34.36);
@@ -6796,14 +6796,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_26.close();
 
-    Paint paint_26_fill = Paint()..style = PaintingStyle.fill;
-    paint_26_fill.shader = ui.Gradient.linear(
+    Paint paint26Fill = Paint()..style = PaintingStyle.fill;
+    paint26Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5702600, size.height * 0.4021612),
       Offset(size.width * 0.5587132, size.height * 0.1989451),
       [Color(0xffB59478).withOpacity(1), Color(0xff8E776C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_26, paint_26_fill);
+    canvas.drawPath(path_26, paint26Fill);
 
     Path path_27 = Path();
     path_27.moveTo(244.52, 192.871);
@@ -6820,14 +6820,14 @@ class BackMountainPainter extends CustomPainter {
     path_27.lineTo(244.52000000000004, 192.87100000000004);
     path_27.close();
 
-    Paint paint_27_fill = Paint()..style = PaintingStyle.fill;
-    paint_27_fill.shader = ui.Gradient.linear(
+    Paint paint27Fill = Paint()..style = PaintingStyle.fill;
+    paint27Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2201033, size.height * 1.092037),
       Offset(size.width * 0.5246730, size.height * 0.1276667),
       [Color(0xffB59478).withOpacity(1), Color(0xff755C52).withOpacity(1)],
       [0, 0.992],
     );
-    canvas.drawPath(path_27, paint_27_fill);
+    canvas.drawPath(path_27, paint27Fill);
 
     Path path_28 = Path();
     path_28.moveTo(220.5, 82.04);
@@ -6857,14 +6857,14 @@ class BackMountainPainter extends CustomPainter {
     path_28.lineTo(220.49999999999997, 82.03899999999999);
     path_28.close();
 
-    Paint paint_28_fill = Paint()..style = PaintingStyle.fill;
-    paint_28_fill.shader = ui.Gradient.linear(
+    Paint paint28Fill = Paint()..style = PaintingStyle.fill;
+    paint28Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5636711, size.height * 0.2598901),
       Offset(size.width * 0.4393690, size.height * 0.2708974),
       [Color(0xffB59478).withOpacity(1), Color(0xff755C52).withOpacity(1)],
       [0, 0.992],
     );
-    canvas.drawPath(path_28, paint_28_fill);
+    canvas.drawPath(path_28, paint28Fill);
 
     Path path_29 = Path();
     path_29.moveTo(246.96, 48.44);
@@ -6913,14 +6913,14 @@ class BackMountainPainter extends CustomPainter {
     path_29.lineTo(246.96000000000006, 48.43899999999999);
     path_29.close();
 
-    Paint paint_29_fill = Paint()..style = PaintingStyle.fill;
-    paint_29_fill.shader = ui.Gradient.linear(
+    Paint paint29Fill = Paint()..style = PaintingStyle.fill;
+    paint29Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3661033, size.height * 0.1108278),
       Offset(size.width * 0.3968910, size.height * 0.1728352),
       [Color(0xffB59478).withOpacity(1), Color(0xff755C52).withOpacity(1)],
       [0, 0.992],
     );
-    canvas.drawPath(path_29, paint_29_fill);
+    canvas.drawPath(path_29, paint29Fill);
 
     Path path_30 = Path();
     path_30.moveTo(360.78, 191.8);
@@ -6933,9 +6933,9 @@ class BackMountainPainter extends CustomPainter {
     path_30.lineTo(360.78, 191.8);
     path_30.close();
 
-    Paint paint_30_fill = Paint()..style = PaintingStyle.fill;
-    paint_30_fill.color = Color(0xffA3886F).withOpacity(1.0);
-    canvas.drawPath(path_30, paint_30_fill);
+    Paint paint30Fill = Paint()..style = PaintingStyle.fill;
+    paint30Fill.color = Color(0xffA3886F).withOpacity(1.0);
+    canvas.drawPath(path_30, paint30Fill);
 
     Path path_31 = Path();
     path_31.moveTo(314.38, 146.261);
@@ -8775,14 +8775,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_31.close();
 
-    Paint paint_31_fill = Paint()..style = PaintingStyle.fill;
-    paint_31_fill.shader = ui.Gradient.linear(
+    Paint paint31Fill = Paint()..style = PaintingStyle.fill;
+    paint31Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6424226, size.height * 0.5202161),
       Offset(size.width * 0.5406520, size.height * 0.5793663),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_31, paint_31_fill);
+    canvas.drawPath(path_31, paint31Fill);
 
     Path path_32 = Path();
     path_32.moveTo(254.45, 134.95);
@@ -10500,14 +10500,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_32.close();
 
-    Paint paint_32_fill = Paint()..style = PaintingStyle.fill;
-    paint_32_fill.shader = ui.Gradient.linear(
+    Paint paint32Fill = Paint()..style = PaintingStyle.fill;
+    paint32Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5147973, size.height * 0.4654396),
       Offset(size.width * 0.4876157, size.height * 0.5101905),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_32, paint_32_fill);
+    canvas.drawPath(path_32, paint32Fill);
 
     Path path_33 = Path();
     path_33.moveTo(215.57, 136.841);
@@ -10681,14 +10681,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_33.close();
 
-    Paint paint_33_fill = Paint()..style = PaintingStyle.fill;
-    paint_33_fill.shader = ui.Gradient.linear(
+    Paint paint33Fill = Paint()..style = PaintingStyle.fill;
+    paint33Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4629828, size.height * 0.4437692),
       Offset(size.width * 0.3765813, size.height * 0.5613700),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_33, paint_33_fill);
+    canvas.drawPath(path_33, paint33Fill);
 
     Path path_34 = Path();
     path_34.moveTo(136.07, 159.48);
@@ -10776,14 +10776,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_34.close();
 
-    Paint paint_34_fill = Paint()..style = PaintingStyle.fill;
-    paint_34_fill.shader = ui.Gradient.linear(
+    Paint paint34Fill = Paint()..style = PaintingStyle.fill;
+    paint34Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4467323, size.height * 0.8391319),
       Offset(size.width * 0.3078394, size.height * 0.5985055),
       [Color(0xff867E1D).withOpacity(1), Color(0xff68641B).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_34, paint_34_fill);
+    canvas.drawPath(path_34, paint34Fill);
 
     Path path_35 = Path();
     path_35.moveTo(441.96, 248.461);
@@ -10834,14 +10834,14 @@ class BackMountainPainter extends CustomPainter {
     path_35.lineTo(441.9599999999999, 248.46100000000007);
     path_35.close();
 
-    Paint paint_35_fill = Paint()..style = PaintingStyle.fill;
-    paint_35_fill.shader = ui.Gradient.linear(
+    Paint paint35Fill = Paint()..style = PaintingStyle.fill;
+    paint35Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6185105, size.height * 1.196740),
       Offset(size.width * 0.4681434, size.height * 0.6102088),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_35, paint_35_fill);
+    canvas.drawPath(path_35, paint35Fill);
 
     Path path_36 = Path();
     path_36.moveTo(233.25, 232.62);
@@ -10867,14 +10867,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_36.close();
 
-    Paint paint_36_fill = Paint()..style = PaintingStyle.fill;
-    paint_36_fill.shader = ui.Gradient.linear(
+    Paint paint36Fill = Paint()..style = PaintingStyle.fill;
+    paint36Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7943021, size.height * 0.7378205),
       Offset(size.width * 0.5839866, size.height * 0.9818278),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_36, paint_36_fill);
+    canvas.drawPath(path_36, paint36Fill);
 
     Path path_37 = Path();
     path_37.moveTo(374.2, 187.821);
@@ -10920,14 +10920,14 @@ class BackMountainPainter extends CustomPainter {
     path_37.lineTo(374.2, 187.82099999999994);
     path_37.close();
 
-    Paint paint_37_fill = Paint()..style = PaintingStyle.fill;
-    paint_37_fill.shader = ui.Gradient.linear(
+    Paint paint37Fill = Paint()..style = PaintingStyle.fill;
+    paint37Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7257878, size.height * 0.5448681),
       Offset(size.width * 0.6157533, size.height * 0.7102894),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_37, paint_37_fill);
+    canvas.drawPath(path_37, paint37Fill);
 
     Path path_38 = Path();
     path_38.moveTo(365.25, 180.93);
@@ -10952,14 +10952,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_38.close();
 
-    Paint paint_38_fill = Paint()..style = PaintingStyle.fill;
-    paint_38_fill.shader = ui.Gradient.linear(
+    Paint paint38Fill = Paint()..style = PaintingStyle.fill;
+    paint38Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7347916, size.height * 0.6175238),
       Offset(size.width * 0.7115086, size.height * 0.6525861),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_38, paint_38_fill);
+    canvas.drawPath(path_38, paint38Fill);
 
     Path path_39 = Path();
     path_39.moveTo(268.06, 136.92);
@@ -11126,14 +11126,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_39.close();
 
-    Paint paint_39_fill = Paint()..style = PaintingStyle.fill;
-    paint_39_fill.shader = ui.Gradient.linear(
+    Paint paint39Fill = Paint()..style = PaintingStyle.fill;
+    paint39Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5607017, size.height * 0.4372308),
       Offset(size.width * 0.5222218, size.height * 0.4931099),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_39, paint_39_fill);
+    canvas.drawPath(path_39, paint39Fill);
 
     Path path_40 = Path();
     path_40.moveTo(441.96, 248.46);
@@ -11183,14 +11183,14 @@ class BackMountainPainter extends CustomPainter {
     path_40.lineTo(441.96, 248.46);
     path_40.close();
 
-    Paint paint_40_fill = Paint()..style = PaintingStyle.fill;
-    paint_40_fill.shader = ui.Gradient.linear(
+    Paint paint40Fill = Paint()..style = PaintingStyle.fill;
+    paint40Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7713996, size.height * 0.6659780),
       Offset(size.width * 0.5705143, size.height * 0.8990476),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_40, paint_40_fill);
+    canvas.drawPath(path_40, paint40Fill);
 
     Path path_41 = Path();
     path_41.moveTo(254.15, 43.41);
@@ -11264,9 +11264,9 @@ class BackMountainPainter extends CustomPainter {
     path_41.lineTo(254.15000000000003, 43.410000000000004);
     path_41.close();
 
-    Paint paint_41_fill = Paint()..style = PaintingStyle.fill;
-    paint_41_fill.color = Color(0xff68641B).withOpacity(1.0);
-    canvas.drawPath(path_41, paint_41_fill);
+    Paint paint41Fill = Paint()..style = PaintingStyle.fill;
+    paint41Fill.color = Color(0xff68641B).withOpacity(1.0);
+    canvas.drawPath(path_41, paint41Fill);
 
     Path path_42 = Path();
     path_42.moveTo(291.64, 30.801);
@@ -11309,14 +11309,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_42.close();
 
-    Paint paint_42_fill = Paint()..style = PaintingStyle.fill;
-    paint_42_fill.shader = ui.Gradient.linear(
+    Paint paint42Fill = Paint()..style = PaintingStyle.fill;
+    paint42Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4996138, size.height * 0.2316593),
       Offset(size.width * 0.4588604, size.height * 0.05926007),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_42, paint_42_fill);
+    canvas.drawPath(path_42, paint42Fill);
 
     Path path_43 = Path();
     path_43.moveTo(235.8, 30.52);
@@ -11354,14 +11354,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_43.close();
 
-    Paint paint_43_fill = Paint()..style = PaintingStyle.fill;
-    paint_43_fill.shader = ui.Gradient.linear(
+    Paint paint43Fill = Paint()..style = PaintingStyle.fill;
+    paint43Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4835851, size.height * 0.1284652),
       Offset(size.width * 0.4784245, size.height * 0.3675604),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_43, paint_43_fill);
+    canvas.drawPath(path_43, paint43Fill);
 
     Path path_44 = Path();
     path_44.moveTo(288.46, 46.11);
@@ -11424,14 +11424,14 @@ class BackMountainPainter extends CustomPainter {
     path_44.lineTo(288.4599999999999, 46.11);
     path_44.close();
 
-    Paint paint_44_fill = Paint()..style = PaintingStyle.fill;
-    paint_44_fill.shader = ui.Gradient.linear(
+    Paint paint44Fill = Paint()..style = PaintingStyle.fill;
+    paint44Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5188432, size.height * 0.1568095),
       Offset(size.width * 0.5070631, size.height * 0.2419707),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_44, paint_44_fill);
+    canvas.drawPath(path_44, paint44Fill);
 
     Path path_45 = Path();
     path_45.moveTo(497.98, 272.631);
@@ -11442,9 +11442,9 @@ class BackMountainPainter extends CustomPainter {
     path_45.lineTo(497.9800000000001, 272.63100000000003);
     path_45.close();
 
-    Paint paint_45_fill = Paint()..style = PaintingStyle.fill;
-    paint_45_fill.color = Color(0xffB59478).withOpacity(1.0);
-    canvas.drawPath(path_45, paint_45_fill);
+    Paint paint45Fill = Paint()..style = PaintingStyle.fill;
+    paint45Fill.color = Color(0xffB59478).withOpacity(1.0);
+    canvas.drawPath(path_45, paint45Fill);
 
     Path path_46 = Path();
     path_46.moveTo(510.91, 258.539);
@@ -11462,14 +11462,14 @@ class BackMountainPainter extends CustomPainter {
     path_46.lineTo(510.9100000000001, 258.539);
     path_46.close();
 
-    Paint paint_46_fill = Paint()..style = PaintingStyle.fill;
-    paint_46_fill.shader = ui.Gradient.linear(
+    Paint paint46Fill = Paint()..style = PaintingStyle.fill;
+    paint46Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.9970803, size.height * 0.9110000),
       Offset(size.width * 0.9535143, size.height * 1.051399),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_46, paint_46_fill);
+    canvas.drawPath(path_46, paint46Fill);
 
     Path path_47 = Path();
     path_47.moveTo(231.2, 235.489);
@@ -11501,9 +11501,9 @@ class BackMountainPainter extends CustomPainter {
     );
     path_47.close();
 
-    Paint paint_47_fill = Paint()..style = PaintingStyle.fill;
-    paint_47_fill.color = Color(0xffA89E26).withOpacity(1.0);
-    canvas.drawPath(path_47, paint_47_fill);
+    Paint paint47Fill = Paint()..style = PaintingStyle.fill;
+    paint47Fill.color = Color(0xffA89E26).withOpacity(1.0);
+    canvas.drawPath(path_47, paint47Fill);
 
     Path path_48 = Path();
     path_48.moveTo(150.34, 231.06);
@@ -11521,14 +11521,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_48.close();
 
-    Paint paint_48_fill = Paint()..style = PaintingStyle.fill;
-    paint_48_fill.shader = ui.Gradient.linear(
+    Paint paint48Fill = Paint()..style = PaintingStyle.fill;
+    paint48Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2876176, size.height * 0.8718864),
       Offset(size.width * 0.2856119, size.height * 0.9060220),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_48, paint_48_fill);
+    canvas.drawPath(path_48, paint48Fill);
 
     Path path_49 = Path();
     path_49.moveTo(146.33, 231.962);
@@ -11606,9 +11606,9 @@ class BackMountainPainter extends CustomPainter {
     path_49.lineTo(146.74, 247.602);
     path_49.close();
 
-    Paint paint_49_fill = Paint()..style = PaintingStyle.fill;
-    paint_49_fill.color = Color(0xff9E9826).withOpacity(1.0);
-    canvas.drawPath(path_49, paint_49_fill);
+    Paint paint49Fill = Paint()..style = PaintingStyle.fill;
+    paint49Fill.color = Color(0xff9E9826).withOpacity(1.0);
+    canvas.drawPath(path_49, paint49Fill);
 
     Path path_50 = Path();
     path_50.moveTo(205.74, 239.27);
@@ -11741,14 +11741,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_50.close();
 
-    Paint paint_50_fill = Paint()..style = PaintingStyle.fill;
-    paint_50_fill.shader = ui.Gradient.linear(
+    Paint paint50Fill = Paint()..style = PaintingStyle.fill;
+    paint50Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4008222, size.height * 0.8109194),
       Offset(size.width * 0.3527457, size.height * 0.9178755),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_50, paint_50_fill);
+    canvas.drawPath(path_50, paint50Fill);
 
     Path path_51 = Path();
     path_51.moveTo(412.29, 229.81);
@@ -11808,9 +11808,9 @@ class BackMountainPainter extends CustomPainter {
     );
     path_51.close();
 
-    Paint paint_51_fill = Paint()..style = PaintingStyle.fill;
-    paint_51_fill.color = Color(0xffD8C72B).withOpacity(1.0);
-    canvas.drawPath(path_51, paint_51_fill);
+    Paint paint51Fill = Paint()..style = PaintingStyle.fill;
+    paint51Fill.color = Color(0xffD8C72B).withOpacity(1.0);
+    canvas.drawPath(path_51, paint51Fill);
 
     Path path_52 = Path();
     path_52.moveTo(320.99, 171.321);
@@ -11853,14 +11853,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_52.close();
 
-    Paint paint_52_fill = Paint()..style = PaintingStyle.fill;
-    paint_52_fill.shader = ui.Gradient.linear(
+    Paint paint52Fill = Paint()..style = PaintingStyle.fill;
+    paint52Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6638050, size.height * 0.7331905),
       Offset(size.width * 0.5180516, size.height * 0.5779890),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_52, paint_52_fill);
+    canvas.drawPath(path_52, paint52Fill);
 
     Path path_53 = Path();
     path_53.moveTo(435.23, 254.87);
@@ -11978,14 +11978,14 @@ class BackMountainPainter extends CustomPainter {
     path_53.lineTo(435.22999999999996, 254.86999999999992);
     path_53.close();
 
-    Paint paint_53_fill = Paint()..style = PaintingStyle.fill;
-    paint_53_fill.shader = ui.Gradient.linear(
+    Paint paint53Fill = Paint()..style = PaintingStyle.fill;
+    paint53Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6527075, size.height * 0.9981209),
       Offset(size.width * 0.6532983, size.height * 0.8670293),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_53, paint_53_fill);
+    canvas.drawPath(path_53, paint53Fill);
 
     Path path_54 = Path();
     path_54.moveTo(222.63, 243.901);
@@ -12009,14 +12009,14 @@ class BackMountainPainter extends CustomPainter {
     path_54.lineTo(222.63, 243.901);
     path_54.close();
 
-    Paint paint_54_fill = Paint()..style = PaintingStyle.fill;
-    paint_54_fill.shader = ui.Gradient.linear(
+    Paint paint54Fill = Paint()..style = PaintingStyle.fill;
+    paint54Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4016501, size.height * 0.8833810),
       Offset(size.width * 0.4376291, size.height * 0.8858681),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_54, paint_54_fill);
+    canvas.drawPath(path_54, paint54Fill);
 
     Path path_55 = Path();
     path_55.moveTo(431.28, 261.01);
@@ -12166,9 +12166,9 @@ class BackMountainPainter extends CustomPainter {
     );
     path_55.close();
 
-    Paint paint_55_fill = Paint()..style = PaintingStyle.fill;
-    paint_55_fill.color = Color(0xffB7AC27).withOpacity(1.0);
-    canvas.drawPath(path_55, paint_55_fill);
+    Paint paint55Fill = Paint()..style = PaintingStyle.fill;
+    paint55Fill.color = Color(0xffB7AC27).withOpacity(1.0);
+    canvas.drawPath(path_55, paint55Fill);
 
     Path path_56 = Path();
     path_56.moveTo(486.82, 271.841);
@@ -12199,9 +12199,9 @@ class BackMountainPainter extends CustomPainter {
     );
     path_56.close();
 
-    Paint paint_56_fill = Paint()..style = PaintingStyle.fill;
-    paint_56_fill.color = Color(0xffEAA326).withOpacity(1.0);
-    canvas.drawPath(path_56, paint_56_fill);
+    Paint paint56Fill = Paint()..style = PaintingStyle.fill;
+    paint56Fill.color = Color(0xffEAA326).withOpacity(1.0);
+    canvas.drawPath(path_56, paint56Fill);
 
     Path path_57 = Path();
     path_57.moveTo(387.77, 259.251);
@@ -12255,9 +12255,9 @@ class BackMountainPainter extends CustomPainter {
     );
     path_57.close();
 
-    Paint paint_57_fill = Paint()..style = PaintingStyle.fill;
-    paint_57_fill.color = Color(0xffF9C04E).withOpacity(1.0);
-    canvas.drawPath(path_57, paint_57_fill);
+    Paint paint57Fill = Paint()..style = PaintingStyle.fill;
+    paint57Fill.color = Color(0xffF9C04E).withOpacity(1.0);
+    canvas.drawPath(path_57, paint57Fill);
 
     Path path_58 = Path();
     path_58.moveTo(463.27, 271.841);
@@ -12280,9 +12280,9 @@ class BackMountainPainter extends CustomPainter {
     path_58.lineTo(463.27, 271.841);
     path_58.close();
 
-    Paint paint_58_fill = Paint()..style = PaintingStyle.fill;
-    paint_58_fill.color = Color(0xffD36433).withOpacity(1.0);
-    canvas.drawPath(path_58, paint_58_fill);
+    Paint paint58Fill = Paint()..style = PaintingStyle.fill;
+    paint58Fill.color = Color(0xffD36433).withOpacity(1.0);
+    canvas.drawPath(path_58, paint58Fill);
 
     Path path_59 = Path();
     path_59.moveTo(488.32, 271.839);
@@ -12297,9 +12297,9 @@ class BackMountainPainter extends CustomPainter {
     path_59.lineTo(488.32, 271.839);
     path_59.close();
 
-    Paint paint_59_fill = Paint()..style = PaintingStyle.fill;
-    paint_59_fill.color = Color(0xffB59478).withOpacity(1.0);
-    canvas.drawPath(path_59, paint_59_fill);
+    Paint paint59Fill = Paint()..style = PaintingStyle.fill;
+    paint59Fill.color = Color(0xffB59478).withOpacity(1.0);
+    canvas.drawPath(path_59, paint59Fill);
 
     Path path_60 = Path();
     path_60.moveTo(456.49, 271.84);
@@ -12342,14 +12342,14 @@ class BackMountainPainter extends CustomPainter {
     path_60.lineTo(456.4900000000001, 271.84);
     path_60.close();
 
-    Paint paint_60_fill = Paint()..style = PaintingStyle.fill;
-    paint_60_fill.shader = ui.Gradient.linear(
+    Paint paint60Fill = Paint()..style = PaintingStyle.fill;
+    paint60Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7099446, size.height * 1.234601),
       Offset(size.width * 0.8644474, size.height * 0.8642418),
       [Color(0xffB59478).withOpacity(1), Color(0xff8E776C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_60, paint_60_fill);
+    canvas.drawPath(path_60, paint60Fill);
 
     Path path_61 = Path();
     path_61.moveTo(141.34, 271.84);
@@ -12366,14 +12366,14 @@ class BackMountainPainter extends CustomPainter {
     path_61.lineTo(141.34, 271.84000000000003);
     path_61.close();
 
-    Paint paint_61_fill = Paint()..style = PaintingStyle.fill;
-    paint_61_fill.shader = ui.Gradient.linear(
+    Paint paint61Fill = Paint()..style = PaintingStyle.fill;
+    paint61Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.08600956, size.height * 0.5999560),
       Offset(size.width * 0.1938815, size.height * 0.7641099),
       [Color(0xffB59478).withOpacity(1), Color(0xff8E776C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_61, paint_61_fill);
+    canvas.drawPath(path_61, paint61Fill);
 
     Path path_62 = Path();
     path_62.moveTo(141.71, 192.28);
@@ -12561,14 +12561,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_62.close();
 
-    Paint paint_62_fill = Paint()..style = PaintingStyle.fill;
-    paint_62_fill.shader = ui.Gradient.linear(
+    Paint paint62Fill = Paint()..style = PaintingStyle.fill;
+    paint62Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3359465, size.height * 0.6032564),
       Offset(size.width * 0.2429197, size.height * 0.7697692),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_62, paint_62_fill);
+    canvas.drawPath(path_62, paint62Fill);
 
     Path path_63 = Path();
     path_63.moveTo(135.72, 214.27);
@@ -12613,9 +12613,9 @@ class BackMountainPainter extends CustomPainter {
     path_63.lineTo(135.72, 214.26999999999998);
     path_63.close();
 
-    Paint paint_63_fill = Paint()..style = PaintingStyle.fill;
-    paint_63_fill.color = Color(0xffB59478).withOpacity(1.0);
-    canvas.drawPath(path_63, paint_63_fill);
+    Paint paint63Fill = Paint()..style = PaintingStyle.fill;
+    paint63Fill.color = Color(0xffB59478).withOpacity(1.0);
+    canvas.drawPath(path_63, paint63Fill);
 
     Path path_64 = Path();
     path_64.moveTo(63.34, 271.84);
@@ -12641,9 +12641,9 @@ class BackMountainPainter extends CustomPainter {
     path_64.lineTo(63.339999999999996, 271.84);
     path_64.close();
 
-    Paint paint_64_fill = Paint()..style = PaintingStyle.fill;
-    paint_64_fill.color = Color(0xff82655D).withOpacity(1.0);
-    canvas.drawPath(path_64, paint_64_fill);
+    Paint paint64Fill = Paint()..style = PaintingStyle.fill;
+    paint64Fill.color = Color(0xff82655D).withOpacity(1.0);
+    canvas.drawPath(path_64, paint64Fill);
 
     Path path_65 = Path();
     path_65.moveTo(352.42, 259.949);
@@ -12682,9 +12682,9 @@ class BackMountainPainter extends CustomPainter {
     );
     path_65.close();
 
-    Paint paint_65_fill = Paint()..style = PaintingStyle.fill;
-    paint_65_fill.color = Color(0xffEAA326).withOpacity(1.0);
-    canvas.drawPath(path_65, paint_65_fill);
+    Paint paint65Fill = Paint()..style = PaintingStyle.fill;
+    paint65Fill.color = Color(0xffEAA326).withOpacity(1.0);
+    canvas.drawPath(path_65, paint65Fill);
 
     Path path_66 = Path();
     path_66.moveTo(216.21, 169.15);
@@ -12716,14 +12716,14 @@ class BackMountainPainter extends CustomPainter {
     path_66.lineTo(216.21, 169.15);
     path_66.close();
 
-    Paint paint_66_fill = Paint()..style = PaintingStyle.fill;
-    paint_66_fill.shader = ui.Gradient.linear(
+    Paint paint66Fill = Paint()..style = PaintingStyle.fill;
+    paint66Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4670822, size.height * 0.7001355),
       Offset(size.width * 0.4454187, size.height * 0.6571355),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_66, paint_66_fill);
+    canvas.drawPath(path_66, paint66Fill);
 
     Path path_67 = Path();
     path_67.moveTo(328.31, 142.359);
@@ -12755,14 +12755,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_67.close();
 
-    Paint paint_67_fill = Paint()..style = PaintingStyle.fill;
-    paint_67_fill.shader = ui.Gradient.linear(
+    Paint paint67Fill = Paint()..style = PaintingStyle.fill;
+    paint67Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7178757, size.height * 0.4979670),
       Offset(size.width * 0.6525717, size.height * 0.5024359),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_67, paint_67_fill);
+    canvas.drawPath(path_67, paint67Fill);
 
     Path path_68 = Path();
     path_68.moveTo(193.08, 152.161);
@@ -12794,14 +12794,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_68.close();
 
-    Paint paint_68_fill = Paint()..style = PaintingStyle.fill;
-    paint_68_fill.shader = ui.Gradient.linear(
+    Paint paint68Fill = Paint()..style = PaintingStyle.fill;
+    paint68Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4533117, size.height * 0.6147070),
       Offset(size.width * 0.4240975, size.height * 0.5810916),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_68, paint_68_fill);
+    canvas.drawPath(path_68, paint68Fill);
 
     Path path_69 = Path();
     path_69.moveTo(293.04, 164.631);
@@ -12826,9 +12826,9 @@ class BackMountainPainter extends CustomPainter {
     path_69.lineTo(293.03999999999996, 164.631);
     path_69.close();
 
-    Paint paint_69_fill = Paint()..style = PaintingStyle.fill;
-    paint_69_fill.color = Color(0xff9E9826).withOpacity(1.0);
-    canvas.drawPath(path_69, paint_69_fill);
+    Paint paint69Fill = Paint()..style = PaintingStyle.fill;
+    paint69Fill.color = Color(0xff9E9826).withOpacity(1.0);
+    canvas.drawPath(path_69, paint69Fill);
 
     Path path_70 = Path();
     path_70.moveTo(483.63, 254.759);
@@ -12856,14 +12856,14 @@ class BackMountainPainter extends CustomPainter {
     path_70.lineTo(483.62999999999994, 254.759);
     path_70.close();
 
-    Paint paint_70_fill = Paint()..style = PaintingStyle.fill;
-    paint_70_fill.shader = ui.Gradient.linear(
+    Paint paint70Fill = Paint()..style = PaintingStyle.fill;
+    paint70Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.9370822, size.height * 0.8052601),
       Offset(size.width * 0.8880765, size.height * 0.8934359),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_70, paint_70_fill);
+    canvas.drawPath(path_70, paint70Fill);
 
     Path path_71 = Path();
     path_71.moveTo(135.72, 214.27);
@@ -12899,14 +12899,14 @@ class BackMountainPainter extends CustomPainter {
     path_71.lineTo(135.72000000000003, 214.26999999999998);
     path_71.close();
 
-    Paint paint_71_fill = Paint()..style = PaintingStyle.fill;
-    paint_71_fill.shader = ui.Gradient.linear(
+    Paint paint71Fill = Paint()..style = PaintingStyle.fill;
+    paint71Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3388489, size.height * 0.6192308),
       Offset(size.width * 0.1910688, size.height * 0.7585751),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_71, paint_71_fill);
+    canvas.drawPath(path_71, paint71Fill);
 
     Path path_72 = Path();
     path_72.moveTo(126.13, 161.55);
@@ -12915,14 +12915,14 @@ class BackMountainPainter extends CustomPainter {
     path_72.cubicTo(116.88, 144.71, 120.78999999999999, 160.28, 126.13, 161.55);
     path_72.close();
 
-    Paint paint_72_fill = Paint()..style = PaintingStyle.fill;
-    paint_72_fill.shader = ui.Gradient.linear(
+    Paint paint72Fill = Paint()..style = PaintingStyle.fill;
+    paint72Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3263709, size.height * 0.3860440),
       Offset(size.width * 0.1964665, size.height * 0.5713773),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_72, paint_72_fill);
+    canvas.drawPath(path_72, paint72Fill);
 
     Path path_73 = Path();
     path_73.moveTo(63.15, 261.719);
@@ -12949,14 +12949,14 @@ class BackMountainPainter extends CustomPainter {
     path_73.lineTo(63.14999999999999, 261.719);
     path_73.close();
 
-    Paint paint_73_fill = Paint()..style = PaintingStyle.fill;
-    paint_73_fill.shader = ui.Gradient.linear(
+    Paint paint73Fill = Paint()..style = PaintingStyle.fill;
+    paint73Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.1218298, size.height * 0.8343736),
       Offset(size.width * 0.04943021, size.height * 1.040824),
       [Color(0xffB59478).withOpacity(1), Color(0xff8E776C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_73, paint_73_fill);
+    canvas.drawPath(path_73, paint73Fill);
 
     Path path_74 = Path();
     path_74.moveTo(212.99, 47.91);
@@ -13013,14 +13013,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_74.close();
 
-    Paint paint_74_fill = Paint()..style = PaintingStyle.fill;
-    paint_74_fill.shader = ui.Gradient.linear(
+    Paint paint74Fill = Paint()..style = PaintingStyle.fill;
+    paint74Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3635335, size.height * 0.3364029),
       Offset(size.width * 0.3828757, size.height * 0.2069524),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_74, paint_74_fill);
+    canvas.drawPath(path_74, paint74Fill);
 
     Path path_75 = Path();
     path_75.moveTo(284.45, 57.86);
@@ -13046,14 +13046,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_75.close();
 
-    Paint paint_75_fill = Paint()..style = PaintingStyle.fill;
-    paint_75_fill.shader = ui.Gradient.linear(
+    Paint paint75Fill = Paint()..style = PaintingStyle.fill;
+    paint75Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5511683, size.height * 0.1413040),
       Offset(size.width * 0.5205010, size.height * 0.2421355),
       [Color(0xffB59478).withOpacity(1), Color(0xff8E776C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_75, paint_75_fill);
+    canvas.drawPath(path_75, paint75Fill);
 
     Path path_76 = Path();
     path_76.moveTo(438.87, 254.409);
@@ -13076,14 +13076,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_76.close();
 
-    Paint paint_76_fill = Paint()..style = PaintingStyle.fill;
-    paint_76_fill.shader = ui.Gradient.linear(
+    Paint paint76Fill = Paint()..style = PaintingStyle.fill;
+    paint76Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7802524, size.height * 0.8608608),
       Offset(size.width * 0.8868241, size.height * 0.9190220),
       [Color(0xff947B6E).withOpacity(1), Color(0xff755C52).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_76, paint_76_fill);
+    canvas.drawPath(path_76, paint76Fill);
 
     Path path_77 = Path();
     path_77.moveTo(387.69, 201.76);
@@ -13142,9 +13142,9 @@ class BackMountainPainter extends CustomPainter {
     );
     path_77.close();
 
-    Paint paint_77_fill = Paint()..style = PaintingStyle.fill;
-    paint_77_fill.color = Color(0xffD8C72B).withOpacity(1.0);
-    canvas.drawPath(path_77, paint_77_fill);
+    Paint paint77Fill = Paint()..style = PaintingStyle.fill;
+    paint77Fill.color = Color(0xffD8C72B).withOpacity(1.0);
+    canvas.drawPath(path_77, paint77Fill);
 
     Path path_78 = Path();
     path_78.moveTo(134.02, 262.52);
@@ -13177,14 +13177,14 @@ class BackMountainPainter extends CustomPainter {
     path_78.lineTo(134.02000000000004, 262.52);
     path_78.close();
 
-    Paint paint_78_fill = Paint()..style = PaintingStyle.fill;
-    paint_78_fill.shader = ui.Gradient.linear(
+    Paint paint78Fill = Paint()..style = PaintingStyle.fill;
+    paint78Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2791663, size.height * 0.8581941),
       Offset(size.width * 0.2147725, size.height * 0.8879048),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_78, paint_78_fill);
+    canvas.drawPath(path_78, paint78Fill);
 
     Path path_79 = Path();
     path_79.moveTo(84.51, 211.4);
@@ -13226,14 +13226,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_79.close();
 
-    Paint paint_79_fill = Paint()..style = PaintingStyle.fill;
-    paint_79_fill.shader = ui.Gradient.linear(
+    Paint paint79Fill = Paint()..style = PaintingStyle.fill;
+    paint79Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.1156750, size.height * 0.7267875),
       Offset(size.width * 0.2456023, size.height * 0.8269670),
       [Color(0xffB59478).withOpacity(1), Color(0xff8E776C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_79, paint_79_fill);
+    canvas.drawPath(path_79, paint79Fill);
 
     Path path_80 = Path();
     path_80.moveTo(244.51, 207.26);
@@ -13414,14 +13414,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_80.close();
 
-    Paint paint_80_fill = Paint()..style = PaintingStyle.fill;
-    paint_80_fill.shader = ui.Gradient.linear(
+    Paint paint80Fill = Paint()..style = PaintingStyle.fill;
+    paint80Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5161855, size.height * 0.7618718),
       Offset(size.width * 0.4883939, size.height * 0.7618168),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_80, paint_80_fill);
+    canvas.drawPath(path_80, paint80Fill);
 
     Path path_81 = Path();
     path_81.moveTo(325.13, 209.83);
@@ -13541,9 +13541,9 @@ class BackMountainPainter extends CustomPainter {
     );
     path_81.close();
 
-    Paint paint_81_fill = Paint()..style = PaintingStyle.fill;
-    paint_81_fill.color = Color(0xffD8C72B).withOpacity(1.0);
-    canvas.drawPath(path_81, paint_81_fill);
+    Paint paint81Fill = Paint()..style = PaintingStyle.fill;
+    paint81Fill.color = Color(0xffD8C72B).withOpacity(1.0);
+    canvas.drawPath(path_81, paint81Fill);
 
     Path path_82 = Path();
     path_82.moveTo(318.88, 209.771);
@@ -13762,9 +13762,9 @@ class BackMountainPainter extends CustomPainter {
     path_82.lineTo(289.2999999999999, 186.63099999999991);
     path_82.close();
 
-    Paint paint_82_fill = Paint()..style = PaintingStyle.fill;
-    paint_82_fill.color = Color(0xffD8C72B).withOpacity(1.0);
-    canvas.drawPath(path_82, paint_82_fill);
+    Paint paint82Fill = Paint()..style = PaintingStyle.fill;
+    paint82Fill.color = Color(0xffD8C72B).withOpacity(1.0);
+    canvas.drawPath(path_82, paint82Fill);
 
     Path path_83 = Path();
     path_83.moveTo(340.79, 127.529);
@@ -13779,8 +13779,8 @@ class BackMountainPainter extends CustomPainter {
     path_83.lineTo(340.7900000000001, 127.52899999999998);
     path_83.close();
 
-    Paint paint_83_fill = Paint()..style = PaintingStyle.fill;
-    paint_83_fill.shader = ui.Gradient.linear(
+    Paint paint83Fill = Paint()..style = PaintingStyle.fill;
+    paint83Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6558413, size.height * 0.4392491),
       Offset(size.width * 0.6324321, size.height * 0.5443626),
       [
@@ -13790,7 +13790,7 @@ class BackMountainPainter extends CustomPainter {
       ],
       [0, 0.22, 1],
     );
-    canvas.drawPath(path_83, paint_83_fill);
+    canvas.drawPath(path_83, paint83Fill);
 
     Path path_84 = Path();
     path_84.moveTo(285.61, 65.36);
@@ -13807,14 +13807,14 @@ class BackMountainPainter extends CustomPainter {
     path_84.lineTo(285.6099999999999, 65.36);
     path_84.close();
 
-    Paint paint_84_fill = Paint()..style = PaintingStyle.fill;
-    paint_84_fill.shader = ui.Gradient.linear(
+    Paint paint84Fill = Paint()..style = PaintingStyle.fill;
+    paint84Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5346482, size.height * 0.2833077),
       Offset(size.width * 0.3824837, size.height * 0.2480330),
       [Color(0xffB59478).withOpacity(1), Color(0xff8E776C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_84, paint_84_fill);
+    canvas.drawPath(path_84, paint84Fill);
 
     Path path_85 = Path();
     path_85.moveTo(265.46, 82.5);
@@ -13829,14 +13829,14 @@ class BackMountainPainter extends CustomPainter {
     path_85.lineTo(265.46, 82.50000000000001);
     path_85.close();
 
-    Paint paint_85_fill = Paint()..style = PaintingStyle.fill;
-    paint_85_fill.shader = ui.Gradient.linear(
+    Paint paint85Fill = Paint()..style = PaintingStyle.fill;
+    paint85Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6296539, size.height * 0.3277289),
       Offset(size.width * 0.5160268, size.height * 0.2702527),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_85, paint_85_fill);
+    canvas.drawPath(path_85, paint85Fill);
 
     Path path_86 = Path();
     path_86.moveTo(240.26, 117.86);
@@ -13849,14 +13849,14 @@ class BackMountainPainter extends CustomPainter {
     path_86.lineTo(240.25999999999996, 117.86);
     path_86.close();
 
-    Paint paint_86_fill = Paint()..style = PaintingStyle.fill;
-    paint_86_fill.shader = ui.Gradient.linear(
+    Paint paint86Fill = Paint()..style = PaintingStyle.fill;
+    paint86Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5006539, size.height * 0.4026117),
       Offset(size.width * 0.4635526, size.height * 0.3838462),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_86, paint_86_fill);
+    canvas.drawPath(path_86, paint86Fill);
 
     Path path_87 = Path();
     path_87.moveTo(218.8, 76.99);
@@ -13869,14 +13869,14 @@ class BackMountainPainter extends CustomPainter {
     path_87.lineTo(218.79999999999998, 76.99000000000001);
     path_87.close();
 
-    Paint paint_87_fill = Paint()..style = PaintingStyle.fill;
-    paint_87_fill.shader = ui.Gradient.linear(
+    Paint paint87Fill = Paint()..style = PaintingStyle.fill;
+    paint87Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5025908, size.height * 0.2608901),
       Offset(size.width * 0.3997667, size.height * 0.2271832),
       [Color(0xffB59478).withOpacity(1), Color(0xff755C52).withOpacity(1)],
       [0, 0.992],
     );
-    canvas.drawPath(path_87, paint_87_fill);
+    canvas.drawPath(path_87, paint87Fill);
 
     Path path_88 = Path();
     path_88.moveTo(168.75, 144.96);
@@ -13900,14 +13900,14 @@ class BackMountainPainter extends CustomPainter {
     path_88.cubicTo(167.16, 138.99, 168.75, 144.96, 168.75, 144.96);
     path_88.close();
 
-    Paint paint_88_fill = Paint()..style = PaintingStyle.fill;
-    paint_88_fill.shader = ui.Gradient.linear(
+    Paint paint88Fill = Paint()..style = PaintingStyle.fill;
+    paint88Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3390287, size.height * 0.5787326),
       Offset(size.width * 0.3260707, size.height * 0.5496007),
       [Color(0xff867E1D).withOpacity(1), Color(0xff68641B).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_88, paint_88_fill);
+    canvas.drawPath(path_88, paint88Fill);
 
     Path path_89 = Path();
     path_89.moveTo(155.95, 128.31);
@@ -13931,14 +13931,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_89.close();
 
-    Paint paint_89_fill = Paint()..style = PaintingStyle.fill;
-    paint_89_fill.shader = ui.Gradient.linear(
+    Paint paint89Fill = Paint()..style = PaintingStyle.fill;
+    paint89Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3114417, size.height * 0.5343150),
       Offset(size.width * 0.3058929, size.height * 0.4922234),
       [Color(0xff867E1D).withOpacity(1), Color(0xff68641B).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_89, paint_89_fill);
+    canvas.drawPath(path_89, paint89Fill);
 
     Path path_90 = Path();
     path_90.moveTo(169.98, 142.199);
@@ -13969,14 +13969,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_90.close();
 
-    Paint paint_90_fill = Paint()..style = PaintingStyle.fill;
-    paint_90_fill.shader = ui.Gradient.linear(
+    Paint paint90Fill = Paint()..style = PaintingStyle.fill;
+    paint90Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3519790, size.height * 0.5626190),
       Offset(size.width * 0.3379847, size.height * 0.5311648),
       [Color(0xff867E1D).withOpacity(1), Color(0xff68641B).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_90, paint_90_fill);
+    canvas.drawPath(path_90, paint90Fill);
 
     Path path_91 = Path();
     path_91.moveTo(362.45, 228.749);
@@ -14137,9 +14137,9 @@ class BackMountainPainter extends CustomPainter {
     );
     path_91.close();
 
-    Paint paint_91_fill = Paint()..style = PaintingStyle.fill;
-    paint_91_fill.color = Color(0xffEFD830).withOpacity(1.0);
-    canvas.drawPath(path_91, paint_91_fill);
+    Paint paint91Fill = Paint()..style = PaintingStyle.fill;
+    paint91Fill.color = Color(0xffEFD830).withOpacity(1.0);
+    canvas.drawPath(path_91, paint91Fill);
 
     Path path_92 = Path();
     path_92.moveTo(286.87, 222.55);
@@ -14211,9 +14211,9 @@ class BackMountainPainter extends CustomPainter {
     );
     path_92.close();
 
-    Paint paint_92_fill = Paint()..style = PaintingStyle.fill;
-    paint_92_fill.color = Color(0xffD8C72B).withOpacity(1.0);
-    canvas.drawPath(path_92, paint_92_fill);
+    Paint paint92Fill = Paint()..style = PaintingStyle.fill;
+    paint92Fill.color = Color(0xffD8C72B).withOpacity(1.0);
+    canvas.drawPath(path_92, paint92Fill);
 
     Path path_93 = Path();
     path_93.moveTo(166.56, 214.271);
@@ -14238,14 +14238,14 @@ class BackMountainPainter extends CustomPainter {
     path_93.lineTo(166.56, 214.27099999999996);
     path_93.close();
 
-    Paint paint_93_fill = Paint()..style = PaintingStyle.fill;
-    paint_93_fill.shader = ui.Gradient.linear(
+    Paint paint93Fill = Paint()..style = PaintingStyle.fill;
+    paint93Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3749331, size.height * 0.6419414),
       Offset(size.width * 0.2452256, size.height * 0.9294872),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_93, paint_93_fill);
+    canvas.drawPath(path_93, paint93Fill);
 
     Path path_94 = Path();
     path_94.moveTo(168.94, 215.621);
@@ -14269,14 +14269,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_94.close();
 
-    Paint paint_94_fill = Paint()..style = PaintingStyle.fill;
-    paint_94_fill.shader = ui.Gradient.linear(
+    Paint paint94Fill = Paint()..style = PaintingStyle.fill;
+    paint94Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3942390, size.height * 0.6542930),
       Offset(size.width * 0.2529771, size.height * 0.9674505),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_94, paint_94_fill);
+    canvas.drawPath(path_94, paint94Fill);
 
     Path path_95 = Path();
     path_95.moveTo(171.1, 213.651);
@@ -14300,14 +14300,14 @@ class BackMountainPainter extends CustomPainter {
     path_95.cubicTo(172.06, 217.241, 171.1, 213.651, 171.1, 213.651);
     path_95.close();
 
-    Paint paint_95_fill = Paint()..style = PaintingStyle.fill;
-    paint_95_fill.shader = ui.Gradient.linear(
+    Paint paint95Fill = Paint()..style = PaintingStyle.fill;
+    paint95Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3917208, size.height * 0.6650659),
       Offset(size.width * 0.2577514, size.height * 0.9620549),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_95, paint_95_fill);
+    canvas.drawPath(path_95, paint95Fill);
 
     Path path_96 = Path();
     path_96.moveTo(197.03, 201.13);
@@ -14428,14 +14428,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_96.close();
 
-    Paint paint_96_fill = Paint()..style = PaintingStyle.fill;
-    paint_96_fill.shader = ui.Gradient.linear(
+    Paint paint96Fill = Paint()..style = PaintingStyle.fill;
+    paint96Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4308872, size.height * 0.6482821),
       Offset(size.width * 0.2972333, size.height * 0.8770256),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_96, paint_96_fill);
+    canvas.drawPath(path_96, paint96Fill);
 
     Path path_97 = Path();
     path_97.moveTo(238.4, 168.961);
@@ -14466,9 +14466,9 @@ class BackMountainPainter extends CustomPainter {
     path_97.cubicTo(244.44, 171.401, 238.4, 168.961, 238.4, 168.961);
     path_97.close();
 
-    Paint paint_97_fill = Paint()..style = PaintingStyle.fill;
-    paint_97_fill.color = Color(0xff9E9826).withOpacity(1.0);
-    canvas.drawPath(path_97, paint_97_fill);
+    Paint paint97Fill = Paint()..style = PaintingStyle.fill;
+    paint97Fill.color = Color(0xff9E9826).withOpacity(1.0);
+    canvas.drawPath(path_97, paint97Fill);
 
     Path path_98 = Path();
     path_98.moveTo(238.49, 168.84);
@@ -14526,9 +14526,9 @@ class BackMountainPainter extends CustomPainter {
     );
     path_98.close();
 
-    Paint paint_98_fill = Paint()..style = PaintingStyle.fill;
-    paint_98_fill.color = Color(0xff9E9826).withOpacity(1.0);
-    canvas.drawPath(path_98, paint_98_fill);
+    Paint paint98Fill = Paint()..style = PaintingStyle.fill;
+    paint98Fill.color = Color(0xff9E9826).withOpacity(1.0);
+    canvas.drawPath(path_98, paint98Fill);
 
     Path path_99 = Path();
     path_99.moveTo(238.45, 169.031);
@@ -14566,9 +14566,9 @@ class BackMountainPainter extends CustomPainter {
     );
     path_99.close();
 
-    Paint paint_99_fill = Paint()..style = PaintingStyle.fill;
-    paint_99_fill.color = Color(0xff9E9826).withOpacity(1.0);
-    canvas.drawPath(path_99, paint_99_fill);
+    Paint paint99Fill = Paint()..style = PaintingStyle.fill;
+    paint99Fill.color = Color(0xff9E9826).withOpacity(1.0);
+    canvas.drawPath(path_99, paint99Fill);
 
     Path path_100 = Path();
     path_100.moveTo(278.77, 214.56);
@@ -14615,14 +14615,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_100.close();
 
-    Paint paint_100_fill = Paint()..style = PaintingStyle.fill;
-    paint_100_fill.shader = ui.Gradient.linear(
+    Paint paint100Fill = Paint()..style = PaintingStyle.fill;
+    paint100Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5897629, size.height * 0.7104652),
       Offset(size.width * 0.5189006, size.height * 0.8209597),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_100, paint_100_fill);
+    canvas.drawPath(path_100, paint100Fill);
 
     Path path_101 = Path();
     path_101.moveTo(281.66, 207.941);
@@ -14654,14 +14654,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_101.close();
 
-    Paint paint_101_fill = Paint()..style = PaintingStyle.fill;
-    paint_101_fill.shader = ui.Gradient.linear(
+    Paint paint101Fill = Paint()..style = PaintingStyle.fill;
+    paint101Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5996902, size.height * 0.6860330),
       Offset(size.width * 0.5283078, size.height * 0.7973370),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_101, paint_101_fill);
+    canvas.drawPath(path_101, paint101Fill);
 
     Path path_102 = Path();
     path_102.moveTo(276.18, 209.021);
@@ -14699,14 +14699,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_102.close();
 
-    Paint paint_102_fill = Paint()..style = PaintingStyle.fill;
-    paint_102_fill.shader = ui.Gradient.linear(
+    Paint paint102Fill = Paint()..style = PaintingStyle.fill;
+    paint102Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5846080, size.height * 0.6546557),
       Offset(size.width * 0.5141281, size.height * 0.7645458),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_102, paint_102_fill);
+    canvas.drawPath(path_102, paint102Fill);
 
     Path path_103 = Path();
     path_103.moveTo(276.69, 208.02);
@@ -14744,14 +14744,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_103.close();
 
-    Paint paint_103_fill = Paint()..style = PaintingStyle.fill;
-    paint_103_fill.shader = ui.Gradient.linear(
+    Paint paint103Fill = Paint()..style = PaintingStyle.fill;
+    paint103Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5840344, size.height * 0.6500293),
       Offset(size.width * 0.5139446, size.height * 0.7593150),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_103, paint_103_fill);
+    canvas.drawPath(path_103, paint103Fill);
 
     Path path_104 = Path();
     path_104.moveTo(277.31, 207.951);
@@ -14775,14 +14775,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_104.close();
 
-    Paint paint_104_fill = Paint()..style = PaintingStyle.fill;
-    paint_104_fill.shader = ui.Gradient.linear(
+    Paint paint104Fill = Paint()..style = PaintingStyle.fill;
+    paint104Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5965143, size.height * 0.6530147),
       Offset(size.width * 0.5174321, size.height * 0.7763223),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_104, paint_104_fill);
+    canvas.drawPath(path_104, paint104Fill);
 
     Path path_105 = Path();
     path_105.moveTo(271.81, 175.74);
@@ -14861,9 +14861,9 @@ class BackMountainPainter extends CustomPainter {
     );
     path_105.close();
 
-    Paint paint_105_fill = Paint()..style = PaintingStyle.fill;
-    paint_105_fill.color = Color(0xffB7AC27).withOpacity(1.0);
-    canvas.drawPath(path_105, paint_105_fill);
+    Paint paint105Fill = Paint()..style = PaintingStyle.fill;
+    paint105Fill.color = Color(0xffB7AC27).withOpacity(1.0);
+    canvas.drawPath(path_105, paint105Fill);
 
     Path path_106 = Path();
     path_106.moveTo(175.05, 179.641);
@@ -15051,14 +15051,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_106.close();
 
-    Paint paint_106_fill = Paint()..style = PaintingStyle.fill;
-    paint_106_fill.shader = ui.Gradient.linear(
+    Paint paint106Fill = Paint()..style = PaintingStyle.fill;
+    paint106Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3214340, size.height * 0.8300513),
       Offset(size.width * 0.3335545, size.height * 0.6863846),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_106, paint_106_fill);
+    canvas.drawPath(path_106, paint106Fill);
 
     Path path_107 = Path();
     path_107.moveTo(154.56, 154.17);
@@ -15187,14 +15187,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_107.close();
 
-    Paint paint_107_fill = Paint()..style = PaintingStyle.fill;
-    paint_107_fill.shader = ui.Gradient.linear(
+    Paint paint107Fill = Paint()..style = PaintingStyle.fill;
+    paint107Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3433384, size.height * 0.5001245),
       Offset(size.width * 0.3018489, size.height * 0.5522857),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_107, paint_107_fill);
+    canvas.drawPath(path_107, paint107Fill);
 
     Path path_108 = Path();
     path_108.moveTo(217.13, 200.63);
@@ -15316,14 +15316,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_108.close();
 
-    Paint paint_108_fill = Paint()..style = PaintingStyle.fill;
-    paint_108_fill.shader = ui.Gradient.linear(
+    Paint paint108Fill = Paint()..style = PaintingStyle.fill;
+    paint108Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4586424, size.height * 0.6838059),
       Offset(size.width * 0.3992486, size.height * 0.7738352),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_108, paint_108_fill);
+    canvas.drawPath(path_108, paint108Fill);
 
     Path path_109 = Path();
     path_109.moveTo(214.07, 163);
@@ -15473,14 +15473,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_109.close();
 
-    Paint paint_109_fill = Paint()..style = PaintingStyle.fill;
-    paint_109_fill.shader = ui.Gradient.linear(
+    Paint paint109Fill = Paint()..style = PaintingStyle.fill;
+    paint109Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4371511, size.height * 0.5520549),
       Offset(size.width * 0.3674168, size.height * 0.6372967),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_109, paint_109_fill);
+    canvas.drawPath(path_109, paint109Fill);
 
     Path path_110 = Path();
     path_110.moveTo(479.6, 266.201);
@@ -15512,14 +15512,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_110.close();
 
-    Paint paint_110_fill = Paint()..style = PaintingStyle.fill;
-    paint_110_fill.shader = ui.Gradient.linear(
+    Paint paint110Fill = Paint()..style = PaintingStyle.fill;
+    paint110Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.9445143, size.height * 0.8529084),
       Offset(size.width * 0.9033499, size.height * 0.9861722),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_110, paint_110_fill);
+    canvas.drawPath(path_110, paint110Fill);
 
     Path path_111 = Path();
     path_111.moveTo(522.2, 271.771);
@@ -15531,14 +15531,14 @@ class BackMountainPainter extends CustomPainter {
     path_111.lineTo(522.2, 271.771);
     path_111.close();
 
-    Paint paint_111_fill = Paint()..style = PaintingStyle.fill;
-    paint_111_fill.shader = ui.Gradient.linear(
+    Paint paint111Fill = Paint()..style = PaintingStyle.fill;
+    paint111Fill.shader = ui.Gradient.linear(
       Offset(size.width * 1.030153, size.height * 0.8017289),
       Offset(size.width * 0.9743289, size.height * 0.9863187),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_111, paint_111_fill);
+    canvas.drawPath(path_111, paint111Fill);
 
     Path path_112 = Path();
     path_112.moveTo(474.61, 233.17);
@@ -20815,14 +20815,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_112.close();
 
-    Paint paint_112_fill = Paint()..style = PaintingStyle.fill;
-    paint_112_fill.shader = ui.Gradient.linear(
+    Paint paint112Fill = Paint()..style = PaintingStyle.fill;
+    paint112Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.1829101, size.height * 0.4668242),
       Offset(size.width * 0.3542620, size.height * 0.5566044),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_112, paint_112_fill);
+    canvas.drawPath(path_112, paint112Fill);
 
     Path path_113 = Path();
     path_113.moveTo(389.96, 205.34);
@@ -20847,14 +20847,14 @@ class BackMountainPainter extends CustomPainter {
     path_113.lineTo(389.96, 205.34000000000003);
     path_113.close();
 
-    Paint paint_113_fill = Paint()..style = PaintingStyle.fill;
-    paint_113_fill.shader = ui.Gradient.linear(
+    Paint paint113Fill = Paint()..style = PaintingStyle.fill;
+    paint113Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7781377, size.height * 0.6896996),
       Offset(size.width * 0.7574054, size.height * 0.7582527),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_113, paint_113_fill);
+    canvas.drawPath(path_113, paint113Fill);
 
     Path path_114 = Path();
     path_114.moveTo(391.06, 194.831);
@@ -20878,14 +20878,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_114.close();
 
-    Paint paint_114_fill = Paint()..style = PaintingStyle.fill;
-    paint_114_fill.shader = ui.Gradient.linear(
+    Paint paint114Fill = Paint()..style = PaintingStyle.fill;
+    paint114Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7797763, size.height * 0.6415385),
       Offset(size.width * 0.7524436, size.height * 0.7319231),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_114, paint_114_fill);
+    canvas.drawPath(path_114, paint114Fill);
 
     Path path_115 = Path();
     path_115.moveTo(160.49, 122.739);
@@ -20916,14 +20916,14 @@ class BackMountainPainter extends CustomPainter {
     );
     path_115.close();
 
-    Paint paint_115_fill = Paint()..style = PaintingStyle.fill;
-    paint_115_fill.shader = ui.Gradient.linear(
+    Paint paint115Fill = Paint()..style = PaintingStyle.fill;
+    paint115Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3398011, size.height * 0.3221355),
       Offset(size.width * 0.3015813, size.height * 0.4485128),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_115, paint_115_fill);
+    canvas.drawPath(path_115, paint115Fill);
   }
 
   @override
@@ -21086,14 +21086,14 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.shader = ui.Gradient.linear(
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4570634, size.height * 0.04342433),
       Offset(size.width * 0.4488515, size.height * 0.08098516),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_0, paint_0_fill);
+    canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
     path_1.moveTo(242.84, 13.41);
@@ -21246,14 +21246,14 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_1.close();
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.shader = ui.Gradient.linear(
+    Paint paint1Fill = Paint()..style = PaintingStyle.fill;
+    paint1Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5318931, size.height * -5.248665),
       Offset(size.width * 0.4817327, size.height * 0.04870030),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_1, paint_1_fill);
+    canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
     path_2.moveTo(412.96, 278.061);
@@ -21293,9 +21293,9 @@ class FrontMountainPainter extends CustomPainter {
     path_2.lineTo(388.87, 274.04999999999995);
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.color = Color(0xff9E9826).withOpacity(1.0);
-    canvas.drawPath(path_2, paint_2_fill);
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.color = Color(0xff9E9826).withOpacity(1.0);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(399.88, 257.001);
@@ -21321,9 +21321,9 @@ class FrontMountainPainter extends CustomPainter {
     path_3.lineTo(399.88, 257.00100000000003);
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.color = Color(0xff9E9826).withOpacity(1.0);
-    canvas.drawPath(path_3, paint_3_fill);
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.color = Color(0xff9E9826).withOpacity(1.0);
+    canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
     path_4.moveTo(432.08, 275.05);
@@ -21371,9 +21371,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.color = Color(0xff9E9826).withOpacity(1.0);
-    canvas.drawPath(path_4, paint_4_fill);
+    Paint paint4Fill = Paint()..style = PaintingStyle.fill;
+    paint4Fill.color = Color(0xff9E9826).withOpacity(1.0);
+    canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
     path_5.moveTo(427.27, 261.891);
@@ -21414,9 +21414,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_5.close();
 
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.color = Color(0xff9E9826).withOpacity(1.0);
-    canvas.drawPath(path_5, paint_5_fill);
+    Paint paint5Fill = Paint()..style = PaintingStyle.fill;
+    paint5Fill.color = Color(0xff9E9826).withOpacity(1.0);
+    canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
     path_6.moveTo(424.52, 243.03);
@@ -21658,9 +21658,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_6.close();
 
-    Paint paint_6_fill = Paint()..style = PaintingStyle.fill;
-    paint_6_fill.color = Color(0xff9E9826).withOpacity(1.0);
-    canvas.drawPath(path_6, paint_6_fill);
+    Paint paint6Fill = Paint()..style = PaintingStyle.fill;
+    paint6Fill.color = Color(0xff9E9826).withOpacity(1.0);
+    canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
     path_7.moveTo(439.8, 314.611);
@@ -21818,9 +21818,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_7.close();
 
-    Paint paint_7_fill = Paint()..style = PaintingStyle.fill;
-    paint_7_fill.color = Color(0xffB7AC27).withOpacity(1.0);
-    canvas.drawPath(path_7, paint_7_fill);
+    Paint paint7Fill = Paint()..style = PaintingStyle.fill;
+    paint7Fill.color = Color(0xffB7AC27).withOpacity(1.0);
+    canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
     path_8.moveTo(181.93, 114.481);
@@ -21838,14 +21838,14 @@ class FrontMountainPainter extends CustomPainter {
     path_8.lineTo(181.93, 114.48100000000001);
     path_8.close();
 
-    Paint paint_8_fill = Paint()..style = PaintingStyle.fill;
-    paint_8_fill.shader = ui.Gradient.linear(
+    Paint paint8Fill = Paint()..style = PaintingStyle.fill;
+    paint8Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3215426, size.height * 0.4180772),
       Offset(size.width * 0.3570059, size.height * 0.3889763),
       [Color(0xffB59478).withOpacity(1), Color(0xff755C52).withOpacity(1)],
       [0, 0.992],
     );
-    canvas.drawPath(path_8, paint_8_fill);
+    canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
     path_9.moveTo(396.34, 299.051);
@@ -21924,9 +21924,9 @@ class FrontMountainPainter extends CustomPainter {
     path_9.lineTo(370.27, 183.291);
     path_9.close();
 
-    Paint paint_9_fill = Paint()..style = PaintingStyle.fill;
-    paint_9_fill.color = Color(0xff9E9826).withOpacity(1.0);
-    canvas.drawPath(path_9, paint_9_fill);
+    Paint paint9Fill = Paint()..style = PaintingStyle.fill;
+    paint9Fill.color = Color(0xff9E9826).withOpacity(1.0);
+    canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
     path_10.moveTo(93.02, 240.879);
@@ -22079,14 +22079,14 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_10.close();
 
-    Paint paint_10_fill = Paint()..style = PaintingStyle.fill;
-    paint_10_fill.shader = ui.Gradient.linear(
+    Paint paint10Fill = Paint()..style = PaintingStyle.fill;
+    paint10Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.1094931, size.height * 0.6723116),
       Offset(size.width * 0.2225604, size.height * 0.7584481),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_10, paint_10_fill);
+    canvas.drawPath(path_10, paint10Fill);
 
     Path path_11 = Path();
     path_11.moveTo(136.63, 193.249);
@@ -22281,14 +22281,14 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_11.close();
 
-    Paint paint_11_fill = Paint()..style = PaintingStyle.fill;
-    paint_11_fill.shader = ui.Gradient.linear(
+    Paint paint11Fill = Paint()..style = PaintingStyle.fill;
+    paint11Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2405525, size.height * 0.5647864),
       Offset(size.width * 0.2766733, size.height * 0.5860564),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_11, paint_11_fill);
+    canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
     path_12.moveTo(141.11, 154.95);
@@ -22483,14 +22483,14 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_12.close();
 
-    Paint paint_12_fill = Paint()..style = PaintingStyle.fill;
-    paint_12_fill.shader = ui.Gradient.linear(
+    Paint paint12Fill = Paint()..style = PaintingStyle.fill;
+    paint12Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3312218, size.height * 0.5526350),
       Offset(size.width * 0.2563010, size.height * 0.4365252),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_12, paint_12_fill);
+    canvas.drawPath(path_12, paint12Fill);
 
     Path path_13 = Path();
     path_13.moveTo(381.68, 239.101);
@@ -22664,9 +22664,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_13.close();
 
-    Paint paint_13_fill = Paint()..style = PaintingStyle.fill;
-    paint_13_fill.color = Color(0xff9E9826).withOpacity(1.0);
-    canvas.drawPath(path_13, paint_13_fill);
+    Paint paint13Fill = Paint()..style = PaintingStyle.fill;
+    paint13Fill.color = Color(0xff9E9826).withOpacity(1.0);
+    canvas.drawPath(path_13, paint13Fill);
 
     Path path_14 = Path();
     path_14.moveTo(118.55, 238.351);
@@ -22736,9 +22736,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_14.close();
 
-    Paint paint_14_fill = Paint()..style = PaintingStyle.fill;
-    paint_14_fill.color = Color(0xff7F781F).withOpacity(1.0);
-    canvas.drawPath(path_14, paint_14_fill);
+    Paint paint14Fill = Paint()..style = PaintingStyle.fill;
+    paint14Fill.color = Color(0xff7F781F).withOpacity(1.0);
+    canvas.drawPath(path_14, paint14Fill);
 
     Path path_15 = Path();
     path_15.moveTo(40.68, 320.599);
@@ -22755,9 +22755,9 @@ class FrontMountainPainter extends CustomPainter {
     path_15.lineTo(40.68000000000001, 320.59900000000005);
     path_15.close();
 
-    Paint paint_15_fill = Paint()..style = PaintingStyle.fill;
-    paint_15_fill.color = Color(0xffBC6226).withOpacity(1.0);
-    canvas.drawPath(path_15, paint_15_fill);
+    Paint paint15Fill = Paint()..style = PaintingStyle.fill;
+    paint15Fill.color = Color(0xffBC6226).withOpacity(1.0);
+    canvas.drawPath(path_15, paint15Fill);
 
     Path path_16 = Path();
     path_16.moveTo(54.55, 328.13);
@@ -22781,9 +22781,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_16.close();
 
-    Paint paint_16_fill = Paint()..style = PaintingStyle.fill;
-    paint_16_fill.color = Color(0xffF9C04E).withOpacity(1.0);
-    canvas.drawPath(path_16, paint_16_fill);
+    Paint paint16Fill = Paint()..style = PaintingStyle.fill;
+    paint16Fill.color = Color(0xffF9C04E).withOpacity(1.0);
+    canvas.drawPath(path_16, paint16Fill);
 
     Path path_17 = Path();
     path_17.moveTo(302.85, 230.66);
@@ -22802,14 +22802,14 @@ class FrontMountainPainter extends CustomPainter {
     path_17.lineTo(302.85, 230.66);
     path_17.close();
 
-    Paint paint_17_fill = Paint()..style = PaintingStyle.fill;
-    paint_17_fill.shader = ui.Gradient.linear(
+    Paint paint17Fill = Paint()..style = PaintingStyle.fill;
+    paint17Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6447248, size.height * 0.8019021),
       Offset(size.width * 0.6613208, size.height * 0.5619822),
       [Color(0xffB59478).withOpacity(1), Color(0xff8E776C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_17, paint_17_fill);
+    canvas.drawPath(path_17, paint17Fill);
 
     Path path_18 = Path();
     path_18.moveTo(299.91, 223.86);
@@ -22842,14 +22842,14 @@ class FrontMountainPainter extends CustomPainter {
     path_18.lineTo(299.91, 223.85999999999999);
     path_18.close();
 
-    Paint paint_18_fill = Paint()..style = PaintingStyle.fill;
-    paint_18_fill.shader = ui.Gradient.linear(
+    Paint paint18Fill = Paint()..style = PaintingStyle.fill;
+    paint18Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6346040, size.height * 0.7035549),
       Offset(size.width * 0.6319822, size.height * 0.6747448),
       [Color(0xffB59478).withOpacity(1), Color(0xff8E776C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_18, paint_18_fill);
+    canvas.drawPath(path_18, paint18Fill);
 
     Path path_19 = Path();
     path_19.moveTo(353.99, 259.259);
@@ -22893,14 +22893,14 @@ class FrontMountainPainter extends CustomPainter {
     path_19.lineTo(353.99, 259.259);
     path_19.close();
 
-    Paint paint_19_fill = Paint()..style = PaintingStyle.fill;
-    paint_19_fill.shader = ui.Gradient.linear(
+    Paint paint19Fill = Paint()..style = PaintingStyle.fill;
+    paint19Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7176455, size.height * 0.7372077),
       Offset(size.width * 0.7009703, size.height * 0.7218279),
       [Color(0xffB59478).withOpacity(1), Color(0xff8E776C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_19, paint_19_fill);
+    canvas.drawPath(path_19, paint19Fill);
 
     Path path_20 = Path();
     path_20.moveTo(394.13, 308.11);
@@ -22992,9 +22992,9 @@ class FrontMountainPainter extends CustomPainter {
     path_20.lineTo(394.1300000000001, 308.10999999999996);
     path_20.close();
 
-    Paint paint_20_fill = Paint()..style = PaintingStyle.fill;
-    paint_20_fill.color = Color(0xffF2CAA2).withOpacity(1.0);
-    canvas.drawPath(path_20, paint_20_fill);
+    Paint paint20Fill = Paint()..style = PaintingStyle.fill;
+    paint20Fill.color = Color(0xffF2CAA2).withOpacity(1.0);
+    canvas.drawPath(path_20, paint20Fill);
 
     Path path_21 = Path();
     path_21.moveTo(360.79, 201.82);
@@ -23009,14 +23009,14 @@ class FrontMountainPainter extends CustomPainter {
     path_21.lineTo(360.79, 201.82000000000002);
     path_21.close();
 
-    Paint paint_21_fill = Paint()..style = PaintingStyle.fill;
-    paint_21_fill.shader = ui.Gradient.linear(
+    Paint paint21Fill = Paint()..style = PaintingStyle.fill;
+    paint21Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7693762, size.height * 0.5070267),
       Offset(size.width * 0.6243782, size.height * 0.4515786),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_21, paint_21_fill);
+    canvas.drawPath(path_21, paint21Fill);
 
     Path path_22 = Path();
     path_22.moveTo(331.7, 307.12);
@@ -23091,14 +23091,14 @@ class FrontMountainPainter extends CustomPainter {
     path_22.lineTo(331.70000000000005, 307.11999999999995);
     path_22.close();
 
-    Paint paint_22_fill = Paint()..style = PaintingStyle.fill;
-    paint_22_fill.shader = ui.Gradient.linear(
+    Paint paint22Fill = Paint()..style = PaintingStyle.fill;
+    paint22Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7729941, size.height * 0.8608042),
       Offset(size.width * 0.4837842, size.height * 0.4380772),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_22, paint_22_fill);
+    canvas.drawPath(path_22, paint22Fill);
 
     Path path_23 = Path();
     path_23.moveTo(340.84, 110.98);
@@ -23165,14 +23165,14 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_23.close();
 
-    Paint paint_23_fill = Paint()..style = PaintingStyle.fill;
-    paint_23_fill.shader = ui.Gradient.linear(
+    Paint paint23Fill = Paint()..style = PaintingStyle.fill;
+    paint23Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7937168, size.height * 0.7058783),
       Offset(size.width * 0.6280693, size.height * 0.5378457),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_23, paint_23_fill);
+    canvas.drawPath(path_23, paint23Fill);
 
     Path path_24 = Path();
     path_24.moveTo(284.09, 129.789);
@@ -23188,14 +23188,14 @@ class FrontMountainPainter extends CustomPainter {
     path_24.lineTo(284.09000000000003, 129.789);
     path_24.close();
 
-    Paint paint_24_fill = Paint()..style = PaintingStyle.fill;
-    paint_24_fill.shader = ui.Gradient.linear(
+    Paint paint24Fill = Paint()..style = PaintingStyle.fill;
+    paint24Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6527287, size.height * 0.6028190),
       Offset(size.width * 0.5046931, size.height * 0.4053086),
       [Color(0xffB59478).withOpacity(1), Color(0xff8E776C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_24, paint_24_fill);
+    canvas.drawPath(path_24, paint24Fill);
 
     Path path_25 = Path();
     path_25.moveTo(303.64, 91.83);
@@ -23221,14 +23221,14 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_25.close();
 
-    Paint paint_25_fill = Paint()..style = PaintingStyle.fill;
-    paint_25_fill.shader = ui.Gradient.linear(
+    Paint paint25Fill = Paint()..style = PaintingStyle.fill;
+    paint25Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6176554, size.height * 0.5537596),
       Offset(size.width * 0.4716218, size.height * 0.3589199),
       [Color(0xffB59478).withOpacity(1), Color(0xff8E776C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_25, paint_25_fill);
+    canvas.drawPath(path_25, paint25Fill);
 
     Path path_26 = Path();
     path_26.moveTo(255.24, 212.61);
@@ -23312,9 +23312,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_26.close();
 
-    Paint paint_26_fill = Paint()..style = PaintingStyle.fill;
-    paint_26_fill.color = Color(0xff7F781F).withOpacity(1.0);
-    canvas.drawPath(path_26, paint_26_fill);
+    Paint paint26Fill = Paint()..style = PaintingStyle.fill;
+    paint26Fill.color = Color(0xff7F781F).withOpacity(1.0);
+    canvas.drawPath(path_26, paint26Fill);
 
     Path path_27 = Path();
     path_27.moveTo(266.59, 189.399);
@@ -23612,9 +23612,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_27.close();
 
-    Paint paint_27_fill = Paint()..style = PaintingStyle.fill;
-    paint_27_fill.color = Color(0xff7F781F).withOpacity(1.0);
-    canvas.drawPath(path_27, paint_27_fill);
+    Paint paint27Fill = Paint()..style = PaintingStyle.fill;
+    paint27Fill.color = Color(0xff7F781F).withOpacity(1.0);
+    canvas.drawPath(path_27, paint27Fill);
 
     Path path_28 = Path();
     path_28.moveTo(268.54, 211.989);
@@ -23732,9 +23732,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_28.close();
 
-    Paint paint_28_fill = Paint()..style = PaintingStyle.fill;
-    paint_28_fill.color = Color(0xff7F781F).withOpacity(1.0);
-    canvas.drawPath(path_28, paint_28_fill);
+    Paint paint28Fill = Paint()..style = PaintingStyle.fill;
+    paint28Fill.color = Color(0xff7F781F).withOpacity(1.0);
+    canvas.drawPath(path_28, paint28Fill);
 
     Path path_29 = Path();
     path_29.moveTo(275.58, 176.869);
@@ -23840,9 +23840,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_29.close();
 
-    Paint paint_29_fill = Paint()..style = PaintingStyle.fill;
-    paint_29_fill.color = Color(0xff7F781F).withOpacity(1.0);
-    canvas.drawPath(path_29, paint_29_fill);
+    Paint paint29Fill = Paint()..style = PaintingStyle.fill;
+    paint29Fill.color = Color(0xff7F781F).withOpacity(1.0);
+    canvas.drawPath(path_29, paint29Fill);
 
     Path path_30 = Path();
     path_30.moveTo(277.15, 216.26);
@@ -23995,9 +23995,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_30.close();
 
-    Paint paint_30_fill = Paint()..style = PaintingStyle.fill;
-    paint_30_fill.color = Color(0xff7F781F).withOpacity(1.0);
-    canvas.drawPath(path_30, paint_30_fill);
+    Paint paint30Fill = Paint()..style = PaintingStyle.fill;
+    paint30Fill.color = Color(0xff7F781F).withOpacity(1.0);
+    canvas.drawPath(path_30, paint30Fill);
 
     Path path_31 = Path();
     path_31.moveTo(256.98, 202.799);
@@ -24044,9 +24044,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_31.close();
 
-    Paint paint_31_fill = Paint()..style = PaintingStyle.fill;
-    paint_31_fill.color = Color(0xff7F781F).withOpacity(1.0);
-    canvas.drawPath(path_31, paint_31_fill);
+    Paint paint31Fill = Paint()..style = PaintingStyle.fill;
+    paint31Fill.color = Color(0xff7F781F).withOpacity(1.0);
+    canvas.drawPath(path_31, paint31Fill);
 
     Path path_32 = Path();
     path_32.moveTo(259.18, 209.359);
@@ -24220,9 +24220,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_32.close();
 
-    Paint paint_32_fill = Paint()..style = PaintingStyle.fill;
-    paint_32_fill.color = Color(0xff7F781F).withOpacity(1.0);
-    canvas.drawPath(path_32, paint_32_fill);
+    Paint paint32Fill = Paint()..style = PaintingStyle.fill;
+    paint32Fill.color = Color(0xff7F781F).withOpacity(1.0);
+    canvas.drawPath(path_32, paint32Fill);
 
     Path path_33 = Path();
     path_33.moveTo(374.27, 291.539);
@@ -24254,14 +24254,14 @@ class FrontMountainPainter extends CustomPainter {
     path_33.lineTo(374.2699999999999, 291.53900000000004);
     path_33.close();
 
-    Paint paint_33_fill = Paint()..style = PaintingStyle.fill;
-    paint_33_fill.shader = ui.Gradient.linear(
+    Paint paint33Fill = Paint()..style = PaintingStyle.fill;
+    paint33Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7392673, size.height * 0.7642938),
       Offset(size.width * 0.7070040, size.height * 0.8053887),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_33, paint_33_fill);
+    canvas.drawPath(path_33, paint33Fill);
 
     Path path_34 = Path();
     path_34.moveTo(414.94, 324.191);
@@ -24438,9 +24438,9 @@ class FrontMountainPainter extends CustomPainter {
     path_34.lineTo(414.94, 324.1909999999999);
     path_34.close();
 
-    Paint paint_34_fill = Paint()..style = PaintingStyle.fill;
-    paint_34_fill.color = Color(0xff9E9826).withOpacity(1.0);
-    canvas.drawPath(path_34, paint_34_fill);
+    Paint paint34Fill = Paint()..style = PaintingStyle.fill;
+    paint34Fill.color = Color(0xff9E9826).withOpacity(1.0);
+    canvas.drawPath(path_34, paint34Fill);
 
     Path path_35 = Path();
     path_35.moveTo(117.08, 256.191);
@@ -24530,14 +24530,14 @@ class FrontMountainPainter extends CustomPainter {
     path_35.lineTo(117.08000000000001, 256.191);
     path_35.close();
 
-    Paint paint_35_fill = Paint()..style = PaintingStyle.fill;
-    paint_35_fill.shader = ui.Gradient.linear(
+    Paint paint35Fill = Paint()..style = PaintingStyle.fill;
+    paint35Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.1881485, size.height * 0.7972967),
       Offset(size.width * 0.2291347, size.height * 0.8355282),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_35, paint_35_fill);
+    canvas.drawPath(path_35, paint35Fill);
 
     Path path_36 = Path();
     path_36.moveTo(409.96, 313.51);
@@ -24666,9 +24666,9 @@ class FrontMountainPainter extends CustomPainter {
     path_36.lineTo(277.31, 142.699);
     path_36.close();
 
-    Paint paint_36_fill = Paint()..style = PaintingStyle.fill;
-    paint_36_fill.color = Color(0xff7F781F).withOpacity(1.0);
-    canvas.drawPath(path_36, paint_36_fill);
+    Paint paint36Fill = Paint()..style = PaintingStyle.fill;
+    paint36Fill.color = Color(0xff7F781F).withOpacity(1.0);
+    canvas.drawPath(path_36, paint36Fill);
 
     Path path_37 = Path();
     path_37.moveTo(61.11, 324.13);
@@ -25366,14 +25366,14 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_37.close();
 
-    Paint paint_37_fill = Paint()..style = PaintingStyle.fill;
-    paint_37_fill.shader = ui.Gradient.linear(
+    Paint paint37Fill = Paint()..style = PaintingStyle.fill;
+    paint37Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6067545, size.height * 0.4870356),
       Offset(size.width * 0.2935129, size.height * 0.5109288),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_37, paint_37_fill);
+    canvas.drawPath(path_37, paint37Fill);
 
     Path path_38 = Path();
     path_38.moveTo(111.91, 281.43);
@@ -25393,9 +25393,9 @@ class FrontMountainPainter extends CustomPainter {
     path_38.lineTo(111.91, 281.42999999999995);
     path_38.close();
 
-    Paint paint_38_fill = Paint()..style = PaintingStyle.fill;
-    paint_38_fill.color = Color(0xff9E9826).withOpacity(1.0);
-    canvas.drawPath(path_38, paint_38_fill);
+    Paint paint38Fill = Paint()..style = PaintingStyle.fill;
+    paint38Fill.color = Color(0xff9E9826).withOpacity(1.0);
+    canvas.drawPath(path_38, paint38Fill);
 
     Path path_39 = Path();
     path_39.moveTo(172.9, 309.31);
@@ -25717,9 +25717,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_39.close();
 
-    Paint paint_39_fill = Paint()..style = PaintingStyle.fill;
-    paint_39_fill.color = Color(0xff9E9826).withOpacity(1.0);
-    canvas.drawPath(path_39, paint_39_fill);
+    Paint paint39Fill = Paint()..style = PaintingStyle.fill;
+    paint39Fill.color = Color(0xff9E9826).withOpacity(1.0);
+    canvas.drawPath(path_39, paint39Fill);
 
     Path path_40 = Path();
     path_40.moveTo(229.38, 81.66);
@@ -25865,9 +25865,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_40.close();
 
-    Paint paint_40_fill = Paint()..style = PaintingStyle.fill;
-    paint_40_fill.color = Color(0xffD8C72B).withOpacity(1.0);
-    canvas.drawPath(path_40, paint_40_fill);
+    Paint paint40Fill = Paint()..style = PaintingStyle.fill;
+    paint40Fill.color = Color(0xffD8C72B).withOpacity(1.0);
+    canvas.drawPath(path_40, paint40Fill);
 
     Path path_41 = Path();
     path_41.moveTo(216.62, 40.42);
@@ -25960,9 +25960,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_41.close();
 
-    Paint paint_41_fill = Paint()..style = PaintingStyle.fill;
-    paint_41_fill.color = Color(0xff9E9826).withOpacity(1.0);
-    canvas.drawPath(path_41, paint_41_fill);
+    Paint paint41Fill = Paint()..style = PaintingStyle.fill;
+    paint41Fill.color = Color(0xff9E9826).withOpacity(1.0);
+    canvas.drawPath(path_41, paint41Fill);
 
     Path path_42 = Path();
     path_42.moveTo(243.94, 239.85);
@@ -25986,9 +25986,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_42.close();
 
-    Paint paint_42_fill = Paint()..style = PaintingStyle.fill;
-    paint_42_fill.color = Color(0xffD8C72B).withOpacity(1.0);
-    canvas.drawPath(path_42, paint_42_fill);
+    Paint paint42Fill = Paint()..style = PaintingStyle.fill;
+    paint42Fill.color = Color(0xffD8C72B).withOpacity(1.0);
+    canvas.drawPath(path_42, paint42Fill);
 
     Path path_43 = Path();
     path_43.moveTo(211.57, 209.33);
@@ -26215,9 +26215,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_43.close();
 
-    Paint paint_43_fill = Paint()..style = PaintingStyle.fill;
-    paint_43_fill.color = Color(0xffD8C72B).withOpacity(1.0);
-    canvas.drawPath(path_43, paint_43_fill);
+    Paint paint43Fill = Paint()..style = PaintingStyle.fill;
+    paint43Fill.color = Color(0xffD8C72B).withOpacity(1.0);
+    canvas.drawPath(path_43, paint43Fill);
 
     Path path_44 = Path();
     path_44.moveTo(162.39, 295.09);
@@ -26296,14 +26296,14 @@ class FrontMountainPainter extends CustomPainter {
     path_44.lineTo(162.39, 295.0899999999999);
     path_44.close();
 
-    Paint paint_44_fill = Paint()..style = PaintingStyle.fill;
-    paint_44_fill.shader = ui.Gradient.linear(
+    Paint paint44Fill = Paint()..style = PaintingStyle.fill;
+    paint44Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2456911, size.height * 1.014163),
       Offset(size.width * 0.2384891, size.height * 0.9248902),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_44, paint_44_fill);
+    canvas.drawPath(path_44, paint44Fill);
 
     Path path_45 = Path();
     path_45.moveTo(277.99, 289.621);
@@ -26382,14 +26382,14 @@ class FrontMountainPainter extends CustomPainter {
     path_45.lineTo(277.99, 289.62100000000004);
     path_45.close();
 
-    Paint paint_45_fill = Paint()..style = PaintingStyle.fill;
-    paint_45_fill.shader = ui.Gradient.linear(
+    Paint paint45Fill = Paint()..style = PaintingStyle.fill;
+    paint45Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4675663, size.height * 0.9683947),
       Offset(size.width * 0.3865683, size.height * 0.8281988),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_45, paint_45_fill);
+    canvas.drawPath(path_45, paint45Fill);
 
     Path path_46 = Path();
     path_46.moveTo(326.53, 301.551);
@@ -26428,9 +26428,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_46.close();
 
-    Paint paint_46_fill = Paint()..style = PaintingStyle.fill;
-    paint_46_fill.color = Color(0xffCEBF34).withOpacity(1.0);
-    canvas.drawPath(path_46, paint_46_fill);
+    Paint paint46Fill = Paint()..style = PaintingStyle.fill;
+    paint46Fill.color = Color(0xffCEBF34).withOpacity(1.0);
+    canvas.drawPath(path_46, paint46Fill);
 
     Path path_47 = Path();
     path_47.moveTo(199.43, 306.631);
@@ -26725,9 +26725,9 @@ class FrontMountainPainter extends CustomPainter {
     path_47.lineTo(178.14999999999998, 311.71999999999997);
     path_47.close();
 
-    Paint paint_47_fill = Paint()..style = PaintingStyle.fill;
-    paint_47_fill.color = Color(0xffB7AC27).withOpacity(1.0);
-    canvas.drawPath(path_47, paint_47_fill);
+    Paint paint47Fill = Paint()..style = PaintingStyle.fill;
+    paint47Fill.color = Color(0xffB7AC27).withOpacity(1.0);
+    canvas.drawPath(path_47, paint47Fill);
 
     Path path_48 = Path();
     path_48.moveTo(437.17, 328.129);
@@ -26775,9 +26775,9 @@ class FrontMountainPainter extends CustomPainter {
     path_48.lineTo(437.17, 328.1290000000001);
     path_48.close();
 
-    Paint paint_48_fill = Paint()..style = PaintingStyle.fill;
-    paint_48_fill.color = Color(0xffF9C04E).withOpacity(1.0);
-    canvas.drawPath(path_48, paint_48_fill);
+    Paint paint48Fill = Paint()..style = PaintingStyle.fill;
+    paint48Fill.color = Color(0xffF9C04E).withOpacity(1.0);
+    canvas.drawPath(path_48, paint48Fill);
 
     Path path_49 = Path();
     path_49.moveTo(172.79, 317.95);
@@ -26823,9 +26823,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_49.close();
 
-    Paint paint_49_fill = Paint()..style = PaintingStyle.fill;
-    paint_49_fill.color = Color(0xffFFDD50).withOpacity(1.0);
-    canvas.drawPath(path_49, paint_49_fill);
+    Paint paint49Fill = Paint()..style = PaintingStyle.fill;
+    paint49Fill.color = Color(0xffFFDD50).withOpacity(1.0);
+    canvas.drawPath(path_49, paint49Fill);
 
     Path path_50 = Path();
     path_50.moveTo(253.09, 302.529);
@@ -26864,9 +26864,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_50.close();
 
-    Paint paint_50_fill = Paint()..style = PaintingStyle.fill;
-    paint_50_fill.color = Color(0xffEAA326).withOpacity(1.0);
-    canvas.drawPath(path_50, paint_50_fill);
+    Paint paint50Fill = Paint()..style = PaintingStyle.fill;
+    paint50Fill.color = Color(0xffEAA326).withOpacity(1.0);
+    canvas.drawPath(path_50, paint50Fill);
 
     Path path_51 = Path();
     path_51.moveTo(58.69, 316.84);
@@ -26904,14 +26904,14 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_51.close();
 
-    Paint paint_51_fill = Paint()..style = PaintingStyle.fill;
-    paint_51_fill.shader = ui.Gradient.linear(
+    Paint paint51Fill = Paint()..style = PaintingStyle.fill;
+    paint51Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.1850515, size.height * 0.8475668),
       Offset(size.width * 0.1062713, size.height * 0.9698872),
       [Color(0xffB59478).withOpacity(1), Color(0xff8E776C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_51, paint_51_fill);
+    canvas.drawPath(path_51, paint51Fill);
 
     Path path_52 = Path();
     path_52.moveTo(67.68, 303.12);
@@ -26949,14 +26949,14 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_52.close();
 
-    Paint paint_52_fill = Paint()..style = PaintingStyle.fill;
-    paint_52_fill.shader = ui.Gradient.linear(
+    Paint paint52Fill = Paint()..style = PaintingStyle.fill;
+    paint52Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.1876871, size.height * 0.7843591),
       Offset(size.width * 0.1434614, size.height * 0.9131157),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_52, paint_52_fill);
+    canvas.drawPath(path_52, paint52Fill);
 
     Path path_53 = Path();
     path_53.moveTo(272.67, 268.34);
@@ -26973,9 +26973,9 @@ class FrontMountainPainter extends CustomPainter {
     path_53.cubicTo(280.23, 266.85, 272.67, 268.34, 272.67, 268.34);
     path_53.close();
 
-    Paint paint_53_fill = Paint()..style = PaintingStyle.fill;
-    paint_53_fill.color = Color(0xffB7AC27).withOpacity(1.0);
-    canvas.drawPath(path_53, paint_53_fill);
+    Paint paint53Fill = Paint()..style = PaintingStyle.fill;
+    paint53Fill.color = Color(0xffB7AC27).withOpacity(1.0);
+    canvas.drawPath(path_53, paint53Fill);
 
     Path path_54 = Path();
     path_54.moveTo(246.13, 205.15);
@@ -27052,9 +27052,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_54.close();
 
-    Paint paint_54_fill = Paint()..style = PaintingStyle.fill;
-    paint_54_fill.color = Color(0xffCEBF34).withOpacity(1.0);
-    canvas.drawPath(path_54, paint_54_fill);
+    Paint paint54Fill = Paint()..style = PaintingStyle.fill;
+    paint54Fill.color = Color(0xffCEBF34).withOpacity(1.0);
+    canvas.drawPath(path_54, paint54Fill);
 
     Path path_55 = Path();
     path_55.moveTo(276.19, 71.61);
@@ -27188,9 +27188,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_55.close();
 
-    Paint paint_55_fill = Paint()..style = PaintingStyle.fill;
-    paint_55_fill.color = Color(0xffEFD830).withOpacity(1.0);
-    canvas.drawPath(path_55, paint_55_fill);
+    Paint paint55Fill = Paint()..style = PaintingStyle.fill;
+    paint55Fill.color = Color(0xffEFD830).withOpacity(1.0);
+    canvas.drawPath(path_55, paint55Fill);
 
     Path path_56 = Path();
     path_56.moveTo(279.34, 63.18);
@@ -27228,9 +27228,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_56.close();
 
-    Paint paint_56_fill = Paint()..style = PaintingStyle.fill;
-    paint_56_fill.color = Color(0xffEFD830).withOpacity(1.0);
-    canvas.drawPath(path_56, paint_56_fill);
+    Paint paint56Fill = Paint()..style = PaintingStyle.fill;
+    paint56Fill.color = Color(0xffEFD830).withOpacity(1.0);
+    canvas.drawPath(path_56, paint56Fill);
 
     Path path_57 = Path();
     path_57.moveTo(181.86, 86.13);
@@ -27342,14 +27342,14 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_57.close();
 
-    Paint paint_57_fill = Paint()..style = PaintingStyle.fill;
-    paint_57_fill.shader = ui.Gradient.linear(
+    Paint paint57Fill = Paint()..style = PaintingStyle.fill;
+    paint57Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4316554, size.height * 0.2026558),
       Offset(size.width * 0.3410970, size.height * 0.2808724),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_57, paint_57_fill);
+    canvas.drawPath(path_57, paint57Fill);
 
     Path path_58 = Path();
     path_58.moveTo(190.47, 87.212);
@@ -27373,14 +27373,14 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_58.close();
 
-    Paint paint_58_fill = Paint()..style = PaintingStyle.fill;
-    paint_58_fill.shader = ui.Gradient.linear(
+    Paint paint58Fill = Paint()..style = PaintingStyle.fill;
+    paint58Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4313822, size.height * 0.2019614),
       Offset(size.width * 0.3411168, size.height * 0.2799288),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_58, paint_58_fill);
+    canvas.drawPath(path_58, paint58Fill);
 
     Path path_59 = Path();
     path_59.moveTo(285.79, 111.829);
@@ -27411,9 +27411,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_59.close();
 
-    Paint paint_59_fill = Paint()..style = PaintingStyle.fill;
-    paint_59_fill.color = Color(0xffD8C72B).withOpacity(1.0);
-    canvas.drawPath(path_59, paint_59_fill);
+    Paint paint59Fill = Paint()..style = PaintingStyle.fill;
+    paint59Fill.color = Color(0xffD8C72B).withOpacity(1.0);
+    canvas.drawPath(path_59, paint59Fill);
 
     Path path_60 = Path();
     path_60.moveTo(285.84, 111.639);
@@ -27485,9 +27485,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_60.close();
 
-    Paint paint_60_fill = Paint()..style = PaintingStyle.fill;
-    paint_60_fill.color = Color(0xffD8C72B).withOpacity(1.0);
-    canvas.drawPath(path_60, paint_60_fill);
+    Paint paint60Fill = Paint()..style = PaintingStyle.fill;
+    paint60Fill.color = Color(0xffD8C72B).withOpacity(1.0);
+    canvas.drawPath(path_60, paint60Fill);
 
     Path path_61 = Path();
     path_61.moveTo(285.89, 111.879);
@@ -27525,9 +27525,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_61.close();
 
-    Paint paint_61_fill = Paint()..style = PaintingStyle.fill;
-    paint_61_fill.color = Color(0xffD8C72B).withOpacity(1.0);
-    canvas.drawPath(path_61, paint_61_fill);
+    Paint paint61Fill = Paint()..style = PaintingStyle.fill;
+    paint61Fill.color = Color(0xffD8C72B).withOpacity(1.0);
+    canvas.drawPath(path_61, paint61Fill);
 
     Path path_62 = Path();
     path_62.moveTo(116.06, 211.311);
@@ -27537,9 +27537,9 @@ class FrontMountainPainter extends CustomPainter {
     path_62.cubicTo(122.66, 210.961, 119.38, 209.961, 116.06, 211.311);
     path_62.close();
 
-    Paint paint_62_fill = Paint()..style = PaintingStyle.fill;
-    paint_62_fill.color = Color(0xff9E9826).withOpacity(1.0);
-    canvas.drawPath(path_62, paint_62_fill);
+    Paint paint62Fill = Paint()..style = PaintingStyle.fill;
+    paint62Fill.color = Color(0xff9E9826).withOpacity(1.0);
+    canvas.drawPath(path_62, paint62Fill);
 
     Path path_63 = Path();
     path_63.moveTo(191.18, 234.699);
@@ -27570,9 +27570,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_63.close();
 
-    Paint paint_63_fill = Paint()..style = PaintingStyle.fill;
-    paint_63_fill.color = Color(0xffD8C72B).withOpacity(1.0);
-    canvas.drawPath(path_63, paint_63_fill);
+    Paint paint63Fill = Paint()..style = PaintingStyle.fill;
+    paint63Fill.color = Color(0xffD8C72B).withOpacity(1.0);
+    canvas.drawPath(path_63, paint63Fill);
 
     Path path_64 = Path();
     path_64.moveTo(191.38, 234.54);
@@ -27616,9 +27616,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_64.close();
 
-    Paint paint_64_fill = Paint()..style = PaintingStyle.fill;
-    paint_64_fill.color = Color(0xffD8C72B).withOpacity(1.0);
-    canvas.drawPath(path_64, paint_64_fill);
+    Paint paint64Fill = Paint()..style = PaintingStyle.fill;
+    paint64Fill.color = Color(0xffD8C72B).withOpacity(1.0);
+    canvas.drawPath(path_64, paint64Fill);
 
     Path path_65 = Path();
     path_65.moveTo(191.25, 234.85);
@@ -27635,9 +27635,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_65.close();
 
-    Paint paint_65_fill = Paint()..style = PaintingStyle.fill;
-    paint_65_fill.color = Color(0xffD8C72B).withOpacity(1.0);
-    canvas.drawPath(path_65, paint_65_fill);
+    Paint paint65Fill = Paint()..style = PaintingStyle.fill;
+    paint65Fill.color = Color(0xffD8C72B).withOpacity(1.0);
+    canvas.drawPath(path_65, paint65Fill);
 
     Path path_66 = Path();
     path_66.moveTo(381.83, 83.3);
@@ -27713,9 +27713,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_66.close();
 
-    Paint paint_66_fill = Paint()..style = PaintingStyle.fill;
-    paint_66_fill.color = Color(0xffEFD830).withOpacity(1.0);
-    canvas.drawPath(path_66, paint_66_fill);
+    Paint paint66Fill = Paint()..style = PaintingStyle.fill;
+    paint66Fill.color = Color(0xffEFD830).withOpacity(1.0);
+    canvas.drawPath(path_66, paint66Fill);
 
     Path path_67 = Path();
     path_67.moveTo(360.39, 202.959);
@@ -27765,9 +27765,9 @@ class FrontMountainPainter extends CustomPainter {
     path_67.lineTo(362.15, 193.341);
     path_67.close();
 
-    Paint paint_67_fill = Paint()..style = PaintingStyle.fill;
-    paint_67_fill.color = Color(0xff9E9826).withOpacity(1.0);
-    canvas.drawPath(path_67, paint_67_fill);
+    Paint paint67Fill = Paint()..style = PaintingStyle.fill;
+    paint67Fill.color = Color(0xff9E9826).withOpacity(1.0);
+    canvas.drawPath(path_67, paint67Fill);
 
     Path path_68 = Path();
     path_68.moveTo(378.27, 317.57);
@@ -27803,9 +27803,9 @@ class FrontMountainPainter extends CustomPainter {
     path_68.lineTo(392.08, 316.641);
     path_68.close();
 
-    Paint paint_68_fill = Paint()..style = PaintingStyle.fill;
-    paint_68_fill.color = Color(0xffB7AC27).withOpacity(1.0);
-    canvas.drawPath(path_68, paint_68_fill);
+    Paint paint68Fill = Paint()..style = PaintingStyle.fill;
+    paint68Fill.color = Color(0xffB7AC27).withOpacity(1.0);
+    canvas.drawPath(path_68, paint68Fill);
 
     Path path_69 = Path();
     path_69.moveTo(433.8, 327.61);
@@ -27826,9 +27826,9 @@ class FrontMountainPainter extends CustomPainter {
     path_69.lineTo(433.7999999999999, 327.61);
     path_69.close();
 
-    Paint paint_69_fill = Paint()..style = PaintingStyle.fill;
-    paint_69_fill.color = Color(0xffFFDD50).withOpacity(1.0);
-    canvas.drawPath(path_69, paint_69_fill);
+    Paint paint69Fill = Paint()..style = PaintingStyle.fill;
+    paint69Fill.color = Color(0xffFFDD50).withOpacity(1.0);
+    canvas.drawPath(path_69, paint69Fill);
 
     Path path_70 = Path();
     path_70.moveTo(451.83, 328.621);
@@ -27841,14 +27841,14 @@ class FrontMountainPainter extends CustomPainter {
     path_70.lineTo(451.83, 328.621);
     path_70.close();
 
-    Paint paint_70_fill = Paint()..style = PaintingStyle.fill;
-    paint_70_fill.shader = ui.Gradient.linear(
+    Paint paint70Fill = Paint()..style = PaintingStyle.fill;
+    paint70Fill.shader = ui.Gradient.linear(
       Offset(size.width * 1.067121, size.height * 0.9032819),
       Offset(size.width * 0.7783683, size.height * 0.9666053),
       [Color(0xffD8B187).withOpacity(1), Color(0xff8E776C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_70, paint_70_fill);
+    canvas.drawPath(path_70, paint70Fill);
 
     Path path_71 = Path();
     path_71.moveTo(501.01, 317.461);
@@ -27875,14 +27875,14 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_71.close();
 
-    Paint paint_71_fill = Paint()..style = PaintingStyle.fill;
-    paint_71_fill.shader = ui.Gradient.linear(
+    Paint paint71Fill = Paint()..style = PaintingStyle.fill;
+    paint71Fill.shader = ui.Gradient.linear(
       Offset(size.width * 1.065356, size.height * 0.7541395),
       Offset(size.width * 0.9494475, size.height * 0.9366736),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_71, paint_71_fill);
+    canvas.drawPath(path_71, paint71Fill);
 
     Path path_72 = Path();
     path_72.moveTo(504.32, 319.761);
@@ -27910,14 +27910,14 @@ class FrontMountainPainter extends CustomPainter {
     path_72.lineTo(504.31999999999994, 319.76099999999997);
     path_72.close();
 
-    Paint paint_72_fill = Paint()..style = PaintingStyle.fill;
-    paint_72_fill.shader = ui.Gradient.linear(
+    Paint paint72Fill = Paint()..style = PaintingStyle.fill;
+    paint72Fill.shader = ui.Gradient.linear(
       Offset(size.width * 1.028475, size.height * 0.9072433),
       Offset(size.width * 0.8926099, size.height * 0.9463501),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_72, paint_72_fill);
+    canvas.drawPath(path_72, paint72Fill);
 
     Path path_73 = Path();
     path_73.moveTo(353.93, 239.679);
@@ -27953,14 +27953,14 @@ class FrontMountainPainter extends CustomPainter {
     path_73.lineTo(353.92999999999995, 239.679);
     path_73.close();
 
-    Paint paint_73_fill = Paint()..style = PaintingStyle.fill;
-    paint_73_fill.shader = ui.Gradient.linear(
+    Paint paint73Fill = Paint()..style = PaintingStyle.fill;
+    paint73Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7063149, size.height * 0.7494985),
       Offset(size.width * 0.7037465, size.height * 0.7414214),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_73, paint_73_fill);
+    canvas.drawPath(path_73, paint73Fill);
 
     Path path_74 = Path();
     path_74.moveTo(324.13, 180.229);
@@ -28008,14 +28008,14 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_74.close();
 
-    Paint paint_74_fill = Paint()..style = PaintingStyle.fill;
-    paint_74_fill.shader = ui.Gradient.linear(
+    Paint paint74Fill = Paint()..style = PaintingStyle.fill;
+    paint74Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7072139, size.height * 0.6393591),
       Offset(size.width * 0.6738099, size.height * 0.5912463),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_74, paint_74_fill);
+    canvas.drawPath(path_74, paint74Fill);
 
     Path path_75 = Path();
     path_75.moveTo(301.33, 197.509);
@@ -28048,14 +28048,14 @@ class FrontMountainPainter extends CustomPainter {
     path_75.lineTo(301.33, 197.509);
     path_75.close();
 
-    Paint paint_75_fill = Paint()..style = PaintingStyle.fill;
-    paint_75_fill.shader = ui.Gradient.linear(
+    Paint paint75Fill = Paint()..style = PaintingStyle.fill;
+    paint75Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6336238, size.height * 0.6316320),
       Offset(size.width * 0.4955168, size.height * 0.5788190),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_75, paint_75_fill);
+    canvas.drawPath(path_75, paint75Fill);
 
     Path path_76 = Path();
     path_76.moveTo(327.29, 133.351);
@@ -28067,14 +28067,14 @@ class FrontMountainPainter extends CustomPainter {
     path_76.lineTo(327.29, 133.35100000000003);
     path_76.close();
 
-    Paint paint_76_fill = Paint()..style = PaintingStyle.fill;
-    paint_76_fill.shader = ui.Gradient.linear(
+    Paint paint76Fill = Paint()..style = PaintingStyle.fill;
+    paint76Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6238832, size.height * 0.3777151),
       Offset(size.width * 0.7069149, size.height * 0.5106558),
       [Color(0xffB59478).withOpacity(1), Color(0xff8E776C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_76, paint_76_fill);
+    canvas.drawPath(path_76, paint76Fill);
 
     Path path_77 = Path();
     path_77.moveTo(350.09, 107.149);
@@ -28147,9 +28147,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_77.close();
 
-    Paint paint_77_fill = Paint()..style = PaintingStyle.fill;
-    paint_77_fill.color = Color(0xff7F781F).withOpacity(1.0);
-    canvas.drawPath(path_77, paint_77_fill);
+    Paint paint77Fill = Paint()..style = PaintingStyle.fill;
+    paint77Fill.color = Color(0xff7F781F).withOpacity(1.0);
+    canvas.drawPath(path_77, paint77Fill);
 
     Path path_78 = Path();
     path_78.moveTo(313.41, 115.301);
@@ -28200,9 +28200,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_78.close();
 
-    Paint paint_78_fill = Paint()..style = PaintingStyle.fill;
-    paint_78_fill.color = Color(0xffEFD830).withOpacity(1.0);
-    canvas.drawPath(path_78, paint_78_fill);
+    Paint paint78Fill = Paint()..style = PaintingStyle.fill;
+    paint78Fill.color = Color(0xffEFD830).withOpacity(1.0);
+    canvas.drawPath(path_78, paint78Fill);
 
     Path path_79 = Path();
     path_79.moveTo(246.3, 126.4);
@@ -28383,9 +28383,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_79.close();
 
-    Paint paint_79_fill = Paint()..style = PaintingStyle.fill;
-    paint_79_fill.color = Color(0xff9E9826).withOpacity(1.0);
-    canvas.drawPath(path_79, paint_79_fill);
+    Paint paint79Fill = Paint()..style = PaintingStyle.fill;
+    paint79Fill.color = Color(0xff9E9826).withOpacity(1.0);
+    canvas.drawPath(path_79, paint79Fill);
 
     Path path_80 = Path();
     path_80.moveTo(159.86, 194.881);
@@ -28577,9 +28577,9 @@ class FrontMountainPainter extends CustomPainter {
     path_80.lineTo(159.86000000000007, 194.88100000000003);
     path_80.close();
 
-    Paint paint_80_fill = Paint()..style = PaintingStyle.fill;
-    paint_80_fill.color = Color(0xffD8C72B).withOpacity(1.0);
-    canvas.drawPath(path_80, paint_80_fill);
+    Paint paint80Fill = Paint()..style = PaintingStyle.fill;
+    paint80Fill.color = Color(0xffD8C72B).withOpacity(1.0);
+    canvas.drawPath(path_80, paint80Fill);
 
     Path path_81 = Path();
     path_81.moveTo(195.93, 136.931);
@@ -28666,9 +28666,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_81.close();
 
-    Paint paint_81_fill = Paint()..style = PaintingStyle.fill;
-    paint_81_fill.color = Color(0xffB7AC27).withOpacity(1.0);
-    canvas.drawPath(path_81, paint_81_fill);
+    Paint paint81Fill = Paint()..style = PaintingStyle.fill;
+    paint81Fill.color = Color(0xffB7AC27).withOpacity(1.0);
+    canvas.drawPath(path_81, paint81Fill);
 
     Path path_82 = Path();
     path_82.moveTo(214.88, 104.961);
@@ -28699,9 +28699,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_82.close();
 
-    Paint paint_82_fill = Paint()..style = PaintingStyle.fill;
-    paint_82_fill.color = Color(0xffB7AC27).withOpacity(1.0);
-    canvas.drawPath(path_82, paint_82_fill);
+    Paint paint82Fill = Paint()..style = PaintingStyle.fill;
+    paint82Fill.color = Color(0xffB7AC27).withOpacity(1.0);
+    canvas.drawPath(path_82, paint82Fill);
 
     Path path_83 = Path();
     path_83.moveTo(485.88, 298.591);
@@ -28726,14 +28726,14 @@ class FrontMountainPainter extends CustomPainter {
     path_83.lineTo(485.88, 298.59099999999995);
     path_83.close();
 
-    Paint paint_83_fill = Paint()..style = PaintingStyle.fill;
-    paint_83_fill.shader = ui.Gradient.linear(
+    Paint paint83Fill = Paint()..style = PaintingStyle.fill;
+    paint83Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.9768257, size.height * 0.9071306),
       Offset(size.width * 0.8610653, size.height * 0.9404481),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_83, paint_83_fill);
+    canvas.drawPath(path_83, paint83Fill);
 
     Path path_84 = Path();
     path_84.moveTo(495.12, 328.62);
@@ -28749,14 +28749,14 @@ class FrontMountainPainter extends CustomPainter {
     path_84.lineTo(495.12, 328.62);
     path_84.close();
 
-    Paint paint_84_fill = Paint()..style = PaintingStyle.fill;
-    paint_84_fill.shader = ui.Gradient.linear(
+    Paint paint84Fill = Paint()..style = PaintingStyle.fill;
+    paint84Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.9310099, size.height * 0.8408961),
       Offset(size.width * 0.9000257, size.height * 1.012570),
       [Color(0xffD8B187).withOpacity(1), Color(0xff8E776C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_84, paint_84_fill);
+    canvas.drawPath(path_84, paint84Fill);
 
     Path path_85 = Path();
     path_85.moveTo(488.19, 328.62);
@@ -28775,14 +28775,14 @@ class FrontMountainPainter extends CustomPainter {
     path_85.lineTo(488.19, 328.61999999999995);
     path_85.close();
 
-    Paint paint_85_fill = Paint()..style = PaintingStyle.fill;
-    paint_85_fill.shader = ui.Gradient.linear(
+    Paint paint85Fill = Paint()..style = PaintingStyle.fill;
+    paint85Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.9622634, size.height * 0.9070297),
       Offset(size.width * 0.9518950, size.height * 0.9691691),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_85, paint_85_fill);
+    canvas.drawPath(path_85, paint85Fill);
 
     Path path_86 = Path();
     path_86.moveTo(293.55, 154.189);
@@ -28813,9 +28813,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_86.close();
 
-    Paint paint_86_fill = Paint()..style = PaintingStyle.fill;
-    paint_86_fill.color = Color(0xffEFD830).withOpacity(1.0);
-    canvas.drawPath(path_86, paint_86_fill);
+    Paint paint86Fill = Paint()..style = PaintingStyle.fill;
+    paint86Fill.color = Color(0xffEFD830).withOpacity(1.0);
+    canvas.drawPath(path_86, paint86Fill);
 
     Path path_87 = Path();
     path_87.moveTo(229.07, 270.2);
@@ -28829,9 +28829,9 @@ class FrontMountainPainter extends CustomPainter {
     path_87.lineTo(229.07, 270.2);
     path_87.close();
 
-    Paint paint_87_fill = Paint()..style = PaintingStyle.fill;
-    paint_87_fill.color = Color(0xff9E9826).withOpacity(1.0);
-    canvas.drawPath(path_87, paint_87_fill);
+    Paint paint87Fill = Paint()..style = PaintingStyle.fill;
+    paint87Fill.color = Color(0xff9E9826).withOpacity(1.0);
+    canvas.drawPath(path_87, paint87Fill);
 
     Path path_88 = Path();
     path_88.moveTo(366.91, 299.029);
@@ -29008,9 +29008,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_88.close();
 
-    Paint paint_88_fill = Paint()..style = PaintingStyle.fill;
-    paint_88_fill.color = Color(0xffD8C72B).withOpacity(1.0);
-    canvas.drawPath(path_88, paint_88_fill);
+    Paint paint88Fill = Paint()..style = PaintingStyle.fill;
+    paint88Fill.color = Color(0xffD8C72B).withOpacity(1.0);
+    canvas.drawPath(path_88, paint88Fill);
 
     Path path_89 = Path();
     path_89.moveTo(336.22, 283.931);
@@ -29048,14 +29048,14 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_89.close();
 
-    Paint paint_89_fill = Paint()..style = PaintingStyle.fill;
-    paint_89_fill.shader = ui.Gradient.linear(
+    Paint paint89Fill = Paint()..style = PaintingStyle.fill;
+    paint89Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6031822, size.height * 0.8298457),
       Offset(size.width * 0.6657802, size.height * 0.8298457),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_89, paint_89_fill);
+    canvas.drawPath(path_89, paint89Fill);
 
     Path path_90 = Path();
     path_90.moveTo(337.69, 281.751);
@@ -29086,14 +29086,14 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_90.close();
 
-    Paint paint_90_fill = Paint()..style = PaintingStyle.fill;
-    paint_90_fill.shader = ui.Gradient.linear(
+    Paint paint90Fill = Paint()..style = PaintingStyle.fill;
+    paint90Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6266535, size.height * 0.8094214),
       Offset(size.width * 0.6686931, size.height * 0.8094214),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_90, paint_90_fill);
+    canvas.drawPath(path_90, paint90Fill);
 
     Path path_91 = Path();
     path_91.moveTo(339.37, 281.75);
@@ -29123,9 +29123,9 @@ class FrontMountainPainter extends CustomPainter {
     path_91.lineTo(368.38, 302.75);
     path_91.close();
 
-    Paint paint_91_fill = Paint()..style = PaintingStyle.fill;
-    paint_91_fill.color = Color(0xffD8C72B).withOpacity(1.0);
-    canvas.drawPath(path_91, paint_91_fill);
+    Paint paint91Fill = Paint()..style = PaintingStyle.fill;
+    paint91Fill.color = Color(0xffD8C72B).withOpacity(1.0);
+    canvas.drawPath(path_91, paint91Fill);
 
     Path path_92 = Path();
     path_92.moveTo(341.79, 177.161);
@@ -29134,14 +29134,14 @@ class FrontMountainPainter extends CustomPainter {
     path_92.lineTo(341.79, 177.16100000000003);
     path_92.close();
 
-    Paint paint_92_fill = Paint()..style = PaintingStyle.fill;
-    paint_92_fill.shader = ui.Gradient.linear(
+    Paint paint92Fill = Paint()..style = PaintingStyle.fill;
+    paint92Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.9107327, size.height * 0.4601039),
       Offset(size.width * 0.8740693, size.height * 0.4671454),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_92, paint_92_fill);
+    canvas.drawPath(path_92, paint92Fill);
 
     Path path_93 = Path();
     path_93.moveTo(347.15, 149.1);
@@ -29150,14 +29150,14 @@ class FrontMountainPainter extends CustomPainter {
     path_93.lineTo(347.15, 149.1);
     path_93.close();
 
-    Paint paint_93_fill = Paint()..style = PaintingStyle.fill;
-    paint_93_fill.shader = ui.Gradient.linear(
+    Paint paint93Fill = Paint()..style = PaintingStyle.fill;
+    paint93Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.9016574, size.height * 0.4141009),
       Offset(size.width * 0.8679545, size.height * 0.4205757),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_93, paint_93_fill);
+    canvas.drawPath(path_93, paint93Fill);
 
     Path path_94 = Path();
     path_94.moveTo(332.17, 146.97);
@@ -29166,14 +29166,14 @@ class FrontMountainPainter extends CustomPainter {
     path_94.lineTo(332.17, 146.97);
     path_94.close();
 
-    Paint paint_94_fill = Paint()..style = PaintingStyle.fill;
-    paint_94_fill.shader = ui.Gradient.linear(
+    Paint paint94Fill = Paint()..style = PaintingStyle.fill;
+    paint94Fill.shader = ui.Gradient.linear(
       Offset(size.width * 1.031343, size.height * 0.3479941),
       Offset(size.width * 0.9735723, size.height * 0.3590920),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_94, paint_94_fill);
+    canvas.drawPath(path_94, paint94Fill);
 
     Path path_95 = Path();
     path_95.moveTo(312.47, 183.4);
@@ -29183,14 +29183,14 @@ class FrontMountainPainter extends CustomPainter {
     path_95.lineTo(312.47, 183.4);
     path_95.close();
 
-    Paint paint_95_fill = Paint()..style = PaintingStyle.fill;
-    paint_95_fill.shader = ui.Gradient.linear(
+    Paint paint95Fill = Paint()..style = PaintingStyle.fill;
+    paint95Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.8279960, size.height * 0.5050623),
       Offset(size.width * 0.7957703, size.height * 0.5112552),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_95, paint_95_fill);
+    canvas.drawPath(path_95, paint95Fill);
 
     Path path_96 = Path();
     path_96.moveTo(305.06, 207.031);
@@ -29200,14 +29200,14 @@ class FrontMountainPainter extends CustomPainter {
     path_96.lineTo(305.06, 207.031);
     path_96.close();
 
-    Paint paint_96_fill = Paint()..style = PaintingStyle.fill;
-    paint_96_fill.shader = ui.Gradient.linear(
+    Paint paint96Fill = Paint()..style = PaintingStyle.fill;
+    paint96Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7088059, size.height * 0.6162018),
       Offset(size.width * 0.6928911, size.height * 0.6192611),
       [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_96, paint_96_fill);
+    canvas.drawPath(path_96, paint96Fill);
 
     Path path_97 = Path();
     path_97.moveTo(273.05, 249.859);
@@ -29216,9 +29216,9 @@ class FrontMountainPainter extends CustomPainter {
     path_97.lineTo(273.05, 249.85899999999998);
     path_97.close();
 
-    Paint paint_97_fill = Paint()..style = PaintingStyle.fill;
-    paint_97_fill.color = Color(0xff9E9826).withOpacity(1.0);
-    canvas.drawPath(path_97, paint_97_fill);
+    Paint paint97Fill = Paint()..style = PaintingStyle.fill;
+    paint97Fill.color = Color(0xff9E9826).withOpacity(1.0);
+    canvas.drawPath(path_97, paint97Fill);
 
     Path path_98 = Path();
     path_98.moveTo(283.6, 141.131);
@@ -29290,9 +29290,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_98.close();
 
-    Paint paint_98_fill = Paint()..style = PaintingStyle.fill;
-    paint_98_fill.color = Color(0xffEFD830).withOpacity(1.0);
-    canvas.drawPath(path_98, paint_98_fill);
+    Paint paint98Fill = Paint()..style = PaintingStyle.fill;
+    paint98Fill.color = Color(0xffEFD830).withOpacity(1.0);
+    canvas.drawPath(path_98, paint98Fill);
 
     Path path_99 = Path();
     path_99.moveTo(304.74, 256.26);
@@ -29350,9 +29350,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_99.close();
 
-    Paint paint_99_fill = Paint()..style = PaintingStyle.fill;
-    paint_99_fill.color = Color(0xffB7AC27).withOpacity(1.0);
-    canvas.drawPath(path_99, paint_99_fill);
+    Paint paint99Fill = Paint()..style = PaintingStyle.fill;
+    paint99Fill.color = Color(0xffB7AC27).withOpacity(1.0);
+    canvas.drawPath(path_99, paint99Fill);
 
     Path path_100 = Path();
     path_100.moveTo(285.98, 240.67);
@@ -29410,9 +29410,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_100.close();
 
-    Paint paint_100_fill = Paint()..style = PaintingStyle.fill;
-    paint_100_fill.color = Color(0xff9E9826).withOpacity(1.0);
-    canvas.drawPath(path_100, paint_100_fill);
+    Paint paint100Fill = Paint()..style = PaintingStyle.fill;
+    paint100Fill.color = Color(0xff9E9826).withOpacity(1.0);
+    canvas.drawPath(path_100, paint100Fill);
 
     Path path_101 = Path();
     path_101.moveTo(247.1, 99.93);
@@ -29436,14 +29436,14 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_101.close();
 
-    Paint paint_101_fill = Paint()..style = PaintingStyle.fill;
-    paint_101_fill.shader = ui.Gradient.linear(
+    Paint paint101Fill = Paint()..style = PaintingStyle.fill;
+    paint101Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5369069, size.height * 0.2480415),
       Offset(size.width * 0.4572475, size.height * 0.3756647),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_101, paint_101_fill);
+    canvas.drawPath(path_101, paint101Fill);
 
     Path path_102 = Path();
     path_102.moveTo(349.45, 48.92);
@@ -29577,9 +29577,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_102.close();
 
-    Paint paint_102_fill = Paint()..style = PaintingStyle.fill;
-    paint_102_fill.color = Color(0xffEFD830).withOpacity(1.0);
-    canvas.drawPath(path_102, paint_102_fill);
+    Paint paint102Fill = Paint()..style = PaintingStyle.fill;
+    paint102Fill.color = Color(0xffEFD830).withOpacity(1.0);
+    canvas.drawPath(path_102, paint102Fill);
 
     Path path_103 = Path();
     path_103.moveTo(106.02, 328.129);
@@ -29609,9 +29609,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_103.close();
 
-    Paint paint_103_fill = Paint()..style = PaintingStyle.fill;
-    paint_103_fill.color = Color(0xffEAA326).withOpacity(1.0);
-    canvas.drawPath(path_103, paint_103_fill);
+    Paint paint103Fill = Paint()..style = PaintingStyle.fill;
+    paint103Fill.color = Color(0xffEAA326).withOpacity(1.0);
+    canvas.drawPath(path_103, paint103Fill);
 
     Path path_104 = Path();
     path_104.moveTo(326.18, 296.459);
@@ -29628,14 +29628,14 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_104.close();
 
-    Paint paint_104_fill = Paint()..style = PaintingStyle.fill;
-    paint_104_fill.shader = ui.Gradient.linear(
+    Paint paint104Fill = Paint()..style = PaintingStyle.fill;
+    paint104Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6035663, size.height * 0.9142404),
       Offset(size.width * 0.6170871, size.height * 0.8452582),
       [Color(0xffB7AC27).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_104, paint_104_fill);
+    canvas.drawPath(path_104, paint104Fill);
 
     Path path_105 = Path();
     path_105.moveTo(362.91, 112.351);
@@ -29667,14 +29667,14 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_105.close();
 
-    Paint paint_105_fill = Paint()..style = PaintingStyle.fill;
-    paint_105_fill.shader = ui.Gradient.linear(
+    Paint paint105Fill = Paint()..style = PaintingStyle.fill;
+    paint105Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7095980, size.height * 0.3489318),
       Offset(size.width * 0.7458673, size.height * 0.3489318),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_105, paint_105_fill);
+    canvas.drawPath(path_105, paint105Fill);
 
     Path path_106 = Path();
     path_106.moveTo(360.76, 111.71);
@@ -29764,9 +29764,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_106.close();
 
-    Paint paint_106_fill = Paint()..style = PaintingStyle.fill;
-    paint_106_fill.color = Color(0xffD8C72B).withOpacity(1.0);
-    canvas.drawPath(path_106, paint_106_fill);
+    Paint paint106Fill = Paint()..style = PaintingStyle.fill;
+    paint106Fill.color = Color(0xffD8C72B).withOpacity(1.0);
+    canvas.drawPath(path_106, paint106Fill);
 
     Path path_107 = Path();
     path_107.moveTo(351.32, 102.39);
@@ -29782,14 +29782,14 @@ class FrontMountainPainter extends CustomPainter {
     path_107.lineTo(351.32, 102.39000000000001);
     path_107.close();
 
-    Paint paint_107_fill = Paint()..style = PaintingStyle.fill;
-    paint_107_fill.shader = ui.Gradient.linear(
+    Paint paint107Fill = Paint()..style = PaintingStyle.fill;
+    paint107Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7920832, size.height * 0.2293976),
       Offset(size.width * 0.7101584, size.height * 0.2754362),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_107, paint_107_fill);
+    canvas.drawPath(path_107, paint107Fill);
 
     Path path_108 = Path();
     path_108.moveTo(71.36, 244.191);
@@ -29798,14 +29798,14 @@ class FrontMountainPainter extends CustomPainter {
     path_108.cubicTo(73.71, 242.82100000000003, 71.36, 244.191, 71.36, 244.191);
     path_108.close();
 
-    Paint paint_108_fill = Paint()..style = PaintingStyle.fill;
-    paint_108_fill.shader = ui.Gradient.linear(
+    Paint paint108Fill = Paint()..style = PaintingStyle.fill;
+    paint108Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.1309485, size.height * 0.7490534),
       Offset(size.width * 0.1534574, size.height * 0.7490534),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_108, paint_108_fill);
+    canvas.drawPath(path_108, paint108Fill);
 
     Path path_109 = Path();
     path_109.moveTo(56.55, 230.18);
@@ -29830,14 +29830,14 @@ class FrontMountainPainter extends CustomPainter {
     path_109.cubicTo(68, 227.51000000000002, 56.55, 230.18, 56.55, 230.18);
     path_109.close();
 
-    Paint paint_109_fill = Paint()..style = PaintingStyle.fill;
-    paint_109_fill.shader = ui.Gradient.linear(
+    Paint paint109Fill = Paint()..style = PaintingStyle.fill;
+    paint109Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.1119822, size.height * 0.6935549),
       Offset(size.width * 0.1631762, size.height * 0.6935549),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_109, paint_109_fill);
+    canvas.drawPath(path_109, paint109Fill);
 
     Path path_110 = Path();
     path_110.moveTo(83.75, 221.07);
@@ -29853,14 +29853,14 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_110.close();
 
-    Paint paint_110_fill = Paint()..style = PaintingStyle.fill;
-    paint_110_fill.shader = ui.Gradient.linear(
+    Paint paint110Fill = Paint()..style = PaintingStyle.fill;
+    paint110Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.1652990, size.height * 0.6523472),
       Offset(size.width * 0.1835050, size.height * 0.6523472),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_110, paint_110_fill);
+    canvas.drawPath(path_110, paint110Fill);
 
     Path path_111 = Path();
     path_111.moveTo(119.28, 138.539);
@@ -29899,14 +29899,14 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_111.close();
 
-    Paint paint_111_fill = Paint()..style = PaintingStyle.fill;
-    paint_111_fill.shader = ui.Gradient.linear(
+    Paint paint111Fill = Paint()..style = PaintingStyle.fill;
+    paint111Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2657802, size.height * 0.4455401),
       Offset(size.width * 0.2450337, size.height * 0.4133887),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_111, paint_111_fill);
+    canvas.drawPath(path_111, paint111Fill);
 
     Path path_112 = Path();
     path_112.moveTo(125.88, 151.659);
@@ -29930,14 +29930,14 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_112.close();
 
-    Paint paint_112_fill = Paint()..style = PaintingStyle.fill;
-    paint_112_fill.shader = ui.Gradient.linear(
+    Paint paint112Fill = Paint()..style = PaintingStyle.fill;
+    paint112Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2491604, size.height * 0.4776202),
       Offset(size.width * 0.2412198, size.height * 0.4653175),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_112, paint_112_fill);
+    canvas.drawPath(path_112, paint112Fill);
 
     Path path_113 = Path();
     path_113.moveTo(406.17, 258.519);
@@ -30102,14 +30102,14 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_113.close();
 
-    Paint paint_113_fill = Paint()..style = PaintingStyle.fill;
-    paint_113_fill.shader = ui.Gradient.linear(
+    Paint paint113Fill = Paint()..style = PaintingStyle.fill;
+    paint113Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.8062079, size.height * 0.7100475),
       Offset(size.width * 0.7686337, size.height * 0.7113887),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_113, paint_113_fill);
+    canvas.drawPath(path_113, paint113Fill);
 
     Path path_114 = Path();
     path_114.moveTo(435.27, 265.24);
@@ -30259,14 +30259,14 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_114.close();
 
-    Paint paint_114_fill = Paint()..style = PaintingStyle.fill;
-    paint_114_fill.shader = ui.Gradient.linear(
+    Paint paint114Fill = Paint()..style = PaintingStyle.fill;
+    paint114Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.8116713, size.height * 0.7947715),
       Offset(size.width * 0.8697347, size.height * 0.7947715),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_114, paint_114_fill);
+    canvas.drawPath(path_114, paint114Fill);
 
     Path path_115 = Path();
     path_115.moveTo(361.73, 201.579);
@@ -30290,14 +30290,14 @@ class FrontMountainPainter extends CustomPainter {
     path_115.lineTo(361.7300000000001, 201.579);
     path_115.close();
 
-    Paint paint_115_fill = Paint()..style = PaintingStyle.fill;
-    paint_115_fill.shader = ui.Gradient.linear(
+    Paint paint115Fill = Paint()..style = PaintingStyle.fill;
+    paint115Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6962297, size.height * 0.5892018),
       Offset(size.width * 0.7280079, size.height * 0.5892018),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_115, paint_115_fill);
+    canvas.drawPath(path_115, paint115Fill);
 
     Path path_116 = Path();
     path_116.moveTo(374.27, 168.849);
@@ -30314,14 +30314,14 @@ class FrontMountainPainter extends CustomPainter {
     path_116.lineTo(374.27, 168.84899999999996);
     path_116.close();
 
-    Paint paint_116_fill = Paint()..style = PaintingStyle.fill;
-    paint_116_fill.shader = ui.Gradient.linear(
+    Paint paint116Fill = Paint()..style = PaintingStyle.fill;
+    paint116Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7366772, size.height * 0.4995935),
       Offset(size.width * 0.7411188, size.height * 0.4995935),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_116, paint_116_fill);
+    canvas.drawPath(path_116, paint116Fill);
 
     Path path_117 = Path();
     path_117.moveTo(375.42, 176.069);
@@ -30349,14 +30349,14 @@ class FrontMountainPainter extends CustomPainter {
     path_117.lineTo(375.42, 176.069);
     path_117.close();
 
-    Paint paint_117_fill = Paint()..style = PaintingStyle.fill;
-    paint_117_fill.shader = ui.Gradient.linear(
+    Paint paint117Fill = Paint()..style = PaintingStyle.fill;
+    paint117Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7364356, size.height * 0.5282849),
       Offset(size.width * 0.7442396, size.height * 0.5282849),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_117, paint_117_fill);
+    canvas.drawPath(path_117, paint117Fill);
 
     Path path_118 = Path();
     path_118.moveTo(160.49, 208.23);
@@ -30379,9 +30379,9 @@ class FrontMountainPainter extends CustomPainter {
     path_118.lineTo(160.49, 208.23);
     path_118.close();
 
-    Paint paint_118_fill = Paint()..style = PaintingStyle.fill;
-    paint_118_fill.color = Color(0xff9E9826).withOpacity(1.0);
-    canvas.drawPath(path_118, paint_118_fill);
+    Paint paint118Fill = Paint()..style = PaintingStyle.fill;
+    paint118Fill.color = Color(0xff9E9826).withOpacity(1.0);
+    canvas.drawPath(path_118, paint118Fill);
 
     Path path_119 = Path();
     path_119.moveTo(329.97, 67.88);
@@ -30451,14 +30451,14 @@ class FrontMountainPainter extends CustomPainter {
     path_119.cubicTo(335.48, 74.931, 329.97, 67.881, 329.97, 67.881);
     path_119.close();
 
-    Paint paint_119_fill = Paint()..style = PaintingStyle.fill;
-    paint_119_fill.shader = ui.Gradient.linear(
+    Paint paint119Fill = Paint()..style = PaintingStyle.fill;
+    paint119Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7859683, size.height * 0.1463353),
       Offset(size.width * 0.6145347, size.height * 0.3264392),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_119, paint_119_fill);
+    canvas.drawPath(path_119, paint119Fill);
 
     Path path_120 = Path();
     path_120.moveTo(315.62, 53.55);
@@ -30475,14 +30475,14 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_120.close();
 
-    Paint paint_120_fill = Paint()..style = PaintingStyle.fill;
-    paint_120_fill.shader = ui.Gradient.linear(
+    Paint paint120Fill = Paint()..style = PaintingStyle.fill;
+    paint120Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6306832, size.height * 0.2142344),
       Offset(size.width * 0.6535386, size.height * 0.1653561),
       [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
       [0, 1],
     );
-    canvas.drawPath(path_120, paint_120_fill);
+    canvas.drawPath(path_120, paint120Fill);
 
     Path path_121 = Path();
     path_121.moveTo(282.2, 86.36);
@@ -30505,9 +30505,9 @@ class FrontMountainPainter extends CustomPainter {
     );
     path_121.close();
 
-    Paint paint_121_fill = Paint()..style = PaintingStyle.fill;
-    paint_121_fill.color = Color(0xff9E9826).withOpacity(1.0);
-    canvas.drawPath(path_121, paint_121_fill);
+    Paint paint121Fill = Paint()..style = PaintingStyle.fill;
+    paint121Fill.color = Color(0xff9E9826).withOpacity(1.0);
+    canvas.drawPath(path_121, paint121Fill);
 
     Path path_122 = Path();
     path_122.moveTo(314.88, 76.52);
@@ -30563,9 +30563,9 @@ class FrontMountainPainter extends CustomPainter {
     path_122.lineTo(314.88, 76.51999999999998);
     path_122.close();
 
-    Paint paint_122_fill = Paint()..style = PaintingStyle.fill;
-    paint_122_fill.color = Color(0xff7F781F).withOpacity(1.0);
-    canvas.drawPath(path_122, paint_122_fill);
+    Paint paint122Fill = Paint()..style = PaintingStyle.fill;
+    paint122Fill.color = Color(0xff7F781F).withOpacity(1.0);
+    canvas.drawPath(path_122, paint122Fill);
   }
 
   @override
