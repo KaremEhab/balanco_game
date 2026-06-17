@@ -11,7 +11,7 @@ class HeartComponent extends Component with HasGameReference<BalancoGame> {
   double _collectedTime = 0.0;
 
   late TextPainter textPainter;
-  
+
   // Cached Paints
   late final Paint _dropShadowPaint;
   late final Paint _coinBasePaint;
@@ -61,11 +61,14 @@ class HeartComponent extends Component with HasGameReference<BalancoGame> {
       ).createShader(Rect.fromCircle(center: Offset.zero, radius: radius));
 
     _innerCoinPaint = Paint()
-      ..shader = RadialGradient(
+      ..shader =
+          RadialGradient(
             center: const Alignment(0.3, 0.3),
             radius: 1.0,
             colors: [Colors.red.shade400, Colors.redAccent.shade700],
-          ).createShader(Rect.fromCircle(center: Offset.zero, radius: radius - 3.0));
+          ).createShader(
+            Rect.fromCircle(center: Offset.zero, radius: radius - 3.0),
+          );
 
     _rimHighlightPaint = Paint()
       ..style = PaintingStyle.stroke
@@ -80,7 +83,7 @@ class HeartComponent extends Component with HasGameReference<BalancoGame> {
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.5
       ..color = Colors.black38;
-      
+
     _fadePaint = Paint();
   }
 

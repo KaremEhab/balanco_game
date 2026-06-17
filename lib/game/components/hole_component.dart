@@ -204,9 +204,14 @@ class HoleComponent extends PositionComponent
     double teethLength = 8.0;
     double teethWidth = 0.1;
 
-    if (game.activeHole == this && game.isFallingInHole) {
-      double closingProgress = 1.0 - game.ballScale;
-      double teethProgress = ((closingProgress - 0.6) * 2.5).clamp(0.0, 1.0);
+    if (game.activeHole == this && (game.isFallingInHole || game.isRespawningFromHole)) {
+      double teethProgress = 0.0;
+      if (game.isFallingInHole) {
+        double closingProgress = 1.0 - game.ballScale;
+        teethProgress = ((closingProgress - 0.6) * 2.5).clamp(0.0, 1.0);
+      } else {
+        teethProgress = (1.0 - (game.ballScale * 2.0)).clamp(0.0, 1.0);
+      }
 
       teethLength = 8.0 + teethProgress * (radius + 2.0);
       teethWidth = 0.1 + (teethProgress * 0.3);

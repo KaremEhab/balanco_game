@@ -48,122 +48,10 @@ class GameControlsOverlay extends StatelessWidget {
                   return ValueListenableBuilder<double>(
                     valueListenable: game.shieldTimerNotifier,
                     builder: (context, shieldTime, child) {
-                      bool isShieldActive = shieldTime > 0;
-                      bool hasShields = shields > 0;
-                      bool canClick = hasShields && !isShieldActive;
-
-                      return GestureDetector(
-                        onTap: () {
-                          if (canClick) {
-                            game.remainingShields.value -= 1;
-                            game.shieldTimer = 5.0; // 5 seconds of protection
-                          }
-                        },
-                        child: Opacity(
-                          opacity: canClick || isShieldActive ? 1.0 : 0.4,
-                          child: Container(
-                            width: 160,
-                            height: 64,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(32),
-                              gradient: const LinearGradient(
-                                colors: [
-                                  Color(0xff6BABFF),
-                                  Color(0xff2A75D3),
-                                ], // Bright water/blue theme
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                              ),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Color(0xff1A4B8C), // 3D thickness (dark blue)
-                                  offset: Offset(0, 6),
-                                ),
-                                BoxShadow(
-                                  color: Colors.black45,
-                                  offset: Offset(0, 8),
-                                  blurRadius: 6,
-                                ),
-                              ],
-                              border: Border.all(
-                                color: Colors.white.withOpacity(0.8),
-                                width: 2,
-                              ),
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(30),
-                              child: Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  // Loading progress overlay
-                                  if (isShieldActive)
-                                    Positioned(
-                                      left: 0,
-                                      top: 0,
-                                      bottom: 0,
-                                      child: Container(
-                                        width: 160.0 * (shieldTime / 5.0).clamp(0.0, 1.0),
-                                        color: Colors.white.withOpacity(0.35),
-                                      ),
-                                    ),
-                                    
-                                  // Inner recessed line for 3D look
-                                  Container(
-                                    width: 144,
-                                    height: 48,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(24),
-                                      border: Border.all(
-                                        color: const Color(0x33000000),
-                                        width: 2,
-                                      ),
-                                    ),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      const Icon(
-                                        Icons.shield_rounded, // Shield icon
-                                        color: Colors.white,
-                                        size: 32,
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Text(
-                                        isShieldActive ? "${shieldTime.toStringAsFixed(1)}s" : "SHIELD ($shields)",
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                          letterSpacing: 1.2,
-                                          shadows: [
-                                            Shadow(
-                                              color: Colors.black45,
-                                              offset: Offset(0, 2),
-                                              blurRadius: 2,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  // Specular reflection highlight
-                                  Positioned(
-                                    top: 6,
-                                    left: 20,
-                                    right: 20,
-                                    child: Container(
-                                      height: 8,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white.withOpacity(0.4),
-                                        borderRadius: BorderRadius.circular(4),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
+                      return ShieldButton(
+                        game: game,
+                        shields: shields,
+                        shieldTime: shieldTime,
                       );
                     },
                   );
@@ -172,6 +60,154 @@ class GameControlsOverlay extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class ShieldButton extends StatefulWidget {
+  final BalancoGame game;
+  final int shields;
+  final double shieldTime;
+
+  const ShieldButton({
+    super.key,
+    required this.game,
+    required this.shields,
+    required this.shieldTime,
+  });
+
+  @override
+  State<ShieldButton> createState() => _ShieldButtonState();
+}
+
+class _ShieldButtonState extends State<ShieldButton> {
+  bool _isPressed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    bool isShieldActive = widget.shieldTime > 0;
+    bool hasShields = widget.shields > 0;
+    bool canClick = hasShields && !isShieldActive;
+
+    return GestureDetector(
+      onTapDown: (_) {
+        if (canClick) setState(() => _isPressed = true);
+      },
+      onTapUp: (_) {
+        if (canClick) {
+          setState(() => _isPressed = false);
+          widget.game.remainingShields.value -= 1;
+          widget.game.shieldTimer = 5.0; // 5 seconds of protection
+        }
+      },
+      onTapCancel: () {
+        if (canClick) setState(() => _isPressed = false);
+      },
+      child: AnimatedScale(
+        scale: _isPressed ? 0.92 : 1.0,
+        duration: const Duration(milliseconds: 100),
+        curve: Curves.easeInOutCubic,
+        child: Opacity(
+          opacity: canClick || isShieldActive ? 1.0 : 0.4,
+          child: Container(
+            width: 160,
+            height: 64,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(32),
+              gradient: const LinearGradient(
+                colors: [Color(0xff6BABFF), Color(0xff2A75D3)],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+              boxShadow: [
+                const BoxShadow(color: Color(0xff1A4B8C), offset: Offset(0, 6)),
+                BoxShadow(
+                  color: Colors.black.withOpacity(_isPressed ? 0.2 : 0.45),
+                  offset: Offset(0, _isPressed ? 4 : 8),
+                  blurRadius: _isPressed ? 4 : 6,
+                ),
+              ],
+              border: Border.all(
+                color: Colors.white.withOpacity(0.8),
+                width: 2,
+              ),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(30),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  if (isShieldActive)
+                    Positioned(
+                      left: 0,
+                      top: 0,
+                      bottom: 0,
+                      child: Container(
+                        width:
+                            160.0 * (widget.shieldTime / 5.0).clamp(0.0, 1.0),
+                        color: Colors.white.withOpacity(0.35),
+                      ),
+                    ),
+                  Container(
+                    width: 144,
+                    height: 48,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(24),
+                      border: Border.all(
+                        color: const Color(0x33000000),
+                        width: 2,
+                      ),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (!isShieldActive) ...[
+                        const Icon(
+                          Icons.shield_rounded,
+                          color: Colors.white,
+                          size: 32,
+                        ),
+                        const SizedBox(width: 8),
+                      ],
+                      Text(
+                        isShieldActive
+                            ? "${widget.shieldTime.toStringAsFixed(1)}s"
+                            : "SHIELD",
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.2,
+                          shadows: [
+                            Shadow(
+                              color: Colors.black45,
+                              offset: Offset(0, 2),
+                              blurRadius: 2,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  Positioned(
+                    top: 6,
+                    left: 20,
+                    right: 20,
+                    child: Container(
+                      height: 8,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.4),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

@@ -34,7 +34,7 @@ class DynamicIslandsLayerPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     double scaleX = size.width / 400.0;
-    
+
     // Viewport bounds removed, draw everything so it caches properly!
     double startY = -1000;
     double endY = size.height + 1000;
@@ -76,7 +76,8 @@ class DynamicIslandsLayerPainter extends CustomPainter {
       double squishScale = 1.0;
 
       if (ballGroundPosition != null) {
-        double dist = (Offset(stone.x * scaleX, stone.y) - ballGroundPosition!).distance;
+        double dist =
+            (Offset(stone.x * scaleX, stone.y) - ballGroundPosition!).distance;
         if (dist < 60.0 * scaleX) {
           // Calculate elastic depression factor
           double factor = 1.0 - (dist / (60.0 * scaleX));
@@ -89,7 +90,10 @@ class DynamicIslandsLayerPainter extends CustomPainter {
       canvas.save();
       canvas.translate(stone.x * scaleX, stone.y + bobOffset + squishY);
       canvas.rotate(stone.rotation);
-      canvas.scale(stone.scale * scaleX * squishScale, stone.scale * scaleX * squishScale);
+      canvas.scale(
+        stone.scale * scaleX * squishScale,
+        stone.scale * scaleX * squishScale,
+      );
       canvas.translate(-stoneSize / 2, -stoneSize / 2);
 
       bool isStoneLocked = false;
@@ -109,10 +113,26 @@ class DynamicIslandsLayerPainter extends CustomPainter {
           null,
           Paint()
             ..colorFilter = const ColorFilter.matrix([
-              0.33, 0.33, 0.33, 0, 0,
-              0.33, 0.33, 0.33, 0, 0,
-              0.33, 0.33, 0.33, 0, 0,
-              0, 0, 0, 1, 0,
+              0.33,
+              0.33,
+              0.33,
+              0,
+              0,
+              0.33,
+              0.33,
+              0.33,
+              0,
+              0,
+              0.33,
+              0.33,
+              0.33,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
             ]),
         );
       }
@@ -129,15 +149,16 @@ class DynamicIslandsLayerPainter extends CustomPainter {
     // 2. Procedural Asymmetrical 2.5D Island Generation
     for (int i = 0; i < totalLevels; i++) {
       if (i >= nodeCenters.length) break;
-      
+
       // Viewport Culling!
       if (nodeCenters[i].dy < startY || nodeCenters[i].dy > endY) continue;
-      
+
       int level = i + 1;
       bool isLocked = level > highestLevel;
-      
+
       // Random independent bounce for each island
-      double islandBob = sin((islandBounceProgress * pi * 2) + (level * 1.3)) * 8.0;
+      double islandBob =
+          sin((islandBounceProgress * pi * 2) + (level * 1.3)) * 8.0;
       Offset center = Offset(nodeCenters[i].dx, nodeCenters[i].dy + islandBob);
 
       _drawIsland(canvas, center, scaleX, level, isLocked);
@@ -146,15 +167,16 @@ class DynamicIslandsLayerPainter extends CustomPainter {
     // 3. Draw Badges on top of everything
     for (int i = 0; i < totalLevels; i++) {
       if (i >= nodeCenters.length) break;
-      
+
       // Viewport Culling!
       if (nodeCenters[i].dy < startY || nodeCenters[i].dy > endY) continue;
 
       int level = i + 1;
       bool isLocked = level > highestLevel;
-      
+
       // Must match exactly the island bounce!
-      double islandBob = sin((islandBounceProgress * pi * 2) + (level * 1.3)) * 8.0;
+      double islandBob =
+          sin((islandBounceProgress * pi * 2) + (level * 1.3)) * 8.0;
       Offset center = Offset(nodeCenters[i].dx, nodeCenters[i].dy + islandBob);
 
       double buttonDx = 0;
@@ -189,7 +211,7 @@ class DynamicIslandsLayerPainter extends CustomPainter {
     double extraScale = 1.2;
     double drawScale = scaleX * extraScale;
     double rotation = islands[level - 1].rotation;
-    
+
     canvas.translate(center.dx, center.dy);
     canvas.rotate(rotation);
     canvas.scale(drawScale, drawScale);
@@ -200,26 +222,92 @@ class DynamicIslandsLayerPainter extends CustomPainter {
         null,
         Paint()
           ..colorFilter = const ColorFilter.matrix([
-            0.33, 0.33, 0.33, 0, 0,
-            0.33, 0.33, 0.33, 0, 0,
-            0.33, 0.33, 0.33, 0, 0,
-            0, 0, 0, 1, 0,
+            0.33,
+            0.33,
+            0.33,
+            0,
+            0,
+            0.33,
+            0.33,
+            0.33,
+            0,
+            0,
+            0.33,
+            0.33,
+            0.33,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
           ]),
       );
     }
 
     int type = islands[level - 1].type;
     switch (type) {
-      case 1: FirstIslandPainter().paint(canvas, Size(islandDrawSize, islandDrawSize)); break;
-      case 2: SecondIslandPainter().paint(canvas, Size(islandDrawSize, islandDrawSize)); break;
-      case 3: ThirdIslandPainter().paint(canvas, Size(islandDrawSize, islandDrawSize)); break;
-      case 4: ForthIslandPainter().paint(canvas, Size(islandDrawSize, islandDrawSize)); break;
-      case 5: FifthIslandPainter().paint(canvas, Size(islandDrawSize, islandDrawSize)); break;
-      case 6: SixthIslandPainter().paint(canvas, Size(islandDrawSize, islandDrawSize)); break;
-      case 7: SeventhIslandPainter().paint(canvas, Size(islandDrawSize, islandDrawSize)); break;
-      case 8: EighthIslandPainter().paint(canvas, Size(islandDrawSize, islandDrawSize)); break;
-      case 9: NinthIslandPainter().paint(canvas, Size(islandDrawSize, islandDrawSize)); break;
-      case 10: TenthIslandPainter().paint(canvas, Size(islandDrawSize, islandDrawSize)); break;
+      case 1:
+        FirstIslandPainter().paint(
+          canvas,
+          Size(islandDrawSize, islandDrawSize),
+        );
+        break;
+      case 2:
+        SecondIslandPainter().paint(
+          canvas,
+          Size(islandDrawSize, islandDrawSize),
+        );
+        break;
+      case 3:
+        ThirdIslandPainter().paint(
+          canvas,
+          Size(islandDrawSize, islandDrawSize),
+        );
+        break;
+      case 4:
+        ForthIslandPainter().paint(
+          canvas,
+          Size(islandDrawSize, islandDrawSize),
+        );
+        break;
+      case 5:
+        FifthIslandPainter().paint(
+          canvas,
+          Size(islandDrawSize, islandDrawSize),
+        );
+        break;
+      case 6:
+        SixthIslandPainter().paint(
+          canvas,
+          Size(islandDrawSize, islandDrawSize),
+        );
+        break;
+      case 7:
+        SeventhIslandPainter().paint(
+          canvas,
+          Size(islandDrawSize, islandDrawSize),
+        );
+        break;
+      case 8:
+        EighthIslandPainter().paint(
+          canvas,
+          Size(islandDrawSize, islandDrawSize),
+        );
+        break;
+      case 9:
+        NinthIslandPainter().paint(
+          canvas,
+          Size(islandDrawSize, islandDrawSize),
+        );
+        break;
+      case 10:
+        TenthIslandPainter().paint(
+          canvas,
+          Size(islandDrawSize, islandDrawSize),
+        );
+        break;
     }
 
     if (isLocked) {
@@ -258,29 +346,55 @@ class DynamicIslandsLayerPainter extends CustomPainter {
         Rect.fromLTWH(-50, -50, buttonDrawSize + 100, buttonDrawSize + 100),
         Paint()
           ..colorFilter = const ColorFilter.matrix([
-            0.33, 0.33, 0.33, 0, 0,
-            0.33, 0.33, 0.33, 0, 0,
-            0.33, 0.33, 0.33, 0, 0,
-            0, 0, 0, 1, 0,
+            0.33,
+            0.33,
+            0.33,
+            0,
+            0,
+            0.33,
+            0.33,
+            0.33,
+            0,
+            0,
+            0.33,
+            0.33,
+            0.33,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
           ]),
       );
     }
 
     LevelButtonPainter().paint(canvas, Size(buttonDrawSize, buttonDrawSize));
 
-    // Draw the text INSIDE the button's scaled coordinates so the text and its shadow 
+    // Draw the text INSIDE the button's scaled coordinates so the text and its shadow
     // perfectly move and scale together.
     TextPainter textPainter = TextPainter(
       text: TextSpan(
         text: '$level',
         style: GoogleFonts.luckiestGuy(
           textStyle: TextStyle(
-            color: isLocked ? const Color.fromARGB(255, 125, 125, 125) : const Color(0xFFD32F2F),
+            color: isLocked
+                ? const Color.fromARGB(255, 125, 125, 125)
+                : const Color(0xFFD32F2F),
             fontSize: 22.0, // Unscaled, relies on canvas.scale
             fontWeight: FontWeight.w900,
             shadows: [
-              Shadow(color: Colors.white, offset: const Offset(0, 0), blurRadius: 2),
-              Shadow(color: Colors.black.withValues(alpha: 0.8), offset: const Offset(0, 3), blurRadius: 4),
+              Shadow(
+                color: Colors.white,
+                offset: const Offset(0, 0),
+                blurRadius: 2,
+              ),
+              Shadow(
+                color: Colors.black.withValues(alpha: 0.8),
+                offset: const Offset(0, 3),
+                blurRadius: 4,
+              ),
             ],
           ),
         ),
@@ -293,7 +407,9 @@ class DynamicIslandsLayerPainter extends CustomPainter {
       canvas,
       Offset(
         (buttonDrawSize / 2) - (textPainter.width / 2),
-        (buttonDrawSize / 2) - (textPainter.height / 2) - 2.0, // -2 for visual centering on the button
+        (buttonDrawSize / 2) -
+            (textPainter.height / 2) -
+            2.0, // -2 for visual centering on the button
       ),
     );
 
@@ -352,9 +468,9 @@ class DynamicIslandsLayerPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant DynamicIslandsLayerPainter oldDelegate) {
     return oldDelegate.islandBounceProgress != islandBounceProgress ||
-           oldDelegate.highestLevel != highestLevel ||
-           oldDelegate.pressedLevel != pressedLevel ||
-           oldDelegate.pressedScale != pressedScale ||
-           oldDelegate.ballGroundPosition != ballGroundPosition;
+        oldDelegate.highestLevel != highestLevel ||
+        oldDelegate.pressedLevel != pressedLevel ||
+        oldDelegate.pressedScale != pressedScale ||
+        oldDelegate.ballGroundPosition != ballGroundPosition;
   }
 }

@@ -29,7 +29,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
 
   void _showPauseMenu() {
     widget.game.pauseEngine();
-    
+
     showGeneralDialog(
       context: context,
       barrierDismissible: true,
@@ -46,17 +46,23 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                 filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
                 child: Container(
                   width: 300,
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 32,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.15),
                     borderRadius: BorderRadius.circular(32),
-                    border: Border.all(color: Colors.white.withOpacity(0.4), width: 2),
+                    border: Border.all(
+                      color: Colors.white.withOpacity(0.4),
+                      width: 2,
+                    ),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.2),
                         blurRadius: 20,
                         spreadRadius: 5,
-                      )
+                      ),
                     ],
                   ),
                   child: Column(
@@ -66,13 +72,17 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                         'PAUSED',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontWeight: FontWeight.w900, 
+                          fontWeight: FontWeight.w900,
                           fontSize: 32,
                           color: Colors.white,
                           letterSpacing: 2.0,
                           shadows: [
-                            Shadow(color: Colors.black54, offset: Offset(0, 4), blurRadius: 8),
-                          ]
+                            Shadow(
+                              color: Colors.black54,
+                              offset: Offset(0, 4),
+                              blurRadius: 8,
+                            ),
+                          ],
                         ),
                       ),
                       const SizedBox(height: 24),
@@ -95,13 +105,17 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                             color: const Color(0xffF8AE00),
                             size: 42,
                             shadows: const [
-                              Shadow(color: Colors.black45, offset: Offset(0, 2), blurRadius: 4),
+                              Shadow(
+                                color: Colors.black45,
+                                offset: Offset(0, 2),
+                                blurRadius: 4,
+                              ),
                             ],
                           );
                         }),
                       ),
                       const SizedBox(height: 36),
-                      
+
                       // Continue Button
                       _buildPauseButton(
                         icon: Icons.play_arrow_rounded,
@@ -113,7 +127,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                         },
                       ),
                       const SizedBox(height: 16),
-                      
+
                       // Reset Button
                       _buildPauseButton(
                         icon: Icons.refresh_rounded,
@@ -126,7 +140,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                         },
                       ),
                       const SizedBox(height: 16),
-                      
+
                       // Leave Button
                       _buildPauseButton(
                         icon: Icons.home_rounded,
@@ -148,20 +162,17 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
       transitionBuilder: (context, anim1, anim2, child) {
         return Transform.scale(
           scale: Curves.easeOutBack.transform(anim1.value),
-          child: FadeTransition(
-            opacity: anim1,
-            child: child,
-          ),
+          child: FadeTransition(opacity: anim1, child: child),
         );
       },
     );
   }
 
   Widget _buildPauseButton({
-    required IconData icon, 
-    required String label, 
-    required List<Color> colors, 
-    required VoidCallback onTap
+    required IconData icon,
+    required String label,
+    required List<Color> colors,
+    required VoidCallback onTap,
   }) {
     return GestureDetector(
       onTap: onTap,
@@ -194,7 +205,13 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                 color: Colors.white,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                shadows: [Shadow(color: Colors.black45, offset: Offset(0, 2), blurRadius: 2)],
+                shadows: [
+                  Shadow(
+                    color: Colors.black45,
+                    offset: Offset(0, 2),
+                    blurRadius: 2,
+                  ),
+                ],
               ),
             ),
           ],
@@ -230,7 +247,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
               );
             },
           ),
-          
+
           // Big centered blurry container
           Center(
             child: Column(
@@ -292,7 +309,10 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                 GestureDetector(
                   onTapUp: (_) => _showPauseMenu(),
                   child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.92 * (270.36 / 410.95),
+                    width:
+                        MediaQuery.of(context).size.width *
+                        0.92 *
+                        (270.36 / 410.95),
                     child: FittedBox(
                       fit: BoxFit.fitWidth,
                       child: SizedBox(

@@ -1,9 +1,12 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import '../../game/components/ball_component.dart';
 
 class MapBallLayer extends CustomPainter {
   final Offset position;
   final double scale;
+  final double squashScaleX;
+  final double squashScaleY;
   final double rotation;
   final double radius;
 
@@ -25,6 +28,8 @@ class MapBallLayer extends CustomPainter {
   MapBallLayer({
     required this.position,
     required this.scale,
+    this.squashScaleX = 1.0,
+    this.squashScaleY = 1.0,
     required this.rotation,
     this.radius = 16.0, // Base map ball radius
   }) {
@@ -49,7 +54,7 @@ class MapBallLayer extends CustomPainter {
 
     canvas.save();
     canvas.translate(position.dx, position.dy);
-    canvas.scale(scale, scale);
+    canvas.scale(scale * squashScaleX, scale * squashScaleY);
 
     // Drop shadow
     canvas.save();
@@ -58,52 +63,16 @@ class MapBallLayer extends CustomPainter {
     canvas.drawCircle(Offset.zero, radius, _dropShadowPaint);
     canvas.restore();
 
-    // Draw rotating beach ball slices
+    // Draw rotating BallPainter graphic from gameplay
     canvas.save();
     canvas.rotate(rotation);
 
-    final List<Color> beachColors = [
-      Colors.blue.shade400,
-      Colors.yellow.shade400,
-      Colors.pink.shade400,
-      Colors.green.shade400,
-      Colors.orange.shade400,
-      Colors.cyan.shade400,
-    ];
-    double sweepAngle = (2 * pi) / 6;
+    // Scale BallPainter (41.46x42.056) to fit within radius * 2
+    double ballScale = (radius * 2) / 42.0;
+    canvas.scale(ballScale, ballScale);
+    canvas.translate(-20.73, -21.028);
 
-    for (int i = 0; i < 6; i++) {
-      final Paint slicePaint = Paint()..color = beachColors[i];
-      canvas.drawArc(
-        Rect.fromCircle(center: Offset.zero, radius: radius),
-        i * sweepAngle,
-        sweepAngle,
-        true,
-        slicePaint,
-      );
-    }
-
-    final Paint linePaint = Paint()
-      ..color = Colors.black.withValues(alpha: 0.15)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.0;
-
-    for (int i = 0; i < 6; i++) {
-      canvas.drawLine(
-        Offset.zero,
-        Offset(cos(i * sweepAngle) * radius, sin(i * sweepAngle) * radius),
-        linePaint,
-      );
-    }
-
-    // Top white cap
-    canvas.drawCircle(
-      Offset.zero,
-      radius * 0.25,
-      Paint()..color = Colors.white.withValues(alpha: 0.95),
-    );
-    canvas.drawCircle(Offset.zero, radius * 0.25, linePaint);
-
+    BallPainter().paint(canvas, const Size(42.0, 42.0));
     canvas.restore();
 
     // 3D Highlight
@@ -119,6 +88,8 @@ class MapBallLayer extends CustomPainter {
   bool shouldRepaint(covariant MapBallLayer oldDelegate) {
     return oldDelegate.position != position ||
            oldDelegate.scale != scale ||
+           oldDelegate.squashScaleX != squashScaleX ||
+           oldDelegate.squashScaleY != squashScaleY ||
            oldDelegate.rotation != rotation;
   }
 }

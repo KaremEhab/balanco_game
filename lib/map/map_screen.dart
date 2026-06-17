@@ -62,7 +62,9 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     MapLayoutConfig.instance.load();
     _ballController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 3000), // Slower to see the bouncy stone physics!
+      duration: const Duration(
+        milliseconds: 3000,
+      ), // Slower to see the bouncy stone physics!
     );
 
     rollCurve = CurvedAnimation(
@@ -279,7 +281,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     if (metrics.isNotEmpty) {
       PathMetric metric = metrics.first;
       double scaleX = MediaQuery.of(context).size.width / 400.0;
-      
+
       List<double> stoneDistances = [];
       for (var stone in MapLayoutConfig.instance.stones.value) {
         double bestDist = -1;
@@ -287,7 +289,8 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
         for (double d = 0; d <= metric.length; d += 5) {
           Tangent? t = metric.getTangentForOffset(d);
           if (t != null) {
-            double distToStone = (Offset(stone.x * scaleX, stone.y) - t.position).distance;
+            double distToStone =
+                (Offset(stone.x * scaleX, stone.y) - t.position).distance;
             if (distToStone < minD) {
               minD = distToStone;
               bestDist = d;
@@ -344,13 +347,13 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
 
     List<Offset> waypoints = [];
     waypoints.add(_buttonNodes[s - 1]);
-    
+
     double scaleX = MediaQuery.of(context).size.width / 400.0;
 
     for (int i = s - 1; i < e - 1; i++) {
       Offset p1 = _buttonNodes[i];
       Offset p2 = _buttonNodes[i + 1];
-      
+
       List<Offset> localStones = [];
       for (var stone in MapLayoutConfig.instance.stones.value) {
         double sy = stone.y;
@@ -360,10 +363,10 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
           localStones.add(Offset(sx, sy));
         }
       }
-      
+
       // Sort ascending by Y (descending visually, so bottom to top)
       localStones.sort((a, b) => b.dy.compareTo(a.dy));
-      
+
       waypoints.addAll(localStones);
       waypoints.add(p2);
     }
@@ -372,11 +375,11 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     for (int i = 0; i < waypoints.length - 1; i++) {
       Offset wp1 = waypoints[i];
       Offset wp2 = waypoints[i + 1];
-      
+
       double sign1 = i % 2 == 0 ? 1 : -1;
       double sign2 = (i + 1) % 2 == 0 ? 1 : -1;
       double controlOffset = 40.0;
-      
+
       Offset cp1 = Offset(
         wp1.dx + sign1 * controlOffset,
         wp1.dy - (wp1.dy - wp2.dy) * 0.3,
@@ -385,17 +388,17 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
         wp2.dx + sign2 * controlOffset,
         wp2.dy + (wp1.dy - wp2.dy) * 0.3,
       );
-      
+
       path.cubicTo(cp1.dx, cp1.dy, cp2.dx, cp2.dy, wp2.dx, wp2.dy);
     }
-    
+
     return path;
   }
 
   @override
   Widget build(BuildContext context) {
     // We force a 400-width virtual coordinate system that scales natively!
-    double scaleX = 1.0; 
+    double scaleX = 1.0;
 
     return ValueListenableBuilder<List<IslandData>>(
       valueListenable: MapLayoutConfig.instance.islands,
@@ -423,7 +426,8 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
               child: GestureDetector(
                 onTapDown: (details) =>
                     _handleTapDown(details.localPosition, scaleX),
-                onTapUp: (details) => _handleTapUp(details.localPosition, scaleX),
+                onTapUp: (details) =>
+                    _handleTapUp(details.localPosition, scaleX),
                 onTapCancel: _handleTapCancel,
                 child: SizedBox(
                   width: 400.0,
@@ -450,156 +454,224 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                                   ),
                                 );
                               },
+                            ),
                           ),
-                        ),
-                        
-                        // Layer 2: Static Shores & Trees (Animates NEVER. Painted ONCE)
-                        RepaintBoundary(
-                          child: CustomPaint(
-                            size: Size(400.0, _virtualHeight),
-                            painter: StaticShoresLayerPainter(),
-                          ),
-                        ),
 
-                        // Layer 3: Dynamic Islands & Badges (Animates via bounce controllers)
-                        RepaintBoundary(
-                          child: AnimatedBuilder(
-                            animation: Listenable.merge([_islandBounceController, _buttonBounceController, _ballController]),
-                            builder: (context, child) {
-                              Offset? ballGround;
-                              if (_isAnimatingBall && currentBallLevel != _targetBallLevel) {
-                                bool isReverse = currentBallLevel > _targetBallLevel;
-                                int s = isReverse ? _targetBallLevel : currentBallLevel;
-                                int e = isReverse ? currentBallLevel : _targetBallLevel;
-                                Path segment = _getSegmentPath(s, e);
-                                var metrics = segment.computeMetrics().toList();
-                                if (metrics.isNotEmpty) {
-                                  PathMetric metric = metrics.first;
-                                  double progress = isReverse ? (1.0 - rollCurve.value) : rollCurve.value;
-                                  double distance = metric.length * progress;
-                                  Tangent? tangent = metric.getTangentForOffset(distance);
-                                  if (tangent != null) {
-                                    ballGround = Offset(tangent.position.dx * scaleX, tangent.position.dy);
+                          // Layer 2: Static Shores & Trees (Animates NEVER. Painted ONCE)
+                          RepaintBoundary(
+                            child: CustomPaint(
+                              size: Size(400.0, _virtualHeight),
+                              painter: StaticShoresLayerPainter(),
+                            ),
+                          ),
+
+                          // Layer 3: Dynamic Islands & Badges (Animates via bounce controllers)
+                          RepaintBoundary(
+                            child: AnimatedBuilder(
+                              animation: Listenable.merge([
+                                _islandBounceController,
+                                _buttonBounceController,
+                                _ballController,
+                              ]),
+                              builder: (context, child) {
+                                Offset? ballGround;
+                                if (_isAnimatingBall &&
+                                    currentBallLevel != _targetBallLevel) {
+                                  bool isReverse =
+                                      currentBallLevel > _targetBallLevel;
+                                  int s = isReverse
+                                      ? _targetBallLevel
+                                      : currentBallLevel;
+                                  int e = isReverse
+                                      ? currentBallLevel
+                                      : _targetBallLevel;
+                                  Path segment = _getSegmentPath(s, e);
+                                  var metrics = segment
+                                      .computeMetrics()
+                                      .toList();
+                                  if (metrics.isNotEmpty) {
+                                    PathMetric metric = metrics.first;
+                                    double progress = isReverse
+                                        ? (1.0 - rollCurve.value)
+                                        : rollCurve.value;
+                                    double distance = metric.length * progress;
+                                    Tangent? tangent = metric
+                                        .getTangentForOffset(distance);
+                                    if (tangent != null) {
+                                      ballGround = Offset(
+                                        tangent.position.dx * scaleX,
+                                        tangent.position.dy,
+                                      );
+                                    }
                                   }
+                                }
+
+                                return CustomPaint(
+                                  size: Size(400.0, _virtualHeight),
+                                  painter: DynamicIslandsLayerPainter(
+                                    totalLevels: totalLevels,
+                                    highestLevel: highestLevel,
+                                    levelStars: levelStars,
+                                    pressedLevel: _pressedLevel,
+                                    pressedScale: _buttonBounceController.value,
+                                    islandBounceProgress:
+                                        _islandBounceController.value,
+                                    islandNodes: _islandNodes,
+                                    stones:
+                                        MapLayoutConfig.instance.stones.value,
+                                    islands: layouts,
+                                    ballGroundPosition: ballGround,
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+
+                          // Layer 4: Static Trees (Animates NEVER. Painted ONCE. Above islands)
+                          RepaintBoundary(
+                            child: CustomPaint(
+                              size: Size(400.0, _virtualHeight),
+                              painter: StaticTreesLayerPainter(),
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      // 2. The Animated Steel Ball Player Overlay
+                      if (_isAnimatingBall || currentBallLevel > 0)
+                        AnimatedBuilder(
+                          animation: Listenable.merge([
+                            _ballController,
+                            _islandBounceController,
+                          ]),
+                          builder: (context, child) {
+                            double currentX = _getNodeX(
+                              currentBallLevel,
+                              scaleX,
+                            );
+                            double currentY = _getNodeY(currentBallLevel);
+                            double squashX = 1.0;
+                            double squashY = 1.0;
+                            double rotation = _ballRotation;
+                            double ballDrawRadius = 16.0 * scaleX;
+
+                            if (_isAnimatingBall &&
+                                currentBallLevel != _targetBallLevel) {
+                              bool isReverse =
+                                  currentBallLevel > _targetBallLevel;
+                              int s = isReverse
+                                  ? _targetBallLevel
+                                  : currentBallLevel;
+                              int e = isReverse
+                                  ? currentBallLevel
+                                  : _targetBallLevel;
+
+                              Path segment = _getSegmentPath(s, e);
+                              var metrics = segment.computeMetrics().toList();
+                              if (metrics.isNotEmpty) {
+                                PathMetric metric = metrics.first;
+                                double progress = isReverse
+                                    ? (1.0 - rollCurve.value)
+                                    : rollCurve.value;
+                                double distance = metric.length * progress;
+
+                                Tangent? tangent = metric.getTangentForOffset(
+                                  distance,
+                                );
+                                if (tangent != null) {
+                                  currentX = tangent.position.dx * scaleX;
+                                  currentY = tangent.position.dy;
+
+                                  // Physics Jump calculation
+                                  double currentDist = distance;
+                                  double d1 = 0;
+                                  double d2 = metric.length;
+                                  for (
+                                    int i = 0;
+                                    i < _hopDistances.length - 1;
+                                    i++
+                                  ) {
+                                    if (currentDist >= _hopDistances[i] &&
+                                        currentDist <= _hopDistances[i + 1]) {
+                                      d1 = _hopDistances[i];
+                                      d2 = _hopDistances[i + 1];
+                                      break;
+                                    }
+                                  }
+                                  if (d2 > d1) {
+                                    double t = (currentDist - d1) / (d2 - d1);
+                                    double jumpY = sin(t * pi) * 45.0;
+                                    currentY -= jumpY;
+                                    
+                                    // Squeeze for the stress ball feel!
+                                    if (t < 0.15) {
+                                      double sq = 1.0 - (t / 0.15);
+                                      squashY = 1.0 - (0.35 * sq);
+                                      squashX = 1.0 + (0.35 * sq);
+                                      currentY += (ballDrawRadius * _ballScale * (1.0 - squashY));
+                                    } else if (t > 0.85) {
+                                      double sq = (t - 0.85) / 0.15;
+                                      squashY = 1.0 - (0.35 * sq);
+                                      squashX = 1.0 + (0.35 * sq);
+                                      currentY += (ballDrawRadius * _ballScale * (1.0 - squashY));
+                                    } else {
+                                      double sq = sin(t * pi);
+                                      squashY = 1.0 + (0.2 * (1.0 - sq));
+                                      squashX = 1.0 - (0.2 * (1.0 - sq));
+                                    }
+                                  }
+
+                                  // Physical rolling calculation
+                                  rotation += (metric.length * rollCurve.value) / 16.0;
+                                  if (isReverse) rotation = -rotation;
                                 }
                               }
-
-                              return CustomPaint(
-                                size: Size(400.0, _virtualHeight),
-                                painter: DynamicIslandsLayerPainter(
-                                  totalLevels: totalLevels,
-                                  highestLevel: highestLevel,
-                                  levelStars: levelStars,
-                                  pressedLevel: _pressedLevel,
-                                  pressedScale: _buttonBounceController.value,
-                                  islandBounceProgress: _islandBounceController.value,
-                                  islandNodes: _islandNodes,
-                                  stones: MapLayoutConfig.instance.stones.value,
-                                  islands: layouts,
-                                  ballGroundPosition: ballGround,
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-
-                        // Layer 4: Static Trees (Animates NEVER. Painted ONCE. Above islands)
-                        RepaintBoundary(
-                          child: CustomPaint(
-                            size: Size(400.0, _virtualHeight),
-                            painter: StaticTreesLayerPainter(),
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    // 2. The Animated Steel Ball Player Overlay
-                    if (_isAnimatingBall || currentBallLevel > 0)
-                      AnimatedBuilder(
-                        animation: Listenable.merge([
-                          _ballController,
-                          _islandBounceController,
-                        ]),
-                        builder: (context, child) {
-                          double currentX = _getNodeX(currentBallLevel, scaleX);
-                          double currentY = _getNodeY(currentBallLevel);
-                          // Make the ball bob perfectly in sync with the island it rests on!
-                          currentY +=
-                              sin(
-                                (_islandBounceController.value * pi * 2) +
-                                    (currentBallLevel * 1.3),
-                              ) *
-                              8.0;
-                          double rotation = 0;
-
-                          if (_isAnimatingBall &&
-                              currentBallLevel != _targetBallLevel) {
-                            bool isReverse =
-                                currentBallLevel > _targetBallLevel;
-                            int s = isReverse
-                                ? _targetBallLevel
-                                : currentBallLevel;
-                            int e = isReverse
-                                ? currentBallLevel
-                                : _targetBallLevel;
-
-                            Path segment = _getSegmentPath(s, e);
-                            var metrics = segment.computeMetrics().toList();
-                            if (metrics.isNotEmpty) {
-                              PathMetric metric = metrics.first;
-                              double progress = isReverse
-                                  ? (1.0 - rollCurve.value)
-                                  : rollCurve.value;
-                              double distance = metric.length * progress;
-
-                              Tangent? tangent = metric.getTangentForOffset(
-                                distance,
-                              );
-                              if (tangent != null) {
-                                currentX = tangent.position.dx * scaleX;
-                                currentY = tangent.position.dy;
-                                
-                                // Physics Jump calculation
-                                double currentDist = distance;
-                                double d1 = 0;
-                                double d2 = metric.length;
-                                for (int i = 0; i < _hopDistances.length - 1; i++) {
-                                  if (currentDist >= _hopDistances[i] && currentDist <= _hopDistances[i+1]) {
-                                    d1 = _hopDistances[i];
-                                    d2 = _hopDistances[i+1];
-                                    break;
-                                  }
-                                }
-                                if (d2 > d1) {
-                                  double t = (currentDist - d1) / (d2 - d1);
-                                  double jumpY = sin(t * pi) * 45.0; // parabolic jump height
-                                  currentY -= jumpY;
-                                }
-
-                                // Physical rolling calculation
-                                rotation =
-                                    (metric.length * rollCurve.value) / 16.0;
-                                if (isReverse) rotation = -rotation;
+                            } else if (!_isAnimatingBall && currentBallLevel > 0) {
+                              // Idle bouncing on the current level island!
+                              // Base bob with the island
+                              currentY +=
+                                  sin((_islandBounceController.value * pi * 2) + (currentBallLevel * 1.3)) * 8.0;
+                              
+                              double tHop = (_islandBounceController.value * 30.0) % 1.0; // 1.5 bounces per sec
+                              double idleJumpY = sin(tHop * pi) * 20.0;
+                              currentY -= idleJumpY;
+                              
+                              // Idle Squash
+                              if (tHop < 0.15) {
+                                 double sq = 1.0 - (tHop / 0.15);
+                                 squashY = 1.0 - (0.3 * sq);
+                                 squashX = 1.0 + (0.3 * sq);
+                                 currentY += (ballDrawRadius * _ballScale * (1.0 - squashY));
+                              } else if (tHop > 0.85) {
+                                 double sq = (tHop - 0.85) / 0.15;
+                                 squashY = 1.0 - (0.3 * sq);
+                                 squashX = 1.0 + (0.3 * sq);
+                                 currentY += (ballDrawRadius * _ballScale * (1.0 - squashY));
+                              } else {
+                                 double sq = sin(tHop * pi);
+                                 squashY = 1.0 + (0.15 * (1.0 - sq));
+                                 squashX = 1.0 - (0.15 * (1.0 - sq));
                               }
                             }
-                          }
 
-                          return Positioned.fill(
-                            child: CustomPaint(
-                              painter: MapBallLayer(
-                                position: Offset(currentX, currentY),
-                                scale: _ballScale,
-                                rotation: rotation,
-                                radius: 16.0 * scaleX,
+                            return Positioned.fill(
+                              child: CustomPaint(
+                                painter: MapBallLayer(
+                                  position: Offset(currentX, currentY),
+                                  scale: _ballScale,
+                                  squashScaleX: squashX,
+                                  squashScaleY: squashY,
+                                  rotation: rotation,
+                                  radius: ballDrawRadius,
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                      ),
-                  ],
+                            );
+                          },
+                        ),
+                    ],
+                  ),
                 ),
               ),
-            ),
             ),
           ),
         );

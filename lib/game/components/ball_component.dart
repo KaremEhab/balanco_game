@@ -60,7 +60,7 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
 
     canvas.save();
     canvas.translate(game.ballPos2D.x, game.ballPos2D.y);
-    canvas.scale(game.ballScale, game.ballScale);
+    canvas.scale(game.ballScale * game.squashX, game.ballScale * game.squashY);
 
     // 1. Fade out if falling into a hole
     double fallFade = 1.0;
