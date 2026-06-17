@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../game/components/game_area/sky_painter.dart';
-import '../game/components/game_area/mountains_painter.dart';
-import '../game/components/game_area/sea_painter.dart';
-import '../game/components/game_area/trees_painter.dart';
+import '../game/components/game_background/sky_painter.dart';
+import '../game/components/game_background/mountains_painter.dart';
+import '../game/components/game_background/sea_painter.dart';
+import '../game/components/game_background/trees_painter.dart';
 
 class BgLayerData {
   final String id;

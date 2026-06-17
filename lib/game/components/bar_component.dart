@@ -20,26 +20,104 @@ class BarComponent extends Component with HasGameReference<BalancoGame> {
     canvas.translate(leftPoint.x, leftPoint.y);
     canvas.rotate(angle);
 
-    // --- RUSTIC WOODEN TILTING BAR RENDER ---
-    double barHeight = 18.0;
-    Rect woodenBarRect = Rect.fromLTRB(0, -barHeight / 2, barLength, barHeight / 2);
+    // --- BAMBOO TILTING BAR RENDER ---
+    double barHeight = 22.0;
+    Rect woodenBarRect = Rect.fromLTRB(
+      0,
+      -barHeight / 2,
+      barLength,
+      barHeight / 2,
+    );
 
-    // Draw main organic log wooden texture skin casing
-    final Paint woodPaint = Paint()..color = const Color(0xFF8D6E63);
-    canvas.drawRRect(RRect.fromRectAndRadius(woodenBarRect, const Radius.circular(6)), woodPaint);
+    // 1. Drop shadow for depth
+    final Paint shadowPaint = Paint()
+      ..color = Colors.black.withValues(alpha: 0.3)
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6.0);
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        woodenBarRect.translate(0, 8),
+        const Radius.circular(11),
+      ),
+      shadowPaint,
+    );
 
-    // Add wooden bark visual line grain textures
-    final Paint grainPaint = Paint()
-      ..color = const Color(0xFF5D4037)
+    // 2. Main Bamboo log (Gradient for 3D cylinder effect)
+    final Paint woodPaint = Paint()
+      ..shader = const LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          Color(0xFFE8F5E9), // Highlight (light green-white)
+          Color(0xFFAED581), // Base light green
+          Color(0xFF689F38), // Base mid green
+          Color(0xFF33691E), // Shadow green
+        ],
+        stops: [0.0, 0.3, 0.6, 1.0],
+      ).createShader(woodenBarRect);
+
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(woodenBarRect, const Radius.circular(11)),
+      woodPaint,
+    );
+
+    // 3. Bamboo joints/nodes
+    final Paint jointPaint = Paint()
+      ..color = const Color(0xFF1B5E20).withValues(alpha: 0.5)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2.0;
+
+    final Paint jointHighlightPaint = Paint()
+      ..color = const Color(0xFFF1F8E9).withValues(alpha: 0.6)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.5;
-    canvas.drawLine(Offset(barLength * 0.1, -2), Offset(barLength * 0.8, -2), grainPaint);
-    canvas.drawLine(Offset(barLength * 0.3, 3), Offset(barLength * 0.9, 3), grainPaint);
 
-    // Draw safe structural metallic rivet bolts along the balance platform log
+    int numJoints = 7;
+    double segmentLength = barLength / numJoints;
+
+    for (int i = 1; i < numJoints; i++) {
+      double x = i * segmentLength;
+      // Draw joint ring curve
+      Path jointPath = Path();
+      jointPath.moveTo(x - 2, -barHeight / 2);
+      jointPath.quadraticBezierTo(x + 3, 0, x - 2, barHeight / 2);
+      canvas.drawPath(jointPath, jointPaint);
+
+      // Highlight right next to the joint curve
+      Path highlightPath = Path();
+      highlightPath.moveTo(x, -barHeight / 2 + 1);
+      highlightPath.quadraticBezierTo(x + 5, 0, x, barHeight / 2 - 1);
+      canvas.drawPath(highlightPath, jointHighlightPaint);
+
+      // Tiny bamboo texture lines fading from the joint
+      canvas.drawLine(
+        Offset(x - 2, -barHeight / 4),
+        Offset(x - 12, -barHeight / 4 + 1),
+        Paint()
+          ..color = const Color(0xFF1B5E20).withValues(alpha: 0.2)
+          ..strokeWidth = 1.0,
+      );
+      canvas.drawLine(
+        Offset(x - 1, barHeight / 4),
+        Offset(x - 15, barHeight / 4 - 1),
+        Paint()
+          ..color = const Color(0xFF1B5E20).withValues(alpha: 0.2)
+          ..strokeWidth = 1.0,
+      );
+    }
+
+    // 4. Track groove (where the ball rolls)
+    Rect grooveRect = Rect.fromLTRB(16, -1.5, barLength - 16, 1.5);
+    final Paint groovePaint = Paint()
+      ..color = Colors.black.withValues(alpha: 0.15);
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(grooveRect, const Radius.circular(1.5)),
+      groovePaint,
+    );
+
+    // 5. Draw safe structural metallic rivet bolts along the balance platform log
     final Paint rivetPaint = Paint()..color = const Color(0xFFB0BEC5);
     for (int r = 1; r <= 9; r++) {
-      if (r == 5) continue;
+      if (r == 5) continue; // Skip the center where the hole usually is
       canvas.drawCircle(Offset(r * (barLength / 10), 0), 2.5, rivetPaint);
     }
 

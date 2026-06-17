@@ -1,4 +1,7 @@
 import 'dart:ui';
+import 'package:balanco_game/game/components/game_background/mountains_painter.dart';
+import 'package:balanco_game/game/components/game_background/sea_painter.dart';
+import 'package:balanco_game/game/components/game_background/sky_painter.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,13 +12,9 @@ import 'package:sensors_plus/sensors_plus.dart';
 import 'dart:async';
 
 import '../game/game_area.dart';
+import '../game/components/game_area/gameplay_painter.dart';
 import 'animated_game_overlays.dart';
 import 'game_controls_overlay.dart';
-import '../game/components/game_area/sky_painter.dart';
-import '../game/components/game_area/mountains_painter.dart';
-import '../game/components/game_area/sea_painter.dart';
-import '../game/components/game_area/trees_painter.dart';
-import 'wooden_frame_painter.dart';
 
 class GamePlayOverlay extends StatefulWidget {
   final BalancoGame game;
@@ -121,7 +120,11 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
 
   @override
   Widget build(BuildContext context) {
-    bool isDark = Theme.of(context).brightness == Brightness.dark;
+    // --- GAMEPLAY CARD COLORS ---
+    // Change these to control the colors of the card frame
+    const List<Color> cardBaseGradient = [Color(0xffF8AE00), Color(0xffE88000)];
+    const List<Color> cardHighlightGradient = [Color.fromARGB(255, 255, 180, 80), Color.fromARGB(255, 229, 145, 49)];
+    const List<Color> cardDarkAccentGradient = [Color(0xff503040), Color(0xff301525)];
 
     return Scaffold(
       body: Stack(
@@ -143,137 +146,45 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(height: MediaQuery.of(context).size.height * 0.04),
-                ValueListenableBuilder<int>(
-                  valueListenable: widget.game.currentLevel,
-                  builder: (context, level, _) {
-                    return AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 500),
-                      transitionBuilder:
-                          (Widget child, Animation<double> animation) {
-                            return ScaleTransition(
-                              scale: animation,
-                              child: FadeTransition(
-                                opacity: animation,
-                                child: child,
-                              ),
-                            );
-                          },
-                      child: Text(
-                        'Level $level',
-                        key: ValueKey<int>(level),
-                        style: TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                          color: isDark ? Colors.white : Colors.black87,
-                          shadows: isDark
-                              ? const [
-                                  Shadow(color: Colors.black45, blurRadius: 4),
-                                ]
-                              : null,
+
+                // Top Header
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.92,
+                  child: FittedBox(
+                    fit: BoxFit.fitWidth,
+                    child: SizedBox(
+                      width: 411,
+                      height: 105,
+                      child: CustomPaint(
+                        painter: GameplayTopPainter(
+                          baseGradient: cardBaseGradient,
+                          highlightGradient: cardHighlightGradient,
                         ),
                       ),
-                    );
-                  },
+                    ),
+                  ),
                 ),
-                const SizedBox(height: 4),
-                ValueListenableBuilder<int>(
-                  valueListenable: widget.game.currentLives,
-                  builder: (context, lives, _) {
-                    return Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: List.generate(lives > 3 ? lives : 3, (index) {
-                        bool hasLife = index < lives;
-                        return AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 400),
-                          transitionBuilder:
-                              (Widget child, Animation<double> animation) {
-                                return ScaleTransition(
-                                  scale: animation,
-                                  child: FadeTransition(
-                                    opacity: animation,
-                                    child: child,
-                                  ),
-                                );
-                              },
-                          child: Icon(
-                            hasLife ? Icons.favorite : Icons.favorite_border,
-                            key: ValueKey<bool>(hasLife),
-                            color: hasLife
-                                ? Colors.redAccent
-                                : Colors.redAccent.withValues(alpha: 0.5),
-                            size: 28,
-                          ),
-                        );
-                      }),
-                    );
-                  },
-                ),
-                const SizedBox(height: 8),
-                ValueListenableBuilder<int>(
-                  valueListenable: widget.game.currentPoints,
-                  builder: (context, stars, _) {
-                    return Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: List.generate(3, (index) {
-                        bool hasStar = index < stars;
-                        return AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 600),
-                          transitionBuilder:
-                              (Widget child, Animation<double> animation) {
-                                return RotationTransition(
-                                  turns: Tween<double>(begin: 0.5, end: 1.0)
-                                      .animate(
-                                        CurvedAnimation(
-                                          parent: animation,
-                                          curve: Curves.elasticOut,
-                                        ),
-                                      ),
-                                  child: ScaleTransition(
-                                    scale: CurvedAnimation(
-                                      parent: animation,
-                                      curve: Curves.elasticOut,
-                                    ),
-                                    child: child,
-                                  ),
-                                );
-                              },
-                          child: Icon(
-                            hasStar ? Icons.star : Icons.star_border,
-                            key: ValueKey<bool>(hasStar),
-                            color: Colors.amber,
-                            size: 24,
-                            shadows: hasStar
-                                ? [
-                                    const Shadow(
-                                      color: Colors.black45,
-                                      blurRadius: 4,
-                                    ),
-                                  ]
-                                : null,
-                          ),
-                        );
-                      }),
-                    );
-                  },
-                ),
-                const SizedBox(height: 16),
-                CustomPaint(
-                  foregroundPainter: WoodenFramePainter(),
+
+                // Middle Game Area
+                Expanded(
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(24),
+                      bottomRight: Radius.circular(24),
+                    ),
                     child: BackdropFilter(
                       filter: ImageFilter.blur(sigmaX: 4.0, sigmaY: 4.0),
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.92,
-                        height: MediaQuery.of(context).size.height * 0.62,
                         decoration: BoxDecoration(
-                          color: isDark
-                              ? Colors.black.withValues(alpha: 0.15)
-                              : Colors.white.withValues(alpha: 0.15),
+                          color: const Color(0x33FFFFFF), // 20% white
+                          border: Border.all(color: cardBaseGradient.first, width: 4),
+                          borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(24),
+                            bottomRight: Radius.circular(24),
+                          ),
                         ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Stack(
+                        child: Stack(
                           children: [
                             GameWidget(
                               game: widget.game,
@@ -293,12 +204,35 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                     ),
                   ),
                 ),
+
+                // Bottom Footer
+                GestureDetector(
+                  onTapUp: (_) => _showPauseMenu(),
+                  child: SizedBox(
+                    width:
+                        MediaQuery.of(context).size.width *
+                        0.92 *
+                        (270.36 / 410.95),
+                    child: FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: SizedBox(
+                        width: 270.36,
+                        height: 52,
+                        child: CustomPaint(
+                          painter: GameplayBottomPainter(
+                            baseGradient: cardBaseGradient,
+                            highlightGradient: cardHighlightGradient,
+                            darkAccentGradient: cardDarkAccentGradient,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
-                const SizedBox(height: 24),
-                GameControlsOverlay(
-                  game: widget.game,
-                  onPausePressed: _showPauseMenu,
-                ),
+
+                // Joysticks
+                GameControlsOverlay(game: widget.game),
+                const SizedBox(height: 16),
               ],
             ),
           ),
@@ -438,7 +372,9 @@ class ParallaxBackgroundWidget extends StatefulWidget {
 }
 
 class _ParallaxBackgroundWidgetState extends State<ParallaxBackgroundWidget> {
-  final ValueNotifier<Offset> _accelNotifier = ValueNotifier<Offset>(Offset.zero);
+  final ValueNotifier<Offset> _accelNotifier = ValueNotifier<Offset>(
+    Offset.zero,
+  );
   StreamSubscription<AccelerometerEvent>? _accelerometerSubscription;
 
   @override
@@ -464,7 +400,13 @@ class _ParallaxBackgroundWidgetState extends State<ParallaxBackgroundWidget> {
     super.dispose();
   }
 
-  Widget _buildLayer(CustomPainter painter, double depthMultiplier, {double dx = 0, double dy = 0, double scale = 1.0}) {
+  Widget _buildLayer(
+    CustomPainter painter,
+    double depthMultiplier, {
+    double dx = 0,
+    double dy = 0,
+    double scale = 1.0,
+  }) {
     // Gentle parallax effect configuration
     const double maxOffset = 15.0;
 
@@ -476,9 +418,13 @@ class _ParallaxBackgroundWidgetState extends State<ParallaxBackgroundWidget> {
           // accel.dx is positive when tilting right. We want background to move left to simulate depth.
           // accel.dy is positive when tilting up. We want background to move down.
           final double tiltDx =
-              (accel.dx.clamp(-10.0, 10.0) / 10.0) * maxOffset * depthMultiplier;
+              (accel.dx.clamp(-10.0, 10.0) / 10.0) *
+              maxOffset *
+              depthMultiplier;
           final double tiltDy =
-              (accel.dy.clamp(-10.0, 10.0) / 10.0) * maxOffset * depthMultiplier;
+              (accel.dy.clamp(-10.0, 10.0) / 10.0) *
+              maxOffset *
+              depthMultiplier;
 
           return Transform.translate(
             offset: Offset(dx - tiltDx, dy + tiltDy),
@@ -510,19 +456,97 @@ class _ParallaxBackgroundWidgetState extends State<ParallaxBackgroundWidget> {
               clipBehavior: Clip.none,
               children: [
                 _buildLayer(SkyPainter(), 0.05, dx: 0.0, dy: 0.0, scale: 1.00),
-                _buildLayer(FirstCloudPainter(), 0.1, dx: 193.1, dy: 46.5, scale: 0.39),
-                _buildLayer(SecondCloudPainter(), 0.12, dx: -6.1, dy: 7.1, scale: 0.26),
-                _buildLayer(ThirdCloudPainter(), 0.14, dx: 59.7, dy: 15.7, scale: 0.46),
-                _buildLayer(ForthCloudPainter(), 0.16, dx: 305.0, dy: 27.0, scale: 0.63),
-                _buildLayer(FifthCloudPainter(), 0.18, dx: 127.3, dy: -85.9, scale: 0.48),
-                _buildLayer(BirdsPainter(), 0.2, dx: 230.1, dy: -11.4, scale: 0.57),
-                _buildLayer(FurtherSeaPainter(), 0.4, dx: 4.6, dy: 178.3, scale: 0.79),
-                _buildLayer(MountainSeaShadowsPainter(), 0.5, dx: 52.8, dy: 166.4, scale: 0.47),
-                _buildLayer(BackMountainPainter(), 0.3, dx: 122.0, dy: 42.6, scale: 0.50),
-                _buildLayer(CloserSeaPainter(), 0.6, dx: 166.9, dy: 401.3, scale: 1.42),
-                _buildLayer(SeaWaterDropsPainter(), 0.7, dx: 112.6, dy: 246.1, scale: 0.51),
-                _buildLayer(FrontMountainPainter(), 0.8, dx: 73.2, dy: 35.3, scale: 0.32),
-                _buildLayer(SeaMountainWaves(), 0.45, dx: 7.1, dy: 9.6, scale: 0.27),
+                _buildLayer(
+                  FirstCloudPainter(),
+                  0.1,
+                  dx: 193.1,
+                  dy: 46.5,
+                  scale: 0.39,
+                ),
+                _buildLayer(
+                  SecondCloudPainter(),
+                  0.12,
+                  dx: -6.1,
+                  dy: 7.1,
+                  scale: 0.26,
+                ),
+                _buildLayer(
+                  ThirdCloudPainter(),
+                  0.14,
+                  dx: 59.7,
+                  dy: 15.7,
+                  scale: 0.46,
+                ),
+                _buildLayer(
+                  ForthCloudPainter(),
+                  0.16,
+                  dx: 305.0,
+                  dy: 27.0,
+                  scale: 0.63,
+                ),
+                _buildLayer(
+                  FifthCloudPainter(),
+                  0.18,
+                  dx: 127.3,
+                  dy: -85.9,
+                  scale: 0.48,
+                ),
+                _buildLayer(
+                  BirdsPainter(),
+                  0.2,
+                  dx: 230.1,
+                  dy: -11.4,
+                  scale: 0.57,
+                ),
+                _buildLayer(
+                  FurtherSeaPainter(),
+                  0.4,
+                  dx: 4.6,
+                  dy: 178.3,
+                  scale: 0.79,
+                ),
+                _buildLayer(
+                  MountainSeaShadowsPainter(),
+                  0.5,
+                  dx: 52.8,
+                  dy: 166.4,
+                  scale: 0.47,
+                ),
+                _buildLayer(
+                  BackMountainPainter(),
+                  0.3,
+                  dx: 122.0,
+                  dy: 42.6,
+                  scale: 0.50,
+                ),
+                _buildLayer(
+                  CloserSeaPainter(),
+                  0.6,
+                  dx: 166.9,
+                  dy: 401.3,
+                  scale: 1.42,
+                ),
+                _buildLayer(
+                  SeaWaterDropsPainter(),
+                  0.7,
+                  dx: 112.6,
+                  dy: 246.1,
+                  scale: 0.51,
+                ),
+                _buildLayer(
+                  FrontMountainPainter(),
+                  0.8,
+                  dx: 73.2,
+                  dy: 35.3,
+                  scale: 0.32,
+                ),
+                _buildLayer(
+                  SeaMountainWaves(),
+                  0.45,
+                  dx: 7.1,
+                  dy: 9.6,
+                  scale: 0.27,
+                ),
                 // _buildLayer(LeftTreePainter(), 1.0),
                 // _buildLayer(RightTreePainter(), 1.0),
               ],

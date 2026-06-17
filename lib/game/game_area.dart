@@ -56,7 +56,7 @@ class BalancoGame extends FlameGame {
   bool isBoardHidden = false;
 
   final double barPadding = 20.0;
-  final double ballRadius = 10.0;
+  final double ballRadius = 14.0;
 
   late BarComponent barComponent;
   late BallComponent ballComponent;

@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 
 class MapBallLayer extends CustomPainter {
@@ -57,23 +58,52 @@ class MapBallLayer extends CustomPainter {
     canvas.drawCircle(Offset.zero, radius, _dropShadowPaint);
     canvas.restore();
 
-    // Base color
-    canvas.drawCircle(Offset.zero, radius, _basePaint);
-
-    // Rotating stripes
+    // Draw rotating beach ball slices
     canvas.save();
     canvas.rotate(rotation);
-    canvas.drawLine(
-      Offset(-radius, 0),
-      Offset(radius, 0),
-      _stripePaint,
+
+    final List<Color> beachColors = [
+      Colors.blue.shade400,
+      Colors.yellow.shade400,
+      Colors.pink.shade400,
+      Colors.green.shade400,
+      Colors.orange.shade400,
+      Colors.cyan.shade400,
+    ];
+    double sweepAngle = (2 * pi) / 6;
+
+    for (int i = 0; i < 6; i++) {
+      final Paint slicePaint = Paint()..color = beachColors[i];
+      canvas.drawArc(
+        Rect.fromCircle(center: Offset.zero, radius: radius),
+        i * sweepAngle,
+        sweepAngle,
+        true,
+        slicePaint,
+      );
+    }
+
+    final Paint linePaint = Paint()
+      ..color = Colors.black.withValues(alpha: 0.15)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.0;
+
+    for (int i = 0; i < 6; i++) {
+      canvas.drawLine(
+        Offset.zero,
+        Offset(cos(i * sweepAngle) * radius, sin(i * sweepAngle) * radius),
+        linePaint,
+      );
+    }
+
+    // Top white cap
+    canvas.drawCircle(
+      Offset.zero,
+      radius * 0.25,
+      Paint()..color = Colors.white.withValues(alpha: 0.95),
     );
-    canvas.drawLine(
-      Offset(0, -radius),
-      Offset(0, radius),
-      _stripePaint,
-    );
-    canvas.drawCircle(Offset.zero, radius * 0.4, _stripePaint);
+    canvas.drawCircle(Offset.zero, radius * 0.25, linePaint);
+
     canvas.restore();
 
     // 3D Highlight
