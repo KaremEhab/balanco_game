@@ -1,8 +1,12 @@
+import 'dart:isolate';
 import 'dart:math';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
+import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'components/hole_component.dart';
@@ -14,7 +18,7 @@ import 'components/bumper_component.dart';
 import 'components/teleporter_component.dart';
 import 'components/confetti_component.dart';
 import 'components/heart_component.dart';
-import 'dart:isolate';
+
 import 'models/level_data.dart';
 import 'level_generator.dart';
 
@@ -64,6 +68,10 @@ class BalancoGame extends FlameGame {
 
   bool isSpawningLevel = true;
   double spawnTimer = 0.0;
+  List<PositionComponent> pendingSpawns = [];
+  Map<PositionComponent, Vector2> targetPositions = {};
+  double itemSpawnTimer = 0.0;
+  final double spawnInterval = 0.10;
 
   double bounceTimer = 0.0;
   double squashX = 1.0;
@@ -84,7 +92,7 @@ class BalancoGame extends FlameGame {
   final List<TeleporterComponent> teleporters = [];
   TeleporterComponent? activeExitTeleporter;
   TeleportingGateComponent teleportingGateComponent = TeleportingGateComponent()
-    ..priority = 5;
+    ..priority = 0;
 
   BalancoGame({
     required this.isMultiplayer,
@@ -279,6 +287,9 @@ class BalancoGame extends FlameGame {
       () => generateLevelData(levelToGenerate),
     );
 
+    pendingSpawns.clear();
+    targetPositions.clear();
+
     // Quickly spawn components back on the main thread using the pre-calculated data
     for (final hData in data.holes) {
       final hole = HoleComponent(
@@ -288,6 +299,13 @@ class BalancoGame extends FlameGame {
         isSuckingHole: hData.isSuckingHole,
         suckRadius: hData.suckRadius,
       )..priority = 1;
+      
+      final targetPos = Vector2(hData.position.x * size.x, hData.position.y * size.y);
+      targetPositions[hole] = targetPos;
+      hole.position = teleportingGateComponent.position.clone();
+      hole.scale = Vector2.zero();
+      pendingSpawns.add(hole);
+
       holes.add(hole);
       add(hole);
     }
@@ -298,24 +316,52 @@ class BalancoGame extends FlameGame {
         tData.size,
         tData.pairId,
       )..priority = 1;
+
+      final targetPos = Vector2(tData.position.x * size.x, tData.position.y * size.y);
+      targetPositions[teleporter] = targetPos;
+      teleporter.position = teleportingGateComponent.position.clone();
+      teleporter.scale = Vector2.zero();
+      pendingSpawns.add(teleporter);
+
       teleporters.add(teleporter);
       add(teleporter);
     }
 
     for (final bData in data.bumpers) {
       final bumper = BumperComponent(bData.position, bData.size)..priority = 2;
+
+      final targetPos = Vector2(bData.position.x * size.x, bData.position.y * size.y);
+      targetPositions[bumper] = targetPos;
+      bumper.position = teleportingGateComponent.position.clone();
+      bumper.scale = Vector2.zero();
+      pendingSpawns.add(bumper);
+
       bumpers.add(bumper);
       add(bumper);
     }
 
     for (final sPos in data.stars) {
       final star = StarComponent(sPos)..priority = 5;
+
+      final targetPos = Vector2(sPos.x * size.x, sPos.y * size.y);
+      targetPositions[star] = targetPos;
+      star.position = teleportingGateComponent.position.clone();
+      star.scale = Vector2.zero();
+      pendingSpawns.add(star);
+
       stars.add(star);
       add(star);
     }
 
     for (final hPos in data.hearts) {
       final heart = HeartComponent(hPos)..priority = 5;
+
+      final targetPos = Vector2(hPos.x * size.x, hPos.y * size.y);
+      targetPositions[heart] = targetPos;
+      heart.position = teleportingGateComponent.position.clone();
+      heart.scale = Vector2.zero();
+      pendingSpawns.add(heart);
+
       hearts.add(heart);
       add(heart);
     }
@@ -437,12 +483,8 @@ class BalancoGame extends FlameGame {
     Vector2 normal = Vector2(direction.y, -direction.x);
 
     if (isSpawningLevel) {
-      spawnTimer -= dt;
-      if (spawnTimer <= 0) {
-        isSpawningLevel = false;
-        isFreeFalling = true; // Fall to the bar!
-        freeFallVelocity = Vector2(0, 0); // Straight down
-      } else {
+      if (spawnTimer > 0) {
+        spawnTimer -= dt;
         if (spawnTimer > 1.0 && spawnTimer <= 1.5 && !teleportingGateComponent.isOpening) {
            teleportingGateComponent.open();
         }
@@ -454,8 +496,59 @@ class BalancoGame extends FlameGame {
           ballPos2D = teleportingGateComponent.position.clone();
         } else {
           ballScale = 1.0;
-          ballPos2D = teleportingGateComponent.position.clone();
-          // In freefall it will fall to the bar when spawn ends
+          // Phase 1: Manual free fall
+          freeFallVelocity.y += 980.0 * dt;
+          double prevY = ballPos2D.y;
+          ballPos2D += freeFallVelocity * dt;
+          double newY = ballPos2D.y;
+          
+          double t = (ballPos2D.x - barPadding) / (size.x - 2 * barPadding);
+          double barYAtX = leftY + (rightY - leftY) * t;
+          double barSurface = barYAtX - (ballRadius + 6.0);
+          
+          if (prevY <= barSurface + 5.0 && newY >= barSurface - 5.0) {
+            // Hit the bar!
+            spawnTimer = 0; // Trigger Phase 2
+            ballP = t * barLength;
+            bounceTimer = 0.4;
+            ballVelocity = 0.0;
+            ballPos2D = leftPoint + direction * ballP + normal * (ballRadius + 6.0);
+            HapticFeedback.heavyImpact();
+            try {
+              FlameAudio.play('tick.wav');
+            } catch (_) {}
+          }
+        }
+      } else {
+        // Phase 2: Cascading Spit
+        if (pendingSpawns.isNotEmpty) {
+          itemSpawnTimer -= dt;
+          if (itemSpawnTimer <= 0) {
+            itemSpawnTimer = spawnInterval;
+            final item = pendingSpawns.removeAt(0);
+            
+            teleportingGateComponent.spit();
+            
+            final target = targetPositions[item]!;
+            item.add(
+              MoveToEffect(
+                target,
+                EffectController(duration: 0.55, curve: Curves.easeOutBack),
+              ),
+            );
+            item.add(
+              ScaleEffect.to(
+                Vector2.all(1.0),
+                EffectController(duration: 0.55, curve: Curves.easeOutBack),
+              ),
+            );
+          }
+        } else {
+          // Phase 3: Wait for last item to land
+          itemSpawnTimer -= dt;
+          if (itemSpawnTimer <= -0.55) {
+            isSpawningLevel = false; // Gameplay Launch!
+          }
         }
       }
       return;

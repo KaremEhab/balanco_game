@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../game_area.dart';
 
-class StarComponent extends Component with HasGameReference<BalancoGame> {
+class StarComponent extends PositionComponent with HasGameReference<BalancoGame> {
   final Vector2 fractionalPosition;
   double _time = 0.0;
   bool isCollected = false;
@@ -41,6 +41,9 @@ class StarComponent extends Component with HasGameReference<BalancoGame> {
       textDirection: TextDirection.ltr,
     );
     textPainter.layout();
+    
+    size = Vector2(28, 28);
+    anchor = Anchor.center;
   }
 
   @override
@@ -95,6 +98,14 @@ class StarComponent extends Component with HasGameReference<BalancoGame> {
   @override
   void update(double dt) {
     super.update(dt);
+    
+    if (!game.isSpawningLevel && game.size.x > 0 && game.size.y > 0 && !isCollected) {
+      position = Vector2(
+        fractionalPosition.x * game.size.x,
+        fractionalPosition.y * game.size.y,
+      );
+    }
+    
     if (isCollected) {
       _collectedTime += dt;
     } else {
@@ -107,23 +118,18 @@ class StarComponent extends Component with HasGameReference<BalancoGame> {
     if (game.size.x == 0) return;
     if (isCollected && _collectedTime > 0.5) return;
 
-    Vector2 pos = Vector2(
-      fractionalPosition.x * game.size.x,
-      fractionalPosition.y * game.size.y,
-    );
-
     double pulseScale = 1.0 + 0.1 * sin(_time * 4);
     double fade = 1.0;
 
+    canvas.save();
+    canvas.translate(size.x / 2, size.y / 2);
+
     if (isCollected) {
       double progress = _collectedTime / 0.5; // 0.0 to 1.0
-      pos.y -= progress * 40.0; // Float upwards
+      canvas.translate(0, -progress * 40.0); // Float upwards
       pulseScale = 1.0 + progress * 1.5; // Scale up
       fade = 1.0 - progress; // Fade out
     }
-
-    canvas.save();
-    canvas.translate(pos.x, pos.y);
 
     if (fade < 1.0) {
       _fadePaint.color = Colors.white.withValues(alpha: fade);

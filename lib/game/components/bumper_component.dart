@@ -75,7 +75,7 @@ class BumperComponent extends PositionComponent
   @override
   void update(double dt) {
     super.update(dt);
-    if (game.size.x > 0 && game.size.y > 0) {
+    if (!game.isSpawningLevel && game.size.x > 0 && game.size.y > 0) {
       position = Vector2(
         fractionalPosition.x * game.size.x,
         fractionalPosition.y * game.size.y,

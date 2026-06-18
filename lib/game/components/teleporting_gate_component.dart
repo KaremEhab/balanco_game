@@ -1,4 +1,5 @@
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import '../game_area.dart';
@@ -33,6 +34,21 @@ class TeleportingGateComponent extends PositionComponent with HasGameRef<Balanco
     isClosing = false;
     isOpening = true;
     isClosed = false;
+  }
+
+  void spit() {
+    // A quick punchy scale jump to simulate spitting an object
+    add(ScaleEffect.by(
+      Vector2.all(1.15),
+      EffectController(
+        duration: 0.1,
+        reverseDuration: 0.1,
+        curve: Curves.easeOutQuad,
+      ),
+    ));
+    
+    // Add a simple burst of energy/water rings (placeholder for full particle effect)
+    // We could add a simple particle system if needed.
   }
 
   @override
