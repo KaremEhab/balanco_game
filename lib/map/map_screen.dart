@@ -115,7 +115,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     if (!mounted) return;
     setState(() {
       highestLevel = prefs.getInt('highestLevel') ?? 1;
-      currentBallLevel = highestLevel;
+      currentBallLevel = prefs.getInt('lastPlayedLevel') ?? highestLevel;
       // Load stars for each level
       for (int i = 1; i <= highestLevel; i++) {
         levelStars[i] = prefs.getInt('level_${i}_stars') ?? 0;
@@ -129,7 +129,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
               MapLayoutConfig.instance.editorCamera.value![13];
           widget.scrollController.jumpTo(-yTranslation);
         } else {
-          double offset = _virtualHeight - _getNodeY(highestLevel) - 300.0;
+          double offset = _virtualHeight - _getNodeY(currentBallLevel) - 300.0;
           widget.scrollController.jumpTo(
             offset.clamp(0.0, widget.scrollController.position.maxScrollExtent),
           );
@@ -317,6 +317,9 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
   }
 
   Future<void> _startGameplay(int index) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('lastPlayedLevel', index);
+
     // Launch the active game overlay cleanly
     final game = BalancoGame(
       isMultiplayer: isMultiplayerNotifier.value,
@@ -406,6 +409,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
         _calculateMapLayout(layouts, scaleX);
 
         return Container(
+          width: double.infinity, // Expand to fit screen width and eliminate black sidebars
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,

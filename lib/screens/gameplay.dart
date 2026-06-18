@@ -6,6 +6,7 @@ import '../game/game_area.dart';
 import '../game/components/game_area/gameplay_card_painter.dart';
 
 import 'animated_game_overlays.dart';
+import 'victory/victory_overlay.dart';
 import 'game_controls_overlay.dart';
 
 import 'widgets/gameplay_header.dart';
@@ -253,7 +254,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: MediaQuery.of(context).size.height * 0.04),
+                SizedBox(height: MediaQuery.of(context).padding.top + 8),
 
                 // Top Header (Hearts, Energy, Stars)
                 GameplayHeader(
@@ -335,6 +336,17 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                 const SizedBox(height: 16),
               ],
             ),
+          ),
+
+          // Fullscreen Victory Overlay
+          ValueListenableBuilder<bool>(
+            valueListenable: widget.game.showVictoryOverlay,
+            builder: (context, showVictory, child) {
+              if (showVictory) {
+                return AnimatedLevelCompleteOverlay(game: widget.game);
+              }
+              return const SizedBox.shrink();
+            },
           ),
         ],
       ),

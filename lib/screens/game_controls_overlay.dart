@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../game/game_area.dart';
 
@@ -123,13 +122,13 @@ class _ShieldButtonState extends State<ShieldButton> {
               boxShadow: [
                 const BoxShadow(color: Color(0xff1A4B8C), offset: Offset(0, 6)),
                 BoxShadow(
-                  color: Colors.black.withOpacity(_isPressed ? 0.2 : 0.45),
+                  color: Colors.black.withValues(alpha: _isPressed ? 0.2 : 0.45),
                   offset: Offset(0, _isPressed ? 4 : 8),
                   blurRadius: _isPressed ? 4 : 6,
                 ),
               ],
               border: Border.all(
-                color: Colors.white.withOpacity(0.8),
+                color: Colors.white.withValues(alpha: 0.8),
                 width: 2,
               ),
             ),
@@ -146,7 +145,7 @@ class _ShieldButtonState extends State<ShieldButton> {
                       child: Container(
                         width:
                             160.0 * (widget.shieldTime / 5.0).clamp(0.0, 1.0),
-                        color: Colors.white.withOpacity(0.35),
+                        color: Colors.white.withValues(alpha: 0.35),
                       ),
                     ),
                   Container(
@@ -198,7 +197,7 @@ class _ShieldButtonState extends State<ShieldButton> {
                     child: Container(
                       height: 8,
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.4),
+                        color: Colors.white.withValues(alpha: 0.4),
                         borderRadius: BorderRadius.circular(4),
                       ),
                     ),
@@ -231,12 +230,25 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
   double _dy = 0.0;
   final double _maxDrag =
       32.0; // Reduced travel distance to match shorter height
+  int? _pointerId; // Track the specific finger using this joystick
 
-  void _updatePositionFromDelta(double deltaDy) {
+  void _onPointerDown(PointerDownEvent event) {
+    if (_pointerId != null) return; // Ignore if already being dragged
+    _pointerId = event.pointer;
+  }
+
+  void _onPointerMove(PointerMoveEvent event) {
+    if (event.pointer != _pointerId) return; // Only respond to the locked finger
     setState(() {
-      _dy = (_dy + deltaDy).clamp(-_maxDrag, _maxDrag);
+      _dy = (_dy + event.delta.dy).clamp(-_maxDrag, _maxDrag);
     });
     widget.onChanged(_dy / _maxDrag);
+  }
+
+  void _onPointerUp(PointerEvent event) {
+    if (event.pointer != _pointerId) return; // Only respond to the locked finger
+    _pointerId = null;
+    _resetPosition();
   }
 
   void _resetPosition() {
@@ -248,12 +260,12 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onVerticalDragStart: (_) {},
-      onVerticalDragUpdate: (details) =>
-          _updatePositionFromDelta(details.delta.dy),
-      onVerticalDragEnd: (_) => _resetPosition(),
-      onVerticalDragCancel: () => _resetPosition(),
+    return Listener(
+      onPointerDown: _onPointerDown,
+      onPointerMove: _onPointerMove,
+      onPointerUp: _onPointerUp,
+      onPointerCancel: _onPointerUp,
+      behavior: HitTestBehavior.opaque,
       child: Container(
         width: 80,
         height: 120,
@@ -369,7 +381,7 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
                         width: 8,
                         height: 5,
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.7),
+                          color: Colors.white.withValues(alpha: 0.7),
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),

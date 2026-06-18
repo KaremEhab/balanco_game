@@ -1,6 +1,5 @@
 import 'dart:ui' as ui;
 
-import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import '../game_area.dart';
