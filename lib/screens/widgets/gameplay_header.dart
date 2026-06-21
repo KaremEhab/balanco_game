@@ -158,9 +158,7 @@ class GameplayHeader extends StatelessWidget {
                         SizedBox(
                           width: 24,
                           height: 24,
-                          child: CustomPaint(
-                            painter: CoinPainter(),
-                          ),
+                          child: CustomPaint(painter: CoinPainter()),
                         ),
                         const SizedBox(width: 8),
                         // Score Text
