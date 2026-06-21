@@ -3,24 +3,22 @@ import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 
 import '../game_area.dart';
-import 'game_area/collected_star_painter.dart';
+import 'game_area/coin_painter.dart';
 
-class StarComponent extends PositionComponent with HasGameReference<BalancoGame> {
-  final Vector2 fractionalPosition;
+class CoinComponent extends PositionComponent with HasGameReference<BalancoGame> {
+  Vector2 fractionalPosition;
   double _time = 0.0;
   bool isCollected = false;
   double _collectedTime = 0.0;
 
-  late final CollectedStarPainter _painter;
-
-  // Cached Paints
+  late final CoinPainter _painter;
   late final Paint _dropShadowPaint;
   late final Paint _fadePaint;
 
-  StarComponent(this.fractionalPosition) {
+  CoinComponent(this.fractionalPosition) {
     size = Vector2(34, 34);
     anchor = Anchor.center;
-    _painter = CollectedStarPainter();
+    _painter = CoinPainter();
   }
 
   @override
@@ -62,43 +60,46 @@ class StarComponent extends PositionComponent with HasGameReference<BalancoGame>
     if (game.size.x == 0) return;
     if (isCollected && _collectedTime > 0.5) return;
 
-    double pulseScale = 1.0 + 0.1 * sin(_time * 4);
+    // Coins can bob up and down slightly
+    double bobOffset = sin(_time * 3) * 5.0;
     double fade = 1.0;
+    double scale = 1.0;
 
     canvas.save();
     canvas.translate(size.x / 2, size.y / 2);
 
     if (isCollected) {
       double progress = _collectedTime / 0.5; // 0.0 to 1.0
-      canvas.translate(0, -progress * 40.0); // Float upwards
-      pulseScale = 1.0 + progress * 1.5; // Scale up
+      canvas.translate(0, -progress * 60.0); // Float upwards much faster
+      scale = 1.0 + progress * 0.5; // Scale up a bit
       fade = 1.0 - progress; // Fade out
+      bobOffset = 0;
     }
 
     if (fade < 1.0) {
       _fadePaint.color = Colors.white.withValues(alpha: fade);
       canvas.saveLayer(
-        Rect.fromCircle(center: Offset.zero, radius: 50 * pulseScale),
+        Rect.fromCircle(center: Offset.zero, radius: 50 * scale),
         _fadePaint,
       );
     }
 
+    canvas.translate(0, bobOffset);
+    canvas.scale(scale, scale);
+
     if (!isCollected) {
+      // Draw shadow further down
       canvas.save();
-      canvas.translate(4.0, 8.0);
-      canvas.scale(1.0, 0.5);
-      canvas.drawCircle(Offset.zero, 17.0 * pulseScale, _dropShadowPaint);
+      canvas.translate(4.0, 15.0 - bobOffset); // Shadow stays on ground while coin bobs
+      canvas.scale(1.0, 0.4);
+      canvas.drawCircle(Offset.zero, 15.0, _dropShadowPaint);
       canvas.restore();
     }
 
-    canvas.scale(pulseScale, pulseScale);
-
-    // The exported SVG paths inside CollectedStarPainter assume a 48x48 canvas.
-    // We scale the drawing to match this component's size.
+    // Paint coin
     canvas.save();
-    canvas.scale(size.x / 48.0, size.y / 48.0);
-    canvas.translate(-24.0, -24.0); // Shift so the center of 48x48 box sits at (0,0)
-    _painter.paint(canvas, const Size(48, 48));
+    canvas.translate(-size.x / 2, -size.y / 2);
+    _painter.paint(canvas, Size(size.x, size.y));
     canvas.restore();
 
     if (fade < 1.0) {

@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import '../game_area.dart';
 
-class TeleportingGateComponent extends PositionComponent with HasGameRef<BalancoGame> {
+class TeleportingGateComponent extends PositionComponent
+    with HasGameRef<BalancoGame> {
   bool isClosing = false;
   bool isOpening = false;
   bool isClosed = false;
@@ -22,14 +23,14 @@ class TeleportingGateComponent extends PositionComponent with HasGameRef<Balanco
     isClosed = false;
     _doorProgress = 0.0;
   }
-  
+
   void startClosed() {
     isClosing = false;
     isOpening = false;
     isClosed = true;
     _doorProgress = 1.0;
   }
-  
+
   void open() {
     isClosing = false;
     isOpening = true;
@@ -38,15 +39,17 @@ class TeleportingGateComponent extends PositionComponent with HasGameRef<Balanco
 
   void spit() {
     // A quick punchy scale jump to simulate spitting an object
-    add(ScaleEffect.by(
-      Vector2.all(1.15),
-      EffectController(
-        duration: 0.1,
-        reverseDuration: 0.1,
-        curve: Curves.easeOutQuad,
+    add(
+      ScaleEffect.by(
+        Vector2.all(1.15),
+        EffectController(
+          duration: 0.1,
+          reverseDuration: 0.1,
+          curve: Curves.easeOutQuad,
+        ),
       ),
-    ));
-    
+    );
+
     // Add a simple burst of energy/water rings (placeholder for full particle effect)
     // We could add a simple particle system if needed.
   }
@@ -74,70 +77,86 @@ class TeleportingGateComponent extends PositionComponent with HasGameRef<Balanco
   void render(Canvas canvas) {
     if (size.x <= 0) return;
 
-    // 1. Draw outer gate ring
-    final Paint ringPaint = Paint()
-      ..color = const Color(0xFF2C3E50)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 12;
-      
-    final Paint ringInnerPaint = Paint()
-      ..color = const Color(0xFF7F8C8D)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 4;
+    double scale = 1.0 - _doorProgress;
 
-    canvas.drawCircle(Offset(size.x / 2, size.y / 2), 40, ringPaint);
-    canvas.drawCircle(Offset(size.x / 2, size.y / 2), 40, ringInnerPaint);
-
-    // 2. Draw jelly/water portal inside
-    if (_doorProgress < 1.0) {
+    if (scale > 0) {
       canvas.save();
-      canvas.clipPath(Path()..addOval(Rect.fromCircle(center: Offset(size.x / 2, size.y / 2), radius: 35)));
-      
-      final Paint portalPaint = Paint()
-        ..color = const Color(0xFF9B59B6).withOpacity(0.8) // Purple jelly
-        ..style = PaintingStyle.fill;
-        
-      final Paint swirlPaint = Paint()
-        ..color = const Color(0xFF8E44AD).withOpacity(0.6)
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 3;
+      // Move origin to the exact center of the component
+      canvas.translate(size.x / 2, size.y / 2);
+      // Scale down to nothingness when closing
+      canvas.scale(scale);
 
-      // Draw pulsating jelly base
-      canvas.drawCircle(Offset(size.x / 2, size.y / 2), 35, portalPaint);
-      
-      // Draw swirls
-      for (int i = 0; i < 5; i++) {
-        double radius = 5 + (i * 8) + sin(_time * 3 + i) * 5;
-        canvas.drawCircle(Offset(size.x / 2, size.y / 2), radius, swirlPaint);
-      }
-      
-      // Draw closing iris/doors over the portal
-      if (_doorProgress > 0) {
-        final Paint doorPaint = Paint()
-          ..color = const Color(0xFF34495E)
+      // Draw a bright, highly visible glowing shadow around the gate
+      // By drawing multiple fading concentric circles, we guarantee it renders everywhere
+      for (int i = 6; i >= 0; i--) {
+        final Paint glowPaint = Paint()
+          // Start with a very low base opacity and softly fade inwards
+          ..color = const Color(0xFFC3ABFF).withOpacity(0.02 + (6 - i) * 0.05)
           ..style = PaintingStyle.fill;
-          
-        double closeAmount = _doorProgress * 40; // 0 to 40 (full radius)
-        
-        // Top door
-        canvas.drawRect(Rect.fromLTWH(0, 0, size.x, size.y / 2 - 35 + closeAmount), doorPaint);
-        // Bottom door
-        canvas.drawRect(Rect.fromLTWH(0, size.y / 2 + 35 - closeAmount, size.x, size.y / 2), doorPaint);
+        canvas.drawCircle(Offset.zero, 36 + i * 2.5, glowPaint);
       }
-      
-      canvas.restore();
-    } else {
-      // Fully closed doors
-      final Paint doorPaint = Paint()
-        ..color = const Color(0xFF34495E)
+
+      // Clip to a perfect circle at the center for the portal itself
+      canvas.clipPath(
+        Path()..addOval(Rect.fromCircle(center: Offset.zero, radius: 36)),
+      );
+
+      // Draw base outer color to prevent empty gaps at the edge
+      final Paint basePaint = Paint()
+        ..color = const Color(0xffD6C5FF)
         ..style = PaintingStyle.fill;
-      canvas.drawCircle(Offset(size.x / 2, size.y / 2), 35, doorPaint);
-      
-      // Door seam
-      final Paint seamPaint = Paint()
-        ..color = Colors.black45
-        ..strokeWidth = 2;
-      canvas.drawLine(Offset(size.x / 2 - 35, size.y / 2), Offset(size.x / 2 + 35, size.y / 2), seamPaint);
+      canvas.drawCircle(Offset.zero, 36, basePaint);
+
+      // Draw shrinking concentric circles
+      int numCircles = 14;
+      List<double> phases = List.generate(
+        numCircles,
+        (i) => ((i / numCircles) - (_time * 0.4)) % 1.0,
+      );
+      // Sort descending so larger circles are drawn first
+      phases.sort((a, b) => b.compareTo(a));
+
+      for (double phase in phases) {
+        // Linear radius looks like a perfect tunnel
+        double r = phase * 36.0;
+
+        // Grade colors from light (edge) to dark (center)
+        Color c;
+        if (phase > 0.5) {
+          c = Color.lerp(
+            const Color(0xff8E76CC),
+            const Color(0xffD6C5FF),
+            (phase - 0.5) * 2,
+          )!;
+        } else {
+          c = Color.lerp(
+            const Color(0xff1A0D36),
+            const Color(0xff8E76CC),
+            phase * 2,
+          )!;
+        }
+
+        final Paint circlePaint = Paint()
+          ..color = c
+          ..style = PaintingStyle.fill;
+
+        canvas.drawCircle(Offset.zero, r, circlePaint);
+
+        // Add subtle edge shadows for a stepped 3D look
+        final Paint strokePaint = Paint()
+          ..color = Colors.black.withOpacity(0.08)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.0;
+        canvas.drawCircle(Offset.zero, r, strokePaint);
+
+        final Paint highlightPaint = Paint()
+          ..color = Colors.white.withOpacity(0.1 * phase)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.0;
+        canvas.drawCircle(Offset(0, -1), r, highlightPaint);
+      }
+
+      canvas.restore();
     }
   }
 }

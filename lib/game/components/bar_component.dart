@@ -21,7 +21,7 @@ class BarComponent extends Component with HasGameReference<BalancoGame> {
     canvas.rotate(angle);
 
     // --- SLEEK POLISHED WOODEN BAR RENDER ---
-    double barHeight = 14.0; // Decreased height
+    double barHeight = 28.0; // Restored appropriate height to match ball radius
     Rect woodenBarRect = Rect.fromLTRB(
       0,
       -barHeight / 2,
@@ -29,17 +29,23 @@ class BarComponent extends Component with HasGameReference<BalancoGame> {
       barHeight / 2,
     );
 
-    // 1. Drop shadow for depth
+    // 1. Drop shadow for depth (drawn relative to world, so we undo rotation)
     final Paint shadowPaint = Paint()
       ..color = Colors.black.withValues(alpha: 0.4)
-      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4.0);
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6.0);
+    
+    canvas.save();
+    canvas.rotate(-angle); // Undo rotation to cast shadow straight down
+    canvas.translate(0, 10);
+    canvas.rotate(angle);
     canvas.drawRRect(
       RRect.fromRectAndRadius(
-        woodenBarRect.translate(0, 6),
-        const Radius.circular(7),
+        woodenBarRect,
+        const Radius.circular(14),
       ),
       shadowPaint,
     );
+    canvas.restore();
 
     // 2. Main Wooden Bar (Gradient for 3D polished effect)
     final Paint woodPaint = Paint()
@@ -56,12 +62,12 @@ class BarComponent extends Component with HasGameReference<BalancoGame> {
       ).createShader(woodenBarRect);
 
     canvas.drawRRect(
-      RRect.fromRectAndRadius(woodenBarRect, const Radius.circular(7)),
+      RRect.fromRectAndRadius(woodenBarRect, const Radius.circular(14)),
       woodPaint,
     );
 
     // 3. Inner Groove (Track for the ball)
-    Rect grooveRect = Rect.fromLTRB(8, -2.0, barLength - 8, 2.0);
+    Rect grooveRect = Rect.fromLTRB(16, -6.0, barLength - 16, 6.0);
     final Paint groovePaint = Paint()
       ..shader = const LinearGradient(
         begin: Alignment.topCenter,
@@ -72,7 +78,7 @@ class BarComponent extends Component with HasGameReference<BalancoGame> {
         ],
       ).createShader(grooveRect);
     canvas.drawRRect(
-      RRect.fromRectAndRadius(grooveRect, const Radius.circular(2)),
+      RRect.fromRectAndRadius(grooveRect, const Radius.circular(6)),
       groovePaint,
     );
 
@@ -87,24 +93,26 @@ class BarComponent extends Component with HasGameReference<BalancoGame> {
     // Left Cap
     canvas.drawRRect(
       RRect.fromRectAndRadius(
-        Rect.fromLTRB(0, -barHeight / 2, 8, barHeight / 2),
-        const Radius.circular(7),
+        Rect.fromLTRB(0, -barHeight / 2, 16, barHeight / 2),
+        const Radius.circular(14),
       ),
       metalPaint,
     );
     // Right Cap
     canvas.drawRRect(
       RRect.fromRectAndRadius(
-        Rect.fromLTRB(barLength - 8, -barHeight / 2, barLength, barHeight / 2),
-        const Radius.circular(7),
+        Rect.fromLTRB(barLength - 16, -barHeight / 2, barLength, barHeight / 2),
+        const Radius.circular(14),
       ),
       metalPaint,
     );
     
     // Add small rivets to end caps
     final Paint rivetPaint = Paint()..color = const Color(0xFF424242);
-    canvas.drawCircle(const Offset(4, 0), 1.5, rivetPaint);
-    canvas.drawCircle(Offset(barLength - 4, 0), 1.5, rivetPaint);
+    canvas.drawCircle(const Offset(8, -6), 2.5, rivetPaint);
+    canvas.drawCircle(const Offset(8, 6), 2.5, rivetPaint);
+    canvas.drawCircle(Offset(barLength - 8, -6), 2.5, rivetPaint);
+    canvas.drawCircle(Offset(barLength - 8, 6), 2.5, rivetPaint);
 
     canvas.restore();
   }

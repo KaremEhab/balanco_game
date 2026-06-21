@@ -18,6 +18,7 @@ import 'components/bumper_component.dart';
 import 'components/teleporter_component.dart';
 import 'components/confetti_component.dart';
 import 'components/heart_component.dart';
+import 'components/coin_component.dart';
 
 import 'models/level_data.dart';
 import 'level_generator.dart';
@@ -31,13 +32,20 @@ class BalancoGame extends FlameGame {
 
   final ValueNotifier<int> currentLevel = ValueNotifier<int>(1);
   final ValueNotifier<int> currentPoints = ValueNotifier<int>(0);
+  final ValueNotifier<int> currentScore = ValueNotifier<int>(0);
   final ValueNotifier<int> currentLives = ValueNotifier<int>(3);
 
   // Shield state
   final ValueNotifier<int> remainingShields = ValueNotifier<int>(3);
-  double shieldTimer = 0.0;
   final ValueNotifier<double> shieldTimerNotifier = ValueNotifier<double>(0.0);
+  double shieldTimer = 0.0;
   bool get isShieldActive => shieldTimer > 0;
+
+  // Magnet state
+  final ValueNotifier<int> remainingMagnets = ValueNotifier<int>(3);
+  final ValueNotifier<double> magnetTimerNotifier = ValueNotifier<double>(0.0);
+  double magnetTimer = 0.0;
+  bool get isMagnetActive => magnetTimer > 0;
 
   double leftJoystickValue = 0.0;
   double rightJoystickValue = 0.0;
@@ -88,6 +96,7 @@ class BalancoGame extends FlameGame {
   final List<HoleComponent> holes = [];
   final List<StarComponent> stars = [];
   final List<HeartComponent> hearts = [];
+  final List<CoinComponent> coins = [];
   final List<BumperComponent> bumpers = [];
   final List<TeleporterComponent> teleporters = [];
   TeleporterComponent? activeExitTeleporter;
@@ -162,6 +171,8 @@ class BalancoGame extends FlameGame {
     isFallingInHole = false;
     activeHole = null;
     ballScale = 1.0;
+    squashX = 1.0;
+    squashY = 1.0;
     fallRotation = 0.0;
     ballVelocity = 0.0;
     isFreeFalling = false;
@@ -272,6 +283,10 @@ class BalancoGame extends FlameGame {
       if (heart.parent != null) heart.removeFromParent();
     }
     hearts.clear();
+    for (final coin in coins) {
+      if (coin.parent != null) coin.removeFromParent();
+    }
+    coins.clear();
     for (final bumper in bumpers) {
       if (bumper.parent != null) bumper.removeFromParent();
     }
@@ -365,6 +380,19 @@ class BalancoGame extends FlameGame {
       hearts.add(heart);
       add(heart);
     }
+
+    for (final cPos in data.coins) {
+      final coin = CoinComponent(cPos)..priority = 5;
+
+      final targetPos = Vector2(cPos.x * size.x, cPos.y * size.y);
+      targetPositions[coin] = targetPos;
+      coin.position = teleportingGateComponent.position.clone();
+      coin.scale = Vector2.zero();
+      pendingSpawns.add(coin);
+
+      coins.add(coin);
+      add(coin);
+    }
   }
 
   @override
@@ -396,9 +424,9 @@ class BalancoGame extends FlameGame {
       ballPos2D.x += dx * dt * 5;
       ballPos2D.y += dy * dt * 5;
 
-      // Jelly effect on the ball
-      squashX = 0.5 + sin(teleportingGateComponent.isClosed ? 0 : 20) * 0.3;
-      squashY = 1.5 + cos(teleportingGateComponent.isClosed ? 0 : 20) * 0.3;
+      // Keep ball in perfect shape while shrinking into the gate
+      squashX = 1.0;
+      squashY = 1.0;
       ballScale -= dt * 1.5; // shrink rapidly
 
       if (ballScale <= 0) {
@@ -457,6 +485,15 @@ class BalancoGame extends FlameGame {
       if (shieldTimerNotifier.value != 0.0) shieldTimerNotifier.value = 0.0;
     }
 
+    // Magnet Timer
+    if (magnetTimer > 0) {
+      magnetTimer -= dt;
+      if (magnetTimer < 0) magnetTimer = 0.0;
+      magnetTimerNotifier.value = magnetTimer;
+    } else {
+      if (magnetTimerNotifier.value != 0.0) magnetTimerNotifier.value = 0.0;
+    }
+
     double maxY = size.y - 20.0;
     double minY = 10.0;
 
@@ -506,7 +543,7 @@ class BalancoGame extends FlameGame {
           double barYAtX = leftY + (rightY - leftY) * t;
           double barSurface = barYAtX - (ballRadius + 6.0);
           
-          if (prevY <= barSurface + 5.0 && newY >= barSurface - 5.0) {
+          if (newY >= barSurface - 5.0) {
             // Hit the bar!
             spawnTimer = 0; // Trigger Phase 2
             ballP = t * barLength;
@@ -520,6 +557,39 @@ class BalancoGame extends FlameGame {
           }
         }
       } else {
+        // Run bounce and squish physics while waiting for the game to launch
+        if (bounceTimer > 0) {
+          bounceTimer -= dt;
+          if (bounceTimer < 0) bounceTimer = 0.0;
+
+          double t = 1.0 - (bounceTimer / 0.4); // goes from 0.0 to 1.0
+          if (t < 0.25) {
+            // Impact squish
+            double sq = t / 0.25; 
+            squashY = 1.0 - (0.4 * sq);
+            squashX = 1.0 + (0.4 * sq);
+            ballPos2D = leftPoint + direction * ballP + normal * (ballRadius * squashY + 6.0);
+          } else if (t < 0.75) {
+            // Bounce up
+            double sq = (t - 0.25) / 0.5; 
+            double bounceHeight = sin(sq * pi) * 20.0; // Hop 20 pixels
+            squashY = 1.0 + (0.2 * sin(sq * pi));
+            squashX = 1.0 - (0.2 * sin(sq * pi));
+            ballPos2D = leftPoint + direction * ballP + normal * (ballRadius * squashY + 6.0 + bounceHeight);
+          } else {
+            // Settle squash
+            double sq = (t - 0.75) / 0.25; 
+            double settle = sin(sq * pi);
+            squashY = 1.0 - (0.2 * settle);
+            squashX = 1.0 + (0.2 * settle);
+            ballPos2D = leftPoint + direction * ballP + normal * (ballRadius * squashY + 6.0);
+          }
+        } else {
+          squashX = 1.0;
+          squashY = 1.0;
+          ballPos2D = leftPoint + direction * ballP + normal * (ballRadius + 6.0);
+        }
+
         // Phase 2: Cascading Spit
         if (pendingSpawns.isNotEmpty) {
           itemSpawnTimer -= dt;
@@ -600,8 +670,8 @@ class BalancoGame extends FlameGame {
         double barYAtX = leftY + (rightY - leftY) * t;
         double barSurface = barYAtX - (ballRadius + 6.0);
 
-        // If ball falls through the surface
-        if (prevY <= barSurface + 5.0 && newY >= barSurface - 5.0) {
+        // If ball falls through the surface or the bar is moved up to catch it
+        if (newY >= barSurface - 5.0) {
           isFreeFalling = false;
           timeStopTimer = 0.0;
           timeStopNotifier.value = 0.0;
@@ -835,6 +905,40 @@ class BalancoGame extends FlameGame {
                 FlameAudio.play(
                   'star.wav',
                 ); // We can reuse star sound or add life.wav later
+              } catch (_) {}
+            }
+          }
+        }
+
+        // Check coin collisions & magnet logic
+        for (final coin in coins) {
+          if (!coin.isCollected) {
+            Vector2 coinPos = Vector2(
+              coin.fractionalPosition.x * size.x,
+              coin.fractionalPosition.y * size.y,
+            );
+
+            if (magnetTimer > 0) {
+              double pullSpeed = 400.0; // Magnet pull speed in pixels/sec
+              Vector2 dir = (ballPos2D - coinPos);
+              if (dir.length > 5.0) { // Add a tiny deadzone to prevent jitter
+                dir.normalize();
+                coinPos += dir * pullSpeed * dt;
+                
+                // Update fractionalPosition so it persists in the world
+                coin.fractionalPosition = Vector2(
+                  coinPos.x / size.x,
+                  coinPos.y / size.y,
+                );
+              }
+            }
+
+            if (ballPos2D.distanceTo(coinPos) < ballRadius + 15.0) {
+              coin.isCollected = true;
+              currentScore.value += 50; // Each coin is worth 50
+              HapticFeedback.lightImpact();
+              try {
+                FlameAudio.play('star.wav'); // Reuse star sound for now
               } catch (_) {}
             }
           }

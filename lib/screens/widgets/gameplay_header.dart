@@ -3,7 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../game/components/game_area/gameplay_card_painter.dart';
 import '../../game/components/game_area/empty_card_painter.dart';
 import '../../game/components/game_area/heart_filled_painter.dart';
+import '../../game/components/game_area/broken_heart_painter.dart';
 import '../../game/components/game_area/star_filled_painter.dart';
+import '../../game/components/game_area/empty_star_painter.dart';
+import '../../game/components/game_area/coin_painter.dart';
 import '../../game/game_area.dart';
 
 class GameplayHeader extends StatelessWidget {
@@ -40,7 +43,7 @@ class GameplayHeader extends StatelessWidget {
               // Hearts (Left)
               Positioned(
                 left: 20,
-                top: 45, // Added small space at top
+                top: 53, // Lowered position
                 child: ValueListenableBuilder<int>(
                   valueListenable: game.currentLives,
                   builder: (context, lives, child) {
@@ -51,7 +54,7 @@ class GameplayHeader extends StatelessWidget {
                           child: AnimatedGameStatSlot(
                             isActive: index < lives,
                             filledPainter: HeartFilledPainter(),
-                            emptyPainter: CircleCardPainter(),
+                            emptyPainter: BrokenHeartPainter(),
                             shadowOffset: const Offset(
                               -3,
                               3,
@@ -117,7 +120,7 @@ class GameplayHeader extends StatelessWidget {
               // Stars (Right)
               Positioned(
                 right: 20,
-                top: 45, // Added small space at top
+                top: 53, // Lowered position
                 child: ValueListenableBuilder<int>(
                   valueListenable: game.currentPoints,
                   builder: (context, stars, child) {
@@ -126,9 +129,9 @@ class GameplayHeader extends StatelessWidget {
                         return Padding(
                           padding: const EdgeInsets.only(left: 6),
                           child: AnimatedGameStatSlot(
-                            isActive: index < stars,
+                            isActive: (2 - index) < stars,
                             filledPainter: StarFilledPainter(),
-                            emptyPainter: CircleCardPainter(),
+                            emptyPainter: EmptyStarPainter(),
                             shadowOffset: const Offset(
                               3,
                               3,
@@ -136,6 +139,47 @@ class GameplayHeader extends StatelessWidget {
                           ),
                         );
                       }),
+                    );
+                  },
+                ),
+              ),
+
+              // Score (Top Right)
+              Positioned(
+                right: 35,
+                top: 15,
+                child: ValueListenableBuilder<int>(
+                  valueListenable: game.currentScore,
+                  builder: (context, score, child) {
+                    return Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Coin Icon
+                        SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: CustomPaint(
+                            painter: CoinPainter(),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        // Score Text
+                        Text(
+                          '$score',
+                          style: GoogleFonts.luckiestGuy(
+                            color: Colors.white,
+                            fontSize: 24,
+                            height: 1.0,
+                            shadows: const [
+                              Shadow(
+                                color: Color(0xFF8D5800),
+                                offset: Offset(0, 3),
+                                blurRadius: 0,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     );
                   },
                 ),

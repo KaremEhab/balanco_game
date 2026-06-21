@@ -1,8 +1,10 @@
+import 'dart:math';
 import 'dart:ui' as ui;
 
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import '../game_area.dart';
+import 'game_area/magnate_painter.dart';
 
 class BallComponent extends Component with HasGameReference<BalancoGame> {
   final Paint basePaint = Paint()..color = Colors.redAccent;
@@ -121,6 +123,32 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
 
       canvas.drawCircle(Offset.zero, shieldRadius, shieldFill);
       canvas.drawCircle(Offset.zero, shieldRadius, shieldStroke);
+    }
+
+    // 6. Magnet Effect
+    if (game.isMagnetActive) {
+      canvas.save();
+      // Hover the magnet 30 pixels above the ball
+      double hoverOffset = sin(game.magnetTimer * 4) * 5.0; // slight bobbing
+      canvas.translate(0, -game.ballRadius - 40.0 + hoverOffset);
+      
+      // Draw a subtle glow behind the magnet to make it stand out
+      canvas.drawCircle(
+        Offset(0, -10), 
+        30, 
+        Paint()
+          ..color = Colors.redAccent.withValues(alpha: 0.3)
+          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 10.0),
+      );
+
+      // The MagnatePainter draws from 0,0 to around 52,52 roughly
+      // We scale it and center it above the ball
+      double magScale = 1.0;
+      canvas.scale(magScale, magScale);
+      canvas.translate(-16.0, -26.0); // center adjustment based on its SVG paths
+
+      MagnatePainter().paint(canvas, const Size(40, 50));
+      canvas.restore();
     }
 
     if (fallFade < 1.0) {

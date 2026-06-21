@@ -3,6 +3,7 @@ import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 
 import '../game_area.dart';
+import 'game_area/collected_heart_painter.dart';
 
 class HeartComponent extends PositionComponent with HasGameReference<BalancoGame> {
   final Vector2 fractionalPosition;
@@ -10,82 +11,25 @@ class HeartComponent extends PositionComponent with HasGameReference<BalancoGame
   bool isCollected = false;
   double _collectedTime = 0.0;
 
-  late TextPainter textPainter;
+  late final CollectedHeartPainter _painter;
 
   // Cached Paints
   late final Paint _dropShadowPaint;
-  late final Paint _coinBasePaint;
-  late final Paint _innerCoinPaint;
-  late final Paint _rimHighlightPaint;
-  late final Paint _innerShadowPaint;
   late final Paint _fadePaint;
 
   HeartComponent(this.fractionalPosition) {
-    textPainter = TextPainter(
-      text: TextSpan(
-        text: String.fromCharCode(Icons.favorite.codePoint),
-        style: TextStyle(
-          fontFamily: Icons.favorite.fontFamily,
-          package: Icons.favorite.fontPackage,
-          color: Colors.pink.shade100,
-          fontSize: 14,
-          shadows: [
-            const Shadow(
-              color: Colors.black45,
-              offset: Offset(1, 1),
-              blurRadius: 2,
-            ),
-          ],
-        ),
-      ),
-      textDirection: TextDirection.ltr,
-    );
-    textPainter.layout();
-    
-    size = Vector2(28, 28);
+    size = Vector2(34, 34);
     anchor = Anchor.center;
+    _painter = CollectedHeartPainter();
   }
 
   @override
   Future<void> onLoad() async {
     super.onLoad();
 
-    double radius = 14.0;
-
     _dropShadowPaint = Paint()
       ..color = Colors.black.withValues(alpha: 0.5)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6.0);
-
-    _coinBasePaint = Paint()
-      ..shader = RadialGradient(
-        center: const Alignment(-0.3, -0.3),
-        radius: 1.0,
-        colors: [Colors.pink.shade300, Colors.red.shade700],
-      ).createShader(Rect.fromCircle(center: Offset.zero, radius: radius));
-
-    _innerCoinPaint = Paint()
-      ..shader =
-          RadialGradient(
-            center: const Alignment(0.3, 0.3),
-            radius: 1.0,
-            colors: [Colors.red.shade400, Colors.redAccent.shade700],
-          ).createShader(
-            Rect.fromCircle(center: Offset.zero, radius: radius - 3.0),
-          );
-
-    _rimHighlightPaint = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 2.0
-      ..shader = RadialGradient(
-        center: const Alignment(-0.5, -0.5),
-        radius: 1.0,
-        colors: [Colors.white.withValues(alpha: 0.8), Colors.transparent],
-      ).createShader(Rect.fromCircle(center: Offset.zero, radius: radius));
-
-    _innerShadowPaint = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.5
-      ..color = Colors.black38;
 
     _fadePaint = Paint();
   }
@@ -143,23 +87,19 @@ class HeartComponent extends PositionComponent with HasGameReference<BalancoGame
       canvas.save();
       canvas.translate(4.0, 8.0);
       canvas.scale(1.0, 0.5);
-      canvas.drawCircle(Offset.zero, 14.0 * pulseScale, _dropShadowPaint);
+      canvas.drawCircle(Offset.zero, 17.0 * pulseScale, _dropShadowPaint);
       canvas.restore();
     }
 
     canvas.scale(pulseScale, pulseScale);
 
-    double radius = 14.0;
-
-    canvas.drawCircle(Offset.zero, radius, _coinBasePaint);
-    canvas.drawCircle(Offset.zero, radius - 3.0, _innerCoinPaint);
-    canvas.drawCircle(Offset.zero, radius, _rimHighlightPaint);
-    canvas.drawCircle(Offset.zero, radius - 3.0, _innerShadowPaint);
-
-    textPainter.paint(
-      canvas,
-      Offset(-textPainter.width / 2, -textPainter.height / 2),
-    );
+    // The exported SVG paths inside CollectedHeartPainter assume a 48x48 canvas.
+    // We scale the drawing to match this component's size.
+    canvas.save();
+    canvas.scale(size.x / 48.0, size.y / 48.0);
+    canvas.translate(-24.0, -24.0); // Shift so the center of 48x48 box sits at (0,0)
+    _painter.paint(canvas, const Size(48, 48));
+    canvas.restore();
 
     if (fade < 1.0) {
       canvas.restore();

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../game/game_area.dart';
+import '../game/components/game_area/magnate_painter.dart';
 
 class GameControlsOverlay extends StatelessWidget {
   final BalancoGame game;
@@ -36,25 +37,83 @@ class GameControlsOverlay extends StatelessWidget {
               ),
             ),
 
-          // Central Action / Power-Up Button
+          // Central Action / Power-Up Buttons
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
               padding: const EdgeInsets.only(bottom: 10),
-              child: ValueListenableBuilder<int>(
-                valueListenable: game.remainingShields,
-                builder: (context, shields, child) {
-                  return ValueListenableBuilder<double>(
-                    valueListenable: game.shieldTimerNotifier,
-                    builder: (context, shieldTime, child) {
-                      return ShieldButton(
-                        game: game,
-                        shields: shields,
-                        shieldTime: shieldTime,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Left Shield
+                  ValueListenableBuilder<int>(
+                    valueListenable: game.remainingShields,
+                    builder: (context, shields, child) {
+                      return ValueListenableBuilder<double>(
+                        valueListenable: game.shieldTimerNotifier,
+                        builder: (context, shieldTime, child) {
+                          return SquarePowerButton(
+                            game: game,
+                            charges: shields,
+                            activeTime: shieldTime,
+                            maxTime: 5.0,
+                            iconType: 'SHIELD',
+                            onTap: () {
+                              game.remainingShields.value -= 1;
+                              game.shieldTimer = 5.0;
+                            },
+                          );
+                        },
                       );
                     },
-                  );
-                },
+                  ),
+                  const SizedBox(width: 12),
+                  // Center Magnet
+                  ValueListenableBuilder<int>(
+                    valueListenable: game.remainingMagnets,
+                    builder: (context, magnets, child) {
+                      return ValueListenableBuilder<double>(
+                        valueListenable: game.magnetTimerNotifier,
+                        builder: (context, magnetTime, child) {
+                          return SquarePowerButton(
+                            game: game,
+                            charges: magnets,
+                            activeTime: magnetTime,
+                            maxTime: 5.0,
+                            iconType: 'MAGNET',
+                            onTap: () {
+                              game.remainingMagnets.value -= 1;
+                              game.magnetTimer = 5.0;
+                            },
+                          );
+                        },
+                      );
+                    },
+                  ),
+                  const SizedBox(width: 12),
+                  // Right Shield (same instance state)
+                  ValueListenableBuilder<int>(
+                    valueListenable: game.remainingShields,
+                    builder: (context, shields, child) {
+                      return ValueListenableBuilder<double>(
+                        valueListenable: game.shieldTimerNotifier,
+                        builder: (context, shieldTime, child) {
+                          return SquarePowerButton(
+                            game: game,
+                            charges: shields,
+                            activeTime: shieldTime,
+                            maxTime: 5.0,
+                            iconType: 'SHIELD',
+                            onTap: () {
+                              game.remainingShields.value -= 1;
+                              game.shieldTimer = 5.0;
+                            },
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ],
               ),
             ),
           ),
@@ -64,30 +123,42 @@ class GameControlsOverlay extends StatelessWidget {
   }
 }
 
-class ShieldButton extends StatefulWidget {
+class SquarePowerButton extends StatefulWidget {
   final BalancoGame game;
-  final int shields;
-  final double shieldTime;
+  final int charges;
+  final double activeTime;
+  final double maxTime;
+  final String iconType;
+  final VoidCallback onTap;
 
-  const ShieldButton({
+  const SquarePowerButton({
     super.key,
     required this.game,
-    required this.shields,
-    required this.shieldTime,
+    required this.charges,
+    required this.activeTime,
+    required this.maxTime,
+    required this.iconType,
+    required this.onTap,
   });
 
   @override
-  State<ShieldButton> createState() => _ShieldButtonState();
+  State<SquarePowerButton> createState() => _SquarePowerButtonState();
 }
 
-class _ShieldButtonState extends State<ShieldButton> {
+class _SquarePowerButtonState extends State<SquarePowerButton> {
   bool _isPressed = false;
 
   @override
   Widget build(BuildContext context) {
-    bool isShieldActive = widget.shieldTime > 0;
-    bool hasShields = widget.shields > 0;
-    bool canClick = hasShields && !isShieldActive;
+    bool isActive = widget.activeTime > 0;
+    bool hasCharges = widget.charges > 0;
+    bool canClick = hasCharges && !isActive;
+
+    bool isMagnet = widget.iconType == 'MAGNET';
+    List<Color> gradientColors = isMagnet
+        ? [const Color(0xffFF6B6B), const Color(0xffD32A2A)]
+        : [const Color(0xff6BABFF), const Color(0xff2A75D3)];
+    Color shadowColor = isMagnet ? const Color(0xff8C1A1A) : const Color(0xff1A4B8C);
 
     return GestureDetector(
       onTapDown: (_) {
@@ -96,8 +167,7 @@ class _ShieldButtonState extends State<ShieldButton> {
       onTapUp: (_) {
         if (canClick) {
           setState(() => _isPressed = false);
-          widget.game.remainingShields.value -= 1;
-          widget.game.shieldTimer = 5.0; // 5 seconds of protection
+          widget.onTap();
         }
       },
       onTapCancel: () {
@@ -108,19 +178,19 @@ class _ShieldButtonState extends State<ShieldButton> {
         duration: const Duration(milliseconds: 100),
         curve: Curves.easeInOutCubic,
         child: Opacity(
-          opacity: canClick || isShieldActive ? 1.0 : 0.4,
+          opacity: canClick || isActive ? 1.0 : 0.4,
           child: Container(
-            width: 160,
+            width: 64,
             height: 64,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(32),
-              gradient: const LinearGradient(
-                colors: [Color(0xff6BABFF), Color(0xff2A75D3)],
+              borderRadius: BorderRadius.circular(16),
+              gradient: LinearGradient(
+                colors: gradientColors,
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
               boxShadow: [
-                const BoxShadow(color: Color(0xff1A4B8C), offset: Offset(0, 6)),
+                BoxShadow(color: shadowColor, offset: const Offset(0, 6)),
                 BoxShadow(
                   color: Colors.black.withValues(alpha: _isPressed ? 0.2 : 0.45),
                   offset: Offset(0, _isPressed ? 4 : 8),
@@ -133,72 +203,59 @@ class _ShieldButtonState extends State<ShieldButton> {
               ),
             ),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(14),
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  if (isShieldActive)
+                  if (isActive)
                     Positioned(
                       left: 0,
-                      top: 0,
                       bottom: 0,
+                      right: 0,
                       child: Container(
-                        width:
-                            160.0 * (widget.shieldTime / 5.0).clamp(0.0, 1.0),
+                        height: 64.0 * (widget.activeTime / widget.maxTime).clamp(0.0, 1.0),
                         color: Colors.white.withValues(alpha: 0.35),
                       ),
                     ),
                   Container(
-                    width: 144,
-                    height: 48,
+                    width: 52,
+                    height: 52,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(24),
+                      borderRadius: BorderRadius.circular(12),
                       border: Border.all(
                         color: const Color(0x33000000),
                         width: 2,
                       ),
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      if (!isShieldActive) ...[
-                        const Icon(
-                          Icons.shield_rounded,
-                          color: Colors.white,
-                          size: 32,
-                        ),
-                        const SizedBox(width: 8),
-                      ],
-                      Text(
-                        isShieldActive
-                            ? "${widget.shieldTime.toStringAsFixed(1)}s"
-                            : "SHIELD",
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.2,
-                          shadows: [
-                            Shadow(
-                              color: Colors.black45,
-                              offset: Offset(0, 2),
-                              blurRadius: 2,
-                            ),
-                          ],
+                  // Icon Rendering
+                  if (isMagnet)
+                    SizedBox(
+                      width: 32,
+                      height: 40,
+                      child: CustomPaint(
+                        painter: MagnatePainter(),
+                        child: Transform.scale(
+                          scale: 0.7, // shrink painter to fit in 32x40
+                          child: const SizedBox(),
                         ),
                       ),
-                    ],
-                  ),
+                    )
+                  else
+                    const Icon(
+                      Icons.shield_rounded,
+                      color: Colors.white,
+                      size: 38,
+                    ),
                   Positioned(
                     top: 6,
-                    left: 20,
-                    right: 20,
+                    left: 12,
+                    right: 12,
                     child: Container(
-                      height: 8,
+                      height: 6,
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.4),
-                        borderRadius: BorderRadius.circular(4),
+                        borderRadius: BorderRadius.circular(3),
                       ),
                     ),
                   ),

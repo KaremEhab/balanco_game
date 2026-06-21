@@ -37,6 +37,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
   double _ballScale = 1.0;
   double _ballRotation = 0.0;
   bool _isAnimatingBall = false;
+  bool _isEnteringLevel = false;
   final List<Offset> _islandNodes = [];
   final List<Offset> _buttonNodes = [];
   Path _mapRoadPath = Path();
@@ -260,7 +261,17 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     if (index > highestLevel || _isAnimatingBall) return;
 
     if (index == currentBallLevel) {
-      _startGameplay(index);
+      setState(() {
+        _isAnimatingBall = true;
+        _targetBallLevel = currentBallLevel;
+      });
+      _ballController.forward(from: 0.8).then((_) {
+        if (!mounted) return;
+        setState(() {
+          _isAnimatingBall = false;
+        });
+        _startGameplay(index);
+      });
       return;
     }
 
@@ -320,6 +331,12 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt('lastPlayedLevel', index);
 
+    if (mounted) {
+      setState(() {
+        _isEnteringLevel = true;
+      });
+    }
+
     // Launch the active game overlay cleanly
     final game = BalancoGame(
       isMultiplayer: isMultiplayerNotifier.value,
@@ -337,6 +354,7 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
 
     if (mounted) {
       setState(() {
+        _isEnteringLevel = false;
         _ballScale = 1.0;
         _ballRotation = 0.0;
       });
@@ -615,6 +633,11 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                                       currentY += (ballDrawRadius * _ballScale * (1.0 - squashY));
                                     } else if (t > 0.85) {
                                       double sq = (t - 0.85) / 0.15;
+                                      // Reduce the squash linearly as sinkCurve begins so it recovers to a perfect sphere!
+                                      if (_ballController.value > 0.8) {
+                                          double recovery = ((_ballController.value - 0.8) / 0.05).clamp(0.0, 1.0);
+                                          sq = sq * (1.0 - recovery);
+                                      }
                                       squashY = 1.0 - (0.35 * sq);
                                       squashX = 1.0 + (0.35 * sq);
                                       currentY += (ballDrawRadius * _ballScale * (1.0 - squashY));
@@ -636,25 +659,27 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
                               currentY +=
                                   sin((_islandBounceController.value * pi * 2) + (currentBallLevel * 1.3)) * 8.0;
                               
-                              double tHop = (_islandBounceController.value * 30.0) % 1.0; // 1.5 bounces per sec
-                              double idleJumpY = sin(tHop * pi) * 20.0;
-                              currentY -= idleJumpY;
-                              
-                              // Idle Squash
-                              if (tHop < 0.15) {
-                                 double sq = 1.0 - (tHop / 0.15);
-                                 squashY = 1.0 - (0.3 * sq);
-                                 squashX = 1.0 + (0.3 * sq);
-                                 currentY += (ballDrawRadius * _ballScale * (1.0 - squashY));
-                              } else if (tHop > 0.85) {
-                                 double sq = (tHop - 0.85) / 0.15;
-                                 squashY = 1.0 - (0.3 * sq);
-                                 squashX = 1.0 + (0.3 * sq);
-                                 currentY += (ballDrawRadius * _ballScale * (1.0 - squashY));
-                              } else {
-                                 double sq = sin(tHop * pi);
-                                 squashY = 1.0 + (0.15 * (1.0 - sq));
-                                 squashX = 1.0 - (0.15 * (1.0 - sq));
+                              if (!_isEnteringLevel) {
+                                double tHop = (_islandBounceController.value * 30.0) % 1.0; // 1.5 bounces per sec
+                                double idleJumpY = sin(tHop * pi) * 20.0;
+                                currentY -= idleJumpY;
+                                
+                                // Idle Squash
+                                if (tHop < 0.15) {
+                                   double sq = 1.0 - (tHop / 0.15);
+                                   squashY = 1.0 - (0.3 * sq);
+                                   squashX = 1.0 + (0.3 * sq);
+                                   currentY += (ballDrawRadius * _ballScale * (1.0 - squashY));
+                                } else if (tHop > 0.85) {
+                                   double sq = (tHop - 0.85) / 0.15;
+                                   squashY = 1.0 - (0.3 * sq);
+                                   squashX = 1.0 + (0.3 * sq);
+                                   currentY += (ballDrawRadius * _ballScale * (1.0 - squashY));
+                                } else {
+                                   double sq = sin(tHop * pi);
+                                   squashY = 1.0 + (0.15 * (1.0 - sq));
+                                   squashX = 1.0 - (0.15 * (1.0 - sq));
+                                }
                               }
                             }
 
