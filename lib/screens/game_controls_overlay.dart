@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../game/game_area.dart';
 import '../game/components/game_area/magnate_painter.dart';
+import '../game/components/game_area/magnate_btn_painter.dart';
+import '../game/components/game_area/shield_btn_painter.dart';
 
 class GameControlsOverlay extends StatelessWidget {
   final BalancoGame game;
@@ -90,29 +92,7 @@ class GameControlsOverlay extends StatelessWidget {
                       );
                     },
                   ),
-                  const SizedBox(width: 12),
-                  // Right Shield (same instance state)
-                  ValueListenableBuilder<int>(
-                    valueListenable: game.remainingShields,
-                    builder: (context, shields, child) {
-                      return ValueListenableBuilder<double>(
-                        valueListenable: game.shieldTimerNotifier,
-                        builder: (context, shieldTime, child) {
-                          return SquarePowerButton(
-                            game: game,
-                            charges: shields,
-                            activeTime: shieldTime,
-                            maxTime: 5.0,
-                            iconType: 'SHIELD',
-                            onTap: () {
-                              game.remainingShields.value -= 1;
-                              game.shieldTimer = 5.0;
-                            },
-                          );
-                        },
-                      );
-                    },
-                  ),
+                  // Right Shield removed as per user request
                 ],
               ),
             ),
@@ -155,10 +135,6 @@ class _SquarePowerButtonState extends State<SquarePowerButton> {
     bool canClick = hasCharges && !isActive;
 
     bool isMagnet = widget.iconType == 'MAGNET';
-    List<Color> gradientColors = isMagnet
-        ? [const Color(0xffFF6B6B), const Color(0xffD32A2A)]
-        : [const Color(0xff6BABFF), const Color(0xff2A75D3)];
-    Color shadowColor = isMagnet ? const Color(0xff8C1A1A) : const Color(0xff1A4B8C);
 
     return GestureDetector(
       onTapDown: (_) {
@@ -178,89 +154,110 @@ class _SquarePowerButtonState extends State<SquarePowerButton> {
         duration: const Duration(milliseconds: 100),
         curve: Curves.easeInOutCubic,
         child: Opacity(
-          opacity: canClick || isActive ? 1.0 : 0.4,
-          child: Container(
+          opacity: canClick || isActive ? 1.0 : 0.5,
+          child: SizedBox(
             width: 64,
             height: 64,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              gradient: LinearGradient(
-                colors: gradientColors,
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
-              boxShadow: [
-                BoxShadow(color: shadowColor, offset: const Offset(0, 6)),
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: _isPressed ? 0.2 : 0.45),
-                  offset: Offset(0, _isPressed ? 4 : 8),
-                  blurRadius: _isPressed ? 4 : 6,
-                ),
-              ],
-              border: Border.all(
-                color: Colors.white.withValues(alpha: 0.8),
-                width: 2,
-              ),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(14),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  if (isActive)
-                    Positioned(
-                      left: 0,
-                      bottom: 0,
-                      right: 0,
-                      child: Container(
-                        height: 64.0 * (widget.activeTime / widget.maxTime).clamp(0.0, 1.0),
-                        color: Colors.white.withValues(alpha: 0.35),
-                      ),
-                    ),
-                  Container(
-                    width: 52,
-                    height: 52,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                // Drop shadow underlay to compensate for removed outer decoration
+                Positioned(
+                  left: 2,
+                  right: 2,
+                  top: 2,
+                  bottom: 6,
+                  child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                        color: const Color(0x33000000),
-                        width: 2,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: isMagnet ? const Color(0xff8C1A1A) : const Color(0xff1A4B8C),
+                          offset: const Offset(0, 4),
+                        ),
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: _isPressed ? 0.2 : 0.45),
+                          offset: Offset(0, _isPressed ? 4 : 8),
+                          blurRadius: _isPressed ? 4 : 6,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                // The new custom painted buttons
+                SizedBox(
+                  width: 64,
+                  height: 64,
+                  child: FittedBox(
+                    fit: BoxFit.contain,
+                    child: SizedBox(
+                      width: 48,
+                      height: 48,
+                      child: CustomPaint(
+                        painter: isMagnet ? MagnateBtnPainter() : ShieldBtnPainter(),
+                        foregroundPainter: isActive ? ActiveTimePainter(
+                          isMagnet: isMagnet,
+                          progress: (widget.activeTime / widget.maxTime).clamp(0.0, 1.0),
+                        ) : null,
                       ),
                     ),
                   ),
-                  // Icon Rendering
-                  if (isMagnet)
-                    SizedBox(
-                      width: 32,
-                      height: 40,
-                      child: CustomPaint(
-                        painter: MagnatePainter(),
-                        child: Transform.scale(
-                          scale: 0.7, // shrink painter to fit in 32x40
-                          child: const SizedBox(),
+                ),
+                
+                // Inner White Shadow overlay
+                Positioned(
+                  left: 2,
+                  right: 2,
+                  top: 2,
+                  bottom: 8,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: Colors.white.withValues(alpha: 0.6),
+                        width: 1.5,
+                      ),
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.white.withValues(alpha: 0.6),
+                          Colors.white.withValues(alpha: 0.0),
+                          Colors.black.withValues(alpha: 0.0),
+                          Colors.black.withValues(alpha: 0.2),
+                        ],
+                        stops: const [0.0, 0.25, 0.8, 1.0],
+                      ),
+                    ),
+                  ),
+                ),
+                  
+                // Charges Badge
+                if (hasCharges)
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    child: Container(
+                      padding: const EdgeInsets.all(5),
+                      decoration: const BoxDecoration(
+                        color: Color(0xffFF3B30),
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(color: Colors.black45, blurRadius: 4),
+                        ],
+                      ),
+                      child: Text(
+                        '${widget.charges}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    )
-                  else
-                    const Icon(
-                      Icons.shield_rounded,
-                      color: Colors.white,
-                      size: 38,
-                    ),
-                  Positioned(
-                    top: 6,
-                    left: 12,
-                    right: 12,
-                    child: Container(
-                      height: 6,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.4),
-                        borderRadius: BorderRadius.circular(3),
-                      ),
                     ),
                   ),
-                ],
-              ),
+              ],
             ),
           ),
         ),
@@ -451,5 +448,68 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
         ),
       ),
     );
+  }
+}
+
+class ActiveTimePainter extends CustomPainter {
+  final bool isMagnet;
+  final double progress;
+
+  ActiveTimePainter({
+    required this.isMagnet,
+    required this.progress,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (progress <= 0) return;
+
+    RRect bgRRect;
+    if (isMagnet) {
+      bgRRect = RRect.fromRectAndCorners(
+        Rect.fromLTWH(
+          size.width * 0.02173913,
+          size.height * 0.02000000,
+          size.width * 0.9565217,
+          size.height * 0.8800000,
+        ),
+        bottomRight: Radius.circular(size.width * 0.3260870),
+        bottomLeft: Radius.circular(size.width * 0.3260870),
+        topLeft: Radius.circular(size.width * 0.3260870),
+        topRight: Radius.circular(size.width * 0.3260870),
+      );
+    } else {
+      bgRRect = RRect.fromRectAndCorners(
+        Rect.fromLTWH(
+          size.width * 0.08666000,
+          size.height * 0.02000000,
+          size.width * 0.8800000,
+          size.height * 0.8800000,
+        ),
+        bottomRight: Radius.circular(size.width * 0.3000000),
+        bottomLeft: Radius.circular(size.width * 0.3000000),
+        topLeft: Radius.circular(size.width * 0.3000000),
+        topRight: Radius.circular(size.width * 0.3000000),
+      );
+    }
+
+    canvas.save();
+    canvas.clipRRect(bgRRect);
+
+    // Calculate height based on progress (bottom up)
+    final fillHeight = bgRRect.height * progress;
+    final topY = bgRRect.bottom - fillHeight;
+
+    canvas.drawRect(
+      Rect.fromLTRB(bgRRect.left, topY, bgRRect.right, bgRRect.bottom),
+      Paint()..color = Colors.black.withValues(alpha: 0.55),
+    );
+
+    canvas.restore();
+  }
+
+  @override
+  bool shouldRepaint(covariant ActiveTimePainter oldDelegate) {
+    return oldDelegate.progress != progress || oldDelegate.isMagnet != isMagnet;
   }
 }
