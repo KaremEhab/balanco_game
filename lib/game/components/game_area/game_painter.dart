@@ -565,12 +565,50 @@ class GamePainter extends CustomPainter {
       largeArc: false,
       clockwise: true,
     );
-    path_0.lineTo(370.055, 0);
-    path_0.close();
+    // Smooth, borderless premium gradient (Golden Sand)
+    Rect bounds = path_0.getBounds();
+    final Paint basePaint = Paint()
+      ..shader = const LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          Color(0xFFFFE082), // Soft bright sand
+          Color(0xFFFFCA28), // Golden sand
+          Color(0xFFFFB300), // Warm amber
+        ],
+      ).createShader(bounds);
+    canvas.drawPath(path_0, basePaint);
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = Color(0xffF8AE00).withOpacity(1.0);
-    canvas.drawPath(path_0, paint_0_fill);
+    // Add a subtle 45-degree diagonal stripe pattern for a premium texture
+    canvas.save();
+    canvas.clipPath(path_0);
+
+    final Paint patternPaint = Paint()
+      ..color = Colors.white.withOpacity(0.1)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 4.0;
+
+    // Draw diagonal lines across the bounding box
+    for (
+      double i = -bounds.height;
+      i < bounds.width + bounds.height;
+      i += 16.0
+    ) {
+      canvas.drawLine(
+        Offset(bounds.left + i, bounds.top),
+        Offset(bounds.left + i + bounds.height, bounds.bottom),
+        patternPaint,
+      );
+    }
+
+    // Add a very soft inner highlight to give the frame a tiny bit of depth without being cartoonish
+    final Paint innerGlow = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.0
+      ..color = Colors.white.withOpacity(0.1);
+    canvas.drawPath(path_0, innerGlow);
+
+    canvas.restore();
   }
 
   @override
@@ -582,175 +620,63 @@ class GamePainter extends CustomPainter {
 class PauseBtnPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    Path path_0 = Path();
-    path_0.moveTo(0.0, 3.7830000000000004);
-    path_0.arcToPoint(
-      Offset(2.91, 0.0),
-      radius: Radius.elliptical(2.91, 2.91),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_0.lineTo(8.728, 0.0);
-    path_0.arcToPoint(
-      Offset(11.637, 3.7830000000000004),
-      radius: Radius.elliptical(2.91, 2.91),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_0.lineTo(11.637, 26.473200000000002);
-    path_0.arcToPoint(
-      Offset(8.727, 30.256200000000003),
-      radius: Radius.elliptical(2.91, 2.91),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_0.lineTo(2.91, 30.256200000000003);
-    path_0.arcToPoint(
-      Offset(0.0, 26.4719),
-      radius: Radius.elliptical(2.91, 2.91),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_0.lineTo(0.0, 3.7830000000000004);
-    path_0.close();
+    double barWidth = size.width * 0.35;
+    double barHeight = size.height;
+    double spacing = size.width * 0.12;
+    double cx = size.width / 2;
+    double cy = size.height / 2;
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = Color(0xff513A13).withOpacity(1.0);
-    canvas.drawPath(path_0, paint_0_fill);
+    Rect leftBar = Rect.fromCenter(
+      center: Offset(cx - spacing - barWidth / 2, cy),
+      width: barWidth,
+      height: barHeight,
+    );
+    Rect rightBar = Rect.fromCenter(
+      center: Offset(cx + spacing + barWidth / 2, cy),
+      width: barWidth,
+      height: barHeight,
+    );
+    double radius = barWidth / 2;
 
-    Path path_1 = Path();
-    path_1.moveTo(0.97, 5.0427);
-    path_1.arcToPoint(
-      Offset(3.879, 1.2597),
-      radius: Radius.elliptical(2.91, 2.91),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_1.lineTo(7.758, 1.2597);
-    path_1.arcToPoint(
-      Offset(10.667, 5.0427),
-      radius: Radius.elliptical(2.91, 2.91),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_1.lineTo(10.667, 12.6061);
-    path_1.arcToPoint(
-      Offset(7.757, 16.3891),
-      radius: Radius.elliptical(2.91, 2.91),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_1.lineTo(3.88, 16.3891);
-    path_1.arcToPoint(
-      Offset(0.9699999999999998, 12.6061),
-      radius: Radius.elliptical(2.91, 2.91),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_1.lineTo(0.9699999999999998, 5.044);
-    path_1.close();
+    // 3D Glossy Metallic Red/Orange Base
+    final Paint iconPaint = Paint()
+      ..shader = const LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          Color(0xFFFF8A80), // Bright highlight
+          Color(0xFFFF5252), // Main red
+          Color(0xFFD32F2F), // Deep shadow
+        ],
+      ).createShader(leftBar);
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.shader = ui.Gradient.linear(
-      Offset(size.width * 0.7965714, size.height * -48.48750),
-      Offset(size.width * 0.9691071, size.height * 0.4834167),
-      [Color(0xffffffff).withOpacity(1), Color(0xffffffff).withOpacity(0)],
-      [0.253, 0.807],
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(leftBar, Radius.circular(radius)),
+      iconPaint,
     );
-    canvas.drawPath(path_1, paint_1_fill);
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(rightBar, Radius.circular(radius)),
+      iconPaint,
+    );
 
-    Path path_2 = Path();
-    path_2.moveTo(15.516, 3.7830000000000004);
-    path_2.arcToPoint(
-      Offset(18.425, 0.0),
-      radius: Radius.elliptical(2.91, 2.91),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_2.lineTo(24.243000000000002, 0.0);
-    path_2.arcToPoint(
-      Offset(27.153000000000002, 3.7830000000000004),
-      radius: Radius.elliptical(2.91, 2.91),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_2.lineTo(27.153000000000002, 26.473200000000002);
-    path_2.arcToPoint(
-      Offset(24.243000000000002, 30.256200000000003),
-      radius: Radius.elliptical(2.909, 2.909),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_2.lineTo(18.425000000000004, 30.256200000000003);
-    path_2.arcToPoint(
-      Offset(15.515000000000004, 26.473200000000002),
-      radius: Radius.elliptical(2.91, 2.91),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_2.lineTo(15.515000000000004, 3.7830000000000004);
-    path_2.close();
+    // Inner Gloss Highlight for sleek 3D effect
+    Rect innerLeft = leftBar.deflate(1.5);
+    Rect innerRight = rightBar.deflate(1.5);
+    final Paint glossPaint = Paint()
+      ..shader = const LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [Color(0x99FFFFFF), Color(0x00FFFFFF)],
+      ).createShader(innerLeft);
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.color = Color(0xff513A13).withOpacity(1.0);
-    canvas.drawPath(path_2, paint_2_fill);
-
-    Path path_3 = Path();
-    path_3.moveTo(16.485, 5.0427);
-    path_3.arcToPoint(
-      Offset(19.395, 1.2596999999999998),
-      radius: Radius.elliptical(2.91, 2.91),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(innerLeft, Radius.circular(radius - 1.5)),
+      glossPaint,
     );
-    path_3.lineTo(23.273, 1.2596999999999998);
-    path_3.arcToPoint(
-      Offset(26.183, 5.0427),
-      radius: Radius.elliptical(2.91, 2.91),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(innerRight, Radius.circular(radius - 1.5)),
+      glossPaint,
     );
-    path_3.lineTo(26.183, 12.6061);
-    path_3.arcToPoint(
-      Offset(23.273, 16.3891),
-      radius: Radius.elliptical(2.91, 2.91),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_3.lineTo(19.395, 16.3891);
-    path_3.arcToPoint(
-      Offset(16.485, 12.6061),
-      radius: Radius.elliptical(2.909, 2.909),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_3.lineTo(16.485, 5.044);
-    path_3.close();
-
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.shader = ui.Gradient.linear(
-      Offset(size.width * 0.7965714, size.height * -48.48750),
-      Offset(size.width * 0.9691071, size.height * 0.4834167),
-      [Color(0xffffffff).withOpacity(1), Color(0xffffffff).withOpacity(0)],
-      [0.253, 0.807],
-    );
-    canvas.drawPath(path_3, paint_3_fill);
   }
 
   @override

@@ -292,12 +292,16 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
 
                           // Base Frame
                           Positioned.fill(
-                            child: CustomPaint(
-                              painter: GamePainter(
-                                innerCornerRadius: innerCornerRadius,
+                            child: IgnorePointer(
+                              child: CustomPaint(
+                                painter: GamePainter(
+                                  innerCornerRadius: innerCornerRadius,
+                                ),
                               ),
                             ),
                           ),
+
+
 
                           // Top Header (Hearts, Energy, Stars)
                           Positioned(
