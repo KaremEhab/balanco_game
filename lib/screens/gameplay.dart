@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flame/game.dart';
 
 import '../game/game_area.dart';
-import '../game/components/game_area/gameplay_card_painter.dart';
+import '../game/components/game_area/game_painter.dart';
 
 import 'animated_game_overlays.dart';
 import 'victory/victory_overlay.dart';
@@ -251,90 +251,102 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
 
           // Big centered blurry container
           Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(height: MediaQuery.of(context).padding.top + 8),
-
-                // Top Header (Hearts, Energy, Stars)
-                GameplayHeader(
-                  game: widget.game,
-                  cardBaseGradient: cardBaseGradient,
-                  cardHighlightGradient: cardHighlightGradient,
-                ),
-
-                // Middle Game Area
-                Expanded(
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(24),
-                      bottomRight: Radius.circular(24),
-                    ),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 4.0, sigmaY: 4.0),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.92,
-                        decoration: BoxDecoration(
-                          color: const Color(0x33FFFFFF), // 20% white
-                          border: Border.all(
-                            color: cardBaseGradient.first,
-                            width: 4,
+            child: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: AspectRatio(
+                  aspectRatio: 410 / 850,
+                  child: FittedBox(
+                    fit: BoxFit.contain,
+                    child: SizedBox(
+                      width: 410,
+                      height: 870,
+                      child: Stack(
+                        children: [
+                          // Base Frame
+                          Positioned.fill(
+                            child: CustomPaint(painter: GamePainter()),
                           ),
-                          borderRadius: const BorderRadius.only(
-                            bottomLeft: Radius.circular(24),
-                            bottomRight: Radius.circular(24),
-                          ),
-                        ),
-                        child: Stack(
-                          children: [
-                            GameWidget(
+
+                          // Top Header (Hearts, Energy, Stars)
+                          Positioned(
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            height: 115,
+                            child: GameplayHeader(
                               game: widget.game,
-                              overlayBuilderMap: {
-                                'GameOver': (context, game) =>
-                                    AnimatedGameOverOverlay(
-                                      game: game as BalancoGame,
-                                    ),
-                              },
+                              cardBaseGradient: cardBaseGradient,
+                              cardHighlightGradient: cardHighlightGradient,
                             ),
-                            TimeStopOverlay(
-                              timeNotifier: widget.game.timeStopNotifier,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-
-                // Bottom Footer
-                GestureDetector(
-                  onTapUp: (_) => _showPauseMenu(),
-                  child: SizedBox(
-                    width:
-                        MediaQuery.of(context).size.width *
-                        0.92 *
-                        (270.36 / 410.95),
-                    child: FittedBox(
-                      fit: BoxFit.fitWidth,
-                      child: SizedBox(
-                        width: 270.36,
-                        height: 52,
-                        child: CustomPaint(
-                          painter: GameplayBottomPainter(
-                            baseGradient: cardBaseGradient,
-                            highlightGradient: cardHighlightGradient,
-                            darkAccentGradient: cardDarkAccentGradient,
                           ),
-                        ),
+
+                          // Middle Game Area
+                          Positioned(
+                            top: 109,
+                            bottom: 110,
+                            left: 6,
+                            right: 6,
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(75),
+                                topRight: Radius.circular(75),
+                                bottomLeft: Radius.circular(16),
+                                bottomRight: Radius.circular(16),
+                              ),
+                              child: Stack(
+                                children: [
+                                  GameWidget(
+                                    game: widget.game,
+                                    overlayBuilderMap: {
+                                      'GameOver': (context, game) =>
+                                          AnimatedGameOverOverlay(
+                                            game: game as BalancoGame,
+                                          ),
+                                    },
+                                  ),
+                                  TimeStopOverlay(
+                                    timeNotifier: widget.game.timeStopNotifier,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+
+                          // Joysticks & Controls Overlay
+                          Positioned(
+                            bottom: 10,
+                            left: 0,
+                            right: 0,
+                            height: 150,
+                            child: GameControlsOverlay(game: widget.game),
+                          ),
+
+                          // Pause Button Overlay
+                          Positioned(
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            child: Center(
+                              child: GestureDetector(
+                                onTap: _showPauseMenu,
+                                behavior: HitTestBehavior.opaque,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: CustomPaint(
+                                    size: const Size(28, 24),
+                                    painter: PauseBtnPainter(),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
                 ),
-
-                // Joysticks & Controls Overlay
-                GameControlsOverlay(game: widget.game),
-                const SizedBox(height: 16),
-              ],
+              ),
             ),
           ),
 

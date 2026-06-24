@@ -44,7 +44,7 @@ class CoinComponent extends PositionComponent with HasGameReference<BalancoGame>
     if (!game.isSpawningLevel && game.size.x > 0 && game.size.y > 0 && !isCollected) {
       position = Vector2(
         fractionalPosition.x * game.size.x,
-        fractionalPosition.y * game.size.y,
+        120.0 + fractionalPosition.y * (game.size.y - 320.0),
       );
     }
     

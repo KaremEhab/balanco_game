@@ -144,9 +144,9 @@ class _ParallaxBackgroundWidgetState extends State<ParallaxBackgroundWidget> {
                 _buildLayer(
                   FurtherSeaPainter(),
                   0.4,
-                  dx: 4.6,
-                  dy: 178.3,
-                  scale: 0.79,
+                  dx: 0.0,
+                  dy: 214.0,
+                  scale: 1.05,
                 ),
                 _buildLayer(
                   MountainSeaShadowsPainter(),

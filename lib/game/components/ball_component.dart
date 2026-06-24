@@ -127,6 +127,28 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
 
     // 6. Magnet Effect
     if (game.isMagnetActive) {
+      // Draw magnetic field radius
+      double pulse = (game.magnetTimer * 2).remainder(1.0);
+      double fieldRadius = 150.0; // Must match the suck radius
+      
+      final fieldPaint = Paint()
+        ..color = Colors.lightBlueAccent.withValues(alpha: 0.1 * (1.0 - pulse))
+        ..style = PaintingStyle.fill;
+        
+      final fieldStroke = Paint()
+        ..color = Colors.lightBlueAccent.withValues(alpha: 0.4 * (1.0 - pulse))
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2.0 + (pulse * 3.0);
+
+      final edgeStroke = Paint()
+        ..color = Colors.lightBlueAccent.withValues(alpha: 0.15)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.5;
+
+      canvas.drawCircle(Offset.zero, fieldRadius, edgeStroke);
+      canvas.drawCircle(Offset.zero, fieldRadius * pulse, fieldPaint);
+      canvas.drawCircle(Offset.zero, fieldRadius * pulse, fieldStroke);
+
       canvas.save();
       // Hover the magnet 30 pixels above the ball
       double hoverOffset = sin(game.magnetTimer * 4) * 5.0; // slight bobbing

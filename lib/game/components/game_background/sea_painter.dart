@@ -148,6 +148,9 @@ class CloserSeaPainter extends CustomPainter {
 class FurtherSeaPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
+    canvas.save();
+    canvas.scale(size.width / 1000.0, 1.0); // Make the sea stretch horizontally to the requested width
+    
     Path path_0 = Path();
     path_0.moveTo(0, 96.105);
     path_0.lineTo(1000, 96.105);
@@ -266,6 +269,8 @@ class FurtherSeaPainter extends CustomPainter {
     Paint paint9Fill = Paint()..style = PaintingStyle.fill;
     paint9Fill.color = Color(0xff4BB7C7).withOpacity(1.0);
     canvas.drawPath(path_9, paint9Fill);
+    
+    canvas.restore();
   }
 
   @override

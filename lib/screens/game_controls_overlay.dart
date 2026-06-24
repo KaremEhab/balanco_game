@@ -12,7 +12,7 @@ class GameControlsOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 90, // Reduced height as requested
+      height: 150,
       width: double.infinity,
       child: Stack(
         clipBehavior: Clip.none,
@@ -20,7 +20,7 @@ class GameControlsOverlay extends StatelessWidget {
           // Left Joystick
           if (game.playerRole == 'BOTH' || game.playerRole == 'LEFT')
             Positioned(
-              left: 20,
+              left: 15,
               bottom: 0,
               child: VerticalJoystick(
                 isLeft: true,
@@ -31,7 +31,7 @@ class GameControlsOverlay extends StatelessWidget {
           // Right Joystick
           if (game.playerRole == 'BOTH' || game.playerRole == 'RIGHT')
             Positioned(
-              right: 20,
+              right: 15,
               bottom: 0,
               child: VerticalJoystick(
                 isLeft: false,
@@ -43,7 +43,7 @@ class GameControlsOverlay extends StatelessWidget {
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.only(bottom: 50),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -161,30 +161,6 @@ class _SquarePowerButtonState extends State<SquarePowerButton> {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                // Drop shadow underlay to compensate for removed outer decoration
-                Positioned(
-                  left: 2,
-                  right: 2,
-                  top: 2,
-                  bottom: 6,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: isMagnet ? const Color(0xff8C1A1A) : const Color(0xff1A4B8C),
-                          offset: const Offset(0, 4),
-                        ),
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: _isPressed ? 0.2 : 0.45),
-                          offset: Offset(0, _isPressed ? 4 : 8),
-                          blurRadius: _isPressed ? 4 : 6,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
                 // The new custom painted buttons
                 SizedBox(
                   width: 64,
@@ -195,44 +171,21 @@ class _SquarePowerButtonState extends State<SquarePowerButton> {
                       width: 48,
                       height: 48,
                       child: CustomPaint(
-                        painter: isMagnet ? MagnateBtnPainter() : ShieldBtnPainter(),
-                        foregroundPainter: isActive ? ActiveTimePainter(
-                          isMagnet: isMagnet,
-                          progress: (widget.activeTime / widget.maxTime).clamp(0.0, 1.0),
-                        ) : null,
+                        painter: isMagnet
+                            ? MagnateBtnPainter()
+                            : ShieldBtnPainter(),
+                        foregroundPainter: isActive
+                            ? ActiveTimePainter(
+                                isMagnet: isMagnet,
+                                progress: (widget.activeTime / widget.maxTime)
+                                    .clamp(0.0, 1.0),
+                              )
+                            : null,
                       ),
                     ),
                   ),
                 ),
-                
-                // Inner White Shadow overlay
-                Positioned(
-                  left: 2,
-                  right: 2,
-                  top: 2,
-                  bottom: 8,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                        color: Colors.white.withValues(alpha: 0.6),
-                        width: 1.5,
-                      ),
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Colors.white.withValues(alpha: 0.6),
-                          Colors.white.withValues(alpha: 0.0),
-                          Colors.black.withValues(alpha: 0.0),
-                          Colors.black.withValues(alpha: 0.2),
-                        ],
-                        stops: const [0.0, 0.25, 0.8, 1.0],
-                      ),
-                    ),
-                  ),
-                ),
-                  
+
                 // Charges Badge
                 if (hasCharges)
                   Positioned(
@@ -292,7 +245,8 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
   }
 
   void _onPointerMove(PointerMoveEvent event) {
-    if (event.pointer != _pointerId) return; // Only respond to the locked finger
+    if (event.pointer != _pointerId)
+      return; // Only respond to the locked finger
     setState(() {
       _dy = (_dy + event.delta.dy).clamp(-_maxDrag, _maxDrag);
     });
@@ -300,7 +254,8 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
   }
 
   void _onPointerUp(PointerEvent event) {
-    if (event.pointer != _pointerId) return; // Only respond to the locked finger
+    if (event.pointer != _pointerId)
+      return; // Only respond to the locked finger
     _pointerId = null;
     _resetPosition();
   }
@@ -321,18 +276,18 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
       onPointerCancel: _onPointerUp,
       behavior: HitTestBehavior.opaque,
       child: Container(
-        width: 80,
-        height: 120,
+        width: 120,
+        height: 150,
         color: Colors.transparent, // Touch target
         child: Stack(
           alignment: Alignment.center,
           children: [
             // 2.5D Wooden Base
             Container(
-              width: 44,
-              height: 120,
+              width: 60,
+              height: 160,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(22),
+                borderRadius: BorderRadius.circular(100),
                 gradient: const LinearGradient(
                   colors: [Color(0xFFD59E60), Color(0xFFB57E40)], // Wooden base
                   begin: Alignment.topCenter,
@@ -353,10 +308,10 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
               child: Center(
                 // Recessed track indent
                 child: Container(
-                  width: 16,
-                  height: 90,
+                  width: 30,
+                  height: 110,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(100),
                     color: const Color(0xFF5E3A18), // Deep shadow inside track
                     boxShadow: const [
                       BoxShadow(
@@ -374,8 +329,8 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
             Align(
               alignment: Alignment(0, _dy / _maxDrag),
               child: Container(
-                width: 56,
-                height: 56,
+                width: 65,
+                height: 65,
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: RadialGradient(
@@ -455,10 +410,7 @@ class ActiveTimePainter extends CustomPainter {
   final bool isMagnet;
   final double progress;
 
-  ActiveTimePainter({
-    required this.isMagnet,
-    required this.progress,
-  });
+  ActiveTimePainter({required this.isMagnet, required this.progress});
 
   @override
   void paint(Canvas canvas, Size size) {

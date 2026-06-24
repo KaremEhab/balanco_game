@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../game/components/game_area/gameplay_card_painter.dart';
+
 import '../../game/components/game_area/empty_card_painter.dart';
 import '../../game/components/game_area/heart_filled_painter.dart';
 import '../../game/components/game_area/broken_heart_painter.dart';
@@ -32,18 +32,10 @@ class GameplayHeader extends StatelessWidget {
           height: 105, // Increased height slightly for the top space
           child: Stack(
             children: [
-              CustomPaint(
-                size: const Size(411, 115),
-                painter: GameplayTopPainter(
-                  baseGradient: cardBaseGradient,
-                  highlightGradient: cardHighlightGradient,
-                ),
-              ),
-
               // Hearts (Left)
               Positioned(
                 left: 20,
-                top: 53, // Lowered position
+                top: 63, // Lowered position
                 child: ValueListenableBuilder<int>(
                   valueListenable: game.currentLives,
                   builder: (context, lives, child) {
@@ -69,7 +61,7 @@ class GameplayHeader extends StatelessWidget {
 
               // Center Text
               Positioned(
-                top: 25, // Adjusted for the font size increase
+                top: 30, // Adjusted for the font size increase
                 left: 0,
                 right: 0,
                 child: Center(
@@ -120,7 +112,7 @@ class GameplayHeader extends StatelessWidget {
               // Stars (Right)
               Positioned(
                 right: 20,
-                top: 53, // Lowered position
+                top: 63, // Lowered position
                 child: ValueListenableBuilder<int>(
                   valueListenable: game.currentPoints,
                   builder: (context, stars, child) {
@@ -264,8 +256,8 @@ class _AnimatedGameStatSlotState extends State<AnimatedGameStatSlot>
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 44, // Increased from 44
-      height: 44, // Increased from 44
+      width: 32,
+      height: 32,
       child: AnimatedBuilder(
         animation: _scaleAnimation,
         builder: (context, child) {
