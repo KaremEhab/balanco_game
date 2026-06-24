@@ -348,7 +348,10 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
                       Color(0xFFFFB74D), // Main orange
                       Color(0xFFF57C00), // Shadow edge
                     ],
-                    center: Alignment(-0.3, -0.3), // Top-left specular highlight
+                    center: Alignment(
+                      -0.3,
+                      -0.3,
+                    ), // Top-left specular highlight
                     radius: 0.8,
                   ),
                   boxShadow: [
@@ -423,34 +426,10 @@ class ActiveTimePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     if (progress <= 0) return;
 
-    RRect bgRRect;
-    if (isMagnet) {
-      bgRRect = RRect.fromRectAndCorners(
-        Rect.fromLTWH(
-          size.width * 0.02173913,
-          size.height * 0.02000000,
-          size.width * 0.9565217,
-          size.height * 0.8800000,
-        ),
-        bottomRight: Radius.circular(size.width * 0.3260870),
-        bottomLeft: Radius.circular(size.width * 0.3260870),
-        topLeft: Radius.circular(size.width * 0.3260870),
-        topRight: Radius.circular(size.width * 0.3260870),
-      );
-    } else {
-      bgRRect = RRect.fromRectAndCorners(
-        Rect.fromLTWH(
-          size.width * 0.08666000,
-          size.height * 0.02000000,
-          size.width * 0.8800000,
-          size.height * 0.8800000,
-        ),
-        bottomRight: Radius.circular(size.width * 0.3000000),
-        bottomLeft: Radius.circular(size.width * 0.3000000),
-        topLeft: Radius.circular(size.width * 0.3000000),
-        topRight: Radius.circular(size.width * 0.3000000),
-      );
-    }
+    RRect bgRRect = RRect.fromRectAndRadius(
+      Offset.zero & size,
+      const Radius.circular(16),
+    );
 
     canvas.save();
     canvas.clipRRect(bgRRect);
