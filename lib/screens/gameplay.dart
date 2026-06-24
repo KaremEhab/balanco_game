@@ -223,6 +223,8 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
 
   @override
   Widget build(BuildContext context) {
+    const double innerCornerRadius = 50.0;
+
     // --- GAMEPLAY CARD COLORS ---
     const List<Color> cardBaseGradient = [Color(0xffF8AE00), Color(0xffE88000)];
     const List<Color> cardHighlightGradient = [
@@ -265,7 +267,11 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                         children: [
                           // Base Frame
                           Positioned.fill(
-                            child: CustomPaint(painter: GamePainter()),
+                            child: CustomPaint(
+                              painter: GamePainter(
+                                innerCornerRadius: innerCornerRadius,
+                              ),
+                            ),
                           ),
 
                           // Top Header (Hearts, Energy, Stars)
@@ -288,11 +294,11 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                             left: 6,
                             right: 6,
                             child: ClipRRect(
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(75),
-                                topRight: Radius.circular(75),
-                                bottomLeft: Radius.circular(16),
-                                bottomRight: Radius.circular(16),
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(innerCornerRadius),
+                                topRight: Radius.circular(innerCornerRadius),
+                                bottomLeft: const Radius.circular(16),
+                                bottomRight: const Radius.circular(16),
                               ),
                               child: Stack(
                                 children: [

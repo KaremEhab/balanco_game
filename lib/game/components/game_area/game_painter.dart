@@ -3,8 +3,15 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 
 class GamePainter extends CustomPainter {
+  final double innerCornerRadius;
+
+  GamePainter({this.innerCornerRadius = 75.0});
+
   @override
   void paint(Canvas canvas, Size size) {
+    double R = innerCornerRadius;
+    double ctrlOffset = R * 0.552284749831;
+
     Path path_0 = Path();
     path_0.moveTo(298, 832.873);
     path_0.lineTo(294.214, 832.873);
@@ -259,10 +266,24 @@ class GamePainter extends CustomPainter {
       403,
       774.8779999999999,
     );
-    path_0.lineTo(403, 199);
-    path_0.cubicTo(403, 157.579, 369.421, 124, 328, 124);
-    path_0.lineTo(81, 124);
-    path_0.cubicTo(39.579, 124, 6, 157.579, 6, 199);
+    path_0.lineTo(403, 124 + R);
+    path_0.cubicTo(
+      403,
+      124 + R - ctrlOffset,
+      403 - R + ctrlOffset,
+      124,
+      403 - R,
+      124,
+    );
+    path_0.lineTo(6 + R, 124);
+    path_0.cubicTo(
+      6 + R - ctrlOffset,
+      124,
+      6,
+      124 + R - ctrlOffset,
+      6,
+      124 + R,
+    );
     path_0.lineTo(6, 774.878);
     path_0.cubicTo(
       6,
