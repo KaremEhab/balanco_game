@@ -76,19 +76,44 @@ class HoleComponent extends PositionComponent
       }
     }
 
-    // --- 2. The Physical Hole Border ---
-    // Dark deep base for the shadow
-    Paint shadowPaint = Paint()..color = Colors.black87;
+    // --- 2. The Physical Hole Border (Sleek 3D Glossy Ring) ---
+    // Outer drop shadow for the floating ring
+    Paint shadowPaint = Paint()
+      ..color = Colors.black.withValues(alpha: 0.5)
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4.0);
     canvas.drawCircle(Offset.zero, radius, shadowPaint);
 
-    // The rim edge (looks like a cutout in the wooden board)
-    Paint rimEdge = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 3.0
-      ..color = const Color(0xFF3E2723); // Dark wood/dirt color
-    canvas.drawCircle(Offset.zero, radius - 1.5, rimEdge);
+    // The glossy 3D donut ring
+    Paint ringPaint = Paint()
+      ..shader = RadialGradient(
+        center: const Alignment(-0.3, -0.3),
+        radius: 1.0,
+        colors: isSuckingHole
+            ? const [Color(0xFFE1BEE7), Color(0xFFBA68C8), Color(0xFF4A148C)] // Purple glossy
+            : const [Color(0xFFFFF3E0), Color(0xFFFFB74D), Color(0xFFE65100)], // Orange glossy
+        stops: const [0.0, 0.4, 1.0],
+      ).createShader(Rect.fromCircle(center: Offset.zero, radius: radius));
+    
+    // Draw thick outer ring
+    Path ringPath = Path()
+      ..addOval(Rect.fromCircle(center: Offset.zero, radius: radius))
+      ..addOval(Rect.fromCircle(center: Offset.zero, radius: innerRadius))
+      ..fillType = PathFillType.evenOdd;
+    canvas.drawPath(ringPath, ringPaint);
 
-    // Inner shadow of the rim to give depth
+    // Glossy Specular Highlight on the ring
+    Paint specularPaint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2.0
+      ..shader = const LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [Colors.white70, Colors.transparent],
+        stops: [0.0, 0.5],
+      ).createShader(Rect.fromCircle(center: Offset.zero, radius: radius));
+    canvas.drawCircle(Offset.zero, radius - 2.0, specularPaint);
+
+    // Inner rim shadow (to show depth inside the hole)
     Paint innerRimShadow = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3.0
@@ -104,9 +129,9 @@ class HoleComponent extends PositionComponent
         center: const Alignment(-0.2, -0.3), // slight offset for realistic lighting
         radius: 0.9,
         colors: isSuckingHole
-            ? [const Color(0xFF110022), const Color(0xFF440066), const Color(0xFF8811AA)]
-            : [const Color(0xFF001133), const Color(0xFF004488), const Color(0xFF2288CC)],
-        stops: const [0.0, 0.6, 1.0],
+            ? [const Color(0xFF280659), const Color(0xFF12002b)] // Deep purple hole
+            : [const Color(0xFF003366), const Color(0xFF001133)], // Deep blue hole
+        stops: const [0.0, 1.0],
       ).createShader(Rect.fromCircle(center: Offset.zero, radius: innerRadius));
     
     canvas.drawCircle(Offset.zero, innerRadius, waterBase);

@@ -216,7 +216,7 @@ class BalancoGame extends FlameGame {
       if (leftY != 0.0 && size.y > 0 && !isSpawningLevel) {
         initialLeftY = leftY;
         initialRightY = rightY;
-        barResetTimer = respawnFromHole ? 1.5 : 0.8;
+        barResetTimer = respawnFromHole ? 3.0 : 0.8;
       } else {
         barResetTimer = 0.0;
         leftY = size.y - 80.0;
@@ -233,7 +233,7 @@ class BalancoGame extends FlameGame {
       } else if (respawnFromHole && prevHole != null) {
         activeHole = prevHole;
         isRespawningFromHole = true;
-        respawnTimer = 1.5;
+        respawnTimer = 3.0;
         ballPos2D = activeHole!.position.clone();
         ballScale = 0.0;
         // The ball will land on the center of the bar
@@ -529,16 +529,17 @@ class BalancoGame extends FlameGame {
         leftY = maxY;
         rightY = maxY;
       } else {
-        double duration = isRespawningFromHole ? 1.5 : 0.8;
+        double duration = isRespawningFromHole ? 3.0 : 0.8;
         double p = 1.0 - (barResetTimer / duration).clamp(0.0, 1.0);
         double curved = Curves.easeInOut.transform(p);
         leftY = initialLeftY + (maxY - initialLeftY) * curved;
         rightY = initialRightY + (maxY - initialRightY) * curved;
       }
     } else if (!isSpawningLevel && !isRespawningFromHole) {
+      // Slower speed for a heavier, harder bar feeling!
       double speed = timeStopNotifier.value > 0
-          ? 150.0
-          : 250.0; // Slower for suspense, but enough to reach the top!
+          ? 70.0
+          : 120.0;
       double maxDiff = 120.0;
 
       double newLeftY = leftY + leftJoystickValue * speed * dt;
@@ -690,7 +691,7 @@ class BalancoGame extends FlameGame {
           FlameAudio.play('tick.wav');
         } catch (_) {}
       } else {
-        double progress = 1.0 - (respawnTimer / 1.5);
+        double progress = 1.0 - (respawnTimer / 3.0);
         if (progress < 0.4) {
           double p = progress / 0.4;
           ballPos2D = activeHole!.position.clone();
