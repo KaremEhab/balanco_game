@@ -282,20 +282,25 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            // 2.5D Wooden Base
+            // 2.5D Glossy Surfboard Base
             Container(
               width: 60,
               height: 160,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100),
                 gradient: const LinearGradient(
-                  colors: [Color(0xFFD59E60), Color(0xFFB57E40)], // Wooden base
+                  colors: [
+                    Color(0xFF80DEEA), // Top highlight
+                    Color(0xFF00BCD4), // Base
+                    Color(0xFF0097A7), // Mid shadow
+                    Color(0xFF006064), // Bottom shadow
+                  ],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),
                 boxShadow: const [
                   BoxShadow(
-                    color: Color(0xFF8A5A2B), // 3D thickness (dark wood)
+                    color: Color(0xFF004D40), // 3D thickness (dark teal)
                     offset: Offset(0, 4),
                   ),
                   BoxShadow(
@@ -306,13 +311,17 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
                 ],
               ),
               child: Center(
-                // Recessed track indent
+                // Recessed track indent (Crimson red matching surfboard groove)
                 child: Container(
                   width: 30,
                   height: 110,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
-                    color: const Color(0xFF5E3A18), // Deep shadow inside track
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFFB71C1C), Color(0xFFD32F2F)],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
                     boxShadow: const [
                       BoxShadow(
                         color: Colors.black54, // Inner shadow simulation
@@ -325,7 +334,7 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
               ),
             ),
 
-            // 2.5D Joystick Knob
+            // 2.5D Glossy Orange Knob
             Align(
               alignment: Alignment(0, _dy / _maxDrag),
               child: Container(
@@ -335,18 +344,16 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
                   shape: BoxShape.circle,
                   gradient: RadialGradient(
                     colors: [
-                      Color(0xffFFDA73),
-                      Color(0xffF8AE00),
-                    ], // Vibrant highlight
-                    center: Alignment(
-                      -0.3,
-                      -0.3,
-                    ), // Top-left specular highlight
+                      Color(0xFFFFF3E0), // Bright highlight
+                      Color(0xFFFFB74D), // Main orange
+                      Color(0xFFF57C00), // Shadow edge
+                    ],
+                    center: Alignment(-0.3, -0.3), // Top-left specular highlight
                     radius: 0.8,
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Color(0xffB36A00), // Knob 3D thickness
+                      color: Color(0xFFE65100), // Knob 3D thickness
                       offset: Offset(0, 5),
                     ),
                     BoxShadow(
@@ -366,7 +373,7 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: const Color(0x33000000),
+                          color: Color(0x33000000),
                           width: 1.5,
                         ),
                       ),
@@ -377,20 +384,20 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: const Color(0x33000000),
+                          color: Color(0x33000000),
                           width: 1.5,
                         ),
                       ),
                     ),
-                    // Specular reflection dot
+                    // Specular reflection dot (stronger white for glossy feel)
                     Positioned(
                       top: 10,
                       left: 14,
                       child: Container(
-                        width: 8,
-                        height: 5,
+                        width: 12,
+                        height: 6,
                         decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.7),
+                          color: Color(0xD9FFFFFF), // 85% opacity white
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),

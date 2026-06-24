@@ -21,7 +21,7 @@ class BarComponent extends Component with HasGameReference<BalancoGame> {
     canvas.rotate(angle);
 
     // --- 3D GLOSSY SURFBOARD BAR (Beach Theme) ---
-    double barHeight = 18.0; // Decreased height
+    double barHeight = 24.0; // Increased height slightly
     Rect surfboardRect = Rect.fromLTRB(
       0,
       -barHeight / 2,
