@@ -265,6 +265,31 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                       height: 870,
                       child: Stack(
                         children: [
+                          // Blurry Background (Placed behind GamePainter)
+                          Positioned(
+                            top: 99, // Extended height by 10px (was 109)
+                            bottom: 41, // Extended height by 10px (was 110)
+                            left: 6,
+                            right: 6,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(innerCornerRadius),
+                                topRight: Radius.circular(innerCornerRadius),
+                                bottomLeft: const Radius.circular(41),
+                                bottomRight: const Radius.circular(41),
+                              ),
+                              child: BackdropFilter(
+                                filter: ImageFilter.blur(
+                                  sigmaX: 3.5,
+                                  sigmaY: 3.5,
+                                ),
+                                child: Container(
+                                  color: Colors.white.withOpacity(0.2),
+                                ),
+                              ),
+                            ),
+                          ),
+
                           // Base Frame
                           Positioned.fill(
                             child: CustomPaint(
@@ -334,9 +359,8 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                             left: 0,
                             right: 0,
                             child: Center(
-                              child: GestureDetector(
+                              child: AnimatedPressButton(
                                 onTap: _showPauseMenu,
-                                behavior: HitTestBehavior.opaque,
                                 child: Padding(
                                   padding: const EdgeInsets.all(16.0),
                                   child: CustomPaint(
@@ -367,6 +391,43 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
             },
           ),
         ],
+      ),
+    );
+  }
+}
+
+class AnimatedPressButton extends StatefulWidget {
+  final Widget child;
+  final VoidCallback onTap;
+
+  const AnimatedPressButton({
+    super.key,
+    required this.child,
+    required this.onTap,
+  });
+
+  @override
+  State<AnimatedPressButton> createState() => _AnimatedPressButtonState();
+}
+
+class _AnimatedPressButtonState extends State<AnimatedPressButton> {
+  bool _isPressed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTapDown: (_) => setState(() => _isPressed = true),
+      onTapUp: (_) {
+        setState(() => _isPressed = false);
+        widget.onTap();
+      },
+      onTapCancel: () => setState(() => _isPressed = false),
+      child: AnimatedScale(
+        scale: _isPressed ? 0.85 : 1.0,
+        duration: const Duration(milliseconds: 100),
+        curve: Curves.easeInOut,
+        child: widget.child,
       ),
     );
   }

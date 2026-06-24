@@ -21,7 +21,7 @@ LevelData generateLevelData(int currentLevel) {
     // 1 big centered hole
     holes.add(HoleData(
       Vector2(0.5, 0.4),
-      30.0,
+      45.0,
       random.nextDouble() * 2 * pi,
       false,
       0.0,
@@ -32,7 +32,7 @@ LevelData generateLevelData(int currentLevel) {
       int attempts = 0;
       double x = 0;
       double y = 0;
-      double hSize = 20.0 + random.nextDouble() * 25.0; // 35 to 55 px
+      double hSize = 35.0 + random.nextDouble() * 25.0; // 35 to 60 px
 
       while (attempts < 50) {
         y = random.nextDouble();

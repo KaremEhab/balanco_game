@@ -16,49 +16,53 @@ class BrokenHeartPainter extends CustomPainter {
     canvas.scale(0.85);
     canvas.translate(-size.width / 2, -size.height / 2);
 
+    double scale = size.width / 40.0;
+    canvas.scale(scale, scale);
+    Size virtualSize = const Size(40.0, 40.0);
+
     Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
     paint_0_fill.color = Color(0xffF02300).withOpacity(1.0);
     canvas.drawRRect(
       RRect.fromRectAndCorners(
         Rect.fromLTWH(
-          size.width * 0.09494118,
-          size.height * 0.02005882,
-          size.width * 0.8823529,
-          size.height * 0.8823529,
+          virtualSize.width * 0.09494118,
+          virtualSize.height * 0.02005882,
+          virtualSize.width * 0.8823529,
+          virtualSize.height * 0.8823529,
         ),
-        bottomRight: Radius.circular(size.width * 0.3744118),
-        bottomLeft: Radius.circular(size.width * 0.3744118),
-        topLeft: Radius.circular(size.width * 0.3744118),
-        topRight: Radius.circular(size.width * 0.3744118),
+        bottomRight: Radius.circular(virtualSize.width * 0.3744118),
+        bottomLeft: Radius.circular(virtualSize.width * 0.3744118),
+        topLeft: Radius.circular(virtualSize.width * 0.3744118),
+        topRight: Radius.circular(virtualSize.width * 0.3744118),
       ),
       paint_0_fill,
     );
 
     Paint paint_1_stroke = Paint()
       ..style = PaintingStyle.stroke
-      ..strokeWidth = size.width * 0.02005882;
+      ..strokeWidth = virtualSize.width * 0.02005882;
     paint_1_stroke.color = Color(0xffffffff).withOpacity(1.0);
     canvas.drawRRect(
       RRect.fromRectAndCorners(
         Rect.fromLTWH(
-          size.width * 0.08491176,
-          size.height * 0.01002941,
-          size.width * 0.9024118,
-          size.height * 0.9024118,
+          virtualSize.width * 0.08491176,
+          virtualSize.height * 0.01002941,
+          virtualSize.width * 0.9024118,
+          virtualSize.height * 0.9024118,
         ),
-        bottomRight: Radius.circular(size.width * 0.3844412),
-        bottomLeft: Radius.circular(size.width * 0.3844412),
-        topLeft: Radius.circular(size.width * 0.3844412),
-        topRight: Radius.circular(size.width * 0.3844412),
+        bottomRight: Radius.circular(virtualSize.width * 0.3844412),
+        bottomLeft: Radius.circular(virtualSize.width * 0.3844412),
+        topLeft: Radius.circular(virtualSize.width * 0.3844412),
+        topRight: Radius.circular(virtualSize.width * 0.3844412),
       ),
       paint_1_stroke,
     );
 
     canvas.save();
     // The broken heart's hardcoded bounding box center is approx (17.66, 17.04)
-    // The red box's center is at (size.width * 0.5361, size.height * 0.4612)
-    double tx = (size.width * 0.5361) - 17.66;
-    double ty = (size.height * 0.4612) - 17.04;
+    // The red box's center is at (virtualSize.width * 0.5361, virtualSize.height * 0.4612)
+    double tx = (virtualSize.width * 0.5361) - 17.66;
+    double ty = (virtualSize.height * 0.4612) - 17.04;
     
     // Scale slightly to better match the filled heart size, keeping it centered.
     // The broken heart is ~78% the size of the filled heart. 
@@ -499,8 +503,8 @@ class BrokenHeartPainter extends CustomPainter {
 
     Paint paint_12_fill = Paint()..style = PaintingStyle.fill;
     paint_12_fill.shader = ui.Gradient.linear(
-      Offset(size.width * 0.5187059, size.height * 0.2164706),
-      Offset(size.width * 0.5187059, size.height * 0.5168235),
+      Offset(virtualSize.width * 0.5187059, virtualSize.height * 0.2164706),
+      Offset(virtualSize.width * 0.5187059, virtualSize.height * 0.5168235),
       [Color(0xffffffff).withOpacity(1), Color(0xffffffff).withOpacity(0)],
       [0.216, 0.923],
     );

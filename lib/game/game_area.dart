@@ -88,6 +88,10 @@ class BalancoGame extends FlameGame {
   bool isRespawningFromHole = false;
   double respawnTimer = 0.0;
 
+  double barResetTimer = 0.0;
+  double initialLeftY = 0.0;
+  double initialRightY = 0.0;
+
   final double barPadding = 20.0;
   final double ballRadius = 14.0;
 
@@ -209,8 +213,15 @@ class BalancoGame extends FlameGame {
     }
 
     if (size.x > 0 && size.y > 0) {
-      leftY = size.y - 80.0;
-      rightY = size.y - 80.0;
+      if (leftY != 0.0 && size.y > 0 && !isSpawningLevel) {
+        initialLeftY = leftY;
+        initialRightY = rightY;
+        barResetTimer = respawnFromHole ? 1.5 : 0.8;
+      } else {
+        barResetTimer = 0.0;
+        leftY = size.y - 80.0;
+        rightY = size.y - 80.0;
+      }
       ballP = (size.x - 2 * barPadding) / 2.0; // Start at center of the bar
 
       if (isSpawningLevel) {
@@ -228,8 +239,12 @@ class BalancoGame extends FlameGame {
         // The ball will land on the center of the bar
         ballP = (size.x - 2 * barPadding) / 2.0;
       } else {
-        ballPos2D = Vector2(size.x / 2.0, size.y - 80.0 - ballRadius - 6.0);
+        // Wait, if barResetTimer > 0, ball should stick to the animating bar.
+        // It will be calculated in update(), but we initialize it to center.
+        ballPos2D = Vector2(size.x / 2.0, leftY - ballRadius - 6.0);
         ballScale = 1.0;
+        isFreeFalling = false;
+        bounceTimer = 0.4; // Small bounce effect when appearing on bar
       }
 
       leftJoystickValue = 0.0;
@@ -507,7 +522,20 @@ class BalancoGame extends FlameGame {
     double maxY = size.y - 80.0;
     double minY = 10.0;
 
-    if (!isSpawningLevel && !isRespawningFromHole) {
+    if (barResetTimer > 0) {
+      barResetTimer -= dt;
+      if (barResetTimer <= 0) {
+        barResetTimer = 0.0;
+        leftY = maxY;
+        rightY = maxY;
+      } else {
+        double duration = isRespawningFromHole ? 1.5 : 0.8;
+        double p = 1.0 - (barResetTimer / duration).clamp(0.0, 1.0);
+        double curved = Curves.easeInOut.transform(p);
+        leftY = initialLeftY + (maxY - initialLeftY) * curved;
+        rightY = initialRightY + (maxY - initialRightY) * curved;
+      }
+    } else if (!isSpawningLevel && !isRespawningFromHole) {
       double speed = timeStopNotifier.value > 0
           ? 150.0
           : 250.0; // Slower for suspense, but enough to reach the top!

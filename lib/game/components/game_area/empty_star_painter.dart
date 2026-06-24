@@ -16,8 +16,8 @@ class EmptyStarPainter extends CustomPainter {
     canvas.scale(0.85);
     canvas.translate(-size.width / 2, -size.height / 2);
 
-    // Center the whole icon in the 35x35 canvas.
-    canvas.translate(1.357, 1.357);
+    // Center the whole icon regardless of size
+    canvas.translate(size.width * 0.0488, size.height * 0.0488);
 
     Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
     paint_0_fill.color = Color(0xffFFC336).withOpacity(1.0);

@@ -12,26 +12,6 @@ class HoleComponent extends PositionComponent
   final bool isSuckingHole;
   final double suckRadius;
 
-  // Cached Paints
-  late final Paint _darkHolePaint;
-  late final Paint _wallGradientPaint;
-  late final Paint _rimPaint;
-  late final Paint _rimHighlightPaint;
-  late final Paint _rimShadowPaint;
-  late final Paint _teethPaint;
-  late final Paint _rivetShadowPaint;
-  late final Paint _rivetMetalPaint;
-  late final Paint _glowPaint;
-
-  // Sucking hole specific paints
-  late final Paint _boundaryPaint;
-  late final Paint _windStreakPaint;
-  late final Paint _windAreaPaint;
-
-  // Cached Paths
-  final List<Path> _teethPaths = [];
-  final List<Path> _windStreakPaths = [];
-
   HoleComponent(
     this.fractionalPosition,
     double holeSize,
@@ -40,100 +20,6 @@ class HoleComponent extends PositionComponent
     this.suckRadius = 0.0,
   }) : super(size: Vector2.all(holeSize), anchor: Anchor.center, angle: 0) {
     _rotation = rotation;
-  }
-
-  @override
-  Future<void> onLoad() async {
-    super.onLoad();
-    double radius = size.x / 2;
-
-    _darkHolePaint = Paint()..color = Colors.black;
-
-    _wallGradientPaint = Paint()
-      ..shader = RadialGradient(
-        center: const Alignment(-0.3, -0.3),
-        radius: 0.9,
-        colors: isSuckingHole
-            ? [Colors.red.shade900, Colors.black87, Colors.black]
-            : [Colors.black54, Colors.black87, Colors.black],
-        stops: const [0.0, 0.5, 1.0],
-      ).createShader(Rect.fromCircle(center: Offset.zero, radius: radius));
-
-    _rimPaint = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 6.0
-      ..color = isSuckingHole ? Colors.red.shade900 : Colors.blueGrey.shade800;
-
-    _rimHighlightPaint = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 2.0
-      ..shader =
-          RadialGradient(
-            center: const Alignment(-0.5, -0.5),
-            radius: 1.0,
-            colors: [Colors.white.withValues(alpha: 0.4), Colors.transparent],
-          ).createShader(
-            Rect.fromCircle(center: Offset.zero, radius: radius + 3.0),
-          );
-
-    _rimShadowPaint = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 2.0
-      ..shader =
-          RadialGradient(
-            center: const Alignment(0.5, 0.5),
-            radius: 1.0,
-            colors: [Colors.black.withValues(alpha: 0.6), Colors.transparent],
-          ).createShader(
-            Rect.fromCircle(center: Offset.zero, radius: radius + 3.0),
-          );
-
-    _teethPaint = Paint()..color = Colors.blueGrey.shade900;
-    _rivetShadowPaint = Paint()..color = Colors.black54;
-    _rivetMetalPaint = Paint()..color = Colors.blueGrey.shade400;
-
-    _glowPaint = Paint()
-      ..shader = RadialGradient(
-        center: Alignment.center,
-        radius: 0.8,
-        colors: const [Colors.redAccent, Colors.transparent],
-      ).createShader(Rect.fromCircle(center: Offset.zero, radius: radius));
-
-    if (isSuckingHole) {
-      _boundaryPaint = Paint()
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 2.0;
-
-      _windStreakPaint = Paint()
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 2.5
-        ..strokeCap = StrokeCap.round;
-
-      _windAreaPaint = Paint()
-        ..shader =
-            RadialGradient(
-              center: Alignment.center,
-              radius: 1.0,
-              colors: [
-                Colors.cyanAccent.withValues(alpha: 0.05),
-                Colors.transparent,
-              ],
-            ).createShader(
-              Rect.fromCircle(center: Offset.zero, radius: suckRadius),
-            );
-    }
-
-    // Initialize 8 empty paths for teeth to avoid allocating inside render
-    for (int i = 0; i < 8; i++) {
-      _teethPaths.add(Path());
-    }
-
-    // Initialize empty paths for wind streaks
-    if (isSuckingHole) {
-      for (int i = 0; i < 6; i++) {
-        _windStreakPaths.add(Path());
-      }
-    }
   }
 
   @override
@@ -147,11 +33,11 @@ class HoleComponent extends PositionComponent
     }
 
     if (game.activeHole == this) {
-      _rotation -= dt * 15.0;
-      _pulseTime += dt * 15.0;
+      _rotation -= dt * 5.0; // Swirls faster when active
+      _pulseTime += dt * 4.0;
     } else {
-      _rotation -= dt * 1.5;
-      _pulseTime += dt * 2.0;
+      _rotation -= dt * 1.0;
+      _pulseTime += dt * 1.5;
     }
   }
 
@@ -159,100 +45,166 @@ class HoleComponent extends PositionComponent
   void render(Canvas canvas) {
     if (game.isBoardHidden) return;
     double radius = size.x / 2;
+    double innerRadius = radius - 5.0; // 5px border for the hole rim
+
     canvas.save();
     canvas.translate(radius, radius);
 
+    // --- 1. Outer Wind/Sucking Effect (if applicable) ---
     if (isSuckingHole) {
-      _boundaryPaint.color = Colors.cyanAccent.withValues(
-        alpha: 0.2 + 0.1 * sin(_pulseTime),
-      );
-      canvas.drawCircle(Offset.zero, suckRadius, _boundaryPaint);
+      Paint windAreaPaint = Paint()
+        ..shader =
+            RadialGradient(
+              center: Alignment.center,
+              radius: 1.0,
+              colors: [
+                Colors.purpleAccent.withValues(alpha: 0.1),
+                Colors.transparent,
+              ],
+            ).createShader(
+              Rect.fromCircle(center: Offset.zero, radius: suckRadius),
+            );
+      canvas.drawCircle(Offset.zero, suckRadius, windAreaPaint);
 
-      double t = (_pulseTime % 1.0);
-      _windStreakPaint.color = Colors.cyanAccent.withValues(alpha: 1.0 - t);
-
-      for (int i = 0; i < 6; i++) {
-        double ang = _rotation * 0.5 + (i * pi / 3) + (t * pi / 4);
-        double currentDist = suckRadius - (t * (suckRadius - radius));
-        double tailDist = currentDist + 12.0;
-
-        Path streak = _windStreakPaths[i];
-        streak.reset();
-        streak.moveTo(cos(ang - 0.1) * tailDist, sin(ang - 0.1) * tailDist);
-        streak.quadraticBezierTo(
-          cos(ang - 0.05) * (currentDist + 6.0),
-          sin(ang - 0.05) * (currentDist + 6.0),
-          cos(ang) * currentDist,
-          sin(ang) * currentDist,
-        );
-
-        canvas.drawPath(streak, _windStreakPaint);
+      // Sucking particles spinning inward
+      Paint particlePaint = Paint()..color = Colors.purpleAccent.withValues(alpha: 0.5);
+      for (int i = 0; i < 12; i++) {
+        double t = ((_pulseTime * 0.3) + (i / 12.0)) % 1.0; // 0 to 1
+        double pRadius = innerRadius + (suckRadius - innerRadius) * (1.0 - t);
+        double ang = _rotation * 0.5 + (i * pi / 6) + (t * pi * 2);
+        canvas.drawCircle(Offset(cos(ang) * pRadius, sin(ang) * pRadius), 2.5 * (1.0 - t), particlePaint);
       }
-
-      canvas.drawCircle(Offset.zero, suckRadius, _windAreaPaint);
     }
 
-    canvas.drawCircle(Offset.zero, radius, _darkHolePaint);
-    canvas.drawCircle(Offset.zero, radius, _wallGradientPaint);
-    canvas.drawCircle(Offset.zero, radius + 3.0, _rimPaint);
-    canvas.drawCircle(Offset.zero, radius + 3.0, _rimHighlightPaint);
-    canvas.drawCircle(Offset.zero, radius + 3.0, _rimShadowPaint);
+    // --- 2. The Physical Hole Border ---
+    // Dark deep base for the shadow
+    Paint shadowPaint = Paint()..color = Colors.black87;
+    canvas.drawCircle(Offset.zero, radius, shadowPaint);
 
+    // The rim edge (looks like a cutout in the wooden board)
+    Paint rimEdge = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 3.0
+      ..color = const Color(0xFF3E2723); // Dark wood/dirt color
+    canvas.drawCircle(Offset.zero, radius - 1.5, rimEdge);
+
+    // Inner shadow of the rim to give depth
+    Paint innerRimShadow = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 3.0
+      ..shader = RadialGradient(
+        colors: [Colors.transparent, Colors.black.withValues(alpha: 0.8)],
+        stops: const [0.8, 1.0],
+      ).createShader(Rect.fromCircle(center: Offset.zero, radius: innerRadius + 1.5));
+    canvas.drawCircle(Offset.zero, innerRadius, innerRimShadow);
+
+    // --- 3. The Water Base ---
+    Paint waterBase = Paint()
+      ..shader = RadialGradient(
+        center: const Alignment(-0.2, -0.3), // slight offset for realistic lighting
+        radius: 0.9,
+        colors: isSuckingHole
+            ? [const Color(0xFF110022), const Color(0xFF440066), const Color(0xFF8811AA)]
+            : [const Color(0xFF001133), const Color(0xFF004488), const Color(0xFF2288CC)],
+        stops: const [0.0, 0.6, 1.0],
+      ).createShader(Rect.fromCircle(center: Offset.zero, radius: innerRadius));
+    
+    canvas.drawCircle(Offset.zero, innerRadius, waterBase);
+
+    // --- Clip everything else to stay inside the water area ---
     canvas.save();
-    canvas.rotate(_rotation);
+    canvas.clipPath(Path()..addOval(Rect.fromCircle(center: Offset.zero, radius: innerRadius)));
 
-    double teethLength = 8.0;
-    double teethWidth = 0.1;
+    // --- 4. Dynamic Water Ripples / Caustics ---
+    Paint ripplePaint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.5;
 
+    // Draw 3 expanding rippled rings
+    for (int i = 0; i < 3; i++) {
+      double t = ((_pulseTime * 0.4) + (i / 3.0)) % 1.0; 
+      double ripRadius = t * innerRadius;
+      double alpha = (1.0 - t) * 0.7; // fades out as it expands
+      
+      ripplePaint.color = (isSuckingHole ? Colors.purpleAccent : Colors.cyanAccent).withValues(alpha: alpha);
+      
+      Path ripPath = Path();
+      for (int j = 0; j <= 50; j++) {
+        double ang = (j / 50.0) * pi * 2;
+        // Wavy distortion that gets more intense as the ring expands
+        double distortion = sin(ang * 5 + _rotation * 2) * 2.0 * t + cos(ang * 3 - _pulseTime) * 1.5 * t;
+        double r = ripRadius + distortion; 
+        
+        if (j == 0) ripPath.moveTo(cos(ang) * r, sin(ang) * r);
+        else ripPath.lineTo(cos(ang) * r, sin(ang) * r);
+      }
+      ripPath.close();
+      canvas.drawPath(ripPath, ripplePaint);
+    }
+
+    // --- 5. Surface Light Highlight ---
+    // A soft, semi-transparent white shape near the top to look like water reflection
+    Paint surfaceHighlight = Paint()
+      ..color = Colors.white.withValues(alpha: 0.15)
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3.0);
+    
+    Path highlightPath = Path();
+    double hOffset = sin(_pulseTime * 0.5) * 4.0;
+    highlightPath.addOval(Rect.fromLTWH(-innerRadius * 0.6 + hOffset, -innerRadius * 0.8, innerRadius * 1.2, innerRadius * 0.5));
+    
+    canvas.save();
+    canvas.rotate(-0.2); // angled reflection
+    canvas.drawPath(highlightPath, surfaceHighlight);
+    canvas.restore();
+
+    canvas.restore(); // restore clipping
+
+    // --- 6. Splash Effect when Ball Falls In ---
     if (game.activeHole == this && (game.isFallingInHole || game.isRespawningFromHole)) {
-      double teethProgress = 0.0;
+      double splashProgress = 0.0;
       if (game.isFallingInHole) {
         double closingProgress = 1.0 - game.ballScale;
-        teethProgress = ((closingProgress - 0.6) * 2.5).clamp(0.0, 1.0);
+        splashProgress = ((closingProgress - 0.6) * 2.5).clamp(0.0, 1.0);
       } else {
-        teethProgress = (1.0 - (game.ballScale * 2.0)).clamp(0.0, 1.0);
+        splashProgress = (1.0 - (game.ballScale * 2.0)).clamp(0.0, 1.0);
       }
 
-      teethLength = 8.0 + teethProgress * (radius + 2.0);
-      teethWidth = 0.1 + (teethProgress * 0.3);
+      if (splashProgress > 0) {
+        // Main splash circle swallowing the ball
+        Paint splashPaint = Paint()
+           ..color = (isSuckingHole ? Colors.purpleAccent : Colors.white)
+               .withValues(alpha: 0.85 * splashProgress);
+        canvas.drawCircle(Offset.zero, innerRadius * splashProgress, splashPaint);
+        
+        // Splash droplet particles flying outward
+        Paint dropPaint = Paint()..color = Colors.white.withValues(alpha: 0.7 * (1.0 - splashProgress));
+        for(int i = 0; i < 8; i++) {
+            double ang = i * pi / 4 + _pulseTime * 2;
+            double dR = innerRadius * splashProgress + 4.0 + sin(i * 123) * 6.0;
+            if (dR <= innerRadius) {
+                canvas.drawCircle(Offset(cos(ang) * dR, sin(ang) * dR), 1.5, dropPaint);
+            }
+        }
+      }
     }
 
-    for (int i = 0; i < 8; i++) {
-      double ang = i * pi / 4;
-      Path tooth = _teethPaths[i];
-      tooth.reset();
-      tooth.moveTo(
-        cos(ang - teethWidth) * radius,
-        sin(ang - teethWidth) * radius,
-      );
-      tooth.lineTo(
-        cos(ang + teethWidth) * radius,
-        sin(ang + teethWidth) * radius,
-      );
-      tooth.lineTo(
-        cos(ang) * (radius - teethLength),
-        sin(ang) * (radius - teethLength),
-      );
-      tooth.close();
-      canvas.drawPath(tooth, _teethPaint);
-    }
-
-    for (int i = 0; i < 4; i++) {
-      double ang = i * pi / 2;
-      double rx = cos(ang) * (radius + 3.0);
-      double ry = sin(ang) * (radius + 3.0);
-      canvas.drawCircle(Offset(rx, ry + 1), 2.5, _rivetShadowPaint);
-      canvas.drawCircle(Offset(rx, ry), 1.5, _rivetMetalPaint);
-    }
-    canvas.restore();
-
+    // --- 7. Outer Glow for Active/Sucking Hole ---
     if (game.activeHole == this) {
-      double glowAlpha = (0.3 + 0.7 * sin(_pulseTime)).clamp(0.0, 1.0);
-      _glowPaint.color = Colors.white.withValues(alpha: glowAlpha);
-      // Flame handles setting Paint.color alpha as a multiplier on Shader colors natively.
-      canvas.drawCircle(Offset.zero, radius, _glowPaint);
+      Paint glowPaint = Paint()
+        ..shader = RadialGradient(
+          center: Alignment.center,
+          radius: 0.8,
+          colors: isSuckingHole
+              ? const [Colors.purpleAccent, Colors.transparent]
+              : const [Colors.cyanAccent, Colors.transparent],
+        ).createShader(Rect.fromCircle(center: Offset.zero, radius: radius));
+        
+      double glowAlpha = (0.3 + 0.7 * sin(_pulseTime * 2)).clamp(0.0, 1.0);
+      glowPaint.color = Colors.white.withValues(alpha: glowAlpha);
+      canvas.drawCircle(Offset.zero, radius, glowPaint);
     }
 
-    canvas.restore();
+    canvas.restore(); // restore main translation
   }
 }
+

@@ -6,6 +6,12 @@ class StarFilledPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     canvas.save();
+    
+    // Scale the canvas so the hardcoded paths fluidly scale with the widget's Size
+    double scale = size.width / 35.0;
+    canvas.scale(scale, scale);
+    Size virtualSize = const Size(35.0, 35.0);
+
     // Center the whole icon in the 35x35 canvas.
     // Red box center is at ~16.008, so we shift it to 17.5.
     canvas.translate(1.492, 1.491);
@@ -14,15 +20,15 @@ class StarFilledPainter extends CustomPainter {
     paint_0_fill.color = Color(0xffFFC336).withOpacity(1.0);
     final RRect baseRRect = RRect.fromRectAndCorners(
       Rect.fromLTWH(
-        size.width * 0.01987500,
-        size.height * 0.01990000,
-        size.width * 0.8750000,
-        size.height * 0.8750000,
+        virtualSize.width * 0.01987500,
+        virtualSize.height * 0.01990000,
+        virtualSize.width * 0.8750000,
+        virtualSize.height * 0.8750000,
       ),
-      bottomRight: Radius.circular(size.width * 0.3713000),
-      bottomLeft: Radius.circular(size.width * 0.3713000),
-      topLeft: Radius.circular(size.width * 0.3713000),
-      topRight: Radius.circular(size.width * 0.3713000),
+      bottomRight: Radius.circular(virtualSize.width * 0.3713000),
+      bottomLeft: Radius.circular(virtualSize.width * 0.3713000),
+      topLeft: Radius.circular(virtualSize.width * 0.3713000),
+      topRight: Radius.circular(virtualSize.width * 0.3713000),
     );
     canvas.drawRRect(baseRRect, paint_0_fill);
 
@@ -40,20 +46,20 @@ class StarFilledPainter extends CustomPainter {
 
     Paint paint_1_stroke = Paint()
       ..style = PaintingStyle.stroke
-      ..strokeWidth = size.width * 0.01987500;
+      ..strokeWidth = virtualSize.width * 0.01987500;
     paint_1_stroke.color = Color(0xffffffff).withOpacity(1.0);
     canvas.drawRRect(
       RRect.fromRectAndCorners(
         Rect.fromLTWH(
-          size.width * 0.009950000,
-          size.height * 0.009950000,
-          size.width * 0.8948750,
-          size.height * 0.8948750,
+          virtualSize.width * 0.009950000,
+          virtualSize.height * 0.009950000,
+          virtualSize.width * 0.8948750,
+          virtualSize.height * 0.8948750,
         ),
-        bottomRight: Radius.circular(size.width * 0.3812250),
-        bottomLeft: Radius.circular(size.width * 0.3812250),
-        topLeft: Radius.circular(size.width * 0.3812250),
-        topRight: Radius.circular(size.width * 0.3812250),
+        bottomRight: Radius.circular(virtualSize.width * 0.3812250),
+        bottomLeft: Radius.circular(virtualSize.width * 0.3812250),
+        topLeft: Radius.circular(virtualSize.width * 0.3812250),
+        topRight: Radius.circular(virtualSize.width * 0.3812250),
       ),
       paint_1_stroke,
     );
@@ -182,8 +188,8 @@ class StarFilledPainter extends CustomPainter {
 
     Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
     paint_3_fill.shader = ui.Gradient.linear(
-      Offset(size.width * 0.1280750, size.height * 0.2060500),
-      Offset(size.width * 0.4331000, size.height * 0.3573750),
+      Offset(virtualSize.width * 0.1280750, virtualSize.height * 0.2060500),
+      Offset(virtualSize.width * 0.4331000, virtualSize.height * 0.3573750),
       [Color(0xffffffff).withOpacity(1), Color(0xffffffff).withOpacity(0)],
       [0.611, 0.807],
     );
@@ -227,8 +233,8 @@ class StarFilledPainter extends CustomPainter {
 
     Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
     paint_4_fill.shader = ui.Gradient.linear(
-      Offset(size.width * 0.6036000, size.height * 0.06645000),
-      Offset(size.width * 0.5556000, size.height * 0.4035500),
+      Offset(virtualSize.width * 0.6036000, virtualSize.height * 0.06645000),
+      Offset(virtualSize.width * 0.5556000, virtualSize.height * 0.4035500),
       [Color(0xffffffff).withOpacity(1), Color(0xffffffff).withOpacity(0)],
       [0.611, 0.807],
     );

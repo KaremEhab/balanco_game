@@ -5,19 +5,24 @@ import 'package:flutter/material.dart';
 class HeartFilledPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
+    canvas.save();
+    double scale = size.width / 40.0;
+    canvas.scale(scale, scale);
+    Size virtualSize = const Size(40.0, 40.0);
+
     Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
     paint_0_fill.color = Color(0xffF02300).withOpacity(1.0);
     final RRect baseRRect = RRect.fromRectAndCorners(
       Rect.fromLTWH(
-        size.width * 0.09415000,
-        size.height * 0.01990000,
-        size.width * 0.8750000,
-        size.height * 0.8750000,
+        virtualSize.width * 0.09415000,
+        virtualSize.height * 0.01990000,
+        virtualSize.width * 0.8750000,
+        virtualSize.height * 0.8750000,
       ),
-      bottomRight: Radius.circular(size.width * 0.3713000),
-      bottomLeft: Radius.circular(size.width * 0.3713000),
-      topLeft: Radius.circular(size.width * 0.3713000),
-      topRight: Radius.circular(size.width * 0.3713000),
+      bottomRight: Radius.circular(virtualSize.width * 0.3713000),
+      bottomLeft: Radius.circular(virtualSize.width * 0.3713000),
+      topLeft: Radius.circular(virtualSize.width * 0.3713000),
+      topRight: Radius.circular(virtualSize.width * 0.3713000),
     );
     canvas.drawRRect(baseRRect, paint_0_fill);
 
@@ -35,29 +40,29 @@ class HeartFilledPainter extends CustomPainter {
 
     Paint paint_1_stroke = Paint()
       ..style = PaintingStyle.stroke
-      ..strokeWidth = size.width * 0.01987500;
+      ..strokeWidth = virtualSize.width * 0.01987500;
     paint_1_stroke.color = Color(0xffffffff).withOpacity(1.0);
     canvas.drawRRect(
       RRect.fromRectAndCorners(
         Rect.fromLTWH(
-          size.width * 0.08420000,
-          size.height * 0.009950000,
-          size.width * 0.8948750,
-          size.height * 0.8948750,
+          virtualSize.width * 0.08420000,
+          virtualSize.height * 0.009950000,
+          virtualSize.width * 0.8948750,
+          virtualSize.height * 0.8948750,
         ),
-        bottomRight: Radius.circular(size.width * 0.3812250),
-        bottomLeft: Radius.circular(size.width * 0.3812250),
-        topLeft: Radius.circular(size.width * 0.3812250),
-        topRight: Radius.circular(size.width * 0.3812250),
+        bottomRight: Radius.circular(virtualSize.width * 0.3812250),
+        bottomLeft: Radius.circular(virtualSize.width * 0.3812250),
+        topLeft: Radius.circular(virtualSize.width * 0.3812250),
+        topRight: Radius.circular(virtualSize.width * 0.3812250),
       ),
       paint_1_stroke,
     );
 
     canvas.save();
     // The inner heart's hardcoded bounding box center is approx (20.674, 18.401)
-    // The red box's center is at (size.width * 0.53165, size.height * 0.4574)
-    double tx = (size.width * 0.53165) - 20.674;
-    double ty = (size.height * 0.4574) - 18.401;
+    // The red box's center is at (virtualSize.width * 0.53165, virtualSize.height * 0.4574)
+    double tx = (virtualSize.width * 0.53165) - 20.674;
+    double ty = (virtualSize.height * 0.4574) - 18.401;
     canvas.translate(tx, ty);
 
     Path path_2 = Path();
@@ -407,8 +412,8 @@ class HeartFilledPainter extends CustomPainter {
 
     Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
     paint_5_fill.shader = ui.Gradient.linear(
-      Offset(size.width * 0.6318000, size.height * 0.09620000),
-      Offset(size.width * 0.7084500, size.height * 0.4649000),
+      Offset(virtualSize.width * 0.6318000, virtualSize.height * 0.09620000),
+      Offset(virtualSize.width * 0.7084500, virtualSize.height * 0.4649000),
       [Color(0xffffffff).withOpacity(1), Color(0xffffffff).withOpacity(0)],
       [0.253, 0.807],
     );
