@@ -35,7 +35,7 @@ class GameplayHeader extends StatelessWidget {
               // Hearts (Left)
               Positioned(
                 left: 20,
-                top: 63, // Lowered position
+                top: 65, // Lowered position
                 child: ValueListenableBuilder<int>(
                   valueListenable: game.currentLives,
                   builder: (context, lives, child) {
@@ -61,7 +61,7 @@ class GameplayHeader extends StatelessWidget {
 
               // Center Text
               Positioned(
-                top: 30, // Adjusted for the font size increase
+                top: 35, // Adjusted for the font size increase
                 left: 0,
                 right: 0,
                 child: Center(
@@ -91,7 +91,7 @@ class GameplayHeader extends StatelessWidget {
                             '$level',
                             style: GoogleFonts.luckiestGuy(
                               color: Colors.white,
-                              fontSize: 42, // Increased font size
+                              fontSize: 48, // Increased font size
                               height: 1.0,
                               shadows: const [
                                 Shadow(
@@ -112,7 +112,7 @@ class GameplayHeader extends StatelessWidget {
               // Stars (Right)
               Positioned(
                 right: 20,
-                top: 63, // Lowered position
+                top: 65, // Lowered position
                 child: ValueListenableBuilder<int>(
                   valueListenable: game.currentPoints,
                   builder: (context, stars, child) {
@@ -256,8 +256,8 @@ class _AnimatedGameStatSlotState extends State<AnimatedGameStatSlot>
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 32,
-      height: 32,
+      width: 40,
+      height: 40,
       child: AnimatedBuilder(
         animation: _scaleAnimation,
         builder: (context, child) {
@@ -266,8 +266,8 @@ class _AnimatedGameStatSlotState extends State<AnimatedGameStatSlot>
             child: FittedBox(
               fit: BoxFit.contain,
               child: SizedBox(
-                width: 35,
-                height: 35,
+                width: 45,
+                height: 45,
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 200),
                   transitionBuilder:
@@ -286,7 +286,7 @@ class _AnimatedGameStatSlotState extends State<AnimatedGameStatSlot>
                             BlendMode.srcIn,
                           ),
                           child: CustomPaint(
-                            size: const Size(35, 35),
+                            size: const Size(45, 45),
                             painter: widget.isActive
                                 ? widget.filledPainter
                                 : widget.emptyPainter,
@@ -295,7 +295,7 @@ class _AnimatedGameStatSlotState extends State<AnimatedGameStatSlot>
                       ),
                       // Actual painter
                       CustomPaint(
-                        size: const Size(35, 35),
+                        size: const Size(45, 45),
                         painter: widget.isActive
                             ? widget.filledPainter
                             : widget.emptyPainter,
