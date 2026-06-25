@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../game/game_area.dart';
-import '../game/components/game_area/magnate_painter.dart';
 import '../game/components/game_area/magnate_btn_painter.dart';
 import '../game/components/game_area/shield_btn_painter.dart';
 
@@ -245,8 +244,9 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
   }
 
   void _onPointerMove(PointerMoveEvent event) {
-    if (event.pointer != _pointerId)
+    if (event.pointer != _pointerId) {
       return; // Only respond to the locked finger
+    }
     setState(() {
       _dy = (_dy + event.delta.dy).clamp(-_maxDrag, _maxDrag);
     });
@@ -254,8 +254,9 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
   }
 
   void _onPointerUp(PointerEvent event) {
-    if (event.pointer != _pointerId)
+    if (event.pointer != _pointerId) {
       return; // Only respond to the locked finger
+    }
     _pointerId = null;
     _resetPosition();
   }

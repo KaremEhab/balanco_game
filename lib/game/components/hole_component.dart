@@ -160,8 +160,11 @@ class HoleComponent extends PositionComponent
         double distortion = sin(ang * 5 + _rotation * 2) * 2.0 * t + cos(ang * 3 - _pulseTime) * 1.5 * t;
         double r = ripRadius + distortion; 
         
-        if (j == 0) ripPath.moveTo(cos(ang) * r, sin(ang) * r);
-        else ripPath.lineTo(cos(ang) * r, sin(ang) * r);
+        if (j == 0) {
+          ripPath.moveTo(cos(ang) * r, sin(ang) * r);
+        } else {
+          ripPath.lineTo(cos(ang) * r, sin(ang) * r);
+        }
       }
       ripPath.close();
       canvas.drawPath(ripPath, ripplePaint);

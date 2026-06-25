@@ -10,8 +10,8 @@ class HeartFilledPainter extends CustomPainter {
     canvas.scale(scale, scale);
     Size virtualSize = const Size(40.0, 40.0);
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = Color(0xffF02300).withOpacity(1.0);
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.color = Color(0xffF02300).withValues(alpha: 1.0);
     final RRect baseRRect = RRect.fromRectAndCorners(
       Rect.fromLTWH(
         virtualSize.width * 0.09415000,
@@ -24,7 +24,7 @@ class HeartFilledPainter extends CustomPainter {
       topLeft: Radius.circular(virtualSize.width * 0.3713000),
       topRight: Radius.circular(virtualSize.width * 0.3713000),
     );
-    canvas.drawRRect(baseRRect, paint_0_fill);
+    canvas.drawRRect(baseRRect, paint0Fill);
 
     // Inner white shadow (bevel highlight on top-left)
     canvas.save();
@@ -33,15 +33,15 @@ class HeartFilledPainter extends CustomPainter {
     Paint innerShadowPaint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3.0
-      ..color = Colors.white.withOpacity(0.6)
+      ..color = Colors.white.withValues(alpha: 0.6)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 1.5);
     canvas.drawRRect(baseRRect, innerShadowPaint);
     canvas.restore();
 
-    Paint paint_1_stroke = Paint()
+    Paint paint1Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = virtualSize.width * 0.01987500;
-    paint_1_stroke.color = Color(0xffffffff).withOpacity(1.0);
+    paint1Stroke.color = Color(0xffffffff).withValues(alpha: 1.0);
     canvas.drawRRect(
       RRect.fromRectAndCorners(
         Rect.fromLTWH(
@@ -55,7 +55,7 @@ class HeartFilledPainter extends CustomPainter {
         topLeft: Radius.circular(virtualSize.width * 0.3812250),
         topRight: Radius.circular(virtualSize.width * 0.3812250),
       ),
-      paint_1_stroke,
+      paint1Stroke,
     );
 
     canvas.save();
@@ -170,9 +170,9 @@ class HeartFilledPainter extends CustomPainter {
     );
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.color = Color(0xffF8B5B5).withOpacity(1.0);
-    canvas.drawPath(path_2, paint_2_fill);
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.color = Color(0xffF8B5B5).withValues(alpha: 1.0);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(32.072, 15.838);
@@ -279,9 +279,9 @@ class HeartFilledPainter extends CustomPainter {
     );
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.color = Color(0xffF8B5B5).withOpacity(1.0);
-    canvas.drawPath(path_3, paint_3_fill);
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.color = Color(0xffF8B5B5).withValues(alpha: 1.0);
+    canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
     path_4.moveTo(29.287, 16.74);
@@ -388,9 +388,9 @@ class HeartFilledPainter extends CustomPainter {
     );
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.color = Color(0xffF8B5B5).withOpacity(1.0);
-    canvas.drawPath(path_4, paint_4_fill);
+    Paint paint4Fill = Paint()..style = PaintingStyle.fill;
+    paint4Fill.color = Color(0xffF8B5B5).withValues(alpha: 1.0);
+    canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
     path_5.moveTo(11.732, 13.695);
@@ -410,16 +410,17 @@ class HeartFilledPainter extends CustomPainter {
     path_5.lineTo(11.732999999999999, 13.695000000000002);
     path_5.close();
 
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.shader = ui.Gradient.linear(
+    Paint paint5Fill = Paint()..style = PaintingStyle.fill;
+    paint5Fill.shader = ui.Gradient.linear(
       Offset(virtualSize.width * 0.6318000, virtualSize.height * 0.09620000),
       Offset(virtualSize.width * 0.7084500, virtualSize.height * 0.4649000),
-      [Color(0xffffffff).withOpacity(1), Color(0xffffffff).withOpacity(0)],
+      [Color(0xffffffff).withValues(alpha: 1), Color(0xffffffff).withValues(alpha: 0)],
       [0.253, 0.807],
     );
-    canvas.drawPath(path_5, paint_5_fill);
+    canvas.drawPath(path_5, paint5Fill);
 
     canvas.restore();
+    canvas.restore(); // Add missing restore for the first save()
   }
 
   @override

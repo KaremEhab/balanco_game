@@ -578,7 +578,7 @@ class BalancoGame extends FlameGame {
           ballScale = 1.0;
           // Phase 1: Manual free fall
           freeFallVelocity.y += 980.0 * dt;
-          double prevY = ballPos2D.y;
+          // double prevY = ballPos2D.y;
           ballPos2D += freeFallVelocity * dt;
           double newY = ballPos2D.y;
 
@@ -714,7 +714,7 @@ class BalancoGame extends FlameGame {
       double gravity = timeStopNotifier.value > 0 ? 15.0 : 980.0;
       freeFallVelocity.y += gravity * dt;
 
-      double prevY = ballPos2D.y;
+      // double prevY = ballPos2D.y;
       ballPos2D += freeFallVelocity * dt;
       double newY = ballPos2D.y;
 
@@ -860,8 +860,9 @@ class BalancoGame extends FlameGame {
           }
         }
 
-        if (isFreeFalling)
+        if (isFreeFalling) {
           return; // Skip other collisions if we just teleported
+        }
 
         // Check hole collisions
         for (final hole in holes) {

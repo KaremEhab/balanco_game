@@ -1,3 +1,4 @@
+// ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
 import '../map/map_layout_config.dart';
 import '../map/components/island_painter.dart';

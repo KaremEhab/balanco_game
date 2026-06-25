@@ -44,9 +44,9 @@ class MagnatePainter extends CustomPainter {
     );
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = Color(0xffF02300).withOpacity(1.0);
-    canvas.drawPath(path_0, paint_0_fill);
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.color = Color(0xffF02300).withValues(alpha: 1.0);
+    canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
     path_1.moveTo(1.969, 31.822);
@@ -265,9 +265,9 @@ class MagnatePainter extends CustomPainter {
     path_2.cubicTo(32.18, 29.288, 33.013, 34.689, 32.288, 38.948);
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.color = Color(0xffFFAEA3).withOpacity(1.0);
-    canvas.drawPath(path_2, paint_2_fill);
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.color = Color(0xffFFAEA3).withValues(alpha: 1.0);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(12.187, 22.897);
@@ -291,9 +291,9 @@ class MagnatePainter extends CustomPainter {
     );
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.color = Color(0xffA3A5A8).withOpacity(1.0);
-    canvas.drawPath(path_3, paint_3_fill);
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.color = Color(0xffA3A5A8).withValues(alpha: 1.0);
+    canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
     path_4.moveTo(2.215, 28.218);
@@ -357,9 +357,9 @@ class MagnatePainter extends CustomPainter {
     );
     path_5.close();
 
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.color = Color(0xffA3A5A8).withOpacity(1.0);
-    canvas.drawPath(path_5, paint_5_fill);
+    Paint paint5Fill = Paint()..style = PaintingStyle.fill;
+    paint5Fill.color = Color(0xffA3A5A8).withValues(alpha: 1.0);
+    canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
     path_6.moveTo(22.903, 22.506);
@@ -408,9 +408,9 @@ class MagnatePainter extends CustomPainter {
     );
     path_7.close();
 
-    Paint paint_7_fill = Paint()..style = PaintingStyle.fill;
-    paint_7_fill.color = Color(0xffA3A5A8).withOpacity(1.0);
-    canvas.drawPath(path_7, paint_7_fill);
+    Paint paint7Fill = Paint()..style = PaintingStyle.fill;
+    paint7Fill.color = Color(0xffA3A5A8).withValues(alpha: 1.0);
+    canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
     path_8.moveTo(2.215, 28.225);
@@ -474,9 +474,9 @@ class MagnatePainter extends CustomPainter {
     path_9.cubicTo(25.291, 30.048, 25.962, 29.903, 26.637, 29.784);
     path_9.close();
 
-    Paint paint_9_fill = Paint()..style = PaintingStyle.fill;
-    paint_9_fill.color = Color(0xffA3A5A8).withOpacity(1.0);
-    canvas.drawPath(path_9, paint_9_fill);
+    Paint paint9Fill = Paint()..style = PaintingStyle.fill;
+    paint9Fill.color = Color(0xffA3A5A8).withValues(alpha: 1.0);
+    canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
     path_10.moveTo(26.75, 29.782);
@@ -493,9 +493,9 @@ class MagnatePainter extends CustomPainter {
     );
     path_10.close();
 
-    Paint paint_10_fill = Paint()..style = PaintingStyle.fill;
-    paint_10_fill.color = Color(0xff8B1000).withOpacity(1.0);
-    canvas.drawPath(path_10, paint_10_fill);
+    Paint paint10Fill = Paint()..style = PaintingStyle.fill;
+    paint10Fill.color = Color(0xff8B1000).withValues(alpha: 1.0);
+    canvas.drawPath(path_10, paint10Fill);
 
     Path path_11 = Path();
     path_11.moveTo(5.342, 28.796);
@@ -517,9 +517,9 @@ class MagnatePainter extends CustomPainter {
     );
     path_11.close();
 
-    Paint paint_11_fill = Paint()..style = PaintingStyle.fill;
-    paint_11_fill.color = Color(0xffA3A5A8).withOpacity(1.0);
-    canvas.drawPath(path_11, paint_11_fill);
+    Paint paint11Fill = Paint()..style = PaintingStyle.fill;
+    paint11Fill.color = Color(0xffA3A5A8).withValues(alpha: 1.0);
+    canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
     path_12.moveTo(16.727, 52.437);
@@ -550,9 +550,9 @@ class MagnatePainter extends CustomPainter {
     );
     path_12.close();
 
-    Paint paint_12_fill = Paint()..style = PaintingStyle.fill;
-    paint_12_fill.color = Color(0xff8B1000).withOpacity(1.0);
-    canvas.drawPath(path_12, paint_12_fill);
+    Paint paint12Fill = Paint()..style = PaintingStyle.fill;
+    paint12Fill.color = Color(0xff8B1000).withValues(alpha: 1.0);
+    canvas.drawPath(path_12, paint12Fill);
 
     Path path_13 = Path();
     path_13.moveTo(32.242, 28.419);
@@ -585,9 +585,9 @@ class MagnatePainter extends CustomPainter {
     );
     path_13.close();
 
-    Paint paint_13_fill = Paint()..style = PaintingStyle.fill;
-    paint_13_fill.color = Color(0xffFDFFFF).withOpacity(1.0);
-    canvas.drawPath(path_13, paint_13_fill);
+    Paint paint13Fill = Paint()..style = PaintingStyle.fill;
+    paint13Fill.color = Color(0xffFDFFFF).withValues(alpha: 1.0);
+    canvas.drawPath(path_13, paint13Fill);
 
     Path path_14 = Path();
     path_14.moveTo(24.658, 30.338);
@@ -619,9 +619,9 @@ class MagnatePainter extends CustomPainter {
     );
     path_14.close();
 
-    Paint paint_14_fill = Paint()..style = PaintingStyle.fill;
-    paint_14_fill.color = Color(0xff5C5D60).withOpacity(1.0);
-    canvas.drawPath(path_14, paint_14_fill);
+    Paint paint14Fill = Paint()..style = PaintingStyle.fill;
+    paint14Fill.color = Color(0xff5C5D60).withValues(alpha: 1.0);
+    canvas.drawPath(path_14, paint14Fill);
 
     Path path_15 = Path();
     path_15.moveTo(25.17, 30.196);
@@ -675,9 +675,9 @@ class MagnatePainter extends CustomPainter {
     );
     path_15.close();
 
-    Paint paint_15_fill = Paint()..style = PaintingStyle.fill;
-    paint_15_fill.color = Color(0xffCFD1D4).withOpacity(1.0);
-    canvas.drawPath(path_15, paint_15_fill);
+    Paint paint15Fill = Paint()..style = PaintingStyle.fill;
+    paint15Fill.color = Color(0xffCFD1D4).withValues(alpha: 1.0);
+    canvas.drawPath(path_15, paint15Fill);
 
     Path path_16 = Path();
     path_16.moveTo(10.916, 25.451);
@@ -703,9 +703,9 @@ class MagnatePainter extends CustomPainter {
     path_16.cubicTo(11.639, 23.349, 11.39, 23.564, 10.916, 25.451);
     path_16.close();
 
-    Paint paint_16_fill = Paint()..style = PaintingStyle.fill;
-    paint_16_fill.color = Color(0xffFDFFFF).withOpacity(1.0);
-    canvas.drawPath(path_16, paint_16_fill);
+    Paint paint16Fill = Paint()..style = PaintingStyle.fill;
+    paint16Fill.color = Color(0xffFDFFFF).withValues(alpha: 1.0);
+    canvas.drawPath(path_16, paint16Fill);
 
     Path path_17 = Path();
     path_17.moveTo(10.412, 29.696);
@@ -738,9 +738,9 @@ class MagnatePainter extends CustomPainter {
     path_17.lineTo(10.412, 29.696000000000005);
     path_17.close();
 
-    Paint paint_17_fill = Paint()..style = PaintingStyle.fill;
-    paint_17_fill.color = Color(0xff5C5D60).withOpacity(1.0);
-    canvas.drawPath(path_17, paint_17_fill);
+    Paint paint17Fill = Paint()..style = PaintingStyle.fill;
+    paint17Fill.color = Color(0xff5C5D60).withValues(alpha: 1.0);
+    canvas.drawPath(path_17, paint17Fill);
 
     Path path_18 = Path();
     path_18.moveTo(6.362, 29.073);
@@ -784,9 +784,9 @@ class MagnatePainter extends CustomPainter {
     );
     path_18.close();
 
-    Paint paint_18_fill = Paint()..style = PaintingStyle.fill;
-    paint_18_fill.color = Color(0xffCFD1D4).withOpacity(1.0);
-    canvas.drawPath(path_18, paint_18_fill);
+    Paint paint18Fill = Paint()..style = PaintingStyle.fill;
+    paint18Fill.color = Color(0xffCFD1D4).withValues(alpha: 1.0);
+    canvas.drawPath(path_18, paint18Fill);
 
     Path path_19 = Path();
     path_19.moveTo(5.525, 28.952);
@@ -804,9 +804,9 @@ class MagnatePainter extends CustomPainter {
     path_19.cubicTo(8.038, 29.44, 5.525, 28.952, 5.525, 28.952);
     path_19.close();
 
-    Paint paint_19_fill = Paint()..style = PaintingStyle.fill;
-    paint_19_fill.color = Color(0xffFFAEA3).withOpacity(1.0);
-    canvas.drawPath(path_19, paint_19_fill);
+    Paint paint19Fill = Paint()..style = PaintingStyle.fill;
+    paint19Fill.color = Color(0xffFFAEA3).withValues(alpha: 1.0);
+    canvas.drawPath(path_19, paint19Fill);
 
     Path path_20 = Path();
     path_20.moveTo(15.72, 3.093);
@@ -828,17 +828,17 @@ class MagnatePainter extends CustomPainter {
     );
     path_20.lineTo(9.77, 18.067);
 
-    Paint paint_20_stroke = Paint()
+    Paint paint20Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.04332432;
-    paint_20_stroke.strokeCap = StrokeCap.round;
-    paint_20_stroke.shader = ui.Gradient.linear(
+    paint20Stroke.strokeCap = StrokeCap.round;
+    paint20Stroke.shader = ui.Gradient.linear(
       Offset(size.width * 0.2402432, size.height * 0.3845455),
       Offset(size.width * 0.4070000, size.height * -0.7818182),
-      [Color(0xffF8AE00).withOpacity(1), Color(0xffF8AE00).withOpacity(0)],
+      [Color(0xffF8AE00).withValues(alpha: 1), Color(0xffF8AE00).withValues(alpha: 0)],
       [0.042, 0.841],
     );
-    canvas.drawPath(path_20, paint_20_stroke);
+    canvas.drawPath(path_20, paint20Stroke);
 
     Path path_21 = Path();
     path_21.moveTo(10.078, 9.192);
@@ -860,17 +860,17 @@ class MagnatePainter extends CustomPainter {
     );
     path_21.lineTo(7.123000000000001, 16.629);
 
-    Paint paint_21_stroke = Paint()
+    Paint paint21Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.02151351;
-    paint_21_stroke.strokeCap = StrokeCap.round;
-    paint_21_stroke.shader = ui.Gradient.linear(
+    paint21Stroke.strokeCap = StrokeCap.round;
+    paint21Stroke.shader = ui.Gradient.linear(
       Offset(size.width * 0.1806757, size.height * 0.3301818),
       Offset(size.width * 0.2635135, size.height * 0.1353091),
-      [Color(0xffF8AE00).withOpacity(1), Color(0xffF8AE00).withOpacity(0)],
+      [Color(0xffF8AE00).withValues(alpha: 1), Color(0xffF8AE00).withValues(alpha: 0)],
       [0.042, 0.841],
     );
-    canvas.drawPath(path_21, paint_21_stroke);
+    canvas.drawPath(path_21, paint21Stroke);
 
     Path path_22 = Path();
     path_22.moveTo(24.332, 9.19);
@@ -886,17 +886,17 @@ class MagnatePainter extends CustomPainter {
     );
     path_22.lineTo(27.286, 16.627);
 
-    Paint paint_22_stroke = Paint()
+    Paint paint22Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.02151351;
-    paint_22_stroke.strokeCap = StrokeCap.round;
-    paint_22_stroke.shader = ui.Gradient.linear(
+    paint22Stroke.strokeCap = StrokeCap.round;
+    paint22Stroke.shader = ui.Gradient.linear(
       Offset(size.width * 0.7492973, size.height * 0.3301455),
       Offset(size.width * 0.6664865, size.height * 0.1352727),
-      [Color(0xffF8AE00).withOpacity(1), Color(0xffF8AE00).withOpacity(0)],
+      [Color(0xffF8AE00).withValues(alpha: 1), Color(0xffF8AE00).withValues(alpha: 0)],
       [0.042, 0.841],
     );
-    canvas.drawPath(path_22, paint_22_stroke);
+    canvas.drawPath(path_22, paint22Stroke);
 
     Path path_23 = Path();
     path_23.moveTo(18.72, 3.443);
@@ -912,17 +912,17 @@ class MagnatePainter extends CustomPainter {
     );
     path_23.lineTo(24.668999999999997, 18.416999999999998);
 
-    Paint paint_23_stroke = Paint()
+    Paint paint23Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.04332432;
-    paint_23_stroke.strokeCap = StrokeCap.round;
-    paint_23_stroke.shader = ui.Gradient.linear(
+    paint23Stroke.strokeCap = StrokeCap.round;
+    paint23Stroke.shader = ui.Gradient.linear(
       Offset(size.width * 0.6905676, size.height * 0.3909091),
       Offset(size.width * 0.5237838, size.height * -0.1472727),
-      [Color(0xffF8AE00).withOpacity(1), Color(0xffF8AE00).withOpacity(0)],
+      [Color(0xffF8AE00).withValues(alpha: 1), Color(0xffF8AE00).withValues(alpha: 0)],
       [0.042, 0.841],
     );
-    canvas.drawPath(path_23, paint_23_stroke);
+    canvas.drawPath(path_23, paint23Stroke);
   }
 
   @override

@@ -76,7 +76,9 @@ LevelData generateLevelData(int currentLevel) {
       bool isSucking = false;
       if (currentLevel >= 8 && i < 2) {
         isSucking = true;
-      } else if (currentLevel >= 6 && i == 0) isSucking = true;
+      } else if (currentLevel >= 6 && i == 0) {
+        isSucking = true;
+      }
       
       double suckRad = isSucking ? 50.0 + (currentLevel * 2.0) : 0.0;
 

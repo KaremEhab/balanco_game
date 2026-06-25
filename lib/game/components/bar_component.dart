@@ -42,7 +42,7 @@ class BarComponent extends Component with HasGameReference<BalancoGame> {
 
     // 1. Drop shadow
     final Paint shadowPaint = Paint()
-      ..color = Colors.black.withOpacity(0.4)
+      ..color = Colors.black.withValues(alpha: 0.4)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6.0);
     
     canvas.save();
@@ -132,7 +132,7 @@ class BarComponent extends Component with HasGameReference<BalancoGame> {
     final Paint grooveRimPaint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 0.5
-      ..color = Colors.white.withOpacity(0.5);
+      ..color = Colors.white.withValues(alpha: 0.5);
     canvas.drawRRect(
       RRect.fromRectAndRadius(grooveRect, const Radius.circular(3)),
       grooveRimPaint,

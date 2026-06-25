@@ -10,14 +10,9 @@ class MapBallLayer extends CustomPainter {
   final double radius;
 
   // Paints
-  final Paint _basePaint = Paint()..color = Colors.redAccent;
   final Paint _dropShadowPaint = Paint()
     ..color = Colors.black.withValues(alpha: 0.5)
     ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8.0);
-  final Paint _stripePaint = Paint()
-    ..color = Colors.white.withValues(alpha: 0.7)
-    ..style = PaintingStyle.stroke
-    ..strokeWidth = 3;
   late final Paint _highlightPaint;
   final Paint _borderPaint = Paint()
     ..color = Colors.black87

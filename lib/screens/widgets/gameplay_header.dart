@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../game/components/game_area/empty_card_painter.dart';
 import '../../game/components/game_area/heart_filled_painter.dart';
 import '../../game/components/game_area/broken_heart_painter.dart';
 import '../../game/components/game_area/star_filled_painter.dart';
 import '../../game/components/game_area/empty_star_painter.dart';
-import '../../game/components/game_area/coin_painter.dart';
 import '../../game/game_area.dart';
 
 class GameplayHeader extends StatelessWidget {
@@ -29,7 +27,7 @@ class GameplayHeader extends StatelessWidget {
         fit: BoxFit.fitWidth,
         child: SizedBox(
           width: 411,
-          height: 105, // Increased height slightly for the top space
+          height: 115, // Increased height slightly for the top space
           child: Stack(
             children: [
               // Hearts (Left)
@@ -136,42 +134,114 @@ class GameplayHeader extends StatelessWidget {
                 ),
               ),
 
-              // Score (Top Right)
+              // LEAVE (Top Left)
               Positioned(
-                right: 35,
-                top: 15,
-                child: ValueListenableBuilder<int>(
-                  valueListenable: game.currentScore,
-                  builder: (context, score, child) {
-                    return Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        // Coin Icon
-                        SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: CustomPaint(painter: CoinPainter()),
+                left: 20,
+                top: -5,
+                child: GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        backgroundColor: const Color(0xFFFFE082),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                          side: const BorderSide(
+                            color: Color(0xFF5D4037),
+                            width: 4,
+                          ),
                         ),
-                        const SizedBox(width: 8),
-                        // Score Text
-                        Text(
-                          '$score',
+                        title: Text(
+                          'LEAVE GAME?',
+                          textAlign: TextAlign.center,
                           style: GoogleFonts.luckiestGuy(
                             color: Colors.white,
-                            fontSize: 24,
-                            height: 1.0,
+                            fontSize: 32,
                             shadows: const [
                               Shadow(
-                                color: Color(0xFF8D5800),
                                 offset: Offset(0, 3),
-                                blurRadius: 0,
+                                color: Color(0xFF5D4037),
                               ),
                             ],
                           ),
                         ),
-                      ],
+                        content: Text(
+                          'Are you sure you want to return to the lobby? Your progress will be lost!',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.baloo2(
+                            color: const Color(0xFF5D4037),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        actionsAlignment: MainAxisAlignment.center,
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text(
+                              'STAY',
+                              style: GoogleFonts.luckiestGuy(
+                                color: const Color(0xFF4CAF50),
+                                fontSize: 24,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 20),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                              Navigator.pushReplacementNamed(
+                                context,
+                                '/',
+                              ); // Assumes main menu is at '/'
+                            },
+                            child: Text(
+                              'LEAVE',
+                              style: GoogleFonts.luckiestGuy(
+                                color: const Color(0xFFF44336),
+                                fontSize: 24,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     );
                   },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'LEAVE',
+                      style: GoogleFonts.luckiestGuy(
+                        color: Color(0xffECCA93),
+                        fontSize: 28,
+                        shadows: const [
+                          Shadow(
+                            color: Color(0xFF5D4037),
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              // TIMER (Top Right)
+              Positioned(
+                right: 20,
+                top: -5,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    '02:00',
+                    style: GoogleFonts.luckiestGuy(
+                      color: Color(0xffECCA93),
+                      fontSize: 28,
+                      shadows: const [
+                        Shadow(color: Color(0xFF5D4037), offset: Offset(0, 3)),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ],

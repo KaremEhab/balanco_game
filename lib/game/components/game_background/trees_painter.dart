@@ -14,7 +14,7 @@ class LeftTreePainter extends CustomPainter {
     path_0.close();
 
     Paint paint0Fill = Paint()..style = PaintingStyle.fill;
-    paint0Fill.color = Color(0xffffffff).withOpacity(1.0);
+    paint0Fill.color = Color(0xffffffff).withValues(alpha: 1.0);
     canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
@@ -40,7 +40,7 @@ class LeftTreePainter extends CustomPainter {
     path_1.close();
 
     Paint paint1Fill = Paint()..style = PaintingStyle.fill;
-    paint1Fill.color = Color(0xff633724).withOpacity(1.0);
+    paint1Fill.color = Color(0xff633724).withValues(alpha: 1.0);
     canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
@@ -1159,7 +1159,7 @@ class LeftTreePainter extends CustomPainter {
     paint2Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.04578917, size.height * 0.9266370),
       Offset(size.width * 0.1894330, size.height * 0.7574926),
-      [Color(0xff595117).withOpacity(1), Color(0xff7F781C).withOpacity(1)],
+      [Color(0xff595117).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_2, paint2Fill);
@@ -1207,7 +1207,7 @@ class LeftTreePainter extends CustomPainter {
     path_3.close();
 
     Paint paint3Fill = Paint()..style = PaintingStyle.fill;
-    paint3Fill.color = Color(0xff633724).withOpacity(1.0);
+    paint3Fill.color = Color(0xff633724).withValues(alpha: 1.0);
     canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
@@ -1274,7 +1274,7 @@ class LeftTreePainter extends CustomPainter {
     paint4Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6399288, size.height * 0.9059481),
       Offset(size.width * 0.5046040, size.height * 0.7197259),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xff9E9826).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xff9E9826).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_4, paint4Fill);
@@ -1323,7 +1323,7 @@ class LeftTreePainter extends CustomPainter {
     paint5Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5107578, size.height * 0.4310630),
       Offset(size.width * 0.4914359, size.height * 0.5211111),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xff9E9826).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xff9E9826).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_5, paint5Fill);
@@ -1444,7 +1444,7 @@ class LeftTreePainter extends CustomPainter {
     paint6Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3981852, size.height * 0.3237444),
       Offset(size.width * 0.4021282, size.height * 0.6079000),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xff9E9826).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xff9E9826).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_6, paint6Fill);
@@ -1560,7 +1560,7 @@ class LeftTreePainter extends CustomPainter {
     paint7Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3990655, size.height * 0.3585778),
       Offset(size.width * 0.3969829, size.height * -1.492222),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xff9E9826).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xff9E9826).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_7, paint7Fill);
@@ -1650,7 +1650,7 @@ class LeftTreePainter extends CustomPainter {
     paint8Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2376980, size.height * 0.6871963),
       Offset(size.width * 0.4922365, size.height * 0.6128259),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xff9E9826).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xff9E9826).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_8, paint8Fill);
@@ -1726,7 +1726,7 @@ class LeftTreePainter extends CustomPainter {
     paint9Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3169658, size.height * 0.4872444),
       Offset(size.width * 0.4316895, size.height * 0.5879259),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xff9E9826).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xff9E9826).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_9, paint9Fill);
@@ -1789,7 +1789,7 @@ class LeftTreePainter extends CustomPainter {
     paint10Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4653618, size.height * 0.6048444),
       Offset(size.width * 0.5221168, size.height * 0.6479296),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xff9E9826).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xff9E9826).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_10, paint10Fill);
@@ -1836,7 +1836,7 @@ class LeftTreePainter extends CustomPainter {
     paint11Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5957066, size.height * 0.4369667),
       Offset(size.width * 0.5035755, size.height * 0.5990704),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xff9E9826).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xff9E9826).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_11, paint11Fill);
@@ -1921,7 +1921,7 @@ class LeftTreePainter extends CustomPainter {
     paint12Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6810256, size.height * 0.5676370),
       Offset(size.width * 0.4623134, size.height * 0.7246333),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xff9E9826).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xff9E9826).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_12, paint12Fill);
@@ -2001,7 +2001,7 @@ class LeftTreePainter extends CustomPainter {
     paint13Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5239145, size.height * 0.5959926),
       Offset(size.width * 0.6762251, size.height * 0.6526370),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xff9E9826).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xff9E9826).withValues(alpha: 1)],
       [0.271, 1],
     );
     canvas.drawPath(path_13, paint13Fill);
@@ -2068,7 +2068,7 @@ class LeftTreePainter extends CustomPainter {
     paint14Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3883362, size.height * 0.8240630),
       Offset(size.width * 0.4922165, size.height * 0.5895593),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xff9E9826).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xff9E9826).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_14, paint14Fill);
@@ -2152,7 +2152,7 @@ class LeftTreePainter extends CustomPainter {
     paint15Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2707835, size.height * 0.7555519),
       Offset(size.width * 0.2486211, size.height * 0.9697630),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xff9E9826).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xff9E9826).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_15, paint15Fill);
@@ -2229,7 +2229,7 @@ class LeftTreePainter extends CustomPainter {
     paint16Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4078775, size.height * 0.8477407),
       Offset(size.width * 0.4286011, size.height * 1.078907),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xff9E9826).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xff9E9826).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_16, paint16Fill);
@@ -2300,7 +2300,7 @@ class LeftTreePainter extends CustomPainter {
     paint17Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5289573, size.height * 0.7387111),
       Offset(size.width * 0.6042621, size.height * 0.9176630),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xff9E9826).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xff9E9826).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_17, paint17Fill);
@@ -2438,7 +2438,7 @@ class LeftTreePainter extends CustomPainter {
     paint18Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.01736182, size.height * 0.7654074),
       Offset(size.width * 0.1289316, size.height * 0.8995852),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xff9E9826).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xff9E9826).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_18, paint18Fill);
@@ -2538,7 +2538,7 @@ class LeftTreePainter extends CustomPainter {
     paint19Fill.shader = ui.Gradient.linear(
       Offset(size.width * -0.01452991, size.height * 0.5675778),
       Offset(size.width * 0.1886125, size.height * 0.6932370),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xff9E9826).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xff9E9826).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_19, paint19Fill);
@@ -2722,7 +2722,7 @@ class LeftTreePainter extends CustomPainter {
     paint20Fill.shader = ui.Gradient.linear(
       Offset(size.width * -6.266382, size.height * 0.4031407),
       Offset(size.width * 0.03919373, size.height * 0.09507407),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xff9E9826).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xff9E9826).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_20, paint20Fill);
@@ -2787,7 +2787,7 @@ class LeftTreePainter extends CustomPainter {
     paint21Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.007960114, size.height * 0.7877704),
       Offset(size.width * -9.570085, size.height * 0.5383148),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xff9E9826).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xff9E9826).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_21, paint21Fill);
@@ -2843,7 +2843,7 @@ class LeftTreePainter extends CustomPainter {
     paint22Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.01606553, size.height * 0.6971556),
       Offset(size.width * -6.848718, size.height * 0.4873370),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xff9E9826).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xff9E9826).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_22, paint22Fill);
@@ -5741,7 +5741,7 @@ class LeftTreePainter extends CustomPainter {
     path_23.close();
 
     Paint paint23Fill = Paint()..style = PaintingStyle.fill;
-    paint23Fill.color = Color(0xff383838).withOpacity(1.0);
+    paint23Fill.color = Color(0xff383838).withValues(alpha: 1.0);
     canvas.drawPath(path_23, paint23Fill);
   }
 
@@ -5763,7 +5763,7 @@ class RightTreePainter extends CustomPainter {
     path_0.close();
 
     Paint paint0Fill = Paint()..style = PaintingStyle.fill;
-    paint0Fill.color = Color(0xffffffff).withOpacity(1.0);
+    paint0Fill.color = Color(0xffffffff).withValues(alpha: 1.0);
     canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
@@ -5782,7 +5782,7 @@ class RightTreePainter extends CustomPainter {
     paint1Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2182271, size.height * 1.213967),
       Offset(size.width * 0.3330311, size.height * 0.9626897),
-      [Color(0xffB59478).withOpacity(1), Color(0xff8E776C).withOpacity(1)],
+      [Color(0xffB59478).withValues(alpha: 1), Color(0xff8E776C).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_1, paint1Fill);
@@ -5800,7 +5800,7 @@ class RightTreePainter extends CustomPainter {
     path_2.close();
 
     Paint paint2Fill = Paint()..style = PaintingStyle.fill;
-    paint2Fill.color = Color(0xffB59478).withOpacity(1.0);
+    paint2Fill.color = Color(0xffB59478).withValues(alpha: 1.0);
     canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
@@ -5840,7 +5840,7 @@ class RightTreePainter extends CustomPainter {
     paint3Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4835073, size.height * 0.7231103),
       Offset(size.width * 0.3516923, size.height * 0.9867385),
-      [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
+      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_3, paint3Fill);
@@ -5880,7 +5880,7 @@ class RightTreePainter extends CustomPainter {
     paint4Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2599908, size.height * 1.071633),
       Offset(size.width * 0.2963022, size.height * 0.8912846),
-      [Color(0xffB59478).withOpacity(1), Color(0xff8E776C).withOpacity(1)],
+      [Color(0xffB59478).withValues(alpha: 1), Color(0xff8E776C).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_4, paint4Fill);
@@ -5921,7 +5921,7 @@ class RightTreePainter extends CustomPainter {
     paint5Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3786465, size.height * 0.8961000),
       Offset(size.width * 0.3081703, size.height * 1.022797),
-      [Color(0xffB59478).withOpacity(1), Color(0xff8E776C).withOpacity(1)],
+      [Color(0xffB59478).withValues(alpha: 1), Color(0xff8E776C).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_5, paint5Fill);
@@ -5944,7 +5944,7 @@ class RightTreePainter extends CustomPainter {
     paint6Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4885201, size.height * 0.9328821),
       Offset(size.width * 0.3058388, size.height * 0.9328821),
-      [Color(0xffF2CAA2).withOpacity(1), Color(0xffC8A581).withOpacity(1)],
+      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_6, paint6Fill);
@@ -5965,7 +5965,7 @@ class RightTreePainter extends CustomPainter {
     path_7.close();
 
     Paint paint7Fill = Paint()..style = PaintingStyle.fill;
-    paint7Fill.color = Color(0xff383838).withOpacity(1.0);
+    paint7Fill.color = Color(0xff383838).withValues(alpha: 1.0);
     canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
@@ -5977,7 +5977,7 @@ class RightTreePainter extends CustomPainter {
     path_8.close();
 
     Paint paint8Fill = Paint()..style = PaintingStyle.fill;
-    paint8Fill.color = Color(0xffffffff).withOpacity(1.0);
+    paint8Fill.color = Color(0xffffffff).withValues(alpha: 1.0);
     canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
@@ -5999,7 +5999,7 @@ class RightTreePainter extends CustomPainter {
     path_9.close();
 
     Paint paint9Fill = Paint()..style = PaintingStyle.fill;
-    paint9Fill.color = Color(0xff877F1D).withOpacity(1.0);
+    paint9Fill.color = Color(0xff877F1D).withValues(alpha: 1.0);
     canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
@@ -6021,7 +6021,7 @@ class RightTreePainter extends CustomPainter {
     path_10.close();
 
     Paint paint10Fill = Paint()..style = PaintingStyle.fill;
-    paint10Fill.color = Color(0xffB7AC27).withOpacity(1.0);
+    paint10Fill.color = Color(0xffB7AC27).withValues(alpha: 1.0);
     canvas.drawPath(path_10, paint10Fill);
 
     Path path_11 = Path();
@@ -6061,7 +6061,7 @@ class RightTreePainter extends CustomPainter {
     path_11.close();
 
     Paint paint11Fill = Paint()..style = PaintingStyle.fill;
-    paint11Fill.color = Color(0xff9E9826).withOpacity(1.0);
+    paint11Fill.color = Color(0xff9E9826).withValues(alpha: 1.0);
     canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
@@ -6084,7 +6084,7 @@ class RightTreePainter extends CustomPainter {
     paint12Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6869945, size.height * 0.8491128),
       Offset(size.width * 0.6607711, size.height * 0.8989359),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_12, paint12Fill);
@@ -6165,7 +6165,7 @@ class RightTreePainter extends CustomPainter {
     path_13.close();
 
     Paint paint13Fill = Paint()..style = PaintingStyle.fill;
-    paint13Fill.color = Color(0xff9E9826).withOpacity(1.0);
+    paint13Fill.color = Color(0xff9E9826).withValues(alpha: 1.0);
     canvas.drawPath(path_13, paint13Fill);
 
     Path path_14 = Path();
@@ -6215,7 +6215,7 @@ class RightTreePainter extends CustomPainter {
     paint14Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5876337, size.height * 0.8650000),
       Offset(size.width * 0.5468938, size.height * 0.9417051),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_14, paint14Fill);
@@ -6339,7 +6339,7 @@ class RightTreePainter extends CustomPainter {
     paint15Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5022766, size.height * 1.012405),
       Offset(size.width * 0.4779249, size.height * 1.060918),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_15, paint15Fill);
@@ -6518,7 +6518,7 @@ class RightTreePainter extends CustomPainter {
     path_16.close();
 
     Paint paint16Fill = Paint()..style = PaintingStyle.fill;
-    paint16Fill.color = Color(0xff877F1D).withOpacity(1.0);
+    paint16Fill.color = Color(0xff877F1D).withValues(alpha: 1.0);
     canvas.drawPath(path_16, paint16Fill);
 
     Path path_17 = Path();
@@ -6695,7 +6695,7 @@ class RightTreePainter extends CustomPainter {
     path_17.close();
 
     Paint paint17Fill = Paint()..style = PaintingStyle.fill;
-    paint17Fill.color = Color(0xff9E9826).withOpacity(1.0);
+    paint17Fill.color = Color(0xff9E9826).withValues(alpha: 1.0);
     canvas.drawPath(path_17, paint17Fill);
 
     Path path_18 = Path();
@@ -6797,7 +6797,7 @@ class RightTreePainter extends CustomPainter {
     path_18.close();
 
     Paint paint18Fill = Paint()..style = PaintingStyle.fill;
-    paint18Fill.color = Color(0xffD8C72E).withOpacity(1.0);
+    paint18Fill.color = Color(0xffD8C72E).withValues(alpha: 1.0);
     canvas.drawPath(path_18, paint18Fill);
 
     Path path_19 = Path();
@@ -6847,7 +6847,7 @@ class RightTreePainter extends CustomPainter {
     path_19.close();
 
     Paint paint19Fill = Paint()..style = PaintingStyle.fill;
-    paint19Fill.color = Color(0xff877F1D).withOpacity(1.0);
+    paint19Fill.color = Color(0xff877F1D).withValues(alpha: 1.0);
     canvas.drawPath(path_19, paint19Fill);
 
     Path path_20 = Path();
@@ -6955,7 +6955,7 @@ class RightTreePainter extends CustomPainter {
     path_20.close();
 
     Paint paint20Fill = Paint()..style = PaintingStyle.fill;
-    paint20Fill.color = Color(0xff877F1D).withOpacity(1.0);
+    paint20Fill.color = Color(0xff877F1D).withValues(alpha: 1.0);
     canvas.drawPath(path_20, paint20Fill);
 
     Path path_21 = Path();
@@ -7168,7 +7168,7 @@ class RightTreePainter extends CustomPainter {
     path_21.close();
 
     Paint paint21Fill = Paint()..style = PaintingStyle.fill;
-    paint21Fill.color = Color(0xff877F1D).withOpacity(1.0);
+    paint21Fill.color = Color(0xff877F1D).withValues(alpha: 1.0);
     canvas.drawPath(path_21, paint21Fill);
 
     Path path_22 = Path();
@@ -7287,7 +7287,7 @@ class RightTreePainter extends CustomPainter {
     path_22.close();
 
     Paint paint22Fill = Paint()..style = PaintingStyle.fill;
-    paint22Fill.color = Color(0xff877F1D).withOpacity(1.0);
+    paint22Fill.color = Color(0xff877F1D).withValues(alpha: 1.0);
     canvas.drawPath(path_22, paint22Fill);
 
     Path path_23 = Path();
@@ -7427,7 +7427,7 @@ class RightTreePainter extends CustomPainter {
     paint23Fill.shader = ui.Gradient.linear(
       Offset(size.width * 1.025419, size.height * 0.4906410),
       Offset(size.width * 1.089245, size.height * 0.4358974),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xff9E9826).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xff9E9826).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_23, paint23Fill);
@@ -7632,7 +7632,7 @@ class RightTreePainter extends CustomPainter {
     paint24Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.9675897, size.height * 0.3333513),
       Offset(size.width * 1.048756, size.height * 0.4259590),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xff9E9826).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xff9E9826).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_24, paint24Fill);
@@ -7763,7 +7763,7 @@ class RightTreePainter extends CustomPainter {
     paint25Fill.shader = ui.Gradient.linear(
       Offset(size.width * 1.044921, size.height * 0.5974974),
       Offset(size.width * 1.020493, size.height * 0.3631846),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_25, paint25Fill);
@@ -7935,7 +7935,7 @@ class RightTreePainter extends CustomPainter {
     paint26Fill.shader = ui.Gradient.linear(
       Offset(size.width * 1.030443, size.height * 0.2661821),
       Offset(size.width * 0.8427344, size.height * 0.2829308),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xffB7AC27).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_26, paint26Fill);
@@ -7967,7 +7967,7 @@ class RightTreePainter extends CustomPainter {
     path_27.close();
 
     Paint paint27Fill = Paint()..style = PaintingStyle.fill;
-    paint27Fill.color = Color(0xffD8C72E).withOpacity(1.0);
+    paint27Fill.color = Color(0xffD8C72E).withValues(alpha: 1.0);
     canvas.drawPath(path_27, paint27Fill);
 
     Path path_28 = Path();
@@ -7995,7 +7995,7 @@ class RightTreePainter extends CustomPainter {
     path_28.close();
 
     Paint paint28Fill = Paint()..style = PaintingStyle.fill;
-    paint28Fill.color = Color(0xff6D3E37).withOpacity(1.0);
+    paint28Fill.color = Color(0xff6D3E37).withValues(alpha: 1.0);
     canvas.drawPath(path_28, paint28Fill);
 
     Path path_29 = Path();
@@ -8007,7 +8007,7 @@ class RightTreePainter extends CustomPainter {
     path_29.close();
 
     Paint paint29Fill = Paint()..style = PaintingStyle.fill;
-    paint29Fill.color = Color(0xff8C5438).withOpacity(1.0);
+    paint29Fill.color = Color(0xff8C5438).withValues(alpha: 1.0);
     canvas.drawPath(path_29, paint29Fill);
 
     Path path_30 = Path();
@@ -8079,7 +8079,7 @@ class RightTreePainter extends CustomPainter {
     path_30.close();
 
     Paint paint30Fill = Paint()..style = PaintingStyle.fill;
-    paint30Fill.color = Color(0xff9E9826).withOpacity(1.0);
+    paint30Fill.color = Color(0xff9E9826).withValues(alpha: 1.0);
     canvas.drawPath(path_30, paint30Fill);
 
     Path path_31 = Path();
@@ -8111,7 +8111,7 @@ class RightTreePainter extends CustomPainter {
     paint31Fill.shader = ui.Gradient.linear(
       Offset(size.width * 1.304253, size.height * 1.150249),
       Offset(size.width * 1.103830, size.height * 0.7988538),
-      [Color(0xffB59478).withOpacity(1), Color(0xff8E776C).withOpacity(1)],
+      [Color(0xffB59478).withValues(alpha: 1), Color(0xff8E776C).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_31, paint31Fill);
@@ -8179,7 +8179,7 @@ class RightTreePainter extends CustomPainter {
     path_32.close();
 
     Paint paint32Fill = Paint()..style = PaintingStyle.fill;
-    paint32Fill.color = Color(0xffB7AC27).withOpacity(1.0);
+    paint32Fill.color = Color(0xffB7AC27).withValues(alpha: 1.0);
     canvas.drawPath(path_32, paint32Fill);
 
     Path path_33 = Path();
@@ -8269,7 +8269,7 @@ class RightTreePainter extends CustomPainter {
     paint33Fill.shader = ui.Gradient.linear(
       Offset(size.width * 1.117808, size.height * 1.416267),
       Offset(size.width * 1.117808, size.height * 0.9285128),
-      [Color(0xffB59478).withOpacity(1), Color(0xff8E776C).withOpacity(1)],
+      [Color(0xffB59478).withValues(alpha: 1), Color(0xff8E776C).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_33, paint33Fill);
@@ -8303,7 +8303,7 @@ class RightTreePainter extends CustomPainter {
     paint34Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.9717564, size.height * 1.384090),
       Offset(size.width * 1.018344, size.height * 0.8962179),
-      [Color(0xffB59478).withOpacity(1), Color(0xff82655D).withOpacity(1)],
+      [Color(0xffB59478).withValues(alpha: 1), Color(0xff82655D).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_34, paint34Fill);
@@ -8343,7 +8343,7 @@ class RightTreePainter extends CustomPainter {
     paint35Fill.shader = ui.Gradient.linear(
       Offset(size.width * 1.071337, size.height * 1.029115),
       Offset(size.width * 0.7487656, size.height * 1.278895),
-      [Color(0xffB59478).withOpacity(1), Color(0xff8E776C).withOpacity(1)],
+      [Color(0xffB59478).withValues(alpha: 1), Color(0xff8E776C).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_35, paint35Fill);
@@ -8361,7 +8361,7 @@ class RightTreePainter extends CustomPainter {
     paint36Fill.shader = ui.Gradient.linear(
       Offset(size.width * 1.000894, size.height * 1.056938),
       Offset(size.width * 0.8833571, size.height * 0.9376205),
-      [Color(0xffB59478).withOpacity(1), Color(0xff8E776C).withOpacity(1)],
+      [Color(0xffB59478).withValues(alpha: 1), Color(0xff8E776C).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_36, paint36Fill);
@@ -8394,7 +8394,7 @@ class RightTreePainter extends CustomPainter {
     path_37.close();
 
     Paint paint37Fill = Paint()..style = PaintingStyle.fill;
-    paint37Fill.color = Color(0xffB7AC27).withOpacity(1.0);
+    paint37Fill.color = Color(0xffB7AC27).withValues(alpha: 1.0);
     canvas.drawPath(path_37, paint37Fill);
 
     Path path_38 = Path();
@@ -8543,7 +8543,7 @@ class RightTreePainter extends CustomPainter {
     paint38Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.9080641, size.height * 0.5896923),
       Offset(size.width * 0.8406337, size.height * 0.5547282),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xff9E9826).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xff9E9826).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_38, paint38Fill);
@@ -8687,7 +8687,7 @@ class RightTreePainter extends CustomPainter {
     paint39Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.9596154, size.height * 0.5477897),
       Offset(size.width * 0.7841685, size.height * 0.6386974),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xff9E9826).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xff9E9826).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_39, paint39Fill);
@@ -8823,7 +8823,7 @@ class RightTreePainter extends CustomPainter {
     paint40Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7845092, size.height * 0.6637256),
       Offset(size.width * 0.7457985, size.height * 0.5964179),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xff9E9826).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xff9E9826).withValues(alpha: 1)],
       [0.255, 1],
     );
     canvas.drawPath(path_40, paint40Fill);
@@ -8940,7 +8940,7 @@ class RightTreePainter extends CustomPainter {
     paint41Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.8013480, size.height * 0.5690718),
       Offset(size.width * 0.6995751, size.height * 0.8383000),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xff9E9826).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xff9E9826).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_41, paint41Fill);
@@ -9108,7 +9108,7 @@ class RightTreePainter extends CustomPainter {
     paint42Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6689212, size.height * 0.7059103),
       Offset(size.width * 0.7169982, size.height * 0.5127308),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xff9E9826).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xff9E9826).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_42, paint42Fill);
@@ -9226,7 +9226,7 @@ class RightTreePainter extends CustomPainter {
     paint43Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7044469, size.height * 0.5431718),
       Offset(size.width * 0.6189084, size.height * 0.7346051),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xff9E9826).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xff9E9826).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_43, paint43Fill);
@@ -9402,7 +9402,7 @@ class RightTreePainter extends CustomPainter {
     paint44Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.9987271, size.height * 0.3969154),
       Offset(size.width * 0.8882143, size.height * 0.4572308),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xff9E9826).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xff9E9826).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_44, paint44Fill);
@@ -9524,7 +9524,7 @@ class RightTreePainter extends CustomPainter {
     paint45Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.9520201, size.height * 0.4247077),
       Offset(size.width * 0.7884359, size.height * 0.5060000),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xff9E9826).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xff9E9826).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_45, paint45Fill);
@@ -9693,7 +9693,7 @@ class RightTreePainter extends CustomPainter {
     paint46Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7393242, size.height * 0.2760000),
       Offset(size.width * 0.7318315, size.height * 0.3100923),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xff9E9826).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xff9E9826).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_46, paint46Fill);
@@ -9815,7 +9815,7 @@ class RightTreePainter extends CustomPainter {
     paint47Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7437033, size.height * 0.2339667),
       Offset(size.width * 0.6706520, size.height * 0.4839667),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xff9E9826).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xff9E9826).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_47, paint47Fill);
@@ -9920,7 +9920,7 @@ class RightTreePainter extends CustomPainter {
     paint48Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7578571, size.height * 0.4120462),
       Offset(size.width * 0.7366300, size.height * 0.4400179),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xff9E9826).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xff9E9826).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_48, paint48Fill);
@@ -10022,7 +10022,7 @@ class RightTreePainter extends CustomPainter {
     paint49Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6931227, size.height * 0.4478000),
       Offset(size.width * 0.6313095, size.height * 0.5457026),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xff9E9826).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xff9E9826).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_49, paint49Fill);
@@ -10104,7 +10104,7 @@ class RightTreePainter extends CustomPainter {
     paint50Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.8765348, size.height * 0.6059590),
       Offset(size.width * 0.7949103, size.height * 0.5913333),
-      [Color(0xffCEBF34).withOpacity(1), Color(0xff9E9826).withOpacity(1)],
+      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xff9E9826).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawPath(path_50, paint50Fill);
@@ -10118,7 +10118,7 @@ class RightTreePainter extends CustomPainter {
     path_51.close();
 
     Paint paint51Fill = Paint()..style = PaintingStyle.fill;
-    paint51Fill.color = Color(0xffffffff).withOpacity(1.0);
+    paint51Fill.color = Color(0xffffffff).withValues(alpha: 1.0);
     canvas.drawPath(path_51, paint51Fill);
 
     Path path_52 = Path();
@@ -15695,7 +15695,7 @@ class RightTreePainter extends CustomPainter {
     path_52.close();
 
     Paint paint52Fill = Paint()..style = PaintingStyle.fill;
-    paint52Fill.color = Color(0xff383838).withOpacity(1.0);
+    paint52Fill.color = Color(0xff383838).withValues(alpha: 1.0);
     canvas.drawPath(path_52, paint52Fill);
   }
 

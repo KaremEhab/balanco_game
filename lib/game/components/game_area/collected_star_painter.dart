@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 class CollectedStarPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = Color(0xffFFC336).withOpacity(1.0);
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.color = Color(0xffFFC336).withValues(alpha: 1.0);
     canvas.drawRRect(
       RRect.fromRectAndCorners(
         Rect.fromLTWH(
@@ -20,13 +20,13 @@ class CollectedStarPainter extends CustomPainter {
         topLeft: Radius.circular(size.width * 0.3645833),
         topRight: Radius.circular(size.width * 0.3645833),
       ),
-      paint_0_fill,
+      paint0Fill,
     );
 
-    Paint paint_1_stroke = Paint()
+    Paint paint1Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.01656250;
-    paint_1_stroke.color = Color(0xffAE801D).withOpacity(1.0);
+    paint1Stroke.color = Color(0xffAE801D).withValues(alpha: 1.0);
     canvas.drawRRect(
       RRect.fromRectAndCorners(
         Rect.fromLTWH(
@@ -40,7 +40,7 @@ class CollectedStarPainter extends CustomPainter {
         topLeft: Radius.circular(size.width * 0.3728750),
         topRight: Radius.circular(size.width * 0.3728750),
       ),
-      paint_1_stroke,
+      paint1Stroke,
     );
 
     Path path_2 = Path();
@@ -149,15 +149,15 @@ class CollectedStarPainter extends CustomPainter {
     );
     path_2.close();
 
-    Paint paint_2_stroke = Paint()
+    Paint paint2Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.02125000;
-    paint_2_stroke.color = Color(0xffAE801D).withOpacity(1.0);
-    canvas.drawPath(path_2, paint_2_stroke);
+    paint2Stroke.color = Color(0xffAE801D).withValues(alpha: 1.0);
+    canvas.drawPath(path_2, paint2Stroke);
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.color = Color(0xffFFDC93).withOpacity(1.0);
-    canvas.drawPath(path_2, paint_2_fill);
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.color = Color(0xffFFDC93).withValues(alpha: 1.0);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(18.658, 21.693);
@@ -196,14 +196,14 @@ class CollectedStarPainter extends CustomPainter {
     );
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.shader = ui.Gradient.linear(
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2266250, size.height * 0.2070833),
       Offset(size.width * 0.4860208, size.height * 0.3357708),
-      [Color(0xffffffff).withOpacity(1), Color(0xffffffff).withOpacity(0)],
+      [Color(0xffffffff).withValues(alpha: 1), Color(0xffffffff).withValues(alpha: 0)],
       [0.611, 0.807],
     );
-    canvas.drawPath(path_3, paint_3_fill);
+    canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
     path_4.moveTo(21.57, 15.316);
@@ -241,14 +241,14 @@ class CollectedStarPainter extends CustomPainter {
     );
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.shader = ui.Gradient.linear(
+    Paint paint4Fill = Paint()..style = PaintingStyle.fill;
+    paint4Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6310000, size.height * 0.08835417),
       Offset(size.width * 0.5901875, size.height * 0.3750208),
-      [Color(0xffffffff).withOpacity(1), Color(0xffffffff).withOpacity(0)],
+      [Color(0xffffffff).withValues(alpha: 1), Color(0xffffffff).withValues(alpha: 0)],
       [0.611, 0.807],
     );
-    canvas.drawPath(path_4, paint_4_fill);
+    canvas.drawPath(path_4, paint4Fill);
   }
 
   @override

@@ -35,7 +35,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
       context: context,
       barrierDismissible: true,
       barrierLabel: 'Dismiss',
-      barrierColor: Colors.black.withOpacity(0.5),
+      barrierColor: Colors.black.withValues(alpha: 0.5),
       transitionDuration: const Duration(milliseconds: 300),
       pageBuilder: (context, anim1, anim2) {
         return Center(
@@ -52,15 +52,15 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                     vertical: 32,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.15),
+                    color: Colors.white.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(32),
                     border: Border.all(
-                      color: Colors.white.withOpacity(0.4),
+                      color: Colors.white.withValues(alpha: 0.4),
                       width: 2,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
+                        color: Colors.black.withValues(alpha: 0.2),
                         blurRadius: 20,
                         spreadRadius: 5,
                       ),
@@ -193,7 +193,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
               blurRadius: 6,
             ),
           ],
-          border: Border.all(color: Colors.white.withOpacity(0.6), width: 1.5),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.6), width: 1.5),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -231,10 +231,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
       Color.fromARGB(255, 255, 180, 80),
       Color.fromARGB(255, 229, 145, 49),
     ];
-    const List<Color> cardDarkAccentGradient = [
-      Color(0xff503040),
-      Color(0xff301525),
-    ];
+
 
     return Scaffold(
       body: Stack(
@@ -284,7 +281,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                                   sigmaY: 3.5,
                                 ),
                                 child: Container(
-                                  color: Colors.white.withOpacity(0.2),
+                                  color: Colors.white.withValues(alpha: 0.2),
                                 ),
                               ),
                             ),

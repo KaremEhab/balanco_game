@@ -1,4 +1,4 @@
-import 'dart:ui' as ui;
+
 
 import 'package:flutter/material.dart';
 
@@ -436,135 +436,7 @@ class GamePainter extends CustomPainter {
     );
     path_0.lineTo(193.43799999999996, 19.318999999999985);
     path_0.close();
-    path_0.moveTo(74.388, 0);
-    path_0.arcToPoint(
-      Offset(113.811, 19.71),
-      radius: Radius.elliptical(49.28, 49.28),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_0.lineTo(119.161, 26.846);
-    path_0.arcToPoint(
-      Offset(122.534, 35.5),
-      radius: Radius.elliptical(17.288, 17.288),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_0.cubicTo(122.661, 39.068, 122.226, 41.546, 120.75, 44.679);
-    path_0.cubicTo(
-      119.531,
-      47.267,
-      117.85,
-      49.623000000000005,
-      115.894,
-      51.711,
-    );
-    path_0.cubicTo(
-      114.936,
-      52.733,
-      114.004,
-      53.609,
-      113.04700000000001,
-      54.341,
-    );
-    path_0.cubicTo(
-      107.60100000000001,
-      58.505,
-      100.02700000000002,
-      56.111000000000004,
-      93.47200000000001,
-      54.103,
-    );
-    path_0.lineTo(51.534, 41.257);
-    path_0.cubicTo(42.974, 39.269, 38.922, 39.851, 32.824, 43.175999999999995);
-    path_0.arcToPoint(
-      Offset(24.048, 47.492999999999995),
-      radius: Radius.elliptical(140.677, 140.677),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_0.cubicTo(13.607, 53.551, 5, 52.257, 5, 40.185);
-    path_0.lineTo(5, 35.5);
-    path_0.cubicTo(5, 15.894, 20.894, 0, 40.5, 0);
-    path_0.lineTo(74.38900000000001, 0);
-    path_0.close();
-    path_0.moveTo(370.05499999999995, 0);
-    path_0.cubicTo(
-      389.66099999999994,
-      0,
-      405.55499999999995,
-      15.894,
-      405.55499999999995,
-      35.5,
-    );
-    path_0.lineTo(405.55499999999995, 40.185);
-    path_0.cubicTo(
-      405.55499999999995,
-      52.257000000000005,
-      396.948,
-      53.551,
-      386.50699999999995,
-      47.493,
-    );
-    path_0.arcToPoint(
-      Offset(377.72999999999996, 43.176),
-      radius: Radius.elliptical(140.514, 140.514),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_0.cubicTo(
-      371.63199999999995,
-      39.851,
-      367.58,
-      39.269000000000005,
-      359.02099999999996,
-      41.256,
-    );
-    path_0.lineTo(317.08299999999997, 54.103);
-    path_0.cubicTo(
-      310.52799999999996,
-      56.111000000000004,
-      302.95399999999995,
-      58.505,
-      297.508,
-      54.341,
-    );
-    path_0.cubicTo(
-      296.551,
-      53.609,
-      295.61899999999997,
-      52.733000000000004,
-      294.661,
-      51.711,
-    );
-    path_0.cubicTo(
-      292.705,
-      49.623,
-      291.024,
-      47.266999999999996,
-      289.805,
-      44.679,
-    );
-    path_0.cubicTo(288.329, 41.546, 287.894, 39.068000000000005, 288.021, 35.5);
-    path_0.arcToPoint(
-      Offset(291.394, 26.846),
-      radius: Radius.elliptical(17.28, 17.28),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_0.lineTo(296.744, 19.711);
-    path_0.arcToPoint(
-      Offset(336.166, 0),
-      radius: Radius.elliptical(49.278, 49.278),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
+    // Removed top left and right painter paths
     // Smooth, borderless premium gradient (Golden Sand)
     Rect bounds = path_0.getBounds();
     final Paint basePaint = Paint()
@@ -584,7 +456,7 @@ class GamePainter extends CustomPainter {
     canvas.clipPath(path_0);
 
     final Paint patternPaint = Paint()
-      ..color = Colors.white.withOpacity(0.1)
+      ..color = Colors.white.withValues(alpha: 0.1)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 4.0;
 
@@ -605,7 +477,7 @@ class GamePainter extends CustomPainter {
     final Paint innerGlow = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.0
-      ..color = Colors.white.withOpacity(0.1);
+      ..color = Colors.white.withValues(alpha: 0.1);
     canvas.drawPath(path_0, innerGlow);
 
     canvas.restore();

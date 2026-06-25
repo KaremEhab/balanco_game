@@ -1,4 +1,4 @@
-import 'dart:ui' as ui;
+
 
 import 'package:flutter/material.dart';
 
@@ -9,7 +9,7 @@ class MagnateBtnPainter extends CustomPainter {
 
     // 1. Drop Shadow
     final Paint shadowPaint = Paint()
-      ..color = Colors.black.withOpacity(0.4)
+      ..color = Colors.black.withValues(alpha: 0.4)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4.0);
     canvas.drawRRect(
       RRect.fromRectAndRadius(rect.translate(0, 4), const Radius.circular(16)),
@@ -73,7 +73,7 @@ class MagnateBtnPainter extends CustomPainter {
     magPath.close();
 
     final Paint iconShadow = Paint()
-      ..color = Colors.black.withOpacity(0.5)
+      ..color = Colors.black.withValues(alpha: 0.5)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 2.0);
     canvas.drawPath(magPath.shift(const Offset(0, 2)), iconShadow);
 
@@ -112,7 +112,7 @@ class MagnateBtnPainter extends CustomPainter {
     final Paint iconStroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.0
-      ..color = Colors.white.withOpacity(0.6);
+      ..color = Colors.white.withValues(alpha: 0.6);
     canvas.drawPath(magPath, iconStroke);
   }
 

@@ -20,8 +20,8 @@ class BrokenHeartPainter extends CustomPainter {
     canvas.scale(scale, scale);
     Size virtualSize = const Size(40.0, 40.0);
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = Color(0xffF02300).withOpacity(1.0);
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.color = Color(0xffF02300).withValues(alpha: 1.0);
     canvas.drawRRect(
       RRect.fromRectAndCorners(
         Rect.fromLTWH(
@@ -35,13 +35,13 @@ class BrokenHeartPainter extends CustomPainter {
         topLeft: Radius.circular(virtualSize.width * 0.3744118),
         topRight: Radius.circular(virtualSize.width * 0.3744118),
       ),
-      paint_0_fill,
+      paint0Fill,
     );
 
-    Paint paint_1_stroke = Paint()
+    Paint paint1Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = virtualSize.width * 0.02005882;
-    paint_1_stroke.color = Color(0xffffffff).withOpacity(1.0);
+    paint1Stroke.color = Color(0xffffffff).withValues(alpha: 1.0);
     canvas.drawRRect(
       RRect.fromRectAndCorners(
         Rect.fromLTWH(
@@ -55,7 +55,7 @@ class BrokenHeartPainter extends CustomPainter {
         topLeft: Radius.circular(virtualSize.width * 0.3844412),
         topRight: Radius.circular(virtualSize.width * 0.3844412),
       ),
-      paint_1_stroke,
+      paint1Stroke,
     );
 
     canvas.save();
@@ -199,9 +199,9 @@ class BrokenHeartPainter extends CustomPainter {
     );
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.color = Color(0xffF2ACAC).withOpacity(1.0);
-    canvas.drawPath(path_2, paint_2_fill);
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.color = Color(0xffF2ACAC).withValues(alpha: 1.0);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(26.66, 14.706);
@@ -331,9 +331,9 @@ class BrokenHeartPainter extends CustomPainter {
     );
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.color = Color(0xffF2ACAC).withOpacity(1.0);
-    canvas.drawPath(path_3, paint_3_fill);
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.color = Color(0xffF2ACAC).withValues(alpha: 1.0);
+    canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
     path_4.moveTo(21.565, 9.637);
@@ -342,9 +342,9 @@ class BrokenHeartPainter extends CustomPainter {
     path_4.lineTo(21.565, 9.637);
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.color = Color(0xffF2ACAC).withOpacity(1.0);
-    canvas.drawPath(path_4, paint_4_fill);
+    Paint paint4Fill = Paint()..style = PaintingStyle.fill;
+    paint4Fill.color = Color(0xffF2ACAC).withValues(alpha: 1.0);
+    canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
     path_5.moveTo(21.565, 9.637);
@@ -353,9 +353,9 @@ class BrokenHeartPainter extends CustomPainter {
     path_5.lineTo(21.565, 9.637);
     path_5.close();
 
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.color = Color(0xffF2ACAC).withOpacity(1.0);
-    canvas.drawPath(path_5, paint_5_fill);
+    Paint paint5Fill = Paint()..style = PaintingStyle.fill;
+    paint5Fill.color = Color(0xffF2ACAC).withValues(alpha: 1.0);
+    canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
     path_6.moveTo(19.787, 14.678);
@@ -366,9 +366,9 @@ class BrokenHeartPainter extends CustomPainter {
     path_6.lineTo(19.787, 14.678000000000003);
     path_6.close();
 
-    Paint paint_6_fill = Paint()..style = PaintingStyle.fill;
-    paint_6_fill.color = Color(0xffF2ACAC).withOpacity(1.0);
-    canvas.drawPath(path_6, paint_6_fill);
+    Paint paint6Fill = Paint()..style = PaintingStyle.fill;
+    paint6Fill.color = Color(0xffF2ACAC).withValues(alpha: 1.0);
+    canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
     path_7.moveTo(19.787, 14.678);
@@ -379,9 +379,9 @@ class BrokenHeartPainter extends CustomPainter {
     path_7.lineTo(19.787, 14.678000000000003);
     path_7.close();
 
-    Paint paint_7_fill = Paint()..style = PaintingStyle.fill;
-    paint_7_fill.color = Color(0xffF2ACAC).withOpacity(1.0);
-    canvas.drawPath(path_7, paint_7_fill);
+    Paint paint7Fill = Paint()..style = PaintingStyle.fill;
+    paint7Fill.color = Color(0xffF2ACAC).withValues(alpha: 1.0);
+    canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
     path_8.moveTo(14.444, 9.758);
@@ -390,9 +390,9 @@ class BrokenHeartPainter extends CustomPainter {
     path_8.lineTo(14.444, 9.758);
     path_8.close();
 
-    Paint paint_8_fill = Paint()..style = PaintingStyle.fill;
-    paint_8_fill.color = Color(0xffF2ACAC).withOpacity(1.0);
-    canvas.drawPath(path_8, paint_8_fill);
+    Paint paint8Fill = Paint()..style = PaintingStyle.fill;
+    paint8Fill.color = Color(0xffF2ACAC).withValues(alpha: 1.0);
+    canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
     path_9.moveTo(14.444, 9.758);
@@ -401,9 +401,9 @@ class BrokenHeartPainter extends CustomPainter {
     path_9.lineTo(14.444, 9.758);
     path_9.close();
 
-    Paint paint_9_fill = Paint()..style = PaintingStyle.fill;
-    paint_9_fill.color = Color(0xffF2ACAC).withOpacity(1.0);
-    canvas.drawPath(path_9, paint_9_fill);
+    Paint paint9Fill = Paint()..style = PaintingStyle.fill;
+    paint9Fill.color = Color(0xffF2ACAC).withValues(alpha: 1.0);
+    canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
     path_10.moveTo(16.442, 14.602);
@@ -412,9 +412,9 @@ class BrokenHeartPainter extends CustomPainter {
     path_10.lineTo(16.442, 14.601);
     path_10.close();
 
-    Paint paint_10_fill = Paint()..style = PaintingStyle.fill;
-    paint_10_fill.color = Color(0xffF2ACAC).withOpacity(1.0);
-    canvas.drawPath(path_10, paint_10_fill);
+    Paint paint10Fill = Paint()..style = PaintingStyle.fill;
+    paint10Fill.color = Color(0xffF2ACAC).withValues(alpha: 1.0);
+    canvas.drawPath(path_10, paint10Fill);
 
     Path path_11 = Path();
     path_11.moveTo(16.442, 14.602);
@@ -423,9 +423,9 @@ class BrokenHeartPainter extends CustomPainter {
     path_11.lineTo(16.442, 14.601);
     path_11.close();
 
-    Paint paint_11_fill = Paint()..style = PaintingStyle.fill;
-    paint_11_fill.color = Color(0xffF2ACAC).withOpacity(1.0);
-    canvas.drawPath(path_11, paint_11_fill);
+    Paint paint11Fill = Paint()..style = PaintingStyle.fill;
+    paint11Fill.color = Color(0xffF2ACAC).withValues(alpha: 1.0);
+    canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
     path_12.moveTo(24.42, 17.306);
@@ -501,14 +501,14 @@ class BrokenHeartPainter extends CustomPainter {
     );
     path_12.close();
 
-    Paint paint_12_fill = Paint()..style = PaintingStyle.fill;
-    paint_12_fill.shader = ui.Gradient.linear(
+    Paint paint12Fill = Paint()..style = PaintingStyle.fill;
+    paint12Fill.shader = ui.Gradient.linear(
       Offset(virtualSize.width * 0.5187059, virtualSize.height * 0.2164706),
       Offset(virtualSize.width * 0.5187059, virtualSize.height * 0.5168235),
-      [Color(0xffffffff).withOpacity(1), Color(0xffffffff).withOpacity(0)],
+      [Color(0xffffffff).withValues(alpha: 1), Color(0xffffffff).withValues(alpha: 0)],
       [0.216, 0.923],
     );
-    canvas.drawPath(path_12, paint_12_fill);
+    canvas.drawPath(path_12, paint12Fill);
 
     Path path_13 = Path();
     path_13.moveTo(26.648, 15.035);
@@ -578,17 +578,17 @@ class BrokenHeartPainter extends CustomPainter {
     );
     path_13.close();
 
-    Paint paint_13_fill = Paint()..style = PaintingStyle.fill;
-    paint_13_fill.color = Color(0xffF2ACAC).withOpacity(1.0);
-    canvas.drawPath(path_13, paint_13_fill);
+    Paint paint13Fill = Paint()..style = PaintingStyle.fill;
+    paint13Fill.color = Color(0xffF2ACAC).withValues(alpha: 1.0);
+    canvas.drawPath(path_13, paint13Fill);
 
     Path path_14 = Path();
     path_14.moveTo(26.438, 16.334);
     path_14.close();
 
-    Paint paint_14_fill = Paint()..style = PaintingStyle.fill;
-    paint_14_fill.color = Color(0xffF2ACAC).withOpacity(1.0);
-    canvas.drawPath(path_14, paint_14_fill);
+    Paint paint14Fill = Paint()..style = PaintingStyle.fill;
+    paint14Fill.color = Color(0xffF2ACAC).withValues(alpha: 1.0);
+    canvas.drawPath(path_14, paint14Fill);
 
     Path path_15 = Path();
     path_15.moveTo(26.661, 14.71);
@@ -680,9 +680,9 @@ class BrokenHeartPainter extends CustomPainter {
     );
     path_15.close();
 
-    Paint paint_15_fill = Paint()..style = PaintingStyle.fill;
-    paint_15_fill.color = Color(0xffF2ACAC).withOpacity(1.0);
-    canvas.drawPath(path_15, paint_15_fill);
+    Paint paint15Fill = Paint()..style = PaintingStyle.fill;
+    paint15Fill.color = Color(0xffF2ACAC).withValues(alpha: 1.0);
+    canvas.drawPath(path_15, paint15Fill);
     
     canvas.restore(); // restore the inner canvas save for heart alignment
     canvas.restore(); // restore the global scale save

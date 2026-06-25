@@ -63,11 +63,11 @@ class LevelButtonPainter extends CustomPainter {
       Offset(size.width * 0.4945818, size.height * 0.9849038),
       Offset(size.width * 0.4945818, size.height * 0.02307692),
       [
-        Color(0xff740054).withOpacity(1),
-        Color(0xff7E034E).withOpacity(1),
-        Color(0xff9A0A3E).withOpacity(1),
-        Color(0xffC71724).withOpacity(1),
-        Color(0xffD41A1D).withOpacity(1),
+        Color(0xff740054).withValues(alpha: 1),
+        Color(0xff7E034E).withValues(alpha: 1),
+        Color(0xff9A0A3E).withValues(alpha: 1),
+        Color(0xffC71724).withValues(alpha: 1),
+        Color(0xffD41A1D).withValues(alpha: 1),
       ],
       [0, 0.181, 0.493, 0.895, 1],
     );
@@ -131,10 +131,10 @@ class LevelButtonPainter extends CustomPainter {
       Offset(size.width * 0.4945818, size.height * 0.9500000),
       Offset(size.width * 0.4945818, size.height * 0.03511538),
       [
-        Color(0xffC90054).withOpacity(1),
-        Color(0xffD10A4C).withOpacity(1),
-        Color(0xffE62637).withOpacity(1),
-        Color(0xffFF481D).withOpacity(1),
+        Color(0xffC90054).withValues(alpha: 1),
+        Color(0xffD10A4C).withValues(alpha: 1),
+        Color(0xffE62637).withValues(alpha: 1),
+        Color(0xffFF481D).withValues(alpha: 1),
       ],
       [0, 0.226, 0.613, 1],
     );
@@ -166,10 +166,10 @@ class LevelButtonPainter extends CustomPainter {
       Offset(size.width * 0.4944364, size.height * 0.7810385),
       Offset(size.width * 0.4944364, size.height * 0.2041346),
       [
-        Color(0xffFFBD00).withOpacity(1),
-        Color(0xffFFC700).withOpacity(1),
-        Color(0xffFFE300).withOpacity(1),
-        Color(0xffFFE500).withOpacity(1),
+        Color(0xffFFBD00).withValues(alpha: 1),
+        Color(0xffFFC700).withValues(alpha: 1),
+        Color(0xffFFE300).withValues(alpha: 1),
+        Color(0xffFFE500).withValues(alpha: 1),
       ],
       [0, 0.354, 0.963, 1],
     );
@@ -225,12 +225,12 @@ class LevelButtonPainter extends CustomPainter {
       Offset(size.width * 0.4945818, size.height * 0.9500000),
       Offset(size.width * 0.4945818, size.height * 0.2955577),
       [
-        Color(0xffB1255E).withOpacity(1),
-        Color(0xffC34F72).withOpacity(1),
-        Color(0xffDC8D8F).withOpacity(1),
-        Color(0xffEFBBA4).withOpacity(1),
-        Color(0xffFBD7B1).withOpacity(1),
-        Color(0xffFFE1B6).withOpacity(1),
+        Color(0xffB1255E).withValues(alpha: 1),
+        Color(0xffC34F72).withValues(alpha: 1),
+        Color(0xffDC8D8F).withValues(alpha: 1),
+        Color(0xffEFBBA4).withValues(alpha: 1),
+        Color(0xffFBD7B1).withValues(alpha: 1),
+        Color(0xffFFE1B6).withValues(alpha: 1),
       ],
       [0, 0.178, 0.463, 0.706, 0.892, 1],
     );
@@ -270,12 +270,12 @@ class LevelButtonPainter extends CustomPainter {
       Offset(size.width * 0.4885636, size.height * 0.5728462),
       Offset(size.width * 0.4885636, size.height * 0.1542500),
       [
-        Color(0xffFFE1B6).withOpacity(1),
-        Color(0xffFDD7B2).withOpacity(1),
-        Color(0xffF8BBA7).withOpacity(1),
-        Color(0xffEF8D95).withOpacity(1),
-        Color(0xffE24E7D).withOpacity(1),
-        Color(0xffD3005E).withOpacity(1),
+        Color(0xffFFE1B6).withValues(alpha: 1),
+        Color(0xffFDD7B2).withValues(alpha: 1),
+        Color(0xffF8BBA7).withValues(alpha: 1),
+        Color(0xffEF8D95).withValues(alpha: 1),
+        Color(0xffE24E7D).withValues(alpha: 1),
+        Color(0xffD3005E).withValues(alpha: 1),
       ],
       [0, 0.094, 0.257, 0.468, 0.72, 1],
     );
@@ -311,7 +311,7 @@ class LevelButtonPainter extends CustomPainter {
     path_5.close();
 
     Paint paint5Fill = Paint()..style = PaintingStyle.fill;
-    paint5Fill.color = Color(0xffFFDBFF).withOpacity(1.0);
+    paint5Fill.color = Color(0xffFFDBFF).withValues(alpha: 1.0);
     canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
@@ -329,7 +329,7 @@ class LevelButtonPainter extends CustomPainter {
     path_6.close();
 
     Paint paint6Fill = Paint()..style = PaintingStyle.fill;
-    paint6Fill.color = Colors.yellow.withOpacity(1.0);
+    paint6Fill.color = Colors.yellow.withValues(alpha: 1.0);
     canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
@@ -364,7 +364,7 @@ class LevelButtonPainter extends CustomPainter {
     path_7.close();
 
     Paint paint7Fill = Paint()..style = PaintingStyle.fill;
-    paint7Fill.color = Colors.yellow.withOpacity(1.0);
+    paint7Fill.color = Colors.yellow.withValues(alpha: 1.0);
     canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
@@ -385,14 +385,14 @@ class LevelButtonPainter extends CustomPainter {
       Offset(size.width * 0.03245455, size.height * 0.6258654),
       Offset(size.width * 0.3327455, size.height * 0.6258654),
       [
-        Color(0xff1E72EA).withOpacity(1),
-        Color(0xff1F6FE4).withOpacity(1),
-        Color(0xff2652AE).withOpacity(1),
-        Color(0xff2D3B81).withOpacity(1),
-        Color(0xff32295E).withOpacity(1),
-        Color(0xff351C44).withOpacity(1),
-        Color(0xff371435).withOpacity(1),
-        Color(0xff381130).withOpacity(1),
+        Color(0xff1E72EA).withValues(alpha: 1),
+        Color(0xff1F6FE4).withValues(alpha: 1),
+        Color(0xff2652AE).withValues(alpha: 1),
+        Color(0xff2D3B81).withValues(alpha: 1),
+        Color(0xff32295E).withValues(alpha: 1),
+        Color(0xff351C44).withValues(alpha: 1),
+        Color(0xff371435).withValues(alpha: 1),
+        Color(0xff381130).withValues(alpha: 1),
       ],
       [0.011, 0.031, 0.217, 0.398, 0.571, 0.733, 0.88, 1],
     );
@@ -412,7 +412,7 @@ class LevelButtonPainter extends CustomPainter {
     path_9.close();
 
     Paint paint9Fill = Paint()..style = PaintingStyle.fill;
-    paint9Fill.color = Colors.yellow.withOpacity(1.0);
+    paint9Fill.color = Colors.yellow.withValues(alpha: 1.0);
     canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
@@ -445,7 +445,7 @@ class LevelButtonPainter extends CustomPainter {
     path_10.close();
 
     Paint paint10Fill = Paint()..style = PaintingStyle.fill;
-    paint10Fill.color = Color(0xffFFF91D).withOpacity(1.0);
+    paint10Fill.color = Color(0xffFFF91D).withValues(alpha: 1.0);
     canvas.drawPath(path_10, paint10Fill);
   }
 

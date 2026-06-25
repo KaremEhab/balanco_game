@@ -16,8 +16,8 @@ class StarFilledPainter extends CustomPainter {
     // Red box center is at ~16.008, so we shift it to 17.5.
     canvas.translate(1.492, 1.491);
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = Color(0xffFFC336).withOpacity(1.0);
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.color = Color(0xffFFC336).withValues(alpha: 1.0);
     final RRect baseRRect = RRect.fromRectAndCorners(
       Rect.fromLTWH(
         virtualSize.width * 0.01987500,
@@ -30,7 +30,7 @@ class StarFilledPainter extends CustomPainter {
       topLeft: Radius.circular(virtualSize.width * 0.3713000),
       topRight: Radius.circular(virtualSize.width * 0.3713000),
     );
-    canvas.drawRRect(baseRRect, paint_0_fill);
+    canvas.drawRRect(baseRRect, paint0Fill);
 
     // Inner white shadow (bevel highlight on top-left)
     canvas.save();
@@ -39,15 +39,15 @@ class StarFilledPainter extends CustomPainter {
     Paint innerShadowPaint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3.0
-      ..color = Colors.white.withOpacity(0.6)
+      ..color = Colors.white.withValues(alpha: 0.6)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 1.5);
     canvas.drawRRect(baseRRect, innerShadowPaint);
     canvas.restore();
 
-    Paint paint_1_stroke = Paint()
+    Paint paint1Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = virtualSize.width * 0.01987500;
-    paint_1_stroke.color = Color(0xffffffff).withOpacity(1.0);
+    paint1Stroke.color = Color(0xffffffff).withValues(alpha: 1.0);
     canvas.drawRRect(
       RRect.fromRectAndCorners(
         Rect.fromLTWH(
@@ -61,7 +61,7 @@ class StarFilledPainter extends CustomPainter {
         topLeft: Radius.circular(virtualSize.width * 0.3812250),
         topRight: Radius.circular(virtualSize.width * 0.3812250),
       ),
-      paint_1_stroke,
+      paint1Stroke,
     );
 
     canvas.save();
@@ -153,9 +153,9 @@ class StarFilledPainter extends CustomPainter {
     );
     path_2.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.color = Color(0xffFFEBBF).withOpacity(1.0);
-    canvas.drawPath(path_2, paint_2_fill);
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.color = Color(0xffFFEBBF).withValues(alpha: 1.0);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(12.747, 19.759);
@@ -186,14 +186,14 @@ class StarFilledPainter extends CustomPainter {
     path_3.cubicTo(12.554, 19.345, 12.677000000000001, 19.541, 12.747, 19.759);
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.shader = ui.Gradient.linear(
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.shader = ui.Gradient.linear(
       Offset(virtualSize.width * 0.1280750, virtualSize.height * 0.2060500),
       Offset(virtualSize.width * 0.4331000, virtualSize.height * 0.3573750),
-      [Color(0xffffffff).withOpacity(1), Color(0xffffffff).withOpacity(0)],
+      [Color(0xffffffff).withValues(alpha: 1), Color(0xffffffff).withValues(alpha: 0)],
       [0.611, 0.807],
     );
-    canvas.drawPath(path_3, paint_3_fill);
+    canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
     path_4.moveTo(15.6, 13.51);
@@ -231,14 +231,14 @@ class StarFilledPainter extends CustomPainter {
     );
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.shader = ui.Gradient.linear(
+    Paint paint4Fill = Paint()..style = PaintingStyle.fill;
+    paint4Fill.shader = ui.Gradient.linear(
       Offset(virtualSize.width * 0.6036000, virtualSize.height * 0.06645000),
       Offset(virtualSize.width * 0.5556000, virtualSize.height * 0.4035500),
-      [Color(0xffffffff).withOpacity(1), Color(0xffffffff).withOpacity(0)],
+      [Color(0xffffffff).withValues(alpha: 1), Color(0xffffffff).withValues(alpha: 0)],
       [0.611, 0.807],
     );
-    canvas.drawPath(path_4, paint_4_fill);
+    canvas.drawPath(path_4, paint4Fill);
 
     canvas.restore(); // restore star center
     canvas.restore(); // restore whole icon center

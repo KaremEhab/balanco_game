@@ -1,11 +1,10 @@
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/material.dart';
-import 'dart:math';
 import '../game_area.dart';
 
 class TeleportingGateComponent extends PositionComponent
-    with HasGameRef<BalancoGame> {
+    with HasGameReference<BalancoGame> {
   bool isClosing = false;
   bool isOpening = false;
   bool isClosed = false;
@@ -91,7 +90,7 @@ class TeleportingGateComponent extends PositionComponent
       for (int i = 6; i >= 0; i--) {
         final Paint glowPaint = Paint()
           // Start with a very low base opacity and softly fade inwards
-          ..color = const Color(0xFFC3ABFF).withOpacity(0.02 + (6 - i) * 0.05)
+          ..color = const Color(0xFFC3ABFF).withValues(alpha: 0.02 + (6 - i) * 0.05)
           ..style = PaintingStyle.fill;
         canvas.drawCircle(Offset.zero, 36 + i * 2.5, glowPaint);
       }
@@ -144,13 +143,13 @@ class TeleportingGateComponent extends PositionComponent
 
         // Add subtle edge shadows for a stepped 3D look
         final Paint strokePaint = Paint()
-          ..color = Colors.black.withOpacity(0.08)
+          ..color = Colors.black.withValues(alpha: 0.08)
           ..style = PaintingStyle.stroke
           ..strokeWidth = 1.0;
         canvas.drawCircle(Offset.zero, r, strokePaint);
 
         final Paint highlightPaint = Paint()
-          ..color = Colors.white.withOpacity(0.1 * phase)
+          ..color = Colors.white.withValues(alpha: 0.1 * phase)
           ..style = PaintingStyle.stroke
           ..strokeWidth = 1.0;
         canvas.drawCircle(Offset(0, -1), r, highlightPaint);

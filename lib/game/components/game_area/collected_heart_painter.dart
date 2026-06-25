@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 class CollectedHeartPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = Color(0xffF02300).withOpacity(1.0);
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.color = Color(0xffF02300).withValues(alpha: 1.0);
     canvas.drawRRect(
       RRect.fromRectAndCorners(
         Rect.fromLTWH(
@@ -20,13 +20,13 @@ class CollectedHeartPainter extends CustomPainter {
         topLeft: Radius.circular(size.width * 0.3645833),
         topRight: Radius.circular(size.width * 0.3645833),
       ),
-      paint_0_fill,
+      paint0Fill,
     );
 
-    Paint paint_1_stroke = Paint()
+    Paint paint1Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.01656250;
-    paint_1_stroke.color = Color(0xff99210D).withOpacity(1.0);
+    paint1Stroke.color = Color(0xff99210D).withValues(alpha: 1.0);
     canvas.drawRRect(
       RRect.fromRectAndCorners(
         Rect.fromLTWH(
@@ -40,7 +40,7 @@ class CollectedHeartPainter extends CustomPainter {
         topLeft: Radius.circular(size.width * 0.3728750),
         topRight: Radius.circular(size.width * 0.3728750),
       ),
-      paint_1_stroke,
+      paint1Stroke,
     );
 
     Path path_2 = Path();
@@ -154,15 +154,15 @@ class CollectedHeartPainter extends CustomPainter {
     );
     path_2.close();
 
-    Paint paint_2_stroke = Paint()
+    Paint paint2Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.01827083;
-    paint_2_stroke.color = Color(0xff99210D).withOpacity(1.0);
-    canvas.drawPath(path_2, paint_2_stroke);
+    paint2Stroke.color = Color(0xff99210D).withValues(alpha: 1.0);
+    canvas.drawPath(path_2, paint2Stroke);
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.color = Color(0xffFF9393).withOpacity(1.0);
-    canvas.drawPath(path_2, paint_2_fill);
+    Paint paint2Fill = Paint()..style = PaintingStyle.fill;
+    paint2Fill.color = Color(0xffFF9393).withValues(alpha: 1.0);
+    canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
     path_3.moveTo(34.594, 18.53);
@@ -267,9 +267,9 @@ class CollectedHeartPainter extends CustomPainter {
     );
     path_3.close();
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.color = Color(0xffFF9393).withOpacity(1.0);
-    canvas.drawPath(path_3, paint_3_fill);
+    Paint paint3Fill = Paint()..style = PaintingStyle.fill;
+    paint3Fill.color = Color(0xffFF9393).withValues(alpha: 1.0);
+    canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
     path_4.moveTo(32.151, 19.322);
@@ -383,9 +383,9 @@ class CollectedHeartPainter extends CustomPainter {
     );
     path_4.close();
 
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.color = Color(0xffFF9393).withOpacity(1.0);
-    canvas.drawPath(path_4, paint_4_fill);
+    Paint paint4Fill = Paint()..style = PaintingStyle.fill;
+    paint4Fill.color = Color(0xffFF9393).withValues(alpha: 1.0);
+    canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
     path_5.moveTo(16.754, 16.65);
@@ -424,14 +424,14 @@ class CollectedHeartPainter extends CustomPainter {
     path_5.lineTo(16.754, 16.651);
     path_5.close();
 
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.shader = ui.Gradient.linear(
+    Paint paint5Fill = Paint()..style = PaintingStyle.fill;
+    paint5Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5964583, size.height * 0.1669583),
       Offset(size.width * 0.6525000, size.height * 0.4364583),
-      [Color(0xffffffff).withOpacity(1), Color(0xffffffff).withOpacity(0)],
+      [Color(0xffffffff).withValues(alpha: 1), Color(0xffffffff).withValues(alpha: 0)],
       [0.253, 0.807],
     );
-    canvas.drawPath(path_5, paint_5_fill);
+    canvas.drawPath(path_5, paint5Fill);
   }
 
   @override

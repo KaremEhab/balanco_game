@@ -1,4 +1,4 @@
-import 'dart:ui' as ui;
+
 
 import 'package:flutter/material.dart';
 
@@ -19,8 +19,8 @@ class EmptyStarPainter extends CustomPainter {
     // Center the whole icon regardless of size
     canvas.translate(size.width * 0.0488, size.height * 0.0488);
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = Color(0xffFFC336).withOpacity(1.0);
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.color = Color(0xffFFC336).withValues(alpha: 1.0);
     canvas.drawRRect(
       RRect.fromRectAndCorners(
         Rect.fromLTWH(
@@ -34,13 +34,13 @@ class EmptyStarPainter extends CustomPainter {
         topLeft: Radius.circular(size.width * 0.3744118),
         topRight: Radius.circular(size.width * 0.3744118),
       ),
-      paint_0_fill,
+      paint0Fill,
     );
 
-    Paint paint_1_stroke = Paint()
+    Paint paint1Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.02005882;
-    paint_1_stroke.color = Color(0xffffffff).withOpacity(1.0);
+    paint1Stroke.color = Color(0xffffffff).withValues(alpha: 1.0);
     canvas.drawRRect(
       RRect.fromRectAndCorners(
         Rect.fromLTWH(
@@ -54,7 +54,7 @@ class EmptyStarPainter extends CustomPainter {
         topLeft: Radius.circular(size.width * 0.3844412),
         topRight: Radius.circular(size.width * 0.3844412),
       ),
-      paint_1_stroke,
+      paint1Stroke,
     );
 
     canvas.restore(); // restore scale and translate

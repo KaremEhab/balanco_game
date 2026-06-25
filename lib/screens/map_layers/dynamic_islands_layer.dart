@@ -53,12 +53,6 @@ class DynamicIslandsLayerPainter extends CustomPainter {
       SixthStonePainter(),
     ];
 
-    double highestUnlockedY = double.infinity;
-    if (highestLevel > 0 && highestLevel <= nodeCenters.length) {
-      highestUnlockedY = nodeCenters[highestLevel - 1].dy;
-    } else if (highestLevel > nodeCenters.length) {
-      highestUnlockedY = -double.infinity;
-    }
 
     for (int i = 0; i < stones.length; i++) {
       var stone = stones[i];

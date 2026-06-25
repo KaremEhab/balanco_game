@@ -1,4 +1,4 @@
-import 'dart:ui' as ui;
+
 
 import 'package:flutter/material.dart';
 
@@ -9,7 +9,7 @@ class ShieldBtnPainter extends CustomPainter {
 
     // 1. Drop Shadow
     final Paint shadowPaint = Paint()
-      ..color = Colors.black.withOpacity(0.4)
+      ..color = Colors.black.withValues(alpha: 0.4)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4.0);
     canvas.drawRRect(
       RRect.fromRectAndRadius(rect.translate(0, 4), const Radius.circular(16)),
@@ -67,7 +67,7 @@ class ShieldBtnPainter extends CustomPainter {
     shieldPath.close();
 
     final Paint iconShadow = Paint()
-      ..color = Colors.black.withOpacity(0.5)
+      ..color = Colors.black.withValues(alpha: 0.5)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 2.0);
     canvas.drawPath(shieldPath.shift(const Offset(0, 2)), iconShadow);
 
@@ -83,7 +83,7 @@ class ShieldBtnPainter extends CustomPainter {
     final Paint iconStroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.5
-      ..color = Colors.white.withOpacity(0.8);
+      ..color = Colors.white.withValues(alpha: 0.8);
     canvas.drawPath(shieldPath, iconStroke);
   }
 
