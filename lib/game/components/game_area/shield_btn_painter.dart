@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 class ShieldBtnPainter extends CustomPainter {
@@ -22,10 +20,11 @@ class ShieldBtnPainter extends CustomPainter {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          Color(0xFF80DEEA), // Highlight
-          Color(0xFF00BCD4), // Base
-          Color(0xFF0097A7), // Mid
-          Color(0xFF004D40), // Shadow
+          // use light blue color combo
+          Color(0xFFFFE082), // Highlight
+          Color(0xFFFFCA28), // Base
+          Color(0xFFFFB300), // Mid
+          Color(0xFFFF8F00), // Shadow
         ],
       ).createShader(rect);
     canvas.drawRRect(
@@ -72,10 +71,14 @@ class ShieldBtnPainter extends CustomPainter {
     canvas.drawPath(shieldPath.shift(const Offset(0, 2)), iconShadow);
 
     final Paint iconPaint = Paint()
-      ..shader = const LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [Color(0xFFFFFFFF), Color(0xFFFFB74D), Color(0xFFF57C00)],
+      ..shader = const RadialGradient(
+        center: Alignment.center,
+        radius: 0.8,
+        colors: [
+          Color.fromARGB(255, 197, 233, 255),
+          Color.fromARGB(255, 40, 198, 255),
+          Color.fromARGB(255, 0, 85, 255),
+        ],
       ).createShader(shieldPath.getBounds());
     canvas.drawPath(shieldPath, iconPaint);
 

@@ -516,9 +516,9 @@ class PauseBtnPainter extends CustomPainter {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          Color(0xFFFF8A80), // Bright highlight
-          Color(0xFFFF5252), // Main red
-          Color(0xFFD32F2F), // Deep shadow
+          Color(0xFFD7CCC8), // Light Wood/Sand
+          Color(0xFF8D6E63), // Main brown
+          Color(0xFF4E342E), // Deep shadow
         ],
       ).createShader(leftBar);
 

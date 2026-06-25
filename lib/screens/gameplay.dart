@@ -1,6 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flame/game.dart';
+import 'package:iconly/iconly.dart';
 
 import '../game/game_area.dart';
 import '../game/components/game_area/game_painter.dart';
@@ -33,126 +35,138 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
 
     showGeneralDialog(
       context: context,
-      barrierDismissible: true,
+      barrierDismissible: false,
       barrierLabel: 'Dismiss',
       barrierColor: Colors.black.withValues(alpha: 0.5),
       transitionDuration: const Duration(milliseconds: 300),
       pageBuilder: (context, anim1, anim2) {
         return Center(
-          child: Material(
-            color: Colors.transparent,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(32),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-                child: Container(
-                  width: 300,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 32,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(32),
-                    border: Border.all(
-                      color: Colors.white.withValues(alpha: 0.4),
-                      width: 2,
+          child: PopScope(
+            canPop: false,
+            child: Material(
+              color: Colors.transparent,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(32),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                  child: Container(
+                    width: 300,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 32,
                     ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.2),
-                        blurRadius: 20,
-                        spreadRadius: 5,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(32),
+                      border: Border.all(
+                        color: Colors.white.withValues(alpha: 0.4),
+                        width: 2,
                       ),
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Text(
-                        'PAUSED',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w900,
-                          fontSize: 32,
-                          color: Colors.white,
-                          letterSpacing: 2.0,
-                          shadows: [
-                            Shadow(
-                              color: Colors.black54,
-                              offset: Offset(0, 4),
-                              blurRadius: 8,
-                            ),
-                          ],
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.2),
+                          blurRadius: 20,
+                          spreadRadius: 5,
                         ),
-                      ),
-                      const SizedBox(height: 24),
-                      const Text(
-                        'Stars Collected',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white70,
-                          fontSize: 16,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: List.generate(3, (index) {
-                          return Icon(
-                            index < widget.game.currentPoints.value
-                                ? Icons.star_rounded
-                                : Icons.star_border_rounded,
-                            color: const Color(0xffF8AE00),
-                            size: 42,
-                            shadows: const [
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text(
+                          'PAUSED',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w900,
+                            fontSize: 32,
+                            color: Colors.white,
+                            letterSpacing: 2.0,
+                            shadows: [
                               Shadow(
-                                color: Colors.black45,
-                                offset: Offset(0, 2),
-                                blurRadius: 4,
+                                color: Colors.black54,
+                                offset: Offset(0, 4),
+                                blurRadius: 8,
                               ),
                             ],
-                          );
-                        }),
-                      ),
-                      const SizedBox(height: 36),
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                        const Text(
+                          'Stars Collected',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white70,
+                            fontSize: 16,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: List.generate(3, (index) {
+                            return Icon(
+                              index < widget.game.currentPoints.value
+                                  ? Icons.star_rounded
+                                  : Icons.star_border_rounded,
+                              color: const Color(0xffF8AE00),
+                              size: 42,
+                              shadows: const [
+                                Shadow(
+                                  color: Colors.black45,
+                                  offset: Offset(0, 2),
+                                  blurRadius: 4,
+                                ),
+                              ],
+                            );
+                          }),
+                        ),
+                        const SizedBox(height: 36),
 
-                      // Continue Button
-                      _buildPauseButton(
-                        icon: Icons.play_arrow_rounded,
-                        label: 'Continue',
-                        colors: const [Color(0xff6BABFF), Color(0xff2A75D3)],
-                        onTap: () {
-                          Navigator.pop(context);
-                          widget.game.resumeEngine();
-                        },
-                      ),
-                      const SizedBox(height: 16),
+                        // Continue Button
+                        _buildPauseButton(
+                          icon: Icons.play_arrow_rounded,
+                          label: 'Continue',
+                          colors: const [
+                            Color(0xffD7CCC8),
+                            Color(0xff795548),
+                          ], // Wood/Sand
+                          onTap: () {
+                            Navigator.pop(context);
+                            widget.game.resumeEngine();
+                          },
+                        ),
+                        const SizedBox(height: 16),
 
-                      // Reset Button
-                      _buildPauseButton(
-                        icon: Icons.refresh_rounded,
-                        label: 'Restart Level',
-                        colors: const [Color(0xffF8AE00), Color(0xffE88000)],
-                        onTap: () {
-                          Navigator.pop(context);
-                          widget.game.restartCurrentLevel();
-                          widget.game.resumeEngine();
-                        },
-                      ),
-                      const SizedBox(height: 16),
+                        // Reset Button
+                        _buildPauseButton(
+                          icon: Icons.refresh_rounded,
+                          label: 'Restart Level',
+                          colors: const [
+                            Color(0xffFFE082),
+                            Color(0xffFFB300),
+                          ], // Beach Yellow
+                          onTap: () {
+                            Navigator.pop(context);
+                            widget.game.restartCurrentLevel();
+                            widget.game.resumeEngine();
+                          },
+                        ),
+                        const SizedBox(height: 16),
 
-                      // Leave Button
-                      _buildPauseButton(
-                        icon: Icons.home_rounded,
-                        label: 'Leave to Lobby',
-                        colors: const [Color(0xffFF6B6B), Color(0xffD32A2A)],
-                        onTap: () {
-                          Navigator.pop(context); // close dialog
-                          Navigator.pop(context); // close game route
-                        },
-                      ),
-                    ],
+                        // Leave Button
+                        _buildPauseButton(
+                          icon: Icons.home_rounded,
+                          label: 'Leave to Lobby',
+                          colors: const [
+                            Color(0xff8D6E63),
+                            Color(0xff4E342E),
+                          ], // Dark Wood
+                          onTap: () {
+                            Navigator.pop(context); // close dialog
+                            Navigator.pop(context); // close game route
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -193,7 +207,10 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
               blurRadius: 6,
             ),
           ],
-          border: Border.all(color: Colors.white.withValues(alpha: 0.6), width: 1.5),
+          border: Border.all(
+            color: Colors.white.withValues(alpha: 0.6),
+            width: 1.5,
+          ),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -232,166 +249,173 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
       Color.fromARGB(255, 229, 145, 49),
     ];
 
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        body: Stack(
+          children: [
+            // Dynamic Background based on current level
+            ValueListenableBuilder<int>(
+              valueListenable: widget.game.currentLevel,
+              builder: (context, level, child) {
+                return Stack(
+                  children: [
+                    Positioned.fill(child: const ParallaxBackgroundWidget()),
+                  ],
+                );
+              },
+            ),
 
-    return Scaffold(
-      body: Stack(
-        children: [
-          // Dynamic Background based on current level
-          ValueListenableBuilder<int>(
-            valueListenable: widget.game.currentLevel,
-            builder: (context, level, child) {
-              return Stack(
-                children: [
-                  Positioned.fill(child: const ParallaxBackgroundWidget()),
-                ],
-              );
-            },
-          ),
-
-          // Big centered blurry container
-          Center(
-            child: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: AspectRatio(
-                  aspectRatio: 410 / 850,
-                  child: FittedBox(
-                    fit: BoxFit.contain,
-                    child: SizedBox(
-                      width: 410,
-                      height: 870,
-                      child: Stack(
-                        children: [
-                          // Blurry Background (Placed behind GamePainter)
-                          Positioned(
-                            top: 99, // Extended height by 10px (was 109)
-                            bottom: 41, // Extended height by 10px (was 110)
-                            left: 6,
-                            right: 6,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(innerCornerRadius),
-                                topRight: Radius.circular(innerCornerRadius),
-                                bottomLeft: const Radius.circular(41),
-                                bottomRight: const Radius.circular(41),
-                              ),
-                              child: BackdropFilter(
-                                filter: ImageFilter.blur(
-                                  sigmaX: 3.5,
-                                  sigmaY: 3.5,
+            // Big centered blurry container
+            Center(
+              child: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: AspectRatio(
+                    aspectRatio: 410 / 850,
+                    child: FittedBox(
+                      fit: BoxFit.contain,
+                      child: SizedBox(
+                        width: 410,
+                        height: 870,
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            // Blurry Background (Placed behind GamePainter)
+                            Positioned(
+                              top: 99, // Extended height by 10px (was 109)
+                              bottom: 41, // Extended height by 10px (was 110)
+                              left: 6,
+                              right: 6,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(innerCornerRadius),
+                                  topRight: Radius.circular(innerCornerRadius),
+                                  bottomLeft: const Radius.circular(41),
+                                  bottomRight: const Radius.circular(41),
                                 ),
-                                child: Container(
-                                  color: Colors.white.withValues(alpha: 0.2),
-                                ),
-                              ),
-                            ),
-                          ),
-
-                          // Base Frame
-                          Positioned.fill(
-                            child: IgnorePointer(
-                              child: CustomPaint(
-                                painter: GamePainter(
-                                  innerCornerRadius: innerCornerRadius,
-                                ),
-                              ),
-                            ),
-                          ),
-
-
-
-                          // Top Header (Hearts, Energy, Stars)
-                          Positioned(
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            height: 115,
-                            child: GameplayHeader(
-                              game: widget.game,
-                              cardBaseGradient: cardBaseGradient,
-                              cardHighlightGradient: cardHighlightGradient,
-                            ),
-                          ),
-
-                          // Middle Game Area
-                          Positioned(
-                            top: 109,
-                            bottom: 110,
-                            left: 6,
-                            right: 6,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(innerCornerRadius),
-                                topRight: Radius.circular(innerCornerRadius),
-                                bottomLeft: const Radius.circular(16),
-                                bottomRight: const Radius.circular(16),
-                              ),
-                              child: Stack(
-                                children: [
-                                  GameWidget(
-                                    game: widget.game,
-                                    overlayBuilderMap: {
-                                      'GameOver': (context, game) =>
-                                          AnimatedGameOverOverlay(
-                                            game: game as BalancoGame,
-                                          ),
-                                    },
+                                child: BackdropFilter(
+                                  filter: ImageFilter.blur(
+                                    sigmaX: 3.5,
+                                    sigmaY: 3.5,
                                   ),
-                                  TimeStopOverlay(
-                                    timeNotifier: widget.game.timeStopNotifier,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-
-                          // Joysticks & Controls Overlay
-                          Positioned(
-                            bottom: 10,
-                            left: 0,
-                            right: 0,
-                            height: 150,
-                            child: GameControlsOverlay(game: widget.game),
-                          ),
-
-                          // Pause Button Overlay
-                          Positioned(
-                            bottom: 0,
-                            left: 0,
-                            right: 0,
-                            child: Center(
-                              child: AnimatedPressButton(
-                                onTap: _showPauseMenu,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: CustomPaint(
-                                    size: const Size(28, 24),
-                                    painter: PauseBtnPainter(),
+                                  child: Container(
+                                    color: Colors.white.withValues(alpha: 0.2),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+
+                            // Base Frame
+                            Positioned.fill(
+                              child: IgnorePointer(
+                                child: CustomPaint(
+                                  painter: GamePainter(
+                                    innerCornerRadius: innerCornerRadius,
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            // Top Header (Hearts, Energy, Stars)
+                            Positioned(
+                              top: 0,
+                              left: 0,
+                              right: 0,
+                              height: 115,
+                              child: GameplayHeader(
+                                game: widget.game,
+                                cardBaseGradient: cardBaseGradient,
+                                cardHighlightGradient: cardHighlightGradient,
+                              ),
+                            ),
+
+                            // Middle Game Area
+                            Positioned(
+                              top: 109,
+                              bottom: 110,
+                              left: 6,
+                              right: 6,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(innerCornerRadius),
+                                  topRight: Radius.circular(innerCornerRadius),
+                                  bottomLeft: const Radius.circular(16),
+                                  bottomRight: const Radius.circular(16),
+                                ),
+                                child: Stack(
+                                  children: [
+                                    GameWidget(game: widget.game),
+                                    TimeStopOverlay(
+                                      timeNotifier:
+                                          widget.game.timeStopNotifier,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+
+                            // Joysticks & Controls Overlay
+                            Positioned(
+                              bottom: 10,
+                              left: 0,
+                              right: 0,
+                              height: 150,
+                              child: GameControlsOverlay(game: widget.game),
+                            ),
+
+                            // Pause Button Overlay
+                            Positioned(
+                              bottom: -15,
+                              left: 0,
+                              right: 0,
+                              child: Center(
+                                child: AnimatedPressButton(
+                                  onTap: _showPauseMenu,
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(16.0),
+                                    child: Icon(
+                                      Icons
+                                          .pause_rounded, // Iconly doesn't have a pause icon, using Material rounded
+                                      color: Colors.brown,
+                                      size: 45,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
 
-          // Fullscreen Victory Overlay
-          ValueListenableBuilder<bool>(
-            valueListenable: widget.game.showVictoryOverlay,
-            builder: (context, showVictory, child) {
-              if (showVictory) {
-                return AnimatedLevelCompleteOverlay(game: widget.game);
-              }
-              return const SizedBox.shrink();
-            },
-          ),
-        ],
+            // Fullscreen Victory Overlay
+            ValueListenableBuilder<bool>(
+              valueListenable: widget.game.showVictoryOverlay,
+              builder: (context, showVictory, child) {
+                if (showVictory) {
+                  return AnimatedLevelCompleteOverlay(game: widget.game);
+                }
+                return const SizedBox.shrink();
+              },
+            ),
+
+            // Fullscreen Game Over Overlay
+            ValueListenableBuilder<bool>(
+              valueListenable: widget.game.showGameOverOverlay,
+              builder: (context, showGameOver, child) {
+                if (showGameOver) {
+                  return AnimatedGameOverOverlay(game: widget.game);
+                }
+                return const SizedBox.shrink();
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

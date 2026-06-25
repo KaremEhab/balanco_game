@@ -41,6 +41,11 @@ class BalancoGame extends FlameGame {
   double shieldTimer = 0.0;
   bool get isShieldActive => shieldTimer > 0;
 
+  // Level timer
+  final ValueNotifier<double> levelTimerNotifier = ValueNotifier<double>(120.0);
+  double levelTimer = 120.0;
+  bool isLevelTimerActive = false;
+
   // Magnet state
   final ValueNotifier<int> remainingMagnets = ValueNotifier<int>(3);
   final ValueNotifier<double> magnetTimerNotifier = ValueNotifier<double>(0.0);
@@ -71,6 +76,7 @@ class BalancoGame extends FlameGame {
 
   bool isBoardHidden = false;
   final ValueNotifier<bool> showVictoryOverlay = ValueNotifier<bool>(false);
+  final ValueNotifier<bool> showGameOverOverlay = ValueNotifier<bool>(false);
   bool isLevelCompleteOverlayShown = false;
   bool isSuckingToGate = false;
 
@@ -126,6 +132,7 @@ class BalancoGame extends FlameGame {
     isSpawningLevel = true;
     currentPoints.value = 0;
     currentLives.value = 3;
+    showGameOverOverlay.value = false;
 
     children.whereType<ConfettiComponent>().forEach(
       (c) => c.removeFromParent(),
@@ -143,6 +150,7 @@ class BalancoGame extends FlameGame {
   Future<void> advanceToNextLevel() async {
     isSuckingToGate = false;
     showVictoryOverlay.value = false;
+    showGameOverOverlay.value = false;
     isLevelCompleteOverlayShown = false;
 
     final prefs = await SharedPreferences.getInstance();
@@ -164,6 +172,7 @@ class BalancoGame extends FlameGame {
   void restartLevelAfterWin() {
     isSuckingToGate = false;
     showVictoryOverlay.value = false;
+    showGameOverOverlay.value = false;
     isLevelCompleteOverlayShown = false;
     restartCurrentLevel();
   }
@@ -184,6 +193,12 @@ class BalancoGame extends FlameGame {
     isBoardHidden = false;
     isLevelCompleteOverlayShown = false;
     teleportingGateComponent.reset();
+    
+    if (!loseLife && !respawnFromHole) {
+      levelTimer = 120.0;
+      levelTimerNotifier.value = 120.0;
+      isLevelTimerActive = false;
+    }
     timeStopTimer = 0.0;
     timeStopNotifier.value = 0.0;
     activeExitTeleporter = null;
@@ -207,7 +222,7 @@ class BalancoGame extends FlameGame {
           FlameAudio.play('gameover.wav');
         } catch (_) {}
         pauseEngine();
-        overlays.add('GameOver');
+        showGameOverOverlay.value = true;
         return; // Don't reset position yet
       }
     }
@@ -219,8 +234,8 @@ class BalancoGame extends FlameGame {
         barResetTimer = respawnFromHole ? 3.0 : 0.8;
       } else {
         barResetTimer = 0.0;
-        leftY = size.y - 80.0;
-        rightY = size.y - 80.0;
+        leftY = size.y - 70.0;
+        rightY = size.y - 70.0;
       }
       ballP = (size.x - 2 * barPadding) / 2.0; // Start at center of the bar
 
@@ -437,6 +452,27 @@ class BalancoGame extends FlameGame {
       }
       return;
     }
+    
+    if (isLevelTimerActive && !isFalling && !isBoardHidden) {
+      double previousTimer = levelTimer;
+      levelTimer -= dt;
+      
+      int prevFloor = previousTimer.floor();
+      int currFloor = levelTimer.floor();
+      if (currFloor <= 10 && currFloor < prevFloor && currFloor >= 0) {
+        try {
+          FlameAudio.play('tick.wav');
+        } catch (_) {}
+      }
+
+      if (levelTimer <= 0) {
+        levelTimer = 0.0;
+        isLevelTimerActive = false;
+        currentLives.value = 0; // force game over
+        _resetPositions(loseLife: true);
+      }
+      levelTimerNotifier.value = levelTimer;
+    }
 
     if (isSuckingToGate) {
       Vector2 gateCenter = teleportingGateComponent.position;
@@ -519,7 +555,7 @@ class BalancoGame extends FlameGame {
       if (magnetTimerNotifier.value != 0.0) magnetTimerNotifier.value = 0.0;
     }
 
-    double maxY = size.y - 80.0;
+    double maxY = size.y - 70.0;
     double minY = 10.0;
 
     if (barResetTimer > 0) {
@@ -672,6 +708,7 @@ class BalancoGame extends FlameGame {
           itemSpawnTimer -= dt;
           if (itemSpawnTimer <= -0.55) {
             isSpawningLevel = false; // Gameplay Launch!
+            isLevelTimerActive = true;
           }
         }
       }

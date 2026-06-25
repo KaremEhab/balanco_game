@@ -45,6 +45,7 @@ dependencies:
   flame_audio: ^2.11.14
   shared_preferences: ^2.5.5
   flutter_svg: ^2.3.0
+  iconly: ^1.0.1
 
 dev_dependencies:
   flutter_test:

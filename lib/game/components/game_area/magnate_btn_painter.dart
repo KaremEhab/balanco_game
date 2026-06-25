@@ -1,6 +1,5 @@
-
-
 import 'package:flutter/material.dart';
+import 'magnate_painter.dart';
 
 class MagnateBtnPainter extends CustomPainter {
   @override
@@ -22,10 +21,10 @@ class MagnateBtnPainter extends CustomPainter {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          Color(0xFFFFF3E0), // Highlight
-          Color(0xFFFFB74D), // Base
-          Color(0xFFF57C00), // Mid
-          Color(0xFFE65100), // Shadow
+          Color(0xFFFFE082), // Highlight
+          Color(0xFFFFCA28), // Base
+          Color(0xFFFFB300), // Mid
+          Color(0xFFFF8F00), // Shadow
         ],
       ).createShader(rect);
     canvas.drawRRect(
@@ -46,74 +45,29 @@ class MagnateBtnPainter extends CustomPainter {
       glossPaint,
     );
 
-    // 4. Magnet Icon (Metallic/Cyan)
-    double cx = size.width / 2;
-    double cy = size.height / 2;
-    double w = size.width * 0.45;
-    double h = size.height * 0.5;
+    // 4. Magnet Icon (Using custom MagnatePainter)
+    canvas.save();
 
-    // Outer Horseshoe
-    Path magPath = Path();
-    magPath.moveTo(cx - w / 2, cy + h / 2);
-    magPath.lineTo(cx - w / 2, cy);
-    magPath.arcToPoint(
-      Offset(cx + w / 2, cy),
-      radius: Radius.circular(w / 2),
-      clockwise: true,
-    );
-    magPath.lineTo(cx + w / 2, cy + h / 2);
-    magPath.lineTo(cx + w / 4, cy + h / 2);
-    magPath.lineTo(cx + w / 4, cy);
-    magPath.arcToPoint(
-      Offset(cx - w / 4, cy),
-      radius: Radius.circular(w / 4),
-      clockwise: false,
-    );
-    magPath.lineTo(cx - w / 4, cy + h / 2);
-    magPath.close();
+    // The visual bounds of the magnet inside MagnatePainter
+    // X ranges from ~1.0 to ~33.0 (width ~ 32.0)
+    // Y ranges from ~20.0 to ~53.0 (height ~ 33.0)
+    const double visualW = 32.0;
+    const double visualCX = 17.0;
+    const double visualCY = 36.5;
 
-    final Paint iconShadow = Paint()
-      ..color = Colors.black.withValues(alpha: 0.5)
-      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 2.0);
-    canvas.drawPath(magPath.shift(const Offset(0, 2)), iconShadow);
+    // We want the icon to take up about 60% of the button's size
+    double targetIconSize = size.width * 0.60;
 
-    final Paint iconPaint = Paint()
-      ..shader = const LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [Color(0xFFE0F7FA), Color(0xFF00BCD4), Color(0xFF006064)],
-      ).createShader(magPath.getBounds());
-    canvas.drawPath(magPath, iconPaint);
+    double iconScale = targetIconSize / visualW;
 
-    // Magnet Poles (Red/Dark Red)
-    Rect leftPole = Rect.fromLTRB(
-      cx - w / 2,
-      cy + h / 2 - h * 0.2,
-      cx - w / 4,
-      cy + h / 2,
-    );
-    Rect rightPole = Rect.fromLTRB(
-      cx + w / 4,
-      cy + h / 2 - h * 0.2,
-      cx + w / 2,
-      cy + h / 2,
-    );
-    final Paint polePaint = Paint()
-      ..shader = const LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [Color(0xFFFF5252), Color(0xFFB71C1C)],
-      ).createShader(leftPole);
+    // Center icon perfectly based on its visual center
+    canvas.translate(size.width / 2, size.height / 2);
+    canvas.scale(iconScale, iconScale);
+    canvas.translate(-visualCX, -visualCY);
 
-    canvas.drawRect(leftPole, polePaint);
-    canvas.drawRect(rightPole, polePaint);
+    MagnatePainter().paint(canvas, const Size(100, 100));
 
-    // Inner outline
-    final Paint iconStroke = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.0
-      ..color = Colors.white.withValues(alpha: 0.6);
-    canvas.drawPath(magPath, iconStroke);
+    canvas.restore();
   }
 
   @override

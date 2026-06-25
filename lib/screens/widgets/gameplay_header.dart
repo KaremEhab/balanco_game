@@ -140,9 +140,13 @@ class GameplayHeader extends StatelessWidget {
                 top: -5,
                 child: GestureDetector(
                   onTap: () {
+                    game.pauseEngine();
                     showDialog(
                       context: context,
-                      builder: (context) => AlertDialog(
+                      barrierDismissible: false,
+                      builder: (context) => PopScope(
+                        canPop: false,
+                        child: AlertDialog(
                         backgroundColor: const Color(0xFFFFE082),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(24),
@@ -177,7 +181,10 @@ class GameplayHeader extends StatelessWidget {
                         actionsAlignment: MainAxisAlignment.center,
                         actions: [
                           TextButton(
-                            onPressed: () => Navigator.pop(context),
+                            onPressed: () {
+                              Navigator.pop(context);
+                              game.resumeEngine();
+                            },
                             child: Text(
                               'STAY',
                               style: GoogleFonts.luckiestGuy(
@@ -205,7 +212,7 @@ class GameplayHeader extends StatelessWidget {
                           ),
                         ],
                       ),
-                    );
+                    ));
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -232,15 +239,25 @@ class GameplayHeader extends StatelessWidget {
                 top: -5,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    '02:00',
-                    style: GoogleFonts.luckiestGuy(
-                      color: Color(0xffECCA93),
-                      fontSize: 28,
-                      shadows: const [
-                        Shadow(color: Color(0xFF5D4037), offset: Offset(0, 3)),
-                      ],
-                    ),
+                  child: ValueListenableBuilder<double>(
+                    valueListenable: game.levelTimerNotifier,
+                    builder: (context, time, child) {
+                      int minutes = time.floor() ~/ 60;
+                      int seconds = (time.floor() % 60);
+                      String timeString = '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
+                      bool isCritical = time <= 10.0 && game.isLevelTimerActive;
+                      
+                      return Text(
+                        timeString,
+                        style: GoogleFonts.luckiestGuy(
+                          color: isCritical ? Colors.red : const Color(0xffECCA93),
+                          fontSize: 28,
+                          shadows: const [
+                            Shadow(color: Color(0xFF5D4037), offset: Offset(0, 3)),
+                          ],
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),

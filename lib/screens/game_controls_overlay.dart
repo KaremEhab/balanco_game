@@ -185,30 +185,6 @@ class _SquarePowerButtonState extends State<SquarePowerButton> {
                   ),
                 ),
 
-                // Charges Badge
-                if (hasCharges)
-                  Positioned(
-                    right: 0,
-                    top: 0,
-                    child: Container(
-                      padding: const EdgeInsets.all(5),
-                      decoration: const BoxDecoration(
-                        color: Color(0xffFF3B30),
-                        shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(color: Colors.black45, blurRadius: 4),
-                        ],
-                      ),
-                      child: Text(
-                        '${widget.charges}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
               ],
             ),
           ),
@@ -283,7 +259,7 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            // 2.5D Glossy Surfboard Base
+            // 2.5D Glossy Surfboard Base (Beach Yellow)
             Container(
               width: 60,
               height: 160,
@@ -291,17 +267,17 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
                 borderRadius: BorderRadius.circular(100),
                 gradient: const LinearGradient(
                   colors: [
-                    Color(0xFF80DEEA), // Top highlight
-                    Color(0xFF00BCD4), // Base
-                    Color(0xFF0097A7), // Mid shadow
-                    Color(0xFF006064), // Bottom shadow
+                    Color(0xFFFFE082), // Top highlight
+                    Color(0xFFFFCA28), // Base
+                    Color(0xFFFFB300), // Mid shadow
+                    Color(0xFFFF8F00), // Bottom shadow
                   ],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),
                 boxShadow: const [
                   BoxShadow(
-                    color: Color(0xFF004D40), // 3D thickness (dark teal)
+                    color: Color(0xFF5D4037), // 3D thickness (dark brown)
                     offset: Offset(0, 4),
                   ),
                   BoxShadow(
@@ -319,7 +295,7 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
                     gradient: const LinearGradient(
-                      colors: [Color(0xFFB71C1C), Color(0xFFD32F2F)],
+                      colors: [Color(0xFF4E342E), Color(0xFF6D4C41)],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                     ),

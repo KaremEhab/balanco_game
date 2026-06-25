@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../game/game_area.dart';
 
@@ -47,92 +48,113 @@ class _AnimatedGameOverOverlayState extends State<AnimatedGameOverOverlay>
 
   void _restartLevel() {
     _controller.reverse().then((_) {
-      widget.game.overlays.remove('GameOver');
+      widget.game.showGameOverOverlay.value = false;
       widget.game.restartCurrentLevel();
       widget.game.resumeEngine();
     });
   }
 
   void _returnToLobby() {
-    widget.game.overlays.remove('GameOver');
+    widget.game.showGameOverOverlay.value = false;
     Navigator.pop(context); // Close GamePlayOverlay
   }
 
   @override
   Widget build(BuildContext context) {
-    bool isDark = Theme.of(context).brightness == Brightness.dark;
-
     return Positioned.fill(
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
         child: Container(
-          color: isDark ? Colors.black.withValues(alpha: 0.8) : Colors.white.withValues(alpha: 0.6),
+          color: Colors.black.withValues(alpha: 0.5),
           child: Center(
             child: FadeTransition(
               opacity: _fadeAnimation,
               child: ScaleTransition(
                 scale: _scaleAnimation,
                 child: Container(
-                  width: 320,
-                  padding: const EdgeInsets.all(24),
+                  width: 340,
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
                   decoration: BoxDecoration(
-                    color: Colors.redAccent.withValues(alpha: 0.15),
+                    color: const Color(0xFFFFE082),
                     borderRadius: BorderRadius.circular(24),
                     border: Border.all(
-                      color: Colors.redAccent.withValues(alpha: 0.4),
+                      color: const Color(0xFF5D4037),
+                      width: 4,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.red.withValues(alpha: 0.2),
-                        blurRadius: 30,
+                        color: Colors.black.withValues(alpha: 0.4),
+                        blurRadius: 20,
+                        offset: const Offset(0, 10),
                       ),
                     ],
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Text(
-                        'GAME OVER',
+                      Text(
+                        'GAME OVER!',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.redAccent,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 28,
-                          letterSpacing: 3,
+                        style: GoogleFonts.luckiestGuy(
+                          color: Colors.white,
+                          fontSize: 38,
+                          letterSpacing: 2,
+                          shadows: const [
+                            Shadow(
+                              offset: Offset(0, 4),
+                              color: Color(0xFF5D4037),
+                            ),
+                          ],
                         ),
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        'You lost all your hearts!',
+                        'You lost all your lives\nor time ran out!',
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 16, color: isDark ? Colors.white70 : Colors.black87),
+                        style: GoogleFonts.baloo2(
+                          color: const Color(0xFF5D4037),
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          height: 1.2,
+                        ),
                       ),
-                      const SizedBox(height: 32),
-                      ElevatedButton.icon(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.redAccent,
-                          foregroundColor: Colors.white,
-                          minimumSize: const Size(double.infinity, 48),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                      const SizedBox(height: 36),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          TextButton(
+                            onPressed: _returnToLobby,
+                            child: Text(
+                              'LEAVE',
+                              style: GoogleFonts.luckiestGuy(
+                                color: const Color(0xFFF44336),
+                                fontSize: 24,
+                                shadows: const [
+                                  Shadow(
+                                    offset: Offset(0, 2),
+                                    color: Color(0x66000000),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                        icon: const Icon(Icons.refresh),
-                        label: const Text(
-                          'Restart Level',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        onPressed: _restartLevel,
-                      ),
-                      const SizedBox(height: 12),
-                      TextButton.icon(
-                        style: TextButton.styleFrom(
-                          foregroundColor: isDark ? Colors.white54 : Colors.black54,
-                          minimumSize: const Size(double.infinity, 48),
-                        ),
-                        icon: const Icon(Icons.home),
-                        label: const Text('Leave to Lobby'),
-                        onPressed: _returnToLobby,
+                          TextButton(
+                            onPressed: _restartLevel,
+                            child: Text(
+                              'RESTART',
+                              style: GoogleFonts.luckiestGuy(
+                                color: const Color(0xFF4CAF50),
+                                fontSize: 24,
+                                shadows: const [
+                                  Shadow(
+                                    offset: Offset(0, 2),
+                                    color: Color(0x66000000),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),

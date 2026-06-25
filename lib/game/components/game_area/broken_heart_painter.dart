@@ -7,8 +7,9 @@ class BrokenHeartPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     // Apply 50% opacity to the entire composite graphic
     canvas.saveLayer(
-        Offset.zero & size,
-        Paint()..color = const Color.fromRGBO(255, 255, 255, 0.5));
+      Offset.zero & size,
+      Paint()..color = const Color.fromRGBO(255, 255, 255, 0.5),
+    );
 
     // Scale the entire broken heart (including the red box) to be smaller than the filled one
     canvas.save();
@@ -63,9 +64,9 @@ class BrokenHeartPainter extends CustomPainter {
     // The red box's center is at (virtualSize.width * 0.5361, virtualSize.height * 0.4612)
     double tx = (virtualSize.width * 0.5361) - 17.66;
     double ty = (virtualSize.height * 0.4612) - 17.04;
-    
+
     // Scale slightly to better match the filled heart size, keeping it centered.
-    // The broken heart is ~78% the size of the filled heart. 
+    // The broken heart is ~78% the size of the filled heart.
     // We scale by 1.25 around its center to match.
     canvas.translate(tx + 17.66, ty + 17.04);
     canvas.scale(1.25);
@@ -505,7 +506,10 @@ class BrokenHeartPainter extends CustomPainter {
     paint12Fill.shader = ui.Gradient.linear(
       Offset(virtualSize.width * 0.5187059, virtualSize.height * 0.2164706),
       Offset(virtualSize.width * 0.5187059, virtualSize.height * 0.5168235),
-      [Color(0xffffffff).withValues(alpha: 1), Color(0xffffffff).withValues(alpha: 0)],
+      [
+        Color(0xffffffff).withValues(alpha: 1),
+        Color(0xffffffff).withValues(alpha: 0),
+      ],
       [0.216, 0.923],
     );
     canvas.drawPath(path_12, paint12Fill);
@@ -683,7 +687,7 @@ class BrokenHeartPainter extends CustomPainter {
     Paint paint15Fill = Paint()..style = PaintingStyle.fill;
     paint15Fill.color = Color(0xffF2ACAC).withValues(alpha: 1.0);
     canvas.drawPath(path_15, paint15Fill);
-    
+
     canvas.restore(); // restore the inner canvas save for heart alignment
     canvas.restore(); // restore the global scale save
     canvas.restore(); // restore the saveLayer for opacity
