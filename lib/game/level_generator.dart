@@ -94,9 +94,8 @@ LevelData generateLevelData(int currentLevel) {
 
   // Generate Teleporters (Level 7+)
   if (currentLevel >= 7) {
-    // 1 pair for level 7, 2 pairs for level 9+
-    int numPairs = currentLevel >= 9 ? 2 : 1;
-    if (currentLevel >= 10) numPairs = 4;
+    // 1 pair at max for more harder game
+    int numPairs = 1;
     for (int i = 0; i < numPairs; i++) {
       double tY1 = 0.05 + (i * (0.9 / numPairs));
       double tY2 = 0.95 - (i * (0.9 / numPairs));

@@ -217,10 +217,10 @@ class BalancoGame extends FlameGame {
     timeStopTimer = 0.0;
     timeStopNotifier.value = 0.0;
     activeExitTeleporter = null;
-    for (final t in teleporters) {
-      t.isClosed = false;
-    }
     if (!loseLife) {
+      for (final t in teleporters) {
+        t.isClosed = false;
+      }
       for (final star in stars) {
         star.reset();
       }
@@ -663,6 +663,7 @@ class BalancoGame extends FlameGame {
               ballP = t * barLength;
               bounceTimer = 0.4;
               ballVelocity = 0.0;
+              freeFallVelocity.setZero(); // Stop the air effect
               ballPos2D = leftPoint + direction * ballP + normal * (ballRadius + 6.0);
               HapticFeedback.heavyImpact();
               try {
@@ -760,6 +761,7 @@ class BalancoGame extends FlameGame {
           timeStopNotifier.value = 0.0;
           ballP = t * barLength;
           ballVelocity = freeFallVelocity.x; // Keep x-momentum
+          freeFallVelocity.setZero(); // Stop the air effect
           bounceTimer = 0.4; // Trigger bouncy landing!
           ballPos2D =
               leftPoint + direction * ballP + normal * (ballRadius + 6.0);

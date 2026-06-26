@@ -143,9 +143,8 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                                 c1: const Color(0xFF81D4FA),
                                 c2: const Color(0xFF039BE5),
                                 onTap: () {
-                                  Navigator.pop(context);
+                                  Navigator.pop(context); // Close the dialog
                                   widget.game.restartCurrentLevel();
-                                  widget.game.resumeEngine();
                                 },
                               ),
 

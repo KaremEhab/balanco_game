@@ -17,6 +17,8 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
   // Cached Paints for fading
   late final Paint _fadePaint;
 
+  double _windTimePhase = 0.0;
+
   @override
   Future<void> onLoad() async {
     super.onLoad();
@@ -51,6 +53,14 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
       ..strokeWidth = 1;
 
     _fadePaint = Paint();
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    if (game.freeFallVelocity.y > 50.0) {
+      _windTimePhase += dt * 4.0; // Speed of the air streaks
+    }
   }
 
   @override
@@ -193,6 +203,39 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 20.0); // Smoother, wider core blur
         
       canvas.drawCircle(Offset.zero, game.ballRadius + 15, coreGlow);
+    }
+
+    // 7. Air/Wind Streaks (Free Fall)
+    if (game.freeFallVelocity.y > 50.0) {
+      double speed = game.freeFallVelocity.y;
+      double intensity = ((speed - 50.0) / 800.0).clamp(0.0, 1.0);
+      
+      final Paint windPaint = Paint()
+        ..color = Colors.white.withValues(alpha: 0.6 * intensity)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2.5
+        ..strokeCap = StrokeCap.round;
+
+      canvas.save();
+      // Draw 5 streaks around the ball
+      for (int i = -2; i <= 2; i++) {
+        if (i == 0) continue; // Skip center to avoid covering the ball directly
+        
+        double xOffset = i * 10.0;
+        double phaseOffset = (i.abs() * 0.4); // Stagger the streaks
+        double localPhase = (_windTimePhase + phaseOffset) % 1.0;
+        
+        // Start above the ball, move upward (to simulate falling downward)
+        double yStart = -game.ballRadius - 5.0 - (localPhase * 50.0);
+        double length = 15.0 + (intensity * 40.0) + (sin(localPhase * pi) * 15.0);
+        
+        canvas.drawLine(
+          Offset(xOffset, yStart),
+          Offset(xOffset, yStart - length), // Draw upwards
+          windPaint,
+        );
+      }
+      canvas.restore();
     }
 
     if (fallFade < 1.0) {
