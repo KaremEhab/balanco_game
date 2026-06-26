@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iconly/iconly.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import '../data/database_helper.dart';
 import '../map/map_screen.dart';
@@ -176,7 +176,7 @@ class _MainScreenState extends State<MainScreen> {
                 ),
               ],
             ),
-            child: Icon(IconlyBold.profile, color: strokeColor, size: 28),
+            child: Icon(Icons.person_rounded, color: strokeColor, size: 28),
           ),
           const SizedBox(width: 10),
 
