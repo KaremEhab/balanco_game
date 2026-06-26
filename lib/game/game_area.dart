@@ -116,7 +116,9 @@ class BalancoGame extends FlameGame {
 
   late PositionComponent levelContainer;
   double cameraOffsetY = 0.0;
-  final ValueNotifier<double> cameraOffsetYNotifier = ValueNotifier<double>(0.0);
+  final ValueNotifier<double> cameraOffsetYNotifier = ValueNotifier<double>(
+    0.0,
+  );
   double get levelHeight => size.y * (currentLevel.value >= 10 ? 3.0 : 1.0);
 
   BalancoGame({
@@ -163,20 +165,24 @@ class BalancoGame extends FlameGame {
     int completedLevel = currentLevel.value;
     int starsEarned = currentPoints.value;
 
-    final existingProgress = await DatabaseHelper.instance.getLevelProgress(completedLevel);
+    final existingProgress = await DatabaseHelper.instance.getLevelProgress(
+      completedLevel,
+    );
     int previousStars = existingProgress?.stars ?? 0;
-    
+
     if (starsEarned > previousStars) {
-      await DatabaseHelper.instance.saveLevelProgress(LevelProgress(
-        levelId: completedLevel,
-        stars: starsEarned,
-        isUnlocked: true,
-      ));
+      await DatabaseHelper.instance.saveLevelProgress(
+        LevelProgress(
+          levelId: completedLevel,
+          stars: starsEarned,
+          isUnlocked: true,
+        ),
+      );
     }
-    
+
     if (completedLevel + 1 > profile.highestLevel) {
       await DatabaseHelper.instance.updatePlayerProfile(
-        profile.copyWith(highestLevel: completedLevel + 1)
+        profile.copyWith(highestLevel: completedLevel + 1),
       );
     }
 
@@ -208,7 +214,7 @@ class BalancoGame extends FlameGame {
     isBoardHidden = false;
     isLevelCompleteOverlayShown = false;
     teleportingGateComponent.reset();
-    
+
     if (!loseLife && !respawnFromHole) {
       levelTimer = maxLevelTimer;
       levelTimerNotifier.value = maxLevelTimer;
@@ -461,11 +467,11 @@ class BalancoGame extends FlameGame {
       }
       return;
     }
-    
+
     if (isLevelTimerActive && !isFalling && !isBoardHidden) {
       double previousTimer = levelTimer;
       levelTimer -= dt;
-      
+
       int prevFloor = previousTimer.floor();
       int currFloor = levelTimer.floor();
       if (currFloor == 10 && prevFloor > 10) {
@@ -606,7 +612,8 @@ class BalancoGame extends FlameGame {
     if (isSpawningLevel) {
       if (pendingSpawns.isNotEmpty || itemSpawnTimer > -0.55) {
         // Phase 1: Spit all items
-        if (!teleportingGateComponent.isOpening && teleportingGateComponent.isClosed) {
+        if (!teleportingGateComponent.isOpening &&
+            teleportingGateComponent.isClosed) {
           teleportingGateComponent.open();
         }
 
@@ -664,7 +671,8 @@ class BalancoGame extends FlameGame {
               bounceTimer = 0.4;
               ballVelocity = 0.0;
               freeFallVelocity.setZero(); // Stop the air effect
-              ballPos2D = leftPoint + direction * ballP + normal * (ballRadius + 6.0);
+              ballPos2D =
+                  leftPoint + direction * ballP + normal * (ballRadius + 6.0);
               HapticFeedback.heavyImpact();
               try {
                 AppSettings.playSound('tick.wav');
@@ -682,24 +690,34 @@ class BalancoGame extends FlameGame {
               double sq = t / 0.25;
               squashY = 1.0 - (0.4 * sq);
               squashX = 1.0 + (0.4 * sq);
-              ballPos2D = leftPoint + direction * ballP + normal * (ballRadius * squashY + 6.0);
+              ballPos2D =
+                  leftPoint +
+                  direction * ballP +
+                  normal * (ballRadius * squashY + 6.0);
             } else if (t < 0.75) {
               double sq = (t - 0.25) / 0.5;
               double bounceHeight = sin(sq * pi) * 20.0;
               squashY = 1.0 + (0.2 * sin(sq * pi));
               squashX = 1.0 - (0.2 * sin(sq * pi));
-              ballPos2D = leftPoint + direction * ballP + normal * (ballRadius * squashY + 6.0 + bounceHeight);
+              ballPos2D =
+                  leftPoint +
+                  direction * ballP +
+                  normal * (ballRadius * squashY + 6.0 + bounceHeight);
             } else {
               double sq = (t - 0.75) / 0.25;
               double settle = sin(sq * pi);
               squashY = 1.0 - (0.2 * settle);
               squashX = 1.0 + (0.2 * settle);
-              ballPos2D = leftPoint + direction * ballP + normal * (ballRadius * squashY + 6.0);
+              ballPos2D =
+                  leftPoint +
+                  direction * ballP +
+                  normal * (ballRadius * squashY + 6.0);
             }
           } else {
             squashX = 1.0;
             squashY = 1.0;
-            ballPos2D = leftPoint + direction * ballP + normal * (ballRadius + 6.0);
+            ballPos2D =
+                leftPoint + direction * ballP + normal * (ballRadius + 6.0);
             isSpawningLevel = false; // Gameplay Launch!
             isLevelTimerActive = true;
           }
@@ -1018,7 +1036,8 @@ class BalancoGame extends FlameGame {
 
       freeFallVelocity.y += 980.0 * dt;
       ballPos2D += freeFallVelocity * dt;
-      // Reset if it fell out of the world or scaled down fully
+
+      // Reset if it fell out of the world or scaled down fully
       if (ballPos2D.y > levelHeight + 100 || ballScale <= 0) {
         _resetPositions(loseLife: true);
       }
@@ -1028,11 +1047,17 @@ class BalancoGame extends FlameGame {
       double targetCameraY = 0.0;
       if (isSpawningLevel) {
         // Pan down towards the ball while spawning
-        targetCameraY = (ballPos2D.y - size.y / 2).clamp(0.0, max(0.0, levelHeight - size.y));
+        targetCameraY = (ballPos2D.y - size.y / 2).clamp(
+          0.0,
+          max(0.0, levelHeight - size.y),
+        );
       } else {
         // Follow the bar so it's kept near the bottom of the screen
         targetCameraY = ((leftY + rightY) / 2) - size.y + 150.0;
-        targetCameraY = targetCameraY.clamp(0.0, max(0.0, levelHeight - size.y));
+        targetCameraY = targetCameraY.clamp(
+          0.0,
+          max(0.0, levelHeight - size.y),
+        );
       }
       cameraOffsetY += (targetCameraY - cameraOffsetY) * dt * 5.0;
       levelContainer.position.y = -cameraOffsetY;

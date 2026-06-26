@@ -243,7 +243,7 @@ class GameplayHeader extends StatelessWidget {
                                 ),
                               ),
                             ),
-                          ), 
+                          ),
                         ),
                       ),
                     );
@@ -285,13 +285,13 @@ class GameplayHeader extends StatelessWidget {
                       return Text(
                         timeString,
                         style: GoogleFonts.luckiestGuy(
-                          color: isCritical
-                              ? Colors.red
-                              : const Color(0xffECCA93),
+                          color: isCritical ? Colors.red : Colors.green,
                           fontSize: 28,
-                          shadows: const [
+                          shadows: [
                             Shadow(
-                              color: Color(0xFF5D4037),
+                              color: isCritical
+                                  ? const Color.fromARGB(255, 64, 17, 14)
+                                  : const Color.fromARGB(255, 25, 57, 26),
                               offset: Offset(0, 3),
                             ),
                           ],
