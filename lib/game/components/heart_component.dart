@@ -6,7 +6,7 @@ import '../game_area.dart';
 import 'game_area/collected_heart_painter.dart';
 
 class HeartComponent extends PositionComponent with HasGameReference<BalancoGame> {
-  final Vector2 fractionalPosition;
+  Vector2 fractionalPosition;
   double _time = 0.0;
   bool isCollected = false;
   double _collectedTime = 0.0;

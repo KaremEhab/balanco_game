@@ -29,7 +29,6 @@ class LevelData {
   final List<HoleData> holes;
   final List<Vector2> stars;
   final List<Vector2> hearts;
-  final List<Vector2> coins;
   final List<BumperData> bumpers;
   final List<TeleporterData> teleporters;
 
@@ -37,7 +36,6 @@ class LevelData {
     required this.holes,
     required this.stars,
     required this.hearts,
-    this.coins = const [],
     this.bumpers = const [],
     this.teleporters = const [],
   });

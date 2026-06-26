@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../data/app_settings.dart';
+import 'dart:math' as math;
 import 'main_screen.dart';
 import '../widgets/logo_painter.dart';
 import '../game/components/game_background/sky_painter.dart';
@@ -17,13 +19,20 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
+
+    try {
+      AppSettings.playSound('logo_new.wav');
+    } catch (e) {
+      debugPrint("Could not play logo sound: $e");
+    }
+
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 3500),
+      duration: const Duration(milliseconds: 2500),
     );
 
     _controller.forward().then((_) {
-      Future.delayed(const Duration(milliseconds: 500), () {
+      Future.delayed(const Duration(milliseconds: 1200), () {
         if (mounted) {
           Navigator.pushReplacement(
             context,
@@ -100,11 +109,17 @@ class _SplashScreenState extends State<SplashScreen>
             child: AnimatedBuilder(
               animation: _controller,
               builder: (context, child) {
-                // Apply a nice spring scaling effect on the whole logo at the very end
                 double scale = 1.0;
-                if (_controller.value > 0.9) {
-                  double p = (_controller.value - 0.9) / 0.1;
-                  scale = 1.0 + 0.05 * (1.0 - (1.0 - p) * (1.0 - p));
+                
+                // The dramatic "ding" beat happens exactly at 1.8s (progress 0.72 of 2.5s)
+                if (_controller.value >= 0.72) {
+                  double p = (_controller.value - 0.72) / 0.28;
+                  // Explosive pop up to 1.15 scale and back down smoothly
+                  scale = 1.0 + 0.15 * math.sin(p * math.pi);
+                } else {
+                  // Subtle, tense growing effect during the whoosh build-up
+                  double p = _controller.value / 0.72;
+                  scale = 0.95 + 0.05 * p;
                 }
 
                 return Transform.scale(

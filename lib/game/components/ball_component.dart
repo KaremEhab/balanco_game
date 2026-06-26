@@ -4,7 +4,6 @@ import 'dart:ui' as ui;
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import '../game_area.dart';
-import 'game_area/magnate_painter.dart';
 
 class BallComponent extends Component with HasGameReference<BalancoGame> {
   final Paint basePaint = Paint()..color = Colors.redAccent;
@@ -108,69 +107,92 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
 
     // 5. Shield Effect
     if (game.isShieldActive) {
-      // Create a nice pulsing effect based on the shieldTimer
-      double pulse = (game.shieldTimer * 3).remainder(1.0);
-      double shieldRadius = game.ballRadius + 6.0 + (pulse * 4.0);
+      double pulse1 = (sin(game.shieldTimer * 8) + 1) / 2; // 0 to 1
+      double pulse2 = (game.shieldTimer * 2).remainder(1.0); // 0 to 1 scaling out
+
+      double baseRadius = game.ballRadius + 8.0;
       
-      final shieldFill = Paint()
-        ..color = const Color(0x446BABFF) // Light transparent blue
+      // Outer expanding wave
+      final wavePaint = Paint()
+        ..color = Colors.cyanAccent.withValues(alpha: 0.3 * (1.0 - pulse2))
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 4.0 * (1.0 - pulse2);
+        
+      canvas.drawCircle(Offset.zero, baseRadius + (pulse2 * 10), wavePaint);
+
+      // Inner glowing core
+      final coreFill = Paint()
+        ..shader = RadialGradient(
+          colors: [
+            Colors.cyanAccent.withValues(alpha: 0.1),
+            Colors.lightBlueAccent.withValues(alpha: 0.4 + (0.2 * pulse1)),
+            Colors.transparent,
+          ],
+          stops: const [0.0, 0.8, 1.0],
+        ).createShader(Rect.fromCircle(center: Offset.zero, radius: baseRadius + 4))
         ..style = PaintingStyle.fill;
         
-      final shieldStroke = Paint()
-        ..color = const Color(0xAA6BABFF) // Solid blue border
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 2.0;
+      canvas.drawCircle(Offset.zero, baseRadius + 4, coreFill);
 
-      canvas.drawCircle(Offset.zero, shieldRadius, shieldFill);
-      canvas.drawCircle(Offset.zero, shieldRadius, shieldStroke);
+      // Solid rotating dashed border
+      final borderPaint = Paint()
+        ..color = Colors.cyanAccent.withValues(alpha: 0.8)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 3.0;
+
+      // Draw a segmented rotating border
+      canvas.save();
+      canvas.rotate(game.shieldTimer * 5); // Rotate constantly
+      final Path dashPath = Path();
+      for (int i = 0; i < 6; i++) {
+        double startAngle = i * (pi / 3) + 0.2;
+        double sweepAngle = (pi / 3) - 0.4;
+        dashPath.addArc(
+          Rect.fromCircle(center: Offset.zero, radius: baseRadius),
+          startAngle,
+          sweepAngle,
+        );
+      }
+      canvas.drawPath(dashPath, borderPaint);
+      canvas.restore();
     }
 
-    // 6. Magnet Effect
+    // 6. Magnet (Fire Waves) Effect
     if (game.isMagnetActive) {
-      // Draw magnetic field radius
-      double pulse = (game.magnetTimer * 2).remainder(1.0);
       double fieldRadius = 150.0; // Must match the suck radius
       
-      final fieldPaint = Paint()
-        ..color = Colors.lightBlueAccent.withValues(alpha: 0.1 * (1.0 - pulse))
-        ..style = PaintingStyle.fill;
+      // We will draw 3 inward moving fiery waves to simulate pulling
+      // Use a slower multiplier (e.g., 0.6 instead of 2.0) to make the waves slower and smoother
+      for (int i = 0; i < 3; i++) {
+        // Offset each wave's phase
+        double phase = (game.magnetTimer * 0.6 + (i * 0.33)).remainder(1.0);
         
-      final fieldStroke = Paint()
-        ..color = Colors.lightBlueAccent.withValues(alpha: 0.4 * (1.0 - pulse))
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 2.0 + (pulse * 3.0);
+        // Radius scales from fieldRadius down to game.ballRadius
+        double currentRadius = game.ballRadius + ((fieldRadius - game.ballRadius) * phase);
 
-      final edgeStroke = Paint()
-        ..color = Colors.lightBlueAccent.withValues(alpha: 0.15)
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 1.5;
+        // Alpha peaks in the middle and fades at the edges
+        double alpha = sin(phase * pi); 
+        
+        // Lowered base opacity from 0.8 to 0.4 for a softer look
+        final fireStroke = Paint()
+          ..color = i == 0 ? Colors.redAccent.withValues(alpha: alpha * 0.4) :
+                    i == 1 ? Colors.orange.withValues(alpha: alpha * 0.4) :
+                             Colors.deepOrangeAccent.withValues(alpha: alpha * 0.4)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 3.0 + (alpha * 5.0)
+          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6.0); // Increased blur for smoother glow
 
-      canvas.drawCircle(Offset.zero, fieldRadius, edgeStroke);
-      canvas.drawCircle(Offset.zero, fieldRadius * pulse, fieldPaint);
-      canvas.drawCircle(Offset.zero, fieldRadius * pulse, fieldStroke);
+        canvas.drawCircle(Offset.zero, currentRadius, fireStroke);
+      }
 
-      canvas.save();
-      // Hover the magnet 30 pixels above the ball
-      double hoverOffset = sin(game.magnetTimer * 4) * 5.0; // slight bobbing
-      canvas.translate(0, -game.ballRadius - 40.0 + hoverOffset);
-      
-      // Draw a subtle glow behind the magnet to make it stand out
-      canvas.drawCircle(
-        Offset(0, -10), 
-        30, 
-        Paint()
-          ..color = Colors.redAccent.withValues(alpha: 0.3)
-          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 10.0),
-      );
-
-      // The MagnatePainter draws from 0,0 to around 52,52 roughly
-      // We scale it and center it above the ball
-      double magScale = 1.0;
-      canvas.scale(magScale, magScale);
-      canvas.translate(-16.0, -26.0); // center adjustment based on its SVG paths
-
-      MagnatePainter().paint(canvas, const Size(40, 50));
-      canvas.restore();
+      // Draw a subtle red core glow around the ball
+      // Lowered core glow opacity from 0.3 to 0.15
+      final coreGlow = Paint()
+        ..color = Colors.red.withValues(alpha: 0.15)
+        ..style = PaintingStyle.fill
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 20.0); // Smoother, wider core blur
+        
+      canvas.drawCircle(Offset.zero, game.ballRadius + 15, coreGlow);
     }
 
     if (fallFade < 1.0) {

@@ -6,6 +6,7 @@ import '../../game/components/game_area/broken_heart_painter.dart';
 import '../../game/components/game_area/star_filled_painter.dart';
 import '../../game/components/game_area/empty_star_painter.dart';
 import '../../game/game_area.dart';
+import '../victory/victory_painters.dart';
 
 class GameplayHeader extends StatelessWidget {
   final BalancoGame game;
@@ -146,84 +147,117 @@ class GameplayHeader extends StatelessWidget {
                       barrierDismissible: false,
                       builder: (context) => PopScope(
                         canPop: false,
-                        child: AlertDialog(
-                        backgroundColor: const Color(0xFFFFE082),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
-                          side: const BorderSide(
-                            color: Color(0xFF5D4037),
-                            width: 4,
-                          ),
-                        ),
-                        title: Text(
-                          'LEAVE GAME?',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.luckiestGuy(
-                            color: Colors.white,
-                            fontSize: 32,
-                            shadows: const [
-                              Shadow(
-                                offset: Offset(0, 3),
-                                color: Color(0xFF5D4037),
-                              ),
-                            ],
-                          ),
-                        ),
-                        content: Text(
-                          'Are you sure you want to return to the lobby? Your progress will be lost!',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.baloo2(
-                            color: const Color(0xFF5D4037),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        actionsAlignment: MainAxisAlignment.center,
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                              game.resumeEngine();
-                            },
-                            child: Text(
-                              'STAY',
-                              style: GoogleFonts.luckiestGuy(
-                                color: const Color(0xFF4CAF50),
-                                fontSize: 24,
+                        child: Center(
+                          child: Material(
+                            color: Colors.transparent,
+                            child: CustomPaint(
+                              painter: VictoryCardPainter(),
+                              child: Container(
+                                width: 320,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 24,
+                                  vertical: 36,
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      'LEAVE GAME?',
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.luckiestGuy(
+                                        color: const Color(0xFFB5701B),
+                                        fontSize: 32,
+                                        letterSpacing: 2.0,
+                                        shadows: const [
+                                          Shadow(
+                                            offset: Offset(0, 3),
+                                            color: Colors.black26,
+                                            blurRadius: 2,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(height: 20),
+                                    Text(
+                                      'Are you sure you want to return to the lobby? Your progress will be lost!',
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.baloo2(
+                                        color: const Color(
+                                          0xFF5A3117,
+                                        ), // Dark brown
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 36),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            game.resumeEngine();
+                                          },
+                                          child: Text(
+                                            'STAY',
+                                            style: GoogleFonts.luckiestGuy(
+                                              color: const Color(0xFF4CAF50),
+                                              fontSize: 26,
+                                              shadows: const [
+                                                Shadow(
+                                                  color: Colors.black26,
+                                                  offset: Offset(0, 2),
+                                                  blurRadius: 2,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            Navigator.pushReplacementNamed(
+                                              context,
+                                              '/',
+                                            );
+                                          },
+                                          child: Text(
+                                            'LEAVE',
+                                            style: GoogleFonts.luckiestGuy(
+                                              color: const Color(0xFFF44336),
+                                              fontSize: 26,
+                                              shadows: const [
+                                                Shadow(
+                                                  color: Colors.black26,
+                                                  offset: Offset(0, 2),
+                                                  blurRadius: 2,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          const SizedBox(width: 20),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                              Navigator.pushReplacementNamed(
-                                context,
-                                '/',
-                              ); // Assumes main menu is at '/'
-                            },
-                            child: Text(
-                              'LEAVE',
-                              style: GoogleFonts.luckiestGuy(
-                                color: const Color(0xFFF44336),
-                                fontSize: 24,
-                              ),
-                            ),
-                          ),
-                        ],
+                          ), 
+                        ),
                       ),
-                    ));
+                    );
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       'LEAVE',
                       style: GoogleFonts.luckiestGuy(
-                        color: Color(0xffECCA93),
+                        color: const Color.fromARGB(255, 255, 92, 81),
                         fontSize: 28,
                         shadows: const [
                           Shadow(
-                            color: Color(0xFF5D4037),
+                            color: Color.fromARGB(255, 52, 18, 18),
                             offset: Offset(0, 3),
                           ),
                         ],
@@ -244,16 +278,22 @@ class GameplayHeader extends StatelessWidget {
                     builder: (context, time, child) {
                       int minutes = time.floor() ~/ 60;
                       int seconds = (time.floor() % 60);
-                      String timeString = '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
+                      String timeString =
+                          '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
                       bool isCritical = time <= 10.0 && game.isLevelTimerActive;
-                      
+
                       return Text(
                         timeString,
                         style: GoogleFonts.luckiestGuy(
-                          color: isCritical ? Colors.red : const Color(0xffECCA93),
+                          color: isCritical
+                              ? Colors.red
+                              : const Color(0xffECCA93),
                           fontSize: 28,
                           shadows: const [
-                            Shadow(color: Color(0xFF5D4037), offset: Offset(0, 3)),
+                            Shadow(
+                              color: Color(0xFF5D4037),
+                              offset: Offset(0, 3),
+                            ),
                           ],
                         ),
                       );

@@ -10,7 +10,6 @@ LevelData generateLevelData(int currentLevel) {
   final List<HoleData> holes = [];
   final List<Vector2> stars = [];
   final List<Vector2> hearts = [];
-  final List<Vector2> coins = [];
   final List<BumperData> bumpers = [];
   final List<TeleporterData> teleporters = [];
 
@@ -207,59 +206,10 @@ LevelData generateLevelData(int currentLevel) {
     }
   }
 
-  // Generate Coins safely (Level 3+)
-  if (currentLevel >= 3) {
-    int numCoins = 1 + (currentLevel - 3) ~/ 2; // e.g. lvl3:1, lvl5:2, lvl7:3
-    if (numCoins > 5) numCoins = 5; // Cap at 5 coins
-
-    for (int i = 0; i < numCoins; i++) {
-      int attempts = 0;
-      double x = 0;
-      double y = 0;
-
-      while (attempts < 50) {
-        y = 0.2 + random.nextDouble() * 0.6; 
-        x = 0.15 + random.nextDouble() * 0.7;
-
-        bool tooClose = false;
-        for (final h in holes) {
-          if (Vector2(x, y).distanceTo(h.position) < 0.15) {
-            tooClose = true;
-            break;
-          }
-        }
-        for (final s in stars) {
-          if (Vector2(x, y).distanceTo(s) < 0.12) {
-            tooClose = true;
-            break;
-          }
-        }
-        for (final b in bumpers) {
-          if (Vector2(x, y).distanceTo(b.position) < 0.2) {
-            tooClose = true;
-            break;
-          }
-        }
-        for (final c in coins) {
-          if (Vector2(x, y).distanceTo(c) < 0.15) {
-            tooClose = true;
-            break;
-          }
-        }
-
-        if (!tooClose) break;
-        attempts++;
-      }
-
-      coins.add(Vector2(x, y));
-    }
-  }
-
   return LevelData(
     holes: holes,
     stars: stars,
     hearts: hearts,
-    coins: coins,
     bumpers: bumpers,
     teleporters: teleporters,
   );

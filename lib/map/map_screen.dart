@@ -3,11 +3,12 @@ import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../data/database_helper.dart';
+import '../bloc/app_bloc.dart';
 import '../game/game_area.dart';
 import '../screens/gameplay.dart';
-import '../screens/main_screen.dart';
 import '../screens/map_layers/sea_waves_layer.dart';
 import '../screens/map_layers/static_shores_layer.dart';
 import '../screens/map_layers/dynamic_islands_layer.dart';
@@ -113,14 +114,17 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
   }
 
   Future<void> _loadData() async {
-    final prefs = await SharedPreferences.getInstance();
+    final profile = await DatabaseHelper.instance.getPlayerProfile();
     if (!mounted) return;
     setState(() {
-      highestLevel = prefs.getInt('highestLevel') ?? 1;
-      currentBallLevel = prefs.getInt('lastPlayedLevel') ?? highestLevel;
-      // Load stars for each level
-      for (int i = 1; i <= highestLevel; i++) {
-        levelStars[i] = prefs.getInt('level_${i}_stars') ?? 0;
+      highestLevel = profile.highestLevel;
+      currentBallLevel = profile.lastPlayedLevel;
+    });
+
+    final levelProgresses = await DatabaseHelper.instance.getAllLevelProgress();
+    setState(() {
+      for (var progress in levelProgresses) {
+        levelStars[progress.levelId] = progress.stars;
       }
     });
 
@@ -329,8 +333,10 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
   }
 
   Future<void> _startGameplay(int index) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('lastPlayedLevel', index);
+    final profile = await DatabaseHelper.instance.getPlayerProfile();
+    await DatabaseHelper.instance.updatePlayerProfile(
+      profile.copyWith(lastPlayedLevel: index)
+    );
 
     if (mounted) {
       setState(() {
@@ -340,8 +346,8 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
 
     // Launch the active game overlay cleanly
     final game = BalancoGame(
-      isMultiplayer: isMultiplayerNotifier.value,
-      playerRole: playerRoleNotifier.value,
+      isMultiplayer: context.read<AppBloc>().state.isMultiplayer,
+      playerRole: context.read<AppBloc>().state.playerRole,
       onLevelComplete: () {
         Navigator.pop(context); // Return to lobby
       },

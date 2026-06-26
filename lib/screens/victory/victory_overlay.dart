@@ -1,11 +1,11 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../game/game_area.dart';
+import '../../data/app_settings.dart';
+import '../../data/database_helper.dart';
 
 import 'dart:async';
-import 'package:flame_audio/flame_audio.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'victory_painters.dart';
 import '../../game/components/game_area/star_filled_painter.dart';
@@ -75,7 +75,7 @@ class _AnimatedLevelCompleteOverlayState
   void _startSequence() async {
     // 1. Enter main modal
     _mainController.forward();
-    FlameAudio.play('win.wav', volume: 0.5);
+    AppSettings.playSound('win.wav', volume: 0.5);
     
     await Future.delayed(const Duration(milliseconds: 500));
     
@@ -83,7 +83,7 @@ class _AnimatedLevelCompleteOverlayState
     for (int i = 0; i < 3; i++) {
       if (i < _earnedStars) {
         setState(() => _showStars[i] = true);
-        FlameAudio.play('star.wav', volume: 0.5);
+        AppSettings.playSound('star.wav', volume: 0.5);
         await Future.delayed(const Duration(milliseconds: 400));
       } else {
         setState(() => _showStars[i] = true);
@@ -97,12 +97,22 @@ class _AnimatedLevelCompleteOverlayState
 
   Future<void> _saveProgress() async {
     try {
-      final prefs = await SharedPreferences.getInstance();
-      int currentHighest = prefs.getInt('highestLevel') ?? 1;
+      final profile = await DatabaseHelper.instance.getPlayerProfile();
+      int currentHighest = profile.highestLevel;
       int nextLevel = widget.game.currentLevel.value + 1;
+      
+      int newHighest = currentHighest;
       if (nextLevel > currentHighest) {
-        await prefs.setInt('highestLevel', nextLevel > 9 ? 9 : nextLevel);
+        newHighest = nextLevel > 9 ? 9 : nextLevel;
       }
+      
+      // Update highest level and add coins
+      await DatabaseHelper.instance.updatePlayerProfile(
+        profile.copyWith(
+          highestLevel: newHighest,
+          coins: profile.coins + _targetCoins,
+        )
+      );
     } catch (e) {
       debugPrint('Failed to save progress: $e');
     }

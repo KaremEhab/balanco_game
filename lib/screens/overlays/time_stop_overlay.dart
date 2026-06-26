@@ -1,6 +1,6 @@
 import 'dart:ui';
-import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
+import '../../data/app_settings.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -46,7 +46,7 @@ class _TimeStopOverlayState extends State<TimeStopOverlay>
         _controller.repeat(reverse: true);
         try {
           _heartbeatPlayer?.stop();
-          _heartbeatPlayer = await FlameAudio.play('heartbeat.mp3');
+          _heartbeatPlayer = await AppSettings.playSound('heartbeat.mp3');
         } catch (_) {}
       }
     } else {

@@ -7,7 +7,8 @@ import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import '../data/database_helper.dart';
+import '../data/models.dart';
 
 import 'components/hole_component.dart';
 import 'components/bar_component.dart';
@@ -18,10 +19,10 @@ import 'components/bumper_component.dart';
 import 'components/teleporter_component.dart';
 import 'components/confetti_component.dart';
 import 'components/heart_component.dart';
-import 'components/coin_component.dart';
 
 import 'models/level_data.dart';
 import 'level_generator.dart';
+import '../data/app_settings.dart';
 
 class BalancoGame extends FlameGame {
   final bool isMultiplayer;
@@ -106,7 +107,6 @@ class BalancoGame extends FlameGame {
   final List<HoleComponent> holes = [];
   final List<StarComponent> stars = [];
   final List<HeartComponent> hearts = [];
-  final List<CoinComponent> coins = [];
   final List<BumperComponent> bumpers = [];
   final List<TeleporterComponent> teleporters = [];
   TeleporterComponent? activeExitTeleporter;
@@ -153,16 +153,25 @@ class BalancoGame extends FlameGame {
     showGameOverOverlay.value = false;
     isLevelCompleteOverlayShown = false;
 
-    final prefs = await SharedPreferences.getInstance();
+    final profile = await DatabaseHelper.instance.getPlayerProfile();
     int completedLevel = currentLevel.value;
     int starsEarned = currentPoints.value;
-    int previousStars = prefs.getInt('level_${completedLevel}_stars') ?? 0;
+
+    final existingProgress = await DatabaseHelper.instance.getLevelProgress(completedLevel);
+    int previousStars = existingProgress?.stars ?? 0;
+    
     if (starsEarned > previousStars) {
-      await prefs.setInt('level_${completedLevel}_stars', starsEarned);
+      await DatabaseHelper.instance.saveLevelProgress(LevelProgress(
+        levelId: completedLevel,
+        stars: starsEarned,
+        isUnlocked: true,
+      ));
     }
-    int highestLevel = prefs.getInt('highestLevel') ?? 1;
-    if (completedLevel + 1 > highestLevel) {
-      await prefs.setInt('highestLevel', completedLevel + 1);
+    
+    if (completedLevel + 1 > profile.highestLevel) {
+      await DatabaseHelper.instance.updatePlayerProfile(
+        profile.copyWith(highestLevel: completedLevel + 1)
+      );
     }
 
     currentLevel.value++;
@@ -219,7 +228,7 @@ class BalancoGame extends FlameGame {
       if (currentLives.value <= 0) {
         HapticFeedback.vibrate();
         try {
-          FlameAudio.play('gameover.wav');
+          AppSettings.playSound('gameover.wav');
         } catch (_) {}
         pauseEngine();
         showGameOverOverlay.value = true;
@@ -314,10 +323,6 @@ class BalancoGame extends FlameGame {
       if (heart.parent != null) heart.removeFromParent();
     }
     hearts.clear();
-    for (final coin in coins) {
-      if (coin.parent != null) coin.removeFromParent();
-    }
-    coins.clear();
     for (final bumper in bumpers) {
       if (bumper.parent != null) bumper.removeFromParent();
     }
@@ -420,19 +425,6 @@ class BalancoGame extends FlameGame {
       hearts.add(heart);
       add(heart);
     }
-
-    for (final cPos in data.coins) {
-      final coin = CoinComponent(cPos)..priority = 5;
-
-      final targetPos = Vector2(cPos.x * size.x, 120.0 + cPos.y * (size.y - 320.0));
-      targetPositions[coin] = targetPos;
-      coin.position = teleportingGateComponent.position.clone();
-      coin.scale = Vector2.zero();
-      pendingSpawns.add(coin);
-
-      coins.add(coin);
-      add(coin);
-    }
   }
 
   @override
@@ -459,9 +451,9 @@ class BalancoGame extends FlameGame {
       
       int prevFloor = previousTimer.floor();
       int currFloor = levelTimer.floor();
-      if (currFloor <= 10 && currFloor < prevFloor && currFloor >= 0) {
+      if (currFloor == 10 && prevFloor > 10) {
         try {
-          FlameAudio.play('tick.wav');
+          AppSettings.playSound('clock-ticking.wav');
         } catch (_) {}
       }
 
@@ -508,19 +500,17 @@ class BalancoGame extends FlameGame {
     }
 
     // Check if reached top area to trigger gate snap
-    if (!isFalling &&
-        !isFreeFalling &&
+    if (!isFreeFalling &&
         !isSpawningLevel &&
         !isRespawningFromHole &&
         !isLevelCompleteOverlayShown) {
       Vector2 gateCenter = teleportingGateComponent.position;
-      if (ballPos2D.distanceTo(gateCenter) < 40 ||
-          (ballPos2D.y < gateCenter.y + 10 &&
-              (ballPos2D.x - gateCenter.x).abs() < 50)) {
+      if (ballPos2D.distanceTo(gateCenter) < 40) {
         isSuckingToGate = true;
+        isFalling = false; // Override the fall!
         HapticFeedback.heavyImpact();
         try {
-          FlameAudio.play('win.wav', volume: 1.0);
+          AppSettings.playSound('win.wav', volume: 1.0);
         } catch (_) {}
         return;
       }
@@ -574,8 +564,8 @@ class BalancoGame extends FlameGame {
     } else if (!isSpawningLevel && !isRespawningFromHole) {
       // Slower speed for a heavier, harder bar feeling!
       double speed = timeStopNotifier.value > 0
-          ? 70.0
-          : 120.0;
+          ? 70.0 * AppSettings.joystickSensitivity.value
+          : 120.0 * AppSettings.joystickSensitivity.value;
       double maxDiff = 120.0;
 
       double newLeftY = leftY + leftJoystickValue * speed * dt;
@@ -632,7 +622,7 @@ class BalancoGame extends FlameGame {
                 leftPoint + direction * ballP + normal * (ballRadius + 6.0);
             HapticFeedback.heavyImpact();
             try {
-              FlameAudio.play('tick.wav');
+              AppSettings.playSound('tick.wav');
             } catch (_) {}
           }
         }
@@ -725,7 +715,7 @@ class BalancoGame extends FlameGame {
         ballPos2D = leftPoint + direction * ballP + normal * (ballRadius + 6.0);
         HapticFeedback.heavyImpact();
         try {
-          FlameAudio.play('tick.wav');
+          AppSettings.playSound('tick.wav');
         } catch (_) {}
       } else {
         double progress = 1.0 - (respawnTimer / 3.0);
@@ -773,7 +763,7 @@ class BalancoGame extends FlameGame {
               leftPoint + direction * ballP + normal * (ballRadius + 6.0);
           HapticFeedback.heavyImpact();
           try {
-            FlameAudio.play('tick.wav');
+            AppSettings.playSound('tick.wav');
           } catch (_) {}
 
           if (activeExitTeleporter != null) {
@@ -810,7 +800,7 @@ class BalancoGame extends FlameGame {
           isFalling = true;
           HapticFeedback.heavyImpact();
           try {
-            FlameAudio.play('fall.wav');
+            AppSettings.playSound('fall.wav');
           } catch (_) {}
           freeFallVelocity = direction * ballVelocity;
         }
@@ -890,7 +880,7 @@ class BalancoGame extends FlameGame {
 
               HapticFeedback.heavyImpact();
               try {
-                FlameAudio.play('hole.wav');
+                AppSettings.playSound('hole.wav');
               } catch (_) {}
               break;
             }
@@ -919,7 +909,7 @@ class BalancoGame extends FlameGame {
             activeHole = hole;
             HapticFeedback.heavyImpact();
             try {
-              FlameAudio.play('hole.wav');
+              AppSettings.playSound('hole.wav');
             } catch (_) {}
             fallTarget = hole.position.clone();
             break;
@@ -932,7 +922,7 @@ class BalancoGame extends FlameGame {
             activeHole = hole;
             HapticFeedback.heavyImpact();
             try {
-              FlameAudio.play('hole.wav');
+              AppSettings.playSound('hole.wav');
             } catch (_) {}
             fallTarget = hole.position.clone();
             break;
@@ -964,16 +954,35 @@ class BalancoGame extends FlameGame {
           }
         }
 
-        // Check star collisions
+        // Check star collisions & magnet logic
         for (final star in stars) {
           if (!star.isCollected) {
-            Vector2 starPos = star.position;
+            Vector2 starPos = star.position.clone();
+
+            if (magnetTimer > 0) {
+              double pullSpeed = 400.0; // Magnet pull speed in pixels/sec
+              Vector2 dir = (ballPos2D - starPos);
+              double dist = dir.length;
+              if (dist < 150.0 && dist > 5.0) {
+                // Add a tiny deadzone to prevent jitter
+                dir.normalize();
+                starPos += dir * pullSpeed * dt;
+
+                // Update fractionalPosition so it persists in the world
+                star.fractionalPosition = Vector2(
+                  starPos.x / size.x,
+                  (starPos.y - 120.0) / (size.y - 320.0),
+                );
+                star.position = starPos;
+              }
+            }
+
             if (ballPos2D.distanceTo(starPos) < ballRadius + 15.0) {
               star.isCollected = true;
               currentPoints.value++;
               HapticFeedback.lightImpact();
               try {
-                FlameAudio.play('star.wav');
+                AppSettings.playSound('star.wav');
               } catch (_) {}
             }
           }
@@ -988,43 +997,9 @@ class BalancoGame extends FlameGame {
               currentLives.value++;
               HapticFeedback.lightImpact();
               try {
-                FlameAudio.play(
+                AppSettings.playSound(
                   'star.wav',
                 ); // We can reuse star sound or add life.wav later
-              } catch (_) {}
-            }
-          }
-        }
-
-        // Check coin collisions & magnet logic
-        for (final coin in coins) {
-          if (!coin.isCollected) {
-            Vector2 coinPos = coin.position.clone();
-
-            if (magnetTimer > 0) {
-              double pullSpeed = 400.0; // Magnet pull speed in pixels/sec
-              Vector2 dir = (ballPos2D - coinPos);
-              double dist = dir.length;
-              if (dist < 150.0 && dist > 5.0) {
-                // Add a tiny deadzone to prevent jitter
-                dir.normalize();
-                coinPos += dir * pullSpeed * dt;
-
-                // Update fractionalPosition so it persists in the world
-                coin.fractionalPosition = Vector2(
-                  coinPos.x / size.x,
-                  (coinPos.y - 120.0) / (size.y - 320.0),
-                );
-                coin.position = coinPos;
-              }
-            }
-
-            if (ballPos2D.distanceTo(coinPos) < ballRadius + 15.0) {
-              coin.isCollected = true;
-              currentScore.value += 50; // Each coin is worth 50
-              HapticFeedback.lightImpact();
-              try {
-                FlameAudio.play('star.wav'); // Reuse star sound for now
               } catch (_) {}
             }
           }

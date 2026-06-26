@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import '../data/database_helper.dart';
 import '../game/components/game_background/sky_painter.dart';
 import '../game/components/game_background/mountains_painter.dart';
 import '../game/components/game_background/sea_painter.dart';
@@ -101,8 +101,7 @@ class _BgEditorScreenState extends State<BgEditorScreen> {
   }
 
   Future<void> _loadFromPrefs() async {
-    final prefs = await SharedPreferences.getInstance();
-    final String? savedData = prefs.getString('bg_editor_layers');
+    final String? savedData = await DatabaseHelper.instance.getConfig('bg_editor_layers');
     if (savedData != null) {
       try {
         final List<dynamic> jsonList = jsonDecode(savedData);
@@ -127,9 +126,8 @@ class _BgEditorScreenState extends State<BgEditorScreen> {
   }
 
   Future<void> _saveToPrefs() async {
-    final prefs = await SharedPreferences.getInstance();
     final String jsonData = jsonEncode(layers.map((l) => l.toJson()).toList());
-    await prefs.setString('bg_editor_layers', jsonData);
+    await DatabaseHelper.instance.saveConfig('bg_editor_layers', jsonData);
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Layers saved locally!')),

@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_print
 import 'package:flutter/foundation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import '../data/database_helper.dart';
 import 'dart:convert';
 
 class IslandData {
@@ -91,12 +91,10 @@ class MapLayoutConfig {
   double virtualHeight = 2500.0;
 
   Future<void> load() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
     // Always use the hardcoded layout as the fixed map for the game
     _generateDefaultLayout();
 
-    String? cameraData = prefs.getString('map_camera');
+    String? cameraData = await DatabaseHelper.instance.getConfig('map_camera');
     if (cameraData != null) {
       List<dynamic> parsedCamera = jsonDecode(cameraData);
       editorCamera.value = parsedCamera
@@ -111,15 +109,14 @@ class MapLayoutConfig {
   }
 
   Future<void> save() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     String islandsStr = jsonEncode(
       islands.value.map((e) => e.toJson()).toList(),
     );
     String stonesStr = jsonEncode(stones.value.map((e) => e.toJson()).toList());
-    await prefs.setString('map_islands', islandsStr);
-    await prefs.setString('map_stones', stonesStr);
+    await DatabaseHelper.instance.saveConfig('map_islands', islandsStr);
+    await DatabaseHelper.instance.saveConfig('map_stones', stonesStr);
     if (editorCamera.value != null) {
-      await prefs.setString('map_camera', jsonEncode(editorCamera.value));
+      await DatabaseHelper.instance.saveConfig('map_camera', jsonEncode(editorCamera.value));
     }
 
     print('==============================');

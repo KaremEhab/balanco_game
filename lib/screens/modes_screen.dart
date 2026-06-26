@@ -1,14 +1,13 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
-import 'main_screen.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../bloc/app_bloc.dart';
 class ModesScreen extends StatelessWidget {
   const ModesScreen({super.key});
 
   Widget _buildGlassCard({
     required Widget child,
-    required bool isDark,
     bool disabled = false,
   }) {
     return ClipRRect(
@@ -19,19 +18,19 @@ class ModesScreen extends StatelessWidget {
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: disabled
-                ? (isDark ? Colors.white.withValues(alpha: 0.02) : Colors.black.withValues(alpha: 0.02))
-                : (isDark ? Colors.white.withValues(alpha: 0.08) : Colors.black.withValues(alpha: 0.05)),
+                ? Colors.black.withValues(alpha: 0.02)
+                : Colors.black.withValues(alpha: 0.05),
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
               color: disabled
-                  ? (isDark ? Colors.white.withValues(alpha: 0.05) : Colors.black.withValues(alpha: 0.05))
-                  : (isDark ? Colors.white.withValues(alpha: 0.2) : Colors.black.withValues(alpha: 0.1)),
+                  ? Colors.black.withValues(alpha: 0.05)
+                  : Colors.black.withValues(alpha: 0.1),
               width: 1.5,
             ),
             boxShadow: [
               if (!disabled)
                 BoxShadow(
-                  color: isDark ? Colors.black.withValues(alpha: 0.3) : Colors.black.withValues(alpha: 0.05),
+                  color: Colors.black.withValues(alpha: 0.05),
                   blurRadius: 15,
                   offset: const Offset(0, 8),
                 ),
@@ -48,8 +47,6 @@ class ModesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isDark = Theme.of(context).brightness == Brightness.dark;
-
     return SafeArea(
       child: SingleChildScrollView(
         padding: const EdgeInsets.only(left: 24.0, right: 24.0, top: 80.0, bottom: 120.0),
@@ -60,13 +57,13 @@ class ModesScreen extends StatelessWidget {
               'GAME MODES',
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: isDark ? Colors.cyanAccent : Colors.blueAccent,
+                color: Colors.blueAccent,
                 fontSize: 24,
                 fontWeight: FontWeight.w900,
                 letterSpacing: 4,
                 shadows: [
                   Shadow(
-                    color: isDark ? Colors.cyanAccent.withValues(alpha: 0.5) : Colors.blueAccent.withValues(alpha: 0.5),
+                    color: Colors.blueAccent.withValues(alpha: 0.5),
                     blurRadius: 10,
                   )
                 ],
@@ -75,11 +72,11 @@ class ModesScreen extends StatelessWidget {
             const SizedBox(height: 40),
 
             // Active Modes Selector
-            ValueListenableBuilder<bool>(
-              valueListenable: isMultiplayerNotifier,
-              builder: (context, isMultiplayer, _) {
+            BlocBuilder<AppBloc, AppState>(
+              builder: (context, state) {
+                final isMultiplayer = state.isMultiplayer;
+                final role = state.playerRole;
                 return _buildGlassCard(
-                  isDark: isDark,
                   child: Column(
                     children: [
                       Row(
@@ -87,20 +84,20 @@ class ModesScreen extends StatelessWidget {
                           Expanded(
                             child: GestureDetector(
                               onTap: () {
-                                isMultiplayerNotifier.value = false;
-                                playerRoleNotifier.value = 'BOTH';
+                                context.read<AppBloc>().add(const ToggleMultiplayer(false));
+                                context.read<AppBloc>().add(const ChangePlayerRole('BOTH'));
                               },
                               child: AnimatedContainer(
                                 duration: const Duration(milliseconds: 300),
                                 padding: const EdgeInsets.all(16),
                                 decoration: BoxDecoration(
                                   color: !isMultiplayer
-                                      ? (isDark ? Colors.cyan.withValues(alpha: 0.2) : Colors.blue.withValues(alpha: 0.1))
+                                      ? Colors.blue.withValues(alpha: 0.1)
                                       : Colors.transparent,
                                   borderRadius: BorderRadius.circular(16),
                                   border: Border.all(
                                     color: !isMultiplayer
-                                        ? (isDark ? Colors.cyanAccent : Colors.blueAccent)
+                                        ? Colors.blueAccent
                                         : Colors.transparent,
                                     width: 2,
                                   ),
@@ -111,16 +108,16 @@ class ModesScreen extends StatelessWidget {
                                       Icons.person,
                                       size: 40,
                                       color: !isMultiplayer
-                                          ? (isDark ? Colors.cyanAccent : Colors.blueAccent)
-                                          : (isDark ? Colors.white54 : Colors.black54),
+                                          ? Colors.blueAccent
+                                          : Colors.black54,
                                     ),
                                     const SizedBox(height: 8),
                                     Text(
                                       'SOLO',
                                       style: TextStyle(
                                         color: !isMultiplayer
-                                            ? (isDark ? Colors.white : Colors.black87)
-                                            : (isDark ? Colors.white54 : Colors.black54),
+                                            ? Colors.black87
+                                            : Colors.black54,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -133,20 +130,20 @@ class ModesScreen extends StatelessWidget {
                           Expanded(
                             child: GestureDetector(
                               onTap: () {
-                                isMultiplayerNotifier.value = true;
-                                playerRoleNotifier.value = 'LEFT';
+                                context.read<AppBloc>().add(const ToggleMultiplayer(true));
+                                context.read<AppBloc>().add(const ChangePlayerRole('LEFT'));
                               },
                               child: AnimatedContainer(
                                 duration: const Duration(milliseconds: 300),
                                 padding: const EdgeInsets.all(16),
                                 decoration: BoxDecoration(
                                   color: isMultiplayer
-                                      ? (isDark ? Colors.pinkAccent.withValues(alpha: 0.2) : Colors.orangeAccent.withValues(alpha: 0.2))
+                                      ? Colors.orangeAccent.withValues(alpha: 0.2)
                                       : Colors.transparent,
                                   borderRadius: BorderRadius.circular(16),
                                   border: Border.all(
                                     color: isMultiplayer
-                                        ? (isDark ? Colors.pinkAccent : Colors.orangeAccent)
+                                        ? Colors.orangeAccent
                                         : Colors.transparent,
                                     width: 2,
                                   ),
@@ -157,16 +154,16 @@ class ModesScreen extends StatelessWidget {
                                       Icons.people,
                                       size: 40,
                                       color: isMultiplayer
-                                          ? (isDark ? Colors.pinkAccent : Colors.orangeAccent)
-                                          : (isDark ? Colors.white54 : Colors.black54),
+                                          ? Colors.orangeAccent
+                                          : Colors.black54,
                                     ),
                                     const SizedBox(height: 8),
                                     Text(
                                       'CO-OP',
                                       style: TextStyle(
                                         color: isMultiplayer
-                                            ? (isDark ? Colors.white : Colors.black87)
-                                            : (isDark ? Colors.white54 : Colors.black54),
+                                            ? Colors.black87
+                                            : Colors.black54,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -197,47 +194,42 @@ class ModesScreen extends StatelessWidget {
                                       ),
                                     ),
                                     const SizedBox(height: 12),
-                                    ValueListenableBuilder<String>(
-                                      valueListenable: playerRoleNotifier,
-                                      builder: (context, role, _) {
-                                        return Row(
-                                          children: [
-                                            Expanded(
-                                              child: ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                  backgroundColor: role == 'LEFT'
-                                                      ? (isDark ? Colors.pinkAccent : Colors.orangeAccent)
-                                                      : (isDark ? Colors.white12 : Colors.black12),
-                                                  foregroundColor: isDark ? Colors.white : Colors.black87,
-                                                  padding: const EdgeInsets.symmetric(vertical: 16),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(12),
-                                                  ),
-                                                ),
-                                                onPressed: () => playerRoleNotifier.value = 'LEFT',
-                                                child: const Text('LEFT'),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: role == 'LEFT'
+                                                  ? Colors.orangeAccent
+                                                  : Colors.black12,
+                                              foregroundColor: Colors.black87,
+                                              padding: const EdgeInsets.symmetric(vertical: 16),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(12),
                                               ),
                                             ),
-                                            const SizedBox(width: 16),
-                                            Expanded(
-                                              child: ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                  backgroundColor: role == 'RIGHT'
-                                                      ? (isDark ? Colors.pinkAccent : Colors.orangeAccent)
-                                                      : (isDark ? Colors.white12 : Colors.black12),
-                                                  foregroundColor: isDark ? Colors.white : Colors.black87,
-                                                  padding: const EdgeInsets.symmetric(vertical: 16),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(12),
-                                                  ),
-                                                ),
-                                                onPressed: () => playerRoleNotifier.value = 'RIGHT',
-                                                child: const Text('RIGHT'),
+                                            onPressed: () => context.read<AppBloc>().add(const ChangePlayerRole('LEFT')),
+                                            child: const Text('LEFT'),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 16),
+                                        Expanded(
+                                          child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: role == 'RIGHT'
+                                                  ? Colors.orangeAccent
+                                                  : Colors.black12,
+                                              foregroundColor: Colors.black87,
+                                              padding: const EdgeInsets.symmetric(vertical: 16),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(12),
                                               ),
                                             ),
-                                          ],
-                                        );
-                                      },
+                                            onPressed: () => context.read<AppBloc>().add(const ChangePlayerRole('RIGHT')),
+                                            child: const Text('RIGHT'),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -254,17 +246,16 @@ class ModesScreen extends StatelessWidget {
 
             // Online Matchmaking (Locked)
             _buildGlassCard(
-              isDark: isDark,
               disabled: true,
               child: Row(
                 children: [
                   Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: isDark ? Colors.purpleAccent.withValues(alpha: 0.2) : Colors.deepPurple.withValues(alpha: 0.1),
+                      color: Colors.deepPurple.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Icon(Icons.sports_esports, size: 32, color: isDark ? Colors.purpleAccent : Colors.deepPurple),
+                    child: const Icon(Icons.sports_esports, size: 32, color: Colors.deepPurple),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
@@ -274,7 +265,7 @@ class ModesScreen extends StatelessWidget {
                         Text(
                           'ONLINE MATCHMAKING',
                           style: TextStyle(
-                            color: isDark ? Colors.white : Colors.black87,
+                            color: Colors.black87,
                             fontWeight: FontWeight.bold,
                             letterSpacing: 1,
                           ),
@@ -296,17 +287,16 @@ class ModesScreen extends StatelessWidget {
 
             // Time Trials (Locked)
             _buildGlassCard(
-              isDark: isDark,
               disabled: true,
               child: Row(
                 children: [
                   Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: isDark ? Colors.greenAccent.withValues(alpha: 0.2) : Colors.green.withValues(alpha: 0.1),
+                      color: Colors.green.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Icon(Icons.timer, size: 32, color: isDark ? Colors.greenAccent : Colors.green),
+                    child: const Icon(Icons.timer, size: 32, color: Colors.green),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
@@ -316,7 +306,7 @@ class ModesScreen extends StatelessWidget {
                         Text(
                           'TIME TRIALS',
                           style: TextStyle(
-                            color: isDark ? Colors.white : Colors.black87,
+                            color: Colors.black87,
                             fontWeight: FontWeight.bold,
                             letterSpacing: 1,
                           ),
