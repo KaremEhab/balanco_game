@@ -116,7 +116,10 @@ class MapLayoutConfig {
     await DatabaseHelper.instance.saveConfig('map_islands', islandsStr);
     await DatabaseHelper.instance.saveConfig('map_stones', stonesStr);
     if (editorCamera.value != null) {
-      await DatabaseHelper.instance.saveConfig('map_camera', jsonEncode(editorCamera.value));
+      await DatabaseHelper.instance.saveConfig(
+        'map_camera',
+        jsonEncode(editorCamera.value),
+      );
     }
 
     print('==============================');
@@ -234,9 +237,26 @@ class MapLayoutConfig {
         buttonDy: -25.92592592592584,
         rotation: 0.0,
       ),
+      IslandData(
+        x: 170.0,
+        y: 1180.0,
+        level: 10,
+        type: 6,
+        buttonDx: 0.0,
+        buttonDy: -15.0,
+        rotation: 0.0,
+      ),
     ];
 
     List<StoneData> defaultStones = [
+      StoneData(
+        id: 'stone_9_10',
+        x: 163.0,
+        y: 1329.0,
+        scale: 0.85,
+        rotation: 0.1,
+        type: 2,
+      ),
       StoneData(
         id: 'stone_7',
         x: 244.61540981361085,

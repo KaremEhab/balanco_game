@@ -6,8 +6,11 @@ import '../../game/components/game_background/mountains_painter.dart';
 import '../../game/components/game_background/sea_painter.dart';
 import '../../game/components/game_background/sky_painter.dart';
 
+import '../../game/game_area.dart';
+
 class ParallaxBackgroundWidget extends StatefulWidget {
-  const ParallaxBackgroundWidget({super.key});
+  final BalancoGame game;
+  const ParallaxBackgroundWidget({super.key, required this.game});
 
   @override
   State<ParallaxBackgroundWidget> createState() =>
@@ -54,9 +57,21 @@ class _ParallaxBackgroundWidgetState extends State<ParallaxBackgroundWidget> {
     const double maxOffset = 15.0;
 
     return Positioned.fill(
-      child: ValueListenableBuilder<Offset>(
-        valueListenable: _accelNotifier,
-        builder: (context, accel, child) {
+      child: AnimatedBuilder(
+        animation: Listenable.merge([_accelNotifier, widget.game.cameraOffsetYNotifier]),
+        builder: (context, child) {
+          final accel = _accelNotifier.value;
+          final cameraOffsetY = widget.game.cameraOffsetYNotifier.value;
+          
+          // Calculate max level scroll to normalize background scroll
+          double maxCameraY = 1.0;
+          if (widget.game.hasLayout) {
+            maxCameraY = widget.game.levelHeight - widget.game.size.y;
+            if (maxCameraY <= 0) maxCameraY = 1.0;
+          }
+          
+          // Background scrolls upwards smoothly as camera moves downwards
+          double backgroundVerticalScroll = (cameraOffsetY / maxCameraY) * 200.0 * depthMultiplier;
           // Calculate movement based on tilt.
           // accel.dx is positive when tilting right. We want background to move left to simulate depth.
           // accel.dy is positive when tilting up. We want background to move down.
@@ -70,7 +85,7 @@ class _ParallaxBackgroundWidgetState extends State<ParallaxBackgroundWidget> {
               depthMultiplier;
 
           return Transform.translate(
-            offset: Offset(dx - tiltDx, dy + tiltDy),
+            offset: Offset(dx - tiltDx, dy + tiltDy - backgroundVerticalScroll),
             child: child,
           );
         },

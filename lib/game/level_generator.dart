@@ -14,7 +14,11 @@ LevelData generateLevelData(int currentLevel) {
   final List<TeleporterData> teleporters = [];
 
   int numHoles = currentLevel;
-  if (numHoles > 7) numHoles = 7; // Cap at 7
+  if (currentLevel >= 10) {
+    numHoles = 18;
+  } else if (numHoles > 7) {
+    numHoles = 7; // Cap at 7 for normal levels
+  }
 
   if (currentLevel == 1) {
     // 1 big centered hole
@@ -35,12 +39,7 @@ LevelData generateLevelData(int currentLevel) {
 
       while (attempts < 50) {
         y = random.nextDouble();
-        if (y < 0.2) {
-          y = 0.2 + random.nextDouble() * 0.65; // Keep away from target
-        }
-        if (y > 0.85) {
-          y = 0.2 + random.nextDouble() * 0.65; // Keep away from start
-        }
+        y = random.nextDouble();
 
         double safeX = 0.5 + 0.3 * sin(y * 2 * pi);
         x = random.nextDouble();
@@ -58,7 +57,7 @@ LevelData generateLevelData(int currentLevel) {
         bool tooClose = false;
         for (final h in holes) {
           double dx = h.position.x - x;
-          double dy = h.position.y - y;
+          double dy = (h.position.y - y) * (currentLevel >= 10 ? 3.0 : 1.0);
           if (sqrt(dx * dx + dy * dy) < 0.16) {
             tooClose = true;
             break;
@@ -71,9 +70,11 @@ LevelData generateLevelData(int currentLevel) {
         attempts++;
       }
 
-      // Level 8+ has 2 sucking holes, Level 6-7 has 1
+      // Level 8+ has 2 sucking holes, Level 6-7 has 1. Level 10 has 5
       bool isSucking = false;
-      if (currentLevel >= 8 && i < 2) {
+      if (currentLevel >= 10 && i < 5) {
+        isSucking = true;
+      } else if (currentLevel >= 8 && i < 2) {
         isSucking = true;
       } else if (currentLevel >= 6 && i == 0) {
         isSucking = true;
@@ -95,9 +96,12 @@ LevelData generateLevelData(int currentLevel) {
   if (currentLevel >= 7) {
     // 1 pair for level 7, 2 pairs for level 9+
     int numPairs = currentLevel >= 9 ? 2 : 1;
+    if (currentLevel >= 10) numPairs = 4;
     for (int i = 0; i < numPairs; i++) {
-      teleporters.add(TeleporterData(Vector2(0.2 + random.nextDouble() * 0.2 + (i * 0.4), 0.15 + (i * 0.1)), 30.0, i));
-      teleporters.add(TeleporterData(Vector2(0.2 + random.nextDouble() * 0.2 + (i * 0.4), 0.85 - (i * 0.1)), 30.0, i));
+      double tY1 = 0.05 + (i * (0.9 / numPairs));
+      double tY2 = 0.95 - (i * (0.9 / numPairs));
+      teleporters.add(TeleporterData(Vector2(0.2 + random.nextDouble() * 0.2 + ((i%2) * 0.4), tY1), 30.0, i));
+      teleporters.add(TeleporterData(Vector2(0.2 + random.nextDouble() * 0.2 + ((i%2) * 0.4), tY2), 30.0, i));
     }
   }
 
@@ -106,6 +110,7 @@ LevelData generateLevelData(int currentLevel) {
     int numBumpers = 1;
     if (currentLevel >= 6) numBumpers = 2;
     if (currentLevel >= 8) numBumpers = 4;
+    if (currentLevel >= 10) numBumpers = 10;
     
     for (int i = 0; i < numBumpers; i++) {
       int attempts = 0;
@@ -113,18 +118,22 @@ LevelData generateLevelData(int currentLevel) {
       double y = 0;
 
       while (attempts < 50) {
-        y = 0.3 + random.nextDouble() * 0.4;
+        y = random.nextDouble();
         x = 0.2 + random.nextDouble() * 0.6;
 
         bool tooClose = false;
         for (final h in holes) {
-          if (Vector2(x, y).distanceTo(h.position) < 0.2) {
+          double dx = h.position.x - x;
+          double dy = (h.position.y - y) * (currentLevel >= 10 ? 3.0 : 1.0);
+          if (sqrt(dx * dx + dy * dy) < 0.2) {
             tooClose = true;
             break;
           }
         }
         for (final b in bumpers) {
-          if (Vector2(x, y).distanceTo(b.position) < 0.3) {
+          double dx = b.position.x - x;
+          double dy = (b.position.y - y) * (currentLevel >= 10 ? 3.0 : 1.0);
+          if (sqrt(dx * dx + dy * dy) < 0.3) {
             tooClose = true;
             break;
           }
@@ -137,14 +146,15 @@ LevelData generateLevelData(int currentLevel) {
     }
   }
 
-  // Generate 3 stars safely
-  for (int i = 0; i < 3; i++) {
+  // Generate stars safely
+  int numStars = currentLevel >= 10 ? 9 : 3;
+  for (int i = 0; i < numStars; i++) {
     int attempts = 0;
     double x = 0;
     double y = 0;
 
     while (attempts < 50) {
-      y = 0.2 + i * 0.22 + random.nextDouble() * 0.1; 
+      y = 0.05 + (i / numStars) * 0.9 + random.nextDouble() * (0.9 / numStars);
       double safeX = 0.5 + 0.3 * sin(y * 2 * pi);
 
       x = safeX + (random.nextDouble() - 0.5) * 0.15;
@@ -153,7 +163,7 @@ LevelData generateLevelData(int currentLevel) {
       bool tooClose = false;
       for (final h in holes) {
         double dx = h.position.x - x;
-        double dy = h.position.y - y;
+        double dy = (h.position.y - y) * (currentLevel >= 10 ? 3.0 : 1.0);
         if (sqrt(dx * dx + dy * dy) < 0.15) {
           tooClose = true;
           break;
@@ -170,13 +180,14 @@ LevelData generateLevelData(int currentLevel) {
   // Generate 1 Heart safely (Level 4+)
   if (currentLevel >= 4) {
     int numHearts = currentLevel >= 8 ? 2 : 1;
+    if (currentLevel >= 10) numHearts = 4;
     for (int i = 0; i < numHearts; i++) {
       int attempts = 0;
       double x = 0;
       double y = 0;
 
       while (attempts < 50) {
-        y = 0.4 + random.nextDouble() * 0.5; // Lower half of the board
+        y = 0.05 + (i / numHearts) * 0.9 + random.nextDouble() * (0.9 / numHearts); // Spread over board
       double safeX = 0.5 + 0.3 * sin(y * 2 * pi);
 
       x = safeX + (random.nextDouble() - 0.5) * 0.15;

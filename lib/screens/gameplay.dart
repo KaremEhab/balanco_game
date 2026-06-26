@@ -222,7 +222,10 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
               painter: VictoryCardPainter(),
               child: Container(
                 width: 320,
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 36),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 36,
+                ),
                 child: StatefulBuilder(
                   builder: (context, setDialogState) {
                     return Column(
@@ -236,12 +239,16 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                             color: const Color(0xFFB5701B),
                             letterSpacing: 2.0,
                             shadows: const [
-                              Shadow(color: Colors.black26, offset: Offset(0, 3), blurRadius: 2),
+                              Shadow(
+                                color: Colors.black26,
+                                offset: Offset(0, 3),
+                                blurRadius: 2,
+                              ),
                             ],
                           ),
                         ),
                         const SizedBox(height: 24),
-                        
+
                         // Sound Toggle
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -265,7 +272,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                           ],
                         ),
                         const SizedBox(height: 16),
-                        
+
                         // Sensitivity Slider
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -285,16 +292,18 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                                 thumbColor: const Color(0xFFFF8F00),
                                 overlayColor: const Color(0x33FF8F00),
                                 trackHeight: 8.0,
-                                valueIndicatorTextStyle: GoogleFonts.luckiestGuy(
-                                  color: Colors.white,
-                                ),
+                                valueIndicatorTextStyle:
+                                    GoogleFonts.luckiestGuy(
+                                      color: Colors.white,
+                                    ),
                               ),
                               child: Slider(
                                 value: AppSettings.joystickSensitivity.value,
                                 min: 0.5,
                                 max: 2.0,
                                 divisions: 15,
-                                label: AppSettings.joystickSensitivity.value.toStringAsFixed(1),
+                                label: AppSettings.joystickSensitivity.value
+                                    .toStringAsFixed(1),
                                 onChanged: (val) {
                                   setDialogState(() {
                                     AppSettings.setJoystickSensitivity(val);
@@ -305,7 +314,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                           ],
                         ),
                         const SizedBox(height: 32),
-                        
+
                         // Close Button
                         _buildRoundPauseButton(
                           icon: Icons.check_rounded,
@@ -318,7 +327,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                         ),
                       ],
                     );
-                  }
+                  },
                 ),
               ),
             ),
@@ -410,7 +419,9 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
               builder: (context, level, child) {
                 return Stack(
                   children: [
-                    Positioned.fill(child: const ParallaxBackgroundWidget()),
+                    Positioned.fill(
+                      child: ParallaxBackgroundWidget(game: widget.game),
+                    ),
                   ],
                 );
               },
@@ -467,22 +478,9 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                               ),
                             ),
 
-                            // Top Header (Hearts, Energy, Stars)
-                            Positioned(
-                              top: 0,
-                              left: 0,
-                              right: 0,
-                              height: 115,
-                              child: GameplayHeader(
-                                game: widget.game,
-                                cardBaseGradient: cardBaseGradient,
-                                cardHighlightGradient: cardHighlightGradient,
-                              ),
-                            ),
-
                             // Middle Game Area
                             Positioned(
-                              top: 109,
+                              top: 124,
                               bottom: 110,
                               left: 6,
                               right: 6,
@@ -502,6 +500,19 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                                     ),
                                   ],
                                 ),
+                              ),
+                            ),
+
+                            // Top Header (Hearts, Energy, Stars)
+                            Positioned(
+                              top: 0,
+                              left: 0,
+                              right: 0,
+                              height: 115,
+                              child: GameplayHeader(
+                                game: widget.game,
+                                cardBaseGradient: cardBaseGradient,
+                                cardHighlightGradient: cardHighlightGradient,
                               ),
                             ),
 

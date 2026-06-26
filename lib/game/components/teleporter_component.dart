@@ -18,10 +18,7 @@ class TeleporterComponent extends PositionComponent
   double _currentScale = 1.0;
 
   TeleporterComponent(this.fractionalPosition, this.radius, this.index)
-      : super(
-          size: Vector2.all(radius * 2),
-          anchor: Anchor.center,
-        );
+    : super(size: Vector2.all(radius * 2), anchor: Anchor.center);
 
   @override
   Future<void> onLoad() async {
@@ -59,10 +56,10 @@ class TeleporterComponent extends PositionComponent
     if (!game.isSpawningLevel && game.size.x > 0 && game.size.y > 0) {
       position = Vector2(
         fractionalPosition.x * game.size.x,
-        120.0 + fractionalPosition.y * (game.size.y - 320.0),
+        120.0 + fractionalPosition.y * (game.levelHeight - 320.0),
       );
     }
-    
+
     // Rotate the vortex
     _rotation -= dt * 3.0; // Spin counter-clockwise
 

@@ -50,7 +50,6 @@ class _AnimatedGameOverOverlayState extends State<AnimatedGameOverOverlay>
     _controller.reverse().then((_) {
       widget.game.showGameOverOverlay.value = false;
       widget.game.restartCurrentLevel();
-      widget.game.resumeEngine();
     });
   }
 
