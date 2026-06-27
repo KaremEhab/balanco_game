@@ -252,7 +252,7 @@ class BalancoGame extends FlameGame {
       if (leftY != 0.0 && size.y > 0 && !isSpawningLevel) {
         initialLeftY = leftY;
         initialRightY = rightY;
-        barResetTimer = respawnFromHole ? 3.0 : 0.8;
+        barResetTimer = respawnFromHole ? 1.5 : 0.8;
       } else {
         barResetTimer = 0.0;
         leftY = levelHeight - 70.0;
@@ -271,7 +271,7 @@ class BalancoGame extends FlameGame {
       } else if (respawnFromHole && prevHole != null) {
         activeHole = prevHole;
         isRespawningFromHole = true;
-        respawnTimer = 3.0;
+        respawnTimer = 1.5;
         ballPos2D = activeHole!.position.clone();
         ballScale = 0.0;
         // The ball will land on the center of the bar
@@ -578,7 +578,7 @@ class BalancoGame extends FlameGame {
         leftY = maxY;
         rightY = maxY;
       } else {
-        double duration = isRespawningFromHole ? 3.0 : 0.8;
+        double duration = isRespawningFromHole ? 1.5 : 0.8;
         double p = 1.0 - (barResetTimer / duration).clamp(0.0, 1.0);
         double curved = Curves.easeInOut.transform(p);
         leftY = initialLeftY + (maxY - initialLeftY) * curved;
@@ -733,13 +733,14 @@ class BalancoGame extends FlameGame {
         activeHole = null;
         ballScale = 1.0;
         bounceTimer = 0.4; // Trigger bouncy landing!
+        freeFallVelocity.setZero(); // Ensure it doesn't carry over!
         ballPos2D = leftPoint + direction * ballP + normal * (ballRadius + 6.0);
         HapticFeedback.heavyImpact();
         try {
           AppSettings.playSound('tick.wav');
         } catch (_) {}
       } else {
-        double progress = 1.0 - (respawnTimer / 3.0);
+        double progress = 1.0 - (respawnTimer / 1.5);
         if (progress < 0.4) {
           double p = progress / 0.4;
           ballPos2D = activeHole!.position.clone();
@@ -930,6 +931,7 @@ class BalancoGame extends FlameGame {
 
             isFallingInHole = true;
             activeHole = hole;
+            freeFallVelocity.setZero();
             HapticFeedback.heavyImpact();
             try {
               AppSettings.playSound('hole.wav');
@@ -943,6 +945,7 @@ class BalancoGame extends FlameGame {
             // Sucked by the wind radius!
             isFallingInHole = true;
             activeHole = hole;
+            freeFallVelocity.setZero();
             HapticFeedback.heavyImpact();
             try {
               AppSettings.playSound('hole.wav');

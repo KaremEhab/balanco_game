@@ -206,7 +206,7 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
     }
 
     // 7. Air/Wind Streaks (Free Fall)
-    if (game.freeFallVelocity.y > 50.0) {
+    if ((game.isFreeFalling || game.isFalling) && game.freeFallVelocity.y > 50.0) {
       double speed = game.freeFallVelocity.y;
       double intensity = ((speed - 50.0) / 800.0).clamp(0.0, 1.0);
       
