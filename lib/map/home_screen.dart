@@ -29,12 +29,15 @@ class _HomeScreenState extends State<HomeScreen> {
   final int totalLevels = 50;
   final double nodeSpacingY =
       140.0; // Ensures integer division perfectly spaces them (multiple of 20)
-  final double bottomPadding = 120.0;
+  final double bottomPadding =
+      140.0; // Match nodeSpacingY for equal spacing before level 1
   final double topPadding = 160.0;
 
-  int highestLevel = 1;
+  int highestLevel =
+      0; // Initialize to 0 so first load doesn't trigger unlock animation
   int currentLevel = 1;
   int _displayedLevel = 1;
+  int? _justUnlockedLevel;
 
   late MapTheme theme;
   final List<Offset> _nodePositions = [];
@@ -77,6 +80,19 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _loadData() async {
     final profile = await DatabaseHelper.instance.getPlayerProfile();
     if (!mounted) return;
+
+    debugPrint(
+      'HOME_SCREEN: _loadData called. Current highestLevel: $highestLevel, DB profile.highestLevel: ${profile.highestLevel}',
+    );
+
+    // Check if we just unlocked a new level (meaning we returned from gameplay having beaten a level)
+    if (highestLevel > 0 && profile.highestLevel > highestLevel) {
+      _justUnlockedLevel = profile.highestLevel;
+      debugPrint(
+        'HOME_SCREEN: Detected new level unlocked! _justUnlockedLevel set to $_justUnlockedLevel',
+      );
+    }
+
     setState(() {
       highestLevel = profile.highestLevel;
       currentLevel = profile.lastPlayedLevel;
@@ -88,21 +104,28 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void _scrollToCurrentLevel() {
+  void _scrollToCurrentLevel({bool animate = false}) {
     if (widget.scrollController.hasClients && _nodePositions.isNotEmpty) {
-      // Find the Y position of the current level
       int index = currentLevel - 1;
       if (index >= 0 && index < _nodePositions.length) {
         double yPos = _nodePositions[index].dy;
         // Scroll so the node is roughly in the middle/lower third of the screen
         double screenHeight = MediaQuery.of(context).size.height;
         double targetScroll = yPos - (screenHeight * 0.6);
-        widget.scrollController.jumpTo(
-          targetScroll.clamp(
-            0.0,
-            widget.scrollController.position.maxScrollExtent,
-          ),
+        targetScroll = targetScroll.clamp(
+          0.0,
+          widget.scrollController.position.maxScrollExtent,
         );
+
+        if (animate) {
+          widget.scrollController.animateTo(
+            targetScroll,
+            duration: const Duration(milliseconds: 1000),
+            curve: Curves.easeInOutBack,
+          );
+        } else {
+          widget.scrollController.jumpTo(targetScroll);
+        }
       }
     }
   }
@@ -206,7 +229,34 @@ class _HomeScreenState extends State<HomeScreen> {
                       top: 0,
                       bottom: 0,
                       width: 50,
-                      child: CustomPaint(painter: WoodenRoutePainter()),
+                      child: GestureDetector(
+                        onLongPress: () async {
+                          // SECRET DEBUG RESET BUTTON!
+                          // Long press the wooden bridge to reset progress to level 1 for testing.
+                          final profile = await DatabaseHelper.instance
+                              .getPlayerProfile();
+                          await DatabaseHelper.instance.updatePlayerProfile(
+                            profile.copyWith(
+                              highestLevel: 1,
+                              lastPlayedLevel: 1,
+                            ),
+                          );
+                          setState(() {
+                            highestLevel = 1;
+                            currentLevel = 1;
+                            _justUnlockedLevel = null;
+                          });
+                          HapticFeedback.heavyImpact();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'DEBUG: Progress reset to Level 1!',
+                              ),
+                            ),
+                          );
+                        },
+                        child: CustomPaint(painter: WoodenRoutePainter()),
+                      ),
                     ),
                     // Level Holes
                     ...List.generate(totalLevels, (index) {
@@ -215,34 +265,39 @@ class _HomeScreenState extends State<HomeScreen> {
                       final Offset pos = _nodePositions[index];
 
                       // Control the size of the levels here!
-                      final double unlockedHoleSize = 115.0;
+                      final double unlockedHoleSize = 100.0;
                       final double lockedHoleSize =
                           90.0; // Decrease this to make locked levels smaller
 
-                      final double currentHoleSize = isUnlocked
-                          ? unlockedHoleSize
-                          : lockedHoleSize;
-
-                      return Positioned(
-                        left: pos.dx - (currentHoleSize / 2),
-                        top: pos.dy - (currentHoleSize / 2),
-                        width: currentHoleSize,
-                        height: currentHoleSize,
-                        child: GestureDetector(
-                          onTap: () {
-                            if (isUnlocked) {
-                              HapticFeedback.lightImpact();
-                              _handleNodeTap(level);
-                            } else {
-                              HapticFeedback.vibrate();
-                            }
-                          },
-                          child: CustomPaint(
-                            painter: isUnlocked
-                                ? MapHolePainter(isUnlocked: true)
-                                : LockedLevelPainter(),
-                          ),
-                        ),
+                      return AnimatedLevelNode(
+                        level: level,
+                        isUnlocked: isUnlocked,
+                        isJustUnlocked: level == _justUnlockedLevel,
+                        lockedSize: lockedHoleSize,
+                        unlockedSize: unlockedHoleSize,
+                        pos: pos,
+                        onTap: () {
+                          if (isUnlocked) {
+                            HapticFeedback.lightImpact();
+                            _handleNodeTap(level);
+                          } else {
+                            HapticFeedback.vibrate();
+                          }
+                        },
+                        onAnimationComplete: () {
+                          debugPrint(
+                            'HOME_SCREEN: Animation complete for level $level',
+                          );
+                          if (mounted && level == _justUnlockedLevel) {
+                            setState(() {
+                              _justUnlockedLevel = null;
+                              currentLevel =
+                                  level; // Automatically update current level
+                            });
+                            // Smoothly navigate to the new unlocked level!
+                            _scrollToCurrentLevel(animate: true);
+                          }
+                        },
                       );
                     }),
                   ],
@@ -434,6 +489,194 @@ class _BouncingLevelButtonState extends State<BouncingLevelButton>
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class AnimatedLevelNode extends StatefulWidget {
+  final int level;
+  final bool isUnlocked;
+  final bool isJustUnlocked;
+  final double lockedSize;
+  final double unlockedSize;
+  final Offset pos;
+  final VoidCallback onTap;
+  final VoidCallback onAnimationComplete;
+
+  const AnimatedLevelNode({
+    super.key,
+    required this.level,
+    required this.isUnlocked,
+    required this.isJustUnlocked,
+    required this.lockedSize,
+    required this.unlockedSize,
+    required this.pos,
+    required this.onTap,
+    required this.onAnimationComplete,
+  });
+
+  @override
+  State<AnimatedLevelNode> createState() => _AnimatedLevelNodeState();
+}
+
+class _AnimatedLevelNodeState extends State<AnimatedLevelNode>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _scaleOutLocked;
+  late Animation<double> _scaleInUnlocked;
+  late Animation<double> _fadeLocked;
+  late Animation<double> _fadeUnlocked;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1800),
+    );
+
+    _scaleOutLocked = Tween<double>(begin: 1.0, end: 0.0).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.0, 0.4, curve: Curves.easeInBack),
+      ),
+    );
+    _fadeLocked = Tween<double>(begin: 1.0, end: 0.0).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.0, 0.4, curve: Curves.easeOut),
+      ),
+    );
+
+    _scaleInUnlocked = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.4, 1.0, curve: Curves.elasticOut),
+      ),
+    );
+    _fadeUnlocked = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.4, 0.8, curve: Curves.easeIn),
+      ),
+    );
+
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        HapticFeedback.heavyImpact();
+        widget.onAnimationComplete();
+      }
+    });
+
+    if (widget.isJustUnlocked) {
+      debugPrint(
+        'ANIM_NODE [Level ${widget.level}]: initState with isJustUnlocked=true! Delaying 2s...',
+      );
+      // Delay to let the camera scroll to the node so the player can watch it animate
+      Future.delayed(const Duration(seconds: 2), () {
+        debugPrint(
+          'ANIM_NODE [Level ${widget.level}]: Delay finished, calling forward()',
+        );
+        if (mounted) _controller.forward();
+      });
+    }
+  }
+
+  @override
+  void didUpdateWidget(AnimatedLevelNode oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.isJustUnlocked && !oldWidget.isJustUnlocked) {
+      debugPrint(
+        'ANIM_NODE [Level ${widget.level}]: didUpdateWidget detected UNLOCK! Setting value=0.0 and delaying 2s...',
+      );
+      _controller.value = 0.0; // Snap to Locked state immediately
+      Future.delayed(const Duration(seconds: 2), () {
+        debugPrint(
+          'ANIM_NODE [Level ${widget.level}]: didUpdateWidget delay finished, calling forward()',
+        );
+        if (mounted) _controller.forward();
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (!widget.isJustUnlocked) {
+      // Static render
+      double currentSize = widget.isUnlocked
+          ? widget.unlockedSize
+          : widget.lockedSize;
+      return Positioned(
+        left: widget.pos.dx - (currentSize / 2),
+        top: widget.pos.dy - (currentSize / 2),
+        width: currentSize,
+        height: currentSize,
+        child: GestureDetector(
+          onTap: widget.onTap,
+          child: CustomPaint(
+            painter: widget.isUnlocked
+                ? MapHolePainter(isUnlocked: true)
+                : LockedLevelPainter(),
+          ),
+        ),
+      );
+    }
+
+    // Animated render (max size needed to not clip the bouncing)
+    double maxSize = max(widget.lockedSize, widget.unlockedSize) * 1.5;
+
+    return Positioned(
+      left: widget.pos.dx - (maxSize / 2),
+      top: widget.pos.dy - (maxSize / 2),
+      width: maxSize,
+      height: maxSize,
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: AnimatedBuilder(
+          animation: _controller,
+          builder: (context, child) {
+            return Stack(
+              alignment: Alignment.center,
+              children: [
+                // Locked fades out and shrinks
+                if (_controller.value < 0.4)
+                  Opacity(
+                    opacity: _fadeLocked.value,
+                    child: Transform.scale(
+                      scale: _scaleOutLocked.value,
+                      child: SizedBox(
+                        width: widget.lockedSize,
+                        height: widget.lockedSize,
+                        child: CustomPaint(painter: LockedLevelPainter()),
+                      ),
+                    ),
+                  ),
+                // Unlocked fades in and grows (with elastic bounce!)
+                if (_controller.value >= 0.4)
+                  Opacity(
+                    opacity: _fadeUnlocked.value,
+                    child: Transform.scale(
+                      scale: _scaleInUnlocked.value,
+                      child: SizedBox(
+                        width: widget.unlockedSize,
+                        height: widget.unlockedSize,
+                        child: CustomPaint(
+                          painter: MapHolePainter(isUnlocked: true),
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            );
+          },
         ),
       ),
     );
