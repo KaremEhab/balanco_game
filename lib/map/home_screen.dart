@@ -15,6 +15,7 @@ import '../screens/home/locked_level_painter.dart';
 import '../screens/home/map_hole_painter.dart';
 import 'theme/map_theme.dart';
 import 'theme/themes/beach_map_theme.dart';
+import '../data/app_settings.dart';
 
 class HomeScreen extends StatefulWidget {
   final ScrollController scrollController;
@@ -273,6 +274,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         level: level,
                         isUnlocked: isUnlocked,
                         isJustUnlocked: level == _justUnlockedLevel,
+                        isCurrent: level == _displayedLevel,
                         lockedSize: lockedHoleSize,
                         unlockedSize: unlockedHoleSize,
                         pos: pos,
@@ -499,6 +501,7 @@ class AnimatedLevelNode extends StatefulWidget {
   final int level;
   final bool isUnlocked;
   final bool isJustUnlocked;
+  final bool isCurrent;
   final double lockedSize;
   final double unlockedSize;
   final Offset pos;
@@ -510,6 +513,7 @@ class AnimatedLevelNode extends StatefulWidget {
     required this.level,
     required this.isUnlocked,
     required this.isJustUnlocked,
+    this.isCurrent = false,
     required this.lockedSize,
     required this.unlockedSize,
     required this.pos,
@@ -522,51 +526,111 @@ class AnimatedLevelNode extends StatefulWidget {
 }
 
 class _AnimatedLevelNodeState extends State<AnimatedLevelNode>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late AnimationController _controller;
-  late Animation<double> _scaleOutLocked;
+  late Animation<double> _shakeAnimation;
+  late Animation<double> _splitTranslate;
+  late Animation<double> _splitRotate;
+  late Animation<double> _glowOpacity;
   late Animation<double> _scaleInUnlocked;
-  late Animation<double> _fadeLocked;
-  late Animation<double> _fadeUnlocked;
+  late Animation<double> _spinUnlocked;
+
+  late AnimationController _idleRotateController;
+
+  bool _hasPlayedCrackSound = false;
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1800),
+      duration: const Duration(milliseconds: 2500),
     );
 
-    _scaleOutLocked = Tween<double>(begin: 1.0, end: 0.0).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.0, 0.4, curve: Curves.easeInBack),
-      ),
+    _idleRotateController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 4), // Slow spin
     );
-    _fadeLocked = Tween<double>(begin: 1.0, end: 0.0).animate(
+    if (widget.isCurrent && widget.isUnlocked && !widget.isJustUnlocked) {
+      _idleRotateController.repeat();
+    }
+
+    // 0.0 - 0.32: Shake build up
+    _shakeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _controller,
-        curve: const Interval(0.0, 0.4, curve: Curves.easeOut),
+        curve: const Interval(0.0, 0.32, curve: Curves.easeIn),
       ),
     );
 
+    // 0.32 - 0.6: Pieces fly apart
+    _splitTranslate = Tween<double>(begin: 0.0, end: 60.0).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.32, 0.6, curve: Curves.easeOutQuad),
+      ),
+    );
+
+    _splitRotate = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.32, 0.6, curve: Curves.easeOut),
+      ),
+    );
+
+    // 0.3 - 1.0: Glow flashes in then fades out
+    _glowOpacity = TweenSequence<double>([
+      TweenSequenceItem(
+        tween: Tween(begin: 0.0, end: 1.0)
+            .chain(CurveTween(curve: Curves.easeIn)),
+        weight: 15,
+      ),
+      TweenSequenceItem(
+        tween: Tween(begin: 1.0, end: 1.0),
+        weight: 15,
+      ),
+      TweenSequenceItem(
+        tween: Tween(begin: 1.0, end: 0.0)
+            .chain(CurveTween(curve: Curves.easeOut)),
+        weight: 70,
+      ),
+    ]).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.3, 1.0),
+      ),
+    );
+
+    // 0.45 - 1.0: New hole scales in and spins
     _scaleInUnlocked = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _controller,
-        curve: const Interval(0.4, 1.0, curve: Curves.elasticOut),
+        curve: const Interval(0.45, 1.0, curve: Curves.elasticOut),
       ),
     );
-    _fadeUnlocked = Tween<double>(begin: 0.0, end: 1.0).animate(
+
+    _spinUnlocked = Tween<double>(begin: -pi, end: 0.0).animate(
       CurvedAnimation(
         parent: _controller,
-        curve: const Interval(0.4, 0.8, curve: Curves.easeIn),
+        curve: const Interval(0.45, 0.8, curve: Curves.easeOutBack),
       ),
     );
+
+    _controller.addListener(() {
+      if (_controller.value >= 0.32 && !_hasPlayedCrackSound) {
+        _hasPlayedCrackSound = true;
+        AppSettings.playSound('metal_crack.wav');
+        HapticFeedback.heavyImpact(); // Add a nice physical crack feel
+      }
+    });
 
     _controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         HapticFeedback.heavyImpact();
         widget.onAnimationComplete();
+      } else if (status == AnimationStatus.forward ||
+          status == AnimationStatus.reverse) {
+        _hasPlayedCrackSound = false;
       }
     });
 
@@ -599,11 +663,21 @@ class _AnimatedLevelNodeState extends State<AnimatedLevelNode>
         if (mounted) _controller.forward();
       });
     }
+
+    if (widget.isCurrent != oldWidget.isCurrent) {
+      if (widget.isCurrent && widget.isUnlocked && !widget.isJustUnlocked) {
+        _idleRotateController.repeat();
+      } else {
+        _idleRotateController.stop();
+        // Option: _idleRotateController.animateTo(0.0) if you want it to reset, but leaving it where it stopped is fine.
+      }
+    }
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _idleRotateController.dispose();
     super.dispose();
   }
 
@@ -614,6 +688,27 @@ class _AnimatedLevelNodeState extends State<AnimatedLevelNode>
       double currentSize = widget.isUnlocked
           ? widget.unlockedSize
           : widget.lockedSize;
+      
+      Widget childPainter = CustomPaint(
+        painter: widget.isUnlocked
+            ? MapHolePainter(isUnlocked: true)
+            : LockedLevelPainter(),
+      );
+
+      // If unlocked and current, apply idle rotation
+      if (widget.isUnlocked && widget.isCurrent) {
+        childPainter = AnimatedBuilder(
+          animation: _idleRotateController,
+          child: childPainter,
+          builder: (context, child) {
+            return Transform.rotate(
+              angle: _idleRotateController.value * 2 * pi,
+              child: child,
+            );
+          },
+        );
+      }
+
       return Positioned(
         left: widget.pos.dx - (currentSize / 2),
         top: widget.pos.dy - (currentSize / 2),
@@ -621,17 +716,13 @@ class _AnimatedLevelNodeState extends State<AnimatedLevelNode>
         height: currentSize,
         child: GestureDetector(
           onTap: widget.onTap,
-          child: CustomPaint(
-            painter: widget.isUnlocked
-                ? MapHolePainter(isUnlocked: true)
-                : LockedLevelPainter(),
-          ),
+          child: childPainter,
         ),
       );
     }
 
-    // Animated render (max size needed to not clip the bouncing)
-    double maxSize = max(widget.lockedSize, widget.unlockedSize) * 1.5;
+    // Animated render (max size needed to not clip the flying pieces and glow)
+    double maxSize = max(widget.lockedSize, widget.unlockedSize) * 3.0;
 
     return Positioned(
       left: widget.pos.dx - (maxSize / 2),
@@ -643,28 +734,72 @@ class _AnimatedLevelNodeState extends State<AnimatedLevelNode>
         child: AnimatedBuilder(
           animation: _controller,
           builder: (context, child) {
+            double shakeOffset = _shakeAnimation.value > 0
+                ? sin(_shakeAnimation.value * pi * 8) *
+                    4.0 *
+                    _shakeAnimation.value
+                : 0.0;
+
             return Stack(
               alignment: Alignment.center,
               children: [
-                // Locked fades out and shrinks
-                if (_controller.value < 0.4)
-                  Opacity(
-                    opacity: _fadeLocked.value,
-                    child: Transform.scale(
-                      scale: _scaleOutLocked.value,
-                      child: SizedBox(
-                        width: widget.lockedSize,
-                        height: widget.lockedSize,
-                        child: CustomPaint(painter: LockedLevelPainter()),
-                      ),
+                // 1. Shattering Lock (visible until 0.6)
+                if (_controller.value < 0.6)
+                  Transform.translate(
+                    offset: Offset(shakeOffset, 0),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        // Left Half
+                        Transform.translate(
+                          offset: Offset(
+                            -_splitTranslate.value,
+                            _splitTranslate.value * 0.5,
+                          ),
+                          child: Transform.rotate(
+                            angle: -_splitRotate.value * (pi / 4),
+                            child: ClipRect(
+                              clipper: _HalfClipper(left: true),
+                              child: SizedBox(
+                                width: widget.lockedSize,
+                                height: widget.lockedSize,
+                                child: CustomPaint(
+                                  painter: LockedLevelPainter(),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        // Right Half
+                        Transform.translate(
+                          offset: Offset(
+                            _splitTranslate.value,
+                            _splitTranslate.value * 0.5,
+                          ),
+                          child: Transform.rotate(
+                            angle: _splitRotate.value * (pi / 4),
+                            child: ClipRect(
+                              clipper: _HalfClipper(left: false),
+                              child: SizedBox(
+                                width: widget.lockedSize,
+                                height: widget.lockedSize,
+                                child: CustomPaint(
+                                  painter: LockedLevelPainter(),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                // Unlocked fades in and grows (with elastic bounce!)
-                if (_controller.value >= 0.4)
-                  Opacity(
-                    opacity: _fadeUnlocked.value,
-                    child: Transform.scale(
-                      scale: _scaleInUnlocked.value,
+
+                // 2. The Unlocked Node spinning in
+                if (_controller.value >= 0.45)
+                  Transform.scale(
+                    scale: _scaleInUnlocked.value,
+                    child: Transform.rotate(
+                      angle: _spinUnlocked.value,
                       child: SizedBox(
                         width: widget.unlockedSize,
                         height: widget.unlockedSize,
@@ -674,11 +809,56 @@ class _AnimatedLevelNodeState extends State<AnimatedLevelNode>
                       ),
                     ),
                   ),
+
+                // 3. The Glow Flash
+                if (_glowOpacity.value > 0)
+                  Opacity(
+                    opacity: _glowOpacity.value,
+                    child: Container(
+                      width: widget.unlockedSize * 1.5,
+                      height: widget.unlockedSize * 1.5,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white.withOpacity(0.5),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.white.withOpacity(0.8),
+                            blurRadius: 40.0,
+                            spreadRadius: 20.0,
+                          ),
+                          BoxShadow(
+                            color: const Color(0xFFFFD54F).withOpacity(0.5),
+                            blurRadius: 60.0,
+                            spreadRadius: 40.0,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
               ],
             );
           },
         ),
       ),
     );
+  }
+}
+
+class _HalfClipper extends CustomClipper<Rect> {
+  final bool left;
+  _HalfClipper({required this.left});
+
+  @override
+  Rect getClip(Size size) {
+    if (left) {
+      return Rect.fromLTRB(0, 0, size.width / 2, size.height);
+    } else {
+      return Rect.fromLTRB(size.width / 2, 0, size.width, size.height);
+    }
+  }
+
+  @override
+  bool shouldReclip(covariant _HalfClipper oldClipper) {
+    return oldClipper.left != left;
   }
 }
