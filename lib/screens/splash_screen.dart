@@ -110,7 +110,7 @@ class _SplashScreenState extends State<SplashScreen>
               animation: _controller,
               builder: (context, child) {
                 double scale = 1.0;
-                
+
                 // The dramatic "ding" beat happens exactly at 1.8s (progress 0.72 of 2.5s)
                 if (_controller.value >= 0.72) {
                   double p = (_controller.value - 0.72) / 0.28;

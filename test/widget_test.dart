@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   testWidgets('shows the Balanco splash screen', (tester) async {
-    await tester.pumpWidget(const BalancoApp(isFirstOpen: true));
+    await tester.pumpWidget(const BalancoApp());
 
     expect(find.text('Balanco'), findsOneWidget);
     expect(find.text('QUIET LUXURY ARCADE'), findsOneWidget);

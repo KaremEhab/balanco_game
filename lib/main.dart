@@ -15,27 +15,17 @@ void main() async {
   // Ensure the database is initialized
   await DatabaseHelper.instance.database;
   await AppSettings.init();
-  
-  final profile = await DatabaseHelper.instance.getPlayerProfile();
-  final bool isFirstOpen = profile.isFirstOpen;
-  
-  if (isFirstOpen) {
-    final updatedProfile = profile.copyWith(isFirstOpen: false);
-    await DatabaseHelper.instance.updatePlayerProfile(updatedProfile);
-  }
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]).then((_) {
-    runApp(BalancoApp(isFirstOpen: isFirstOpen));
+    runApp(const BalancoApp());
   });
 }
 
 class BalancoApp extends StatelessWidget {
-  final bool isFirstOpen;
-  
-  const BalancoApp({super.key, required this.isFirstOpen});
+  const BalancoApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +35,7 @@ class BalancoApp extends StatelessWidget {
         title: 'Balanco',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme,
-        home: isFirstOpen ? const SplashScreen() : const MainScreen(),
+        home: const SplashScreen(),
       ),
     );
   }
