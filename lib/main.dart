@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'screens/splash_screen.dart';
-import 'theme/app_theme.dart';
-import 'bloc/app_bloc.dart';
+import 'package:balanco_game/features/home/screens/splash_screen.dart';
+import 'package:balanco_game/core/theme/app_theme.dart';
+import 'package:balanco_game/core/bloc/app_bloc.dart';
 
-import 'data/database_helper.dart';
-import 'data/app_settings.dart';
+import 'package:balanco_game/core/data/database_helper.dart';
+import 'package:balanco_game/core/data/app_settings.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
