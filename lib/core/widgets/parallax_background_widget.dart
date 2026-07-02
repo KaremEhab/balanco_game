@@ -205,8 +205,6 @@ class _ParallaxBackgroundWidgetState extends State<ParallaxBackgroundWidget> {
                   dy: 9.6,
                   scale: 0.27,
                 ),
-                // _buildLayer(LeftTreePainter(), 1.0),
-                // _buildLayer(RightTreePainter(), 1.0),
               ],
             ),
           ),

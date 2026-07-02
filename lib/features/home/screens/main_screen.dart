@@ -52,7 +52,6 @@ class _MainScreenState extends State<MainScreen> {
           });
         },
       ),
-      // const MapEditorScreen(),
     ];
 
     _mapScrollController.addListener(_scrollListener);
@@ -305,8 +304,6 @@ class _MainScreenState extends State<MainScreen> {
                   depthMultiplier: 0.45,
                 ),
                 // Trees are commented out in gameplay, but if we want them:
-                // _buildLayer(LeftTreePainter(), depthMultiplier: 1.0),
-                // _buildLayer(RightTreePainter(), depthMultiplier: 1.0),
               ],
             ),
           ),

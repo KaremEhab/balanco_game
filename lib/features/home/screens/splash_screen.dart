@@ -80,15 +80,12 @@ class _SplashScreenState extends State<SplashScreen>
                 clipBehavior: Clip.none,
                 children: [
                   _buildLayer(SkyPainter(), dx: 0.0, dy: 0.0, scale: 1.00),
-                  // _buildLayer(FirstCloudPainter(), dx: 193.1, dy: 46.5, scale: 0.39),
                   _buildLayer(
                     SecondCloudPainter(),
                     dx: -6.1,
                     dy: 7.1,
                     scale: 0.26,
                   ),
-                  // _buildLayer(ThirdCloudPainter(), dx: 59.7, dy: 15.7, scale: 0.46),
-                  // _buildLayer(ForthCloudPainter(), dx: 305.0, dy: 27.0, scale: 0.63),
                   _buildLayer(
                     FifthCloudPainter(),
                     dx: 127.3,
