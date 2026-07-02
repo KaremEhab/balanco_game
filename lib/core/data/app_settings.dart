@@ -4,6 +4,8 @@ import 'package:balanco_game/core/data/database_helper.dart';
 
 class AppSettings {
   static final ValueNotifier<bool> soundEnabled = ValueNotifier(true);
+  static final ValueNotifier<bool> hapticsEnabled = ValueNotifier(true);
+  static final ValueNotifier<bool> highGraphicsEnabled = ValueNotifier(true);
   static final ValueNotifier<double> joystickSensitivity = ValueNotifier(1.0);
 
   static Future<void> init() async {
@@ -17,6 +19,16 @@ class AppSettings {
     if (sensitivityConfig != null) {
       joystickSensitivity.value = double.tryParse(sensitivityConfig) ?? 1.0;
     }
+
+    final hapticsConfig = await db.getConfig('haptics_enabled');
+    if (hapticsConfig != null) {
+      hapticsEnabled.value = hapticsConfig == 'true';
+    }
+
+    final graphicsConfig = await db.getConfig('high_graphics_enabled');
+    if (graphicsConfig != null) {
+      highGraphicsEnabled.value = graphicsConfig == 'true';
+    }
   }
 
   static void setSoundEnabled(bool value) {
@@ -27,6 +39,16 @@ class AppSettings {
   static void setJoystickSensitivity(double value) {
     joystickSensitivity.value = value;
     DatabaseHelper.instance.saveConfig('joystick_sensitivity', value.toString());
+  }
+
+  static void setHapticsEnabled(bool value) {
+    hapticsEnabled.value = value;
+    DatabaseHelper.instance.saveConfig('haptics_enabled', value.toString());
+  }
+
+  static void setHighGraphicsEnabled(bool value) {
+    highGraphicsEnabled.value = value;
+    DatabaseHelper.instance.saveConfig('high_graphics_enabled', value.toString());
   }
 
   static Future<AudioPlayer?> playSound(String file, {double volume = 1.0}) async {

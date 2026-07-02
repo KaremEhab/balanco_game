@@ -9,7 +9,8 @@ import 'package:balanco_game/features/home/widgets/icons/home_icon_painter.dart'
 import 'package:balanco_game/features/home/widgets/icons/modes_icon_painter.dart';
 import 'package:balanco_game/features/home/widgets/icons/settings_icon_painter.dart';
 import 'package:balanco_game/features/settings/screens/modes_screen.dart';
-import 'package:balanco_game/features/map/screens/bg_editor_screen.dart';
+import 'package:balanco_game/features/settings/screens/settings_screen.dart';
+import 'package:balanco_game/core/data/app_settings.dart';
 import 'package:balanco_game/features/game/components/game_background/sky_painter.dart';
 import 'package:balanco_game/features/game/components/game_background/mountains_painter.dart';
 import 'package:balanco_game/features/game/components/game_background/sea_painter.dart';
@@ -24,7 +25,9 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
   final ScrollController _mapScrollController = ScrollController();
+  late PageController _pageController;
   double _lastOffset = 0;
+  double _lastScrollProgress = 1.0; // Default to bottom (Level 1)
 
   late List<Widget> _screens;
 
@@ -41,17 +44,11 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     _loadData();
+    _pageController = PageController(initialPage: _currentIndex);
     _screens = [
       HomeScreen(scrollController: _mapScrollController),
       const ModesScreen(),
-      BgEditorScreen(
-        onExit: () {
-          setState(() {
-            _currentIndex = 0;
-            _isNavbarVisible = true;
-          });
-        },
-      ),
+      const SettingsScreen(),
     ];
 
     _mapScrollController.addListener(_scrollListener);
@@ -100,6 +97,7 @@ class _MainScreenState extends State<MainScreen> {
   void dispose() {
     _mapScrollController.removeListener(_scrollListener);
     _mapScrollController.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -114,23 +112,32 @@ class _MainScreenState extends State<MainScreen> {
           Positioned.fill(child: _buildParallaxBackground()),
 
           // Main Content
-          IndexedStack(index: _currentIndex, children: _screens),
+          PageView(
+            controller: _pageController,
+            physics: const BouncingScrollPhysics(),
+            onPageChanged: (index) {
+              setState(() {
+                _currentIndex = index;
+                _isNavbarVisible = true;
+              });
+              WidgetsBinding.instance.addPostFrameCallback((_) => _updateIndicator());
+            },
+            children: _screens,
+          ),
 
           // Floating Top App Bar (Profile, Stats) - Always Fixed
-          if (_currentIndex != 2)
-            Positioned(
-              top: MediaQuery.of(context).padding.top + 10,
-              left: 15,
-              right: 15,
-              child: RepaintBoundary(child: _buildTopAppBar()),
-            ),
+          Positioned(
+            top: MediaQuery.of(context).padding.top + 10,
+            left: 15,
+            right: 15,
+            child: RepaintBoundary(child: _buildTopAppBar()),
+          ),
 
           // Collapsible Center Navbar
-          if (_currentIndex != 2)
-            Positioned(
-              bottom: 20,
-              left: 0,
-              right: 0,
+          Positioned(
+            bottom: 20,
+            left: 0,
+            right: 0,
               child: GestureDetector(
                 onTap: () {
                   if (!_isNavbarVisible) {
@@ -170,20 +177,18 @@ class _MainScreenState extends State<MainScreen> {
     double scale = 1.0,
     double depthMultiplier = 0.0,
   }) {
-    double scrollOffset = 0;
-    double maxScroll = 1.0;
+    double scrollProgress = 1.0;
 
     if (_mapScrollController.hasClients &&
         _mapScrollController.position.hasContentDimensions) {
-      scrollOffset = _mapScrollController.offset;
-      maxScroll = _mapScrollController.position.maxScrollExtent;
+      double scrollOffset = _mapScrollController.offset;
+      double maxScroll = _mapScrollController.position.maxScrollExtent;
       if (maxScroll <= 0) maxScroll = 1.0;
+      scrollProgress = (scrollOffset / maxScroll).clamp(0.0, 1.0);
+      _lastScrollProgress = scrollProgress;
+    } else {
+      scrollProgress = _lastScrollProgress;
     }
-
-    // Normalize scroll to prevent background flying off screen
-    // The map is very tall (thousands of pixels), so we map the full scroll
-    // to a maximum of 250 pixels of parallax movement.
-    double scrollProgress = (scrollOffset / maxScroll).clamp(0.0, 1.0);
 
     // When scrollProgress is 1.0 (bottom, Level 1), the camera is at the bottom.
     // When scrollProgress is 0.0 (top, max Level), the camera is at the top.
@@ -203,110 +208,120 @@ class _MainScreenState extends State<MainScreen> {
     return AnimatedBuilder(
       animation: _mapScrollController,
       builder: (context, child) {
-        return FittedBox(
-          fit: BoxFit.cover,
-          child: SizedBox(
-            width: 1000,
-            height: 475,
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                _buildLayer(SkyPainter(), depthMultiplier: 0.05),
-                _buildLayer(
-                  FirstCloudPainter(),
-                  dx: 193.1,
-                  dy: 46.5,
-                  scale: 0.39,
-                  depthMultiplier: 0.1,
+        return ValueListenableBuilder<bool>(
+          valueListenable: AppSettings.highGraphicsEnabled,
+          builder: (context, highGraphics, child) {
+            return FittedBox(
+              fit: BoxFit.cover,
+              child: SizedBox(
+                width: 1000,
+                height: 475,
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    _buildLayer(SkyPainter(), depthMultiplier: 0.05),
+                    _buildLayer(
+                      FirstCloudPainter(),
+                      dx: 193.1,
+                      dy: 46.5,
+                      scale: 0.39,
+                      depthMultiplier: 0.1,
+                    ),
+                    _buildLayer(
+                      SecondCloudPainter(),
+                      dx: -6.1,
+                      dy: 7.1,
+                      scale: 0.26,
+                      depthMultiplier: 0.12,
+                    ),
+                    if (highGraphics) ...[
+                      _buildLayer(
+                        ThirdCloudPainter(),
+                        dx: 59.7,
+                        dy: 15.7,
+                        scale: 0.46,
+                        depthMultiplier: 0.14,
+                      ),
+                      _buildLayer(
+                        ForthCloudPainter(),
+                        dx: 305.0,
+                        dy: 27.0,
+                        scale: 0.63,
+                        depthMultiplier: 0.16,
+                      ),
+                      _buildLayer(
+                        FifthCloudPainter(),
+                        dx: 127.3,
+                        dy: -85.9,
+                        scale: 0.48,
+                        depthMultiplier: 0.18,
+                      ),
+                      _buildLayer(
+                        BirdsPainter(),
+                        dx: 230.1,
+                        dy: -11.4,
+                        scale: 0.57,
+                        depthMultiplier: 0.2,
+                      ),
+                    ],
+                    _buildLayer(
+                      FurtherSeaPainter(),
+                      dx: 0.0,
+                      dy: 214.0,
+                      scale: 1.05,
+                      depthMultiplier: 0.4,
+                    ),
+                    if (highGraphics)
+                      _buildLayer(
+                        MountainSeaShadowsPainter(),
+                        dx: 52.8,
+                        dy: 166.4,
+                        scale: 0.47,
+                        depthMultiplier: 0.5,
+                      ),
+                    _buildLayer(
+                      BackMountainPainter(),
+                      dx: 122.0,
+                      dy: 42.6,
+                      scale: 0.50,
+                      depthMultiplier: 0.3,
+                    ),
+                    _buildLayer(
+                      CloserSeaPainter(),
+                      dx: 166.9,
+                      dy: 401.3,
+                      scale: 1.42,
+                      depthMultiplier: 0.6,
+                    ),
+                    if (highGraphics)
+                      _buildLayer(
+                        SeaWaterDropsPainter(),
+                        dx: 112.6,
+                        dy: 246.1,
+                        scale: 0.51,
+                        depthMultiplier: 0.7,
+                      ),
+                    _buildLayer(
+                      FrontMountainPainter(),
+                      dx: 73.2,
+                      dy: 35.3,
+                      scale: 0.32,
+                      depthMultiplier: 0.8,
+                    ),
+                    if (highGraphics)
+                      _buildLayer(
+                        SeaMountainWaves(),
+                        dx: 7.1,
+                        dy: 9.6,
+                        scale: 0.27,
+                        depthMultiplier: 0.45,
+                      ),
+                    // Trees are commented out in gameplay, but if we want them:
+                  ],
                 ),
-                _buildLayer(
-                  SecondCloudPainter(),
-                  dx: -6.1,
-                  dy: 7.1,
-                  scale: 0.26,
-                  depthMultiplier: 0.12,
-                ),
-                _buildLayer(
-                  ThirdCloudPainter(),
-                  dx: 59.7,
-                  dy: 15.7,
-                  scale: 0.46,
-                  depthMultiplier: 0.14,
-                ),
-                _buildLayer(
-                  ForthCloudPainter(),
-                  dx: 305.0,
-                  dy: 27.0,
-                  scale: 0.63,
-                  depthMultiplier: 0.16,
-                ),
-                _buildLayer(
-                  FifthCloudPainter(),
-                  dx: 127.3,
-                  dy: -85.9,
-                  scale: 0.48,
-                  depthMultiplier: 0.18,
-                ),
-                _buildLayer(
-                  BirdsPainter(),
-                  dx: 230.1,
-                  dy: -11.4,
-                  scale: 0.57,
-                  depthMultiplier: 0.2,
-                ),
-                _buildLayer(
-                  FurtherSeaPainter(),
-                  dx: 0.0,
-                  dy: 214.0,
-                  scale: 1.05,
-                  depthMultiplier: 0.4,
-                ),
-                _buildLayer(
-                  MountainSeaShadowsPainter(),
-                  dx: 52.8,
-                  dy: 166.4,
-                  scale: 0.47,
-                  depthMultiplier: 0.5,
-                ),
-                _buildLayer(
-                  BackMountainPainter(),
-                  dx: 122.0,
-                  dy: 42.6,
-                  scale: 0.50,
-                  depthMultiplier: 0.3,
-                ),
-                _buildLayer(
-                  CloserSeaPainter(),
-                  dx: 166.9,
-                  dy: 401.3,
-                  scale: 1.42,
-                  depthMultiplier: 0.6,
-                ),
-                _buildLayer(
-                  SeaWaterDropsPainter(),
-                  dx: 112.6,
-                  dy: 246.1,
-                  scale: 0.51,
-                  depthMultiplier: 0.7,
-                ),
-                _buildLayer(
-                  FrontMountainPainter(),
-                  dx: 73.2,
-                  dy: 35.3,
-                  scale: 0.32,
-                  depthMultiplier: 0.8,
-                ),
-                _buildLayer(
-                  SeaMountainWaves(),
-                  dx: 7.1,
-                  dy: 9.6,
-                  scale: 0.27,
-                  depthMultiplier: 0.45,
-                ),
-                // Trees are commented out in gameplay, but if we want them:
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         );
       },
     );
@@ -408,11 +423,11 @@ class _MainScreenState extends State<MainScreen> {
     return GestureDetector(
       key: _navKeys[index],
       onTap: () {
-        setState(() {
-          _currentIndex = index;
-          _isNavbarVisible = true;
-        });
-        WidgetsBinding.instance.addPostFrameCallback((_) => _updateIndicator());
+        _pageController.animateToPage(
+          index,
+          duration: const Duration(milliseconds: 400),
+          curve: Curves.easeOutCubic,
+        );
       },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 250),
