@@ -5,729 +5,253 @@ import 'package:flutter/material.dart';
 class SettingsIconPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
+    canvas.save();
+    // Native path is approx 30x30. Scale it to fit the requested size.
+    canvas.scale(size.width / 30.0, size.height / 30.0);
+
     Path path_0 = Path();
-    path_0.moveTo(-0.149, -0.148);
-    path_0.lineTo(34.851, -0.148);
-    path_0.lineTo(34.851, 34.852);
-    path_0.lineTo(-0.1490000000000009, 34.852);
-    path_0.close();
-
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = Color(0xffffffff).withOpacity(1.0);
-    canvas.drawPath(path_0, paint_0_fill);
-
-    Path path_1 = Path();
-    path_1.moveTo(17.049, 19.424);
-    path_1.arcToPoint(
-      Offset(17.049, 14.674),
-      radius: Radius.elliptical(2.375, 2.375),
+    path_0.moveTo(15, 17.344);
+    path_0.arcToPoint(
+      Offset(15, 12.656000000000002),
+      radius: Radius.elliptical(2.344, 2.344),
       rotation: 0,
       largeArc: true,
       clockwise: false,
     );
+    path_0.arcToPoint(
+      Offset(15, 17.344),
+      radius: Radius.elliptical(2.344, 2.344),
+      rotation: 0,
+      largeArc: false,
+      clockwise: false,
+    );
+    path_0.close();
+
+    // Replaced by combined fill logic below
+
+    Path path_1 = Path();
+    path_1.moveTo(28.125, 11.719);
+    path_1.lineTo(26.719, 11.719);
     path_1.arcToPoint(
-      Offset(17.049, 19.424),
-      radius: Radius.elliptical(2.375, 2.375),
+      Offset(25.612000000000002, 9.038),
+      radius: Radius.elliptical(1.575, 1.575),
+      rotation: 0,
+      largeArc: false,
+      clockwise: true,
+    );
+    path_1.lineTo(26.606, 8.044);
+    path_1.arcToPoint(
+      Offset(26.606, 5.381),
+      radius: Radius.elliptical(1.876, 1.876),
+      rotation: 0,
+      largeArc: false,
+      clockwise: false,
+    );
+    path_1.lineTo(24.62, 3.394);
+    path_1.arcToPoint(
+      Offset(21.957, 3.394),
+      radius: Radius.elliptical(1.874, 1.874),
+      rotation: 0,
+      largeArc: false,
+      clockwise: false,
+    );
+    path_1.lineTo(20.963, 4.388);
+    path_1.arcToPoint(
+      Offset(18.283, 3.2809999999999997),
+      radius: Radius.elliptical(1.575, 1.575),
+      rotation: 0,
+      largeArc: false,
+      clockwise: true,
+    );
+    path_1.lineTo(18.283, 1.875);
+    path_1.arcToPoint(
+      Offset(16.405, 0),
+      radius: Radius.elliptical(1.875, 1.875),
+      rotation: 0,
+      largeArc: false,
+      clockwise: false,
+    );
+    path_1.lineTo(13.593000000000002, 0);
+    path_1.arcToPoint(
+      Offset(11.718000000000002, 1.875),
+      radius: Radius.elliptical(1.875, 1.875),
+      rotation: 0,
+      largeArc: false,
+      clockwise: false,
+    );
+    path_1.lineTo(11.718000000000002, 3.2809999999999997);
+    path_1.arcToPoint(
+      Offset(9.037000000000003, 4.388),
+      radius: Radius.elliptical(1.575, 1.575),
+      rotation: 0,
+      largeArc: false,
+      clockwise: true,
+    );
+    path_1.lineTo(8.043000000000003, 3.394);
+    path_1.arcToPoint(
+      Offset(5.380000000000003, 3.394),
+      radius: Radius.elliptical(1.875, 1.875),
+      rotation: 0,
+      largeArc: false,
+      clockwise: false,
+    );
+    path_1.lineTo(3.394, 5.38);
+    path_1.arcToPoint(
+      Offset(3.394, 8.043),
+      radius: Radius.elliptical(1.875, 1.875),
+      rotation: 0,
+      largeArc: false,
+      clockwise: false,
+    );
+    path_1.lineTo(4.388, 9.036);
+    path_1.arcToPoint(
+      Offset(3.28, 11.72),
+      radius: Radius.elliptical(1.575, 1.575),
+      rotation: 0,
+      largeArc: false,
+      clockwise: true,
+    );
+    path_1.lineTo(1.875, 11.72);
+    path_1.arcToPoint(
+      Offset(0, 13.594),
+      radius: Radius.elliptical(1.875, 1.875),
+      rotation: 0,
+      largeArc: false,
+      clockwise: false,
+    );
+    path_1.lineTo(0, 16.406);
+    path_1.arcToPoint(
+      Offset(1.875, 18.281),
+      radius: Radius.elliptical(1.875, 1.875),
+      rotation: 0,
+      largeArc: false,
+      clockwise: false,
+    );
+    path_1.lineTo(3.2809999999999997, 18.281);
+    path_1.arcToPoint(
+      Offset(4.388, 20.962),
+      radius: Radius.elliptical(1.576, 1.576),
+      rotation: 0,
+      largeArc: false,
+      clockwise: true,
+    );
+    path_1.lineTo(3.394, 21.956);
+    path_1.arcToPoint(
+      Offset(3.394, 24.6),
+      radius: Radius.elliptical(1.875, 1.875),
+      rotation: 0,
+      largeArc: false,
+      clockwise: false,
+    );
+    path_1.lineTo(5.381, 26.587000000000003);
+    path_1.arcToPoint(
+      Offset(8.044, 26.587000000000003),
+      radius: Radius.elliptical(1.876, 1.876),
+      rotation: 0,
+      largeArc: false,
+      clockwise: false,
+    );
+    path_1.lineTo(9.037, 25.594000000000005);
+    path_1.arcToPoint(
+      Offset(11.719000000000001, 26.719000000000005),
+      radius: Radius.elliptical(1.575, 1.575),
+      rotation: 0,
+      largeArc: false,
+      clockwise: true,
+    );
+    path_1.lineTo(11.719000000000001, 28.125000000000004);
+    path_1.arcToPoint(
+      Offset(13.594, 30),
+      radius: Radius.elliptical(1.875, 1.875),
+      rotation: 0,
+      largeArc: false,
+      clockwise: false,
+    );
+    path_1.lineTo(16.406, 30);
+    path_1.arcToPoint(
+      Offset(18.281, 28.125),
+      radius: Radius.elliptical(1.875, 1.875),
+      rotation: 0,
+      largeArc: false,
+      clockwise: false,
+    );
+    path_1.lineTo(18.281, 26.719);
+    path_1.arcToPoint(
+      Offset(20.962, 25.594),
+      radius: Radius.elliptical(1.576, 1.576),
+      rotation: 0,
+      largeArc: false,
+      clockwise: true,
+    );
+    path_1.lineTo(21.956, 26.587);
+    path_1.arcToPoint(
+      Offset(24.619, 26.587),
+      radius: Radius.elliptical(1.877, 1.877),
+      rotation: 0,
+      largeArc: false,
+      clockwise: false,
+    );
+    path_1.lineTo(26.606, 24.6);
+    path_1.arcToPoint(
+      Offset(26.606, 21.956000000000003),
+      radius: Radius.elliptical(1.875, 1.875),
+      rotation: 0,
+      largeArc: false,
+      clockwise: false,
+    );
+    path_1.lineTo(25.612000000000002, 20.962000000000003);
+    path_1.arcToPoint(
+      Offset(26.719, 18.282000000000004),
+      radius: Radius.elliptical(1.575, 1.575),
+      rotation: 0,
+      largeArc: false,
+      clockwise: true,
+    );
+    path_1.lineTo(28.125, 18.282000000000004);
+    path_1.arcToPoint(
+      Offset(30, 16.405),
+      radius: Radius.elliptical(1.875, 1.875),
+      rotation: 0,
+      largeArc: false,
+      clockwise: false,
+    );
+    path_1.lineTo(30, 13.593000000000002);
+    path_1.arcToPoint(
+      Offset(28.125, 11.718000000000002),
+      radius: Radius.elliptical(1.875, 1.875),
       rotation: 0,
       largeArc: false,
       clockwise: false,
     );
     path_1.close();
-
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.color = Color(0xff000000).withOpacity(1.0);
-    canvas.drawPath(path_1, paint_1_fill);
-
-    Path path_2 = Path();
-    path_2.moveTo(30.347, 13.725);
-    path_2.lineTo(28.922, 13.725);
-    path_2.arcToPoint(
-      Offset(27.802, 11.008),
-      radius: Radius.elliptical(1.596, 1.596),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_2.lineTo(28.808, 10.001);
-    path_2.arcToPoint(
-      Offset(28.808, 7.303999999999999),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_2.lineTo(26.794, 5.29);
-    path_2.arcToPoint(
-      Offset(24.097, 5.29),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_2.lineTo(23.09, 6.297);
-    path_2.arcToPoint(
-      Offset(20.373, 5.177),
-      radius: Radius.elliptical(1.596, 1.596),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_2.lineTo(20.373, 3.75);
-    path_2.arcToPoint(
-      Offset(18.473000000000003, 1.85),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_2.lineTo(15.624000000000002, 1.85);
-    path_2.arcToPoint(
-      Offset(13.724000000000002, 3.75),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_2.lineTo(13.724000000000002, 5.175);
-    path_2.arcToPoint(
-      Offset(11.008000000000003, 6.295),
-      radius: Radius.elliptical(1.596, 1.596),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_2.lineTo(10, 5.29);
-    path_2.arcToPoint(
-      Offset(7.302, 5.29),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_2.lineTo(5.29, 7.304);
-    path_2.arcToPoint(
-      Offset(5.29, 10.001000000000001),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_2.lineTo(6.296, 11.008000000000001);
-    path_2.arcToPoint(
-      Offset(5.176, 13.725000000000001),
-      radius: Radius.elliptical(1.596, 1.596),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_2.lineTo(3.75, 13.725000000000001);
-    path_2.arcToPoint(
-      Offset(1.85, 15.625000000000002),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_2.lineTo(1.85, 18.475);
-    path_2.arcToPoint(
-      Offset(3.75, 20.374000000000002),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_2.lineTo(5.175, 20.374000000000002);
-    path_2.arcToPoint(
-      Offset(6.295, 23.090000000000003),
-      radius: Radius.elliptical(1.596, 1.596),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_2.lineTo(5.29, 24.097);
-    path_2.arcToPoint(
-      Offset(5.29, 26.776),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_2.lineTo(7.303, 28.79);
-    path_2.arcToPoint(
-      Offset(10.001, 28.79),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_2.lineTo(11.008, 27.782999999999998);
-    path_2.arcToPoint(
-      Offset(13.724, 28.923),
-      radius: Radius.elliptical(1.596, 1.596),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_2.lineTo(13.724, 30.346999999999998);
-    path_2.arcToPoint(
-      Offset(15.624, 32.247),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_2.lineTo(18.474, 32.247);
-    path_2.arcToPoint(
-      Offset(20.374, 30.347),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_2.lineTo(20.374, 28.923000000000002);
-    path_2.arcToPoint(
-      Offset(23.09, 27.783),
-      radius: Radius.elliptical(1.597, 1.597),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_2.lineTo(24.097, 28.790000000000003);
-    path_2.arcToPoint(
-      Offset(26.794, 28.790000000000003),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_2.lineTo(28.808, 26.776000000000003);
-    path_2.arcToPoint(
-      Offset(28.808, 24.097000000000005),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_2.lineTo(27.801, 23.090000000000003);
-    path_2.arcToPoint(
-      Offset(28.921999999999997, 20.374000000000002),
-      radius: Radius.elliptical(1.597, 1.597),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_2.lineTo(30.346999999999998, 20.374000000000002);
-    path_2.arcToPoint(
-      Offset(32.247, 18.474000000000004),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_2.lineTo(32.247, 15.624000000000004);
-    path_2.arcToPoint(
-      Offset(30.347, 13.724000000000004),
-      radius: Radius.elliptical(1.901, 1.901),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_2.close();
-    path_2.moveTo(17.049, 22.273);
-    path_2.arcToPoint(
-      Offset(17.049, 11.824),
-      radius: Radius.elliptical(5.225, 5.225),
+    path_1.moveTo(15, 20.156);
+    path_1.arcToPoint(
+      Offset(15, 9.841999999999999),
+      radius: Radius.elliptical(5.157, 5.157),
       rotation: 0,
       largeArc: true,
       clockwise: true,
     );
-    path_2.arcToPoint(
-      Offset(17.049, 22.274),
-      radius: Radius.elliptical(5.225, 5.225),
+    path_1.arcToPoint(
+      Offset(15, 20.156),
+      radius: Radius.elliptical(5.157, 5.157),
       rotation: 0,
       largeArc: false,
       clockwise: true,
     );
-    path_2.close();
+    path_1.close();
 
-    Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.color = Color(0xff000000).withOpacity(1.0);
-    canvas.drawPath(path_2, paint_2_fill);
+    Paint fillPaint = Paint()..style = PaintingStyle.fill;
+    fillPaint.color = Colors.white.withValues(alpha: 0.7);
 
-    Path path_3 = Path();
-    path_3.moveTo(30.347, 13.725);
-    path_3.lineTo(28.922, 13.725);
-    path_3.arcToPoint(
-      Offset(27.802, 11.008),
-      radius: Radius.elliptical(1.596, 1.596),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_3.lineTo(28.808, 10.001);
-    path_3.arcToPoint(
-      Offset(28.808, 7.303999999999999),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_3.lineTo(26.794, 5.29);
-    path_3.arcToPoint(
-      Offset(24.097, 5.29),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_3.lineTo(23.09, 6.297);
-    path_3.arcToPoint(
-      Offset(20.373, 5.177),
-      radius: Radius.elliptical(1.596, 1.596),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_3.lineTo(20.373, 3.75);
-    path_3.arcToPoint(
-      Offset(18.473000000000003, 1.85),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_3.lineTo(15.624000000000002, 1.85);
-    path_3.arcToPoint(
-      Offset(13.724000000000002, 3.75),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_3.lineTo(13.724000000000002, 5.175);
-    path_3.arcToPoint(
-      Offset(11.008000000000003, 6.295),
-      radius: Radius.elliptical(1.596, 1.596),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_3.lineTo(10, 5.29);
-    path_3.arcToPoint(
-      Offset(7.302, 5.29),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_3.lineTo(5.29, 7.304);
-    path_3.arcToPoint(
-      Offset(5.29, 10.001000000000001),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_3.lineTo(6.296, 11.008000000000001);
-    path_3.arcToPoint(
-      Offset(5.176, 13.725000000000001),
-      radius: Radius.elliptical(1.596, 1.596),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_3.lineTo(3.75, 13.725000000000001);
-    path_3.arcToPoint(
-      Offset(1.85, 15.625000000000002),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_3.lineTo(1.85, 18.475);
-    path_3.arcToPoint(
-      Offset(3.75, 20.374000000000002),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_3.lineTo(5.175, 20.374000000000002);
-    path_3.arcToPoint(
-      Offset(6.295, 23.090000000000003),
-      radius: Radius.elliptical(1.596, 1.596),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_3.lineTo(5.29, 24.097);
-    path_3.arcToPoint(
-      Offset(5.29, 26.776),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_3.lineTo(7.303, 28.79);
-    path_3.arcToPoint(
-      Offset(10.001, 28.79),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_3.lineTo(11.008, 27.782999999999998);
-    path_3.arcToPoint(
-      Offset(13.724, 28.923),
-      radius: Radius.elliptical(1.596, 1.596),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_3.lineTo(13.724, 30.346999999999998);
-    path_3.arcToPoint(
-      Offset(15.624, 32.247),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_3.lineTo(18.474, 32.247);
-    path_3.arcToPoint(
-      Offset(20.374, 30.347),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_3.lineTo(20.374, 28.923000000000002);
-    path_3.arcToPoint(
-      Offset(23.09, 27.783),
-      radius: Radius.elliptical(1.597, 1.597),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_3.lineTo(24.097, 28.790000000000003);
-    path_3.arcToPoint(
-      Offset(26.794, 28.790000000000003),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_3.lineTo(28.808, 26.776000000000003);
-    path_3.arcToPoint(
-      Offset(28.808, 24.097000000000005),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_3.lineTo(27.801, 23.090000000000003);
-    path_3.arcToPoint(
-      Offset(28.921999999999997, 20.374000000000002),
-      radius: Radius.elliptical(1.597, 1.597),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_3.lineTo(30.346999999999998, 20.374000000000002);
-    path_3.arcToPoint(
-      Offset(32.247, 18.474000000000004),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_3.lineTo(32.247, 15.624000000000004);
-    path_3.arcToPoint(
-      Offset(30.347, 13.724000000000004),
-      radius: Radius.elliptical(1.901, 1.901),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_3.close();
-    path_3.moveTo(17.049, 22.273);
-    path_3.arcToPoint(
-      Offset(17.049, 11.824),
-      radius: Radius.elliptical(5.225, 5.225),
-      rotation: 0,
-      largeArc: true,
-      clockwise: true,
-    );
-    path_3.arcToPoint(
-      Offset(17.049, 22.274),
-      radius: Radius.elliptical(5.225, 5.225),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_3.close();
+    canvas.drawPath(path_0, fillPaint);
+    canvas.drawPath(path_1, fillPaint);
 
-    Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.shader = ui.Gradient.linear(
-      Offset(size.width * 0.4871143, size.height * 0.05291429),
-      Offset(size.width * 0.4871143, size.height * 0.9213429),
-      [Color(0xffFFA428).withOpacity(1), Color(0xffF54812).withOpacity(1)],
-      [0, 1],
-    );
-    canvas.drawPath(path_3, paint_3_fill);
-
-    Path path_4 = Path();
-    path_4.moveTo(17.049, 19.424);
-    path_4.arcToPoint(
-      Offset(17.049, 14.674),
-      radius: Radius.elliptical(2.375, 2.375),
-      rotation: 0,
-      largeArc: true,
-      clockwise: false,
-    );
-    path_4.arcToPoint(
-      Offset(17.049, 19.424),
-      radius: Radius.elliptical(2.375, 2.375),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_4.close();
-
-    Paint paint_4_stroke = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = size.width * 0.1057714;
-    paint_4_stroke.color = Color(0xff420F00).withOpacity(1.0);
-    canvas.drawPath(path_4, paint_4_stroke);
-
-    Paint paint_4_fill = Paint()..style = PaintingStyle.fill;
-    paint_4_fill.color = Color(0xff000000).withOpacity(1.0);
-    canvas.drawPath(path_4, paint_4_fill);
-
-    Path path_5 = Path();
-    path_5.moveTo(30.347, 13.725);
-    path_5.lineTo(28.922, 13.725);
-    path_5.arcToPoint(
-      Offset(27.802, 11.008),
-      radius: Radius.elliptical(1.596, 1.596),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_5.lineTo(28.808, 10.001);
-    path_5.arcToPoint(
-      Offset(28.808, 7.303999999999999),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_5.lineTo(26.794, 5.29);
-    path_5.arcToPoint(
-      Offset(24.097, 5.29),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_5.lineTo(23.09, 6.297);
-    path_5.arcToPoint(
-      Offset(20.373, 5.177),
-      radius: Radius.elliptical(1.596, 1.596),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_5.lineTo(20.373, 3.75);
-    path_5.arcToPoint(
-      Offset(18.473000000000003, 1.85),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_5.lineTo(15.624000000000002, 1.85);
-    path_5.arcToPoint(
-      Offset(13.724000000000002, 3.75),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_5.lineTo(13.724000000000002, 5.175);
-    path_5.arcToPoint(
-      Offset(11.008000000000003, 6.295),
-      radius: Radius.elliptical(1.596, 1.596),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_5.lineTo(10, 5.29);
-    path_5.arcToPoint(
-      Offset(7.302, 5.29),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_5.lineTo(5.29, 7.304);
-    path_5.arcToPoint(
-      Offset(5.29, 10.001000000000001),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_5.lineTo(6.296, 11.008000000000001);
-    path_5.arcToPoint(
-      Offset(5.176, 13.725000000000001),
-      radius: Radius.elliptical(1.596, 1.596),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_5.lineTo(3.75, 13.725000000000001);
-    path_5.arcToPoint(
-      Offset(1.85, 15.625000000000002),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_5.lineTo(1.85, 18.475);
-    path_5.arcToPoint(
-      Offset(3.75, 20.374000000000002),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_5.lineTo(5.175, 20.374000000000002);
-    path_5.arcToPoint(
-      Offset(6.295, 23.090000000000003),
-      radius: Radius.elliptical(1.596, 1.596),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_5.lineTo(5.29, 24.097);
-    path_5.arcToPoint(
-      Offset(5.29, 26.776),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_5.lineTo(7.303, 28.79);
-    path_5.arcToPoint(
-      Offset(10.001, 28.79),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_5.lineTo(11.008, 27.782999999999998);
-    path_5.arcToPoint(
-      Offset(13.724, 28.923),
-      radius: Radius.elliptical(1.596, 1.596),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_5.lineTo(13.724, 30.346999999999998);
-    path_5.arcToPoint(
-      Offset(15.624, 32.247),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_5.lineTo(18.474, 32.247);
-    path_5.arcToPoint(
-      Offset(20.374, 30.347),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_5.lineTo(20.374, 28.923000000000002);
-    path_5.arcToPoint(
-      Offset(23.09, 27.783),
-      radius: Radius.elliptical(1.597, 1.597),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_5.lineTo(24.097, 28.790000000000003);
-    path_5.arcToPoint(
-      Offset(26.794, 28.790000000000003),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_5.lineTo(28.808, 26.776000000000003);
-    path_5.arcToPoint(
-      Offset(28.808, 24.097000000000005),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_5.lineTo(27.801, 23.090000000000003);
-    path_5.arcToPoint(
-      Offset(28.921999999999997, 20.374000000000002),
-      radius: Radius.elliptical(1.597, 1.597),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_5.lineTo(30.346999999999998, 20.374000000000002);
-    path_5.arcToPoint(
-      Offset(32.247, 18.474000000000004),
-      radius: Radius.elliptical(1.9, 1.9),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_5.lineTo(32.247, 15.624000000000004);
-    path_5.arcToPoint(
-      Offset(30.347, 13.724000000000004),
-      radius: Radius.elliptical(1.901, 1.901),
-      rotation: 0,
-      largeArc: false,
-      clockwise: false,
-    );
-    path_5.close();
-    path_5.moveTo(17.049, 22.273);
-    path_5.arcToPoint(
-      Offset(17.049, 11.824),
-      radius: Radius.elliptical(5.225, 5.225),
-      rotation: 0,
-      largeArc: true,
-      clockwise: true,
-    );
-    path_5.arcToPoint(
-      Offset(17.049, 22.274),
-      radius: Radius.elliptical(5.225, 5.225),
-      rotation: 0,
-      largeArc: false,
-      clockwise: true,
-    );
-    path_5.close();
-
-    Paint paint_5_stroke = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = size.width * 0.1057714;
-    paint_5_stroke.color = Color(0xff420F00).withOpacity(1.0);
-    canvas.drawPath(path_5, paint_5_stroke);
-
-    Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.color = Color(0xff000000).withOpacity(1.0);
-    canvas.drawPath(path_5, paint_5_fill);
+    canvas.restore();
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
+  bool shouldRepaint(covariant SettingsIconPainter oldDelegate) {
+    return false;
   }
 }

@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 
 class MapHolePainter extends CustomPainter {
   final bool isUnlocked;
+  final double teethClosure;
 
-  MapHolePainter({required this.isUnlocked});
+  MapHolePainter({required this.isUnlocked, this.teethClosure = 0.0});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -46,7 +47,8 @@ class MapHolePainter extends CustomPainter {
     // 2. The Spikes (Teeth)
     int numTeeth = 8;
     double toothAngle = (2 * pi) / numTeeth;
-    double toothBaseHalfWidth = 0.15; // Radians
+    double toothBaseHalfWidth =
+        0.15 + (teethClosure * ((toothAngle / 2) - 0.15)); // Radians
 
     Path teethPath = Path();
     for (int i = 0; i < numTeeth; i++) {
@@ -59,10 +61,8 @@ class MapHolePainter extends CustomPainter {
         sin(startAngle) * trapInnerRadius,
       );
       // Tip of the tooth pointing inward
-      teethPath.lineTo(
-        cos(angle) * (trapInnerRadius * 0.25),
-        sin(angle) * (trapInnerRadius * 0.25),
-      );
+      double tipRadius = trapInnerRadius * (0.25 - (teethClosure * 0.30));
+      teethPath.lineTo(cos(angle) * tipRadius, sin(angle) * tipRadius);
       teethPath.lineTo(
         cos(endAngle) * trapInnerRadius,
         sin(endAngle) * trapInnerRadius,
@@ -176,5 +176,8 @@ class MapHolePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+  bool shouldRepaint(covariant MapHolePainter oldDelegate) {
+    return oldDelegate.isUnlocked != isUnlocked ||
+        oldDelegate.teethClosure != teethClosure;
+  }
 }

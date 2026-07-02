@@ -1,9 +1,13 @@
 import 'dart:ui';
+import 'package:balanco_game/data/database_helper.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
-import '../data/database_helper.dart';
 import '../map/home_screen.dart';
+import '../screens/home/map_app_bar.dart';
+import '../screens/home/home_icon_painter.dart';
+import '../screens/home/modes_icon_painter.dart';
+import '../screens/home/settings_icon_painter.dart';
 import 'modes_screen.dart';
 import 'bg_editor_screen.dart';
 import '../game/components/game_background/sky_painter.dart';
@@ -26,9 +30,13 @@ class _MainScreenState extends State<MainScreen> {
   late List<Widget> _screens;
 
   bool _isNavbarVisible = true;
-  int _currentLevel = 1;
+  int _highestLevel = 1;
   int _coins = 0;
-  int _streak = 0;
+
+  final GlobalKey _rowKey = GlobalKey();
+  final List<GlobalKey> _navKeys = [GlobalKey(), GlobalKey(), GlobalKey()];
+  double _indicatorLeft = 0;
+  double _indicatorWidth = 0;
 
   @override
   void initState() {
@@ -49,15 +57,29 @@ class _MainScreenState extends State<MainScreen> {
     ];
 
     _mapScrollController.addListener(_scrollListener);
+    WidgetsBinding.instance.addPostFrameCallback((_) => _updateIndicator());
+  }
+
+  void _updateIndicator() {
+    if (!mounted) return;
+    final key = _navKeys[_currentIndex];
+    if (key.currentContext != null && _rowKey.currentContext != null) {
+      final RenderBox renderBox = key.currentContext!.findRenderObject() as RenderBox;
+      final RenderBox parentBox = _rowKey.currentContext!.findRenderObject() as RenderBox;
+      final offset = renderBox.localToGlobal(Offset.zero, ancestor: parentBox);
+      setState(() {
+        _indicatorLeft = offset.dx;
+        _indicatorWidth = renderBox.size.width;
+      });
+    }
   }
 
   Future<void> _loadData() async {
     final profile = await DatabaseHelper.instance.getPlayerProfile();
     if (!mounted) return;
     setState(() {
-      _currentLevel = profile.lastPlayedLevel;
+      _highestLevel = profile.highestLevel;
       _coins = profile.coins;
-      _streak = profile.streak;
     });
   }
 
@@ -100,8 +122,8 @@ class _MainScreenState extends State<MainScreen> {
           if (_currentIndex != 2)
             Positioned(
               top: MediaQuery.of(context).padding.top + 10,
-              left: 20,
-              right: 20,
+              left: 15,
+              right: 15,
               child: RepaintBoundary(child: _buildTopAppBar()),
             ),
 
@@ -295,247 +317,11 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Widget _buildTopAppBar() {
-    Color textColor = Colors.white;
-    Color strokeColor = const Color(0xFF0277BD);
-
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(50),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-          decoration: BoxDecoration(
-            color: const Color(0xFF36D4C7).withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(50),
-            border: Border.all(
-              color: Colors.white.withValues(alpha: 0.5),
-              width: 1.5,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.white.withValues(alpha: 0.1),
-                blurRadius: 10,
-                spreadRadius: 1,
-              ),
-            ],
-          ),
-          child: Row(
-            children: [
-              // 1. Profile Picture
-              Container(
-                width: 53,
-                height: 53,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFFD54F), // Sandy Yellow
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.8),
-                    width: 1.5,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.1),
-                      blurRadius: 8,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Icon(Icons.person_rounded, color: strokeColor, size: 28),
-              ),
-              const SizedBox(width: 10),
-
-              // 2. Name, Level, Money
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Player 1',
-                      style: GoogleFonts.luckiestGuy(
-                        color: textColor,
-                        fontSize: 16,
-                        height: 1.0,
-                        shadows: [
-                          Shadow(
-                            color: strokeColor,
-                            offset: const Offset(0, 2),
-                            blurRadius: 0,
-                          ),
-                        ],
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        // LVL
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 2,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withValues(
-                              alpha: 0.2,
-                            ), // Glassy
-                            borderRadius: BorderRadius.circular(50),
-                            border: Border.all(
-                              color: Colors.white.withValues(alpha: 0.5),
-                              width: 1.0,
-                            ),
-                          ),
-                          child: Text(
-                            'LVL $_currentLevel',
-                            style: GoogleFonts.luckiestGuy(
-                              color: Colors.white,
-                              fontSize: 12,
-                              height: 1.5,
-                              shadows: [
-                                Shadow(
-                                  color: Colors.black.withValues(alpha: 0.3),
-                                  offset: const Offset(0, 1.5),
-                                  blurRadius: 0,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          child: CircleAvatar(
-                            backgroundColor: strokeColor,
-                            radius: 2.5,
-                          ),
-                        ),
-                        // Money
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 2,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withValues(
-                              alpha: 0.2,
-                            ), // Glassy
-                            borderRadius: BorderRadius.circular(50),
-                            border: Border.all(
-                              color: Colors.white.withValues(alpha: 0.5),
-                              width: 1.0,
-                            ),
-                          ),
-                          child: _buildBeachStatBadge(
-                            icon: Icons.monetization_on,
-                            iconColor: const Color(0xFFFFD54F), // Gold Icon
-                            value: '$_coins',
-                            strokeColor: strokeColor,
-                            textColor: Colors.white,
-                            iconSize: 16,
-                            fontSize: 12,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-
-              // 3. Streak (centered vertically)
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 4,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.2), // Glassy
-                  borderRadius: BorderRadius.circular(50),
-                  border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.5),
-                    width: 1.0,
-                  ),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'STREAK',
-                      style: GoogleFonts.luckiestGuy(
-                        color: Colors.white,
-                        fontSize: 12,
-                        shadows: [
-                          Shadow(
-                            color: strokeColor,
-                            offset: const Offset(0, 1),
-                            blurRadius: 0,
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width: 4),
-                    _buildBeachStatBadge(
-                      icon: Icons.local_fire_department_rounded,
-                      iconColor: Colors.white,
-                      value: '$_streak',
-                      strokeColor: strokeColor,
-                      textColor: textColor,
-                      iconSize: 16,
-                      fontSize: 14,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildBeachStatBadge({
-    required IconData icon,
-    required Color iconColor,
-    required String value,
-    required Color strokeColor,
-    required Color textColor,
-    double iconSize = 18,
-    double fontSize = 16,
-  }) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 2),
-          child: Icon(
-            icon,
-            color: iconColor,
-            size: iconSize,
-            shadows: [
-              Shadow(
-                color: strokeColor,
-                offset: const Offset(0, 1.5),
-                blurRadius: 0,
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(width: 2),
-        Text(
-          value,
-          style: GoogleFonts.luckiestGuy(
-            color: textColor,
-            fontSize: fontSize,
-            shadows: [
-              Shadow(
-                color: strokeColor,
-                offset: const Offset(0, 2),
-                blurRadius: 0,
-              ),
-            ],
-          ),
-        ),
-      ],
+    return MapAppBar(
+      highestLevel: _highestLevel,
+      coins: _coins,
+      sparks: 2, // Defaulting to 2 as per the previous mockup
+      maxSparks: 5,
     );
   }
 
@@ -544,38 +330,71 @@ class _MainScreenState extends State<MainScreen> {
       borderRadius: BorderRadius.circular(40),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          decoration: BoxDecoration(
-            color: const Color(0xFF36D4C7).withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(40),
-            border: Border.all(
-              color: Colors.white.withValues(alpha: 0.5),
-              width: 1.5,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.white.withValues(alpha: 0.1),
-                blurRadius: 10,
-                spreadRadius: 1,
+        child: AnimatedSize(
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.easeOutCubic,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(30),
+              border: Border.all(
+                color: Colors.white.withValues(alpha: 0.2),
+                width: 1.5,
               ),
-            ],
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _buildNavItem(icon: Icons.home_rounded, label: 'Home', index: 0),
-              const SizedBox(width: 10),
-              _buildNavItem(icon: Icons.category, label: 'Modes', index: 1),
-              const SizedBox(width: 10),
-              _buildNavItem(icon: Icons.layers, label: 'Bg Edit', index: 2),
-              // const SizedBox(width: 10),
-              // _buildNavItem(
-              //   icon: Icons.settings,
-              //   label: 'Edit',
-              //   index: 3,
-              // ),
-            ],
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.white.withValues(alpha: 0.1),
+                  blurRadius: 10,
+                  spreadRadius: 1,
+                ),
+              ],
+            ),
+            child: Stack(
+              key: _rowKey,
+              clipBehavior: Clip.none,
+              children: [
+                AnimatedPositioned(
+                  duration: const Duration(milliseconds: 250),
+                  curve: Curves.easeOutCubic,
+                  left: _indicatorLeft,
+                  width: _indicatorWidth,
+                  top: 0,
+                  bottom: 0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [Color(0xFFFFA428), Color(0xFFF54812)],
+                      ),
+                      borderRadius: BorderRadius.circular(25),
+                      border: Border.all(
+                        color: Colors.white.withValues(alpha: 0.8),
+                        width: 1.5,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.1),
+                          blurRadius: 8,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _buildNavItem(icon: Icons.home_rounded, label: 'Home', index: 0),
+                    const SizedBox(width: 10),
+                    _buildNavItem(icon: Icons.category, label: 'Modes', index: 1),
+                    const SizedBox(width: 10),
+                    _buildNavItem(icon: Icons.settings, label: 'Settings', index: 2),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -588,59 +407,81 @@ class _MainScreenState extends State<MainScreen> {
     required int index,
   }) {
     bool isSelected = _currentIndex == index;
+    double iconSize = isSelected ? 28.0 : 22.0;
+
     return GestureDetector(
+      key: _navKeys[index],
       onTap: () {
         setState(() {
           _currentIndex = index;
           _isNavbarVisible = true;
         });
+        WidgetsBinding.instance.addPostFrameCallback((_) => _updateIndicator());
       },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 250),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? Colors.white.withValues(alpha: 0.25)
-              : Colors.transparent,
-          borderRadius: BorderRadius.circular(25),
-          border: isSelected
-              ? Border.all(
-                  color: Colors.white.withValues(alpha: 0.8),
-                  width: 1.5,
-                )
-              : Border.all(color: Colors.transparent, width: 1.5),
-          boxShadow: isSelected
-              ? [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.1),
-                    blurRadius: 8,
-                    offset: const Offset(0, 4),
-                  ),
-                ]
-              : null,
+        color: Colors.transparent,
+        padding: EdgeInsets.only(
+          left: 18,
+          right: 16,
+          top: 10,
+          bottom: isSelected ? 6 : 10,
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              icon,
-              color: isSelected
-                  ? Colors.white
-                  : Colors.white.withValues(alpha: 0.7),
-              size: 26,
-            ),
-            if (isSelected) ...[
-              const SizedBox(width: 8),
-              Text(
-                label,
-                style: GoogleFonts.luckiestGuy(
-                  textStyle: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    letterSpacing: 1.2,
-                  ),
+            if (!isSelected) ...[
+              if (icon == Icons.home_rounded)
+                CustomPaint(
+                  size: Size(iconSize, iconSize),
+                  painter: HomeIconPainter(),
+                )
+              else if (icon == Icons.category)
+                CustomPaint(
+                  size: Size(iconSize, iconSize),
+                  painter: ModesIconPainter(),
+                )
+              else if (icon == Icons.settings)
+                CustomPaint(
+                  size: Size(iconSize, iconSize),
+                  painter: SettingsIconPainter(),
+                )
+              else
+                Icon(
+                  icon,
+                  color: Colors.white.withValues(alpha: 0.7),
+                  size: iconSize,
                 ),
-              ),
             ],
+            if (isSelected)
+              Stack(
+                children: [
+                  Text(
+                    label,
+                    style: GoogleFonts.luckiestGuy(
+                      fontSize: 20,
+                      foreground: Paint()
+                        ..style = PaintingStyle.stroke
+                        ..strokeWidth = 2
+                        ..color = const Color.fromARGB(255, 126, 40, 17),
+                      shadows: [
+                        const Shadow(
+                          color: Color.fromARGB(255, 104, 28, 4),
+                          blurRadius: 0,
+                          offset: Offset(0, 5),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Text(
+                    label,
+                    style: GoogleFonts.luckiestGuy(
+                      fontSize: 20,
+                      color: const Color(0xffFFF8F3),
+                    ),
+                  ),
+                ],
+              ),
           ],
         ),
       ),
