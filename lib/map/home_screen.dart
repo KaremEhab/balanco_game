@@ -42,15 +42,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   late MapTheme theme;
 
-  int _coins = 0;
-  int _sparks = 2;
-  int _maxSparks = 5;
-
   final List<Offset> _nodePositions = [];
 
   // Play Level Animation
   late AnimationController _playLevelController;
-  late Animation<double> _ballScaleAnimation;
   late Animation<double> _teethClosureAnimation;
   int? _animatingLevel;
 
@@ -134,21 +129,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       duration: const Duration(milliseconds: 1000),
     );
 
-    // Ball shrinks as it falls in (0.7 to 1.0)
-    _ballScaleAnimation = Tween<double>(begin: 1.0, end: 0.0).animate(
-      CurvedAnimation(
-        parent: _playLevelController,
-        curve: const Interval(0.7, 1.0, curve: Curves.easeIn),
-      ),
-    );
-
-    // Teeth close (0.8 to 1.0)
-    _teethClosureAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _playLevelController,
-        curve: const Interval(0.8, 1.0, curve: Curves.easeOutCubic),
-      ),
-    );
+      _teethClosureAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+        CurvedAnimation(
+          parent: _playLevelController,
+          curve: const Interval(0.5, 0.8, curve: Curves.easeInCubic),
+        ),
+      );
   }
 
   @override
@@ -200,7 +186,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       highestLevel = profile.highestLevel;
       currentLevel = profile.lastPlayedLevel;
       _displayedLevel = currentLevel;
-      _coins = profile.coins;
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -524,6 +509,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             _justUnlockedLevel = null;
                           });
                           HapticFeedback.heavyImpact();
+                          if (!context.mounted) return;
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text(
@@ -532,7 +518,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             ),
                           );
                         },
-                        child: CustomPaint(painter: WoodenRoutePainter()),
+                        child: RepaintBoundary(
+                          child: CustomPaint(painter: WoodenRoutePainter()),
+                        ),
                       ),
                     ),
                     // Level Holes
@@ -643,8 +631,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 class SnapScrollPhysics extends ScrollPhysics {
   final double itemSize;
 
-  const SnapScrollPhysics({required this.itemSize, ScrollPhysics? parent})
-    : super(parent: parent);
+  const SnapScrollPhysics({required this.itemSize, super.parent});
 
   @override
   SnapScrollPhysics applyTo(ScrollPhysics? ancestor) {
@@ -681,7 +668,7 @@ class SnapScrollPhysics extends ScrollPhysics {
       position.pixels,
       snappedTarget.clamp(position.minScrollExtent, position.maxScrollExtent),
       velocity,
-      tolerance: tolerance,
+      tolerance: toleranceFor(position),
     );
   }
 }
@@ -691,10 +678,10 @@ class BouncingLevelButton extends StatefulWidget {
   final VoidCallback onTap;
 
   const BouncingLevelButton({
-    Key? key,
+    super.key,
     required this.currentLevel,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   State<BouncingLevelButton> createState() => _BouncingLevelButtonState();
@@ -755,7 +742,9 @@ class _BouncingLevelButtonState extends State<BouncingLevelButton>
             SizedBox(
               width: 200,
               height: 80,
-              child: CustomPaint(painter: LevelButtonPainter()),
+              child: RepaintBoundary(
+                child: CustomPaint(painter: LevelButtonPainter()),
+              ),
             ),
             Center(
               child: AnimatedSwitcher(
@@ -1003,13 +992,15 @@ class _AnimatedLevelNodeState extends State<AnimatedLevelNode>
           ? widget.unlockedSize
           : widget.lockedSize;
 
-      Widget childPainter = CustomPaint(
-        painter: widget.isUnlocked
-            ? MapHolePainter(
-                isUnlocked: true,
-                teethClosure: widget.teethClosure,
-              )
-            : LockedLevelPainter(),
+      Widget childPainter = RepaintBoundary(
+        child: CustomPaint(
+          painter: widget.isUnlocked
+              ? MapHolePainter(
+                  isUnlocked: true,
+                  teethClosure: widget.teethClosure,
+                )
+              : LockedLevelPainter(),
+        ),
       );
 
       // If unlocked and current, apply idle rotation
@@ -1077,8 +1068,10 @@ class _AnimatedLevelNodeState extends State<AnimatedLevelNode>
                               child: SizedBox(
                                 width: widget.lockedSize,
                                 height: widget.lockedSize,
-                                child: CustomPaint(
-                                  painter: LockedLevelPainter(),
+                                child: RepaintBoundary(
+                                  child: CustomPaint(
+                                    painter: LockedLevelPainter(),
+                                  ),
                                 ),
                               ),
                             ),
@@ -1097,8 +1090,10 @@ class _AnimatedLevelNodeState extends State<AnimatedLevelNode>
                               child: SizedBox(
                                 width: widget.lockedSize,
                                 height: widget.lockedSize,
-                                child: CustomPaint(
-                                  painter: LockedLevelPainter(),
+                                child: RepaintBoundary(
+                                  child: CustomPaint(
+                                    painter: LockedLevelPainter(),
+                                  ),
                                 ),
                               ),
                             ),
@@ -1133,15 +1128,15 @@ class _AnimatedLevelNodeState extends State<AnimatedLevelNode>
                       height: widget.unlockedSize * 1.5,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white.withOpacity(0.5),
+                        color: Colors.white.withValues(alpha: 0.5),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.white.withOpacity(0.8),
+                            color: Colors.white.withValues(alpha: 0.8),
                             blurRadius: 40.0,
                             spreadRadius: 20.0,
                           ),
                           BoxShadow(
-                            color: const Color(0xFFFFD54F).withOpacity(0.5),
+                            color: const Color(0xFFFFD54F).withValues(alpha: 0.5),
                             blurRadius: 60.0,
                             spreadRadius: 40.0,
                           ),

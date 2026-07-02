@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 class LevelButtonPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    Paint paint_0_stroke = Paint()
+    Paint paint0Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.008928571;
-    paint_0_stroke.shader = ui.Gradient.linear(
+    paint0Stroke.shader = ui.Gradient.linear(
       Offset(size.width * 0.5000000, size.height * 0.1071429),
       Offset(size.width * 0.5000000, size.height * 0.9761905),
-      [Color(0xff420F00).withOpacity(1), Color(0xff641200).withOpacity(1)],
+      [Color(0xff420F00).withValues(alpha: 1), Color(0xff641200).withValues(alpha: 1)],
       [0, 1],
     );
     canvas.drawRRect(
@@ -26,11 +26,11 @@ class LevelButtonPainter extends CustomPainter {
         topLeft: Radius.circular(size.width * 0.1160714),
         topRight: Radius.circular(size.width * 0.1160714),
       ),
-      paint_0_stroke,
+      paint0Stroke,
     );
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = Color(0xff9F1601).withOpacity(1.0);
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.color = Color(0xff9F1601).withValues(alpha: 1.0);
     canvas.drawRRect(
       RRect.fromRectAndCorners(
         Rect.fromLTWH(
@@ -44,14 +44,14 @@ class LevelButtonPainter extends CustomPainter {
         topLeft: Radius.circular(size.width * 0.1160714),
         topRight: Radius.circular(size.width * 0.1160714),
       ),
-      paint_0_fill,
+      paint0Fill,
     );
 
-    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.shader = ui.Gradient.linear(
+    Paint paint1Fill = Paint()..style = PaintingStyle.fill;
+    paint1Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5000000, size.height * 0.02380952),
       Offset(size.width * 0.5000000, size.height * 0.8809524),
-      [Color(0xffFFA428).withOpacity(1), Color(0xffF54812).withOpacity(1)],
+      [Color(0xffFFA428).withValues(alpha: 1), Color(0xffF54812).withValues(alpha: 1)],
       [0, 1],
     );
     final innerRRect = RRect.fromRectAndCorners(
@@ -67,7 +67,7 @@ class LevelButtonPainter extends CustomPainter {
       topRight: Radius.circular(size.width * 0.1116071),
     );
 
-    canvas.drawRRect(innerRRect, paint_1_fill);
+    canvas.drawRRect(innerRRect, paint1Fill);
 
     // Inner White Shadows
     canvas.save();

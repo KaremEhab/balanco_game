@@ -13,7 +13,6 @@ import 'bg_editor_screen.dart';
 import '../game/components/game_background/sky_painter.dart';
 import '../game/components/game_background/mountains_painter.dart';
 import '../game/components/game_background/sea_painter.dart';
-import '../game/components/game_background/trees_painter.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});

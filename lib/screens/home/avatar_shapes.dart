@@ -40,7 +40,6 @@ class ProfileAvatarWidget extends StatelessWidget {
         framePainter = HexagonFramePainter();
         break;
       case AvatarShape.shield:
-      default:
         clipper = ShieldClipper();
         shadowPainter = ShieldShadowPainter();
         framePainter = GameProfileBadgePainter();
@@ -131,7 +130,7 @@ class GameProfileBadgePainter extends CustomPainter {
 
     Paint shinePaint = Paint()
       ..shader = LinearGradient(
-        colors: [Colors.white.withOpacity(0.35), Colors.transparent],
+        colors: [Colors.white.withValues(alpha: 0.35), Colors.transparent],
         begin: Alignment.topCenter,
         end: Alignment.center,
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
@@ -191,7 +190,7 @@ class CircleFramePainter extends CustomPainter {
 
     Paint shinePaint = Paint()
       ..shader = LinearGradient(
-        colors: [Colors.white.withOpacity(0.35), Colors.transparent],
+        colors: [Colors.white.withValues(alpha: 0.35), Colors.transparent],
         begin: Alignment.topCenter,
         end: Alignment.center,
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
@@ -263,7 +262,7 @@ class HexagonFramePainter extends CustomPainter {
 
     Paint shinePaint = Paint()
       ..shader = LinearGradient(
-        colors: [Colors.white.withOpacity(0.35), Colors.transparent],
+        colors: [Colors.white.withValues(alpha: 0.35), Colors.transparent],
         begin: Alignment.topCenter,
         end: Alignment.center,
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));

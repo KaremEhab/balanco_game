@@ -18,7 +18,6 @@ class MapHolePainter extends CustomPainter {
 
     // If locked, we could draw it in greyscale or just draw a lock overlay.
     // The previous MapHolePainter drew a lock overlay for locked levels. Let's keep that.
-    bool isSuckingHole = false; // Never purple on the map
 
     // 1. The Deep Hole Background (Stepped Concentric Circles)
     List<Color> holeColors = !isUnlocked

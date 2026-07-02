@@ -62,7 +62,7 @@ class LogoPainter extends CustomPainter {
       [Color(0xff80E3FF).withValues(alpha: 1), Color(0xffEAFAFF).withValues(alpha: 1)],
       [0, 1],
     );
-    // _drawAnimatedPath(canvas, path_0, paint_0_fill, 0);
+    // _drawAnimatedPath(canvas, path_0, paint0Fill, 0);
 
     Path path_1 = Path();
     path_1.moveTo(3349.1, 1345.56);

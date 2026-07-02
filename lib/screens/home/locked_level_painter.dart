@@ -669,9 +669,9 @@ class LockedLevelPainter extends CustomPainter {
     );
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = Color(0xff6C7884).withOpacity(1.0);
-    canvas.drawPath(path_0, paint_0_fill);
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.color = Color(0xff6C7884).withValues(alpha: 1.0);
+    canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
     path_1.moveTo(41.964, 93.089);
@@ -1849,7 +1849,7 @@ class LockedLevelPainter extends CustomPainter {
 
     // Inner White Shadow (Bevel) for the Gear
     final Paint shapeInnerWhite = Paint()
-      ..color = Colors.white.withOpacity(0.5)
+      ..color = Colors.white.withValues(alpha: 0.5)
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.03
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3.0);
@@ -1859,11 +1859,11 @@ class LockedLevelPainter extends CustomPainter {
     canvas.drawPath(path_1, shapeInnerWhite);
     canvas.restore();
 
-    Paint paint_1_stroke = Paint()
+    Paint paint1Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.02053191;
-    paint_1_stroke.color = Color(0xff242B33).withOpacity(1.0);
-    canvas.drawPath(path_1, paint_1_stroke);
+    paint1Stroke.color = Color(0xff242B33).withValues(alpha: 1.0);
+    canvas.drawPath(path_1, paint1Stroke);
 
     Path path_3 = Path();
     path_3.moveTo(46.546, 17.136);
@@ -1900,15 +1900,15 @@ class LockedLevelPainter extends CustomPainter {
     canvas.drawPath(path_3, shapeInnerWhite);
     canvas.restore();
 
-    Paint paint_3_stroke = Paint()
+    Paint paint3Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.01548936;
-    paint_3_stroke.color = Color(0xff212A33).withOpacity(1.0);
-    canvas.drawPath(path_3, paint_3_stroke);
+    paint3Stroke.color = Color(0xff212A33).withValues(alpha: 1.0);
+    canvas.drawPath(path_3, paint3Stroke);
 
     // --- Draw the "X" to board up the hole (behind the padlock) ---
     final Paint xShadow = Paint()
-      ..color = Colors.black.withOpacity(0.5)
+      ..color = Colors.black.withValues(alpha: 0.5)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 2.0);
 
     final Paint xBase = Paint()
@@ -1923,14 +1923,14 @@ class LockedLevelPainter extends CustomPainter {
 
     final Paint xHighlight = Paint()
       ..color = Colors.white
-          .withOpacity(0.5) // Silver edge highlight
+          .withValues(alpha: 0.5) // Silver edge highlight
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.01;
 
     final Paint rivetPaint = Paint()..color = const Color(0xff2A2F33);
 
     final Paint xInnerWhite = Paint()
-      ..color = Colors.white.withOpacity(0.5)
+      ..color = Colors.white.withValues(alpha: 0.5)
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.03
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3.0);
@@ -2145,14 +2145,14 @@ class LockedLevelPainter extends CustomPainter {
     path_16.lineTo(41.035, 27.942);
     path_16.close();
 
-    Paint paint_16_fill = Paint()..style = PaintingStyle.fill;
-    paint_16_fill.shader = ui.Gradient.linear(
+    Paint paint16Fill = Paint()..style = PaintingStyle.fill;
+    paint16Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4955319, size.height * 0.2314632),
       Offset(size.width * 0.4955319, size.height * 0.7427158),
-      [Color(0xffCBCBCB).withOpacity(1), Color(0xff7C8184).withOpacity(1)],
+      [Color(0xffCBCBCB).withValues(alpha: 1), Color(0xff7C8184).withValues(alpha: 1)],
       [0, 1],
     );
-    canvas.drawPath(path_16, paint_16_fill);
+    canvas.drawPath(path_16, paint16Fill);
 
     Path path_17 = Path();
     path_17.moveTo(42.856, 62.195);
@@ -2178,9 +2178,9 @@ class LockedLevelPainter extends CustomPainter {
     path_17.lineTo(42.855000000000004, 62.195);
     path_17.close();
 
-    Paint paint_17_fill = Paint()..style = PaintingStyle.fill;
-    paint_17_fill.color = Color(0xff444444).withOpacity(1.0);
-    canvas.drawPath(path_17, paint_17_fill);
+    Paint paint17Fill = Paint()..style = PaintingStyle.fill;
+    paint17Fill.color = Color(0xff444444).withValues(alpha: 1.0);
+    canvas.drawPath(path_17, paint17Fill);
 
     Path path_18 = Path();
     path_18.moveTo(49.93, 21.291);
@@ -2302,11 +2302,11 @@ class LockedLevelPainter extends CustomPainter {
     path_18.lineTo(43.228, 26.424);
     path_18.close();
 
-    Paint paint_18_stroke = Paint()
+    Paint paint18Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.01548936;
-    paint_18_stroke.color = Color(0xff212A33).withOpacity(1.0);
-    canvas.drawPath(path_18, paint_18_stroke);
+    paint18Stroke.color = Color(0xff212A33).withValues(alpha: 1.0);
+    canvas.drawPath(path_18, paint18Stroke);
 
     canvas.restore();
   }

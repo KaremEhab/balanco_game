@@ -1,5 +1,3 @@
-import 'dart:ui' as ui;
-
 import 'package:flutter/material.dart';
 
 class HomeIconPainter extends CustomPainter {
@@ -101,9 +99,9 @@ class HomeIconPainter extends CustomPainter {
     );
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = Colors.white.withValues(alpha: 0.7);
-    canvas.drawPath(path_0, paint_0_fill);
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.color = Colors.white.withValues(alpha: 0.7);
+    canvas.drawPath(path_0, paint0Fill);
 
     canvas.restore();
   }

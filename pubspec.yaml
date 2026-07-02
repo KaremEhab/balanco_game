@@ -80,9 +80,6 @@ flutter:
   assets:
     - assets/images/
     - assets/audio/
-    - assets/images/stones/
-    - assets/images/islands/
-    - assets/images/levels/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

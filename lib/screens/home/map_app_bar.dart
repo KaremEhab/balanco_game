@@ -129,9 +129,9 @@ class MapAppBar extends StatelessWidget {
           decoration: BoxDecoration(
             color: const Color(
               0xFF6DE8F8,
-            ).withOpacity(0.4), // Light blue semi-transparent HUD bar
+            ).withValues(alpha: 0.4), // Light blue semi-transparent HUD bar
             borderRadius: BorderRadius.circular(40),
-            border: Border.all(color: Colors.white.withOpacity(0.5), width: 2),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.5), width: 2),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

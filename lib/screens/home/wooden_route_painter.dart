@@ -14,7 +14,7 @@ class WoodenRoutePainter extends CustomPainter {
       ..strokeCap = StrokeCap.round;
       
     final Paint ropeShadowPaint = Paint()
-      ..color = Colors.black.withOpacity(0.4)
+      ..color = Colors.black.withValues(alpha: 0.4)
       ..strokeWidth = 5.0
       ..strokeCap = StrokeCap.round;
 

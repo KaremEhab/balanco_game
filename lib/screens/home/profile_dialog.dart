@@ -89,12 +89,12 @@ class ProfileDialog extends StatelessWidget {
               ), // Gold rim
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.7),
+                  color: Colors.black.withValues(alpha: 0.7),
                   blurRadius: 30,
                   spreadRadius: 10,
                 ),
                 BoxShadow(
-                  color: const Color(0xFFFFD700).withOpacity(0.3), // Gold glow
+                  color: const Color(0xFFFFD700).withValues(alpha: 0.3), // Gold glow
                   blurRadius: 15,
                   spreadRadius: 2,
                 ),
@@ -123,7 +123,7 @@ class ProfileDialog extends StatelessWidget {
                         border: Border.all(color: Colors.white, width: 2),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.4),
+                            color: Colors.black.withValues(alpha: 0.4),
                             blurRadius: 5,
                             offset: const Offset(0, 3),
                           ),
@@ -178,10 +178,10 @@ class ProfileDialog extends StatelessWidget {
                         horizontal: 10,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.3),
+                        color: Colors.black.withValues(alpha: 0.3),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: Colors.white.withOpacity(0.1),
+                          color: Colors.white.withValues(alpha: 0.1),
                           width: 1,
                         ),
                       ),
@@ -212,10 +212,10 @@ class ProfileDialog extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.05),
+                        color: Colors.white.withValues(alpha: 0.05),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: Colors.white.withOpacity(0.1),
+                          color: Colors.white.withValues(alpha: 0.1),
                           width: 1,
                         ),
                       ),
@@ -289,10 +289,10 @@ class ProfileDialog extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.05),
+                        color: Colors.white.withValues(alpha: 0.05),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: Colors.white.withOpacity(0.1),
+                          color: Colors.white.withValues(alpha: 0.1),
                           width: 1,
                         ),
                       ),

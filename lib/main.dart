@@ -7,7 +7,6 @@ import 'bloc/app_bloc.dart';
 
 import 'data/database_helper.dart';
 import 'data/app_settings.dart';
-import 'screens/main_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
