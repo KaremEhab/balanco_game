@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:balanco_game/features/game/game_area.dart';
 import 'package:balanco_game/features/game/components/game_area/magnate_btn_painter.dart';
 import 'package:balanco_game/features/game/components/game_area/shield_btn_painter.dart';
+import 'package:balanco_game/core/data/app_settings.dart';
 
 class GameControlsOverlay extends StatelessWidget {
   final BalancoGame game;
@@ -224,7 +225,10 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
       return; // Only respond to the locked finger
     }
     setState(() {
-      _dy = (_dy + event.delta.dy).clamp(-_maxDrag, _maxDrag);
+      // Multiply the physical finger delta by the sensitivity so the virtual joystick
+      // reacts faster (or slower) to touch distance.
+      double scaledDelta = event.delta.dy * AppSettings.joystickSensitivity.value;
+      _dy = (_dy + scaledDelta).clamp(-_maxDrag, _maxDrag);
     });
     widget.onChanged(_dy / _maxDrag);
   }

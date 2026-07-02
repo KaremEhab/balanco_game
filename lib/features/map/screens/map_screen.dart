@@ -39,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   int currentLevel = 1;
   int _displayedLevel = 1; // Used by BouncingLevelButton
   int? _justUnlockedLevel;
+  bool _isFirstLoad = true;
 
   late MapTheme theme;
 
@@ -175,16 +176,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
 
     // Check if we just unlocked a new level (meaning we returned from gameplay having beaten a level)
-    if (highestLevel > 0 && profile.highestLevel > highestLevel) {
+    if (!_isFirstLoad && highestLevel > 0 && profile.highestLevel > highestLevel) {
       _justUnlockedLevel = profile.highestLevel;
       debugPrint(
         'HOME_SCREEN: Detected new level unlocked! _justUnlockedLevel set to $_justUnlockedLevel',
       );
     }
+    _isFirstLoad = false;
 
     setState(() {
       highestLevel = profile.highestLevel;
-      currentLevel = profile.lastPlayedLevel;
+      currentLevel = profile.highestLevel; // Always default to the highest unlocked level
       _displayedLevel = currentLevel;
     });
 
@@ -847,9 +849,6 @@ class _AnimatedLevelNodeState extends State<AnimatedLevelNode>
       vsync: this,
       duration: const Duration(seconds: 4), // Slow spin
     );
-    if (widget.isCurrent && widget.isUnlocked && !widget.isJustUnlocked) {
-      _idleRotateController.repeat();
-    }
 
     // 0.0 - 0.32: Shake build up
     _shakeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
@@ -959,14 +958,6 @@ class _AnimatedLevelNodeState extends State<AnimatedLevelNode>
       });
     }
 
-    if (widget.isCurrent != oldWidget.isCurrent) {
-      if (widget.isCurrent && widget.isUnlocked && !widget.isJustUnlocked) {
-        _idleRotateController.repeat();
-      } else {
-        _idleRotateController.stop();
-        // Option: _idleRotateController.animateTo(0.0) if you want it to reset, but leaving it where it stopped is fine.
-      }
-    }
   }
 
   @override
@@ -978,6 +969,16 @@ class _AnimatedLevelNodeState extends State<AnimatedLevelNode>
 
   @override
   Widget build(BuildContext context) {
+    if (widget.isCurrent && widget.isUnlocked && !widget.isJustUnlocked) {
+      if (!_idleRotateController.isAnimating) {
+        _idleRotateController.repeat();
+      }
+    } else {
+      if (_idleRotateController.isAnimating) {
+        _idleRotateController.stop();
+      }
+    }
+
     if (!widget.isJustUnlocked) {
       // Static render
       double currentSize = widget.isUnlocked

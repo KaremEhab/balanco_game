@@ -94,6 +94,7 @@ class BalancoGame extends FlameGame {
   double squashY = 1.0;
 
   bool isRespawningFromHole = false;
+  bool isRespawningFromEdge = false;
   double respawnTimer = 0.0;
 
   double barResetTimer = 0.0;
@@ -203,6 +204,7 @@ class BalancoGame extends FlameGame {
 
     isFalling = false;
     isFallingInHole = false;
+    isRespawningFromEdge = false;
     activeHole = null;
     ballScale = 1.0;
     squashX = 1.0;
@@ -252,7 +254,7 @@ class BalancoGame extends FlameGame {
       if (leftY != 0.0 && size.y > 0 && !isSpawningLevel) {
         initialLeftY = leftY;
         initialRightY = rightY;
-        barResetTimer = respawnFromHole ? 1.5 : 0.8;
+        barResetTimer = 0.8; // Straighten bar consistently in 0.8s
       } else {
         barResetTimer = 0.0;
         leftY = levelHeight - 70.0;
@@ -271,18 +273,20 @@ class BalancoGame extends FlameGame {
       } else if (respawnFromHole && prevHole != null) {
         activeHole = prevHole;
         isRespawningFromHole = true;
-        respawnTimer = 1.5;
+        isLevelTimerActive = false; // Pause the timer during respawn
+        respawnTimer = 1.6; // 0.8s for bar to straighten, then 0.8s to drop
         ballPos2D = activeHole!.position.clone();
         ballScale = 0.0;
         // The ball will land on the center of the bar
         ballP = (size.x - 2 * barPadding) / 2.0;
       } else {
-        // Wait, if barResetTimer > 0, ball should stick to the animating bar.
-        // It will be calculated in update(), but we initialize it to center.
-        ballPos2D = Vector2(size.x / 2.0, leftY - ballRadius - 6.0);
-        ballScale = 1.0;
+        isRespawningFromEdge = true;
+        isLevelTimerActive = false;
+        respawnTimer = 1.6;
+        ballPos2D = teleportingGateComponent.position.clone();
+        ballScale = 0.0;
+        ballP = (size.x - 2 * barPadding) / 2.0;
         isFreeFalling = false;
-        bounceTimer = 0.4; // Small bounce effect when appearing on bar
       }
 
       leftJoystickValue = 0.0;
@@ -526,6 +530,7 @@ class BalancoGame extends FlameGame {
     if (!isFreeFalling &&
         !isSpawningLevel &&
         !isRespawningFromHole &&
+        !isRespawningFromEdge &&
         !isLevelCompleteOverlayShown) {
       Vector2 gateCenter = teleportingGateComponent.position;
       if (ballPos2D.distanceTo(gateCenter) < 40) {
@@ -578,17 +583,17 @@ class BalancoGame extends FlameGame {
         leftY = maxY;
         rightY = maxY;
       } else {
-        double duration = isRespawningFromHole ? 1.5 : 0.8;
+        double duration = 0.8;
         double p = 1.0 - (barResetTimer / duration).clamp(0.0, 1.0);
         double curved = Curves.easeInOut.transform(p);
         leftY = initialLeftY + (maxY - initialLeftY) * curved;
         rightY = initialRightY + (maxY - initialRightY) * curved;
       }
     } else if (!isSpawningLevel && !isRespawningFromHole) {
-      // Slower speed for a heavier, harder bar feeling!
+      // Base speed balanced so default (1.0) is not too high and not too low
       double speed = timeStopNotifier.value > 0
-          ? 70.0 * AppSettings.joystickSensitivity.value
-          : 120.0 * AppSettings.joystickSensitivity.value;
+          ? 150.0 * AppSettings.joystickSensitivity.value
+          : 250.0 * AppSettings.joystickSensitivity.value;
       double maxDiff = 120.0;
 
       double newLeftY = leftY + leftJoystickValue * speed * dt;
@@ -726,37 +731,53 @@ class BalancoGame extends FlameGame {
       return;
     }
 
-    if (isRespawningFromHole && activeHole != null) {
-      respawnTimer -= dt;
-      if (respawnTimer <= 0) {
-        isRespawningFromHole = false;
-        activeHole = null;
-        ballScale = 1.0;
-        bounceTimer = 0.4; // Trigger bouncy landing!
-        freeFallVelocity.setZero(); // Ensure it doesn't carry over!
-        ballPos2D = leftPoint + direction * ballP + normal * (ballRadius + 6.0);
-        HapticFeedback.heavyImpact();
-        try {
-          AppSettings.playSound('tick.wav');
-        } catch (_) {}
-      } else {
-        double progress = 1.0 - (respawnTimer / 1.5);
-        if (progress < 0.4) {
-          double p = progress / 0.4;
-          ballPos2D = activeHole!.position.clone();
-          ballScale = p;
-        } else {
-          double p = (progress - 0.4) / 0.6;
-          double curvedP = Curves.easeIn.transform(p);
-          Vector2 targetPos =
-              leftPoint + direction * ballP + normal * (ballRadius + 6.0);
-          ballPos2D =
-              activeHole!.position +
-              (targetPos - activeHole!.position) * curvedP;
+    if ((isRespawningFromHole && activeHole != null) || isRespawningFromEdge) {
+      if (respawnTimer > 0) {
+        respawnTimer -= dt;
+        if (respawnTimer <= 0) {
+          respawnTimer = 0.0;
           ballScale = 1.0;
+          // Trigger the bouncy squish animation when landing!
+          bounceTimer = 0.4;
+          freeFallVelocity.setZero();
+          ballPos2D = leftPoint + direction * ballP + normal * (ballRadius + 6.0);
+          HapticFeedback.heavyImpact();
+          try {
+            AppSettings.playSound('tick.wav');
+          } catch (_) {}
+
+          squashX = 1.0;
+          squashY = 1.0;
+          isRespawningFromHole = false;
+          isRespawningFromEdge = false;
+          activeHole = null;
+          isLevelTimerActive = true;
+        } else {
+          double progress = 1.0 - (respawnTimer / 1.6);
+          if (progress < 0.5) {
+            // First 0.8s: Bar is straightening. Ball scales up at spawn point.
+            double p = progress / 0.5;
+            ballPos2D = isRespawningFromEdge
+                ? teleportingGateComponent.position.clone()
+                : activeHole!.position.clone();
+            ballScale = p;
+          } else {
+            // Last 0.8s: Ball drops to the bar.
+            double p = (progress - 0.5) / 0.5;
+            double curvedP = Curves.easeIn.transform(p);
+            Vector2 targetPos =
+                leftPoint + direction * ballP + normal * (ballRadius + 6.0);
+            Vector2 startPos = isRespawningFromEdge
+                ? teleportingGateComponent.position.clone()
+                : activeHole!.position.clone();
+            ballPos2D =
+                startPos +
+                (targetPos - startPos) * curvedP;
+            ballScale = 1.0;
+          }
         }
-        return; // Skip normal physics
       }
+      return; // Skip normal physics
     }
 
     if (isFreeFalling) {

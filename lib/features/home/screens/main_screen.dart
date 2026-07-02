@@ -9,6 +9,7 @@ import 'package:balanco_game/features/home/widgets/icons/home_icon_painter.dart'
 import 'package:balanco_game/features/home/widgets/icons/modes_icon_painter.dart';
 import 'package:balanco_game/features/home/widgets/icons/settings_icon_painter.dart';
 import 'package:balanco_game/features/settings/screens/modes_screen.dart';
+import 'package:balanco_game/features/leaderboard/screens/leaderboard_screen.dart';
 import 'package:balanco_game/features/settings/screens/settings_screen.dart';
 import 'package:balanco_game/core/data/app_settings.dart';
 import 'package:balanco_game/features/game/components/game_background/sky_painter.dart';
@@ -26,6 +27,7 @@ class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
   final ScrollController _mapScrollController = ScrollController();
   final ScrollController _modesScrollController = ScrollController();
+  final ScrollController _leaderboardScrollController = ScrollController();
   final ScrollController _settingsScrollController = ScrollController();
   late PageController _pageController;
   final ValueNotifier<double> _expandProgressNotifier = ValueNotifier(0.0);
@@ -39,7 +41,7 @@ class _MainScreenState extends State<MainScreen> {
   int _coins = 0;
 
   final GlobalKey _rowKey = GlobalKey();
-  final List<GlobalKey> _navKeys = [GlobalKey(), GlobalKey(), GlobalKey()];
+  final List<GlobalKey> _navKeys = [GlobalKey(), GlobalKey(), GlobalKey(), GlobalKey()];
   double _indicatorLeft = 0;
   double _indicatorWidth = 0;
 
@@ -51,14 +53,17 @@ class _MainScreenState extends State<MainScreen> {
     _screens = [
       HomeScreen(scrollController: _mapScrollController),
       ModesScreen(scrollController: _modesScrollController),
+      LeaderboardScreen(scrollController: _leaderboardScrollController),
       SettingsScreen(scrollController: _settingsScrollController),
     ];
 
     _mapScrollController.addListener(_scrollListener);
     _modesScrollController.addListener(_scrollListener);
+    _leaderboardScrollController.addListener(_scrollListener);
     _settingsScrollController.addListener(_scrollListener);
     _pageController.addListener(_onPageOrScrollChanged);
     _modesScrollController.addListener(_onPageOrScrollChanged);
+    _leaderboardScrollController.addListener(_onPageOrScrollChanged);
     _settingsScrollController.addListener(_onPageOrScrollChanged);
     WidgetsBinding.instance.addPostFrameCallback((_) => _updateIndicator());
   }
@@ -69,8 +74,8 @@ class _MainScreenState extends State<MainScreen> {
     double page = _pageController.hasClients
         ? (_pageController.page ?? _currentIndex.toDouble())
         : _currentIndex.toDouble();
-    // 0.0 at Modes, 1.0 at Settings
-    double horizontalProgress = (page - 1.0).clamp(0.0, 1.0);
+    // 0.0 at Leaderboard, 1.0 at Settings
+    double horizontalProgress = (page - 2.0).clamp(0.0, 1.0);
 
     double verticalProgress = 0.0;
     if (_settingsScrollController.hasClients) {
@@ -114,6 +119,7 @@ class _MainScreenState extends State<MainScreen> {
     ScrollController activeController;
     if (_currentIndex == 0) activeController = _mapScrollController;
     else if (_currentIndex == 1) activeController = _modesScrollController;
+    else if (_currentIndex == 2) activeController = _leaderboardScrollController;
     else activeController = _settingsScrollController;
 
     if (!activeController.hasClients) return;
@@ -139,6 +145,9 @@ class _MainScreenState extends State<MainScreen> {
     _modesScrollController.removeListener(_scrollListener);
     _modesScrollController.removeListener(_onPageOrScrollChanged);
     _modesScrollController.dispose();
+    _leaderboardScrollController.removeListener(_scrollListener);
+    _leaderboardScrollController.removeListener(_onPageOrScrollChanged);
+    _leaderboardScrollController.dispose();
     _pageController.removeListener(_onPageOrScrollChanged);
     _pageController.dispose();
     _settingsScrollController.removeListener(_onPageOrScrollChanged);
@@ -184,7 +193,10 @@ class _MainScreenState extends State<MainScreen> {
               if (index != 1 && _modesScrollController.hasClients && _modesScrollController.position.hasContentDimensions) {
                 _modesScrollController.jumpTo(0);
               }
-              if (index != 2 && _settingsScrollController.hasClients && _settingsScrollController.position.hasContentDimensions) {
+              if (index != 2 && _leaderboardScrollController.hasClients && _leaderboardScrollController.position.hasContentDimensions) {
+                _leaderboardScrollController.jumpTo(0);
+              }
+              if (index != 3 && _settingsScrollController.hasClients && _settingsScrollController.position.hasContentDimensions) {
                 _settingsScrollController.jumpTo(0);
               }
 
@@ -253,6 +265,7 @@ class _MainScreenState extends State<MainScreen> {
     ScrollController activeController;
     if (_currentIndex == 0) activeController = _mapScrollController;
     else if (_currentIndex == 1) activeController = _modesScrollController;
+    else if (_currentIndex == 2) activeController = _leaderboardScrollController;
     else activeController = _settingsScrollController;
 
     if (activeController.hasClients && activeController.position.hasContentDimensions) {
@@ -507,9 +520,15 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                     const SizedBox(width: 10),
                     _buildNavItem(
+                      icon: Icons.leaderboard_rounded,
+                      label: 'Rank',
+                      index: 2,
+                    ),
+                    const SizedBox(width: 10),
+                    _buildNavItem(
                       icon: Icons.settings,
                       label: 'Settings',
-                      index: 2,
+                      index: 3,
                     ),
                   ],
                 ),
