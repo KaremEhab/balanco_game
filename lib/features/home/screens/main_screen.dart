@@ -25,7 +25,10 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
   final ScrollController _mapScrollController = ScrollController();
+  final ScrollController _modesScrollController = ScrollController();
+  final ScrollController _settingsScrollController = ScrollController();
   late PageController _pageController;
+  final ValueNotifier<double> _expandProgressNotifier = ValueNotifier(0.0);
   double _lastOffset = 0;
   double _lastScrollProgress = 1.0; // Default to bottom (Level 1)
 
@@ -47,20 +50,49 @@ class _MainScreenState extends State<MainScreen> {
     _pageController = PageController(initialPage: _currentIndex);
     _screens = [
       HomeScreen(scrollController: _mapScrollController),
-      const ModesScreen(),
-      const SettingsScreen(),
+      ModesScreen(scrollController: _modesScrollController),
+      SettingsScreen(scrollController: _settingsScrollController),
     ];
 
     _mapScrollController.addListener(_scrollListener);
+    _modesScrollController.addListener(_scrollListener);
+    _settingsScrollController.addListener(_scrollListener);
+    _pageController.addListener(_onPageOrScrollChanged);
+    _modesScrollController.addListener(_onPageOrScrollChanged);
+    _settingsScrollController.addListener(_onPageOrScrollChanged);
     WidgetsBinding.instance.addPostFrameCallback((_) => _updateIndicator());
+  }
+
+  void _onPageOrScrollChanged() {
+    if (!mounted) return;
+
+    double page = _pageController.hasClients
+        ? (_pageController.page ?? _currentIndex.toDouble())
+        : _currentIndex.toDouble();
+    // 0.0 at Modes, 1.0 at Settings
+    double horizontalProgress = (page - 1.0).clamp(0.0, 1.0);
+
+    double verticalProgress = 0.0;
+    if (_settingsScrollController.hasClients) {
+      // Allow scrolling 150px to collapse fully
+      verticalProgress = (_settingsScrollController.offset / 150.0).clamp(
+        0.0,
+        1.0,
+      );
+    }
+
+    _expandProgressNotifier.value =
+        horizontalProgress * (1.0 - verticalProgress);
   }
 
   void _updateIndicator() {
     if (!mounted) return;
     final key = _navKeys[_currentIndex];
     if (key.currentContext != null && _rowKey.currentContext != null) {
-      final RenderBox renderBox = key.currentContext!.findRenderObject() as RenderBox;
-      final RenderBox parentBox = _rowKey.currentContext!.findRenderObject() as RenderBox;
+      final RenderBox renderBox =
+          key.currentContext!.findRenderObject() as RenderBox;
+      final RenderBox parentBox =
+          _rowKey.currentContext!.findRenderObject() as RenderBox;
       final offset = renderBox.localToGlobal(Offset.zero, ancestor: parentBox);
       setState(() {
         _indicatorLeft = offset.dx;
@@ -79,17 +111,24 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _scrollListener() {
-    if (_mapScrollController.offset > _lastOffset + 10 && _isNavbarVisible) {
-      // Scrolling up to higher levels
+    ScrollController activeController;
+    if (_currentIndex == 0) activeController = _mapScrollController;
+    else if (_currentIndex == 1) activeController = _modesScrollController;
+    else activeController = _settingsScrollController;
+
+    if (!activeController.hasClients) return;
+
+    if (activeController.offset > _lastOffset + 10 && _isNavbarVisible) {
+      // Scrolling down page
       setState(() => _isNavbarVisible = false);
-      _lastOffset = _mapScrollController.offset;
-    } else if (_mapScrollController.offset < _lastOffset - 10 &&
+      _lastOffset = activeController.offset;
+    } else if (activeController.offset < _lastOffset - 10 &&
         !_isNavbarVisible) {
-      // Scrolling down to lower levels
+      // Scrolling up page
       setState(() => _isNavbarVisible = true);
-      _lastOffset = _mapScrollController.offset;
-    } else if ((_mapScrollController.offset - _lastOffset).abs() > 10) {
-      _lastOffset = _mapScrollController.offset;
+      _lastOffset = activeController.offset;
+    } else if ((activeController.offset - _lastOffset).abs() > 10) {
+      _lastOffset = activeController.offset;
     }
   }
 
@@ -97,7 +136,15 @@ class _MainScreenState extends State<MainScreen> {
   void dispose() {
     _mapScrollController.removeListener(_scrollListener);
     _mapScrollController.dispose();
+    _modesScrollController.removeListener(_scrollListener);
+    _modesScrollController.removeListener(_onPageOrScrollChanged);
+    _modesScrollController.dispose();
+    _pageController.removeListener(_onPageOrScrollChanged);
     _pageController.dispose();
+    _settingsScrollController.removeListener(_onPageOrScrollChanged);
+    _settingsScrollController.removeListener(_scrollListener);
+    _settingsScrollController.dispose();
+    _expandProgressNotifier.dispose();
     super.dispose();
   }
 
@@ -111,6 +158,16 @@ class _MainScreenState extends State<MainScreen> {
           // Parallax Background
           Positioned.fill(child: _buildParallaxBackground()),
 
+          // Global Blur Overlay
+          Positioned.fill(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+              child: ColoredBox(
+                color: const Color(0xff44C1FF).withValues(alpha: 0.1),
+              ),
+            ),
+          ),
+
           // Main Content
           PageView(
             controller: _pageController,
@@ -120,7 +177,20 @@ class _MainScreenState extends State<MainScreen> {
                 _currentIndex = index;
                 _isNavbarVisible = true;
               });
-              WidgetsBinding.instance.addPostFrameCallback((_) => _updateIndicator());
+              
+              if (index != 0 && _mapScrollController.hasClients && _mapScrollController.position.hasContentDimensions) {
+                _mapScrollController.jumpTo(_mapScrollController.position.maxScrollExtent);
+              }
+              if (index != 1 && _modesScrollController.hasClients && _modesScrollController.position.hasContentDimensions) {
+                _modesScrollController.jumpTo(0);
+              }
+              if (index != 2 && _settingsScrollController.hasClients && _settingsScrollController.position.hasContentDimensions) {
+                _settingsScrollController.jumpTo(0);
+              }
+
+              WidgetsBinding.instance.addPostFrameCallback(
+                (_) => _updateIndicator(),
+              );
             },
             children: _screens,
           ),
@@ -138,33 +208,33 @@ class _MainScreenState extends State<MainScreen> {
             bottom: 20,
             left: 0,
             right: 0,
-              child: GestureDetector(
-                onTap: () {
-                  if (!_isNavbarVisible) {
-                    setState(() => _isNavbarVisible = true);
-                  }
-                },
-                onVerticalDragUpdate: (details) {
-                  // Dragging downwards
-                  if (details.primaryDelta! > 0 && !_isNavbarVisible) {
-                    setState(() => _isNavbarVisible = true);
-                  }
-                },
-                child: AnimatedScale(
-                  scale: _isNavbarVisible ? 1.0 : 0.75,
+            child: GestureDetector(
+              onTap: () {
+                if (!_isNavbarVisible) {
+                  setState(() => _isNavbarVisible = true);
+                }
+              },
+              onVerticalDragUpdate: (details) {
+                // Dragging downwards
+                if (details.primaryDelta! > 0 && !_isNavbarVisible) {
+                  setState(() => _isNavbarVisible = true);
+                }
+              },
+              child: AnimatedScale(
+                scale: _isNavbarVisible ? 1.0 : 0.75,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeOutBack,
+                child: AnimatedOpacity(
+                  opacity: _isNavbarVisible ? 1.0 : 0.6,
                   duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeOutBack,
-                  child: AnimatedOpacity(
-                    opacity: _isNavbarVisible ? 1.0 : 0.6,
-                    duration: const Duration(milliseconds: 300),
-                    child: Center(
-                      // Use a RepaintBoundary for the complex cartoon shadows and borders
-                      child: RepaintBoundary(child: _buildFloatingNavbar()),
-                    ),
+                  child: Center(
+                    // Use a RepaintBoundary for the complex cartoon shadows and borders
+                    child: RepaintBoundary(child: _buildFloatingNavbar()),
                   ),
                 ),
               ),
             ),
+          ),
         ],
       ),
     );
@@ -176,15 +246,28 @@ class _MainScreenState extends State<MainScreen> {
     double dy = 0,
     double scale = 1.0,
     double depthMultiplier = 0.0,
+    bool parallaxEnabled = true,
   }) {
     double scrollProgress = 1.0;
+    
+    ScrollController activeController;
+    if (_currentIndex == 0) activeController = _mapScrollController;
+    else if (_currentIndex == 1) activeController = _modesScrollController;
+    else activeController = _settingsScrollController;
 
-    if (_mapScrollController.hasClients &&
-        _mapScrollController.position.hasContentDimensions) {
-      double scrollOffset = _mapScrollController.offset;
-      double maxScroll = _mapScrollController.position.maxScrollExtent;
+    if (activeController.hasClients && activeController.position.hasContentDimensions) {
+      double scrollOffset = activeController.offset;
+      double maxScroll = activeController.position.maxScrollExtent;
       if (maxScroll <= 0) maxScroll = 1.0;
-      scrollProgress = (scrollOffset / maxScroll).clamp(0.0, 1.0);
+      
+      if (_currentIndex == 0) {
+        scrollProgress = (scrollOffset / maxScroll).clamp(0.0, 1.0);
+      } else {
+        // Slow down parallax on Settings and Modes pages
+        // by dividing the offset by a larger fixed number instead of the small maxScroll
+        double simulatedMaxScroll = 2500.0;
+        scrollProgress = 1.0 + (scrollOffset / simulatedMaxScroll).clamp(0.0, 1.0);
+      }
       _lastScrollProgress = scrollProgress;
     } else {
       scrollProgress = _lastScrollProgress;
@@ -193,7 +276,7 @@ class _MainScreenState extends State<MainScreen> {
     // When scrollProgress is 1.0 (bottom, Level 1), the camera is at the bottom.
     // When scrollProgress is 0.0 (top, max Level), the camera is at the top.
     // So as the camera goes up (progress 1 -> 0), the background should move DOWN (positive dy).
-    double verticalParallax = (1.0 - scrollProgress) * 250.0 * depthMultiplier;
+    double verticalParallax = parallaxEnabled ? (1.0 - scrollProgress) * 250.0 * depthMultiplier : 0.0;
 
     return Transform.translate(
       offset: Offset(dx, dy + verticalParallax),
@@ -206,11 +289,11 @@ class _MainScreenState extends State<MainScreen> {
 
   Widget _buildParallaxBackground() {
     return AnimatedBuilder(
-      animation: _mapScrollController,
+      animation: Listenable.merge([_mapScrollController, _modesScrollController, _settingsScrollController, _pageController]),
       builder: (context, child) {
         return ValueListenableBuilder<bool>(
-          valueListenable: AppSettings.highGraphicsEnabled,
-          builder: (context, highGraphics, child) {
+          valueListenable: AppSettings.parallaxEnabled,
+          builder: (context, isParallax, child) {
             return FittedBox(
               fit: BoxFit.cover,
               child: SizedBox(
@@ -219,13 +302,14 @@ class _MainScreenState extends State<MainScreen> {
                 child: Stack(
                   clipBehavior: Clip.none,
                   children: [
-                    _buildLayer(SkyPainter(), depthMultiplier: 0.05),
+                    _buildLayer(SkyPainter(), depthMultiplier: 0.05, parallaxEnabled: isParallax),
                     _buildLayer(
                       FirstCloudPainter(),
                       dx: 193.1,
                       dy: 46.5,
                       scale: 0.39,
                       depthMultiplier: 0.1,
+                      parallaxEnabled: isParallax,
                     ),
                     _buildLayer(
                       SecondCloudPainter(),
@@ -233,58 +317,63 @@ class _MainScreenState extends State<MainScreen> {
                       dy: 7.1,
                       scale: 0.26,
                       depthMultiplier: 0.12,
+                      parallaxEnabled: isParallax,
                     ),
-                    if (highGraphics) ...[
-                      _buildLayer(
-                        ThirdCloudPainter(),
-                        dx: 59.7,
-                        dy: 15.7,
-                        scale: 0.46,
-                        depthMultiplier: 0.14,
-                      ),
-                      _buildLayer(
-                        ForthCloudPainter(),
-                        dx: 305.0,
-                        dy: 27.0,
-                        scale: 0.63,
-                        depthMultiplier: 0.16,
-                      ),
-                      _buildLayer(
-                        FifthCloudPainter(),
-                        dx: 127.3,
-                        dy: -85.9,
-                        scale: 0.48,
-                        depthMultiplier: 0.18,
-                      ),
-                      _buildLayer(
-                        BirdsPainter(),
-                        dx: 230.1,
-                        dy: -11.4,
-                        scale: 0.57,
-                        depthMultiplier: 0.2,
-                      ),
-                    ],
+                    _buildLayer(
+                      ThirdCloudPainter(),
+                      dx: 59.7,
+                      dy: 15.7,
+                      scale: 0.46,
+                      depthMultiplier: 0.14,
+                      parallaxEnabled: isParallax,
+                    ),
+                    _buildLayer(
+                      ForthCloudPainter(),
+                      dx: 305.0,
+                      dy: 27.0,
+                      scale: 0.63,
+                      depthMultiplier: 0.16,
+                      parallaxEnabled: isParallax,
+                    ),
+                    _buildLayer(
+                      FifthCloudPainter(),
+                      dx: 127.3,
+                      dy: -85.9,
+                      scale: 0.48,
+                      depthMultiplier: 0.18,
+                      parallaxEnabled: isParallax,
+                    ),
+                    _buildLayer(
+                      BirdsPainter(),
+                      dx: 230.1,
+                      dy: -11.4,
+                      scale: 0.57,
+                      depthMultiplier: 0.2,
+                      parallaxEnabled: isParallax,
+                    ),
                     _buildLayer(
                       FurtherSeaPainter(),
                       dx: 0.0,
                       dy: 214.0,
                       scale: 1.05,
                       depthMultiplier: 0.4,
+                      parallaxEnabled: isParallax,
                     ),
-                    if (highGraphics)
-                      _buildLayer(
-                        MountainSeaShadowsPainter(),
-                        dx: 52.8,
-                        dy: 166.4,
-                        scale: 0.47,
-                        depthMultiplier: 0.5,
-                      ),
+                    _buildLayer(
+                      MountainSeaShadowsPainter(),
+                      dx: 52.8,
+                      dy: 166.4,
+                      scale: 0.47,
+                      depthMultiplier: 0.5,
+                      parallaxEnabled: isParallax,
+                    ),
                     _buildLayer(
                       BackMountainPainter(),
                       dx: 122.0,
                       dy: 42.6,
                       scale: 0.50,
                       depthMultiplier: 0.3,
+                      parallaxEnabled: isParallax,
                     ),
                     _buildLayer(
                       CloserSeaPainter(),
@@ -292,30 +381,32 @@ class _MainScreenState extends State<MainScreen> {
                       dy: 401.3,
                       scale: 1.42,
                       depthMultiplier: 0.6,
+                      parallaxEnabled: isParallax,
                     ),
-                    if (highGraphics)
-                      _buildLayer(
-                        SeaWaterDropsPainter(),
-                        dx: 112.6,
-                        dy: 246.1,
-                        scale: 0.51,
-                        depthMultiplier: 0.7,
-                      ),
+                    _buildLayer(
+                      SeaWaterDropsPainter(),
+                      dx: 112.6,
+                      dy: 246.1,
+                      scale: 0.51,
+                      depthMultiplier: 0.7,
+                      parallaxEnabled: isParallax,
+                    ),
                     _buildLayer(
                       FrontMountainPainter(),
                       dx: 73.2,
                       dy: 35.3,
                       scale: 0.32,
                       depthMultiplier: 0.8,
+                      parallaxEnabled: isParallax,
                     ),
-                    if (highGraphics)
-                      _buildLayer(
-                        SeaMountainWaves(),
-                        dx: 7.1,
-                        dy: 9.6,
-                        scale: 0.27,
-                        depthMultiplier: 0.45,
-                      ),
+                    _buildLayer(
+                      SeaMountainWaves(),
+                      dx: 7.1,
+                      dy: 9.6,
+                      scale: 0.27,
+                      depthMultiplier: 0.45,
+                      parallaxEnabled: isParallax,
+                    ),
                     // Trees are commented out in gameplay, but if we want them:
                   ],
                 ),
@@ -328,11 +419,17 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Widget _buildTopAppBar() {
-    return MapAppBar(
-      highestLevel: _highestLevel,
-      coins: _coins,
-      sparks: 2, // Defaulting to 2 as per the previous mockup
-      maxSparks: 5,
+    return ValueListenableBuilder<double>(
+      valueListenable: _expandProgressNotifier,
+      builder: (context, expandProgress, child) {
+        return MapAppBar(
+          highestLevel: _highestLevel,
+          coins: _coins,
+          sparks: 2, // Defaulting to 2 as per the previous mockup
+          maxSparks: 5,
+          expandProgress: expandProgress,
+        );
+      },
     );
   }
 
@@ -397,11 +494,23 @@ class _MainScreenState extends State<MainScreen> {
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    _buildNavItem(icon: Icons.home_rounded, label: 'Home', index: 0),
+                    _buildNavItem(
+                      icon: Icons.home_rounded,
+                      label: 'Home',
+                      index: 0,
+                    ),
                     const SizedBox(width: 10),
-                    _buildNavItem(icon: Icons.category, label: 'Modes', index: 1),
+                    _buildNavItem(
+                      icon: Icons.category,
+                      label: 'Modes',
+                      index: 1,
+                    ),
                     const SizedBox(width: 10),
-                    _buildNavItem(icon: Icons.settings, label: 'Settings', index: 2),
+                    _buildNavItem(
+                      icon: Icons.settings,
+                      label: 'Settings',
+                      index: 2,
+                    ),
                   ],
                 ),
               ],

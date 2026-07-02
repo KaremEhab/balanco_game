@@ -459,14 +459,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       backgroundColor: Colors.transparent,
       body: Stack(
         children: [
-          Positioned.fill(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-              child: Material(
-                color: const Color(0xff44C1FF).withValues(alpha: 0.1),
-              ),
-            ),
-          ),
           // Scrollable Map Content clipped above the navbar
           Positioned(
             top: 0,

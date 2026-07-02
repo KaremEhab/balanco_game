@@ -137,7 +137,7 @@ class MapBallLayer extends CustomPainter {
       ..shader = const LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        colors: [Color(0xFFFFE082), Color(0xFFFFCA28)], // Bright sandy wood top
+        colors: [Color(0xFFE0E0E0), Color(0xFF9E9E9E)], // Bright metallic top
       ).createShader(Rect.fromLTRB(-frontW, backY, frontW, frontY));
 
     canvas.drawPath(topFacePath, topFacePaint);
@@ -166,64 +166,40 @@ class MapBallLayer extends CustomPainter {
       ..shader = const LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        colors: [Color(0xFFFFB300), Color(0xFFFF8F00)], // Darker front edge
+        colors: [Color(0xFF616161), Color(0xFF212121)], // Darker metal front edge
       ).createShader(Rect.fromLTRB(-frontW, frontY, frontW, frontBottomY));
 
     canvas.drawPath(frontFacePath, frontFacePaint);
 
-    // 4. Creative Beach Details: Wood Planks on Top Face
-    final Paint woodGrain = Paint()
-      ..color = const Color(0xFFD84315).withValues(alpha: 0.15)
+    // 4. Metallic details: Panel lines on Top Face
+    final Paint panelLine = Paint()
+      ..color = Colors.black.withValues(alpha: 0.3)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.5;
 
-    // Draw perspective lines for planks
-    canvas.drawLine(Offset(-15, backY), Offset(-20, frontY), woodGrain);
-    canvas.drawLine(Offset(15, backY), Offset(20, frontY), woodGrain);
+    // Draw perspective lines for metal panels
+    canvas.drawLine(Offset(-15, backY), Offset(-20, frontY), panelLine);
+    canvas.drawLine(Offset(15, backY), Offset(20, frontY), panelLine);
 
-    // 5. Creative Beach Details: Starfish on the front edge corner
-    final Paint starfishPaint = Paint()
-      ..color = const Color(0xFFFF5252); // Vibrant coral
-    final Path starfishPath = Path();
+    // 5. Sci-Fi Details: Glowing cyan indicator on the front edge corner
     double cx = 38;
-    double cy = 10;
-    double rOut = 6.0;
-    double rIn = 2.5;
-    for (int i = 0; i < 10; i++) {
-      double angle = i * 3.14159 / 5 - 3.14159 / 2;
-      double r = (i % 2 == 0) ? rOut : rIn;
-      double x = cx + r * cos(angle);
-      double y = cy + r * sin(angle);
-      if (i == 0) {
-        starfishPath.moveTo(x, y);
-      } else {
-        starfishPath.lineTo(x, y);
-      }
-    }
-    starfishPath.close();
+    double cy = 13;
+    
+    // Glowing cyan dot
+    final Paint glowPaint = Paint()
+      ..color = const Color(0xFF03A9F4).withValues(alpha: 0.8)
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3.0);
+      
+    final Paint corePaint = Paint()..color = const Color(0xFFE1F5FE);
 
-    canvas.save();
-    canvas.translate(cx, cy);
-    canvas.rotate(0.3);
-    canvas.translate(-cx, -cy);
-
-    // Starfish drop shadow on the front face
-    final Paint starfishShadow = Paint()
-      ..color = Colors.black26
-      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 1.5);
-    canvas.drawPath(starfishPath, starfishShadow);
-
-    // Draw Starfish
-    canvas.drawPath(starfishPath, starfishPaint);
-
-    // Starfish inner details
-    final Paint starfishDetail = Paint()
-      ..color = Colors.white70
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.0;
-    canvas.drawCircle(Offset(cx, cy), 1.0, starfishDetail);
-
-    canvas.restore();
+    canvas.drawCircle(Offset(cx, cy), 3.0, glowPaint);
+    canvas.drawCircle(Offset(cx, cy), 1.5, corePaint);
+    
+    // Add some "rivets" on the front face
+    final Paint rivetPaint = Paint()..color = Colors.black.withValues(alpha: 0.5);
+    canvas.drawCircle(Offset(-38, cy), 1.5, rivetPaint);
+    canvas.drawCircle(Offset(-25, cy), 1.5, rivetPaint);
+    canvas.drawCircle(Offset(25, cy), 1.5, rivetPaint);
 
     // 6. Highlight on the top front edge to make it pop
     final Paint edgeHighlight = Paint()

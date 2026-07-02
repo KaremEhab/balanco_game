@@ -20,7 +20,7 @@ class BarComponent extends Component with HasGameReference<BalancoGame> {
     canvas.translate(leftPoint.x, leftPoint.y);
     canvas.rotate(angle);
 
-    // --- PREMIUM CARVED WOOD & GOLD BAR ---
+    // --- HEAVY METAL BEAM ---
     double barHeight = 20.0;
     Rect fullRect = Rect.fromLTRB(0, -barHeight / 2, barLength, barHeight / 2);
 
@@ -39,25 +39,25 @@ class BarComponent extends Component with HasGameReference<BalancoGame> {
     );
     canvas.restore();
 
-    // 2. Main Wooden Body (Rich Dark Wood)
+    // 2. Main Metal Body (Brushed Steel)
     RRect bodyRRect = RRect.fromRectAndRadius(
       fullRect,
       const Radius.circular(10),
     );
-    final Paint woodPaint = Paint()
+    final Paint metalPaint = Paint()
       ..shader = const LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          Color(0xFF8D6E63), // Light Wood edge
-          Color(0xFF5D4037), // Mid Wood
-          Color(0xFF3E2723), // Dark Wood core
-          Color(0xFF1B0000), // Deep shadow
+          Color(0xFFE0E0E0), // Bright metallic highlight
+          Color(0xFF9E9E9E), // Mid steel
+          Color(0xFF616161), // Dark steel core
+          Color(0xFF212121), // Deep shadow edge
         ],
       ).createShader(fullRect);
-    canvas.drawRRect(bodyRRect, woodPaint);
+    canvas.drawRRect(bodyRRect, metalPaint);
 
-    // 3. Golden End Caps (Matches beach yellow/gold theme)
+    // 3. Dark Gunmetal End Caps
     double capWidth = 20.0;
     Rect leftCap = Rect.fromLTRB(0, -barHeight / 2, capWidth, barHeight / 2);
     Rect rightCap = Rect.fromLTRB(
@@ -82,34 +82,34 @@ class BarComponent extends Component with HasGameReference<BalancoGame> {
       bottomLeft: const Radius.circular(4),
     );
 
-    final Paint goldPaint = Paint()
+    final Paint gunmetalPaint = Paint()
       ..shader = const LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          Color(0xFFFFE082), // Bright highlight
-          Color(0xFFFFCA28), // Golden base
-          Color(0xFFFF8F00), // Amber mid
-          Color(0xFFBF360C), // Dark rust edge
+          Color(0xFFCFD8DC), // Bright rim
+          Color(0xFF90A4AE), // Base blue-grey metal
+          Color(0xFF546E7A), // Dark shadow
+          Color(0xFF263238), // Almost black edge
         ],
       ).createShader(leftCap);
 
-    canvas.drawRRect(leftCapRRect, goldPaint);
+    canvas.drawRRect(leftCapRRect, gunmetalPaint);
 
-    final Paint goldPaintRight = Paint()
+    final Paint gunmetalPaintRight = Paint()
       ..shader = const LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          Color(0xFFFFE082),
-          Color(0xFFFFCA28),
-          Color(0xFFFF8F00),
-          Color(0xFFBF360C),
+          Color(0xFFCFD8DC),
+          Color(0xFF90A4AE),
+          Color(0xFF546E7A),
+          Color(0xFF263238),
         ],
       ).createShader(rightCap);
-    canvas.drawRRect(rightCapRRect, goldPaintRight);
+    canvas.drawRRect(rightCapRRect, gunmetalPaintRight);
 
-    // Add a dark separator line between gold caps and wood body
+    // Add a dark separator line between metal caps and steel body
     final Paint separatorPaint = Paint()
       ..color = Colors.black.withValues(alpha: 0.6)
       ..style = PaintingStyle.stroke
@@ -157,7 +157,7 @@ class BarComponent extends Component with HasGameReference<BalancoGame> {
       grooveRimPaint,
     );
 
-    // 5. Glossy Specular Highlight (The Glass/Epoxy finish reflection on wood)
+    // 5. Glossy Specular Highlight (The polished metal finish reflection)
     Rect specRect = Rect.fromLTRB(
       capWidth,
       -barHeight / 2 + 1,

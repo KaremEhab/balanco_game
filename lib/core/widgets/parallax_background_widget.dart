@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
@@ -7,6 +9,7 @@ import 'package:balanco_game/features/game/components/game_background/sea_painte
 import 'package:balanco_game/features/game/components/game_background/sky_painter.dart';
 
 import 'package:balanco_game/features/game/game_area.dart';
+import 'package:balanco_game/core/data/app_settings.dart';
 
 class ParallaxBackgroundWidget extends StatefulWidget {
   final BalancoGame game;
@@ -26,17 +29,26 @@ class _ParallaxBackgroundWidgetState extends State<ParallaxBackgroundWidget> {
   @override
   void initState() {
     super.initState();
-    _accelerometerSubscription = accelerometerEventStream().listen((
-      AccelerometerEvent event,
-    ) {
-      if (mounted) {
-        // Low-pass filter for smooth motion (increased inertia for smoothness)
-        final current = _accelNotifier.value;
-        final newX = current.dx * 0.95 + event.x * 0.05;
-        final newY = current.dy * 0.95 + event.y * 0.05;
-        _accelNotifier.value = Offset(newX, newY);
+    bool isDesktop = !kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS);
+    if (!isDesktop) {
+      try {
+        _accelerometerSubscription = accelerometerEventStream().listen((
+          AccelerometerEvent event,
+        ) {
+          if (mounted) {
+            // Low-pass filter for smooth motion (increased inertia for smoothness)
+            final current = _accelNotifier.value;
+            final newX = current.dx * 0.95 + event.x * 0.05;
+            final newY = current.dy * 0.95 + event.y * 0.05;
+            _accelNotifier.value = Offset(newX, newY);
+          }
+        }, onError: (e) {
+          // Ignore sensor errors gracefully
+        });
+      } catch (e) {
+        // Ignore initialization errors
       }
-    });
+    }
   }
 
   @override
@@ -60,6 +72,7 @@ class _ParallaxBackgroundWidgetState extends State<ParallaxBackgroundWidget> {
       child: AnimatedBuilder(
         animation: Listenable.merge([_accelNotifier, widget.game.cameraOffsetYNotifier]),
         builder: (context, child) {
+          final bool isParallax = AppSettings.parallaxEnabled.value;
           final accel = _accelNotifier.value;
           final cameraOffsetY = widget.game.cameraOffsetYNotifier.value;
           
@@ -71,18 +84,18 @@ class _ParallaxBackgroundWidgetState extends State<ParallaxBackgroundWidget> {
           }
           
           // Background scrolls upwards smoothly as camera moves downwards
-          double backgroundVerticalScroll = (cameraOffsetY / maxCameraY) * 200.0 * depthMultiplier;
+          double backgroundVerticalScroll = isParallax ? (cameraOffsetY / maxCameraY) * 200.0 * depthMultiplier : 0.0;
           // Calculate movement based on tilt.
           // accel.dx is positive when tilting right. We want background to move left to simulate depth.
           // accel.dy is positive when tilting up. We want background to move down.
-          final double tiltDx =
+          final double tiltDx = isParallax ?
               (accel.dx.clamp(-10.0, 10.0) / 10.0) *
               maxOffset *
-              depthMultiplier;
-          final double tiltDy =
+              depthMultiplier : 0.0;
+          final double tiltDy = isParallax ?
               (accel.dy.clamp(-10.0, 10.0) / 10.0) *
               maxOffset *
-              depthMultiplier;
+              depthMultiplier : 0.0;
 
           return Transform.translate(
             offset: Offset(dx - tiltDx, dy + tiltDy - backgroundVerticalScroll),

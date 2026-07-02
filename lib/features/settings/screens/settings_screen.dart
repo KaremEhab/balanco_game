@@ -3,16 +3,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:balanco_game/core/data/app_settings.dart';
 
 class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({super.key});
+  final ScrollController scrollController;
 
-  Widget _buildCartoonCard({
-    required Widget child,
-    bool disabled = false,
-  }) {
+  const SettingsScreen({super.key, required this.scrollController});
+
+  Widget _buildCartoonCard({required Widget child, bool disabled = false}) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: disabled ? const Color(0xFFD6D6D6) : const Color(0xFFFFF8E7), // Light sand color
+        color: disabled
+            ? const Color(0xFFD6D6D6)
+            : const Color(0xFFFFF8E7), // Light sand color
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
           color: const Color(0xFF3E2723), // Dark brown outline
@@ -20,16 +21,10 @@ class SettingsScreen extends StatelessWidget {
         ),
         boxShadow: [
           if (!disabled)
-            const BoxShadow(
-              color: Color(0xFF3E2723),
-              offset: Offset(0, 6),
-            ),
+            const BoxShadow(color: Color(0xFF3E2723), offset: Offset(0, 6)),
         ],
       ),
-      child: Opacity(
-        opacity: disabled ? 0.6 : 1.0,
-        child: child,
-      ),
+      child: Opacity(opacity: disabled ? 0.6 : 1.0, child: child),
     );
   }
 
@@ -121,8 +116,9 @@ class SettingsScreen extends StatelessWidget {
                 activeTrackColor: const Color(0xFF4CAF50),
                 inactiveThumbColor: Colors.white,
                 inactiveTrackColor: const Color(0xFFE0E0E0),
-                trackOutlineColor: WidgetStateProperty.resolveWith<Color?>(
-                    (Set<WidgetState> states) {
+                trackOutlineColor: WidgetStateProperty.resolveWith<Color?>((
+                  Set<WidgetState> states,
+                ) {
                   return const Color(0xFF3E2723);
                 }),
               ),
@@ -168,7 +164,11 @@ class SettingsScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const Icon(Icons.arrow_forward_ios, size: 20, color: Color(0xFF3E2723)),
+            const Icon(
+              Icons.arrow_forward_ios,
+              size: 20,
+              color: Color(0xFF3E2723),
+            ),
           ],
         ),
       ),
@@ -178,9 +178,14 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      controller: scrollController,
       physics: const BouncingScrollPhysics(),
       padding: EdgeInsets.only(
-          left: 24.0, right: 24.0, top: MediaQuery.of(context).padding.top + 80.0, bottom: 120.0),
+        left: 24.0,
+        right: 24.0,
+        top: MediaQuery.of(context).padding.top + 250.0,
+        bottom: 120.0,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -198,7 +203,11 @@ class SettingsScreen extends StatelessWidget {
                 ),
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 16.0),
-                  child: Divider(height: 2, color: Color(0xFF3E2723), thickness: 2),
+                  child: Divider(
+                    height: 2,
+                    color: Color(0xFF3E2723),
+                    thickness: 2,
+                  ),
                 ),
                 _buildToggleRow(
                   icon: Icons.vibration,
@@ -226,13 +235,22 @@ class SettingsScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: const Color(0xFF4CAF50),
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: const Color(0xFF3E2723), width: 2),
+                        border: Border.all(
+                          color: const Color(0xFF3E2723),
+                          width: 2,
+                        ),
                         boxShadow: const [
-                          BoxShadow(color: Color(0xFF3E2723), offset: Offset(0, 3)),
+                          BoxShadow(
+                            color: Color(0xFF3E2723),
+                            offset: Offset(0, 3),
+                          ),
                         ],
                       ),
-                      child: const Icon(Icons.gamepad,
-                          size: 28, color: Colors.white),
+                      child: const Icon(
+                        Icons.gamepad,
+                        size: 28,
+                        color: Colors.white,
+                      ),
                     ),
                     const SizedBox(width: 16),
                     Expanded(
@@ -271,7 +289,9 @@ class SettingsScreen extends StatelessWidget {
                         activeTrackColor: const Color(0xFF4CAF50),
                         inactiveTrackColor: const Color(0xFFA5D6A7),
                         thumbColor: const Color(0xFFFFF8E7),
-                        overlayColor: const Color(0xFF4CAF50).withValues(alpha: 0.2),
+                        overlayColor: const Color(
+                          0xFF4CAF50,
+                        ).withValues(alpha: 0.2),
                         valueIndicatorColor: const Color(0xFF4CAF50),
                       ),
                       child: Slider(
@@ -295,10 +315,10 @@ class SettingsScreen extends StatelessWidget {
             child: _buildToggleRow(
               icon: Icons.layers,
               iconColor: Colors.purpleAccent,
-              title: 'High Graphics',
-              subtitle: 'Full parallax background layers',
-              notifier: AppSettings.highGraphicsEnabled,
-              onChanged: AppSettings.setHighGraphicsEnabled,
+              title: 'Parallax Effect',
+              subtitle: 'Smooth background animations',
+              notifier: AppSettings.parallaxEnabled,
+              onChanged: AppSettings.setParallaxEnabled,
             ),
           ),
 
@@ -315,7 +335,11 @@ class SettingsScreen extends StatelessWidget {
                 ),
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 12.0),
-                  child: Divider(height: 2, color: Color(0xFF3E2723), thickness: 2),
+                  child: Divider(
+                    height: 2,
+                    color: Color(0xFF3E2723),
+                    thickness: 2,
+                  ),
                 ),
                 _buildLinkRow(
                   icon: Icons.privacy_tip_outlined,
@@ -324,7 +348,11 @@ class SettingsScreen extends StatelessWidget {
                 ),
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 12.0),
-                  child: Divider(height: 2, color: Color(0xFF3E2723), thickness: 2),
+                  child: Divider(
+                    height: 2,
+                    color: Color(0xFF3E2723),
+                    thickness: 2,
+                  ),
                 ),
                 _buildLinkRow(
                   icon: Icons.description_outlined,

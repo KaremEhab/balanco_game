@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:balanco_game/core/bloc/app_bloc.dart';
 class ModesScreen extends StatelessWidget {
-  const ModesScreen({super.key});
+  final ScrollController scrollController;
+
+  const ModesScreen({super.key, required this.scrollController});
 
   Widget _buildGlassCard({
     required Widget child,
@@ -49,6 +51,7 @@ class ModesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: SingleChildScrollView(
+        controller: scrollController,
         padding: const EdgeInsets.only(left: 24.0, right: 24.0, top: 80.0, bottom: 120.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

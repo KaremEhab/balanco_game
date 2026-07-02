@@ -53,13 +53,12 @@ class ProfileAvatarWidget extends StatelessWidget {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            CustomPaint(painter: shadowPainter),
             ClipPath(
               clipper: clipper,
               child: Container(
                 color: const Color.fromARGB(255, 255, 225, 27),
                 child: Image.network(
-                  imageUrl, 
+                  imageUrl,
                   fit: BoxFit.contain, // Prevents cropping!
                 ),
               ),
