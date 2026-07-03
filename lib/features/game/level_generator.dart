@@ -2,6 +2,12 @@ import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:balanco_game/features/game/models/level_data.dart';
 
+class _OccupiedSpace {
+  final Vector2 position;
+  final double radius;
+  _OccupiedSpace(this.position, this.radius);
+}
+
 /// Top-level function for Isolate computation.
 /// This generates random, non-overlapping coordinates for all level components.
 LevelData generateLevelData(int currentLevel) {
@@ -14,6 +20,45 @@ LevelData generateLevelData(int currentLevel) {
   final List<BumperData> bumpers = [];
   final List<TeleporterData> teleporters = [];
 
+  // This list tracks all placed items to ensure a transparent radius/clearance around each.
+  final List<_OccupiedSpace> occupied = [];
+
+  // Helper to check if a space is safe (no overlaps)
+  bool isSpaceSafe(Vector2 pos, double radius) {
+    for (final space in occupied) {
+      double dx = space.position.x - pos.x;
+      // Multiply dy by approx aspect ratio (4.0) so clearance is roughly circular on-screen
+      double dy = (space.position.y - pos.y) * 4.0;
+      if (sqrt(dx * dx + dy * dy) < space.radius + radius) {
+        return false; // Too close!
+      }
+    }
+    return true;
+  }
+
+  // ---------------------------------------------------------
+  // 1. Generate Teleporters (Level 7+) first to ensure they have space
+  // ---------------------------------------------------------
+  if (currentLevel >= 7) {
+    int numPairs = 1;
+    for (int i = 0; i < numPairs; i++) {
+      double tY1 = 0.05 + (i * (0.9 / numPairs));
+      double tY2 = 0.95 - (i * (0.9 / numPairs));
+      
+      Vector2 p1 = Vector2(0.2 + random.nextDouble() * 0.2 + ((i % 2) * 0.4), tY1);
+      Vector2 p2 = Vector2(0.2 + random.nextDouble() * 0.2 + ((i % 2) * 0.4), tY2);
+
+      teleporters.add(TeleporterData(p1, 30.0, i));
+      teleporters.add(TeleporterData(p2, 30.0, i));
+      
+      occupied.add(_OccupiedSpace(p1, 0.20)); // Generous clearance for teleporters
+      occupied.add(_OccupiedSpace(p2, 0.20));
+    }
+  }
+
+  // ---------------------------------------------------------
+  // 2. Generate Holes
+  // ---------------------------------------------------------
   int numHoles = currentLevel;
   if (currentLevel >= 10) {
     numHoles = 18;
@@ -23,17 +68,10 @@ LevelData generateLevelData(int currentLevel) {
 
   if (currentLevel == 1) {
     // 1 big centered hole
-    holes.add(
-      HoleData(
-        Vector2(0.5, 0.4),
-        45.0,
-        random.nextDouble() * 2 * pi,
-        false,
-        0.0,
-      ),
-    );
+    Vector2 p = Vector2(0.5, 0.4);
+    holes.add(HoleData(p, 45.0, random.nextDouble() * 2 * pi, false, 0.0));
+    occupied.add(_OccupiedSpace(p, 0.25));
   } else {
-    // random holes logic
     for (int i = 0; i < numHoles; i++) {
       int attempts = 0;
       double x = 0;
@@ -42,8 +80,6 @@ LevelData generateLevelData(int currentLevel) {
 
       while (attempts < 50) {
         y = random.nextDouble();
-        y = random.nextDouble();
-
         double safeX = 0.5 + 0.3 * sin(y * 2 * pi);
         x = random.nextDouble();
 
@@ -54,74 +90,36 @@ LevelData generateLevelData(int currentLevel) {
             x = safeX - 0.22 - random.nextDouble() * 0.2;
           }
         }
-
         x = x.clamp(0.12, 0.88);
 
-        bool tooClose = false;
-        for (final h in holes) {
-          double dx = h.position.x - x;
-          double dy = (h.position.y - y) * (currentLevel >= 10 ? 3.0 : 1.0);
-          if (sqrt(dx * dx + dy * dy) < 0.16) {
-            tooClose = true;
-            break;
-          }
+        bool isSucking = false;
+        if (currentLevel >= 10 && i < 5) {
+          isSucking = true;
+        } else if (currentLevel >= 8 && i < 2) {
+          isSucking = true;
+        } else if (currentLevel >= 6 && i == 0) {
+          isSucking = true;
         }
 
-        if (!tooClose) {
-          break;
+        double requiredSpace = isSucking ? 0.35 : 0.16;
+
+        if (isSpaceSafe(Vector2(x, y), requiredSpace)) {
+          double suckRad = isSucking ? 50.0 + (currentLevel * 2.0) : 0.0;
+
+          holes.add(HoleData(Vector2(x, y), hSize, random.nextDouble() * 2 * pi, isSucking, suckRad));
+          
+          // Add to occupied space so other obstacles stay away
+          occupied.add(_OccupiedSpace(Vector2(x, y), requiredSpace));
+          break; // successfully placed
         }
         attempts++;
       }
-
-      // Level 8+ has 2 sucking holes, Level 6-7 has 1. Level 10 has 5
-      bool isSucking = false;
-      if (currentLevel >= 10 && i < 5) {
-        isSucking = true;
-      } else if (currentLevel >= 8 && i < 2) {
-        isSucking = true;
-      } else if (currentLevel >= 6 && i == 0) {
-        isSucking = true;
-      }
-
-      double suckRad = isSucking ? 50.0 + (currentLevel * 2.0) : 0.0;
-
-      holes.add(
-        HoleData(
-          Vector2(x, y),
-          hSize,
-          random.nextDouble() * 2 * pi,
-          isSucking,
-          suckRad,
-        ),
-      );
     }
   }
 
-  // Generate Teleporters (Level 7+)
-  if (currentLevel >= 7) {
-    // 1 pair at max for more harder game
-    int numPairs = 1;
-    for (int i = 0; i < numPairs; i++) {
-      double tY1 = 0.05 + (i * (0.9 / numPairs));
-      double tY2 = 0.95 - (i * (0.9 / numPairs));
-      teleporters.add(
-        TeleporterData(
-          Vector2(0.2 + random.nextDouble() * 0.2 + ((i % 2) * 0.4), tY1),
-          30.0,
-          i,
-        ),
-      );
-      teleporters.add(
-        TeleporterData(
-          Vector2(0.2 + random.nextDouble() * 0.2 + ((i % 2) * 0.4), tY2),
-          30.0,
-          i,
-        ),
-      );
-    }
-  }
-
-  // Generate Bumpers (Level 5+)
+  // ---------------------------------------------------------
+  // 3. Generate Bumpers (Level 5+)
+  // ---------------------------------------------------------
   if (currentLevel >= 5) {
     int numBumpers = 1;
     if (currentLevel >= 6) numBumpers = 2;
@@ -130,44 +128,29 @@ LevelData generateLevelData(int currentLevel) {
 
     for (int i = 0; i < numBumpers; i++) {
       int attempts = 0;
-      double x = 0;
-      double y = 0;
+      double x = 0, y = 0;
 
       while (attempts < 50) {
         y = random.nextDouble();
         x = 0.2 + random.nextDouble() * 0.6;
 
-        bool tooClose = false;
-        for (final h in holes) {
-          double dx = h.position.x - x;
-          double dy = (h.position.y - y) * (currentLevel >= 10 ? 3.0 : 1.0);
-          if (sqrt(dx * dx + dy * dy) < 0.2) {
-            tooClose = true;
-            break;
-          }
+        if (isSpaceSafe(Vector2(x, y), 0.14)) {
+          bumpers.add(BumperData(Vector2(x, y), 18.0));
+          occupied.add(_OccupiedSpace(Vector2(x, y), 0.14));
+          break;
         }
-        for (final b in bumpers) {
-          double dx = b.position.x - x;
-          double dy = (b.position.y - y) * (currentLevel >= 10 ? 3.0 : 1.0);
-          if (sqrt(dx * dx + dy * dy) < 0.3) {
-            tooClose = true;
-            break;
-          }
-        }
-        if (!tooClose) break;
         attempts++;
       }
-
-      bumpers.add(BumperData(Vector2(x, y), 18.0));
     }
   }
 
-  // Generate stars safely
+  // ---------------------------------------------------------
+  // 4. Generate Stars
+  // ---------------------------------------------------------
   int numStars = currentLevel >= 10 ? 9 : 3;
   for (int i = 0; i < numStars; i++) {
     int attempts = 0;
-    double x = 0;
-    double y = 0;
+    double x = 0, y = 0;
 
     while (attempts < 50) {
       y = 0.05 + (i / numStars) * 0.9 + random.nextDouble() * (0.9 / numStars);
@@ -176,71 +159,58 @@ LevelData generateLevelData(int currentLevel) {
       x = safeX + (random.nextDouble() - 0.5) * 0.15;
       x = x.clamp(0.12, 0.88);
 
-      bool tooClose = false;
-      for (final h in holes) {
-        double dx = h.position.x - x;
-        double dy = (h.position.y - y) * (currentLevel >= 10 ? 3.0 : 1.0);
-        if (sqrt(dx * dx + dy * dy) < 0.15) {
-          tooClose = true;
-          break;
-        }
+      if (isSpaceSafe(Vector2(x, y), 0.12)) {
+        stars.add(Vector2(x, y));
+        occupied.add(_OccupiedSpace(Vector2(x, y), 0.12));
+        break;
       }
-
-      if (!tooClose) break;
       attempts++;
     }
-
-    stars.add(Vector2(x, y));
   }
 
-  // Generate 1 Heart safely (Level 4+)
+  // ---------------------------------------------------------
+  // 5. Generate Hearts (Level 4+)
+  // ---------------------------------------------------------
   if (currentLevel >= 4) {
     int numHearts = currentLevel >= 8 ? 2 : 1;
     if (currentLevel >= 10) numHearts = 4;
     for (int i = 0; i < numHearts; i++) {
       int attempts = 0;
-      double x = 0;
-      double y = 0;
+      double x = 0, y = 0;
 
       while (attempts < 50) {
-        y =
-            0.05 +
-            (i / numHearts) * 0.9 +
-            random.nextDouble() * (0.9 / numHearts); // Spread over board
+        y = 0.05 + (i / numHearts) * 0.9 + random.nextDouble() * (0.9 / numHearts);
         double safeX = 0.5 + 0.3 * sin(y * 2 * pi);
 
         x = safeX + (random.nextDouble() - 0.5) * 0.15;
         x = x.clamp(0.12, 0.88);
 
-        bool tooClose = false;
-        for (final h in holes) {
-          double dx = h.position.x - x;
-          double dy = h.position.y - y;
-          if (sqrt(dx * dx + dy * dy) < 0.15) {
-            tooClose = true;
-            break;
-          }
+        if (isSpaceSafe(Vector2(x, y), 0.12)) {
+          hearts.add(Vector2(x, y));
+          occupied.add(_OccupiedSpace(Vector2(x, y), 0.12));
+          break;
         }
-        for (final s in stars) {
-          if (Vector2(x, y).distanceTo(s) < 0.15) {
-            tooClose = true;
-            break;
-          }
-        }
-
-        if (!tooClose) break;
         attempts++;
       }
-
-      hearts.add(Vector2(x, y));
     }
   }
 
-  // Generate 1 MultiBallItem (Level 4+)
+  // ---------------------------------------------------------
+  // 6. Generate MultiBalls (Level 4+)
+  // ---------------------------------------------------------
   if (currentLevel >= 4) {
-    double x = 0.5 + (random.nextDouble() - 0.5) * 0.4;
-    double y = 0.3 + random.nextDouble() * 0.4;
-    multiBalls.add(Vector2(x, y));
+    int attempts = 0;
+    while (attempts < 50) {
+      double x = 0.5 + (random.nextDouble() - 0.5) * 0.4;
+      double y = 0.3 + random.nextDouble() * 0.4;
+      
+      if (isSpaceSafe(Vector2(x, y), 0.12)) {
+        multiBalls.add(Vector2(x, y));
+        occupied.add(_OccupiedSpace(Vector2(x, y), 0.12));
+        break;
+      }
+      attempts++;
+    }
   }
 
   return LevelData(
