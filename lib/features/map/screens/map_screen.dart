@@ -130,12 +130,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       duration: const Duration(milliseconds: 1000),
     );
 
-      _teethClosureAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-        CurvedAnimation(
-          parent: _playLevelController,
-          curve: const Interval(0.5, 0.8, curve: Curves.easeInCubic),
-        ),
-      );
+    _teethClosureAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _playLevelController,
+        curve: const Interval(0.5, 0.8, curve: Curves.easeInCubic),
+      ),
+    );
   }
 
   @override
@@ -176,7 +176,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
 
     // Check if we just unlocked a new level (meaning we returned from gameplay having beaten a level)
-    if (!_isFirstLoad && highestLevel > 0 && profile.highestLevel > highestLevel) {
+    if (!_isFirstLoad &&
+        highestLevel > 0 &&
+        profile.highestLevel > highestLevel) {
       _justUnlockedLevel = profile.highestLevel;
       debugPrint(
         'HOME_SCREEN: Detected new level unlocked! _justUnlockedLevel set to $_justUnlockedLevel',
@@ -186,7 +188,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
     setState(() {
       highestLevel = profile.highestLevel;
-      currentLevel = profile.highestLevel; // Always default to the highest unlocked level
+      currentLevel =
+          profile.highestLevel; // Always default to the highest unlocked level
       _displayedLevel = currentLevel;
     });
 
@@ -485,36 +488,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       top: 0,
                       bottom: 0,
                       width: 50,
-                      child: GestureDetector(
-                        onLongPress: () async {
-                          // SECRET DEBUG RESET BUTTON!
-                          // Long press the wooden bridge to reset progress to level 1 for testing.
-                          final profile = await DatabaseHelper.instance
-                              .getPlayerProfile();
-                          await DatabaseHelper.instance.updatePlayerProfile(
-                            profile.copyWith(
-                              highestLevel: 1,
-                              lastPlayedLevel: 1,
-                            ),
-                          );
-                          setState(() {
-                            highestLevel = 1;
-                            currentLevel = 1;
-                            _justUnlockedLevel = null;
-                          });
-                          HapticFeedback.heavyImpact();
-                          if (!context.mounted) return;
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                'DEBUG: Progress reset to Level 1!',
-                              ),
-                            ),
-                          );
-                        },
-                        child: RepaintBoundary(
-                          child: CustomPaint(painter: WoodenRoutePainter()),
-                        ),
+                      child: RepaintBoundary(
+                        child: CustomPaint(painter: WoodenRoutePainter()),
                       ),
                     ),
                     // Level Holes
@@ -957,7 +932,6 @@ class _AnimatedLevelNodeState extends State<AnimatedLevelNode>
         if (mounted) _controller.forward();
       });
     }
-
   }
 
   @override
@@ -1129,7 +1103,9 @@ class _AnimatedLevelNodeState extends State<AnimatedLevelNode>
                             spreadRadius: 20.0,
                           ),
                           BoxShadow(
-                            color: const Color(0xFFFFD54F).withValues(alpha: 0.5),
+                            color: const Color(
+                              0xFFFFD54F,
+                            ).withValues(alpha: 0.5),
                             blurRadius: 60.0,
                             spreadRadius: 40.0,
                           ),
