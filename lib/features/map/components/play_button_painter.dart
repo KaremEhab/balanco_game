@@ -5,24 +5,22 @@ import 'package:flutter/material.dart';
 
 
 class PlayButtonPainter extends CustomPainter {
+  final bool isLocked;
+
+  PlayButtonPainter({this.isLocked = false});
 
   @override
-
   void paint(Canvas canvas, Size size) {
-
     Paint paint0Stroke = Paint()
-
       ..style = PaintingStyle.stroke
-
       ..strokeWidth = size.width * 0.008928571;
 
     paint0Stroke.shader = ui.Gradient.linear(
-
       Offset(size.width * 0.5000000, size.height * 0.1071429),
-
       Offset(size.width * 0.5000000, size.height * 0.9761905),
-
-      [Color(0xff420F00).withValues(alpha: 1), Color(0xff641200).withValues(alpha: 1)],
+      isLocked
+          ? [Color(0xff444444).withValues(alpha: 1), Color(0xff222222).withValues(alpha: 1)]
+          : [Color(0xff420F00).withValues(alpha: 1), Color(0xff641200).withValues(alpha: 1)],
 
       [0, 1],
 
@@ -62,7 +60,9 @@ class PlayButtonPainter extends CustomPainter {
 
     Paint paint0Fill = Paint()..style = PaintingStyle.fill;
 
-    paint0Fill.color = Color(0xff9F1601).withValues(alpha: 1.0);
+    paint0Fill.color = isLocked 
+        ? Color(0xff777777).withValues(alpha: 1.0) 
+        : Color(0xff9F1601).withValues(alpha: 1.0);
 
     canvas.drawRRect(
 
@@ -99,12 +99,11 @@ class PlayButtonPainter extends CustomPainter {
     Paint paint1Fill = Paint()..style = PaintingStyle.fill;
 
     paint1Fill.shader = ui.Gradient.linear(
-
       Offset(size.width * 0.5000000, size.height * 0.02380952),
-
       Offset(size.width * 0.5000000, size.height * 0.8809524),
-
-      [Color(0xffFFA428).withValues(alpha: 1), Color(0xffF54812).withValues(alpha: 1)],
+      isLocked
+          ? [Color(0xffBBBBBB).withValues(alpha: 1), Color(0xff888888).withValues(alpha: 1)]
+          : [Color(0xffFFA428).withValues(alpha: 1), Color(0xffF54812).withValues(alpha: 1)],
 
       [0, 1],
 

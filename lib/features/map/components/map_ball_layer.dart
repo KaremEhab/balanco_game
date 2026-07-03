@@ -12,6 +12,7 @@ class MapBallLayer extends CustomPainter {
   final double ballOffsetY; // Separate offset for the ball jumping
   final bool drawPlatform;
   final bool drawBall;
+  final bool isLocked;
 
   // Paints
   final Paint _dropShadowPaint = Paint()
@@ -33,6 +34,7 @@ class MapBallLayer extends CustomPainter {
     this.ballOffsetY = 0.0,
     this.drawPlatform = true,
     this.drawBall = true,
+    this.isLocked = false,
   }) {
     _highlightPaint = Paint()
       ..shader = RadialGradient(
@@ -251,6 +253,18 @@ class MapBallLayer extends CustomPainter {
 
       // Draw rotating BallPainter graphic from gameplay
       canvas.save();
+      
+      if (isLocked) {
+        final paint = Paint()
+          ..colorFilter = const ColorFilter.matrix(<double>[
+            0.2126, 0.7152, 0.0722, 0, 0,
+            0.2126, 0.7152, 0.0722, 0, 0,
+            0.2126, 0.7152, 0.0722, 0, 0,
+            0,      0,      0,      1, 0,
+          ]);
+        canvas.saveLayer(Rect.fromCircle(center: Offset.zero, radius: radius * 2), paint);
+      }
+
       canvas.rotate(rotation);
 
       // Scale BallPainter (41.46x42.056) to fit within radius * 2
@@ -259,6 +273,11 @@ class MapBallLayer extends CustomPainter {
       canvas.translate(-20.73, -21.028);
 
       BallPainter().paint(canvas, const Size(42.0, 42.0));
+      
+      if (isLocked) {
+        canvas.restore();
+      }
+      
       canvas.restore();
 
       // 3D Highlight
@@ -280,6 +299,7 @@ class MapBallLayer extends CustomPainter {
         oldDelegate.squashScaleX != squashScaleX ||
         oldDelegate.squashScaleY != squashScaleY ||
         oldDelegate.rotation != rotation ||
-        oldDelegate.ballOffsetY != ballOffsetY;
+        oldDelegate.ballOffsetY != ballOffsetY ||
+        oldDelegate.isLocked != isLocked;
   }
 }

@@ -183,7 +183,7 @@ class SettingsScreen extends StatelessWidget {
       padding: EdgeInsets.only(
         left: 24.0,
         right: 24.0,
-        top: MediaQuery.of(context).padding.top + 250.0,
+        top: MediaQuery.of(context).padding.top + 280.0,
         bottom: 120.0,
       ),
       child: Column(

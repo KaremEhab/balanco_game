@@ -211,7 +211,7 @@ class LeaderboardScreen extends StatelessWidget {
       padding: EdgeInsets.only(
         left: 20.0,
         right: 20.0,
-        top: MediaQuery.of(context).padding.top + 90.0,
+        top: MediaQuery.of(context).padding.top + 150.0,
         bottom: 120.0,
       ),
       child: Column(

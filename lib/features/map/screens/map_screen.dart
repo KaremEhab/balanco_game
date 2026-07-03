@@ -1,5 +1,5 @@
 import 'dart:math';
-
+import 'dart:ui';
 import 'package:balanco_game/features/game/screens/gameplay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -391,6 +391,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             drawPlatform:
                                 false, // Don't draw the platform while flying
                             drawBall: true,
+                            isLocked: level > highestLevel,
                           ),
                         ),
                       ),
@@ -488,8 +489,36 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       top: 0,
                       bottom: 0,
                       width: 50,
-                      child: RepaintBoundary(
-                        child: CustomPaint(painter: WoodenRoutePainter()),
+                      child: GestureDetector(
+                        onLongPress: () async {
+                          // SECRET DEBUG RESET BUTTON!
+                          // Long press the wooden bridge to reset progress to level 1 for testing.
+                          final profile = await DatabaseHelper.instance
+                              .getPlayerProfile();
+                          await DatabaseHelper.instance.updatePlayerProfile(
+                            profile.copyWith(
+                              highestLevel: 1,
+                              lastPlayedLevel: 1,
+                            ),
+                          );
+                          setState(() {
+                            highestLevel = 1;
+                            currentLevel = 1;
+                            _justUnlockedLevel = null;
+                          });
+                          HapticFeedback.heavyImpact();
+                          if (!context.mounted) return;
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'DEBUG: Progress reset to Level 1!',
+                              ),
+                            ),
+                          );
+                        },
+                        child: RepaintBoundary(
+                          child: CustomPaint(painter: WoodenRoutePainter()),
+                        ),
                       ),
                     ),
                     // Level Holes
@@ -555,6 +584,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             left: (screenWidth - 200) / 2, // Centered
             child: BouncingLevelButton(
               currentLevel: _displayedLevel,
+              isLocked: _displayedLevel > highestLevel,
               onTap: () {
                 HapticFeedback.lightImpact();
                 _handleNodeTap(_displayedLevel);
@@ -584,6 +614,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       ballOffsetY: _idleJumpAnimation.value,
                       drawPlatform: true,
                       drawBall: _animatingLevel == null,
+                      isLocked: _displayedLevel > highestLevel,
                     ),
                   ),
                 );
@@ -644,12 +675,14 @@ class SnapScrollPhysics extends ScrollPhysics {
 
 class BouncingLevelButton extends StatefulWidget {
   final int currentLevel;
+  final bool isLocked;
   final VoidCallback onTap;
 
   const BouncingLevelButton({
     super.key,
     required this.currentLevel,
     required this.onTap,
+    this.isLocked = false,
   });
 
   @override
@@ -712,7 +745,7 @@ class _BouncingLevelButtonState extends State<BouncingLevelButton>
               width: 200,
               height: 80,
               child: RepaintBoundary(
-                child: CustomPaint(painter: PlayButtonPainter()),
+                child: CustomPaint(painter: PlayButtonPainter(isLocked: widget.isLocked)),
               ),
             ),
             Center(
@@ -739,12 +772,16 @@ class _BouncingLevelButtonState extends State<BouncingLevelButton>
                         foreground: Paint()
                           ..style = PaintingStyle.stroke
                           ..strokeWidth = 4
-                          ..color = const Color.fromARGB(255, 126, 40, 17),
+                          ..color = widget.isLocked
+                              ? const Color(0xFF555555)
+                              : const Color.fromARGB(255, 126, 40, 17),
                         shadows: [
-                          const Shadow(
-                            color: Color.fromARGB(255, 104, 28, 4),
+                          Shadow(
+                            color: widget.isLocked
+                                ? const Color(0xFF333333)
+                                : const Color.fromARGB(255, 104, 28, 4),
                             blurRadius: 0,
-                            offset: Offset(0, 6),
+                            offset: const Offset(0, 6),
                           ),
                         ],
                       ),
@@ -754,7 +791,9 @@ class _BouncingLevelButtonState extends State<BouncingLevelButton>
                       'LEVEL ${widget.currentLevel}',
                       style: GoogleFonts.luckiestGuy(
                         fontSize: 30,
-                        color: const Color(0xffFFF8F3),
+                        color: widget.isLocked
+                            ? const Color(0xFFDDDDDD)
+                            : const Color(0xffFFF8F3),
                       ),
                     ),
                   ],
@@ -956,7 +995,7 @@ class _AnimatedLevelNodeState extends State<AnimatedLevelNode>
     if (!widget.isJustUnlocked) {
       // Static render
       double currentSize = widget.isUnlocked
-          ? widget.unlockedSize
+          ? (widget.isCurrent ? widget.unlockedSize * 1.1 : widget.unlockedSize)
           : widget.lockedSize;
 
       Widget childPainter = RepaintBoundary(

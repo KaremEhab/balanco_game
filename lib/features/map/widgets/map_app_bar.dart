@@ -121,8 +121,6 @@ class _MapAppBarState extends State<MapAppBar> {
     );
   }
 
-
-
   // =========================================================================
   // APPBAR CONTENT (Visible when p = 0.0)
   // =========================================================================
@@ -576,6 +574,33 @@ class _MapAppBarState extends State<MapAppBar> {
             ],
           ),
         ),
+
+        // --- Expanded Points ---
+        Positioned(
+          left: 20,
+          right: 20,
+          top: 170,
+          child: Container(
+            padding: const EdgeInsets.only(top: 8, bottom: 3),
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [Color(0xFFAEE6EF), Color(0xFF6DE8F8)],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),
+              borderRadius: BorderRadius.circular(30),
+              border: Border.all(color: const Color(0xFF163C47), width: 2),
+            ),
+            alignment: Alignment.center,
+            child: _buildStrokedText(
+              "${widget.coins.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')} PTS",
+              fontSize: 20,
+              textColor: Colors.white,
+              strokeColor: const Color(0xFF163C47),
+              shadowColor: Colors.transparent,
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -586,7 +611,7 @@ class _MapAppBarState extends State<MapAppBar> {
 
     // Heights
     final double minHeight = 90.0;
-    final double maxHeight = 190.0;
+    final double maxHeight = 240.0;
     final double currentHeight = lerpDouble(minHeight, maxHeight, p)!;
     final double borderRadius = lerpDouble(100.0, 40.0, p)!;
 
@@ -597,8 +622,8 @@ class _MapAppBarState extends State<MapAppBar> {
       p,
     )!;
     final Color borderColor = Color.lerp(
-      Colors.white.withValues(alpha: 0.5),
-      Colors.white,
+      Color(0xFF163C47),
+      Color(0xFF163C47),
       p,
     )!;
     final double borderWidth = lerpDouble(2.0, 3.0, p)!;
@@ -622,121 +647,166 @@ class _MapAppBarState extends State<MapAppBar> {
         final double nameTop = lerpDouble(12, 22, p)!;
         final double nameSize = lerpDouble(18, 18, p)!;
 
-        return SizedBox(
-          width: w,
-          height: currentHeight,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(borderRadius),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: containerColor,
-                  borderRadius: BorderRadius.circular(borderRadius),
-                  border: Border.all(color: borderColor, width: borderWidth),
-                  boxShadow: [
-                    if (p > 0)
-                      BoxShadow(color: shadowColor, offset: shadowOffset),
-                  ],
-                ),
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    // --- 1. Fade out AppBar Content ---
-                    if (p < 1.0)
-                      Opacity(
-                        opacity: (1 - p).clamp(0.0, 1.0),
-                        child: IgnorePointer(
-                          ignoring: p > 0.5,
-                          child: _buildAppBarContent(w),
-                        ),
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              width: w,
+              height: currentHeight,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(borderRadius),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: containerColor,
+                      borderRadius: BorderRadius.circular(borderRadius),
+                      border: Border.all(
+                        color: borderColor,
+                        width: borderWidth,
                       ),
+                      boxShadow: [
+                        if (p > 0)
+                          BoxShadow(color: shadowColor, offset: shadowOffset),
+                      ],
+                    ),
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        // --- 1. Fade out AppBar Content ---
+                        if (p < 1.0)
+                          Opacity(
+                            opacity: (1 - p).clamp(0.0, 1.0),
+                            child: IgnorePointer(
+                              ignoring: p > 0.5,
+                              child: _buildAppBarContent(w),
+                            ),
+                          ),
 
-                    // --- 2. Fade in Expanded Content ---
-                    if (p > 0.0)
-                      Opacity(
-                        opacity: p,
-                        child: IgnorePointer(
-                          ignoring: p <= 0.5,
-                          child: _buildExpandedContent(w),
-                        ),
-                      ),
+                        // --- 2. Fade in Expanded Content ---
+                        if (p > 0.0)
+                          Opacity(
+                            opacity: p,
+                            child: IgnorePointer(
+                              ignoring: p <= 0.5,
+                              child: _buildExpandedContent(w),
+                            ),
+                          ),
 
-                    // --- 3. Sliding Shared Elements (Avatar & Name) ---
-                    Positioned(
-                      left: avatarLeft,
-                      top: avatarTop,
-                      child: GestureDetector(
-                        onTap: () {
-                          showProfileDialog(
-                            context,
-                            name: 'KAREEM EHAB',
-                            level: widget.highestLevel,
-                            coins: widget.coins,
-                            sparks: widget.sparks,
-                          );
-                        },
-                        child: Stack(
-                          clipBehavior: Clip.none,
-                          alignment: Alignment.bottomCenter,
-                          children: [
-                            ValueListenableBuilder<AvatarShape>(
-                              valueListenable: currentAvatarShapeNotifier,
-                              builder: (context, shape, _) {
-                                return ValueListenableBuilder<String>(
-                                  valueListenable: currentAvatarUrlNotifier,
-                                  builder: (context, url, _) {
-                                    return ProfileAvatarWidget(
-                                      shape: shape,
-                                      size: avatarSize,
-                                      imageUrl: url,
+                        // --- 3. Sliding Shared Elements (Avatar & Name) ---
+                        Positioned(
+                          left: avatarLeft,
+                          top: avatarTop,
+                          child: GestureDetector(
+                            onTap: () {
+                              showProfileDialog(
+                                context,
+                                name: 'KAREEM EHAB',
+                                level: widget.highestLevel,
+                                coins: widget.coins,
+                                sparks: widget.sparks,
+                              );
+                            },
+                            child: Stack(
+                              clipBehavior: Clip.none,
+                              alignment: Alignment.bottomCenter,
+                              children: [
+                                ValueListenableBuilder<AvatarShape>(
+                                  valueListenable: currentAvatarShapeNotifier,
+                                  builder: (context, shape, _) {
+                                    return ValueListenableBuilder<String>(
+                                      valueListenable: currentAvatarUrlNotifier,
+                                      builder: (context, url, _) {
+                                        return ProfileAvatarWidget(
+                                          shape: shape,
+                                          size: avatarSize,
+                                          imageUrl: url,
+                                        );
+                                      },
                                     );
                                   },
-                                );
-                              },
-                            ),
-                            if (p < 1.0)
-                              Positioned(
-                                bottom: lerpDouble(-8, -12, p)!,
-                                child: Opacity(
-                                  opacity: 1 - p,
-                                  child: SizedBox(
-                                    width: lerpDouble(26, 36, p)!,
-                                    height: lerpDouble(26, 36, p)!,
-                                    child: FittedBox(
-                                      fit: BoxFit.contain,
+                                ),
+                                if (p < 1.0)
+                                  Positioned(
+                                    bottom: lerpDouble(-8, -12, p)!,
+                                    child: Opacity(
+                                      opacity: 1 - p,
                                       child: SizedBox(
-                                        width: 22,
-                                        height: 22,
-                                        child: CustomPaint(
-                                          painter: GemPainter(),
+                                        width: lerpDouble(26, 36, p)!,
+                                        height: lerpDouble(26, 36, p)!,
+                                        child: FittedBox(
+                                          fit: BoxFit.contain,
+                                          child: SizedBox(
+                                            width: 22,
+                                            height: 22,
+                                            child: CustomPaint(
+                                              painter: GemPainter(),
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ),
-                          ],
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
 
-                    Positioned(
-                      left: nameLeft,
-                      top: nameTop,
-                      child: _buildStrokedText(
-                        'KAREEM EHAB',
-                        fontSize: nameSize,
-                        textColor: const Color(0xFFFFFBF6),
-                        strokeColor: const Color(0xFF684D1E),
-                        shadowColor: const Color(0xFF513A13),
-                      ),
+                        Positioned(
+                          left: nameLeft,
+                          top: nameTop,
+                          child: _buildStrokedText(
+                            'KAREEM EHAB',
+                            fontSize: nameSize,
+                            textColor: const Color(0xFFFFFBF6),
+                            strokeColor: const Color.fromARGB(255, 71, 49, 11),
+                            shadowColor: const Color(0xFF513A13),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),
-          ),
+            if (p < 1.0)
+              Opacity(
+                opacity: (1 - p).clamp(0.0, 1.0),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 7),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(30),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                      child: Container(
+                        padding: const EdgeInsets.fromLTRB(24, 8, 24, 4),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFAEE6EF).withValues(alpha: 0.4),
+                          borderRadius: BorderRadius.circular(30),
+                          border: Border.all(
+                            color: const Color(0xFF163C47),
+                            width: 3,
+                          ),
+                          // boxShadow: const [
+                          //   BoxShadow(
+                          //     color: Color(0xFF163C47),
+                          //     offset: Offset(0, 4),
+                          //   ),
+                          // ],
+                        ),
+                        child: _buildStrokedText(
+                          "${widget.coins.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')} PTS",
+                          fontSize: 20,
+                          textColor: Colors.white,
+                          strokeColor: const Color(0xFF163C47),
+                          shadowColor: const Color(0xFF163C47),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+          ],
         );
       },
     );
