@@ -119,10 +119,11 @@ class MultiBallItem extends PositionComponent
 
     for (int i = 0; i < spawnCount; i++) {
       BallData newBall = BallData();
-      newBall.isRespawningFromEdge = true;
-      newBall.respawnTimer = 1.0 + (i * 0.3); // stagger their drops slightly
+      newBall.isFreeFalling = true;
       newBall.pos2D = game.teleportingGateComponent.position.clone();
-      newBall.scale = 0.0;
+      // Give them a slight random horizontal velocity so they don't fall perfectly stacked
+      newBall.freeFallVelocity = Vector2((Random().nextDouble() - 0.5) * 150, 0); 
+      newBall.scale = 1.0;
       newBall.p = (game.size.x - 2 * game.barPadding) / 2.0;
 
       game.activeBalls.add(newBall);
