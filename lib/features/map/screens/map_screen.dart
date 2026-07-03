@@ -136,10 +136,31 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         curve: const Interval(0.5, 0.8, curve: Curves.easeInCubic),
       ),
     );
+
+    _buzzerController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+
+    _buzzerAnimation =
+        TweenSequence<double>([
+          TweenSequenceItem(tween: Tween(begin: 0.0, end: 12.0), weight: 1),
+          TweenSequenceItem(tween: Tween(begin: 12.0, end: -12.0), weight: 2),
+          TweenSequenceItem(tween: Tween(begin: -12.0, end: 12.0), weight: 2),
+          TweenSequenceItem(tween: Tween(begin: 12.0, end: -12.0), weight: 2),
+          TweenSequenceItem(tween: Tween(begin: -12.0, end: 6.0), weight: 1),
+          TweenSequenceItem(tween: Tween(begin: 6.0, end: 0.0), weight: 1),
+        ]).animate(
+          CurvedAnimation(parent: _buzzerController, curve: Curves.easeInOut),
+        );
   }
+
+  late AnimationController _buzzerController;
+  late Animation<double> _buzzerAnimation;
 
   @override
   void dispose() {
+    _buzzerController.dispose();
     _playLevelController.dispose();
     _idleJumpController.dispose();
     widget.scrollController.removeListener(_onScroll);
@@ -252,17 +273,58 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     if (_animatingLevel != null) return; // Prevent multiple taps
 
     if (level <= highestLevel) {
-      if (level == currentLevel) {
-        setState(() {
-          _animatingLevel = level;
-        });
-        _runFlyToHoleAnimation(level);
-      } else {
-        _startGameplay(level);
-      }
+      setState(() {
+        _animatingLevel = level;
+      });
+      _runFlyToHoleAnimation(level);
     } else {
       HapticFeedback.vibrate();
+      _triggerLockedFeedback();
     }
+  }
+
+  void _triggerLockedFeedback() {
+    if (_buzzerController.isAnimating) return;
+    _buzzerController.forward(from: 0.0);
+
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        behavior: SnackBarBehavior.floating,
+        content: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          decoration: BoxDecoration(
+            color: const Color(0xFF333333),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: Colors.white, width: 3),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black54,
+                offset: Offset(0, 4),
+                blurRadius: 0, // Cartoonish hard shadow
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.lock_rounded, color: Colors.amber, size: 28),
+              const SizedBox(width: 12),
+              Text(
+                "Level Locked!",
+                style: GoogleFonts.luckiestGuy(
+                  fontSize: 20,
+                  color: Colors.white,
+                  letterSpacing: 1.2,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   void _runFlyToHoleAnimation(int level) {
@@ -547,11 +609,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 ? _teethClosureAnimation.value
                                 : 0.0,
                             onTap: () {
-                              if (isUnlocked) {
-                                HapticFeedback.lightImpact();
-                                _handleNodeTap(level);
+                              HapticFeedback.lightImpact();
+                              setState(() {
+                                _displayedLevel = level;
+                              });
+                              _scrollToCurrentLevel();
+
+                              if (!isUnlocked) {
+                                _triggerLockedFeedback();
                               } else {
-                                HapticFeedback.vibrate();
+                                _handleNodeTap(level);
                               }
                             },
                             onAnimationComplete: () {
@@ -578,45 +645,61 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
           ),
 
-          // Fixed Level Button
-          Positioned(
-            bottom: 130, // Positioned above the navbar
-            left: (screenWidth - 200) / 2, // Centered
-            child: BouncingLevelButton(
-              currentLevel: _displayedLevel,
-              isLocked: _displayedLevel > highestLevel,
-              onTap: () {
-                HapticFeedback.lightImpact();
-                _handleNodeTap(_displayedLevel);
-              },
-            ),
-          ),
-
-          // Fixed Idle Ball and Platform Overlay
-          Positioned(
-            bottom: 208, // Offset adjusted so platform stays above the button
-            left: (screenWidth - 60) / 2,
+          Positioned.fill(
             child: AnimatedBuilder(
-              animation: _idleJumpController,
+              animation: _buzzerAnimation,
               builder: (context, child) {
-                // Keep the platform drawn but hide the ball if it's currently flying
-                return SizedBox(
-                  width: 60,
-                  height: 60,
-                  child: CustomPaint(
-                    painter: MapBallLayer(
-                      position: const Offset(30, 30),
-                      scale: _idleScaleZAnimation.value,
-                      squashScaleX: _idleSquashXAnimation.value,
-                      squashScaleY: _idleSquashYAnimation.value,
-                      rotation: 0.0,
-                      radius: 16.0,
-                      ballOffsetY: _idleJumpAnimation.value,
-                      drawPlatform: true,
-                      drawBall: _animatingLevel == null,
-                      isLocked: _displayedLevel > highestLevel,
+                return Stack(
+                  children: [
+                    // Fixed Level Button
+                    Positioned(
+                      bottom: 130, // Positioned above the navbar
+                      left:
+                          (screenWidth - 200) / 2 +
+                          _buzzerAnimation.value, // Centered with shake
+                      child: BouncingLevelButton(
+                        currentLevel: _displayedLevel,
+                        isLocked: _displayedLevel > highestLevel,
+                        onTap: () {
+                          HapticFeedback.lightImpact();
+                          _handleNodeTap(_displayedLevel);
+                        },
+                      ),
                     ),
-                  ),
+
+                    // Fixed Idle Ball and Platform Overlay
+                    Positioned(
+                      bottom:
+                          208, // Offset adjusted so platform stays above the button
+                      left:
+                          (screenWidth - 60) / 2 +
+                          _buzzerAnimation.value, // Centered with shake
+                      child: AnimatedBuilder(
+                        animation: _idleJumpController,
+                        builder: (context, child) {
+                          // Keep the platform drawn but hide the ball if it's currently flying
+                          return SizedBox(
+                            width: 60,
+                            height: 60,
+                            child: CustomPaint(
+                              painter: MapBallLayer(
+                                position: const Offset(30, 30),
+                                scale: _idleScaleZAnimation.value,
+                                squashScaleX: _idleSquashXAnimation.value,
+                                squashScaleY: _idleSquashYAnimation.value,
+                                rotation: 0.0,
+                                radius: 16.0,
+                                ballOffsetY: _idleJumpAnimation.value,
+                                drawPlatform: true,
+                                drawBall: _animatingLevel == null,
+                                isLocked: _displayedLevel > highestLevel,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 );
               },
             ),
@@ -745,7 +828,9 @@ class _BouncingLevelButtonState extends State<BouncingLevelButton>
               width: 200,
               height: 80,
               child: RepaintBoundary(
-                child: CustomPaint(painter: PlayButtonPainter(isLocked: widget.isLocked)),
+                child: CustomPaint(
+                  painter: PlayButtonPainter(isLocked: widget.isLocked),
+                ),
               ),
             ),
             Center(

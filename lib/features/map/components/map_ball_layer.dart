@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:balanco_game/features/game/components/ball_component.dart';
 
@@ -93,8 +92,9 @@ class MapBallLayer extends CustomPainter {
       ..close();
 
     final Paint basePaint = Paint()
-      ..color =
-          const Color(0xFF2D1A11) // Solid very dark brown/black
+      ..color = isLocked
+          ? const Color(0xFF2D1A11) // Solid very dark brown/black
+          : const Color.fromARGB(255, 97, 54, 5) // Deep sea blue
       ..maskFilter = const MaskFilter.blur(
         BlurStyle.normal,
         4.0,
@@ -136,10 +136,15 @@ class MapBallLayer extends CustomPainter {
       ..close();
 
     final Paint topFacePaint = Paint()
-      ..shader = const LinearGradient(
+      ..shader = LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        colors: [Color(0xFFE0E0E0), Color(0xFF9E9E9E)], // Bright metallic top
+        colors: isLocked
+            ? const [
+                Color(0xFFE0E0E0),
+                Color(0xFF9E9E9E),
+              ] // Bright metallic top
+            : const [Color(0xFFFFE082), Color(0xFFFFB74D)], // Warm beach sand
       ).createShader(Rect.fromLTRB(-frontW, backY, frontW, frontY));
 
     canvas.drawPath(topFacePath, topFacePaint);
@@ -165,10 +170,18 @@ class MapBallLayer extends CustomPainter {
       ..close();
 
     final Paint frontFacePaint = Paint()
-      ..shader = const LinearGradient(
+      ..shader = LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        colors: [Color(0xFF616161), Color(0xFF212121)], // Darker metal front edge
+        colors: isLocked
+            ? const [
+                Color(0xFF616161),
+                Color(0xFF212121),
+              ] // Darker metal front edge
+            : const [
+                Color.fromARGB(255, 247, 219, 79),
+                Color.fromARGB(255, 209, 140, 2),
+              ], // Clear cyan/blue water
       ).createShader(Rect.fromLTRB(-frontW, frontY, frontW, frontBottomY));
 
     canvas.drawPath(frontFacePath, frontFacePaint);
@@ -186,19 +199,20 @@ class MapBallLayer extends CustomPainter {
     // 5. Sci-Fi Details: Glowing cyan indicator on the front edge corner
     double cx = 38;
     double cy = 13;
-    
+
     // Glowing cyan dot
     final Paint glowPaint = Paint()
       ..color = const Color(0xFF03A9F4).withValues(alpha: 0.8)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3.0);
-      
+
     final Paint corePaint = Paint()..color = const Color(0xFFE1F5FE);
 
     canvas.drawCircle(Offset(cx, cy), 3.0, glowPaint);
     canvas.drawCircle(Offset(cx, cy), 1.5, corePaint);
-    
+
     // Add some "rivets" on the front face
-    final Paint rivetPaint = Paint()..color = Colors.black.withValues(alpha: 0.5);
+    final Paint rivetPaint = Paint()
+      ..color = Colors.black.withValues(alpha: 0.5);
     canvas.drawCircle(Offset(-38, cy), 1.5, rivetPaint);
     canvas.drawCircle(Offset(-25, cy), 1.5, rivetPaint);
     canvas.drawCircle(Offset(25, cy), 1.5, rivetPaint);
@@ -253,16 +267,35 @@ class MapBallLayer extends CustomPainter {
 
       // Draw rotating BallPainter graphic from gameplay
       canvas.save();
-      
+
       if (isLocked) {
         final paint = Paint()
           ..colorFilter = const ColorFilter.matrix(<double>[
-            0.2126, 0.7152, 0.0722, 0, 0,
-            0.2126, 0.7152, 0.0722, 0, 0,
-            0.2126, 0.7152, 0.0722, 0, 0,
-            0,      0,      0,      1, 0,
+            0.2126,
+            0.7152,
+            0.0722,
+            0,
+            0,
+            0.2126,
+            0.7152,
+            0.0722,
+            0,
+            0,
+            0.2126,
+            0.7152,
+            0.0722,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
           ]);
-        canvas.saveLayer(Rect.fromCircle(center: Offset.zero, radius: radius * 2), paint);
+        canvas.saveLayer(
+          Rect.fromCircle(center: Offset.zero, radius: radius * 2),
+          paint,
+        );
       }
 
       canvas.rotate(rotation);
@@ -273,11 +306,11 @@ class MapBallLayer extends CustomPainter {
       canvas.translate(-20.73, -21.028);
 
       BallPainter().paint(canvas, const Size(42.0, 42.0));
-      
+
       if (isLocked) {
         canvas.restore();
       }
-      
+
       canvas.restore();
 
       // 3D Highlight
