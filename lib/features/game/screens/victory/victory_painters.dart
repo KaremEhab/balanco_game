@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class VictoryCardPainter extends CustomPainter {
   @override
@@ -68,46 +71,37 @@ class VictoryCardPainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
+
 class VictoryRibbonPainter extends CustomPainter {
+  final String text;
+
+  VictoryRibbonPainter({this.text = 'LEVEL CLEARED'});
+
   @override
   void paint(Canvas canvas, Size size) {
-    // A classic folded ribbon shape
-    final ribbonPaint = Paint()
-      ..shader = const LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [Color(0xFF6EDC4F), Color(0xFF389E23)],
-      ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
-
-    final darkRibbonPaint = Paint()
-      ..color = const Color(0xFF1E6310); // Dark green for folds
-
     double h = size.height;
     double w = size.width;
     
     // Main center block
-    double centerStartX = 40;
-    double centerEndX = w - 40;
+    double centerStartX = 65;
+    double centerEndX = w - 65;
     
-    // 1. Draw back tails
+    // 1. Draw back tails getting closer to the center
     Path leftTail = Path()
-      ..moveTo(0, h * 0.4)
-      ..lineTo(30, h * 0.3)
-      ..lineTo(50, h * 0.8)
-      ..lineTo(0, h)
-      ..lineTo(15, h * 0.7)
+      ..moveTo(15, h * 0.45)
+      ..lineTo(centerStartX + 10, h * 0.35)
+      ..lineTo(centerStartX + 10, h * 0.85)
+      ..lineTo(15, h * 0.95)
+      ..lineTo(30, h * 0.7)
       ..close();
       
     Path rightTail = Path()
-      ..moveTo(w, h * 0.4)
-      ..lineTo(w - 30, h * 0.3)
-      ..lineTo(w - 50, h * 0.8)
-      ..lineTo(w, h)
-      ..lineTo(w - 15, h * 0.7)
+      ..moveTo(w - 15, h * 0.45)
+      ..lineTo(centerEndX - 10, h * 0.35)
+      ..lineTo(centerEndX - 10, h * 0.85)
+      ..lineTo(w - 15, h * 0.95)
+      ..lineTo(w - 30, h * 0.7)
       ..close();
-
-    canvas.drawPath(leftTail, darkRibbonPaint);
-    canvas.drawPath(rightTail, darkRibbonPaint);
 
     // 2. Draw front folded ribbon
     Path frontRibbon = Path()
@@ -117,29 +111,129 @@ class VictoryRibbonPainter extends CustomPainter {
       ..quadraticBezierTo(w / 2, h * 0.6, centerStartX, h * 0.8) // Bottom curve
       ..close();
 
-    // Shadow under the front ribbon
-    canvas.drawPath(
-      frontRibbon.shift(const Offset(0, 5)), 
-      Paint()..color = const Color(0x66000000)..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4),
+    final shadowPaint = Paint()
+      ..color = const Color(0xFF3E2723)
+      ..style = PaintingStyle.fill;
+
+    final borderPaint = Paint()
+      ..color = const Color(0xFF3E2723)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 3.5
+      ..strokeJoin = StrokeJoin.round;
+
+    final tailFillPaint = Paint()
+      ..color = const Color(0xFF388E3C) // Darker green for tails
+      ..style = PaintingStyle.fill;
+      
+    final frontFillPaint = Paint()
+      ..color = const Color(0xFF4CAF50) // Brighter green for front
+      ..style = PaintingStyle.fill;
+
+    // Draw Shadows (shifted down)
+    canvas.drawPath(leftTail.shift(const Offset(0, 6)), shadowPaint);
+    canvas.drawPath(rightTail.shift(const Offset(0, 6)), shadowPaint);
+    canvas.drawPath(frontRibbon.shift(const Offset(0, 6)), shadowPaint);
+
+    // Draw Tails Fill and Border
+    canvas.drawPath(leftTail, tailFillPaint);
+    canvas.drawPath(rightTail, tailFillPaint);
+    canvas.drawPath(leftTail, borderPaint);
+    canvas.drawPath(rightTail, borderPaint);
+
+    // Draw Front Fill and Border
+    canvas.drawPath(frontRibbon, frontFillPaint);
+    canvas.drawPath(frontRibbon, borderPaint);
+
+    // Draw curved text
+    _drawCurvedText(canvas, size, centerStartX, centerEndX, h);
+  }
+
+  void _drawCurvedText(Canvas canvas, Size size, double startX, double endX, double h) {
+    if (text.isEmpty) return;
+
+    final textStyle = GoogleFonts.luckiestGuy(
+      color: Colors.white,
+      fontSize: 27,
+    );
+    final shadowStyle = GoogleFonts.luckiestGuy(
+      color: const Color(0xFF1E6310),
+      fontSize: 27,
     );
 
-    canvas.drawPath(frontRibbon, ribbonPaint);
+    final textPainter = TextPainter(textDirection: TextDirection.ltr);
     
-    // Inner bright highlight curve
-    Path highlight = Path()
-      ..moveTo(centerStartX + 5, h * 0.25)
-      ..quadraticBezierTo(w / 2, h * 0.05, centerEndX - 5, h * 0.25);
+    // Calculate total width of the text
+    double totalTextWidth = 0;
+    List<double> charWidths = [];
+    for (int i = 0; i < text.length; i++) {
+      textPainter.text = TextSpan(text: text[i], style: textStyle);
+      textPainter.layout();
+      totalTextWidth += textPainter.width;
+      charWidths.add(textPainter.width);
+    }
     
-    canvas.drawPath(highlight, Paint()
-      ..color = Colors.white.withValues(alpha: 0.5)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 3
-      ..strokeCap = StrokeCap.round
-    );
+    // The curve for the text should run roughly parallel to the ribbon's top edge
+    // Ribbon is drawn from h*0.2 to h*0.8, so h*0.5 is exactly the middle.
+    // Let's adjust P1 to make the curve match the visual center.
+    final p0 = Offset(startX, h * 0.5);
+    final p1 = Offset(size.width / 2, h * 0.3);
+    final p2 = Offset(endX, h * 0.5);
+
+    Offset getPoint(double t) {
+      return Offset(
+        pow(1 - t, 2).toDouble() * p0.dx + 2 * (1 - t) * t * p1.dx + pow(t, 2).toDouble() * p2.dx,
+        pow(1 - t, 2).toDouble() * p0.dy + 2 * (1 - t) * t * p1.dy + pow(t, 2).toDouble() * p2.dy,
+      );
+    }
+    
+    Offset getDerivative(double t) {
+      return Offset(
+        2 * (1 - t) * (p1.dx - p0.dx) + 2 * t * (p2.dx - p1.dx),
+        2 * (1 - t) * (p1.dy - p0.dy) + 2 * t * (p2.dy - p1.dy),
+      );
+    }
+
+    // Since the path length is roughly the chord length for shallow curves, we can approximate:
+    double curveWidth = endX - startX;
+    
+    // Add some letter spacing
+    double letterSpacing = 3.0;
+    totalTextWidth += (text.length - 1) * letterSpacing;
+
+    double currentX = (curveWidth - totalTextWidth) / 2;
+    
+    for (int i = 0; i < text.length; i++) {
+      double charW = charWidths[i];
+      double charMidX = currentX + charW / 2;
+      double t = charMidX / curveWidth;
+      
+      Offset pt = getPoint(t);
+      Offset dPt = getDerivative(t);
+      double angle = atan2(dPt.dy, dPt.dx);
+      
+      canvas.save();
+      // Translate to the point on the curve. Add a little Y offset to center it properly.
+      canvas.translate(pt.dx, pt.dy + 2);
+      canvas.rotate(angle);
+      
+      // Draw shadow
+      textPainter.text = TextSpan(text: text[i], style: shadowStyle);
+      textPainter.layout();
+      textPainter.paint(canvas, Offset(-charW / 2, -textPainter.height / 2 + 3));
+      
+      // Draw text
+      textPainter.text = TextSpan(text: text[i], style: textStyle);
+      textPainter.layout();
+      textPainter.paint(canvas, Offset(-charW / 2, -textPainter.height / 2));
+      
+      canvas.restore();
+      
+      currentX += charW + letterSpacing;
+    }
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }
 
 class GamifiedButtonPainter extends CustomPainter {

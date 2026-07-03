@@ -10,6 +10,7 @@ LevelData generateLevelData(int currentLevel) {
   final List<HoleData> holes = [];
   final List<Vector2> stars = [];
   final List<Vector2> hearts = [];
+  List<MultiBallData> multiBalls = [];
   final List<BumperData> bumpers = [];
   final List<TeleporterData> teleporters = [];
 
@@ -216,11 +217,20 @@ LevelData generateLevelData(int currentLevel) {
     }
   }
 
+  // Generate 1 MultiBallItem (Level 4+)
+  if (currentLevel >= 4) {
+      double x = 0.5 + (random.nextDouble() - 0.5) * 0.4;
+      double y = 0.3 + random.nextDouble() * 0.4;
+      int ballCount = random.nextBool() ? 1 : 2;
+      multiBalls.add(MultiBallData(Vector2(x, y), ballCount));
+  }
+
   return LevelData(
     holes: holes,
     stars: stars,
     hearts: hearts,
     bumpers: bumpers,
     teleporters: teleporters,
+    multiBalls: multiBalls,
   );
 }

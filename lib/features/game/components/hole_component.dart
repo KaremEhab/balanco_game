@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:balanco_game/features/game/game_area.dart';
+import 'package:balanco_game/features/game/models/ball_data.dart';
 
 class HoleComponent extends PositionComponent
     with HasGameReference<BalancoGame> {
@@ -32,7 +33,8 @@ class HoleComponent extends PositionComponent
       );
     }
 
-    if (game.activeHole == this) {
+    bool isActive = game.activeBalls.any((b) => b.activeHole == this);
+    if (isActive) {
       _rotation -= dt * 5.0; // Swirls faster when active
       _pulseTime += dt * 4.0;
     } else {
@@ -225,14 +227,19 @@ class HoleComponent extends PositionComponent
     canvas.restore(); // Restore mechanical rotation
 
     // --- 6. Splash Effect when Ball Falls In ---
-    if (game.activeHole == this &&
-        (game.isFallingInHole || game.isRespawningFromHole)) {
+    final activeBall = game.activeBalls.cast<BallData?>().firstWhere(
+      (b) => b?.activeHole == this,
+      orElse: () => null,
+    );
+
+    if (activeBall != null &&
+        (activeBall.isFallingInHole || activeBall.isRespawningFromHole)) {
       double splashProgress = 0.0;
-      if (game.isFallingInHole) {
-        double closingProgress = 1.0 - game.ballScale;
+      if (activeBall.isFallingInHole) {
+        double closingProgress = 1.0 - activeBall.scale;
         splashProgress = ((closingProgress - 0.6) * 2.5).clamp(0.0, 1.0);
       } else {
-        splashProgress = (1.0 - (game.ballScale * 2.0)).clamp(0.0, 1.0);
+        splashProgress = (1.0 - (activeBall.scale * 2.0)).clamp(0.0, 1.0);
       }
 
       if (splashProgress > 0) {
@@ -267,7 +274,7 @@ class HoleComponent extends PositionComponent
     }
 
     // --- 7. Outer Glow for Active/Sucking Hole ---
-    if (game.activeHole == this) {
+    if (activeBall != null) {
       Paint glowPaint = Paint()
         ..shader = RadialGradient(
           center: Alignment.center,

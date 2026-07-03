@@ -52,143 +52,190 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                 alignment: Alignment.center,
                 children: [
                   // Main Card Background
-                  CustomPaint(
-                    painter: VictoryCardPainter(),
-                    child: Container(
-                      width: 320,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 36,
+                  Container(
+                    width: double.infinity,
+                    constraints: const BoxConstraints(maxWidth: 400),
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 32,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFFFF8E7), // Light sand color
+                      borderRadius: BorderRadius.circular(24),
+                      border: Border.all(
+                        color: const Color(0xFF3E2723), // Dark brown outline
+                        width: 3.5,
                       ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            'PAUSED',
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.luckiestGuy(
-                              fontSize: 38,
-                              color: const Color(0xFFB5701B), // Dark gold text
-                              letterSpacing: 3.0,
-                              shadows: const [
-                                Shadow(
-                                  color: Colors.black26,
-                                  offset: Offset(0, 3),
-                                  blurRadius: 2,
-                                ),
-                              ],
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color(0xFF3E2723),
+                          offset: Offset(0, 6),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Stack(
+                          children: [
+                            Text(
+                              'PAUSED',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.luckiestGuy(
+                                fontSize: 38,
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 5
+                                  ..color = const Color(0xFF3E2723),
+                                letterSpacing: 3.0,
+                              ),
+                            ),
+                            Text(
+                              'PAUSED',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.luckiestGuy(
+                                fontSize: 38,
+                                color: const Color(
+                                  0xFFFFB74D,
+                                ), // Vibrant orange/sand
+                                letterSpacing: 3.0,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+
+                        const SizedBox(height: 20),
+
+                        // Game Stats Row
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 12,
+                            horizontal: 10,
+                          ),
+                          decoration: BoxDecoration(
+                            color: const Color(
+                              0xFF3E2723,
+                            ).withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              color: const Color(
+                                0xFF3E2723,
+                              ).withValues(alpha: 0.2),
+                              width: 2,
                             ),
                           ),
-                          const SizedBox(height: 20),
-
-                          // Divider line for "Progress"
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Container(
-                                width: 40,
-                                height: 3,
-                                color: const Color(0xFFD68F2C),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 10,
-                                ),
-                                child: Text(
-                                  'PROGRESS',
-                                  style: GoogleFonts.luckiestGuy(
-                                    fontSize: 20,
-                                    color: const Color(0xFFB5701B),
+                              Column(
+                                children: [
+                                  const Icon(
+                                    Icons.star_rounded,
+                                    color: Colors.amber,
+                                    size: 28,
                                   ),
-                                ),
-                              ),
-                              Container(
-                                width: 40,
-                                height: 3,
-                                color: const Color(0xFFD68F2C),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 8),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: List.generate(3, (index) {
-                              return Icon(
-                                index < widget.game.currentPoints.value
-                                    ? Icons.star_rounded
-                                    : Icons.star_border_rounded,
-                                color: const Color(0xffF8AE00),
-                                size: 42,
-                                shadows: const [
-                                  Shadow(
-                                    color: Colors.black45,
-                                    offset: Offset(0, 2),
-                                    blurRadius: 4,
+                                  Text(
+                                    'LVL ${widget.game.currentLevel.value}',
+                                    style: GoogleFonts.luckiestGuy(
+                                      fontSize: 18,
+                                      color: const Color(0xFF3E2723),
+                                    ),
                                   ),
                                 ],
-                              );
-                            }),
-                          ),
-                          const SizedBox(height: 36),
-
-                          // Buttons Row
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // Restart Button
-                              _buildRoundPauseButton(
-                                icon: Icons.refresh_rounded,
-                                label: 'RESTART',
-                                c1: const Color(0xFF81D4FA),
-                                c2: const Color(0xFF039BE5),
-                                onTap: () {
-                                  Navigator.pop(context); // Close the dialog
-                                  widget.game.restartCurrentLevel();
-                                },
                               ),
-
-                              // Continue Button (Center & Slightly larger visually)
-                              Padding(
-                                padding: const EdgeInsets.only(top: 8.0),
-                                child: _buildRoundPauseButton(
-                                  icon: Icons.play_arrow_rounded,
-                                  label: 'CONTINUE',
-                                  c1: const Color(0xFFFFCA28),
-                                  c2: const Color(0xFFFF8F00),
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                    widget.game.resumeEngine();
-                                  },
-                                ),
+                              Column(
+                                children: [
+                                  const Icon(
+                                    Icons.emoji_events_rounded,
+                                    color: Colors.orange,
+                                    size: 28,
+                                  ),
+                                  Text(
+                                    '${widget.game.currentScore.value}',
+                                    style: GoogleFonts.luckiestGuy(
+                                      fontSize: 18,
+                                      color: const Color(0xFF3E2723),
+                                    ),
+                                  ),
+                                ],
                               ),
-
-                              // Leave Button
-                              _buildRoundPauseButton(
-                                icon: Icons.home_rounded,
-                                label: 'LOBBY',
-                                c1: const Color(0xFFD7CCC8),
-                                c2: const Color(0xFF8D6E63),
-                                onTap: () {
-                                  Navigator.pop(context); // close dialog
-                                  Navigator.pop(context); // close game route
-                                },
+                              Column(
+                                children: [
+                                  const Icon(
+                                    Icons.favorite_rounded,
+                                    color: Colors.redAccent,
+                                    size: 28,
+                                  ),
+                                  Text(
+                                    '${widget.game.currentLives.value}',
+                                    style: GoogleFonts.luckiestGuy(
+                                      fontSize: 18,
+                                      color: const Color(0xFF3E2723),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                          const SizedBox(height: 24),
-                          // Settings Button
-                          _buildRoundPauseButton(
-                            icon: Icons.settings_rounded,
-                            label: 'SETTINGS',
-                            c1: const Color(0xFFBDBDBD),
-                            c2: const Color(0xFF757575),
-                            onTap: () {
-                              _showSettingsMenu();
-                            },
-                          ),
-                        ],
-                      ),
+                        ),
+                        const SizedBox(height: 28),
+
+                        // Buttons Row
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Restart Button
+                            _buildRoundPauseButton(
+                              icon: Icons.refresh_rounded,
+                              label: 'RESTART',
+                              c1: const Color(0xFF81D4FA),
+                              c2: const Color(0xFF039BE5),
+                              onTap: () {
+                                Navigator.pop(context); // Close the dialog
+                                widget.game.restartCurrentLevel();
+                              },
+                            ),
+
+                            // Lobby Button
+                            _buildRoundPauseButton(
+                              icon: Icons.home_rounded,
+                              label: 'LOBBY',
+                              c1: const Color(0xFFD7CCC8),
+                              c2: const Color(0xFF8D6E63),
+                              onTap: () {
+                                Navigator.pop(context); // close dialog
+                                Navigator.pop(context); // close game route
+                              },
+                            ),
+
+                            // Settings Button
+                            _buildRoundPauseButton(
+                              icon: Icons.settings_rounded,
+                              label: 'SETTINGS',
+                              c1: const Color(0xFFBDBDBD),
+                              c2: const Color(0xFF757575),
+                              onTap: () {
+                                _showSettingsMenu();
+                              },
+                            ),
+
+                            // Continue Button
+                            _buildRoundPauseButton(
+                              icon: Icons.play_arrow_rounded,
+                              label: 'CONTINUE',
+                              c1: const Color(0xFFFFCA28),
+                              c2: const Color(0xFFFF8F00),
+                              onTap: () {
+                                Navigator.pop(context);
+                                widget.game.resumeEngine();
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -217,117 +264,158 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
         return Center(
           child: Material(
             color: Colors.transparent,
-            child: CustomPaint(
-              painter: VictoryCardPainter(),
-              child: Container(
-                width: 320,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 36,
+            child: Container(
+              width: 320,
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 36),
+              decoration: BoxDecoration(
+                color: const Color(0xFFFFF8E7), // Light sand color
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(
+                  color: const Color(0xFF3E2723), // Dark brown outline
+                  width: 3.5,
                 ),
-                child: StatefulBuilder(
-                  builder: (context, setDialogState) {
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'SETTINGS',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.luckiestGuy(
-                            fontSize: 32,
-                            color: const Color(0xFFB5701B),
-                            letterSpacing: 2.0,
-                            shadows: const [
-                              Shadow(
-                                color: Colors.black26,
-                                offset: Offset(0, 3),
-                                blurRadius: 2,
+                boxShadow: const [
+                  BoxShadow(color: Color(0xFF3E2723), offset: Offset(0, 6)),
+                ],
+              ),
+              child: StatefulBuilder(
+                builder: (context, setDialogState) {
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Stack(
+                        children: [
+                          Text(
+                            'SETTINGS',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.luckiestGuy(
+                              fontSize: 32,
+                              foreground: Paint()
+                                ..style = PaintingStyle.stroke
+                                ..strokeWidth = 5
+                                ..color = const Color(0xFF3E2723),
+                              letterSpacing: 2.0,
+                            ),
+                          ),
+                          Text(
+                            'SETTINGS',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.luckiestGuy(
+                              fontSize: 32,
+                              color: const Color(0xFFFFB74D),
+                              letterSpacing: 2.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 24),
+
+                      // Sound Toggle
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Stack(
+                            children: [
+                              Text(
+                                'SOUND FX',
+                                style: GoogleFonts.luckiestGuy(
+                                  fontSize: 20,
+                                  foreground: Paint()
+                                    ..style = PaintingStyle.stroke
+                                    ..strokeWidth = 3
+                                    ..color = const Color(0xFF3E2723),
+                                ),
+                              ),
+                              Text(
+                                'SOUND FX',
+                                style: GoogleFonts.luckiestGuy(
+                                  fontSize: 20,
+                                  color: const Color(0xFFFFB74D),
+                                ),
                               ),
                             ],
                           ),
-                        ),
-                        const SizedBox(height: 24),
+                          Switch(
+                            value: AppSettings.soundEnabled.value,
+                            activeThumbColor: const Color(0xFFFFCA28),
+                            onChanged: (val) {
+                              setDialogState(() {
+                                AppSettings.setSoundEnabled(val);
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
 
-                        // Sound Toggle
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'SOUND FX',
-                              style: GoogleFonts.luckiestGuy(
-                                fontSize: 20,
-                                color: const Color(0xFFB5701B),
+                      // Sensitivity Slider
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Stack(
+                            children: [
+                              Text(
+                                'JOYSTICK SENSITIVITY',
+                                style: GoogleFonts.luckiestGuy(
+                                  fontSize: 20,
+                                  foreground: Paint()
+                                    ..style = PaintingStyle.stroke
+                                    ..strokeWidth = 3
+                                    ..color = const Color(0xFF3E2723),
+                                ),
+                              ),
+                              Text(
+                                'JOYSTICK SENSITIVITY',
+                                style: GoogleFonts.luckiestGuy(
+                                  fontSize: 20,
+                                  color: const Color(0xFFFFB74D),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          SliderTheme(
+                            data: SliderTheme.of(context).copyWith(
+                              activeTrackColor: const Color(0xFFFFCA28),
+                              inactiveTrackColor: const Color(0xFFD7CCC8),
+                              thumbColor: const Color(0xFFFF8F00),
+                              overlayColor: const Color(0x33FF8F00),
+                              trackHeight: 8.0,
+                              valueIndicatorTextStyle: GoogleFonts.luckiestGuy(
+                                color: Colors.white,
                               ),
                             ),
-                            Switch(
-                              value: AppSettings.soundEnabled.value,
-                              activeThumbColor: const Color(0xFFFFCA28),
+                            child: Slider(
+                              value: AppSettings.joystickSensitivity.value,
+                              min: 0.5,
+                              max: 2.0,
+                              divisions: 15,
+                              label: AppSettings.joystickSensitivity.value
+                                  .toStringAsFixed(1),
                               onChanged: (val) {
                                 setDialogState(() {
-                                  AppSettings.setSoundEnabled(val);
+                                  AppSettings.setJoystickSensitivity(val);
                                 });
                               },
                             ),
-                          ],
-                        ),
-                        const SizedBox(height: 16),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 32),
 
-                        // Sensitivity Slider
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'JOYSTICK SENSITIVITY',
-                              style: GoogleFonts.luckiestGuy(
-                                fontSize: 20,
-                                color: const Color(0xFFB5701B),
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            SliderTheme(
-                              data: SliderTheme.of(context).copyWith(
-                                activeTrackColor: const Color(0xFFFFCA28),
-                                inactiveTrackColor: const Color(0xFFD7CCC8),
-                                thumbColor: const Color(0xFFFF8F00),
-                                overlayColor: const Color(0x33FF8F00),
-                                trackHeight: 8.0,
-                                valueIndicatorTextStyle:
-                                    GoogleFonts.luckiestGuy(
-                                      color: Colors.white,
-                                    ),
-                              ),
-                              child: Slider(
-                                value: AppSettings.joystickSensitivity.value,
-                                min: 0.5,
-                                max: 2.0,
-                                divisions: 15,
-                                label: AppSettings.joystickSensitivity.value
-                                    .toStringAsFixed(1),
-                                onChanged: (val) {
-                                  setDialogState(() {
-                                    AppSettings.setJoystickSensitivity(val);
-                                  });
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 32),
-
-                        // Close Button
-                        _buildRoundPauseButton(
-                          icon: Icons.check_rounded,
-                          label: 'DONE',
-                          c1: const Color(0xFF81C784),
-                          c2: const Color(0xFF388E3C),
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                ),
+                      // Close Button
+                      _buildRoundPauseButton(
+                        icon: Icons.check_rounded,
+                        label: 'DONE',
+                        c1: const Color(0xFF81C784),
+                        c2: const Color(0xFF388E3C),
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  );
+                },
               ),
             ),
           ),
@@ -349,29 +437,31 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
     required Color c2,
     required VoidCallback onTap,
   }) {
+    double size = 54;
     return AnimatedPressButton(
       onTap: onTap,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(
-            width: 64,
-            height: 64,
-            child: CustomPaint(
-              painter: GamifiedButtonPainter(innerColor1: c1, innerColor2: c2),
-              child: Center(
-                child: Icon(
-                  icon,
-                  color: Colors.white,
-                  size: 36,
-                  shadows: const [
-                    Shadow(
-                      color: Colors.black45,
-                      offset: Offset(0, 2),
-                      blurRadius: 2,
-                    ),
-                  ],
-                ),
+          Container(
+            width: size,
+            height: size,
+            decoration: BoxDecoration(
+              color: c1, // Use the primary color
+              shape: BoxShape.circle,
+              border: Border.all(color: const Color(0xFF3E2723), width: 3),
+              boxShadow: const [
+                BoxShadow(color: Color(0xFF3E2723), offset: Offset(0, 4)),
+              ],
+            ),
+            child: Center(
+              child: Icon(
+                icon,
+                color: Colors.white,
+                size: size * 0.55,
+                shadows: const [
+                  Shadow(color: Color(0xFF3E2723), offset: Offset(0, 2)),
+                ],
               ),
             ),
           ),
@@ -379,16 +469,9 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
           Text(
             label,
             style: GoogleFonts.luckiestGuy(
-              color: Colors.white,
-              fontSize: 16,
-              letterSpacing: 1.2,
-              shadows: const [
-                Shadow(
-                  color: Colors.black,
-                  offset: Offset(0, 2),
-                  blurRadius: 2,
-                ),
-              ],
+              color: const Color(0xFF3E2723), // Dark brown
+              fontSize: 13,
+              letterSpacing: 1.0,
             ),
           ),
         ],

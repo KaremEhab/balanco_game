@@ -9,6 +9,7 @@ import 'dart:async';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:balanco_game/features/game/screens/victory/victory_painters.dart';
 import 'package:balanco_game/features/game/components/game_area/star_filled_painter.dart';
+import 'package:balanco_game/features/game/components/game_area/empty_star_painter.dart';
 import 'package:balanco_game/features/game/components/game_area/empty_card_painter.dart';
 
 class AnimatedLevelCompleteOverlay extends StatefulWidget {
@@ -155,7 +156,7 @@ class _AnimatedLevelCompleteOverlayState
         duration: const Duration(milliseconds: 400),
         curve: Curves.elasticOut,
         child: CustomPaint(
-          painter: isEarned ? StarFilledPainter() : CircleCardPainter(),
+          painter: isEarned ? StarFilledPainter() : EmptyStarPainter(),
         ),
       ),
     );
@@ -167,25 +168,32 @@ class _AnimatedLevelCompleteOverlayState
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(
+          Container(
             width: 64,
             height: 64,
-            child: CustomPaint(
-              painter: GamifiedButtonPainter(innerColor1: c1, innerColor2: c2),
-              child: Center(
-                child: Icon(icon, color: Colors.white, size: 36, shadows: const [
-                  Shadow(color: Colors.black45, offset: Offset(0, 2), blurRadius: 2)
-                ]),
-              ),
+            decoration: BoxDecoration(
+              color: c1,
+              shape: BoxShape.circle,
+              border: Border.all(color: const Color(0xFF3E2723), width: 3),
+              boxShadow: const [
+                BoxShadow(
+                  color: Color(0xFF3E2723),
+                  offset: Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Center(
+              child: Icon(icon, color: Colors.white, size: 36, shadows: const [
+                Shadow(color: Color(0xFF3E2723), offset: Offset(0, 2))
+              ]),
             ),
           ),
           const SizedBox(height: 8),
           Text(
             label,
             style: GoogleFonts.luckiestGuy(
-              color: Colors.white,
+              color: const Color(0xFF3E2723), // Dark brown
               fontSize: 16,
-              shadows: const [Shadow(color: Colors.black, offset: Offset(0, 2), blurRadius: 2)],
             ),
           ),
         ],
@@ -197,16 +205,12 @@ class _AnimatedLevelCompleteOverlayState
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Color(0xFFFFF7A0), Color(0xFFFFD13B)],
-        ),
+        color: const Color(0xFF3E2723).withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(30),
-        border: Border.all(color: Colors.white, width: 3),
-        boxShadow: const [
-          BoxShadow(color: Color(0x66000000), offset: Offset(0, 3), blurRadius: 4),
-        ],
+        border: Border.all(
+          color: const Color(0xFF3E2723).withValues(alpha: 0.2),
+          width: 2,
+        ),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -217,7 +221,7 @@ class _AnimatedLevelCompleteOverlayState
             value,
             style: GoogleFonts.luckiestGuy(
               fontSize: 24,
-              color: const Color(0xFF9E5C1B),
+              color: const Color(0xFF3E2723),
             ),
           ),
         ],
@@ -242,40 +246,35 @@ class _AnimatedLevelCompleteOverlayState
                   alignment: Alignment.center,
                   children: [
                     // Main Card Background
-                    SizedBox(
+                    Container(
                       width: 320,
                       height: 440,
-                      child: CustomPaint(
-                        painter: VictoryCardPainter(),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFFF8E7), // Light sand color
+                        borderRadius: BorderRadius.circular(24),
+                        border: Border.all(
+                          color: const Color(0xFF3E2723), // Dark brown outline
+                          width: 3.5,
+                        ),
+                        boxShadow: const [
+                          BoxShadow(color: Color(0xFF3E2723), offset: Offset(0, 6)),
+                        ],
                       ),
                     ),
                     
-                    // Top Ribbon
-                    Positioned(
-                      top: -30,
-                      child: SizedBox(
-                        width: 380,
-                        height: 90,
-                        child: CustomPaint(
-                          painter: VictoryRibbonPainter(),
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 15.0),
-                              child: Text(
-                                _isVictory ? 'VICTORY' : 'LEVEL CLEARED',
-                                style: GoogleFonts.luckiestGuy(
-                                  fontSize: 42,
-                                  color: Colors.white,
-                                  shadows: [
-                                    const Shadow(color: Color(0xFF1E6310), offset: Offset(0, 4), blurRadius: 0),
-                                  ],
-                                ),
-                              ),
+                      // Top Ribbon
+                      Positioned(
+                        top: -30,
+                        child: SizedBox(
+                          width: 380,
+                          height: 90,
+                          child: CustomPaint(
+                            painter: VictoryRibbonPainter(
+                              text: _isVictory ? 'VICTORY' : 'LEVEL CLEARED'
                             ),
                           ),
                         ),
                       ),
-                    ),
 
                     // Content
                     Positioned(
@@ -311,18 +310,32 @@ class _AnimatedLevelCompleteOverlayState
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Container(width: 40, height: 3, color: const Color(0xFFD68F2C)),
+                              Container(width: 40, height: 3, color: const Color(0xFF3E2723)),
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                                child: Text(
-                                  'REWARDS',
-                                  style: GoogleFonts.luckiestGuy(
-                                    fontSize: 20,
-                                    color: const Color(0xFFB5701B),
-                                  ),
+                                child: Stack(
+                                  children: [
+                                    Text(
+                                      'REWARDS',
+                                      style: GoogleFonts.luckiestGuy(
+                                        fontSize: 20,
+                                        foreground: Paint()
+                                          ..style = PaintingStyle.stroke
+                                          ..strokeWidth = 3
+                                          ..color = const Color(0xFF3E2723),
+                                      ),
+                                    ),
+                                    Text(
+                                      'REWARDS',
+                                      style: GoogleFonts.luckiestGuy(
+                                        fontSize: 20,
+                                        color: const Color(0xFFFFB74D),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              Container(width: 40, height: 3, color: const Color(0xFFD68F2C)),
+                              Container(width: 40, height: 3, color: const Color(0xFF3E2723)),
                             ],
                           ),
                           
@@ -333,9 +346,11 @@ class _AnimatedLevelCompleteOverlayState
                             animation: _coinsAnimation,
                             builder: (context, child) {
                               return _buildPill(
-                                const Icon(Icons.monetization_on, color: Color(0xFFF9C650), size: 30, shadows: [
-                                  Shadow(color: Colors.black45, offset: Offset(0, 2), blurRadius: 2)
-                                ]),
+                                SizedBox(
+                                  width: 30,
+                                  height: 30,
+                                  child: CustomPaint(painter: StarFilledPainter()),
+                                ),
                                 _coinsAnimation.value.toString(),
                               );
                             }

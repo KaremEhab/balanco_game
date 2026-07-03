@@ -19,7 +19,9 @@ import 'package:balanco_game/features/game/components/bumper_component.dart';
 import 'package:balanco_game/features/game/components/teleporter_component.dart';
 import 'package:balanco_game/features/game/components/confetti_component.dart';
 import 'package:balanco_game/features/game/components/heart_component.dart';
+import 'package:balanco_game/features/game/components/items/multi_ball_item.dart';
 
+import 'package:balanco_game/features/game/models/ball_data.dart';
 import 'package:balanco_game/features/game/models/level_data.dart';
 import 'package:balanco_game/features/game/level_generator.dart';
 import 'package:balanco_game/core/data/app_settings.dart';
@@ -60,19 +62,8 @@ class BalancoGame extends FlameGame {
   double leftY = 0.0;
   double rightY = 0.0;
 
-  double ballP = 0.0; // 1D position along the bar
-  double ballVelocity = 0.0;
-  bool isFalling = false;
-  bool isFallingInHole = false;
-  Vector2 fallTarget = Vector2.zero();
-  HoleComponent? activeHole;
-  double fallRotation = 0.0;
-  double ballScale = 1.0;
-
-  Vector2 ballPos2D = Vector2.zero();
-  Vector2 freeFallVelocity = Vector2.zero();
-
-  bool isFreeFalling = false;
+  List<BallData> activeBalls = [];
+  List<BallComponent> activeBallComponents = [];
   double timeStopTimer = 0.0;
   final ValueNotifier<double> timeStopNotifier = ValueNotifier<double>(0.0);
 
@@ -80,22 +71,13 @@ class BalancoGame extends FlameGame {
   final ValueNotifier<bool> showVictoryOverlay = ValueNotifier<bool>(false);
   final ValueNotifier<bool> showGameOverOverlay = ValueNotifier<bool>(false);
   bool isLevelCompleteOverlayShown = false;
-  bool isSuckingToGate = false;
-
   bool isSpawningLevel = true;
-  double spawnTimer = 0.0;
   List<PositionComponent> pendingSpawns = [];
   Map<PositionComponent, Vector2> targetPositions = {};
   double itemSpawnTimer = 0.0;
   final double spawnInterval = 0.10;
 
-  double bounceTimer = 0.0;
-  double squashX = 1.0;
-  double squashY = 1.0;
 
-  bool isRespawningFromHole = false;
-  bool isRespawningFromEdge = false;
-  double respawnTimer = 0.0;
 
   double barResetTimer = 0.0;
   double initialLeftY = 0.0;
@@ -105,17 +87,18 @@ class BalancoGame extends FlameGame {
   final double ballRadius = 14.0;
 
   late BarComponent barComponent;
-  late BallComponent ballComponent;
+
   final List<HoleComponent> holes = [];
   final List<StarComponent> stars = [];
   final List<HeartComponent> hearts = [];
   final List<BumperComponent> bumpers = [];
   final List<TeleporterComponent> teleporters = [];
+  List<MultiBallItem> multiBallItems = [];
   TeleporterComponent? activeExitTeleporter;
   TeleportingGateComponent teleportingGateComponent = TeleportingGateComponent()
     ..priority = 0;
 
-  late PositionComponent levelContainer;
+  final PositionComponent levelContainer = PositionComponent();
   double cameraOffsetY = 0.0;
   final ValueNotifier<double> cameraOffsetYNotifier = ValueNotifier<double>(
     0.0,
@@ -157,7 +140,6 @@ class BalancoGame extends FlameGame {
   }
 
   Future<void> advanceToNextLevel() async {
-    isSuckingToGate = false;
     showVictoryOverlay.value = false;
     showGameOverOverlay.value = false;
     isLevelCompleteOverlayShown = false;
@@ -192,27 +174,13 @@ class BalancoGame extends FlameGame {
   }
 
   void restartLevelAfterWin() {
-    isSuckingToGate = false;
     showVictoryOverlay.value = false;
     showGameOverOverlay.value = false;
     isLevelCompleteOverlayShown = false;
     restartCurrentLevel();
   }
 
-  void _resetPositions({bool loseLife = false, bool respawnFromHole = false}) {
-    HoleComponent? prevHole = activeHole;
-
-    isFalling = false;
-    isFallingInHole = false;
-    isRespawningFromEdge = false;
-    activeHole = null;
-    ballScale = 1.0;
-    squashX = 1.0;
-    squashY = 1.0;
-    fallRotation = 0.0;
-    ballVelocity = 0.0;
-    freeFallVelocity = Vector2.zero();
-    isFreeFalling = false;
+  void _resetPositions({bool loseLife = false, bool respawnFromHole = false, HoleComponent? prevHole}) {
     isBoardHidden = false;
     isLevelCompleteOverlayShown = false;
     teleportingGateComponent.reset();
@@ -225,6 +193,7 @@ class BalancoGame extends FlameGame {
     timeStopTimer = 0.0;
     timeStopNotifier.value = 0.0;
     activeExitTeleporter = null;
+    
     if (!loseLife) {
       for (final t in teleporters) {
         t.isClosed = false;
@@ -234,6 +203,11 @@ class BalancoGame extends FlameGame {
       }
       for (final heart in hearts) {
         heart.reset();
+      }
+      for (final mb in multiBallItems) {
+        mb.isCollected = false;
+        mb.scale = isSpawningLevel ? Vector2.zero() : Vector2.all(1.0);
+        if (mb.parent == null) levelContainer.add(mb);
       }
     }
 
@@ -260,34 +234,47 @@ class BalancoGame extends FlameGame {
         leftY = levelHeight - 70.0;
         rightY = levelHeight - 70.0;
       }
-      ballP = (size.x - 2 * barPadding) / 2.0; // Start at center of the bar
+      
+      // Clear balls
+      activeBalls.clear();
+      for (var bc in activeBallComponents) {
+        bc.removeFromParent();
+      }
+      activeBallComponents.clear();
+
+      // Create main ball
+      BallData mainBall = BallData();
+      mainBall.p = (size.x - 2 * barPadding) / 2.0; 
 
       if (isSpawningLevel) {
         teleportingGateComponent.startClosed();
-
-        ballPos2D = teleportingGateComponent.position.clone();
-        ballScale = 0.0;
-        spawnTimer = 1.5;
+        mainBall.pos2D = teleportingGateComponent.position.clone();
+        mainBall.scale = 0.0;
+        mainBall.spawnTimer = 1.5;
         itemSpawnTimer = 0.5;
         cameraOffsetY = 0.0;
       } else if (respawnFromHole && prevHole != null) {
-        activeHole = prevHole;
-        isRespawningFromHole = true;
+        mainBall.activeHole = prevHole;
+        mainBall.isRespawningFromHole = true;
         isLevelTimerActive = false; // Pause the timer during respawn
-        respawnTimer = 1.6; // 0.8s for bar to straighten, then 0.8s to drop
-        ballPos2D = activeHole!.position.clone();
-        ballScale = 0.0;
-        // The ball will land on the center of the bar
-        ballP = (size.x - 2 * barPadding) / 2.0;
+        mainBall.respawnTimer = 1.6; 
+        mainBall.pos2D = mainBall.activeHole!.position.clone();
+        mainBall.scale = 0.0;
+        mainBall.p = (size.x - 2 * barPadding) / 2.0;
       } else {
-        isRespawningFromEdge = true;
+        mainBall.isRespawningFromEdge = true;
         isLevelTimerActive = false;
-        respawnTimer = 1.6;
-        ballPos2D = teleportingGateComponent.position.clone();
-        ballScale = 0.0;
-        ballP = (size.x - 2 * barPadding) / 2.0;
-        isFreeFalling = false;
+        mainBall.respawnTimer = 1.6;
+        mainBall.pos2D = teleportingGateComponent.position.clone();
+        mainBall.scale = 0.0;
+        mainBall.p = (size.x - 2 * barPadding) / 2.0;
+        mainBall.isFreeFalling = false;
       }
+
+      activeBalls.add(mainBall);
+      BallComponent bc = BallComponent(mainBall)..priority = 20;
+      activeBallComponents.add(bc);
+      levelContainer.add(bc);
 
       leftJoystickValue = 0.0;
       rightJoystickValue = 0.0;
@@ -320,14 +307,12 @@ class BalancoGame extends FlameGame {
     } catch (_) {}
 
     barComponent = BarComponent()..priority = 10;
-    ballComponent = BallComponent()..priority = 20;
-
-    levelContainer = PositionComponent();
+    
     add(levelContainer);
 
     levelContainer.add(teleportingGateComponent);
     levelContainer.add(barComponent);
-    levelContainer.add(ballComponent);
+    
     await generateLevel();
   }
 
@@ -352,6 +337,10 @@ class BalancoGame extends FlameGame {
       if (t.parent != null) t.removeFromParent();
     }
     teleporters.clear();
+    for (final mb in multiBallItems) {
+      if (mb.parent != null) mb.removeFromParent();
+    }
+    multiBallItems.clear();
 
     // Offload level generation to an Isolate
     final int levelToGenerate = currentLevel.value;
@@ -452,6 +441,22 @@ class BalancoGame extends FlameGame {
       hearts.add(heart);
       levelContainer.add(heart);
     }
+
+    for (final mbData in data.multiBalls) {
+      final mb = MultiBallItem(mbData.position, ballCount: mbData.count)..priority = 5;
+
+      final targetPos = Vector2(
+        mbData.position.x * size.x,
+        120.0 + mbData.position.y * (levelHeight - 320.0),
+      );
+      targetPositions[mb] = targetPos;
+      mb.position = teleportingGateComponent.position.clone();
+      mb.scale = Vector2.zero();
+      pendingSpawns.add(mb);
+
+      multiBallItems.add(mb);
+      levelContainer.add(mb);
+    }
   }
 
   @override
@@ -460,19 +465,7 @@ class BalancoGame extends FlameGame {
 
     if (size.x == 0 || size.y == 0) return;
 
-    if (isFallingInHole) {
-      fallRotation += dt * 15.0; // Rapid spin
-      ballScale -= dt * 1.0; // Slower fall (takes 1 second)
-      ballPos2D.lerp(fallTarget, dt * 5.0); // Slower pull to center
-
-      if (ballScale <= -0.5) {
-        // Wait half a second after ball vanishes for teeth to close
-        _resetPositions(loseLife: true, respawnFromHole: true);
-      }
-      return;
-    }
-
-    if (isLevelTimerActive && !isFalling && !isBoardHidden) {
+    if (isLevelTimerActive && activeBalls.any((b) => !b.isFalling) && !isBoardHidden) {
       double previousTimer = levelTimer;
       levelTimer -= dt;
 
@@ -489,59 +482,9 @@ class BalancoGame extends FlameGame {
         isLevelTimerActive = false;
         currentLives.value = 0; // force game over
         _resetPositions(loseLife: true);
-      }
-      levelTimerNotifier.value = levelTimer;
-    }
-
-    if (isSuckingToGate) {
-      Vector2 gateCenter = teleportingGateComponent.position;
-
-      // Move ball towards center
-      double dx = gateCenter.x - ballPos2D.x;
-      double dy = gateCenter.y - ballPos2D.y;
-
-      // Suck ball into the center quickly
-      ballPos2D.x += dx * dt * 5;
-      ballPos2D.y += dy * dt * 5;
-
-      // Keep ball in perfect shape while shrinking into the gate
-      squashX = 1.0;
-      squashY = 1.0;
-      ballScale -= dt * 1.5; // shrink rapidly
-
-      if (ballScale <= 0) {
-        ballScale = 0;
-        teleportingGateComponent.isClosing = true; // Tell the gate to close
-
-        if (teleportingGateComponent.isClosed) {
-          // wait for gate to close
-          isBoardHidden = true;
-          if (!isLevelCompleteOverlayShown) {
-            isLevelCompleteOverlayShown = true;
-            showVictoryOverlay.value = true;
-            pauseEngine();
-          }
-        }
-      }
-      return; // Skip normal physics
-    }
-
-    // Check if reached top area to trigger gate snap
-    if (!isFreeFalling &&
-        !isSpawningLevel &&
-        !isRespawningFromHole &&
-        !isRespawningFromEdge &&
-        !isLevelCompleteOverlayShown) {
-      Vector2 gateCenter = teleportingGateComponent.position;
-      if (ballPos2D.distanceTo(gateCenter) < 40) {
-        isSuckingToGate = true;
-        isFalling = false; // Override the fall!
-        HapticFeedback.heavyImpact();
-        try {
-          AppSettings.playSound('win.wav', volume: 1.0);
-        } catch (_) {}
         return;
       }
+      levelTimerNotifier.value = levelTimer;
     }
 
     // Time Stop Timer
@@ -589,7 +532,7 @@ class BalancoGame extends FlameGame {
         leftY = initialLeftY + (maxY - initialLeftY) * curved;
         rightY = initialRightY + (maxY - initialRightY) * curved;
       }
-    } else if (!isSpawningLevel && !isRespawningFromHole) {
+    } else if (!isSpawningLevel && !activeBalls.any((b) => b.isRespawningFromHole || b.isRespawningFromEdge)) {
       // Base speed balanced so default (1.0) is not too high and not too low
       double speed = timeStopNotifier.value > 0
           ? 150.0 * AppSettings.joystickSensitivity.value
@@ -644,40 +587,149 @@ class BalancoGame extends FlameGame {
           );
         }
       } else {
-        // Phase 2: Drop the ball
-        if (spawnTimer > 0) {
-          spawnTimer -= dt;
-          if (spawnTimer > 1.0 &&
-              spawnTimer <= 1.5 &&
+        // Phase 2: Drop the balls
+        for (var ball in activeBalls) {
+            _updateBallPhysics(ball, dt, leftPoint, rightPoint, direction, barLength, normal);
+        }
+        _checkBallToBallCollisions(direction);
+      }
+    } else {
+        HoleComponent? prevHole;
+        for (var ball in activeBalls.toList()) {
+            if (ball.isDead) continue;
+            _updateBallPhysics(ball, dt, leftPoint, rightPoint, direction, barLength, normal);
+            if (ball.isDead && ball.activeHole != null) {
+              prevHole = ball.activeHole;
+            }
+        }
+        _checkBallToBallCollisions(direction);
+
+        // Clean up dead balls
+        activeBalls.removeWhere((b) => b.isDead);
+        for (var bc in activeBallComponents.toList()) {
+           if (!activeBalls.contains(bc.ballData)) {
+              bc.removeFromParent();
+              activeBallComponents.remove(bc);
+           }
+        }
+
+        if (activeBalls.isEmpty) {
+           _resetPositions(loseLife: true, respawnFromHole: prevHole != null, prevHole: prevHole);
+        }
+    }
+
+    // --- Camera Logic ---
+    if (size.y > 0) {
+      double targetCameraY = 0.0;
+      if (isSpawningLevel) {
+        double mainBallY = activeBalls.isNotEmpty ? activeBalls.first.pos2D.y : size.y / 2;
+        targetCameraY = (mainBallY - size.y / 2).clamp(
+          0.0,
+          max(0.0, levelHeight - size.y),
+        );
+      } else {
+        targetCameraY = ((leftY + rightY) / 2) - size.y + 150.0;
+        targetCameraY = targetCameraY.clamp(
+          0.0,
+          max(0.0, levelHeight - size.y),
+        );
+      }
+      cameraOffsetY += (targetCameraY - cameraOffsetY) * dt * 5.0;
+      levelContainer.position.y = -cameraOffsetY;
+      cameraOffsetYNotifier.value = cameraOffsetY;
+    }
+  }
+
+  void _updateBallPhysics(BallData ball, double dt, Vector2 leftPoint, Vector2 rightPoint, Vector2 direction, double barLength, Vector2 normal) {
+    if (ball.isFallingInHole) {
+      ball.fallRotation += dt * 15.0; // Rapid spin
+      ball.scale -= dt * 1.0; // Slower fall (takes 1 second)
+      ball.pos2D.lerp(ball.fallTarget, dt * 5.0); // Slower pull to center
+
+      if (ball.scale <= -0.5) {
+        // Wait half a second after ball vanishes for teeth to close
+        ball.isDead = true;
+      }
+      return;
+    }
+
+    if (ball.isSuckingToGate) {
+      Vector2 gateCenter = teleportingGateComponent.position;
+      double dx = gateCenter.x - ball.pos2D.x;
+      double dy = gateCenter.y - ball.pos2D.y;
+
+      ball.pos2D.x += dx * dt * 5;
+      ball.pos2D.y += dy * dt * 5;
+
+      ball.squashX = 1.0;
+      ball.squashY = 1.0;
+      ball.scale -= dt * 1.5;
+
+      if (ball.scale <= 0) {
+        ball.scale = 0;
+        teleportingGateComponent.isClosing = true;
+
+        if (teleportingGateComponent.isClosed) {
+          isBoardHidden = true;
+          if (!isLevelCompleteOverlayShown) {
+            isLevelCompleteOverlayShown = true;
+            showVictoryOverlay.value = true;
+            pauseEngine();
+          }
+        }
+      }
+      return; 
+    }
+
+    if (!ball.isFreeFalling &&
+        !ball.isFalling &&
+        !isSpawningLevel &&
+        !ball.isRespawningFromHole &&
+        !ball.isRespawningFromEdge &&
+        !isLevelCompleteOverlayShown) {
+      Vector2 gateCenter = teleportingGateComponent.position;
+      if (ball.pos2D.distanceTo(gateCenter) < 40) {
+        ball.isSuckingToGate = true;
+        ball.isFalling = false; 
+        HapticFeedback.heavyImpact();
+        try {
+          AppSettings.playSound('win.wav', volume: 1.0);
+        } catch (_) {}
+        return;
+      }
+    }
+
+    if (isSpawningLevel) {
+        if (ball.spawnTimer > 0) {
+          ball.spawnTimer -= dt;
+          if (ball.spawnTimer > 1.0 &&
+              ball.spawnTimer <= 1.5 &&
               !teleportingGateComponent.isOpening) {
             teleportingGateComponent.open();
           }
 
-          if (spawnTimer > 1.0) {
-            // Ball scaling up out of nothingness
-            double t = (1.5 - spawnTimer) / 0.5; // 0 to 1
-            ballScale = t;
-            ballPos2D = teleportingGateComponent.position.clone();
+          if (ball.spawnTimer > 1.0) {
+            double t = (1.5 - ball.spawnTimer) / 0.5; 
+            ball.scale = t;
+            ball.pos2D = teleportingGateComponent.position.clone();
           } else {
-            ballScale = 1.0;
-            // Free fall
-            freeFallVelocity.y += 980.0 * dt;
-            ballPos2D += freeFallVelocity * dt;
-            double newY = ballPos2D.y;
+            ball.scale = 1.0;
+            ball.freeFallVelocity.y += 980.0 * dt;
+            ball.pos2D += ball.freeFallVelocity * dt;
+            double newY = ball.pos2D.y;
 
-            double t = (ballPos2D.x - barPadding) / (size.x - 2 * barPadding);
+            double t = (ball.pos2D.x - barPadding) / (size.x - 2 * barPadding);
             double barYAtX = leftY + (rightY - leftY) * t;
             double barSurface = barYAtX - (ballRadius + 6.0);
 
             if (newY >= barSurface - 5.0) {
-              // Hit the bar!
-              spawnTimer = 0; // Move to bounce
-              ballP = t * barLength;
-              bounceTimer = 0.4;
-              ballVelocity = 0.0;
-              freeFallVelocity.setZero(); // Stop the air effect
-              ballPos2D =
-                  leftPoint + direction * ballP + normal * (ballRadius + 6.0);
+              ball.spawnTimer = 0; 
+              ball.p = t * barLength;
+              ball.bounceTimer = 0.4;
+              ball.velocity = 0.0;
+              ball.freeFallVelocity.setZero(); 
+              ball.pos2D =
+                  leftPoint + direction * ball.p + normal * (ballRadius + 6.0);
               HapticFeedback.heavyImpact();
               try {
                 AppSettings.playSound('tick.wav');
@@ -685,143 +737,135 @@ class BalancoGame extends FlameGame {
             }
           }
         } else {
-          // Phase 3: Wait for ball bounce and start game
-          if (bounceTimer > 0) {
-            bounceTimer -= dt;
-            if (bounceTimer < 0) bounceTimer = 0.0;
+          if (ball.bounceTimer > 0) {
+            ball.bounceTimer -= dt;
+            if (ball.bounceTimer < 0) ball.bounceTimer = 0.0;
 
-            double t = 1.0 - (bounceTimer / 0.4); // goes from 0.0 to 1.0
+            double t = 1.0 - (ball.bounceTimer / 0.4); 
             if (t < 0.25) {
               double sq = t / 0.25;
-              squashY = 1.0 - (0.4 * sq);
-              squashX = 1.0 + (0.4 * sq);
-              ballPos2D =
+              ball.squashY = 1.0 - (0.4 * sq);
+              ball.squashX = 1.0 + (0.4 * sq);
+              ball.pos2D =
                   leftPoint +
-                  direction * ballP +
-                  normal * (ballRadius * squashY + 6.0);
+                  direction * ball.p +
+                  normal * (ballRadius * ball.squashY + 6.0);
             } else if (t < 0.75) {
               double sq = (t - 0.25) / 0.5;
               double bounceHeight = sin(sq * pi) * 20.0;
-              squashY = 1.0 + (0.2 * sin(sq * pi));
-              squashX = 1.0 - (0.2 * sin(sq * pi));
-              ballPos2D =
+              ball.squashY = 1.0 + (0.2 * sin(sq * pi));
+              ball.squashX = 1.0 - (0.2 * sin(sq * pi));
+              ball.pos2D =
                   leftPoint +
-                  direction * ballP +
-                  normal * (ballRadius * squashY + 6.0 + bounceHeight);
+                  direction * ball.p +
+                  normal * (ballRadius * ball.squashY + 6.0 + bounceHeight);
             } else {
               double sq = (t - 0.75) / 0.25;
               double settle = sin(sq * pi);
-              squashY = 1.0 - (0.2 * settle);
-              squashX = 1.0 + (0.2 * settle);
-              ballPos2D =
+              ball.squashY = 1.0 - (0.2 * settle);
+              ball.squashX = 1.0 + (0.2 * settle);
+              ball.pos2D =
                   leftPoint +
-                  direction * ballP +
-                  normal * (ballRadius * squashY + 6.0);
+                  direction * ball.p +
+                  normal * (ballRadius * ball.squashY + 6.0);
             }
           } else {
-            squashX = 1.0;
-            squashY = 1.0;
-            ballPos2D =
-                leftPoint + direction * ballP + normal * (ballRadius + 6.0);
+            ball.squashX = 1.0;
+            ball.squashY = 1.0;
+            ball.pos2D =
+                leftPoint + direction * ball.p + normal * (ballRadius + 6.0);
             isSpawningLevel = false; // Gameplay Launch!
             isLevelTimerActive = true;
           }
         }
-      }
-      return;
+        return;
     }
 
-    if ((isRespawningFromHole && activeHole != null) || isRespawningFromEdge) {
-      if (respawnTimer > 0) {
-        respawnTimer -= dt;
-        if (respawnTimer <= 0) {
-          respawnTimer = 0.0;
-          ballScale = 1.0;
+    if ((ball.isRespawningFromHole && ball.activeHole != null) || ball.isRespawningFromEdge) {
+      if (ball.respawnTimer > 0) {
+        ball.respawnTimer -= dt;
+        if (ball.respawnTimer <= 0) {
+          ball.respawnTimer = 0.0;
+          ball.scale = 1.0;
           // Trigger the bouncy squish animation when landing!
-          bounceTimer = 0.4;
-          freeFallVelocity.setZero();
-          ballPos2D = leftPoint + direction * ballP + normal * (ballRadius + 6.0);
+          ball.bounceTimer = 0.4;
+          ball.freeFallVelocity.setZero();
+          ball.pos2D = leftPoint + direction * ball.p + normal * (ballRadius + 6.0);
           HapticFeedback.heavyImpact();
           try {
             AppSettings.playSound('tick.wav');
           } catch (_) {}
 
-          squashX = 1.0;
-          squashY = 1.0;
-          isRespawningFromHole = false;
-          isRespawningFromEdge = false;
-          activeHole = null;
+          ball.squashX = 1.0;
+          ball.squashY = 1.0;
+          ball.isRespawningFromHole = false;
+          ball.isRespawningFromEdge = false;
+          ball.activeHole = null;
           isLevelTimerActive = true;
         } else {
-          double progress = 1.0 - (respawnTimer / 1.6);
+          double progress = 1.0 - (ball.respawnTimer / 1.6);
           if (progress < 0.5) {
-            // First 0.8s: Bar is straightening. Ball scales up at spawn point.
             double p = progress / 0.5;
-            ballPos2D = isRespawningFromEdge
+            ball.pos2D = ball.isRespawningFromEdge
                 ? teleportingGateComponent.position.clone()
-                : activeHole!.position.clone();
-            ballScale = p;
+                : ball.activeHole!.position.clone();
+            ball.scale = p;
           } else {
-            // Last 0.8s: Ball drops to the bar.
             double p = (progress - 0.5) / 0.5;
             double curvedP = Curves.easeIn.transform(p);
             Vector2 targetPos =
-                leftPoint + direction * ballP + normal * (ballRadius + 6.0);
-            Vector2 startPos = isRespawningFromEdge
+                leftPoint + direction * ball.p + normal * (ballRadius + 6.0);
+            Vector2 startPos = ball.isRespawningFromEdge
                 ? teleportingGateComponent.position.clone()
-                : activeHole!.position.clone();
-            ballPos2D =
+                : ball.activeHole!.position.clone();
+            ball.pos2D =
                 startPos +
                 (targetPos - startPos) * curvedP;
-            ballScale = 1.0;
+            ball.scale = 1.0;
           }
         }
       }
-      return; // Skip normal physics
+      return; 
     }
 
-    if (isFreeFalling) {
+    if (ball.isFreeFalling) {
       double gravity = timeStopNotifier.value > 0 ? 15.0 : 980.0;
-      freeFallVelocity.y += gravity * dt;
+      ball.freeFallVelocity.y += gravity * dt;
 
-      // double prevY = ballPos2D.y;
-      ballPos2D += freeFallVelocity * dt;
-      double newY = ballPos2D.y;
+      ball.pos2D += ball.freeFallVelocity * dt;
+      double newY = ball.pos2D.y;
 
-      // Check bar intersection
-      if (ballPos2D.x > barPadding && ballPos2D.x < size.x - barPadding) {
-        double t = (ballPos2D.x - barPadding) / (size.x - 2 * barPadding);
+      if (ball.pos2D.x > barPadding && ball.pos2D.x < size.x - barPadding) {
+        double t = (ball.pos2D.x - barPadding) / (size.x - 2 * barPadding);
         double barYAtX = leftY + (rightY - leftY) * t;
         double barSurface = barYAtX - (ballRadius + 6.0);
 
-        // If ball falls through the surface or the bar is moved up to catch it
         if (newY >= barSurface - 5.0) {
-          isFreeFalling = false;
+          ball.isFreeFalling = false;
           timeStopTimer = 0.0;
           timeStopNotifier.value = 0.0;
-          ballP = t * barLength;
-          ballVelocity = freeFallVelocity.x; // Keep x-momentum
-          freeFallVelocity.setZero(); // Stop the air effect
-          bounceTimer = 0.4; // Trigger bouncy landing!
-          ballPos2D =
-              leftPoint + direction * ballP + normal * (ballRadius + 6.0);
+          ball.p = t * barLength;
+          ball.velocity = ball.freeFallVelocity.x; 
+          ball.freeFallVelocity.setZero(); 
+          ball.bounceTimer = 0.4; 
+          ball.pos2D =
+              leftPoint + direction * ball.p + normal * (ballRadius + 6.0);
           HapticFeedback.heavyImpact();
           try {
             AppSettings.playSound('tick.wav');
           } catch (_) {}
 
-          if (activeExitTeleporter != null) {
-            activeExitTeleporter!.isClosed = true;
-            activeExitTeleporter = null;
+          if (ball.activeExitTeleporter != null) {
+            ball.activeExitTeleporter!.isClosed = true;
+            ball.activeExitTeleporter = null;
           }
         }
       }
 
-      // Check if dropped off the bottom
-      if (ballPos2D.y > levelHeight + 100) {
-        _resetPositions(loseLife: true);
+      if (ball.pos2D.y > levelHeight + 100) {
+        ball.isDead = true;
       }
-    } else if (!isFalling) {
+    } else if (!ball.isFalling) {
       double alpha = atan2(
         rightPoint.y - leftPoint.y,
         rightPoint.x - leftPoint.x,
@@ -829,80 +873,79 @@ class BalancoGame extends FlameGame {
       double gravity = 980.0;
       double accel = gravity * sin(alpha);
 
-      ballVelocity += accel * dt;
-      ballVelocity *= 0.99; // Simple friction
+      ball.velocity += accel * dt;
+      ball.velocity *= 0.99; 
 
-      ballP += ballVelocity * dt;
+      ball.p += ball.velocity * dt;
 
-      if (ballP < 0 || ballP > barLength) {
+      if (ball.p < 0 || ball.p > barLength) {
         if (isShieldActive) {
-          // Bounce off edge
-          ballVelocity = -ballVelocity * 0.6;
-          ballP = ballP.clamp(0.0, barLength);
-          bounceTimer = 0.4; // Trigger bouncy hop!
+          ball.velocity = -ball.velocity * 0.6;
+          ball.p = ball.p.clamp(0.0, barLength);
+          ball.bounceTimer = 0.4; 
           HapticFeedback.lightImpact();
         } else {
-          isFalling = true;
+          ball.isFalling = true;
           HapticFeedback.heavyImpact();
           try {
             AppSettings.playSound('fall.wav');
           } catch (_) {}
-          freeFallVelocity = direction * ballVelocity;
+          ball.freeFallVelocity = direction * ball.velocity;
         }
       } else {
-        // Calculate standard rotation based on ball position and scale
-        fallRotation = ballP / ballRadius;
+        ball.fallRotation = ball.p / ballRadius;
 
-        if (bounceTimer > 0) {
-          bounceTimer -= dt;
-          if (bounceTimer < 0) bounceTimer = 0.0;
+        if (ball.bounceTimer > 0) {
+          ball.bounceTimer -= dt;
+          if (ball.bounceTimer < 0) ball.bounceTimer = 0.0;
 
-          double t = 1.0 - (bounceTimer / 0.4); // goes from 0.0 to 1.0
+          double t = 1.0 - (ball.bounceTimer / 0.4); 
           if (t < 0.25) {
-            // 0.0 to 0.1s: Impact squish
-            double sq = t / 0.25; // 0 to 1
-            squashY = 1.0 - (0.4 * sq);
-            squashX = 1.0 + (0.4 * sq);
-            ballPos2D =
+            double sq = t / 0.25;
+            ball.squashY = 1.0 - (0.4 * sq);
+            ball.squashX = 1.0 + (0.4 * sq);
+            ball.pos2D =
                 leftPoint +
-                direction * ballP +
-                normal * (ballRadius * squashY + 6.0);
+                direction * ball.p +
+                normal * (ballRadius * ball.squashY + 6.0);
           } else if (t < 0.75) {
-            // 0.1s to 0.3s: Bounce up
-            double sq = (t - 0.25) / 0.5; // 0 to 1
-            double bounceHeight = sin(sq * pi) * 20.0; // Hop 20 pixels
-            squashY = 1.0 + (0.2 * sin(sq * pi));
-            squashX = 1.0 - (0.2 * sin(sq * pi));
-            ballPos2D =
+            double sq = (t - 0.25) / 0.5;
+            double bounceHeight = sin(sq * pi) * 20.0;
+            ball.squashY = 1.0 + (0.2 * sin(sq * pi));
+            ball.squashX = 1.0 - (0.2 * sin(sq * pi));
+            ball.pos2D =
                 leftPoint +
-                direction * ballP +
-                normal * (ballRadius * squashY + 6.0 + bounceHeight);
+                direction * ball.p +
+                normal * (ballRadius * ball.squashY + 6.0 + bounceHeight);
           } else {
-            // 0.3s to 0.4s: Settle squash
-            double sq = (t - 0.75) / 0.25; // 0 to 1
+            double sq = (t - 0.75) / 0.25;
             double settle = sin(sq * pi);
-            squashY = 1.0 - (0.2 * settle);
-            squashX = 1.0 + (0.2 * settle);
-            ballPos2D =
+            ball.squashY = 1.0 - (0.2 * settle);
+            ball.squashX = 1.0 + (0.2 * settle);
+            ball.pos2D =
                 leftPoint +
-                direction * ballP +
-                normal * (ballRadius * squashY + 6.0);
+                direction * ball.p +
+                normal * (ballRadius * ball.squashY + 6.0);
           }
         } else if (!isSpawningLevel &&
-            !isRespawningFromHole &&
-            !isFreeFalling &&
-            !isFalling &&
-            !isFallingInHole) {
-          squashX = 1.0;
-          squashY = 1.0;
-          ballPos2D =
-              leftPoint + direction * ballP + normal * (ballRadius + 6.0);
+            !ball.isRespawningFromHole &&
+            !ball.isFreeFalling &&
+            !ball.isFalling &&
+            !ball.isFallingInHole) {
+          ball.squashX = 1.0;
+          ball.squashY = 1.0;
+          ball.pos2D =
+              leftPoint + direction * ball.p + normal * (ballRadius + 6.0);
+        }
+
+        if (ball.bounceTimer > 0) {
+          return;
         }
 
         // Check teleporter collisions
         for (final t in teleporters) {
           if (t.isClosed) continue;
-          double dist = ballPos2D.distanceTo(t.position);
+          double dist = ball.pos2D.distanceTo(t.position);
           if (dist < t.radius) {
             t.isClosed = true;
 
@@ -915,13 +958,13 @@ class BalancoGame extends FlameGame {
             }
 
             if (other != null) {
-              activeExitTeleporter = other;
-              ballPos2D = other.position.clone();
+              ball.activeExitTeleporter = other;
+              ball.pos2D = other.position.clone();
 
-              isFreeFalling = true;
+              ball.isFreeFalling = true;
               timeStopTimer = 4.0;
               timeStopNotifier.value = 4.0;
-              freeFallVelocity = Vector2.zero();
+              ball.freeFallVelocity = Vector2.zero();
 
               HapticFeedback.heavyImpact();
               try {
@@ -932,72 +975,67 @@ class BalancoGame extends FlameGame {
           }
         }
 
-        if (isFreeFalling) {
-          return; // Skip other collisions if we just teleported
+        if (ball.isFreeFalling) {
+          return; 
         }
 
         // Check hole collisions
         for (final hole in holes) {
-          double dist = ballPos2D.distanceTo(hole.position);
+          double dist = ball.pos2D.distanceTo(hole.position);
           double lethalDist = (hole.size.x / 2) - 2.0;
 
           if (dist < lethalDist) {
             if (isShieldActive) {
-              // Repel ball along the bar
-              double dot = (ballPos2D - hole.position).dot(direction);
-              ballVelocity = (dot > 0 ? 1 : -1) * 200.0;
+              double dot = (ball.pos2D - hole.position).dot(direction);
+              ball.velocity = (dot > 0 ? 1 : -1) * 200.0;
               HapticFeedback.lightImpact();
               continue;
             }
 
-            isFallingInHole = true;
-            activeHole = hole;
-            freeFallVelocity.setZero();
+            ball.isFallingInHole = true;
+            ball.activeHole = hole;
+            ball.freeFallVelocity.setZero();
             HapticFeedback.heavyImpact();
             try {
               AppSettings.playSound('hole.wav');
             } catch (_) {}
-            fallTarget = hole.position.clone();
+            ball.fallTarget = hole.position.clone();
             break;
           } else if (hole.isSuckingHole && dist < hole.suckRadius) {
             if (isShieldActive) {
-              continue; // Immune to wind/sucking
+              continue; 
             }
-            // Sucked by the wind radius!
-            isFallingInHole = true;
-            activeHole = hole;
-            freeFallVelocity.setZero();
+            ball.isFallingInHole = true;
+            ball.activeHole = hole;
+            ball.freeFallVelocity.setZero();
             HapticFeedback.heavyImpact();
             try {
               AppSettings.playSound('hole.wav');
             } catch (_) {}
-            fallTarget = hole.position.clone();
+            ball.fallTarget = hole.position.clone();
             break;
           }
         }
 
         // Check bumper collisions
         for (final bumper in bumpers) {
-          double dist = ballPos2D.distanceTo(bumper.position);
+          double dist = ball.pos2D.distanceTo(bumper.position);
           if (dist < bumper.radius + ballRadius) {
             bumper.hit();
             HapticFeedback.heavyImpact();
 
-            Vector2 bounceDir = (ballPos2D - bumper.position).normalized();
+            Vector2 bounceDir = (ball.pos2D - bumper.position).normalized();
             double dot = bounceDir.dot(direction);
 
-            // Add a massive bounce force along the bar
-            ballVelocity += dot * 400.0;
+            ball.velocity += dot * 400.0;
 
-            // Immediately resolve intersection
             double overlap = (bumper.radius + ballRadius) - dist;
-            ballP += dot.sign * overlap * 2.0;
+            ball.p += dot.sign * overlap * 2.0;
 
-            bounceTimer = 0.4; // Trigger bouncy hop!
+            ball.bounceTimer = 0.4; 
 
-            // Update ball pos immediately to reflect the un-sticking
-            ballPos2D =
-                leftPoint + direction * ballP + normal * (ballRadius + 6.0);
+            ball.pos2D =
+                leftPoint + direction * ball.p + normal * (ballRadius + 6.0);
           }
         }
 
@@ -1007,15 +1045,13 @@ class BalancoGame extends FlameGame {
             Vector2 starPos = star.position.clone();
 
             if (magnetTimer > 0) {
-              double pullSpeed = 400.0; // Magnet pull speed in pixels/sec
-              Vector2 dir = (ballPos2D - starPos);
+              double pullSpeed = 400.0; 
+              Vector2 dir = (ball.pos2D - starPos);
               double dist = dir.length;
               if (dist < 150.0 && dist > 5.0) {
-                // Add a tiny deadzone to prevent jitter
                 dir.normalize();
                 starPos += dir * pullSpeed * dt;
 
-                // Update fractionalPosition so it persists in the world
                 star.fractionalPosition = Vector2(
                   starPos.x / size.x,
                   (starPos.y - 120.0) / (levelHeight - 320.0),
@@ -1024,7 +1060,7 @@ class BalancoGame extends FlameGame {
               }
             }
 
-            if (ballPos2D.distanceTo(starPos) < ballRadius + 15.0) {
+            if (ball.pos2D.distanceTo(starPos) < ballRadius + 15.0) {
               star.isCollected = true;
               currentPoints.value++;
               HapticFeedback.lightImpact();
@@ -1039,53 +1075,126 @@ class BalancoGame extends FlameGame {
         for (final heart in hearts) {
           if (!heart.isCollected) {
             Vector2 heartPos = heart.position;
-            if (ballPos2D.distanceTo(heartPos) < ballRadius + 15.0) {
+            if (ball.pos2D.distanceTo(heartPos) < ballRadius + 15.0) {
               heart.isCollected = true;
               currentLives.value++;
               HapticFeedback.lightImpact();
               try {
                 AppSettings.playSound(
                   'star.wav',
-                ); // We can reuse star sound or add life.wav later
+                ); 
               } catch (_) {}
             }
           }
         }
       }
     } else {
-      // Free fall mechanics (falling off the edge)
-      fallRotation += dt * 10.0; // Spin wildly
-      ballScale -= dt * 1.5; // Shrink as it falls away into the abyss
-      if (ballScale < 0) ballScale = 0;
+      ball.fallRotation += dt * 10.0; 
+      ball.scale -= dt * 1.5; 
+      if (ball.scale < 0) ball.scale = 0;
 
-      freeFallVelocity.y += 980.0 * dt;
-      ballPos2D += freeFallVelocity * dt;
+      ball.freeFallVelocity.y += 980.0 * dt;
+      ball.pos2D += ball.freeFallVelocity * dt;
 
-      // Reset if it fell out of the world or scaled down fully
-      if (ballPos2D.y > levelHeight + 100 || ballScale <= 0) {
-        _resetPositions(loseLife: true);
+      if (ball.pos2D.y > levelHeight + 100 || ball.scale <= 0) {
+        ball.isDead = true;
       }
     }
-    // --- Camera Logic ---
-    if (size.y > 0) {
-      double targetCameraY = 0.0;
-      if (isSpawningLevel) {
-        // Pan down towards the ball while spawning
-        targetCameraY = (ballPos2D.y - size.y / 2).clamp(
-          0.0,
-          max(0.0, levelHeight - size.y),
-        );
-      } else {
-        // Follow the bar so it's kept near the bottom of the screen
-        targetCameraY = ((leftY + rightY) / 2) - size.y + 150.0;
-        targetCameraY = targetCameraY.clamp(
-          0.0,
-          max(0.0, levelHeight - size.y),
-        );
+  }
+
+  void _checkBallToBallCollisions(Vector2 direction) {
+    if (activeBalls.length < 2) return;
+
+    for (int i = 0; i < activeBalls.length; i++) {
+      for (int j = i + 1; j < activeBalls.length; j++) {
+        final ballA = activeBalls[i];
+        final ballB = activeBalls[j];
+
+        if (ballA.isDead || ballB.isDead) continue;
+        if (ballA.isFallingInHole || ballB.isFallingInHole) continue;
+        if (ballA.isSuckingToGate || ballB.isSuckingToGate) continue;
+
+        // Determine if they are both on the bar
+        bool onBarA = !ballA.isFreeFalling && !ballA.isFalling && !ballA.isRespawningFromHole && !ballA.isRespawningFromEdge && ballA.spawnTimer <= 0;
+        bool onBarB = !ballB.isFreeFalling && !ballB.isFalling && !ballB.isRespawningFromHole && !ballB.isRespawningFromEdge && ballB.spawnTimer <= 0;
+
+        if (onBarA && onBarB) {
+          // 1D Collision on the bar
+          double dist = (ballA.p - ballB.p).abs();
+          double minDist = 2 * ballRadius;
+          if (dist < minDist) {
+            // Swap velocities elastically
+            double temp = ballA.velocity;
+            ballA.velocity = ballB.velocity;
+            ballB.velocity = temp;
+
+            // Resolve overlap
+            double overlap = minDist - dist;
+            if (ballA.p > ballB.p) {
+              ballA.p += overlap / 2;
+              ballB.p -= overlap / 2;
+            } else {
+              ballA.p -= overlap / 2;
+              ballB.p += overlap / 2;
+            }
+
+            // Apply light haptic feedback
+            HapticFeedback.lightImpact();
+          }
+        } else {
+          // 2D Collision in space (free falling, spawning, or falling off the bar)
+          double dist = ballA.pos2D.distanceTo(ballB.pos2D);
+          double minDist = 2 * ballRadius;
+          if (dist < minDist) {
+            Vector2 normal = (ballA.pos2D - ballB.pos2D).normalized();
+            
+            // If distance is zero, pick a random normal to avoid NaN
+            if (dist == 0) {
+              normal = Vector2(1, 0);
+            }
+
+            // Resolve overlap
+            double overlap = minDist - dist;
+            ballA.pos2D += normal * (overlap / 2);
+            ballB.pos2D -= normal * (overlap / 2);
+
+            // Get 2D velocities
+            Vector2 velA = ballA.isFreeFalling || ballA.isFalling
+                ? ballA.freeFallVelocity.clone()
+                : (direction * ballA.velocity);
+            Vector2 velB = ballB.isFreeFalling || ballB.isFalling
+                ? ballB.freeFallVelocity.clone()
+                : (direction * ballB.velocity);
+
+            // Relative velocity along normal
+            Vector2 relVel = velA - velB;
+            double velAlongNormal = relVel.dot(normal);
+
+            // Bouncing elastically if moving towards each other
+            if (velAlongNormal < 0) {
+              // Swap velocities along normal (elastic collision of equal masses)
+              Vector2 impulse = normal * velAlongNormal;
+              velA -= impulse;
+              velB += impulse;
+
+              // Apply updated velocities
+              if (ballA.isFreeFalling || ballA.isFalling) {
+                ballA.freeFallVelocity = velA;
+              } else if (onBarA) {
+                ballA.velocity = velA.dot(direction);
+              }
+
+              if (ballB.isFreeFalling || ballB.isFalling) {
+                ballB.freeFallVelocity = velB;
+              } else if (onBarB) {
+                ballB.velocity = velB.dot(direction);
+              }
+
+              HapticFeedback.lightImpact();
+            }
+          }
+        }
       }
-      cameraOffsetY += (targetCameraY - cameraOffsetY) * dt * 5.0;
-      levelContainer.position.y = -cameraOffsetY;
-      cameraOffsetYNotifier.value = cameraOffsetY;
     }
   }
 }

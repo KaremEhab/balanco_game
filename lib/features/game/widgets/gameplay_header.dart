@@ -194,46 +194,66 @@ class GameplayHeader extends StatelessWidget {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        TextButton(
-                                          onPressed: () {
+                                        GestureDetector(
+                                          onTap: () {
                                             Navigator.pop(context);
                                             game.resumeEngine();
                                           },
-                                          child: Text(
-                                            'STAY',
-                                            style: GoogleFonts.luckiestGuy(
-                                              color: const Color(0xFF4CAF50),
-                                              fontSize: 26,
-                                              shadows: const [
-                                                Shadow(
-                                                  color: Colors.black26,
-                                                  offset: Offset(0, 2),
-                                                  blurRadius: 2,
-                                                ),
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                            decoration: BoxDecoration(
+                                              color: const Color(0xFF81C784), // Green
+                                              borderRadius: BorderRadius.circular(16),
+                                              border: Border.all(color: const Color(0xFF3E2723), width: 3),
+                                              boxShadow: const [
+                                                BoxShadow(color: Color(0xFF3E2723), offset: Offset(0, 4)),
                                               ],
+                                            ),
+                                            child: Text(
+                                              'STAY',
+                                              style: GoogleFonts.luckiestGuy(
+                                                color: Colors.white,
+                                                fontSize: 22,
+                                                shadows: const [
+                                                  Shadow(
+                                                    offset: Offset(0, 2),
+                                                    color: Color(0xFF3E2723),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
-                                        TextButton(
-                                          onPressed: () {
+                                        GestureDetector(
+                                          onTap: () {
                                             Navigator.pop(context);
                                             Navigator.pushReplacementNamed(
                                               context,
                                               '/',
                                             );
                                           },
-                                          child: Text(
-                                            'LEAVE',
-                                            style: GoogleFonts.luckiestGuy(
-                                              color: const Color(0xFFF44336),
-                                              fontSize: 26,
-                                              shadows: const [
-                                                Shadow(
-                                                  color: Colors.black26,
-                                                  offset: Offset(0, 2),
-                                                  blurRadius: 2,
-                                                ),
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                            decoration: BoxDecoration(
+                                              color: const Color(0xFFE57373), // Red
+                                              borderRadius: BorderRadius.circular(16),
+                                              border: Border.all(color: const Color(0xFF3E2723), width: 3),
+                                              boxShadow: const [
+                                                BoxShadow(color: Color(0xFF3E2723), offset: Offset(0, 4)),
                                               ],
+                                            ),
+                                            child: Text(
+                                              'LEAVE',
+                                              style: GoogleFonts.luckiestGuy(
+                                                color: Colors.white,
+                                                fontSize: 22,
+                                                shadows: const [
+                                                  Shadow(
+                                                    offset: Offset(0, 2),
+                                                    color: Color(0xFF3E2723),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),

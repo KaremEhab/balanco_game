@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:balanco_game/features/settings/widgets/avatar_shapes.dart';
+import 'package:balanco_game/features/game/components/game_area/star_filled_painter.dart';
 
 void showProfileDialog(
   BuildContext context, {
@@ -74,30 +75,14 @@ class ProfileDialog extends StatelessWidget {
             width: 340,
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [
-                  Color(0xFF3A6073),
-                  Color(0xFF16222A),
-                ], // Elegant blue/dark gradient
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              borderRadius: BorderRadius.circular(40),
+              color: const Color(0xFFFFF8E7), // Light sand color
+              borderRadius: BorderRadius.circular(24),
               border: Border.all(
-                color: const Color(0xFFFFD700),
-                width: 4,
-              ), // Gold rim
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.7),
-                  blurRadius: 30,
-                  spreadRadius: 10,
-                ),
-                BoxShadow(
-                  color: const Color(0xFFFFD700).withValues(alpha: 0.3), // Gold glow
-                  blurRadius: 15,
-                  spreadRadius: 2,
-                ),
+                color: const Color(0xFF3E2723), // Dark brown outline
+                width: 3.5,
+              ),
+              boxShadow: const [
+                BoxShadow(color: Color(0xFF3E2723), offset: Offset(0, 6)),
               ],
             ),
             child: Stack(
@@ -111,21 +96,13 @@ class ProfileDialog extends StatelessWidget {
                     onTap: () => Navigator.of(context).pop(),
                     child: Container(
                       decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [
-                            Color(0xFFFF5F6D),
-                            Color(0xFFFFC371),
-                          ], // Warm red/orange gradient
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
+                        color: const Color(0xFFF44336), // Solid red
                         shape: BoxShape.circle,
-                        border: Border.all(color: Colors.white, width: 2),
-                        boxShadow: [
+                        border: Border.all(color: const Color(0xFF3E2723), width: 2),
+                        boxShadow: const [
                           BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.4),
-                            blurRadius: 5,
-                            offset: const Offset(0, 3),
+                            color: Color(0xFF3E2723),
+                            offset: Offset(0, 3),
                           ),
                         ],
                       ),
@@ -166,8 +143,8 @@ class ProfileDialog extends StatelessWidget {
                     _buildStrokedText(
                       name,
                       fontSize: 28,
-                      textColor: Colors.white,
-                      strokeColor: Colors.black87,
+                      textColor: const Color(0xFFFFB74D),
+                      strokeColor: const Color(0xFF3E2723),
                     ),
                     const SizedBox(height: 10),
 
@@ -178,29 +155,50 @@ class ProfileDialog extends StatelessWidget {
                         horizontal: 10,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 0.3),
+                        color: const Color(0xFF3E2723).withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.1),
-                          width: 1,
+                          color: const Color(0xFF3E2723).withValues(alpha: 0.2),
+                          width: 2,
                         ),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           _StatBadge(
-                            icon: Icons.star_rounded,
-                            color: Colors.amber,
+                            iconWidget: const Icon(
+                              Icons.star_rounded,
+                              color: Colors.amber,
+                              size: 30,
+                              shadows: [
+                                Shadow(
+                                  color: Color(0xFF3E2723),
+                                  offset: Offset(0, 2),
+                                )
+                              ],
+                            ),
                             value: 'LVL $level',
                           ),
                           _StatBadge(
-                            icon: Icons.monetization_on_rounded,
-                            color: Colors.yellow,
+                            iconWidget: SizedBox(
+                              width: 30,
+                              height: 30,
+                              child: CustomPaint(painter: StarFilledPainter()),
+                            ),
                             value: '$coins',
                           ),
                           _StatBadge(
-                            icon: Icons.bolt_rounded,
-                            color: Colors.lightBlueAccent,
+                            iconWidget: const Icon(
+                              Icons.bolt_rounded,
+                              color: Colors.lightBlueAccent,
+                              size: 30,
+                              shadows: [
+                                Shadow(
+                                  color: Color(0xFF3E2723),
+                                  offset: Offset(0, 2),
+                                )
+                              ],
+                            ),
                             value: '$sparks',
                           ),
                         ],
@@ -212,11 +210,11 @@ class ProfileDialog extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.05),
+                        color: const Color(0xFF3E2723).withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.1),
-                          width: 1,
+                          color: const Color(0xFF3E2723).withValues(alpha: 0.2),
+                          width: 2,
                         ),
                       ),
                       child: Column(
@@ -224,8 +222,8 @@ class ProfileDialog extends StatelessWidget {
                           _buildStrokedText(
                             'Choose Shape',
                             fontSize: 18,
-                            textColor: Colors.white70,
-                            strokeColor: Colors.black54,
+                            textColor: const Color(0xFFFFB74D),
+                            strokeColor: const Color(0xFF3E2723),
                           ),
                           const SizedBox(height: 12),
                           SingleChildScrollView(
@@ -255,13 +253,13 @@ class ProfileDialog extends StatelessWidget {
                                               padding: const EdgeInsets.all(4),
                                               decoration: BoxDecoration(
                                                 color: isSelected
-                                                    ? Colors.white30
+                                                    ? const Color(0xFF3E2723).withValues(alpha: 0.15)
                                                     : Colors.transparent,
                                                 borderRadius:
                                                     BorderRadius.circular(15),
                                                 border: Border.all(
                                                   color: isSelected
-                                                      ? const Color(0xFFFFD700)
+                                                      ? const Color(0xFF3E2723)
                                                       : Colors.transparent,
                                                   width: 3,
                                                 ),
@@ -289,11 +287,11 @@ class ProfileDialog extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.05),
+                        color: const Color(0xFF3E2723).withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.1),
-                          width: 1,
+                          color: const Color(0xFF3E2723).withValues(alpha: 0.2),
+                          width: 2,
                         ),
                       ),
                       child: Column(
@@ -301,8 +299,8 @@ class ProfileDialog extends StatelessWidget {
                           _buildStrokedText(
                             'Choose Avatar',
                             fontSize: 18,
-                            textColor: Colors.white70,
-                            strokeColor: Colors.black54,
+                            textColor: const Color(0xFFFFB74D),
+                            strokeColor: const Color(0xFF3E2723),
                           ),
                           const SizedBox(height: 12),
                           SingleChildScrollView(
@@ -334,13 +332,13 @@ class ProfileDialog extends StatelessWidget {
                                               padding: const EdgeInsets.all(4),
                                               decoration: BoxDecoration(
                                                 color: isSelected
-                                                    ? Colors.white30
+                                                    ? const Color(0xFF3E2723).withValues(alpha: 0.15)
                                                     : Colors.transparent,
                                                 borderRadius:
                                                     BorderRadius.circular(15),
                                                 border: Border.all(
                                                   color: isSelected
-                                                      ? const Color(0xFFFFD700)
+                                                      ? const Color(0xFF3E2723)
                                                       : Colors.transparent,
                                                   width: 3,
                                                 ),
@@ -374,13 +372,11 @@ class ProfileDialog extends StatelessWidget {
 }
 
 class _StatBadge extends StatelessWidget {
-  final IconData icon;
-  final Color color;
+  final Widget iconWidget;
   final String value;
 
   const _StatBadge({
-    required this.icon,
-    required this.color,
+    required this.iconWidget,
     required this.value,
   });
 
@@ -388,17 +384,28 @@ class _StatBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Icon(icon, color: color, size: 30),
+        iconWidget,
         const SizedBox(height: 4),
-        Text(
-          value,
-          style: GoogleFonts.luckiestGuy(
-            fontSize: 18,
-            color: Colors.white,
-            shadows: [
-              const Shadow(color: Colors.black54, offset: Offset(0, 2)),
-            ],
-          ),
+        Stack(
+          children: [
+            Text(
+              value,
+              style: GoogleFonts.luckiestGuy(
+                fontSize: 18,
+                foreground: Paint()
+                  ..style = PaintingStyle.stroke
+                  ..strokeWidth = 3
+                  ..color = const Color(0xFF3E2723),
+              ),
+            ),
+            Text(
+              value,
+              style: GoogleFonts.luckiestGuy(
+                fontSize: 18,
+                color: Colors.white,
+              ),
+            ),
+          ],
         ),
       ],
     );

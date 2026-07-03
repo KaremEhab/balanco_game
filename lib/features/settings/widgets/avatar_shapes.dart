@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 enum AvatarShape { shield, circle, hexagon }
 
 final ValueNotifier<AvatarShape> currentAvatarShapeNotifier = ValueNotifier(
-  AvatarShape.shield,
+  AvatarShape.circle,
 );
 
 final ValueNotifier<String> currentAvatarUrlNotifier = ValueNotifier(

@@ -74,44 +74,50 @@ class _AnimatedGameOverOverlayState extends State<AnimatedGameOverOverlay>
                   width: 340,
                   padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFFFE082),
+                    color: const Color(0xFFFFF8E7), // Light sand color
                     borderRadius: BorderRadius.circular(24),
                     border: Border.all(
-                      color: const Color(0xFF5D4037),
-                      width: 4,
+                      color: const Color(0xFF3E2723), // Dark brown outline
+                      width: 3.5,
                     ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.4),
-                        blurRadius: 20,
-                        offset: const Offset(0, 10),
-                      ),
+                    boxShadow: const [
+                      BoxShadow(color: Color(0xFF3E2723), offset: Offset(0, 6)),
                     ],
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
-                        'GAME OVER!',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.luckiestGuy(
-                          color: Colors.white,
-                          fontSize: 38,
-                          letterSpacing: 2,
-                          shadows: const [
-                            Shadow(
-                              offset: Offset(0, 4),
-                              color: Color(0xFF5D4037),
+                      Stack(
+                        children: [
+                          Text(
+                            'GAME OVER!',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.luckiestGuy(
+                              fontSize: 38,
+                              foreground: Paint()
+                                ..style = PaintingStyle.stroke
+                                ..strokeWidth = 5
+                                ..color = const Color(0xFF3E2723),
+                              letterSpacing: 3.0,
                             ),
-                          ],
-                        ),
+                          ),
+                          Text(
+                            'GAME OVER!',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.luckiestGuy(
+                              fontSize: 38,
+                              color: const Color(0xFFFFB74D),
+                              letterSpacing: 3.0,
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 16),
                       Text(
                         'You lost all your lives\nor time ran out!',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.baloo2(
-                          color: const Color(0xFF5D4037),
+                          color: const Color(0xFF3E2723),
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
                           height: 1.2,
@@ -121,35 +127,57 @@ class _AnimatedGameOverOverlayState extends State<AnimatedGameOverOverlay>
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          TextButton(
-                            onPressed: _returnToLobby,
-                            child: Text(
-                              'LEAVE',
-                              style: GoogleFonts.luckiestGuy(
-                                color: const Color(0xFFF44336),
-                                fontSize: 24,
-                                shadows: const [
-                                  Shadow(
-                                    offset: Offset(0, 2),
-                                    color: Color(0x66000000),
-                                  ),
+                          GestureDetector(
+                            onTap: _returnToLobby,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFE57373), // Red
+                                borderRadius: BorderRadius.circular(16),
+                                border: Border.all(color: const Color(0xFF3E2723), width: 3),
+                                boxShadow: const [
+                                  BoxShadow(color: Color(0xFF3E2723), offset: Offset(0, 4)),
                                 ],
+                              ),
+                              child: Text(
+                                'LEAVE',
+                                style: GoogleFonts.luckiestGuy(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  shadows: const [
+                                    Shadow(
+                                      offset: Offset(0, 2),
+                                      color: Color(0xFF3E2723),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                          TextButton(
-                            onPressed: _restartLevel,
-                            child: Text(
-                              'RESTART',
-                              style: GoogleFonts.luckiestGuy(
-                                color: const Color(0xFF4CAF50),
-                                fontSize: 24,
-                                shadows: const [
-                                  Shadow(
-                                    offset: Offset(0, 2),
-                                    color: Color(0x66000000),
-                                  ),
+                          GestureDetector(
+                            onTap: _restartLevel,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF81C784), // Green
+                                borderRadius: BorderRadius.circular(16),
+                                border: Border.all(color: const Color(0xFF3E2723), width: 3),
+                                boxShadow: const [
+                                  BoxShadow(color: Color(0xFF3E2723), offset: Offset(0, 4)),
                                 ],
+                              ),
+                              child: Text(
+                                'RESTART',
+                                style: GoogleFonts.luckiestGuy(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  shadows: const [
+                                    Shadow(
+                                      offset: Offset(0, 2),
+                                      color: Color(0xFF3E2723),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),

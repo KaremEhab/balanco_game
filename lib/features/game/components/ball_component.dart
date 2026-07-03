@@ -5,7 +5,11 @@ import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:balanco_game/features/game/game_area.dart';
 
+import 'package:balanco_game/features/game/models/ball_data.dart';
+
 class BallComponent extends Component with HasGameReference<BalancoGame> {
+  final BallData ballData;
+  BallComponent(this.ballData);
   final Paint basePaint = Paint()..color = Colors.redAccent;
 
   // Cached Paints
@@ -55,10 +59,30 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
     _fadePaint = Paint();
   }
 
+  bool get _isFallingInAir {
+    if ((ballData.isFreeFalling || ballData.isFalling) && ballData.freeFallVelocity.y > 50.0) return true;
+    if (game.isSpawningLevel && ballData.spawnTimer <= 1.0 && ballData.spawnTimer > 0 && ballData.freeFallVelocity.y > 50.0) return true;
+    if ((ballData.isRespawningFromHole || ballData.isRespawningFromEdge) && ballData.respawnTimer > 0 && ballData.respawnTimer <= 0.8) return true;
+    return false;
+  }
+
+  double get _airIntensity {
+    if ((ballData.isFreeFalling || ballData.isFalling) && ballData.freeFallVelocity.y > 50.0) {
+      return ((ballData.freeFallVelocity.y - 50.0) / 800.0).clamp(0.0, 1.0);
+    }
+    if (game.isSpawningLevel && ballData.spawnTimer <= 1.0 && ballData.spawnTimer > 0 && ballData.freeFallVelocity.y > 50.0) {
+      return ((ballData.freeFallVelocity.y - 50.0) / 800.0).clamp(0.0, 1.0);
+    }
+    if ((ballData.isRespawningFromHole || ballData.isRespawningFromEdge) && ballData.respawnTimer > 0 && ballData.respawnTimer <= 0.8) {
+      return 0.8;
+    }
+    return 0.0;
+  }
+
   @override
   void update(double dt) {
     super.update(dt);
-    if (game.freeFallVelocity.y > 50.0) {
+    if (_isFallingInAir) {
       _windTimePhase += dt * 4.0; // Speed of the air streaks
     }
   }
@@ -66,22 +90,22 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
   @override
   void render(Canvas canvas) {
     if (game.isBoardHidden) return;
-    if (game.ballPos2D.isZero()) return;
+    if (ballData.pos2D.isZero()) return;
 
     canvas.save();
-    canvas.translate(game.ballPos2D.x, game.ballPos2D.y);
-    canvas.scale(game.ballScale * game.squashX, game.ballScale * game.squashY);
+    canvas.translate(ballData.pos2D.x, ballData.pos2D.y);
+    canvas.scale(ballData.scale * ballData.squashX, ballData.scale * ballData.squashY);
 
     // 1. Fade out if falling into a hole
     double fallFade = 1.0;
-    if (game.isFallingInHole) {
-      fallFade = game.ballScale.clamp(0.0, 1.0);
+    if (ballData.isFallingInHole) {
+      fallFade = ballData.scale.clamp(0.0, 1.0);
     }
 
     if (fallFade < 1.0) {
       _fadePaint.color = Colors.white.withValues(alpha: fallFade);
       canvas.saveLayer(
-        Rect.fromCircle(center: Offset.zero, radius: 50 * game.ballScale),
+        Rect.fromCircle(center: Offset.zero, radius: 50 * ballData.scale),
         _fadePaint,
       );
     }
@@ -95,9 +119,9 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
 
     // Draw rotating BallPainter graphic
     canvas.save();
-    double angle = (game.isFalling || game.isFallingInHole)
-        ? game.fallRotation
-        : (game.ballP / game.ballRadius);
+    double angle = (ballData.isFalling || ballData.isFallingInHole)
+        ? ballData.fallRotation
+        : (ballData.p / game.ballRadius);
     canvas.rotate(angle);
 
     // Scale BallPainter (41.46x42.056) to fit within game.ballRadius * 2
@@ -206,9 +230,8 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
     }
 
     // 7. Air/Wind Streaks (Free Fall)
-    if ((game.isFreeFalling || game.isFalling) && game.freeFallVelocity.y > 50.0) {
-      double speed = game.freeFallVelocity.y;
-      double intensity = ((speed - 50.0) / 800.0).clamp(0.0, 1.0);
+    if (_isFallingInAir) {
+      double intensity = _airIntensity;
       
       final Paint windPaint = Paint()
         ..color = Colors.white.withValues(alpha: 0.6 * intensity)
