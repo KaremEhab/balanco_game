@@ -6,36 +6,6 @@ class LeaderboardScreen extends StatelessWidget {
 
   const LeaderboardScreen({super.key, required this.scrollController});
 
-  Widget _buildStrokedText(
-    String text, {
-    double fontSize = 28,
-    Color color = const Color(0xFFFFB74D),
-  }) {
-    return Stack(
-      children: [
-        Text(
-          text,
-          style: GoogleFonts.luckiestGuy(
-            fontSize: fontSize,
-            foreground: Paint()
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 5
-              ..color = const Color(0xFF3E2723),
-            letterSpacing: 2,
-          ),
-        ),
-        Text(
-          text,
-          style: GoogleFonts.luckiestGuy(
-            color: color,
-            fontSize: fontSize,
-            letterSpacing: 2,
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget _buildPodiumColumn(
     BuildContext context, {
     required int rank,
@@ -186,7 +156,7 @@ class LeaderboardScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
-              color: iconColor.withOpacity(0.15),
+              color: iconColor.withValues(alpha: 0.15),
               shape: BoxShape.circle,
               border: Border.all(color: iconColor, width: 2.5),
             ),

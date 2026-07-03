@@ -117,10 +117,15 @@ class _MainScreenState extends State<MainScreen> {
 
   void _scrollListener() {
     ScrollController activeController;
-    if (_currentIndex == 0) activeController = _mapScrollController;
-    else if (_currentIndex == 1) activeController = _modesScrollController;
-    else if (_currentIndex == 2) activeController = _leaderboardScrollController;
-    else activeController = _settingsScrollController;
+    if (_currentIndex == 0) {
+      activeController = _mapScrollController;
+    } else if (_currentIndex == 1) {
+      activeController = _modesScrollController;
+    } else if (_currentIndex == 2) {
+      activeController = _leaderboardScrollController;
+    } else {
+      activeController = _settingsScrollController;
+    }
 
     if (!activeController.hasClients) return;
 
@@ -263,10 +268,15 @@ class _MainScreenState extends State<MainScreen> {
     double scrollProgress = 1.0;
     
     ScrollController activeController;
-    if (_currentIndex == 0) activeController = _mapScrollController;
-    else if (_currentIndex == 1) activeController = _modesScrollController;
-    else if (_currentIndex == 2) activeController = _leaderboardScrollController;
-    else activeController = _settingsScrollController;
+    if (_currentIndex == 0) {
+      activeController = _mapScrollController;
+    } else if (_currentIndex == 1) {
+      activeController = _modesScrollController;
+    } else if (_currentIndex == 2) {
+      activeController = _leaderboardScrollController;
+    } else {
+      activeController = _settingsScrollController;
+    }
 
     if (activeController.hasClients && activeController.position.hasContentDimensions) {
       double scrollOffset = activeController.offset;

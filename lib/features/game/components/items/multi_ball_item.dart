@@ -14,12 +14,64 @@ class MultiBallItem extends PositionComponent
   double _pulseTime = 0.0;
   bool isCollected = false;
 
+  late final Paint _glowPaint;
+  late final Paint _corePaint;
+  late final Paint _innerRingPaint;
+  late final Paint _miniGlow;
+  late final Paint _miniCore;
+  late final Paint _miniShiny;
+  late final Paint _ringPaint;
+
+  Color get primaryColor => ballCount == 2 ? Colors.purpleAccent : Colors.cyanAccent;
+  Color get secondaryColor => ballCount == 2 ? Colors.deepPurpleAccent : Colors.blueAccent;
+
   MultiBallItem(this.fractionalPosition, {this.ballCount = 1})
     : super(size: Vector2.all(30.0), anchor: Anchor.center);
 
   @override
   Future<void> onLoad() async {
     super.onLoad();
+    final double r = size.x / 2;
+
+    _glowPaint = Paint()..style = PaintingStyle.fill;
+    
+    _corePaint = Paint()
+      ..style = PaintingStyle.fill
+      ..shader = RadialGradient(
+        colors: [
+          const Color(0xFF0F2027).withValues(alpha: 0.95),
+          const Color(0xFF203A43).withValues(alpha: 0.98),
+        ],
+      ).createShader(Rect.fromCircle(center: Offset.zero, radius: r * 0.85));
+
+    _innerRingPaint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.0
+      ..color = primaryColor.withValues(alpha: 0.5);
+
+    _miniGlow = Paint()
+      ..style = PaintingStyle.fill
+      ..color = primaryColor.withValues(alpha: 0.4);
+
+    _miniCore = Paint()
+      ..style = PaintingStyle.fill
+      ..color = Colors.white;
+
+    _miniShiny = Paint()
+      ..style = PaintingStyle.fill
+      ..color = primaryColor;
+
+    _ringPaint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 3.0
+      ..shader = SweepGradient(
+        colors: [
+          primaryColor,
+          secondaryColor,
+          Colors.white,
+          primaryColor,
+        ],
+      ).createShader(Rect.fromCircle(center: Offset.zero, radius: r));
   }
 
   @override
@@ -96,38 +148,23 @@ class MultiBallItem extends PositionComponent
     final double r = size.x / 2;
     final double pulse = sin(_pulseTime);
     
-    // Choose colors based on variant
-    final Color primaryColor = ballCount == 2 ? Colors.purpleAccent : Colors.cyanAccent;
-    final Color secondaryColor = ballCount == 2 ? Colors.deepPurpleAccent : Colors.blueAccent;
+    canvas.save();
+    canvas.translate(r, r);
 
     // 1. Soft Outer Glow
-    final Paint glowPaint = Paint()
-      ..style = PaintingStyle.fill
-      ..shader = RadialGradient(
-        colors: [
-          primaryColor.withValues(alpha: 0.35 + pulse * 0.1),
-          secondaryColor.withValues(alpha: 0.0),
-        ],
-      ).createShader(Rect.fromCircle(center: Offset(r, r), radius: r + 10.0));
-    canvas.drawCircle(Offset(r, r), r + 10.0, glowPaint);
+    _glowPaint.shader = RadialGradient(
+      colors: [
+        primaryColor.withValues(alpha: 0.35 + pulse * 0.1),
+        secondaryColor.withValues(alpha: 0.0),
+      ],
+    ).createShader(Rect.fromCircle(center: Offset.zero, radius: r + 10.0));
+    canvas.drawCircle(Offset.zero, r + 10.0, _glowPaint);
 
     // 2. Glassmorphic Dark Core
-    final Paint corePaint = Paint()
-      ..style = PaintingStyle.fill
-      ..shader = RadialGradient(
-        colors: [
-          const Color(0xFF0F2027).withValues(alpha: 0.95),
-          const Color(0xFF203A43).withValues(alpha: 0.98),
-        ],
-      ).createShader(Rect.fromCircle(center: Offset(r, r), radius: r * 0.85));
-    canvas.drawCircle(Offset(r, r), r * 0.85, corePaint);
+    canvas.drawCircle(Offset.zero, r * 0.85, _corePaint);
 
     // 3. Inner Ring Overlay
-    final Paint innerRingPaint = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.0
-      ..color = primaryColor.withValues(alpha: 0.5);
-    canvas.drawCircle(Offset(r, r), r * 0.7, innerRingPaint);
+    canvas.drawCircle(Offset.zero, r * 0.7, _innerRingPaint);
 
     // 4. Rotating Orbiting Mini Balls (representing the ballCount)
     final double angleOffset = _pulseTime * 1.5;
@@ -138,41 +175,25 @@ class MultiBallItem extends PositionComponent
       final double angle = ballCount == 1
           ? angleOffset
           : angleOffset + (i * pi);
-      final double bx = r + cos(angle) * orbitRadius;
-      final double by = r + sin(angle) * orbitRadius;
+      final double bx = cos(angle) * orbitRadius;
+      final double by = sin(angle) * orbitRadius;
 
       // Draw mini ball trail/glow
-      final Paint miniGlow = Paint()
-        ..style = PaintingStyle.fill
-        ..color = primaryColor.withValues(alpha: 0.4);
-      canvas.drawCircle(Offset(bx, by), 5.5, miniGlow);
+      canvas.drawCircle(Offset(bx, by), 5.5, _miniGlow);
 
       // Draw mini ball solid core
-      final Paint miniCore = Paint()
-        ..style = PaintingStyle.fill
-        ..color = Colors.white;
-      canvas.drawCircle(Offset(bx, by), 3.5, miniCore);
+      canvas.drawCircle(Offset(bx, by), 3.5, _miniCore);
 
       // Draw shiny dot on the mini ball
-      final Paint miniShiny = Paint()
-        ..style = PaintingStyle.fill
-        ..color = primaryColor;
-      canvas.drawCircle(Offset(bx - 1, by - 1), 1.0, miniShiny);
+      canvas.drawCircle(Offset(bx - 1, by - 1), 1.0, _miniShiny);
     }
 
     // 5. Outer Metallic Ring
-    final Paint ringPaint = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 3.0
-      ..shader = SweepGradient(
-        colors: [
-          primaryColor,
-          secondaryColor,
-          Colors.white,
-          primaryColor,
-        ],
-        transform: GradientRotation(_pulseTime * 0.5),
-      ).createShader(Rect.fromCircle(center: Offset(r, r), radius: r));
-    canvas.drawCircle(Offset(r, r), r, ringPaint);
+    canvas.save();
+    canvas.rotate(_pulseTime * 0.5);
+    canvas.drawCircle(Offset.zero, r, _ringPaint);
+    canvas.restore();
+
+    canvas.restore();
   }
 }

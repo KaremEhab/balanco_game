@@ -10,7 +10,7 @@ LevelData generateLevelData(int currentLevel) {
   final List<HoleData> holes = [];
   final List<Vector2> stars = [];
   final List<Vector2> hearts = [];
-  List<MultiBallData> multiBalls = [];
+  List<Vector2> multiBalls = [];
   final List<BumperData> bumpers = [];
   final List<TeleporterData> teleporters = [];
 
@@ -23,13 +23,15 @@ LevelData generateLevelData(int currentLevel) {
 
   if (currentLevel == 1) {
     // 1 big centered hole
-    holes.add(HoleData(
-      Vector2(0.5, 0.4),
-      45.0,
-      random.nextDouble() * 2 * pi,
-      false,
-      0.0,
-    ));
+    holes.add(
+      HoleData(
+        Vector2(0.5, 0.4),
+        45.0,
+        random.nextDouble() * 2 * pi,
+        false,
+        0.0,
+      ),
+    );
   } else {
     // random holes logic
     for (int i = 0; i < numHoles; i++) {
@@ -80,16 +82,18 @@ LevelData generateLevelData(int currentLevel) {
       } else if (currentLevel >= 6 && i == 0) {
         isSucking = true;
       }
-      
+
       double suckRad = isSucking ? 50.0 + (currentLevel * 2.0) : 0.0;
 
-      holes.add(HoleData(
-        Vector2(x, y),
-        hSize,
-        random.nextDouble() * 2 * pi,
-        isSucking,
-        suckRad,
-      ));
+      holes.add(
+        HoleData(
+          Vector2(x, y),
+          hSize,
+          random.nextDouble() * 2 * pi,
+          isSucking,
+          suckRad,
+        ),
+      );
     }
   }
 
@@ -100,8 +104,20 @@ LevelData generateLevelData(int currentLevel) {
     for (int i = 0; i < numPairs; i++) {
       double tY1 = 0.05 + (i * (0.9 / numPairs));
       double tY2 = 0.95 - (i * (0.9 / numPairs));
-      teleporters.add(TeleporterData(Vector2(0.2 + random.nextDouble() * 0.2 + ((i%2) * 0.4), tY1), 30.0, i));
-      teleporters.add(TeleporterData(Vector2(0.2 + random.nextDouble() * 0.2 + ((i%2) * 0.4), tY2), 30.0, i));
+      teleporters.add(
+        TeleporterData(
+          Vector2(0.2 + random.nextDouble() * 0.2 + ((i % 2) * 0.4), tY1),
+          30.0,
+          i,
+        ),
+      );
+      teleporters.add(
+        TeleporterData(
+          Vector2(0.2 + random.nextDouble() * 0.2 + ((i % 2) * 0.4), tY2),
+          30.0,
+          i,
+        ),
+      );
     }
   }
 
@@ -111,7 +127,7 @@ LevelData generateLevelData(int currentLevel) {
     if (currentLevel >= 6) numBumpers = 2;
     if (currentLevel >= 8) numBumpers = 4;
     if (currentLevel >= 10) numBumpers = 10;
-    
+
     for (int i = 0; i < numBumpers; i++) {
       int attempts = 0;
       double x = 0;
@@ -187,27 +203,30 @@ LevelData generateLevelData(int currentLevel) {
       double y = 0;
 
       while (attempts < 50) {
-        y = 0.05 + (i / numHearts) * 0.9 + random.nextDouble() * (0.9 / numHearts); // Spread over board
-      double safeX = 0.5 + 0.3 * sin(y * 2 * pi);
+        y =
+            0.05 +
+            (i / numHearts) * 0.9 +
+            random.nextDouble() * (0.9 / numHearts); // Spread over board
+        double safeX = 0.5 + 0.3 * sin(y * 2 * pi);
 
-      x = safeX + (random.nextDouble() - 0.5) * 0.15;
-      x = x.clamp(0.12, 0.88);
+        x = safeX + (random.nextDouble() - 0.5) * 0.15;
+        x = x.clamp(0.12, 0.88);
 
-      bool tooClose = false;
-      for (final h in holes) {
-        double dx = h.position.x - x;
-        double dy = h.position.y - y;
-        if (sqrt(dx * dx + dy * dy) < 0.15) {
-          tooClose = true;
-          break;
+        bool tooClose = false;
+        for (final h in holes) {
+          double dx = h.position.x - x;
+          double dy = h.position.y - y;
+          if (sqrt(dx * dx + dy * dy) < 0.15) {
+            tooClose = true;
+            break;
+          }
         }
-      }
-      for (final s in stars) {
-        if (Vector2(x, y).distanceTo(s) < 0.15) {
-          tooClose = true;
-          break;
+        for (final s in stars) {
+          if (Vector2(x, y).distanceTo(s) < 0.15) {
+            tooClose = true;
+            break;
+          }
         }
-      }
 
         if (!tooClose) break;
         attempts++;
@@ -219,10 +238,9 @@ LevelData generateLevelData(int currentLevel) {
 
   // Generate 1 MultiBallItem (Level 4+)
   if (currentLevel >= 4) {
-      double x = 0.5 + (random.nextDouble() - 0.5) * 0.4;
-      double y = 0.3 + random.nextDouble() * 0.4;
-      int ballCount = random.nextBool() ? 1 : 2;
-      multiBalls.add(MultiBallData(Vector2(x, y), ballCount));
+    double x = 0.5 + (random.nextDouble() - 0.5) * 0.4;
+    double y = 0.3 + random.nextDouble() * 0.4;
+    multiBalls.add(Vector2(x, y));
   }
 
   return LevelData(

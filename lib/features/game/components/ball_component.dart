@@ -21,6 +21,14 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
   // Cached Paints for fading
   late final Paint _fadePaint;
 
+  late final ui.Picture _ballPicture;
+  late final Paint _wavePaint;
+  late final Paint _coreFill;
+  late final Paint _shieldBorderPaint;
+  late final Paint _fireStroke;
+  late final Paint _coreGlow;
+  late final Paint _windPaint;
+
   double _windTimePhase = 0.0;
 
   @override
@@ -57,6 +65,44 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
       ..strokeWidth = 1;
 
     _fadePaint = Paint();
+    
+    // Cache the entire complex BallPainter vector graphic!
+    final recorder = ui.PictureRecorder();
+    final pictureCanvas = Canvas(recorder);
+    BallPainter().paint(pictureCanvas, const Size(42.0, 42.0));
+    _ballPicture = recorder.endRecording();
+
+    _wavePaint = Paint()
+      ..style = PaintingStyle.stroke;
+      
+    _coreFill = Paint()
+      ..shader = RadialGradient(
+        colors: [
+          Colors.cyanAccent.withValues(alpha: 0.1),
+          Colors.lightBlueAccent.withValues(alpha: 0.6),
+          Colors.transparent,
+        ],
+        stops: const [0.0, 0.8, 1.0],
+      ).createShader(Rect.fromCircle(center: Offset.zero, radius: game.ballRadius + 12)) // Made slightly larger to ensure coverage
+      ..style = PaintingStyle.fill;
+      
+    _shieldBorderPaint = Paint()
+      ..color = Colors.cyanAccent.withValues(alpha: 0.8)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 3.0;
+
+    _fireStroke = Paint()
+      ..style = PaintingStyle.stroke
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6.0);
+
+    _coreGlow = Paint()
+      ..color = Colors.red.withValues(alpha: 0.15)
+      ..style = PaintingStyle.fill
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 20.0);
+
+    _windPaint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round;
   }
 
   bool get _isFallingInAir {
@@ -129,7 +175,7 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
     canvas.scale(scale, scale);
     canvas.translate(-20.73, -21.028);
 
-    BallPainter().paint(canvas, const Size(42.0, 42.0));
+    canvas.drawPicture(_ballPicture);
 
     canvas.restore();
 
@@ -146,33 +192,16 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
 
       double baseRadius = game.ballRadius + 8.0;
       
-      // Outer expanding wave
-      final wavePaint = Paint()
-        ..color = Colors.cyanAccent.withValues(alpha: 0.3 * (1.0 - pulse2))
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 4.0 * (1.0 - pulse2);
+      _wavePaint.color = Colors.cyanAccent.withValues(alpha: 0.3 * (1.0 - pulse2));
+      _wavePaint.strokeWidth = 4.0 * (1.0 - pulse2);
         
-      canvas.drawCircle(Offset.zero, baseRadius + (pulse2 * 10), wavePaint);
+      canvas.drawCircle(Offset.zero, baseRadius + (pulse2 * 10), _wavePaint);
 
       // Inner glowing core
-      final coreFill = Paint()
-        ..shader = RadialGradient(
-          colors: [
-            Colors.cyanAccent.withValues(alpha: 0.1),
-            Colors.lightBlueAccent.withValues(alpha: 0.4 + (0.2 * pulse1)),
-            Colors.transparent,
-          ],
-          stops: const [0.0, 0.8, 1.0],
-        ).createShader(Rect.fromCircle(center: Offset.zero, radius: baseRadius + 4))
-        ..style = PaintingStyle.fill;
-        
-      canvas.drawCircle(Offset.zero, baseRadius + 4, coreFill);
-
-      // Solid rotating dashed border
-      final borderPaint = Paint()
-        ..color = Colors.cyanAccent.withValues(alpha: 0.8)
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 3.0;
+      // (Shader pre-cached in onLoad, we just draw with an alpha layer if we want dynamic alpha)
+      canvas.saveLayer(Rect.fromCircle(center: Offset.zero, radius: baseRadius + 4), Paint()..color = Colors.white.withValues(alpha: 0.4 + (0.4 * pulse1)));
+      canvas.drawCircle(Offset.zero, baseRadius + 4, _coreFill);
+      canvas.restore();
 
       // Draw a segmented rotating border
       canvas.save();
@@ -187,7 +216,7 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
           sweepAngle,
         );
       }
-      canvas.drawPath(dashPath, borderPaint);
+      canvas.drawPath(dashPath, _shieldBorderPaint);
       canvas.restore();
     }
 
@@ -208,36 +237,24 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
         double alpha = sin(phase * pi); 
         
         // Lowered base opacity from 0.8 to 0.4 for a softer look
-        final fireStroke = Paint()
-          ..color = i == 0 ? Colors.redAccent.withValues(alpha: alpha * 0.4) :
-                    i == 1 ? Colors.orange.withValues(alpha: alpha * 0.4) :
-                             Colors.deepOrangeAccent.withValues(alpha: alpha * 0.4)
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 3.0 + (alpha * 5.0)
-          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6.0); // Increased blur for smoother glow
+        _fireStroke.color = i == 0 ? Colors.redAccent.withValues(alpha: alpha * 0.4) :
+                            i == 1 ? Colors.orange.withValues(alpha: alpha * 0.4) :
+                                     Colors.deepOrangeAccent.withValues(alpha: alpha * 0.4);
+        _fireStroke.strokeWidth = 3.0 + (alpha * 5.0);
 
-        canvas.drawCircle(Offset.zero, currentRadius, fireStroke);
+        canvas.drawCircle(Offset.zero, currentRadius, _fireStroke);
       }
 
       // Draw a subtle red core glow around the ball
-      // Lowered core glow opacity from 0.3 to 0.15
-      final coreGlow = Paint()
-        ..color = Colors.red.withValues(alpha: 0.15)
-        ..style = PaintingStyle.fill
-        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 20.0); // Smoother, wider core blur
-        
-      canvas.drawCircle(Offset.zero, game.ballRadius + 15, coreGlow);
+      canvas.drawCircle(Offset.zero, game.ballRadius + 15, _coreGlow);
     }
 
     // 7. Air/Wind Streaks (Free Fall)
     if (_isFallingInAir) {
       double intensity = _airIntensity;
       
-      final Paint windPaint = Paint()
-        ..color = Colors.white.withValues(alpha: 0.6 * intensity)
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 2.5
-        ..strokeCap = StrokeCap.round;
+      _windPaint.color = Colors.white.withValues(alpha: 0.6 * intensity);
+      _windPaint.strokeWidth = 2.5;
 
       canvas.save();
       // Draw 5 streaks around the ball
@@ -255,7 +272,7 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
         canvas.drawLine(
           Offset(xOffset, yStart),
           Offset(xOffset, yStart - length), // Draw upwards
-          windPaint,
+          _windPaint,
         );
       }
       canvas.restore();

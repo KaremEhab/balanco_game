@@ -10,7 +10,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:balanco_game/features/game/screens/victory/victory_painters.dart';
 import 'package:balanco_game/features/game/components/game_area/star_filled_painter.dart';
 import 'package:balanco_game/features/game/components/game_area/empty_star_painter.dart';
-import 'package:balanco_game/features/game/components/game_area/empty_card_painter.dart';
 
 class AnimatedLevelCompleteOverlay extends StatefulWidget {
   final BalancoGame game;

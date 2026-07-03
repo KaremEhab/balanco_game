@@ -121,47 +121,7 @@ class _MapAppBarState extends State<MapAppBar> {
     );
   }
 
-  Widget _buildStatRow(
-    IconData icon,
-    Color iconColor,
-    String label,
-    String value,
-  ) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          padding: const EdgeInsets.all(6),
-          decoration: BoxDecoration(
-            color: iconColor.withValues(alpha: 0.2),
-            shape: BoxShape.circle,
-          ),
-          child: Icon(icon, color: iconColor, size: 24),
-        ),
-        const SizedBox(width: 10),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              label,
-              style: GoogleFonts.nunito(
-                fontSize: 12,
-                fontWeight: FontWeight.w900,
-                color: const Color(0xFF3E2723).withValues(alpha: 0.6),
-              ),
-            ),
-            _buildStrokedText(
-              value,
-              fontSize: 16,
-              textColor: const Color(0xFFFFFBF6),
-              strokeColor: const Color(0xFF3E2723),
-              shadowColor: Colors.transparent,
-            ),
-          ],
-        ),
-      ],
-    );
-  }
+
 
   // =========================================================================
   // APPBAR CONTENT (Visible when p = 0.0)

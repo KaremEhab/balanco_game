@@ -7,7 +7,13 @@ class HoleData {
   final bool isSuckingHole;
   final double suckRadius;
 
-  HoleData(this.position, this.size, this.rotation, this.isSuckingHole, this.suckRadius);
+  HoleData(
+    this.position,
+    this.size,
+    this.rotation,
+    this.isSuckingHole,
+    this.suckRadius,
+  );
 }
 
 class TeleporterData {
@@ -25,20 +31,13 @@ class BumperData {
   BumperData(this.position, this.size);
 }
 
-class MultiBallData {
-  final Vector2 position;
-  final int count;
-
-  MultiBallData(this.position, this.count);
-}
-
 class LevelData {
   final List<HoleData> holes;
   final List<Vector2> stars;
   final List<Vector2> hearts;
   final List<BumperData> bumpers;
   final List<TeleporterData> teleporters;
-  final List<MultiBallData> multiBalls;
+  final List<Vector2> multiBalls;
 
   LevelData({
     required this.holes,

@@ -25,23 +25,19 @@ class ProfileAvatarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CustomClipper<Path> clipper;
-    CustomPainter shadowPainter;
     CustomPainter framePainter;
 
     switch (shape) {
       case AvatarShape.circle:
         clipper = CircleAvatarClipper();
-        shadowPainter = CircleShadowPainter();
         framePainter = CircleFramePainter();
         break;
       case AvatarShape.hexagon:
         clipper = HexagonAvatarClipper();
-        shadowPainter = HexagonShadowPainter();
         framePainter = HexagonFramePainter();
         break;
       case AvatarShape.shield:
         clipper = ShieldClipper();
-        shadowPainter = ShieldShadowPainter();
         framePainter = GameProfileBadgePainter();
         break;
     }

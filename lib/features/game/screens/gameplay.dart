@@ -10,7 +10,6 @@ import 'package:balanco_game/features/game/components/game_area/game_painter.dar
 
 import 'package:balanco_game/features/game/screens/animated_game_overlays.dart';
 import 'package:balanco_game/features/game/screens/victory/victory_overlay.dart';
-import 'package:balanco_game/features/game/screens/victory/victory_painters.dart';
 import 'package:balanco_game/features/game/screens/game_controls_overlay.dart';
 
 import 'package:balanco_game/features/game/widgets/gameplay_header.dart';
