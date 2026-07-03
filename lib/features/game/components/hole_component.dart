@@ -5,12 +5,18 @@ import 'package:balanco_game/features/game/game_area.dart';
 import 'package:balanco_game/features/game/models/ball_data.dart';
 
 class HoleComponent extends PositionComponent with HasGameReference<BalancoGame> {
-  final Vector2 fractionalPosition;
+  Vector2 fractionalPosition;
   double _rotation = 0.0;
   double _pulseTime = 0.0;
 
   final bool isSuckingHole;
   final double suckRadius;
+  final bool isMovingHole;
+  final double moveRange;
+  final double moveSpeed;
+
+  double _originalFractionalX = 0.0;
+  double _timeAccumulator = 0.0;
 
   // Cached Paints
   late final Paint _windAreaPaint;
@@ -40,8 +46,12 @@ class HoleComponent extends PositionComponent with HasGameReference<BalancoGame>
     double rotation, {
     this.isSuckingHole = false,
     this.suckRadius = 0.0,
+    this.isMovingHole = false,
+    this.moveRange = 0.0,
+    this.moveSpeed = 0.0,
   }) : super(size: Vector2.all(holeSize), anchor: Anchor.center, angle: 0) {
     _rotation = rotation;
+    _originalFractionalX = fractionalPosition.x;
   }
 
   @override
@@ -163,6 +173,12 @@ class HoleComponent extends PositionComponent with HasGameReference<BalancoGame>
   @override
   void update(double dt) {
     super.update(dt);
+    
+    if (isMovingHole && !game.isSpawningLevel) {
+      _timeAccumulator += dt;
+      fractionalPosition.x = _originalFractionalX + sin(_timeAccumulator * moveSpeed) * moveRange;
+    }
+
     if (!game.isSpawningLevel && game.size.x > 0 && game.size.y > 0) {
       position = Vector2(
         fractionalPosition.x * game.size.x,

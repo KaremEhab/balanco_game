@@ -365,11 +365,14 @@ class BalancoGame extends FlameGame {
     // Quickly spawn components back on the main thread using the pre-calculated data
     for (final hData in data.holes) {
       final hole = HoleComponent(
-        hData.position,
+        hData.position.clone(), // Clone so we don't modify the data directly
         hData.size,
         hData.rotation,
         isSuckingHole: hData.isSuckingHole,
         suckRadius: hData.suckRadius,
+        isMovingHole: hData.isMovingHole,
+        moveRange: hData.moveRange,
+        moveSpeed: hData.moveSpeed,
       )..priority = 1;
 
       final targetPos = Vector2(
@@ -712,6 +715,9 @@ class BalancoGame extends FlameGame {
     Vector2 normal,
   ) {
     if (ball.isFallingInHole) {
+      if (ball.activeHole != null) {
+        ball.fallTarget = ball.activeHole!.position.clone();
+      }
       ball.fallRotation += dt * 15.0; // Rapid spin
       ball.scale -= dt * 1.0; // Slower fall (takes 1 second)
       ball.pos2D.lerp(ball.fallTarget, dt * 5.0); // Slower pull to center

@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:balanco_game/features/game/game_area.dart';
 import 'package:balanco_game/features/game/components/game_area/magnate_painter.dart';
 
-class MagnetComponent extends PositionComponent with HasGameReference<BalancoGame> {
+class MagnetComponent extends PositionComponent
+    with HasGameReference<BalancoGame> {
   Vector2 fractionalPosition;
   double _time = 0.0;
   bool isCollected = false;
@@ -42,14 +43,17 @@ class MagnetComponent extends PositionComponent with HasGameReference<BalancoGam
   @override
   void update(double dt) {
     super.update(dt);
-    
-    if (!game.isSpawningLevel && game.size.x > 0 && game.size.y > 0 && !isCollected) {
+
+    if (!game.isSpawningLevel &&
+        game.size.x > 0 &&
+        game.size.y > 0 &&
+        !isCollected) {
       position = Vector2(
         fractionalPosition.x * game.size.x,
         120.0 + fractionalPosition.y * (game.levelHeight - 320.0),
       );
     }
-    
+
     if (isCollected) {
       _collectedTime += dt;
     } else {

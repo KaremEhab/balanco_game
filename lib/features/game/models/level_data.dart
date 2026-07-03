@@ -6,14 +6,20 @@ class HoleData {
   final double rotation;
   final bool isSuckingHole;
   final double suckRadius;
+  final bool isMovingHole;
+  final double moveRange;
+  final double moveSpeed;
 
   HoleData(
     this.position,
     this.size,
     this.rotation,
     this.isSuckingHole,
-    this.suckRadius,
-  );
+    this.suckRadius, {
+    this.isMovingHole = false,
+    this.moveRange = 0.0,
+    this.moveSpeed = 0.0,
+  });
 }
 
 class TeleporterData {

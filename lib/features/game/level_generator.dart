@@ -94,6 +94,10 @@ LevelData generateLevelData(int currentLevel) {
         x = x.clamp(0.12, 0.88);
 
         bool isSucking = false;
+        bool isMoving = false;
+        double moveRange = 0.0;
+        double moveSpeed = 0.0;
+
         if (currentLevel >= 10 && i < 5) {
           isSucking = true;
         } else if (currentLevel >= 8 && i < 2) {
@@ -102,12 +106,31 @@ LevelData generateLevelData(int currentLevel) {
           isSucking = true;
         }
 
-        double requiredSpace = isSucking ? 0.35 : 0.16;
+        if (currentLevel >= 4 && !isSucking) {
+          // Add moving holes (max 2 or 3 depending on level)
+          if (i < (currentLevel / 3).floor()) {
+            isMoving = true;
+            moveRange = 0.1 + random.nextDouble() * 0.15;
+            x = x.clamp(0.12 + moveRange, 0.88 - moveRange);
+            moveSpeed = 1.5 + random.nextDouble() * 2.0;
+          }
+        }
+
+        double requiredSpace = isSucking ? 0.35 : (isMoving ? 0.16 + moveRange : 0.16);
 
         if (isSpaceSafe(Vector2(x, y), requiredSpace)) {
           double suckRad = isSucking ? 50.0 + (currentLevel * 2.0) : 0.0;
 
-          holes.add(HoleData(Vector2(x, y), hSize, random.nextDouble() * 2 * pi, isSucking, suckRad));
+          holes.add(HoleData(
+            Vector2(x, y),
+            hSize,
+            random.nextDouble() * 2 * pi,
+            isSucking,
+            suckRad,
+            isMovingHole: isMoving,
+            moveRange: moveRange,
+            moveSpeed: moveSpeed,
+          ));
           
           // Add to occupied space so other obstacles stay away
           occupied.add(_OccupiedSpace(Vector2(x, y), requiredSpace));
