@@ -20,6 +20,7 @@ import 'package:balanco_game/features/game/components/teleporter_component.dart'
 import 'package:balanco_game/features/game/components/confetti_component.dart';
 import 'package:balanco_game/features/game/components/heart_component.dart';
 import 'package:balanco_game/features/game/components/items/multi_ball_item.dart';
+import 'package:balanco_game/features/game/components/magnet_component.dart';
 
 import 'package:balanco_game/features/game/models/ball_data.dart';
 import 'package:balanco_game/features/game/models/level_data.dart';
@@ -92,6 +93,7 @@ class BalancoGame extends FlameGame {
   final List<BumperComponent> bumpers = [];
   final List<TeleporterComponent> teleporters = [];
   List<MultiBallItem> multiBallItems = [];
+  List<MagnetComponent> magnets = [];
   TeleporterComponent? activeExitTeleporter;
   TeleportingGateComponent teleportingGateComponent = TeleportingGateComponent()
     ..priority = 0;
@@ -210,6 +212,9 @@ class BalancoGame extends FlameGame {
         mb.isCollected = false;
         mb.scale = isSpawningLevel ? Vector2.zero() : Vector2.all(1.0);
         if (mb.parent == null) levelContainer.add(mb);
+      }
+      for (final mag in magnets) {
+        mag.reset();
       }
     }
 
@@ -343,6 +348,10 @@ class BalancoGame extends FlameGame {
       if (mb.parent != null) mb.removeFromParent();
     }
     multiBallItems.clear();
+    for (final mag in magnets) {
+      if (mag.parent != null) mag.removeFromParent();
+    }
+    magnets.clear();
 
     // Offload level generation to an Isolate
     final int levelToGenerate = currentLevel.value;
@@ -458,6 +467,22 @@ class BalancoGame extends FlameGame {
 
       multiBallItems.add(mb);
       levelContainer.add(mb);
+    }
+
+    for (final magPos in data.magnets) {
+      final mag = MagnetComponent(magPos)..priority = 5;
+
+      final targetPos = Vector2(
+        magPos.x * size.x,
+        120.0 + magPos.y * (levelHeight - 320.0),
+      );
+      targetPositions[mag] = targetPos;
+      mag.position = teleportingGateComponent.position.clone();
+      mag.scale = Vector2.zero();
+      pendingSpawns.add(mag);
+
+      magnets.add(mag);
+      levelContainer.add(mag);
     }
   }
 
@@ -1135,6 +1160,21 @@ class BalancoGame extends FlameGame {
             if (ball.pos2D.distanceTo(heartPos) < ballRadius + 15.0) {
               heart.isCollected = true;
               currentLives.value++;
+              HapticFeedback.lightImpact();
+              try {
+                AppSettings.playSound('star.wav');
+              } catch (_) {}
+            }
+          }
+        }
+
+        // Check magnet collisions
+        for (final mag in magnets) {
+          if (!mag.isCollected) {
+            Vector2 magPos = mag.position;
+            if (ball.pos2D.distanceTo(magPos) < ballRadius + 15.0) {
+              mag.isCollected = true;
+              magnetTimer = 5.0; // Instantly activate!
               HapticFeedback.lightImpact();
               try {
                 AppSettings.playSound('star.wav');

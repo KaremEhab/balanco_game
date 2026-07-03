@@ -17,6 +17,7 @@ LevelData generateLevelData(int currentLevel) {
   final List<Vector2> stars = [];
   final List<Vector2> hearts = [];
   List<Vector2> multiBalls = [];
+  final List<Vector2> magnets = [];
   final List<BumperData> bumpers = [];
   final List<TeleporterData> teleporters = [];
 
@@ -213,6 +214,24 @@ LevelData generateLevelData(int currentLevel) {
     }
   }
 
+  // ---------------------------------------------------------
+  // 7. Generate Magnets (Level 3+)
+  // ---------------------------------------------------------
+  if (currentLevel >= 3) {
+    int attempts = 0;
+    while (attempts < 50) {
+      double x = 0.5 + (random.nextDouble() - 0.5) * 0.6;
+      double y = 0.2 + random.nextDouble() * 0.6;
+      
+      if (isSpaceSafe(Vector2(x, y), 0.12)) {
+        magnets.add(Vector2(x, y));
+        occupied.add(_OccupiedSpace(Vector2(x, y), 0.12));
+        break;
+      }
+      attempts++;
+    }
+  }
+
   return LevelData(
     holes: holes,
     stars: stars,
@@ -220,5 +239,6 @@ LevelData generateLevelData(int currentLevel) {
     bumpers: bumpers,
     teleporters: teleporters,
     multiBalls: multiBalls,
+    magnets: magnets,
   );
 }

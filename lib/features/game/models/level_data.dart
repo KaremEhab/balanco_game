@@ -38,6 +38,7 @@ class LevelData {
   final List<BumperData> bumpers;
   final List<TeleporterData> teleporters;
   final List<Vector2> multiBalls;
+  final List<Vector2> magnets;
 
   LevelData({
     required this.holes,
@@ -46,5 +47,6 @@ class LevelData {
     this.bumpers = const [],
     this.teleporters = const [],
     this.multiBalls = const [],
+    this.magnets = const [],
   });
 }

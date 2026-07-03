@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:balanco_game/features/game/game_area.dart';
-import 'package:balanco_game/features/game/components/game_area/magnate_btn_painter.dart';
-import 'package:balanco_game/features/game/components/game_area/shield_btn_painter.dart';
+import 'package:balanco_game/features/game/components/game_area/shield_icon_painter.dart';
 import 'package:balanco_game/core/data/app_settings.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class GameControlsOverlay extends StatelessWidget {
   final BalancoGame game;
@@ -44,56 +44,25 @@ class GameControlsOverlay extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: Padding(
               padding: const EdgeInsets.only(bottom: 50),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Left Shield
-                  ValueListenableBuilder<int>(
-                    valueListenable: game.remainingShields,
-                    builder: (context, shields, child) {
-                      return ValueListenableBuilder<double>(
-                        valueListenable: game.shieldTimerNotifier,
-                        builder: (context, shieldTime, child) {
-                          return SquarePowerButton(
-                            game: game,
-                            charges: shields,
-                            activeTime: shieldTime,
-                            maxTime: 5.0,
-                            iconType: 'SHIELD',
-                            onTap: () {
-                              game.remainingShields.value -= 1;
-                              game.shieldTimer = 5.0;
-                            },
-                          );
+              child: ValueListenableBuilder<int>(
+                valueListenable: game.remainingShields,
+                builder: (context, shields, child) {
+                  return ValueListenableBuilder<double>(
+                    valueListenable: game.shieldTimerNotifier,
+                    builder: (context, shieldTime, child) {
+                      return WideShieldButton(
+                        game: game,
+                        charges: shields,
+                        activeTime: shieldTime,
+                        maxTime: 5.0,
+                        onTap: () {
+                          game.remainingShields.value -= 1;
+                          game.shieldTimer = 5.0;
                         },
                       );
                     },
-                  ),
-                  const SizedBox(width: 12),
-                  // Center Magnet
-                  ValueListenableBuilder<int>(
-                    valueListenable: game.remainingMagnets,
-                    builder: (context, magnets, child) {
-                      return ValueListenableBuilder<double>(
-                        valueListenable: game.magnetTimerNotifier,
-                        builder: (context, magnetTime, child) {
-                          return SquarePowerButton(
-                            game: game,
-                            charges: magnets,
-                            activeTime: magnetTime,
-                            maxTime: 5.0,
-                            iconType: 'MAGNET',
-                            onTap: () {
-                              game.remainingMagnets.value -= 1;
-                              game.magnetTimer = 5.0;
-                            },
-                          );
-                        },
-                      );
-                    },
-                  ),
-                  // Right Shield removed as per user request
-                ],
+                  );
+                },
               ),
             ),
           ),
@@ -103,29 +72,27 @@ class GameControlsOverlay extends StatelessWidget {
   }
 }
 
-class SquarePowerButton extends StatefulWidget {
+class WideShieldButton extends StatefulWidget {
   final BalancoGame game;
   final int charges;
   final double activeTime;
   final double maxTime;
-  final String iconType;
   final VoidCallback onTap;
 
-  const SquarePowerButton({
+  const WideShieldButton({
     super.key,
     required this.game,
     required this.charges,
     required this.activeTime,
     required this.maxTime,
-    required this.iconType,
     required this.onTap,
   });
 
   @override
-  State<SquarePowerButton> createState() => _SquarePowerButtonState();
+  State<WideShieldButton> createState() => _WideShieldButtonState();
 }
 
-class _SquarePowerButtonState extends State<SquarePowerButton> {
+class _WideShieldButtonState extends State<WideShieldButton> {
   bool _isPressed = false;
 
   @override
@@ -133,8 +100,6 @@ class _SquarePowerButtonState extends State<SquarePowerButton> {
     bool isActive = widget.activeTime > 0;
     bool hasCharges = widget.charges > 0;
     bool canClick = hasCharges && !isActive;
-
-    bool isMagnet = widget.iconType == 'MAGNET';
 
     return GestureDetector(
       onTapDown: (_) {
@@ -150,42 +115,94 @@ class _SquarePowerButtonState extends State<SquarePowerButton> {
         if (canClick) setState(() => _isPressed = false);
       },
       child: AnimatedScale(
-        scale: _isPressed ? 0.92 : 1.0,
+        scale: _isPressed ? 0.95 : 1.0,
         duration: const Duration(milliseconds: 100),
         curve: Curves.easeInOutCubic,
         child: Opacity(
           opacity: canClick || isActive ? 1.0 : 0.5,
-          child: SizedBox(
-            width: 64,
-            height: 64,
+          child: Container(
+            width: 140, // Wide button
+            height: 56,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(28),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.4),
+                  blurRadius: 4.0,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+              gradient: const LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color(0xFFFFE082), // Highlight
+                  Color(0xFFFFCA28), // Base
+                  Color(0xFFFFB300), // Mid
+                  Color(0xFFFF8F00), // Shadow
+                ],
+              ),
+            ),
             child: Stack(
               alignment: Alignment.center,
               children: [
-                // The new custom painted buttons
-                SizedBox(
-                  width: 64,
-                  height: 64,
-                  child: FittedBox(
-                    fit: BoxFit.contain,
-                    child: SizedBox(
-                      width: 48,
-                      height: 48,
-                      child: CustomPaint(
-                        painter: isMagnet
-                            ? MagnateBtnPainter()
-                            : ShieldBtnPainter(),
-                        foregroundPainter: isActive
-                            ? ActiveTimePainter(
-                                isMagnet: isMagnet,
-                                progress: (widget.activeTime / widget.maxTime)
-                                    .clamp(0.0, 1.0),
-                              )
-                            : null,
+                // Inner Gloss / Specular Layer
+                Positioned.fill(
+                  child: Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(26),
+                        gradient: const LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [Color(0x99FFFFFF), Color(0x00FFFFFF)],
+                        ),
                       ),
                     ),
                   ),
                 ),
-
+                if (isActive)
+                  Positioned.fill(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(28),
+                      child: CustomPaint(
+                        painter: ActiveTimePainter(
+                          progress: (widget.activeTime / widget.maxTime).clamp(
+                            0.0,
+                            1.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 40,
+                      height: 40,
+                      child: CustomPaint(painter: ShieldIconPainter()),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      '${widget.charges}',
+                      style: GoogleFonts.luckiestGuy(
+                        color: Colors.white,
+                        fontSize: 30,
+                        fontWeight: FontWeight.w900,
+                        shadows: const [
+                          Shadow(
+                            blurRadius: 2.0,
+                            color: Colors.black45,
+                            offset: Offset(0, 6),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
@@ -227,7 +244,8 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
     setState(() {
       // Multiply the physical finger delta by the sensitivity so the virtual joystick
       // reacts faster (or slower) to touch distance.
-      double scaledDelta = event.delta.dy * AppSettings.joystickSensitivity.value;
+      double scaledDelta =
+          event.delta.dy * AppSettings.joystickSensitivity.value;
       _dy = (_dy + scaledDelta).clamp(-_maxDrag, _maxDrag);
     });
     widget.onChanged(_dy / _maxDrag);
@@ -398,10 +416,9 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
 }
 
 class ActiveTimePainter extends CustomPainter {
-  final bool isMagnet;
   final double progress;
 
-  ActiveTimePainter({required this.isMagnet, required this.progress});
+  ActiveTimePainter({required this.progress});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -409,7 +426,7 @@ class ActiveTimePainter extends CustomPainter {
 
     RRect bgRRect = RRect.fromRectAndRadius(
       Offset.zero & size,
-      const Radius.circular(16),
+      const Radius.circular(28),
     );
 
     canvas.save();
@@ -429,6 +446,6 @@ class ActiveTimePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant ActiveTimePainter oldDelegate) {
-    return oldDelegate.progress != progress || oldDelegate.isMagnet != isMagnet;
+    return oldDelegate.progress != progress;
   }
 }

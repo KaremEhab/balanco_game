@@ -41,7 +41,12 @@ class _MainScreenState extends State<MainScreen> {
   int _coins = 0;
 
   final GlobalKey _rowKey = GlobalKey();
-  final List<GlobalKey> _navKeys = [GlobalKey(), GlobalKey(), GlobalKey(), GlobalKey()];
+  final List<GlobalKey> _navKeys = [
+    GlobalKey(),
+    GlobalKey(),
+    GlobalKey(),
+    GlobalKey(),
+  ];
   double _indicatorLeft = 0;
   double _indicatorWidth = 0;
 
@@ -191,17 +196,27 @@ class _MainScreenState extends State<MainScreen> {
                 _currentIndex = index;
                 _isNavbarVisible = true;
               });
-              
-              if (index != 0 && _mapScrollController.hasClients && _mapScrollController.position.hasContentDimensions) {
-                _mapScrollController.jumpTo(_mapScrollController.position.maxScrollExtent);
+
+              if (index != 0 &&
+                  _mapScrollController.hasClients &&
+                  _mapScrollController.position.hasContentDimensions) {
+                _mapScrollController.jumpTo(
+                  _mapScrollController.position.maxScrollExtent,
+                );
               }
-              if (index != 1 && _modesScrollController.hasClients && _modesScrollController.position.hasContentDimensions) {
+              if (index != 1 &&
+                  _modesScrollController.hasClients &&
+                  _modesScrollController.position.hasContentDimensions) {
                 _modesScrollController.jumpTo(0);
               }
-              if (index != 2 && _leaderboardScrollController.hasClients && _leaderboardScrollController.position.hasContentDimensions) {
+              if (index != 2 &&
+                  _leaderboardScrollController.hasClients &&
+                  _leaderboardScrollController.position.hasContentDimensions) {
                 _leaderboardScrollController.jumpTo(0);
               }
-              if (index != 3 && _settingsScrollController.hasClients && _settingsScrollController.position.hasContentDimensions) {
+              if (index != 3 &&
+                  _settingsScrollController.hasClients &&
+                  _settingsScrollController.position.hasContentDimensions) {
                 _settingsScrollController.jumpTo(0);
               }
 
@@ -266,7 +281,7 @@ class _MainScreenState extends State<MainScreen> {
     bool parallaxEnabled = true,
   }) {
     double scrollProgress = 1.0;
-    
+
     ScrollController activeController;
     if (_currentIndex == 0) {
       activeController = _mapScrollController;
@@ -278,18 +293,20 @@ class _MainScreenState extends State<MainScreen> {
       activeController = _settingsScrollController;
     }
 
-    if (activeController.hasClients && activeController.position.hasContentDimensions) {
+    if (activeController.hasClients &&
+        activeController.position.hasContentDimensions) {
       double scrollOffset = activeController.offset;
       double maxScroll = activeController.position.maxScrollExtent;
       if (maxScroll <= 0) maxScroll = 1.0;
-      
+
       if (_currentIndex == 0) {
         scrollProgress = (scrollOffset / maxScroll).clamp(0.0, 1.0);
       } else {
         // Slow down parallax on Settings and Modes pages
         // by dividing the offset by a larger fixed number instead of the small maxScroll
         double simulatedMaxScroll = 2500.0;
-        scrollProgress = 1.0 + (scrollOffset / simulatedMaxScroll).clamp(0.0, 1.0);
+        scrollProgress =
+            1.0 + (scrollOffset / simulatedMaxScroll).clamp(0.0, 1.0);
       }
       _lastScrollProgress = scrollProgress;
     } else {
@@ -299,7 +316,9 @@ class _MainScreenState extends State<MainScreen> {
     // When scrollProgress is 1.0 (bottom, Level 1), the camera is at the bottom.
     // When scrollProgress is 0.0 (top, max Level), the camera is at the top.
     // So as the camera goes up (progress 1 -> 0), the background should move DOWN (positive dy).
-    double verticalParallax = parallaxEnabled ? (1.0 - scrollProgress) * 250.0 * depthMultiplier : 0.0;
+    double verticalParallax = parallaxEnabled
+        ? (1.0 - scrollProgress) * 250.0 * depthMultiplier
+        : 0.0;
 
     return Transform.translate(
       offset: Offset(dx, dy + verticalParallax),
@@ -312,7 +331,12 @@ class _MainScreenState extends State<MainScreen> {
 
   Widget _buildParallaxBackground() {
     return AnimatedBuilder(
-      animation: Listenable.merge([_mapScrollController, _modesScrollController, _settingsScrollController, _pageController]),
+      animation: Listenable.merge([
+        _mapScrollController,
+        _modesScrollController,
+        _settingsScrollController,
+        _pageController,
+      ]),
       builder: (context, child) {
         return ValueListenableBuilder<bool>(
           valueListenable: AppSettings.parallaxEnabled,
@@ -325,7 +349,11 @@ class _MainScreenState extends State<MainScreen> {
                 child: Stack(
                   clipBehavior: Clip.none,
                   children: [
-                    _buildLayer(SkyPainter(), depthMultiplier: 0.05, parallaxEnabled: isParallax),
+                    _buildLayer(
+                      SkyPainter(),
+                      depthMultiplier: 0.05,
+                      parallaxEnabled: isParallax,
+                    ),
                     _buildLayer(
                       FirstCloudPainter(),
                       dx: 193.1,
