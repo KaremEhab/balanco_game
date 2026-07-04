@@ -129,14 +129,12 @@ class _AnimatedLevelCompleteOverlayState
 
   void _nextLevel() {
     _mainController.reverse().then((_) {
-      widget.game.resumeEngine();
       widget.game.advanceToNextLevel();
     });
   }
 
   void _restartLevel() {
     _mainController.reverse().then((_) {
-      widget.game.resumeEngine();
       widget.game.restartLevelAfterWin();
     });
   }

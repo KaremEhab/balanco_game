@@ -60,34 +60,36 @@ class HoleComponent extends PositionComponent
   Future<void> onLoad() async {
     super.onLoad();
 
+    final currentBiome = game.currentBiome;
+    
     _windAreaPaint = Paint()
       ..shader = RadialGradient(
         center: Alignment.center,
         radius: 1.0,
         colors: [
-          GameColors.purpleAccent.withValues(alpha: 0.1),
+          currentBiome.primaryColor.withValues(alpha: 0.1),
           Colors.transparent,
         ],
       ).createShader(Rect.fromCircle(center: Offset.zero, radius: suckRadius));
 
     _suckParticlePaint = Paint()
-      ..color = GameColors.purpleAccent.withValues(alpha: 0.5);
+      ..color = currentBiome.primaryColor.withValues(alpha: 0.5);
 
     List<Color> holeColors = isSuckingHole
-        ? const [
-            GameColors.holeDarkPurple,
-            GameColors.holeDeepPurple,
-            GameColors.holeIndigo,
-            GameColors.holeVeryDark,
+        ? [
+            currentBiome.primaryColor,
+            currentBiome.secondaryColor,
+            currentBiome.nodeUnlockedBorderColor,
+            currentBiome.nodeLockedBorderColor,
             GameColors.blackSolid,
           ]
-        : const [
-            GameColors.woodLight,
-            GameColors.woodMedium,
-            GameColors.woodMediumDark,
-            GameColors.woodDark,
-            GameColors.woodVeryDark,
-            GameColors.woodDeep,
+        : [
+            currentBiome.nodeUnlockedColor,
+            currentBiome.primaryColor,
+            currentBiome.secondaryColor,
+            currentBiome.nodeUnlockedBorderColor,
+            currentBiome.nodeLockedBorderColor,
+            GameColors.blackSolid,
           ];
 
     _holePaints = holeColors.map((c) => Paint()..color = c).toList();

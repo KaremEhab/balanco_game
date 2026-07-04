@@ -1,9 +1,11 @@
 import 'dart:isolate';
 import 'dart:math';
+import 'dart:io';
 
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/game.dart';
+import 'package:flame/events.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -30,7 +32,7 @@ import 'package:balanco_game/features/map/models/biome_model.dart';
 import 'package:balanco_game/core/data/app_settings.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
 
-class BalancoGame extends FlameGame {
+class BalancoGame extends FlameGame with KeyboardEvents {
   final bool isMultiplayer;
   final String playerRole;
 
@@ -47,7 +49,7 @@ class BalancoGame extends FlameGame {
   final ValueNotifier<double> darknessOpacityNotifier = ValueNotifier<double>(
     0.0,
   );
-  final ValueNotifier<Offset?> lightSpotNotifier = ValueNotifier<Offset?>(null);
+  final ValueNotifier<List<Offset>> lightSpotNotifier = ValueNotifier<List<Offset>>([]);
   final ValueNotifier<double> lightRadiusNotifier = ValueNotifier<double>(65.0);
 
   final ValueNotifier<int> currentLevel = ValueNotifier<int>(1);
@@ -138,6 +140,7 @@ class BalancoGame extends FlameGame {
   }
 
   void restartCurrentLevel() async {
+    print("DEBUG: restartCurrentLevel called. Level: ${currentLevel.value}");
     isSpawningLevel = true;
     currentPoints.value = 0;
     currentLives.value = 3;
@@ -147,7 +150,9 @@ class BalancoGame extends FlameGame {
       (c) => c.removeFromParent(),
     );
     _resetPositions();
+    print("DEBUG: generateLevel starts");
     await generateLevel();
+    print("DEBUG: generateLevel finishes, resuming engine");
     resumeEngine();
   }
 
@@ -157,6 +162,7 @@ class BalancoGame extends FlameGame {
   }
 
   Future<void> advanceToNextLevel() async {
+    print("DEBUG: advanceToNextLevel called");
     showVictoryOverlay.value = false;
     showGameOverOverlay.value = false;
     isLevelCompleteOverlayShown = false;
@@ -202,6 +208,21 @@ class BalancoGame extends FlameGame {
     bool respawnFromHole = false,
     HoleComponent? prevHole,
   }) {
+    print("DEBUG: _resetPositions called. size: ${size.x}x${size.y}, isSpawningLevel: $isSpawningLevel, loseLife: $loseLife");
+
+    double currentSizeY = size.y > 0 ? size.y : 800.0;
+    double currentLevelHeight = currentSizeY * (currentLevel.value >= 10 ? 3.0 : 1.0);
+
+    if (leftY != 0.0 && size.y > 0 && !isSpawningLevel) {
+      initialLeftY = leftY;
+      initialRightY = rightY;
+      barResetTimer = 0.8; // Straighten bar consistently in 0.8s
+    } else {
+      barResetTimer = 0.0;
+      leftY = currentLevelHeight - 70.0;
+      rightY = currentLevelHeight - 70.0;
+    }
+    
     isBoardHidden = false;
     isLevelCompleteOverlayShown = false;
     teleportingGateComponent.reset();
@@ -251,61 +272,53 @@ class BalancoGame extends FlameGame {
       }
     }
 
-    if (size.x > 0 && size.y > 0) {
-      if (leftY != 0.0 && size.y > 0 && !isSpawningLevel) {
-        initialLeftY = leftY;
-        initialRightY = rightY;
-        barResetTimer = 0.8; // Straighten bar consistently in 0.8s
-      } else {
-        barResetTimer = 0.0;
-        leftY = levelHeight - 70.0;
-        rightY = levelHeight - 70.0;
-      }
 
-      // Clear balls
-      activeBalls.clear();
-      for (var bc in activeBallComponents) {
-        bc.removeFromParent();
-      }
-      activeBallComponents.clear();
-
-      // Create main ball
-      BallData mainBall = BallData();
-      mainBall.p = (size.x - 2 * barPadding) / 2.0;
-
-      if (isSpawningLevel) {
-        teleportingGateComponent.startClosed();
-        mainBall.pos2D = teleportingGateComponent.position.clone();
-        mainBall.scale = 0.0;
-        mainBall.spawnTimer = 1.5;
-        itemSpawnTimer = 0.5;
-        cameraOffsetY = 0.0;
-      } else if (respawnFromHole && prevHole != null) {
-        mainBall.activeHole = prevHole;
-        mainBall.isRespawningFromHole = true;
-        isLevelTimerActive = false; // Pause the timer during respawn
-        mainBall.respawnTimer = 1.6;
-        mainBall.pos2D = mainBall.activeHole!.position.clone();
-        mainBall.scale = 0.0;
-        mainBall.p = (size.x - 2 * barPadding) / 2.0;
-      } else {
-        mainBall.isRespawningFromEdge = true;
-        isLevelTimerActive = false;
-        mainBall.respawnTimer = 1.6;
-        mainBall.pos2D = teleportingGateComponent.position.clone();
-        mainBall.scale = 0.0;
-        mainBall.p = (size.x - 2 * barPadding) / 2.0;
-        mainBall.isFreeFalling = false;
-      }
-
-      activeBalls.add(mainBall);
-      BallComponent bc = BallComponent(mainBall)..priority = 20;
-      activeBallComponents.add(bc);
-      levelContainer.add(bc);
-
-      leftJoystickValue = 0.0;
-      rightJoystickValue = 0.0;
+    // Always clear balls and components, even if size is temporarily 0
+    activeBalls.clear();
+    for (var bc in activeBallComponents) {
+      bc.removeFromParent();
     }
+    activeBallComponents.clear();
+
+    teleportingGateComponent.reset();
+
+    // Create main ball
+    BallData mainBall = BallData();
+    double currentSizeX = size.x > 0 ? size.x : 400.0;
+    mainBall.p = (currentSizeX - 2 * barPadding) / 2.0;
+
+    if (isSpawningLevel) {
+      teleportingGateComponent.startClosed();
+      mainBall.pos2D = teleportingGateComponent.position.clone();
+      mainBall.scale = 0.0;
+      mainBall.spawnTimer = 1.5;
+      itemSpawnTimer = 0.5;
+      cameraOffsetY = 0.0;
+    } else if (respawnFromHole && prevHole != null) {
+      mainBall.activeHole = prevHole;
+      mainBall.isRespawningFromHole = true;
+      isLevelTimerActive = false; // Pause the timer during respawn
+      mainBall.respawnTimer = 1.6;
+      mainBall.pos2D = mainBall.activeHole!.position.clone();
+      mainBall.scale = 0.0;
+      mainBall.p = (currentSizeX - 2 * barPadding) / 2.0;
+    } else {
+      mainBall.isRespawningFromEdge = true;
+      isLevelTimerActive = false;
+      mainBall.respawnTimer = 1.6;
+      mainBall.pos2D = teleportingGateComponent.position.clone();
+      mainBall.scale = 0.0;
+      mainBall.p = (currentSizeX - 2 * barPadding) / 2.0;
+      mainBall.isFreeFalling = false;
+    }
+
+    activeBalls.add(mainBall);
+    BallComponent bc = BallComponent(mainBall)..priority = 20;
+    activeBallComponents.add(bc);
+    levelContainer.add(bc);
+
+    leftJoystickValue = 0.0;
+    rightJoystickValue = 0.0;
   }
 
   @override
@@ -343,6 +356,41 @@ class BalancoGame extends FlameGame {
     levelContainer.add(barComponent);
 
     await generateLevel();
+  }
+
+  @override
+  KeyEventResult onKeyEvent(
+    KeyEvent event,
+    Set<LogicalKeyboardKey> keysPressed,
+  ) {
+    if (Platform.isWindows) {
+      bool isUp = keysPressed.contains(LogicalKeyboardKey.arrowUp);
+      bool isDown = keysPressed.contains(LogicalKeyboardKey.arrowDown);
+      bool isLeft = keysPressed.contains(LogicalKeyboardKey.arrowLeft);
+      bool isRight = keysPressed.contains(LogicalKeyboardKey.arrowRight);
+
+      double newLeft = 0.0;
+      double newRight = 0.0;
+
+      if (isUp) {
+        newLeft = -1.0;
+        newRight = -1.0;
+      } else if (isDown) {
+        newLeft = 1.0;
+        newRight = 1.0;
+      } else if (isLeft) {
+        newLeft = 1.0;
+        newRight = -1.0;
+      } else if (isRight) {
+        newLeft = -1.0;
+        newRight = 1.0;
+      }
+
+      leftJoystickValue = newLeft;
+      rightJoystickValue = newRight;
+    }
+
+    return super.onKeyEvent(event, keysPressed);
   }
 
   Future<void> generateLevel() async {
@@ -752,15 +800,14 @@ class BalancoGame extends FlameGame {
             (darknessOpacityNotifier.value + dt * 10.0).clamp(0.0, 1);
       }
 
-      final ball = activeBalls.firstWhere(
-        (b) => !b.isDead,
-        orElse: () => activeBalls[0],
-      );
-      final screenY = ball.pos2D.y - cameraOffsetY;
-      lightSpotNotifier.value = Offset(ball.pos2D.x, screenY);
+      final spots = activeBalls
+          .where((b) => !b.isDead)
+          .map((b) => Offset(b.pos2D.x, b.pos2D.y - cameraOffsetY))
+          .toList();
+      lightSpotNotifier.value = spots;
     } else {
       darknessOpacityNotifier.value = 0.0;
-      lightSpotNotifier.value = null;
+      lightSpotNotifier.value = [];
     }
   }
 
@@ -807,6 +854,7 @@ class BalancoGame extends FlameGame {
         if (teleportingGateComponent.isClosed) {
           isBoardHidden = true;
           if (!isLevelCompleteOverlayShown) {
+            print("DEBUG: showVictoryOverlay triggered from isSuckingToGate");
             isLevelCompleteOverlayShown = true;
             showVictoryOverlay.value = true;
             pauseEngine();
@@ -824,6 +872,7 @@ class BalancoGame extends FlameGame {
         !isLevelCompleteOverlayShown) {
       Vector2 gateCenter = teleportingGateComponent.position;
       if (ball.pos2D.distanceTo(gateCenter) < 40) {
+        print("DEBUG: isSuckingToGate = true triggered. pos2D: ${ball.pos2D}, gateCenter: $gateCenter, isSpawningLevel: $isSpawningLevel");
         ball.isSuckingToGate = true;
         ball.isFalling = false;
         HapticFeedback.heavyImpact();

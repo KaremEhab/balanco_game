@@ -16,6 +16,9 @@ import 'package:balanco_game/core/data/app_settings.dart';
 import 'package:balanco_game/features/game/components/game_background/sky_painter.dart';
 import 'package:balanco_game/features/game/components/game_background/mountains_painter.dart';
 import 'package:balanco_game/features/game/components/game_background/sea_painter.dart';
+import 'package:balanco_game/features/game/components/game_background/pyramids_painter.dart';
+import 'package:balanco_game/features/game/components/game_background/bg_config_screen.dart';
+import 'package:balanco_game/features/map/theme/biome_config.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
 
 class MainScreen extends StatefulWidget {
@@ -183,6 +186,17 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       extendBody: true,
       backgroundColor: Colors.transparent,
+      // ── DEV TOOL: open background config editor ──────────────────────────
+      floatingActionButton: FloatingActionButton.small(
+        heroTag: 'bg_config_fab',
+        backgroundColor: const Color(0xFF5B3AA8),
+        tooltip: 'BG Config Editor',
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const BgConfigScreen()),
+        ),
+        child: const Text('🎨', style: TextStyle(fontSize: 16)),
+      ),
       body: Stack(
         children: [
           // Parallax Background
@@ -342,146 +356,170 @@ class _MainScreenState extends State<MainScreen> {
 
   Widget _buildParallaxBackground() {
     return AnimatedBuilder(
-      animation: Listenable.merge([
-        _mapScrollController,
-        _modesScrollController,
-        _settingsScrollController,
-        _pageController,
-      ]),
+      animation: Listenable.merge([_mapScrollController]),
       builder: (context, child) {
         return ValueListenableBuilder<bool>(
           valueListenable: AppSettings.parallaxEnabled,
           builder: (context, isParallax, child) {
-            Widget content = Container(
-              color: GameColors
-                  .mapAppBarCyanLightest, // Base sky color moved here to be tinted
-              width: double.infinity,
-              height: double.infinity,
-              child: FittedBox(
-                fit: BoxFit.cover,
-                child: SizedBox(
-                  width: 1000,
-                  height: 475,
-                  child: Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      _buildLayer(
-                        SkyPainter(),
-                        depthMultiplier: 0.05,
-                        parallaxEnabled: isParallax,
-                      ),
-                      _buildLayer(
-                        FirstCloudPainter(),
-                        dx: 193.1,
-                        dy: 46.5,
-                        scale: 0.39,
-                        depthMultiplier: 0.1,
-                        parallaxEnabled: isParallax,
-                      ),
-                      _buildLayer(
-                        SecondCloudPainter(),
-                        dx: -6.1,
-                        dy: 7.1,
-                        scale: 0.26,
-                        depthMultiplier: 0.12,
-                        parallaxEnabled: isParallax,
-                      ),
-                      _buildLayer(
-                        ThirdCloudPainter(),
-                        dx: 59.7,
-                        dy: 15.7,
-                        scale: 0.46,
-                        depthMultiplier: 0.14,
-                        parallaxEnabled: isParallax,
-                      ),
-                      _buildLayer(
-                        ForthCloudPainter(),
-                        dx: 305.0,
-                        dy: 27.0,
-                        scale: 0.63,
-                        depthMultiplier: 0.16,
-                        parallaxEnabled: isParallax,
-                      ),
-                      _buildLayer(
-                        FifthCloudPainter(),
-                        dx: 127.3,
-                        dy: -85.9,
-                        scale: 0.48,
-                        depthMultiplier: 0.18,
-                        parallaxEnabled: isParallax,
-                      ),
-                      _buildLayer(
-                        BirdsPainter(),
-                        dx: 230.1,
-                        dy: -11.4,
-                        scale: 0.57,
-                        depthMultiplier: 0.2,
-                        parallaxEnabled: isParallax,
-                      ),
-                      _buildLayer(
-                        FurtherSeaPainter(),
-                        dx: 0.0,
-                        dy: 214.0,
-                        scale: 1.05,
-                        depthMultiplier: 0.4,
-                        parallaxEnabled: isParallax,
-                      ),
-                      _buildLayer(
-                        MountainSeaShadowsPainter(),
-                        dx: 52.8,
-                        dy: 166.4,
-                        scale: 0.47,
-                        depthMultiplier: 0.5,
-                        parallaxEnabled: isParallax,
-                      ),
-                      _buildLayer(
-                        BackMountainPainter(),
-                        dx: 122.0,
-                        dy: 42.6,
-                        scale: 0.50,
-                        depthMultiplier: 0.3,
-                        parallaxEnabled: isParallax,
-                      ),
-                      _buildLayer(
-                        CloserSeaPainter(),
-                        dx: 166.9,
-                        dy: 401.3,
-                        scale: 1.42,
-                        depthMultiplier: 0.6,
-                        parallaxEnabled: isParallax,
-                      ),
-                      _buildLayer(
-                        SeaWaterDropsPainter(),
-                        dx: 112.6,
-                        dy: 246.1,
-                        scale: 0.51,
-                        depthMultiplier: 0.7,
-                        parallaxEnabled: isParallax,
-                      ),
-                      _buildLayer(
-                        FrontMountainPainter(),
-                        dx: 73.2,
-                        dy: 35.3,
-                        scale: 0.32,
-                        depthMultiplier: 0.8,
-                        parallaxEnabled: isParallax,
-                      ),
-                      _buildLayer(
-                        SeaMountainWaves(),
-                        dx: 7.1,
-                        dy: 9.6,
-                        scale: 0.27,
-                        depthMultiplier: 0.45,
-                        parallaxEnabled: isParallax,
-                      ),
-                      // Trees are commented out in gameplay, but if we want them:
-                    ],
+            Widget beachParallax = SizedBox(
+              width: 1000,
+              height: 475,
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  _buildLayer(
+                    SkyPainter(),
+                    depthMultiplier: 0.05,
+                    parallaxEnabled: isParallax,
                   ),
-                ),
+                  _buildLayer(
+                    FirstCloudPainter(),
+                    dx: 193.1,
+                    dy: 46.5,
+                    scale: 0.39,
+                    depthMultiplier: 0.1,
+                    parallaxEnabled: isParallax,
+                  ),
+                  _buildLayer(
+                    SecondCloudPainter(),
+                    dx: -6.1,
+                    dy: 7.1,
+                    scale: 0.26,
+                    depthMultiplier: 0.12,
+                    parallaxEnabled: isParallax,
+                  ),
+                  _buildLayer(
+                    ThirdCloudPainter(),
+                    dx: 59.7,
+                    dy: 15.7,
+                    scale: 0.46,
+                    depthMultiplier: 0.14,
+                    parallaxEnabled: isParallax,
+                  ),
+                  _buildLayer(
+                    ForthCloudPainter(),
+                    dx: 305.0,
+                    dy: 27.0,
+                    scale: 0.63,
+                    depthMultiplier: 0.16,
+                    parallaxEnabled: isParallax,
+                  ),
+                  _buildLayer(
+                    FifthCloudPainter(),
+                    dx: 127.3,
+                    dy: -85.9,
+                    scale: 0.48,
+                    depthMultiplier: 0.18,
+                    parallaxEnabled: isParallax,
+                  ),
+                  _buildLayer(
+                    BirdsPainter(),
+                    dx: 230.1,
+                    dy: -11.4,
+                    scale: 0.57,
+                    depthMultiplier: 0.2,
+                    parallaxEnabled: isParallax,
+                  ),
+                  _buildLayer(
+                    FurtherSeaPainter(),
+                    dx: 0.0,
+                    dy: 214.0,
+                    scale: 1.05,
+                    depthMultiplier: 0.4,
+                    parallaxEnabled: isParallax,
+                  ),
+                  _buildLayer(
+                    MountainSeaShadowsPainter(),
+                    dx: 52.8,
+                    dy: 166.4,
+                    scale: 0.47,
+                    depthMultiplier: 0.5,
+                    parallaxEnabled: isParallax,
+                  ),
+                  _buildLayer(
+                    BackMountainPainter(),
+                    dx: 122.0,
+                    dy: 42.6,
+                    scale: 0.50,
+                    depthMultiplier: 0.3,
+                    parallaxEnabled: isParallax,
+                  ),
+                  _buildLayer(
+                    CloserSeaPainter(),
+                    dx: 166.9,
+                    dy: 401.3,
+                    scale: 1.42,
+                    depthMultiplier: 0.6,
+                    parallaxEnabled: isParallax,
+                  ),
+                  _buildLayer(
+                    SeaWaterDropsPainter(),
+                    dx: 112.6,
+                    dy: 246.1,
+                    scale: 0.51,
+                    depthMultiplier: 0.7,
+                    parallaxEnabled: isParallax,
+                  ),
+                  _buildLayer(
+                    FrontMountainPainter(),
+                    dx: 73.2,
+                    dy: 35.3,
+                    scale: 0.32,
+                    depthMultiplier: 0.8,
+                    parallaxEnabled: isParallax,
+                  ),
+                  _buildLayer(
+                    SeaMountainWaves(),
+                    dx: 7.1,
+                    dy: 9.6,
+                    scale: 0.27,
+                    depthMultiplier: 0.45,
+                    parallaxEnabled: isParallax,
+                  ),
+                ],
               ),
             );
 
-            // Apply Biome color tint dynamically over the background stack
+            Widget pyramidParallax = SizedBox(
+              width: 1000,
+              height: 475,
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  _buildLayer(
+                    PyramidSkyPainter(),
+                    depthMultiplier: 0.0,
+                    parallaxEnabled: isParallax,
+                  ),
+                  _buildLayer(
+                    WispyCloudPainter(),
+                    depthMultiplier: 0.1,
+                    parallaxEnabled: isParallax,
+                  ),
+                  _buildLayer(
+                    DistantMountainsPainter(),
+                    depthMultiplier: 0.2,
+                    parallaxEnabled: isParallax,
+                  ),
+                  _buildLayer(
+                    MainPyramidsPainter(),
+                    depthMultiplier: 0.4,
+                    parallaxEnabled: isParallax,
+                  ),
+                  _buildLayer(
+                    MidgroundDunesPainter(),
+                    depthMultiplier: 0.7,
+                    parallaxEnabled: isParallax,
+                  ),
+                  _buildLayer(
+                    ForegroundDunesPainter(),
+                    depthMultiplier: 1.0,
+                    parallaxEnabled: isParallax,
+                  ),
+                ],
+              ),
+            );
+
             return ValueListenableBuilder<BiomeModel?>(
               valueListenable: currentBiomeNotifier,
               builder: (context, currentBiome, child) {
@@ -491,20 +529,72 @@ class _MainScreenState extends State<MainScreen> {
                     return ValueListenableBuilder<double>(
                       valueListenable: biomeTransitionProgress,
                       builder: (context, progress, child) {
-                        // When progress is 0.0, we have the normal look (no tint or target biome tint)
-                        // Actually, if we want to smoothly tint the background between biomes:
-                        final Color prevTint = previousBiome?.primaryColor.withValues(alpha: 0.15) ?? Colors.transparent;
-                        final Color currTint = currentBiome?.primaryColor.withValues(alpha: 0.15) ?? Colors.transparent;
-                        
+                        double getOpacityForBiome(BiomeModel biome) {
+                          BiomeModel? effectivePrev =
+                              previousBiome ?? currentBiome;
+                          double prevWeight = effectivePrev == biome
+                              ? 1.0
+                              : 0.0;
+                          double currWeight = currentBiome == biome ? 1.0 : 0.0;
+                          if (effectivePrev == biome && currentBiome == biome) {
+                            return 1.0;
+                          }
+                          return prevWeight * (1.0 - progress) +
+                              currWeight * progress;
+                        }
+
+                        final double beachOpacity = getOpacityForBiome(
+                          BiomeConfig.tropicalBeach,
+                        );
+                        final double pyramidOpacity = getOpacityForBiome(
+                          BiomeConfig.crystalCave,
+                        );
+
+                        // Original Tinting logic for beach
+                        final Color prevTint =
+                            previousBiome?.primaryColor.withValues(
+                              alpha: 0.15,
+                            ) ??
+                            Colors.transparent;
+                        final Color currTint =
+                            currentBiome?.primaryColor.withValues(
+                              alpha: 0.15,
+                            ) ??
+                            Colors.transparent;
                         final Color tintColor = Color.lerp(
                           prevTint,
                           currTint,
                           progress,
                         )!;
 
-                        return ColorFiltered(
-                          colorFilter: ColorFilter.mode(tintColor, BlendMode.srcATop),
-                          child: content,
+                        return Container(
+                          width: double.infinity,
+                          height: double.infinity,
+                          color: GameColors
+                              .mapAppBarCyanLightest, // fallback color
+                          child: FittedBox(
+                            fit: BoxFit.cover,
+                            child: Stack(
+                              children: [
+                                if (beachOpacity > 0.0)
+                                  Opacity(
+                                    opacity: beachOpacity,
+                                    child: ColorFiltered(
+                                      colorFilter: ColorFilter.mode(
+                                        tintColor,
+                                        BlendMode.srcATop,
+                                      ),
+                                      child: beachParallax,
+                                    ),
+                                  ),
+                                if (pyramidOpacity > 0.0)
+                                  Opacity(
+                                    opacity: pyramidOpacity,
+                                    child: pyramidParallax,
+                                  ),
+                              ],
+                            ),
+                          ),
                         );
                       },
                     );
@@ -554,45 +644,96 @@ class _MainScreenState extends State<MainScreen> {
         child: AnimatedSize(
           duration: const Duration(milliseconds: 250),
           curve: Curves.easeOutCubic,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            decoration: BoxDecoration(
-              color: GameColors.mapAppBarCyanLight.withValues(alpha: 0.3),
-              borderRadius: BorderRadius.circular(40),
-              border: Border.all(
-                color: GameColors.mapAppBarTealDark,
-                width: 1.5,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: GameColors.white.withValues(alpha: 0.1),
-                  blurRadius: 10,
-                  spreadRadius: 1,
-                ),
-              ],
-            ),
-            child: Stack(
-              key: _rowKey,
-              clipBehavior: Clip.none,
-              children: [
-                ValueListenableBuilder<BiomeModel?>(
-                  valueListenable: currentBiomeNotifier,
-                  builder: (context, currentBiome, child) {
-                    return ValueListenableBuilder<BiomeModel?>(
-                      valueListenable: previousBiomeNotifier,
-                      builder: (context, previousBiome, child) {
-                        return ValueListenableBuilder<double>(
-                          valueListenable: biomeTransitionProgress,
-                          builder: (context, progress, child) {
-                            final Color prevColor = previousBiome?.primaryColor ?? GameColors.playButtonPainterColor10;
-                            final Color currColor = currentBiome?.primaryColor ?? GameColors.playButtonPainterColor10;
-                            final Color blendedColor = Color.lerp(prevColor, currColor, progress)!;
+          child: ValueListenableBuilder<BiomeModel?>(
+            valueListenable: currentBiomeNotifier,
+            builder: (context, currentBiome, child) {
+              return ValueListenableBuilder<BiomeModel?>(
+                valueListenable: previousBiomeNotifier,
+                builder: (context, previousBiome, child) {
+                  return ValueListenableBuilder<double>(
+                    valueListenable: biomeTransitionProgress,
+                    builder: (context, progress, child) {
+                      // Previous Biome colors
+                      final Color prevPrimary =
+                          previousBiome?.primaryColor ??
+                          GameColors.mapAppBarTealDark;
+                      final Color prevSecondary =
+                          previousBiome?.secondaryColor ??
+                          GameColors.mapAppBarCyanLight;
+                      final Color prevContainerColor = prevSecondary.withValues(
+                        alpha: 0.3,
+                      );
 
-                            final Color prevColorLight = previousBiome?.secondaryColor ?? GameColors.playButtonPainterColor9;
-                            final Color currColorLight = currentBiome?.secondaryColor ?? GameColors.playButtonPainterColor9;
-                            final Color blendedColorLight = Color.lerp(prevColorLight, currColorLight, progress)!;
-                            
-                            return AnimatedPositioned(
+                      // Current Biome colors
+                      final Color currPrimary =
+                          currentBiome?.primaryColor ??
+                          GameColors.mapAppBarTealDark;
+                      final Color currSecondary =
+                          currentBiome?.secondaryColor ??
+                          GameColors.mapAppBarCyanLight;
+                      final Color currContainerColor = currSecondary.withValues(
+                        alpha: 0.3,
+                      );
+
+                      // Blended Colors
+                      final Color containerColor = Color.lerp(
+                        prevContainerColor,
+                        currContainerColor,
+                        progress,
+                      )!;
+                      final Color borderColor = Color.lerp(
+                        prevPrimary,
+                        currPrimary,
+                        progress,
+                      )!;
+
+                      // Indicator colors
+                      final Color prevIndicatorColor =
+                          previousBiome?.primaryColor ??
+                          GameColors.playButtonPainterColor10;
+                      final Color currIndicatorColor =
+                          currentBiome?.primaryColor ??
+                          GameColors.playButtonPainterColor10;
+                      final Color blendedIndicatorColor = Color.lerp(
+                        prevIndicatorColor,
+                        currIndicatorColor,
+                        progress,
+                      )!;
+
+                      final Color prevIndicatorLight =
+                          previousBiome?.secondaryColor ??
+                          GameColors.playButtonPainterColor9;
+                      final Color currIndicatorLight =
+                          currentBiome?.secondaryColor ??
+                          GameColors.playButtonPainterColor9;
+                      final Color blendedIndicatorLight = Color.lerp(
+                        prevIndicatorLight,
+                        currIndicatorLight,
+                        progress,
+                      )!;
+
+                      return Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 10,
+                        ),
+                        decoration: BoxDecoration(
+                          color: containerColor,
+                          borderRadius: BorderRadius.circular(40),
+                          border: Border.all(color: borderColor, width: 1.5),
+                          boxShadow: [
+                            BoxShadow(
+                              color: GameColors.white.withValues(alpha: 0.1),
+                              blurRadius: 10,
+                              spreadRadius: 1,
+                            ),
+                          ],
+                        ),
+                        child: Stack(
+                          key: _rowKey,
+                          clipBehavior: Clip.none,
+                          children: [
+                            AnimatedPositioned(
                               duration: const Duration(milliseconds: 250),
                               curve: Curves.easeOutCubic,
                               left: _indicatorLeft,
@@ -605,61 +746,65 @@ class _MainScreenState extends State<MainScreen> {
                                     begin: Alignment.topCenter,
                                     end: Alignment.bottomCenter,
                                     colors: [
-                                      blendedColor,
-                                      blendedColorLight,
+                                      blendedIndicatorColor,
+                                      blendedIndicatorLight,
                                     ],
                                   ),
                                   borderRadius: BorderRadius.circular(25),
                                   border: Border.all(
-                                    color: GameColors.white.withValues(alpha: 0.8),
+                                    color: GameColors.white.withValues(
+                                      alpha: 0.8,
+                                    ),
                                     width: 1.5,
                                   ),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: GameColors.black.withValues(alpha: 0.1),
+                                      color: GameColors.black.withValues(
+                                        alpha: 0.1,
+                                      ),
                                       blurRadius: 8,
                                       offset: const Offset(0, 4),
                                     ),
                                   ],
                                 ),
                               ),
-                            );
-                          },
-                        );
-                      },
-                    );
-                  },
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    _buildNavItem(
-                      icon: Icons.home_rounded,
-                      label: 'Home',
-                      index: 0,
-                    ),
-                    const SizedBox(width: 10),
-                    _buildNavItem(
-                      icon: Icons.category,
-                      label: 'Modes',
-                      index: 1,
-                    ),
-                    const SizedBox(width: 10),
-                    _buildNavItem(
-                      icon: Icons.leaderboard_rounded,
-                      label: 'Rank',
-                      index: 2,
-                    ),
-                    const SizedBox(width: 10),
-                    _buildNavItem(
-                      icon: Icons.settings,
-                      label: 'Settings',
-                      index: 3,
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                            ),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                _buildNavItem(
+                                  icon: Icons.home_rounded,
+                                  label: 'Home',
+                                  index: 0,
+                                ),
+                                const SizedBox(width: 10),
+                                _buildNavItem(
+                                  icon: Icons.category,
+                                  label: 'Modes',
+                                  index: 1,
+                                ),
+                                const SizedBox(width: 10),
+                                _buildNavItem(
+                                  icon: Icons.leaderboard_rounded,
+                                  label: 'Rank',
+                                  index: 2,
+                                ),
+                                const SizedBox(width: 10),
+                                _buildNavItem(
+                                  icon: Icons.settings,
+                                  label: 'Settings',
+                                  index: 3,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                },
+              );
+            },
           ),
         ),
       ),

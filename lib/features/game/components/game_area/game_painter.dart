@@ -474,9 +474,9 @@ class GamePainter extends CustomPainter {
       );
     }
 
-    // Add a very soft inner highlight to give the frame a tiny bit of depth without being cartoonish
-    final Paint paint0Fill = Paint()..style = PaintingStyle.fill;
-    paint0Fill.color = biome.primaryColor.withValues(alpha: 1.0);
+    // Add a very soft inner highlight stroke to give the frame a tiny bit of depth without being cartoonish
+    final Paint paint0Fill = Paint()..style = PaintingStyle.stroke..strokeWidth = 2.0;
+    paint0Fill.color = biome.secondaryColor.withValues(alpha: 0.5);
     canvas.drawPath(path_0, paint0Fill);
 
     canvas.restore();

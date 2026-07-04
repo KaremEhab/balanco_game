@@ -64,18 +64,16 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                       vertical: 32,
                     ),
                     decoration: BoxDecoration(
-                      color:
-                          currentBiome.nodeUnlockedColor, // Light dynamic color
+                      color: GameColors.sandLightUi, // Light sand color
                       borderRadius: BorderRadius.circular(24),
                       border: Border.all(
-                        color: currentBiome
-                            .nodeUnlockedBorderColor, // Dark outline
+                        color: GameColors.brownDarkUi, // Dark brown outline
                         width: 3.5,
                       ),
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
-                          color: currentBiome.nodeUnlockedBorderColor,
-                          offset: const Offset(0, 6),
+                          color: GameColors.brownDarkUi,
+                          offset: Offset(0, 6),
                         ),
                       ],
                     ),
@@ -101,9 +99,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                               textAlign: TextAlign.center,
                               style: GoogleFonts.luckiestGuy(
                                 fontSize: 38,
-                                color: const Color(
-                                  0xFFFFB74D,
-                                ), // Vibrant orange/sand
+                                color: GameColors.white, // White scheme
                                 letterSpacing: 3.0,
                               ),
                             ),
@@ -146,7 +142,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                                     style: GoogleFonts.luckiestGuy(
                                       fontSize: 18,
                                       color:
-                                          currentBiome.nodeUnlockedBorderColor,
+                                          GameColors.brownDarkUi,
                                     ),
                                   ),
                                 ],
@@ -769,23 +765,25 @@ class FullScreenDarknessOverlay extends StatelessWidget {
         valueListenable: game.darknessOpacityNotifier,
         builder: (context, opacity, child) {
           if (opacity <= 0.0) return const SizedBox.shrink();
-          return ValueListenableBuilder<Offset?>(
+          return ValueListenableBuilder<List<Offset>>(
             valueListenable: game.lightSpotNotifier,
-            builder: (context, spot, child) {
-              if (spot == null) return const SizedBox.shrink();
+            builder: (context, spots, child) {
+              if (spots.isEmpty) return const SizedBox.shrink();
 
               // Map from Flame coordinates to FittedBox coordinates
               // The Flame game has left padding of 6, right 6, top 124.
               // The Positioned expands by 4000 in all directions.
-              final dx = spot.dx + 6 + 4000;
-              final dy = spot.dy + 124 + 4000;
+              final mappedSpots = spots
+                  .map((s) => Offset(s.dx + 6 + 4000, s.dy + 124 + 4000))
+                  .toList();
+
               return ValueListenableBuilder<double>(
                 valueListenable: game.lightRadiusNotifier,
                 builder: (context, radius, child) {
                   return CustomPaint(
                     painter: DarknessPainter(
                       opacity: opacity,
-                      spot: Offset(dx, dy),
+                      spots: mappedSpots,
                       radius: radius,
                     ),
                   );
@@ -801,11 +799,11 @@ class FullScreenDarknessOverlay extends StatelessWidget {
 
 class DarknessPainter extends CustomPainter {
   final double opacity;
-  final Offset spot;
+  final List<Offset> spots;
   final double radius;
   DarknessPainter({
     required this.opacity,
-    required this.spot,
+    required this.spots,
     required this.radius,
   });
 
@@ -817,26 +815,30 @@ class DarknessPainter extends CustomPainter {
       ..color = GameColors.darknessOverlayBg.withValues(alpha: opacity);
     canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), bgPaint);
 
-    final holePaint = Paint()
-      ..blendMode = BlendMode.dstOut
-      ..shader = RadialGradient(
-        colors: [
-          GameColors.black,
-          GameColors.black,
-          GameColors.black.withValues(alpha: 0.6),
-          GameColors.black.withValues(alpha: 0.2),
-          Colors.transparent,
-        ],
-        stops: const [0.0, 0.25, 0.45, 0.75, 1.0],
-      ).createShader(Rect.fromCircle(center: spot, radius: radius));
+    for (final spot in spots) {
+      final holePaint = Paint()
+        ..blendMode = BlendMode.dstOut
+        ..shader = RadialGradient(
+          colors: [
+            GameColors.black,
+            GameColors.black,
+            GameColors.black.withValues(alpha: 0.6),
+            GameColors.black.withValues(alpha: 0.2),
+            Colors.transparent,
+          ],
+          stops: const [0.0, 0.25, 0.45, 0.75, 1.0],
+        ).createShader(Rect.fromCircle(center: spot, radius: radius));
 
-    canvas.drawCircle(spot, radius, holePaint);
+      canvas.drawCircle(spot, radius, holePaint);
+    }
+
     canvas.restore();
   }
 
   @override
-  bool shouldRepaint(DarknessPainter oldDelegate) =>
-      opacity != oldDelegate.opacity ||
-      spot != oldDelegate.spot ||
-      radius != oldDelegate.radius;
+  bool shouldRepaint(DarknessPainter oldDelegate) {
+    return oldDelegate.opacity != opacity ||
+        oldDelegate.spots != spots ||
+        oldDelegate.radius != radius;
+  }
 }

@@ -50,10 +50,10 @@ class BarComponent extends Component with HasGameReference<BalancoGame> {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          game.currentBiome.secondaryColor, // Bright metallic highlight
-          game.currentBiome.primaryColor, // Mid steel
-          game.currentBiome.primaryColor, // Dark steel core
-          game.currentBiome.nodeUnlockedBorderColor, // Deep shadow edge
+          GameColors.blueGray300, // Bright metallic highlight
+          GameColors.blueGray600, // Mid steel
+          GameColors.blueGray600, // Dark steel core
+          GameColors.blueGray900, // Deep shadow edge
         ],
       ).createShader(fullRect);
     canvas.drawRRect(bodyRRect, metalPaint);
@@ -88,10 +88,10 @@ class BarComponent extends Component with HasGameReference<BalancoGame> {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          game.currentBiome.nodeUnlockedColor, // Bright rim
-          game.currentBiome.primaryColor, // Base blue-grey metal
-          game.currentBiome.nodeUnlockedBorderColor, // Dark shadow
-          game.currentBiome.nodeUnlockedBorderColor, // Almost black edge
+          GameColors.blueGray300, // Bright rim
+          GameColors.blueGray600, // Base blue-grey metal
+          GameColors.blueGray900, // Dark shadow
+          GameColors.blackSolid, // Almost black edge
         ],
       ).createShader(leftCap);
 
@@ -102,10 +102,10 @@ class BarComponent extends Component with HasGameReference<BalancoGame> {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          game.currentBiome.nodeUnlockedColor,
-          game.currentBiome.primaryColor,
-          game.currentBiome.nodeUnlockedBorderColor,
-          game.currentBiome.nodeUnlockedBorderColor,
+          GameColors.blueGray300,
+          GameColors.blueGray600,
+          GameColors.blueGray900,
+          GameColors.blackSolid,
         ],
       ).createShader(rightCap);
     canvas.drawRRect(rightCapRRect, gunmetalPaintRight);
@@ -138,9 +138,11 @@ class BarComponent extends Component with HasGameReference<BalancoGame> {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          game.currentBiome.nodeUnlockedBorderColor, // Dark inner top
-          game.currentBiome.nodeUnlockedColor, // Bright glow
-          GameColors.whiteAlpha46, // Pure white core at bottom
+          game.currentBiome.primaryColor.withValues(
+            alpha: 0.6,
+          ), // Dark inner top
+          game.currentBiome.primaryColor, // Bright glow
+          GameColors.white.withValues(alpha: 0.7), // Pure white core at bottom
         ],
       ).createShader(grooveRect);
     canvas.drawRRect(

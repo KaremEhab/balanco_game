@@ -1,3 +1,4 @@
+import 'package:balanco_game/features/map/theme/biome_config.dart';
 import 'package:flutter/material.dart';
 import 'package:balanco_game/features/game/game_area.dart';
 import 'package:balanco_game/features/game/components/game_area/shield_icon_painter.dart';
@@ -13,55 +14,54 @@ class GameControlsOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentBiome = game.currentBiome;
+    return ValueListenableBuilder<int>(
+      valueListenable: game.currentLevel,
+      builder: (context, level, child) {
+        final currentBiome = BiomeConfig.getBiomeForLevel(level);
+        return SizedBox(
+          height: 200,
+          width: double.infinity,
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              // Left Joystick
+              if (game.playerRole == 'BOTH' || game.playerRole == 'LEFT')
+                Positioned(
+                  left: 15,
+                  bottom: 0,
+                  child: VerticalJoystick(
+                    isLeft: true,
+                    biome: currentBiome,
+                    onChanged: (val) => game.leftJoystickValue = val,
+                  ),
+                ),
 
-    return SizedBox(
-      height: 200,
-      width: double.infinity,
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          // Left Joystick
-          if (game.playerRole == 'BOTH' || game.playerRole == 'LEFT')
-            Positioned(
-              left: 15,
-              bottom: 0,
-              child: VerticalJoystick(
-                isLeft: true,
-                biome: currentBiome,
-                onChanged: (val) => game.leftJoystickValue = val,
-              ),
-            ),
+              // Right Joystick
+              if (game.playerRole == 'BOTH' || game.playerRole == 'RIGHT')
+                Positioned(
+                  right: 15,
+                  bottom: 0,
+                  child: VerticalJoystick(
+                    isLeft: false,
+                    biome: currentBiome,
+                    onChanged: (val) => game.rightJoystickValue = val,
+                  ),
+                ),
 
-          // Right Joystick
-          if (game.playerRole == 'BOTH' || game.playerRole == 'RIGHT')
-            Positioned(
-              right: 15,
-              bottom: 0,
-              child: VerticalJoystick(
-                isLeft: false,
-                biome: currentBiome,
-                onChanged: (val) => game.rightJoystickValue = val,
-              ),
-            ),
-
-          // Central Action / Power-Up Buttons
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 50),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+              // Central Action / Power-Up Buttons
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 55),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      // Light Charges Button
-                      ValueListenableBuilder<int>(
-                        valueListenable: game.currentLevel,
-                        builder: (context, level, child) {
-                          if (level >= 11) {
-                            return ValueListenableBuilder<int>(
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // Light Charges Button
+                          if (level >= 11)
+                            ValueListenableBuilder<int>(
                               valueListenable: game.lightChargesNotifier,
                               builder: (context, charges, child) {
                                 return ValueListenableBuilder<double>(
@@ -80,10 +80,11 @@ class GameControlsOverlay extends StatelessWidget {
                                           game.useLightCharge();
                                         },
                                         colors: [
-                                          currentBiome.nodeUnlockedColor, // Highlight
-                                          currentBiome.primaryColor, // Base
-                                          currentBiome.primaryColor, // Mid
-                                          currentBiome.nodeUnlockedBorderColor, // Shadow
+                                          currentBiome
+                                              .nodeUnlockedColor, // Highlight
+                                          currentBiome.secondaryColor, // Base
+                                          currentBiome
+                                              .nodeUnlockedBorderColor, // Shadow
                                         ],
                                         child: const Icon(
                                           Icons.lightbulb,
@@ -95,56 +96,56 @@ class GameControlsOverlay extends StatelessWidget {
                                   },
                                 );
                               },
-                            );
-                          }
-                          return const SizedBox.shrink();
-                        },
-                      ),
-                      // Shield Button
-                      ValueListenableBuilder<int>(
-                        valueListenable: game.remainingShields,
-                        builder: (context, shields, child) {
-                          return ValueListenableBuilder<double>(
-                            valueListenable: game.shieldTimerNotifier,
-                            builder: (context, shieldTime, child) {
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8.0,
-                                ),
-                                child: SquarePowerUpButton(
-                                  charges: shields,
-                                  activeTime: shieldTime,
-                                  maxTime: 5.0,
-                                  onTap: () {
-                                    game.remainingShields.value -= 1;
-                                    game.shieldTimer = 5.0;
-                                  },
-                                  colors: [
-                                    currentBiome.nodeUnlockedColor, // Highlight
-                                    currentBiome.secondaryColor, // Base
-                                    currentBiome.nodeUnlockedBorderColor, // Shadow
-                                  ],
-                                  child: SizedBox(
-                                    width: 36,
-                                    height: 36,
-                                    child: CustomPaint(
-                                      painter: ShieldIconPainter(),
+                            ),
+                          // Shield Button
+                          ValueListenableBuilder<int>(
+                            valueListenable: game.remainingShields,
+                            builder: (context, shields, child) {
+                              return ValueListenableBuilder<double>(
+                                valueListenable: game.shieldTimerNotifier,
+                                builder: (context, shieldTime, child) {
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0,
                                     ),
-                                  ),
-                                ),
+                                    child: SquarePowerUpButton(
+                                      charges: shields,
+                                      activeTime: shieldTime,
+                                      maxTime: 5.0,
+                                      onTap: () {
+                                        game.remainingShields.value -= 1;
+                                        game.shieldTimer = 5.0;
+                                      },
+                                      colors: [
+                                        currentBiome
+                                            .nodeUnlockedColor, // Highlight
+                                        currentBiome.secondaryColor, // Base
+                                        currentBiome
+                                            .nodeUnlockedBorderColor, // Shadow
+                                      ],
+                                      child: SizedBox(
+                                        width: 36,
+                                        height: 36,
+                                        child: CustomPaint(
+                                          painter: ShieldIconPainter(),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
                               );
                             },
-                          );
-                        },
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
@@ -218,6 +219,7 @@ class _SquarePowerUpButtonState extends State<SquarePowerUpButton> {
               ),
             ),
             child: Stack(
+              clipBehavior: canClick ? Clip.none : Clip.hardEdge,
               alignment: Alignment.center,
               children: [
                 // Inner Gloss / Specular Layer
@@ -226,7 +228,7 @@ class _SquarePowerUpButtonState extends State<SquarePowerUpButton> {
                     padding: const EdgeInsets.all(2.0),
                     child: Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(14),
+                        borderRadius: BorderRadius.circular(16),
                         gradient: const LinearGradient(
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
@@ -256,26 +258,26 @@ class _SquarePowerUpButtonState extends State<SquarePowerUpButton> {
                 // Main Icon
                 Center(child: widget.child),
 
-                // Charges Badge
-                Positioned(
-                  bottom: -2,
-                  right: 2,
-                  child: Text(
-                    '${widget.charges}',
-                    style: GoogleFonts.luckiestGuy(
-                      color: GameColors.white,
-                      fontSize: 22,
-                      fontWeight: FontWeight.w900,
-                      shadows: const [
-                        Shadow(
-                          blurRadius: 2.0,
-                          color: GameColors.black,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
+                if (canClick)
+                  // Charges Badge
+                  Positioned(
+                    top: -10,
+                    child: Text(
+                      '${widget.charges}',
+                      style: GoogleFonts.luckiestGuy(
+                        color: GameColors.white,
+                        fontSize: 22,
+                        fontWeight: FontWeight.w900,
+                        shadows: const [
+                          Shadow(
+                            blurRadius: 6.0,
+                            color: GameColors.black,
+                            offset: Offset(0, 0),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
               ],
             ),
           ),
@@ -364,17 +366,17 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
                 borderRadius: BorderRadius.circular(100),
                 gradient: LinearGradient(
                   colors: [
-                    widget.biome.secondaryColor, // Top highlight
-                    widget.biome.primaryColor, // Base
-                    widget.biome.nodeUnlockedColor, // Mid shadow
-                    widget.biome.nodeUnlockedBorderColor, // Bottom shadow
+                    widget.biome.primaryColor, // Top highlight
+                    GameColors.blueGray900, // Mid shadow
+                    GameColors.blueGray900, // Mid shadow
+                    widget.biome.primaryColor, // Bottom shadow
                   ],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: widget.biome.nodeUnlockedBorderColor, // 3D thickness
+                    color: GameColors.blackSolid, // 3D thickness
                     offset: const Offset(0, 4),
                   ),
                   BoxShadow(
@@ -392,10 +394,7 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
                     gradient: const LinearGradient(
-                      colors: [
-                        GameColors.gamePainterColor1,
-                        GameColors.gameControlsOverlayColor4,
-                      ],
+                      colors: [GameColors.blackSolid, GameColors.blueGray900],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                     ),
@@ -433,7 +432,9 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: widget.biome.nodeUnlockedBorderColor, // Knob 3D thickness
+                      color: widget
+                          .biome
+                          .nodeUnlockedBorderColor, // Knob 3D thickness
                       offset: const Offset(0, 5),
                     ),
                     BoxShadow(
@@ -505,7 +506,7 @@ class ActiveTimePainter extends CustomPainter {
 
     RRect bgRRect = RRect.fromRectAndRadius(
       Offset.zero & size,
-      const Radius.circular(28),
+      const Radius.circular(16),
     );
 
     canvas.save();
