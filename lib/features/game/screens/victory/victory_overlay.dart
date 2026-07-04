@@ -41,7 +41,7 @@ class _AnimatedLevelCompleteOverlayState
   @override
   void initState() {
     super.initState();
-    _isVictory = widget.game.currentLevel.value >= 10;
+    _isVictory = widget.game.currentLevel.value >= 50;
     
     _earnedStars = widget.game.currentPoints.value;
     _remainingHearts = widget.game.currentLives.value;
@@ -103,7 +103,7 @@ class _AnimatedLevelCompleteOverlayState
       
       int newHighest = currentHighest;
       if (nextLevel > currentHighest) {
-        newHighest = nextLevel > 10 ? 10 : nextLevel;
+        newHighest = nextLevel > 50 ? 50 : nextLevel;
       }
       
       // Update highest level and add coins

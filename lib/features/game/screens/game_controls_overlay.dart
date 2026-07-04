@@ -12,7 +12,7 @@ class GameControlsOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 150,
+      height: 200,
       width: double.infinity,
       child: Stack(
         clipBehavior: Clip.none,
@@ -44,25 +44,86 @@ class GameControlsOverlay extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: Padding(
               padding: const EdgeInsets.only(bottom: 50),
-              child: ValueListenableBuilder<int>(
-                valueListenable: game.remainingShields,
-                builder: (context, shields, child) {
-                  return ValueListenableBuilder<double>(
-                    valueListenable: game.shieldTimerNotifier,
-                    builder: (context, shieldTime, child) {
-                      return WideShieldButton(
-                        game: game,
-                        charges: shields,
-                        activeTime: shieldTime,
-                        maxTime: 5.0,
-                        onTap: () {
-                          game.remainingShields.value -= 1;
-                          game.shieldTimer = 5.0;
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // Light Charges Button
+                      ValueListenableBuilder<int>(
+                        valueListenable: game.currentLevel,
+                        builder: (context, level, child) {
+                          if (level >= 11) {
+                            return ValueListenableBuilder<int>(
+                              valueListenable: game.lightChargesNotifier,
+                              builder: (context, charges, child) {
+                                return ValueListenableBuilder<double>(
+                                  valueListenable: game.lightChargeTimerNotifier,
+                                  builder: (context, lightTime, child) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                      child: SquarePowerUpButton(
+                                        charges: charges,
+                                        activeTime: lightTime,
+                                        maxTime: 5.0,
+                                        onTap: () {
+                                          game.useLightCharge();
+                                        },
+                                        colors: const [
+                                          Color(0xFFFFF59D), // Highlight
+                                          Color(0xFFFDD835), // Base
+                                          Color(0xFFFBC02D), // Mid
+                                          Color(0xFFF57F17), // Shadow
+                                        ],
+                                        child: const Icon(Icons.lightbulb, color: Colors.white, size: 36),
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                            );
+                          }
+                          return const SizedBox.shrink();
                         },
-                      );
-                    },
-                  );
-                },
+                      ),
+                      // Shield Button
+                      ValueListenableBuilder<int>(
+                        valueListenable: game.remainingShields,
+                        builder: (context, shields, child) {
+                          return ValueListenableBuilder<double>(
+                            valueListenable: game.shieldTimerNotifier,
+                            builder: (context, shieldTime, child) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: SquarePowerUpButton(
+                                  charges: shields,
+                                  activeTime: shieldTime,
+                                  maxTime: 5.0,
+                                  onTap: () {
+                                    game.remainingShields.value -= 1;
+                                    game.shieldTimer = 5.0;
+                                  },
+                                  colors: const [
+                                    Color(0xFF81D4FA), // Highlight
+                                    Color(0xFF29B6F6), // Base
+                                    Color(0xFF039BE5), // Mid
+                                    Color(0xFF01579B), // Shadow
+                                  ],
+                                  child: SizedBox(
+                                    width: 36,
+                                    height: 36,
+                                    child: CustomPaint(painter: ShieldIconPainter()),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),
@@ -72,27 +133,29 @@ class GameControlsOverlay extends StatelessWidget {
   }
 }
 
-class WideShieldButton extends StatefulWidget {
-  final BalancoGame game;
+class SquarePowerUpButton extends StatefulWidget {
   final int charges;
   final double activeTime;
   final double maxTime;
   final VoidCallback onTap;
+  final List<Color> colors;
+  final Widget child;
 
-  const WideShieldButton({
+  const SquarePowerUpButton({
     super.key,
-    required this.game,
     required this.charges,
     required this.activeTime,
     required this.maxTime,
     required this.onTap,
+    required this.colors,
+    required this.child,
   });
 
   @override
-  State<WideShieldButton> createState() => _WideShieldButtonState();
+  State<SquarePowerUpButton> createState() => _SquarePowerUpButtonState();
 }
 
-class _WideShieldButtonState extends State<WideShieldButton> {
+class _SquarePowerUpButtonState extends State<SquarePowerUpButton> {
   bool _isPressed = false;
 
   @override
@@ -121,10 +184,10 @@ class _WideShieldButtonState extends State<WideShieldButton> {
         child: Opacity(
           opacity: canClick || isActive ? 1.0 : 0.5,
           child: Container(
-            width: 140, // Wide button
-            height: 56,
+            width: 64, // Square button
+            height: 64,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(28),
+              borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withValues(alpha: 0.4),
@@ -132,15 +195,10 @@ class _WideShieldButtonState extends State<WideShieldButton> {
                   offset: const Offset(0, 4),
                 ),
               ],
-              gradient: const LinearGradient(
+              gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [
-                  Color(0xFFFFE082), // Highlight
-                  Color(0xFFFFCA28), // Base
-                  Color(0xFFFFB300), // Mid
-                  Color(0xFFFF8F00), // Shadow
-                ],
+                colors: widget.colors,
               ),
             ),
             child: Stack(
@@ -152,7 +210,7 @@ class _WideShieldButtonState extends State<WideShieldButton> {
                     padding: const EdgeInsets.all(2.0),
                     child: Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(26),
+                        borderRadius: BorderRadius.circular(14),
                         gradient: const LinearGradient(
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
@@ -165,7 +223,7 @@ class _WideShieldButtonState extends State<WideShieldButton> {
                 if (isActive)
                   Positioned.fill(
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(28),
+                      borderRadius: BorderRadius.circular(16),
                       child: CustomPaint(
                         painter: ActiveTimePainter(
                           progress: (widget.activeTime / widget.maxTime).clamp(
@@ -176,32 +234,28 @@ class _WideShieldButtonState extends State<WideShieldButton> {
                       ),
                     ),
                   ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 40,
-                      height: 40,
-                      child: CustomPaint(painter: ShieldIconPainter()),
+                // Main Icon
+                Center(child: widget.child),
+                
+                // Charges Badge
+                Positioned(
+                  bottom: -2,
+                  right: 2,
+                  child: Text(
+                    '${widget.charges}',
+                    style: GoogleFonts.luckiestGuy(
+                      color: Colors.white,
+                      fontSize: 22,
+                      fontWeight: FontWeight.w900,
+                      shadows: const [
+                        Shadow(
+                          blurRadius: 2.0,
+                          color: Colors.black,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: 8),
-                    Text(
-                      '${widget.charges}',
-                      style: GoogleFonts.luckiestGuy(
-                        color: Colors.white,
-                        fontSize: 30,
-                        fontWeight: FontWeight.w900,
-                        shadows: const [
-                          Shadow(
-                            blurRadius: 2.0,
-                            color: Colors.black45,
-                            offset: Offset(0, 6),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ],
             ),

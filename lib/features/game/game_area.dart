@@ -34,6 +34,19 @@ class BalancoGame extends FlameGame {
   VoidCallback? onGameOver;
   VoidCallback? onLevelComplete;
 
+  bool isDarknessLevel = false;
+  bool isIlluminated = false;
+  final ValueNotifier<int> lightChargesNotifier = ValueNotifier<int>(5);
+  double lightChargeTimer = 0.0;
+  final ValueNotifier<double> lightChargeTimerNotifier = ValueNotifier<double>(
+    0.0,
+  );
+  final ValueNotifier<double> darknessOpacityNotifier = ValueNotifier<double>(
+    0.0,
+  );
+  final ValueNotifier<Offset?> lightSpotNotifier = ValueNotifier<Offset?>(null);
+  final ValueNotifier<double> lightRadiusNotifier = ValueNotifier<double>(65.0);
+
   final ValueNotifier<int> currentLevel = ValueNotifier<int>(1);
   final ValueNotifier<int> currentPoints = ValueNotifier<int>(0);
   final ValueNotifier<int> currentScore = ValueNotifier<int>(0);
@@ -196,6 +209,9 @@ class BalancoGame extends FlameGame {
     }
     timeStopTimer = 0.0;
     timeStopNotifier.value = 0.0;
+    lightChargeTimer = 0.0;
+    lightChargeTimerNotifier.value = 0.0;
+    isIlluminated = false;
     activeExitTeleporter = null;
 
     if (!loseLife) {
@@ -310,6 +326,8 @@ class BalancoGame extends FlameGame {
         'win.wav',
         'gameover.wav',
         'tick.wav',
+        'power_down.wav',
+        'light_switch_on.wav',
       ]);
     } catch (_) {}
 
@@ -361,6 +379,8 @@ class BalancoGame extends FlameGame {
 
     pendingSpawns.clear();
     targetPositions.clear();
+
+    isDarknessLevel = levelToGenerate >= 11;
 
     // Quickly spawn components back on the main thread using the pre-calculated data
     for (final hData in data.holes) {
@@ -565,14 +585,16 @@ class BalancoGame extends FlameGame {
         rightY = initialRightY + (maxY - initialRightY) * curved;
       }
     } else {
-      bool anyBallOnBar = activeBalls.any((b) =>
-          !b.isDead &&
-          !b.isFalling &&
-          !b.isFreeFalling &&
-          !b.isFallingInHole &&
-          !b.isRespawningFromHole &&
-          !b.isRespawningFromEdge &&
-          b.spawnTimer <= 0);
+      bool anyBallOnBar = activeBalls.any(
+        (b) =>
+            !b.isDead &&
+            !b.isFalling &&
+            !b.isFreeFalling &&
+            !b.isFallingInHole &&
+            !b.isRespawningFromHole &&
+            !b.isRespawningFromEdge &&
+            b.spawnTimer <= 0,
+      );
 
       if (anyBallOnBar) {
         // Base speed balanced so default (1.0) is not too high and not too low
@@ -703,6 +725,39 @@ class BalancoGame extends FlameGame {
       levelContainer.position.y = -cameraOffsetY;
       cameraOffsetYNotifier.value = cameraOffsetY;
     }
+
+    // Light Dude Mechanic State Machine
+    if (isDarknessLevel && !isSpawningLevel && activeBalls.isNotEmpty) {
+      if (lightChargeTimer > 0) {
+        lightChargeTimer -= dt;
+        if (lightChargeTimer <= 0) {
+          lightChargeTimer = 0.0;
+          isIlluminated = false;
+          try {
+            AppSettings.playSound('power_down.wav');
+          } catch (_) {}
+        }
+        lightChargeTimerNotifier.value = lightChargeTimer;
+      }
+
+      if (isIlluminated) {
+        darknessOpacityNotifier.value =
+            (darknessOpacityNotifier.value - dt * 3.33).clamp(0.0, 1);
+      } else {
+        darknessOpacityNotifier.value =
+            (darknessOpacityNotifier.value + dt * 10.0).clamp(0.0, 1);
+      }
+
+      final ball = activeBalls.firstWhere(
+        (b) => !b.isDead,
+        orElse: () => activeBalls[0],
+      );
+      final screenY = ball.pos2D.y - cameraOffsetY;
+      lightSpotNotifier.value = Offset(ball.pos2D.x, screenY);
+    } else {
+      darknessOpacityNotifier.value = 0.0;
+      lightSpotNotifier.value = null;
+    }
   }
 
   void _updateBallPhysics(
@@ -807,6 +862,13 @@ class BalancoGame extends FlameGame {
           double barSurface = barYAtX - (ballRadius + 6.0);
 
           if (newY >= barSurface - 5.0) {
+            int charges = 5 - (currentLevel.value - 11);
+            if (charges < 2) charges = 2;
+            lightChargesNotifier.value = charges;
+
+            if (isDarknessLevel) {
+              isIlluminated = false;
+            }
             ball.spawnTimer = 0;
             ball.p = t * barLength;
             ball.bounceTimer = 0.4;
@@ -1305,6 +1367,20 @@ class BalancoGame extends FlameGame {
             }
           }
         }
+      }
+    }
+  }
+
+  void useLightCharge() {
+    if (isDarknessLevel) {
+      if (lightChargesNotifier.value > 0 && lightChargeTimer <= 0) {
+        lightChargesNotifier.value--;
+        lightChargeTimer = 5.0; // Grants 5 seconds of light buff
+        lightChargeTimerNotifier.value = lightChargeTimer;
+        isIlluminated = true;
+        try {
+          AppSettings.playSound('light_switch_on.wav');
+        } catch (_) {}
       }
     }
   }

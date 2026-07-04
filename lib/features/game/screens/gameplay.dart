@@ -517,6 +517,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                     aspectRatio: 410 / 850,
                     child: FittedBox(
                       fit: BoxFit.contain,
+                      clipBehavior: Clip.none,
                       child: SizedBox(
                         width: 410,
                         height: 870,
@@ -582,6 +583,15 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                                   ],
                                 ),
                               ),
+                            ),
+
+                            // Fullscreen Darkness Overlay
+                            Positioned(
+                              top: -4000,
+                              bottom: -4000,
+                              left: -4000,
+                              right: -4000,
+                              child: FullScreenDarknessOverlay(game: widget.game),
                             ),
 
                             // Top Header (Hearts, Energy, Stars)
@@ -698,4 +708,81 @@ class _AnimatedPressButtonState extends State<AnimatedPressButton> {
       ),
     );
   }
+}
+
+class FullScreenDarknessOverlay extends StatelessWidget {
+  final BalancoGame game;
+  const FullScreenDarknessOverlay({super.key, required this.game});
+
+  @override
+  Widget build(BuildContext context) {
+    return IgnorePointer(
+      child: ValueListenableBuilder<double>(
+        valueListenable: game.darknessOpacityNotifier,
+        builder: (context, opacity, child) {
+          if (opacity <= 0.0) return const SizedBox.shrink();
+          return ValueListenableBuilder<Offset?>(
+            valueListenable: game.lightSpotNotifier,
+            builder: (context, spot, child) {
+              if (spot == null) return const SizedBox.shrink();
+
+              // Map from Flame coordinates to FittedBox coordinates
+              // The Flame game has left padding of 6, right 6, top 124.
+              // The Positioned expands by 4000 in all directions.
+              final dx = spot.dx + 6 + 4000;
+              final dy = spot.dy + 124 + 4000;
+              return ValueListenableBuilder<double>(
+                valueListenable: game.lightRadiusNotifier,
+                builder: (context, radius, child) {
+                  return CustomPaint(
+                    painter: DarknessPainter(
+                      opacity: opacity,
+                      spot: Offset(dx, dy),
+                      radius: radius,
+                    ),
+                  );
+                },
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+}
+
+class DarknessPainter extends CustomPainter {
+  final double opacity;
+  final Offset spot;
+  final double radius;
+  DarknessPainter({required this.opacity, required this.spot, required this.radius});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    canvas.saveLayer(Rect.fromLTWH(0, 0, size.width, size.height), Paint());
+
+    final bgPaint = Paint()
+      ..color = const Color(0xFF0A0A1A).withValues(alpha: opacity);
+    canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), bgPaint);
+
+    final holePaint = Paint()
+      ..blendMode = BlendMode.dstOut
+      ..shader = RadialGradient(
+        colors: [
+          Colors.black,
+          Colors.black,
+          Colors.black.withValues(alpha: 0.6),
+          Colors.black.withValues(alpha: 0.2),
+          Colors.transparent,
+        ],
+        stops: const [0.0, 0.25, 0.45, 0.75, 1.0],
+      ).createShader(Rect.fromCircle(center: spot, radius: radius));
+
+    canvas.drawCircle(spot, radius, holePaint);
+    canvas.restore();
+  }
+
+  @override
+  bool shouldRepaint(DarknessPainter oldDelegate) =>
+      opacity != oldDelegate.opacity || spot != oldDelegate.spot || radius != oldDelegate.radius;
 }
