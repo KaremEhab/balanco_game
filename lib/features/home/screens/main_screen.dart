@@ -32,6 +32,7 @@ class _MainScreenState extends State<MainScreen> {
   final ScrollController _settingsScrollController = ScrollController();
   late PageController _pageController;
   final ValueNotifier<double> _expandProgressNotifier = ValueNotifier(0.0);
+  final ValueNotifier<double> biomeTransitionProgress = ValueNotifier(0.0);
   double _lastOffset = 0;
   double _lastScrollProgress = 1.0; // Default to bottom (Level 1)
 
@@ -57,7 +58,10 @@ class _MainScreenState extends State<MainScreen> {
     _loadData();
     _pageController = PageController(initialPage: _currentIndex);
     _screens = [
-      HomeScreen(scrollController: _mapScrollController),
+      HomeScreen(
+        scrollController: _mapScrollController,
+        biomeTransitionProgress: biomeTransitionProgress,
+      ),
       ModesScreen(scrollController: _modesScrollController),
       LeaderboardScreen(scrollController: _leaderboardScrollController),
       SettingsScreen(scrollController: _settingsScrollController),
@@ -165,6 +169,7 @@ class _MainScreenState extends State<MainScreen> {
     _settingsScrollController.removeListener(_scrollListener);
     _settingsScrollController.dispose();
     _expandProgressNotifier.dispose();
+    biomeTransitionProgress.dispose();
     super.dispose();
   }
 
@@ -172,7 +177,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      backgroundColor: GameColors.mapAppBarCyanLightest, // Base sky color
+      backgroundColor: Colors.transparent,
       body: Stack(
         children: [
           // Parallax Background
@@ -342,127 +347,155 @@ class _MainScreenState extends State<MainScreen> {
         return ValueListenableBuilder<bool>(
           valueListenable: AppSettings.parallaxEnabled,
           builder: (context, isParallax, child) {
-            return FittedBox(
-              fit: BoxFit.cover,
-              child: SizedBox(
-                width: 1000,
-                height: 475,
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    _buildLayer(
-                      SkyPainter(),
-                      depthMultiplier: 0.05,
-                      parallaxEnabled: isParallax,
-                    ),
-                    _buildLayer(
-                      FirstCloudPainter(),
-                      dx: 193.1,
-                      dy: 46.5,
-                      scale: 0.39,
-                      depthMultiplier: 0.1,
-                      parallaxEnabled: isParallax,
-                    ),
-                    _buildLayer(
-                      SecondCloudPainter(),
-                      dx: -6.1,
-                      dy: 7.1,
-                      scale: 0.26,
-                      depthMultiplier: 0.12,
-                      parallaxEnabled: isParallax,
-                    ),
-                    _buildLayer(
-                      ThirdCloudPainter(),
-                      dx: 59.7,
-                      dy: 15.7,
-                      scale: 0.46,
-                      depthMultiplier: 0.14,
-                      parallaxEnabled: isParallax,
-                    ),
-                    _buildLayer(
-                      ForthCloudPainter(),
-                      dx: 305.0,
-                      dy: 27.0,
-                      scale: 0.63,
-                      depthMultiplier: 0.16,
-                      parallaxEnabled: isParallax,
-                    ),
-                    _buildLayer(
-                      FifthCloudPainter(),
-                      dx: 127.3,
-                      dy: -85.9,
-                      scale: 0.48,
-                      depthMultiplier: 0.18,
-                      parallaxEnabled: isParallax,
-                    ),
-                    _buildLayer(
-                      BirdsPainter(),
-                      dx: 230.1,
-                      dy: -11.4,
-                      scale: 0.57,
-                      depthMultiplier: 0.2,
-                      parallaxEnabled: isParallax,
-                    ),
-                    _buildLayer(
-                      FurtherSeaPainter(),
-                      dx: 0.0,
-                      dy: 214.0,
-                      scale: 1.05,
-                      depthMultiplier: 0.4,
-                      parallaxEnabled: isParallax,
-                    ),
-                    _buildLayer(
-                      MountainSeaShadowsPainter(),
-                      dx: 52.8,
-                      dy: 166.4,
-                      scale: 0.47,
-                      depthMultiplier: 0.5,
-                      parallaxEnabled: isParallax,
-                    ),
-                    _buildLayer(
-                      BackMountainPainter(),
-                      dx: 122.0,
-                      dy: 42.6,
-                      scale: 0.50,
-                      depthMultiplier: 0.3,
-                      parallaxEnabled: isParallax,
-                    ),
-                    _buildLayer(
-                      CloserSeaPainter(),
-                      dx: 166.9,
-                      dy: 401.3,
-                      scale: 1.42,
-                      depthMultiplier: 0.6,
-                      parallaxEnabled: isParallax,
-                    ),
-                    _buildLayer(
-                      SeaWaterDropsPainter(),
-                      dx: 112.6,
-                      dy: 246.1,
-                      scale: 0.51,
-                      depthMultiplier: 0.7,
-                      parallaxEnabled: isParallax,
-                    ),
-                    _buildLayer(
-                      FrontMountainPainter(),
-                      dx: 73.2,
-                      dy: 35.3,
-                      scale: 0.32,
-                      depthMultiplier: 0.8,
-                      parallaxEnabled: isParallax,
-                    ),
-                    _buildLayer(
-                      SeaMountainWaves(),
-                      dx: 7.1,
-                      dy: 9.6,
-                      scale: 0.27,
-                      depthMultiplier: 0.45,
-                      parallaxEnabled: isParallax,
-                    ),
-                    // Trees are commented out in gameplay, but if we want them:
-                  ],
+            Widget content = Container(
+              color: GameColors
+                  .mapAppBarCyanLightest, // Base sky color moved here to be tinted
+              width: double.infinity,
+              height: double.infinity,
+              child: FittedBox(
+                fit: BoxFit.cover,
+                child: SizedBox(
+                  width: 1000,
+                  height: 475,
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      _buildLayer(
+                        SkyPainter(),
+                        depthMultiplier: 0.05,
+                        parallaxEnabled: isParallax,
+                      ),
+                      _buildLayer(
+                        FirstCloudPainter(),
+                        dx: 193.1,
+                        dy: 46.5,
+                        scale: 0.39,
+                        depthMultiplier: 0.1,
+                        parallaxEnabled: isParallax,
+                      ),
+                      _buildLayer(
+                        SecondCloudPainter(),
+                        dx: -6.1,
+                        dy: 7.1,
+                        scale: 0.26,
+                        depthMultiplier: 0.12,
+                        parallaxEnabled: isParallax,
+                      ),
+                      _buildLayer(
+                        ThirdCloudPainter(),
+                        dx: 59.7,
+                        dy: 15.7,
+                        scale: 0.46,
+                        depthMultiplier: 0.14,
+                        parallaxEnabled: isParallax,
+                      ),
+                      _buildLayer(
+                        ForthCloudPainter(),
+                        dx: 305.0,
+                        dy: 27.0,
+                        scale: 0.63,
+                        depthMultiplier: 0.16,
+                        parallaxEnabled: isParallax,
+                      ),
+                      _buildLayer(
+                        FifthCloudPainter(),
+                        dx: 127.3,
+                        dy: -85.9,
+                        scale: 0.48,
+                        depthMultiplier: 0.18,
+                        parallaxEnabled: isParallax,
+                      ),
+                      _buildLayer(
+                        BirdsPainter(),
+                        dx: 230.1,
+                        dy: -11.4,
+                        scale: 0.57,
+                        depthMultiplier: 0.2,
+                        parallaxEnabled: isParallax,
+                      ),
+                      _buildLayer(
+                        FurtherSeaPainter(),
+                        dx: 0.0,
+                        dy: 214.0,
+                        scale: 1.05,
+                        depthMultiplier: 0.4,
+                        parallaxEnabled: isParallax,
+                      ),
+                      _buildLayer(
+                        MountainSeaShadowsPainter(),
+                        dx: 52.8,
+                        dy: 166.4,
+                        scale: 0.47,
+                        depthMultiplier: 0.5,
+                        parallaxEnabled: isParallax,
+                      ),
+                      _buildLayer(
+                        BackMountainPainter(),
+                        dx: 122.0,
+                        dy: 42.6,
+                        scale: 0.50,
+                        depthMultiplier: 0.3,
+                        parallaxEnabled: isParallax,
+                      ),
+                      _buildLayer(
+                        CloserSeaPainter(),
+                        dx: 166.9,
+                        dy: 401.3,
+                        scale: 1.42,
+                        depthMultiplier: 0.6,
+                        parallaxEnabled: isParallax,
+                      ),
+                      _buildLayer(
+                        SeaWaterDropsPainter(),
+                        dx: 112.6,
+                        dy: 246.1,
+                        scale: 0.51,
+                        depthMultiplier: 0.7,
+                        parallaxEnabled: isParallax,
+                      ),
+                      _buildLayer(
+                        FrontMountainPainter(),
+                        dx: 73.2,
+                        dy: 35.3,
+                        scale: 0.32,
+                        depthMultiplier: 0.8,
+                        parallaxEnabled: isParallax,
+                      ),
+                      _buildLayer(
+                        SeaMountainWaves(),
+                        dx: 7.1,
+                        dy: 9.6,
+                        scale: 0.27,
+                        depthMultiplier: 0.45,
+                        parallaxEnabled: isParallax,
+                      ),
+                      // Trees are commented out in gameplay, but if we want them:
+                    ],
+                  ),
                 ),
               ),
+            );
+
+            // Apply Biome color tint dynamically over the background stack
+            return ValueListenableBuilder<double>(
+              valueListenable: biomeTransitionProgress,
+              builder: (context, progress, child) {
+                // When progress is 0.0, we have the normal tropical look (no tint)
+                // When progress is 1.0, we tint it heavily towards dark purple
+                final Color targetTint = GameColors.holeDeepPurple.withValues(
+                  alpha: 0.85,
+                );
+                final Color tintColor = Color.lerp(
+                  Colors.transparent,
+                  targetTint,
+                  progress,
+                )!;
+
+                return ColorFiltered(
+                  colorFilter: ColorFilter.mode(tintColor, BlendMode.srcATop),
+                  child: content,
+                );
+              },
             );
           },
         );

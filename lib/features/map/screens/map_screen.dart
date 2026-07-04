@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'dart:ui';
 import 'package:balanco_game/features/game/screens/gameplay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:balanco_game/core/data/database_helper.dart';
+import 'package:balanco_game/features/map/models/biome_model.dart';
+import 'package:balanco_game/features/map/theme/biome_config.dart';
 import 'package:balanco_game/core/bloc/app_bloc.dart';
 import 'package:balanco_game/features/game/game_area.dart';
 import 'package:balanco_game/features/map/components/play_button_painter.dart';
@@ -21,8 +22,13 @@ import 'package:balanco_game/core/theme/game_colors.dart';
 
 class HomeScreen extends StatefulWidget {
   final ScrollController scrollController;
+  final ValueNotifier<double>? biomeTransitionProgress;
 
-  const HomeScreen({super.key, required this.scrollController});
+  const HomeScreen({
+    super.key,
+    required this.scrollController,
+    this.biomeTransitionProgress,
+  });
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -186,6 +192,36 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         _displayedLevel = calculatedLevel;
       });
       HapticFeedback.selectionClick();
+    }
+
+    // Calculate Biome Transition Progress (Between Level 10 and Level 11)
+    if (widget.biomeTransitionProgress != null) {
+      // Level 10 is at i=9, Level 11 is at i=10
+      double level10Y = totalHeight - bottomPadding - (9 * nodeSpacingY);
+      double level11Y = totalHeight - bottomPadding - (10 * nodeSpacingY);
+
+      // Gap Y is directly in the middle
+      double gapY = (level10Y + level11Y) / 2;
+
+      // We want to transition fully over the space of one nodeSpacingY
+      // So transition starts at gapY + nodeSpacingY/2 and ends at gapY - nodeSpacingY/2
+      double transitionStartOffset =
+          gapY + (nodeSpacingY / 2) - (screenHeight * 0.6);
+      double transitionEndOffset =
+          gapY - (nodeSpacingY / 2) - (screenHeight * 0.6);
+
+      double progress = 0.0;
+      if (scrollOffset >= transitionStartOffset) {
+        progress = 0.0;
+      } else if (scrollOffset <= transitionEndOffset) {
+        progress = 1.0;
+      } else {
+        progress =
+            1.0 -
+            ((scrollOffset - transitionEndOffset) /
+                (transitionStartOffset - transitionEndOffset));
+      }
+      widget.biomeTransitionProgress!.value = progress;
     }
   }
 
@@ -455,6 +491,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 false, // Don't draw the platform while flying
                             drawBall: true,
                             isLocked: level > highestLevel,
+                            biome: BiomeConfig.getBiomeForLevel(level),
                           ),
                         ),
                       ),
@@ -523,6 +560,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     _calculateNodes(screenWidth);
+    final double totalHeight = _getVirtualHeight();
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -542,7 +580,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ).applyTo(const BouncingScrollPhysics()),
               child: SizedBox(
                 width: screenWidth,
-                height: _getVirtualHeight(),
+                height: totalHeight,
                 child: Stack(
                   clipBehavior: Clip.none,
                   children: [
@@ -580,7 +618,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           );
                         },
                         child: RepaintBoundary(
-                          child: CustomPaint(painter: WoodenRoutePainter()),
+                          child: CustomPaint(
+                            painter: WoodenRoutePainter(
+                              transitionY:
+                                  totalHeight -
+                                  bottomPadding -
+                                  (9.5 * nodeSpacingY),
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -606,6 +651,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             lockedSize: lockedHoleSize,
                             unlockedSize: unlockedHoleSize,
                             pos: pos,
+                            biome: BiomeConfig.getBiomeForLevel(level),
                             teethClosure: _animatingLevel == level
                                 ? _teethClosureAnimation.value
                                 : 0.0,
@@ -660,6 +706,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           _buzzerAnimation.value, // Centered with shake
                       child: BouncingLevelButton(
                         currentLevel: _displayedLevel,
+                        biome: BiomeConfig.getBiomeForLevel(_displayedLevel),
                         isLocked: _displayedLevel > highestLevel,
                         onTap: () {
                           HapticFeedback.lightImpact();
@@ -694,6 +741,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 drawPlatform: true,
                                 drawBall: _animatingLevel == null,
                                 isLocked: _displayedLevel > highestLevel,
+                                biome: BiomeConfig.getBiomeForLevel(
+                                  _displayedLevel,
+                                ),
                               ),
                             ),
                           );
@@ -761,11 +811,13 @@ class BouncingLevelButton extends StatefulWidget {
   final int currentLevel;
   final bool isLocked;
   final VoidCallback onTap;
+  final BiomeModel biome;
 
   const BouncingLevelButton({
     super.key,
     required this.currentLevel,
     required this.onTap,
+    required this.biome,
     this.isLocked = false,
   });
 
@@ -830,7 +882,10 @@ class _BouncingLevelButtonState extends State<BouncingLevelButton>
               height: 80,
               child: RepaintBoundary(
                 child: CustomPaint(
-                  painter: PlayButtonPainter(isLocked: widget.isLocked),
+                  painter: PlayButtonPainter(
+                    isLocked: widget.isLocked,
+                    biome: widget.biome,
+                  ),
                 ),
               ),
             ),
@@ -904,6 +959,7 @@ class AnimatedLevelNode extends StatefulWidget {
   final VoidCallback onTap;
   final VoidCallback onAnimationComplete;
   final double teethClosure; // Support teeth closing animation
+  final BiomeModel biome;
 
   const AnimatedLevelNode({
     super.key,
@@ -916,6 +972,7 @@ class AnimatedLevelNode extends StatefulWidget {
     required this.pos,
     required this.onTap,
     required this.onAnimationComplete,
+    required this.biome,
     this.teethClosure = 0.0,
   });
 
@@ -1089,11 +1146,23 @@ class _AnimatedLevelNodeState extends State<AnimatedLevelNode>
           painter: widget.isUnlocked
               ? MapHolePainter(
                   isUnlocked: true,
+                  biome: widget.biome,
                   teethClosure: widget.teethClosure,
                 )
               : LockedLevelPainter(),
         ),
       );
+
+      // If we are locked and using crystal cave biome, tint the lock
+      if (!widget.isUnlocked && widget.biome.startLevel >= 11) {
+        childPainter = ColorFiltered(
+          colorFilter: ColorFilter.mode(
+            widget.biome.nodeLockedColor.withValues(alpha: 0.25),
+            BlendMode.srcATop,
+          ),
+          child: childPainter,
+        );
+      }
 
       // If unlocked and current, apply idle rotation
       if (widget.isUnlocked && widget.isCurrent) {
@@ -1161,9 +1230,20 @@ class _AnimatedLevelNodeState extends State<AnimatedLevelNode>
                                 width: widget.lockedSize,
                                 height: widget.lockedSize,
                                 child: RepaintBoundary(
-                                  child: CustomPaint(
-                                    painter: LockedLevelPainter(),
-                                  ),
+                                  child: widget.biome.startLevel >= 11
+                                      ? ColorFiltered(
+                                          colorFilter: ColorFilter.mode(
+                                            widget.biome.nodeLockedColor
+                                                .withValues(alpha: 0.25),
+                                            BlendMode.srcATop,
+                                          ),
+                                          child: CustomPaint(
+                                            painter: LockedLevelPainter(),
+                                          ),
+                                        )
+                                      : CustomPaint(
+                                          painter: LockedLevelPainter(),
+                                        ),
                                 ),
                               ),
                             ),
@@ -1183,9 +1263,20 @@ class _AnimatedLevelNodeState extends State<AnimatedLevelNode>
                                 width: widget.lockedSize,
                                 height: widget.lockedSize,
                                 child: RepaintBoundary(
-                                  child: CustomPaint(
-                                    painter: LockedLevelPainter(),
-                                  ),
+                                  child: widget.biome.startLevel >= 11
+                                      ? ColorFiltered(
+                                          colorFilter: ColorFilter.mode(
+                                            widget.biome.nodeLockedColor
+                                                .withValues(alpha: 0.25),
+                                            BlendMode.srcATop,
+                                          ),
+                                          child: CustomPaint(
+                                            painter: LockedLevelPainter(),
+                                          ),
+                                        )
+                                      : CustomPaint(
+                                          painter: LockedLevelPainter(),
+                                        ),
                                 ),
                               ),
                             ),
@@ -1205,7 +1296,10 @@ class _AnimatedLevelNodeState extends State<AnimatedLevelNode>
                         width: widget.unlockedSize,
                         height: widget.unlockedSize,
                         child: CustomPaint(
-                          painter: MapHolePainter(isUnlocked: true),
+                          painter: MapHolePainter(
+                            isUnlocked: true,
+                            biome: widget.biome,
+                          ),
                         ),
                       ),
                     ),

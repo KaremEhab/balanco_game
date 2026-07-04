@@ -14,6 +14,7 @@ class MapAppBar extends StatefulWidget {
   final int sparks;
   final int maxSparks;
   final double expandProgress;
+  final ValueNotifier<double>? biomeTransitionProgress;
 
   const MapAppBar({
     super.key,
@@ -22,6 +23,7 @@ class MapAppBar extends StatefulWidget {
     required this.sparks,
     this.maxSparks = 5,
     this.expandProgress = 0.0,
+    this.biomeTransitionProgress,
   });
 
   @override
@@ -641,25 +643,45 @@ class _MapAppBarState extends State<MapAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    final double p = widget.expandProgress; // 0.0 to 1.0
+    return AnimatedBuilder(
+      animation: widget.biomeTransitionProgress ?? ValueNotifier(0.0),
+      builder: (context, child) {
+        final double p = widget.expandProgress; // 0.0 to 1.0
+        final double biomeProgress = widget.biomeTransitionProgress?.value ?? 0.0;
 
-    // Heights
-    final double minHeight = 90.0;
-    final double maxHeight = 240.0;
-    final double currentHeight = lerpDouble(minHeight, maxHeight, p)!;
-    final double borderRadius = lerpDouble(100.0, 40.0, p)!;
+        // Heights
+        final double minHeight = 90.0;
+        final double maxHeight = 240.0;
+        final double currentHeight = lerpDouble(minHeight, maxHeight, p)!;
+        final double borderRadius = lerpDouble(100.0, 40.0, p)!;
 
-    // Transition Colors and Border
-    final Color containerColor = Color.lerp(
-      GameColors.mapAppBarCyanLight.withValues(alpha: 0.3),
-      GameColors.mapAppBarCyanLight.withValues(alpha: 0.5),
-      p,
-    )!;
-    final Color borderColor = Color.lerp(
-      GameColors.mapAppBarTealDark,
-      GameColors.mapAppBarTealDark,
-      p,
-    )!;
+        // Tropical colors
+        final Color tropicalContainerColor = Color.lerp(
+          GameColors.mapAppBarCyanLight.withValues(alpha: 0.3),
+          GameColors.mapAppBarCyanLight.withValues(alpha: 0.5),
+          p,
+        )!;
+        final Color tropicalBorderColor = GameColors.mapAppBarTealDark;
+
+        // Crystal Cave colors
+        final Color caveContainerColor = Color.lerp(
+          GameColors.holeDeepPurple.withValues(alpha: 0.5),
+          GameColors.holeDarkPurple.withValues(alpha: 0.7),
+          p,
+        )!;
+        final Color caveBorderColor = GameColors.teleporterLightPurple;
+
+        // Transition Colors and Border based on Biome
+        final Color containerColor = Color.lerp(
+          tropicalContainerColor,
+          caveContainerColor,
+          biomeProgress,
+        )!;
+        final Color borderColor = Color.lerp(
+          tropicalBorderColor,
+          caveBorderColor,
+          biomeProgress,
+        )!;
     final double borderWidth = lerpDouble(2.0, 3.0, p)!;
     final Color shadowColor = Color.lerp(
       Colors.transparent,
@@ -844,6 +866,8 @@ class _MapAppBarState extends State<MapAppBar> {
               ),
           ],
         );
+      },
+    );
       },
     );
   }

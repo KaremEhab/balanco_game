@@ -439,11 +439,13 @@ class GameColors {
 
   // --- beachMapTheme Colors ---
   static const Color beachMapThemeColor1 = Color(0XFF10A8E0);
-  static const Color beachMapThemeColor2 = Color(0XFF52FEDA);
+  static const Color beachMapThemeColor2 = Color.fromARGB(255, 82, 202, 254);
   static const Color beachMapThemeColor3 = Color(0XFF78909C);
   static const Color beachMapThemeColor4 = Color(0XFFB0BEC5);
-  static const Color beachMapThemeColor5 = Color(0XFFFFA000);
-  static const Color beachMapThemeColor6 = Color(0XFFFFD54F);
+  static const Color beachMapThemeColor5 = Color(0XFFB57D38);
+  static const Color beachMapThemeColor6 = Color(0XFFFFDF7E);
+  static const Color beachMapThemeTeethColor = Color(0XFFFFDCB4); // Bright silver/gray by default
+  static const Color beachMapThemeLockedTeethColor = Color(0XFF9E9E9E); // Darker gray for locked
 
   // --- gameControlsOverlay Colors ---
   static const Color gameControlsOverlayColor1 = Color(0X33000000);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:balanco_game/features/game/components/ball_component.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
+import 'package:balanco_game/features/map/models/biome_model.dart';
 
 class MapBallLayer extends CustomPainter {
   final Offset position;
@@ -13,6 +14,7 @@ class MapBallLayer extends CustomPainter {
   final bool drawPlatform;
   final bool drawBall;
   final bool isLocked;
+  final BiomeModel biome;
 
   // Paints
   final Paint _dropShadowPaint = Paint()
@@ -35,6 +37,7 @@ class MapBallLayer extends CustomPainter {
     this.drawPlatform = true,
     this.drawBall = true,
     this.isLocked = false,
+    required this.biome,
   }) {
     _highlightPaint = Paint()
       ..shader = RadialGradient(
@@ -50,6 +53,17 @@ class MapBallLayer extends CustomPainter {
   }
 
   void _drawPlatform(Canvas canvas) {
+    if (isLocked) {
+      final paint = Paint()
+        ..colorFilter = const ColorFilter.matrix(<double>[
+          0.2126, 0.7152, 0.0722, 0, 0,
+          0.2126, 0.7152, 0.0722, 0, 0,
+          0.2126, 0.7152, 0.0722, 0, 0,
+          0, 0, 0, 1, 0,
+        ]);
+      canvas.saveLayer(null, paint);
+    }
+
     // Platform coordinates
     // Top face (trapezoid to give 3D perspective)
     final double backY = -6.0;
@@ -93,10 +107,7 @@ class MapBallLayer extends CustomPainter {
       ..close();
 
     final Paint basePaint = Paint()
-      ..color = isLocked
-          ? GameColors
-                .brown900 // Solid very dark brown/black
-          : const Color.fromARGB(255, 97, 54, 5) // Deep sea blue
+      ..color = biome.nodeUnlockedInnerColors.last
       ..maskFilter = const MaskFilter.blur(
         BlurStyle.normal,
         4.0,
@@ -141,15 +152,10 @@ class MapBallLayer extends CustomPainter {
       ..shader = LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        colors: isLocked
-            ? const [
-                GameColors.gray300,
-                GameColors.gray500,
-              ] // Bright metallic top
-            : const [
-                GameColors.amber300,
-                GameColors.orangeTextUi,
-              ], // Warm beach sand
+        colors: [
+          biome.nodeUnlockedColor,
+          biome.nodeUnlockedBorderColor,
+        ], 
       ).createShader(Rect.fromLTRB(-frontW, backY, frontW, frontY));
 
     canvas.drawPath(topFacePath, topFacePaint);
@@ -178,15 +184,10 @@ class MapBallLayer extends CustomPainter {
       ..shader = LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        colors: isLocked
-            ? const [
-                GameColors.gray700,
-                GameColors.gray900,
-              ] // Darker metal front edge
-            : const [
-                Color.fromARGB(255, 247, 219, 79),
-                Color.fromARGB(255, 209, 140, 2),
-              ], // Clear cyan/blue water
+        colors: [
+          biome.nodeUnlockedBorderColor,
+          biome.nodeUnlockedRivetColor,
+        ], 
       ).createShader(Rect.fromLTRB(-frontW, frontY, frontW, frontBottomY));
 
     canvas.drawPath(frontFacePath, frontFacePaint);
@@ -232,6 +233,10 @@ class MapBallLayer extends CustomPainter {
       Offset(frontW - cornerRadius, frontY),
       edgeHighlight,
     );
+
+    if (isLocked) {
+      canvas.restore();
+    }
   }
 
   @override
@@ -276,26 +281,32 @@ class MapBallLayer extends CustomPainter {
       if (isLocked) {
         final paint = Paint()
           ..colorFilter = const ColorFilter.matrix(<double>[
-            0.2126,
-            0.7152,
-            0.0722,
-            0,
-            0,
-            0.2126,
-            0.7152,
-            0.0722,
-            0,
-            0,
-            0.2126,
-            0.7152,
-            0.0722,
-            0,
-            0,
-            0,
-            0,
-            0,
-            1,
-            0,
+            0.2126, 0.7152, 0.0722, 0, 0,
+            0.2126, 0.7152, 0.0722, 0, 0,
+            0.2126, 0.7152, 0.0722, 0, 0,
+            0, 0, 0, 1, 0,
+          ]);
+        canvas.saveLayer(
+          Rect.fromCircle(center: Offset.zero, radius: radius * 2),
+          paint,
+        );
+      } else {
+        // Use nodeUnlockedColor which is brighter than primaryColor, preventing the ball from becoming too dark
+        final r = biome.nodeUnlockedColor.r;
+        final g = biome.nodeUnlockedColor.g;
+        final b = biome.nodeUnlockedColor.b;
+        
+        // We use a matrix to map the grayscale luminance of the ball to the biome's primary color.
+        // This preserves the alpha channel perfectly (no background square!)
+        // We boost the intensity slightly (1.5) so it remains bright and glossy.
+        final intensity = 1.5;
+        
+        final paint = Paint()
+          ..colorFilter = ColorFilter.matrix(<double>[
+            0.2126 * r * intensity, 0.7152 * r * intensity, 0.0722 * r * intensity, 0, 0,
+            0.2126 * g * intensity, 0.7152 * g * intensity, 0.0722 * g * intensity, 0, 0,
+            0.2126 * b * intensity, 0.7152 * b * intensity, 0.0722 * b * intensity, 0, 0,
+            0, 0, 0, 1, 0,
           ]);
         canvas.saveLayer(
           Rect.fromCircle(center: Offset.zero, radius: radius * 2),
@@ -312,9 +323,8 @@ class MapBallLayer extends CustomPainter {
 
       BallPainter().paint(canvas, const Size(42.0, 42.0));
 
-      if (isLocked) {
-        canvas.restore();
-      }
+      // Always restore since we saveLayer for both locked and unlocked
+      canvas.restore();
 
       canvas.restore();
 

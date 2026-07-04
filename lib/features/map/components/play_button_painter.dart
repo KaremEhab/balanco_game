@@ -3,13 +3,27 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
 
+import 'package:balanco_game/features/map/models/biome_model.dart';
+
 class PlayButtonPainter extends CustomPainter {
   final bool isLocked;
+  final BiomeModel biome;
 
-  PlayButtonPainter({this.isLocked = false});
+  PlayButtonPainter({this.isLocked = false, required this.biome});
 
   @override
   void paint(Canvas canvas, Size size) {
+    if (isLocked) {
+      final paint = Paint()
+        ..colorFilter = const ColorFilter.matrix(<double>[
+          0.2126, 0.7152, 0.0722, 0, 0,
+          0.2126, 0.7152, 0.0722, 0, 0,
+          0.2126, 0.7152, 0.0722, 0, 0,
+          0, 0, 0, 1, 0,
+        ]);
+      canvas.saveLayer(Rect.fromLTWH(0, 0, size.width, size.height), paint);
+    }
+
     Paint paint0Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.008928571;
@@ -17,15 +31,10 @@ class PlayButtonPainter extends CustomPainter {
     paint0Stroke.shader = ui.Gradient.linear(
       Offset(size.width * 0.5000000, size.height * 0.1071429),
       Offset(size.width * 0.5000000, size.height * 0.9761905),
-      isLocked
-          ? [
-              GameColors.playButtonPainterColor3.withValues(alpha: 1),
-              GameColors.playButtonPainterColor1.withValues(alpha: 1),
-            ]
-          : [
-              GameColors.playButtonPainterColor2.withValues(alpha: 1),
-              GameColors.playButtonPainterColor4.withValues(alpha: 1),
-            ],
+      [
+        biome.nodeUnlockedBorderColor.withValues(alpha: 1),
+        biome.nodeUnlockedOuterEdgeColor.withValues(alpha: 1),
+      ],
 
       [0, 1],
     );
@@ -56,9 +65,7 @@ class PlayButtonPainter extends CustomPainter {
 
     Paint paint0Fill = Paint()..style = PaintingStyle.fill;
 
-    paint0Fill.color = isLocked
-        ? GameColors.playButtonPainterColor5.withValues(alpha: 1.0)
-        : GameColors.playButtonPainterColor7.withValues(alpha: 1.0);
+    paint0Fill.color = biome.primaryColor.withValues(alpha: 1.0);
 
     canvas.drawRRect(
       RRect.fromRectAndCorners(
@@ -89,15 +96,10 @@ class PlayButtonPainter extends CustomPainter {
     paint1Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5000000, size.height * 0.02380952),
       Offset(size.width * 0.5000000, size.height * 0.8809524),
-      isLocked
-          ? [
-              GameColors.playButtonPainterColor8.withValues(alpha: 1),
-              GameColors.playButtonPainterColor6.withValues(alpha: 1),
-            ]
-          : [
-              GameColors.playButtonPainterColor10.withValues(alpha: 1),
-              GameColors.playButtonPainterColor9.withValues(alpha: 1),
-            ],
+      [
+        biome.secondaryColor.withValues(alpha: 1),
+        biome.primaryColor.withValues(alpha: 1),
+      ],
 
       [0, 1],
     );
@@ -227,6 +229,10 @@ class PlayButtonPainter extends CustomPainter {
     );
 
     canvas.restore();
+
+    if (isLocked) {
+      canvas.restore();
+    }
   }
 
   @override

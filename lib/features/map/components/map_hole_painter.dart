@@ -1,12 +1,18 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
+import 'package:balanco_game/features/map/models/biome_model.dart';
 
 class MapHolePainter extends CustomPainter {
   final bool isUnlocked;
   final double teethClosure;
+  final BiomeModel biome;
 
-  MapHolePainter({required this.isUnlocked, this.teethClosure = 0.0});
+  MapHolePainter({
+    required this.isUnlocked, 
+    required this.biome,
+    this.teethClosure = 0.0,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -22,21 +28,8 @@ class MapHolePainter extends CustomPainter {
 
     // 1. The Deep Hole Background (Stepped Concentric Circles)
     List<Color> holeColors = !isUnlocked
-        ? [
-            GameColors.mapHolePainterColor2,
-            GameColors.blueGray900,
-            GameColors.mapHolePainterColor1,
-            GameColors.blackSolid,
-            GameColors.blackSolid,
-          ] // Grey locked
-        : [
-            GameColors.woodLight,
-            GameColors.woodMedium,
-            GameColors.woodMediumDark,
-            GameColors.woodDark,
-            GameColors.woodVeryDark,
-            GameColors.woodDeep,
-          ]; // Gold unlocked
+        ? biome.nodeLockedInnerColors
+        : biome.nodeUnlockedInnerColors;
 
     double step = trapInnerRadius / holeColors.length;
     for (int i = 0; i < holeColors.length; i++) {
@@ -71,22 +64,24 @@ class MapHolePainter extends CustomPainter {
 
     Paint teethPaint = Paint();
     if (!isUnlocked) {
-      teethPaint.color = GameColors.beachMapThemeColor3;
+      teethPaint.color = biome.nodeLockedTeethColor;
     } else {
-      teethPaint.color = GameColors.peachPuff;
+      teethPaint.color = biome.nodeUnlockedTeethColor;
     }
     canvas.drawPath(teethPath, teethPaint);
 
-    // Dark radial shadow to make teeth fade into the deep hole
+    // Removed shadow over teeth so they appear solid with exact color
+    /*
     Paint teethShadow = Paint()
       ..shader =
           RadialGradient(
-            colors: [GameColors.black87, Colors.transparent],
+            colors: [GameColors.black54, Colors.transparent],
             stops: const [0.2, 1.0],
           ).createShader(
             Rect.fromCircle(center: Offset.zero, radius: trapInnerRadius),
           );
     canvas.drawCircle(Offset.zero, trapInnerRadius, teethShadow);
+    */
 
     // 3. The Brass/Gold Ring
     Paint ringShadow = Paint()
@@ -96,12 +91,15 @@ class MapHolePainter extends CustomPainter {
 
     Paint ringPaint = Paint();
     if (!isUnlocked) {
-      ringPaint.color = GameColors.blueGray300;
+      ringPaint.color = biome.nodeLockedColor;
     } else {
-      ringPaint.shader = const LinearGradient(
+      ringPaint.shader = LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
-        colors: [GameColors.goldenYellow, GameColors.goldenBrown],
+        colors: [
+          biome.nodeUnlockedColor, 
+          biome.nodeUnlockedBorderColor,
+        ],
       ).createShader(Rect.fromCircle(center: Offset.zero, radius: radius));
     }
 
@@ -115,7 +113,7 @@ class MapHolePainter extends CustomPainter {
     Paint outerEdgePaint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2.0
-      ..color = !isUnlocked ? GameColors.blueGray100 : GameColors.lightGold;
+      ..color = !isUnlocked ? biome.nodeLockedOuterEdgeColor : biome.nodeUnlockedOuterEdgeColor;
     canvas.drawCircle(Offset.zero, radius - 1.0, outerEdgePaint);
 
     // Subtle inner dark edge
@@ -131,8 +129,8 @@ class MapHolePainter extends CustomPainter {
 
     Paint rivetBasePaint = Paint()
       ..color = !isUnlocked
-          ? GameColors.mapHolePainterColor3
-          : GameColors.darkGold;
+          ? biome.nodeLockedRivetColor
+          : biome.nodeUnlockedRivetColor;
     Paint rivetHighlightPaint = Paint()..color = GameColors.white54;
 
     for (int i = 0; i < numTeeth; i++) {
