@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:balanco_game/features/game/game_area.dart';
-
-
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class AnimatedGameOverOverlay extends StatefulWidget {
   final BalancoGame game;
@@ -64,7 +63,7 @@ class _AnimatedGameOverOverlayState extends State<AnimatedGameOverOverlay>
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
         child: Container(
-          color: Colors.black.withValues(alpha: 0.5),
+          color: GameColors.black.withValues(alpha: 0.5),
           child: Center(
             child: FadeTransition(
               opacity: _fadeAnimation,
@@ -72,16 +71,22 @@ class _AnimatedGameOverOverlayState extends State<AnimatedGameOverOverlay>
                 scale: _scaleAnimation,
                 child: Container(
                   width: 340,
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 32,
+                  ),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFFFF8E7), // Light sand color
+                    color: GameColors.sandLightUi, // Light sand color
                     borderRadius: BorderRadius.circular(24),
                     border: Border.all(
-                      color: const Color(0xFF3E2723), // Dark brown outline
+                      color: GameColors.brownDarkUi, // Dark brown outline
                       width: 3.5,
                     ),
                     boxShadow: const [
-                      BoxShadow(color: Color(0xFF3E2723), offset: Offset(0, 6)),
+                      BoxShadow(
+                        color: GameColors.brownDarkUi,
+                        offset: Offset(0, 6),
+                      ),
                     ],
                   ),
                   child: Column(
@@ -97,7 +102,7 @@ class _AnimatedGameOverOverlayState extends State<AnimatedGameOverOverlay>
                               foreground: Paint()
                                 ..style = PaintingStyle.stroke
                                 ..strokeWidth = 5
-                                ..color = const Color(0xFF3E2723),
+                                ..color = GameColors.brownDarkUi,
                               letterSpacing: 3.0,
                             ),
                           ),
@@ -106,7 +111,7 @@ class _AnimatedGameOverOverlayState extends State<AnimatedGameOverOverlay>
                             textAlign: TextAlign.center,
                             style: GoogleFonts.luckiestGuy(
                               fontSize: 38,
-                              color: const Color(0xFFFFB74D),
+                              color: GameColors.orangeTextUi,
                               letterSpacing: 3.0,
                             ),
                           ),
@@ -117,7 +122,7 @@ class _AnimatedGameOverOverlayState extends State<AnimatedGameOverOverlay>
                         'You lost all your lives\nor time ran out!',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.baloo2(
-                          color: const Color(0xFF3E2723),
+                          color: GameColors.brownDarkUi,
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
                           height: 1.2,
@@ -130,24 +135,33 @@ class _AnimatedGameOverOverlayState extends State<AnimatedGameOverOverlay>
                           GestureDetector(
                             onTap: _returnToLobby,
                             child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                                vertical: 12,
+                              ),
                               decoration: BoxDecoration(
-                                color: const Color(0xFFE57373), // Red
+                                color: GameColors.red300, // Red
                                 borderRadius: BorderRadius.circular(16),
-                                border: Border.all(color: const Color(0xFF3E2723), width: 3),
+                                border: Border.all(
+                                  color: GameColors.brownDarkUi,
+                                  width: 3,
+                                ),
                                 boxShadow: const [
-                                  BoxShadow(color: Color(0xFF3E2723), offset: Offset(0, 4)),
+                                  BoxShadow(
+                                    color: GameColors.brownDarkUi,
+                                    offset: Offset(0, 4),
+                                  ),
                                 ],
                               ),
                               child: Text(
                                 'LEAVE',
                                 style: GoogleFonts.luckiestGuy(
-                                  color: Colors.white,
+                                  color: GameColors.white,
                                   fontSize: 20,
                                   shadows: const [
                                     Shadow(
                                       offset: Offset(0, 2),
-                                      color: Color(0xFF3E2723),
+                                      color: GameColors.brownDarkUi,
                                     ),
                                   ],
                                 ),
@@ -157,24 +171,33 @@ class _AnimatedGameOverOverlayState extends State<AnimatedGameOverOverlay>
                           GestureDetector(
                             onTap: _restartLevel,
                             child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                                vertical: 12,
+                              ),
                               decoration: BoxDecoration(
-                                color: const Color(0xFF81C784), // Green
+                                color: GameColors.green300, // Green
                                 borderRadius: BorderRadius.circular(16),
-                                border: Border.all(color: const Color(0xFF3E2723), width: 3),
+                                border: Border.all(
+                                  color: GameColors.brownDarkUi,
+                                  width: 3,
+                                ),
                                 boxShadow: const [
-                                  BoxShadow(color: Color(0xFF3E2723), offset: Offset(0, 4)),
+                                  BoxShadow(
+                                    color: GameColors.brownDarkUi,
+                                    offset: Offset(0, 4),
+                                  ),
                                 ],
                               ),
                               child: Text(
                                 'RESTART',
                                 style: GoogleFonts.luckiestGuy(
-                                  color: Colors.white,
+                                  color: GameColors.white,
                                   fontSize: 20,
                                   shadows: const [
                                     Shadow(
                                       offset: Offset(0, 2),
-                                      color: Color(0xFF3E2723),
+                                      color: GameColors.brownDarkUi,
                                     ),
                                   ],
                                 ),

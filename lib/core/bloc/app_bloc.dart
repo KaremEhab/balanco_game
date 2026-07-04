@@ -11,10 +11,7 @@ class AppState extends Equatable {
     this.playerRole = 'BOTH', // 'LEFT', 'RIGHT', 'BOTH'
   });
 
-  AppState copyWith({
-    bool? isMultiplayer,
-    String? playerRole,
-  }) {
+  AppState copyWith({bool? isMultiplayer, String? playerRole}) {
     return AppState(
       isMultiplayer: isMultiplayer ?? this.isMultiplayer,
       playerRole: playerRole ?? this.playerRole,

@@ -15,6 +15,7 @@ import 'package:balanco_game/features/game/screens/game_controls_overlay.dart';
 import 'package:balanco_game/features/game/widgets/gameplay_header.dart';
 import 'package:balanco_game/core/widgets/parallax_background_widget.dart';
 import 'package:balanco_game/features/game/screens/overlays/time_stop_overlay.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class GamePlayOverlay extends StatefulWidget {
   final BalancoGame game;
@@ -38,7 +39,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
       context: context,
       barrierDismissible: false,
       barrierLabel: 'Dismiss',
-      barrierColor: Colors.black.withValues(alpha: 0.5),
+      barrierColor: GameColors.black.withValues(alpha: 0.5),
       transitionDuration: const Duration(milliseconds: 300),
       pageBuilder: (context, anim1, anim2) {
         return Center(
@@ -60,15 +61,15 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                       vertical: 32,
                     ),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFFFF8E7), // Light sand color
+                      color: GameColors.sandLightUi, // Light sand color
                       borderRadius: BorderRadius.circular(24),
                       border: Border.all(
-                        color: const Color(0xFF3E2723), // Dark brown outline
+                        color: GameColors.brownDarkUi, // Dark brown outline
                         width: 3.5,
                       ),
                       boxShadow: const [
                         BoxShadow(
-                          color: Color(0xFF3E2723),
+                          color: GameColors.brownDarkUi,
                           offset: Offset(0, 6),
                         ),
                       ],
@@ -86,7 +87,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                                 foreground: Paint()
                                   ..style = PaintingStyle.stroke
                                   ..strokeWidth = 5
-                                  ..color = const Color(0xFF3E2723),
+                                  ..color = GameColors.brownDarkUi,
                                 letterSpacing: 3.0,
                               ),
                             ),
@@ -132,14 +133,14 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                                 children: [
                                   const Icon(
                                     Icons.star_rounded,
-                                    color: Colors.amber,
+                                    color: GameColors.amber,
                                     size: 28,
                                   ),
                                   Text(
                                     'LVL ${widget.game.currentLevel.value}',
                                     style: GoogleFonts.luckiestGuy(
                                       fontSize: 18,
-                                      color: const Color(0xFF3E2723),
+                                      color: GameColors.brownDarkUi,
                                     ),
                                   ),
                                 ],
@@ -148,14 +149,14 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                                 children: [
                                   const Icon(
                                     Icons.emoji_events_rounded,
-                                    color: Colors.orange,
+                                    color: GameColors.orange,
                                     size: 28,
                                   ),
                                   Text(
                                     '${widget.game.currentScore.value}',
                                     style: GoogleFonts.luckiestGuy(
                                       fontSize: 18,
-                                      color: const Color(0xFF3E2723),
+                                      color: GameColors.brownDarkUi,
                                     ),
                                   ),
                                 ],
@@ -164,14 +165,14 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                                 children: [
                                   const Icon(
                                     Icons.favorite_rounded,
-                                    color: Colors.redAccent,
+                                    color: GameColors.redAccent,
                                     size: 28,
                                   ),
                                   Text(
                                     '${widget.game.currentLives.value}',
                                     style: GoogleFonts.luckiestGuy(
                                       fontSize: 18,
-                                      color: const Color(0xFF3E2723),
+                                      color: GameColors.brownDarkUi,
                                     ),
                                   ),
                                 ],
@@ -190,8 +191,8 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                             _buildRoundPauseButton(
                               icon: Icons.refresh_rounded,
                               label: 'RESTART',
-                              c1: const Color(0xFF81D4FA),
-                              c2: const Color(0xFF039BE5),
+                              c1: GameColors.lightBlue200,
+                              c2: GameColors.lightBlue600,
                               onTap: () {
                                 Navigator.pop(context); // Close the dialog
                                 widget.game.restartCurrentLevel();
@@ -202,8 +203,8 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                             _buildRoundPauseButton(
                               icon: Icons.home_rounded,
                               label: 'LOBBY',
-                              c1: const Color(0xFFD7CCC8),
-                              c2: const Color(0xFF8D6E63),
+                              c1: GameColors.brown100,
+                              c2: GameColors.brown400,
                               onTap: () {
                                 Navigator.pop(context); // close dialog
                                 Navigator.pop(context); // close game route
@@ -214,8 +215,8 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                             _buildRoundPauseButton(
                               icon: Icons.settings_rounded,
                               label: 'SETTINGS',
-                              c1: const Color(0xFFBDBDBD),
-                              c2: const Color(0xFF757575),
+                              c1: GameColors.gray400,
+                              c2: GameColors.gray600,
                               onTap: () {
                                 _showSettingsMenu();
                               },
@@ -225,8 +226,8 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                             _buildRoundPauseButton(
                               icon: Icons.play_arrow_rounded,
                               label: 'CONTINUE',
-                              c1: const Color(0xFFFFCA28),
-                              c2: const Color(0xFFFF8F00),
+                              c1: GameColors.amber400,
+                              c2: GameColors.amber800,
                               onTap: () {
                                 Navigator.pop(context);
                                 widget.game.resumeEngine();
@@ -257,7 +258,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
       context: context,
       barrierDismissible: true,
       barrierLabel: 'Dismiss',
-      barrierColor: Colors.black.withValues(alpha: 0.5),
+      barrierColor: GameColors.black.withValues(alpha: 0.5),
       transitionDuration: const Duration(milliseconds: 300),
       pageBuilder: (context, anim1, anim2) {
         return Center(
@@ -267,14 +268,17 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
               width: 320,
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 36),
               decoration: BoxDecoration(
-                color: const Color(0xFFFFF8E7), // Light sand color
+                color: GameColors.sandLightUi, // Light sand color
                 borderRadius: BorderRadius.circular(24),
                 border: Border.all(
-                  color: const Color(0xFF3E2723), // Dark brown outline
+                  color: GameColors.brownDarkUi, // Dark brown outline
                   width: 3.5,
                 ),
                 boxShadow: const [
-                  BoxShadow(color: Color(0xFF3E2723), offset: Offset(0, 6)),
+                  BoxShadow(
+                    color: GameColors.brownDarkUi,
+                    offset: Offset(0, 6),
+                  ),
                 ],
               ),
               child: StatefulBuilder(
@@ -292,7 +296,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                               foreground: Paint()
                                 ..style = PaintingStyle.stroke
                                 ..strokeWidth = 5
-                                ..color = const Color(0xFF3E2723),
+                                ..color = GameColors.brownDarkUi,
                               letterSpacing: 2.0,
                             ),
                           ),
@@ -301,7 +305,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                             textAlign: TextAlign.center,
                             style: GoogleFonts.luckiestGuy(
                               fontSize: 32,
-                              color: const Color(0xFFFFB74D),
+                              color: GameColors.orangeTextUi,
                               letterSpacing: 2.0,
                             ),
                           ),
@@ -322,21 +326,21 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                                   foreground: Paint()
                                     ..style = PaintingStyle.stroke
                                     ..strokeWidth = 3
-                                    ..color = const Color(0xFF3E2723),
+                                    ..color = GameColors.brownDarkUi,
                                 ),
                               ),
                               Text(
                                 'SOUND FX',
                                 style: GoogleFonts.luckiestGuy(
                                   fontSize: 20,
-                                  color: const Color(0xFFFFB74D),
+                                  color: GameColors.orangeTextUi,
                                 ),
                               ),
                             ],
                           ),
                           Switch(
                             value: AppSettings.soundEnabled.value,
-                            activeThumbColor: const Color(0xFFFFCA28),
+                            activeThumbColor: GameColors.amber400,
                             onChanged: (val) {
                               setDialogState(() {
                                 AppSettings.setSoundEnabled(val);
@@ -360,14 +364,14 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                                   foreground: Paint()
                                     ..style = PaintingStyle.stroke
                                     ..strokeWidth = 3
-                                    ..color = const Color(0xFF3E2723),
+                                    ..color = GameColors.brownDarkUi,
                                 ),
                               ),
                               Text(
                                 'JOYSTICK SENSITIVITY',
                                 style: GoogleFonts.luckiestGuy(
                                   fontSize: 20,
-                                  color: const Color(0xFFFFB74D),
+                                  color: GameColors.orangeTextUi,
                                 ),
                               ),
                             ],
@@ -375,13 +379,13 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                           const SizedBox(height: 8),
                           SliderTheme(
                             data: SliderTheme.of(context).copyWith(
-                              activeTrackColor: const Color(0xFFFFCA28),
-                              inactiveTrackColor: const Color(0xFFD7CCC8),
-                              thumbColor: const Color(0xFFFF8F00),
-                              overlayColor: const Color(0x33FF8F00),
+                              activeTrackColor: GameColors.amber400,
+                              inactiveTrackColor: GameColors.brown100,
+                              thumbColor: GameColors.amber800,
+                              overlayColor: GameColors.amber800Alpha20,
                               trackHeight: 8.0,
                               valueIndicatorTextStyle: GoogleFonts.luckiestGuy(
-                                color: Colors.white,
+                                color: GameColors.white,
                               ),
                             ),
                             child: Slider(
@@ -406,8 +410,8 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                       _buildRoundPauseButton(
                         icon: Icons.check_rounded,
                         label: 'DONE',
-                        c1: const Color(0xFF81C784),
-                        c2: const Color(0xFF388E3C),
+                        c1: GameColors.green300,
+                        c2: GameColors.green700,
                         onTap: () {
                           Navigator.pop(context);
                         },
@@ -448,18 +452,18 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
             decoration: BoxDecoration(
               color: c1, // Use the primary color
               shape: BoxShape.circle,
-              border: Border.all(color: const Color(0xFF3E2723), width: 3),
+              border: Border.all(color: GameColors.brownDarkUi, width: 3),
               boxShadow: const [
-                BoxShadow(color: Color(0xFF3E2723), offset: Offset(0, 4)),
+                BoxShadow(color: GameColors.brownDarkUi, offset: Offset(0, 4)),
               ],
             ),
             child: Center(
               child: Icon(
                 icon,
-                color: Colors.white,
+                color: GameColors.white,
                 size: size * 0.55,
                 shadows: const [
-                  Shadow(color: Color(0xFF3E2723), offset: Offset(0, 2)),
+                  Shadow(color: GameColors.brownDarkUi, offset: Offset(0, 2)),
                 ],
               ),
             ),
@@ -468,7 +472,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
           Text(
             label,
             style: GoogleFonts.luckiestGuy(
-              color: const Color(0xFF3E2723), // Dark brown
+              color: GameColors.brownDarkUi, // Dark brown
               fontSize: 13,
               letterSpacing: 1.0,
             ),
@@ -483,7 +487,10 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
     const double innerCornerRadius = 50.0;
 
     // --- GAMEPLAY CARD COLORS ---
-    const List<Color> cardBaseGradient = [Color(0xffF8AE00), Color(0xffE88000)];
+    const List<Color> cardBaseGradient = [
+      GameColors.gameStarGold,
+      GameColors.orangeBrightUi,
+    ];
     const List<Color> cardHighlightGradient = [
       Color.fromARGB(255, 255, 180, 80),
       Color.fromARGB(255, 229, 145, 49),
@@ -543,7 +550,9 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                                     sigmaY: 3.5,
                                   ),
                                   child: Container(
-                                    color: Colors.white.withValues(alpha: 0.2),
+                                    color: GameColors.white.withValues(
+                                      alpha: 0.2,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -591,7 +600,9 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                               bottom: -4000,
                               left: -4000,
                               right: -4000,
-                              child: FullScreenDarknessOverlay(game: widget.game),
+                              child: FullScreenDarknessOverlay(
+                                game: widget.game,
+                              ),
                             ),
 
                             // Top Header (Hearts, Energy, Stars)
@@ -629,7 +640,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                                     child: Icon(
                                       Icons
                                           .pause_rounded, // Iconly doesn't have a pause icon, using Material rounded
-                                      color: Colors.brown,
+                                      color: GameColors.brown,
                                       size: 45,
                                     ),
                                   ),
@@ -755,24 +766,28 @@ class DarknessPainter extends CustomPainter {
   final double opacity;
   final Offset spot;
   final double radius;
-  DarknessPainter({required this.opacity, required this.spot, required this.radius});
+  DarknessPainter({
+    required this.opacity,
+    required this.spot,
+    required this.radius,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
     canvas.saveLayer(Rect.fromLTWH(0, 0, size.width, size.height), Paint());
 
     final bgPaint = Paint()
-      ..color = const Color(0xFF0A0A1A).withValues(alpha: opacity);
+      ..color = GameColors.darknessOverlayBg.withValues(alpha: opacity);
     canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), bgPaint);
 
     final holePaint = Paint()
       ..blendMode = BlendMode.dstOut
       ..shader = RadialGradient(
         colors: [
-          Colors.black,
-          Colors.black,
-          Colors.black.withValues(alpha: 0.6),
-          Colors.black.withValues(alpha: 0.2),
+          GameColors.black,
+          GameColors.black,
+          GameColors.black.withValues(alpha: 0.6),
+          GameColors.black.withValues(alpha: 0.2),
           Colors.transparent,
         ],
         stops: const [0.0, 0.25, 0.45, 0.75, 1.0],
@@ -784,5 +799,7 @@ class DarknessPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(DarknessPainter oldDelegate) =>
-      opacity != oldDelegate.opacity || spot != oldDelegate.spot || radius != oldDelegate.radius;
+      opacity != oldDelegate.opacity ||
+      spot != oldDelegate.spot ||
+      radius != oldDelegate.radius;
 }

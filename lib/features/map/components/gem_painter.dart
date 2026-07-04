@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class GemPainter extends CustomPainter {
   @override
@@ -12,10 +13,10 @@ class GemPainter extends CustomPainter {
     path_0.close();
 
     // Add a small shadow behind the gem
-    canvas.drawShadow(path_0, Colors.black, 3.0, false);
+    canvas.drawShadow(path_0, GameColors.black, 3.0, false);
 
     Paint paint0Fill = Paint()..style = PaintingStyle.fill;
-    paint0Fill.color = Color(0xff63EAD1).withValues(alpha: 1.0);
+    paint0Fill.color = GameColors.gemPainterColor6.withValues(alpha: 1.0);
     canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
@@ -191,7 +192,7 @@ class GemPainter extends CustomPainter {
     path_2.close();
 
     Paint paint2Fill = Paint()..style = PaintingStyle.fill;
-    paint2Fill.color = Color(0xff50D5BC).withValues(alpha: 1.0);
+    paint2Fill.color = GameColors.gemPainterColor4.withValues(alpha: 1.0);
     canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
@@ -202,7 +203,7 @@ class GemPainter extends CustomPainter {
     path_3.close();
 
     Paint paint3Fill = Paint()..style = PaintingStyle.fill;
-    paint3Fill.color = Color(0xff77F9E1).withValues(alpha: 1.0);
+    paint3Fill.color = GameColors.mapAppBarTealAccent.withValues(alpha: 1.0);
     canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
@@ -234,7 +235,7 @@ class GemPainter extends CustomPainter {
     path_4.close();
 
     Paint paint4Fill = Paint()..style = PaintingStyle.fill;
-    paint4Fill.color = Color(0xffDFFFF9).withValues(alpha: 1.0);
+    paint4Fill.color = GameColors.gemPainterColor10.withValues(alpha: 1.0);
     canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
@@ -246,7 +247,7 @@ class GemPainter extends CustomPainter {
     path_5.close();
 
     Paint paint5Fill = Paint()..style = PaintingStyle.fill;
-    paint5Fill.color = Color(0xff5AD9C2).withValues(alpha: 1.0);
+    paint5Fill.color = GameColors.gemPainterColor5.withValues(alpha: 1.0);
     canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
@@ -258,7 +259,7 @@ class GemPainter extends CustomPainter {
     path_6.close();
 
     Paint paint6Fill = Paint()..style = PaintingStyle.fill;
-    paint6Fill.color = Color(0xff84F8E3).withValues(alpha: 1.0);
+    paint6Fill.color = GameColors.gemPainterColor8.withValues(alpha: 1.0);
     canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
@@ -269,7 +270,7 @@ class GemPainter extends CustomPainter {
     path_7.close();
 
     Paint paint7Fill = Paint()..style = PaintingStyle.fill;
-    paint7Fill.color = Color(0xff7AEED9).withValues(alpha: 1.0);
+    paint7Fill.color = GameColors.gemPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
@@ -280,7 +281,7 @@ class GemPainter extends CustomPainter {
     path_8.close();
 
     Paint paint8Fill = Paint()..style = PaintingStyle.fill;
-    paint8Fill.color = Color(0xffB1FFF1).withValues(alpha: 1.0);
+    paint8Fill.color = GameColors.gemPainterColor9.withValues(alpha: 1.0);
     canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
@@ -292,7 +293,7 @@ class GemPainter extends CustomPainter {
     path_9.close();
 
     Paint paint9Fill = Paint()..style = PaintingStyle.fill;
-    paint9Fill.color = Color(0xff2E90A6).withValues(alpha: 1.0);
+    paint9Fill.color = GameColors.gemPainterColor2.withValues(alpha: 1.0);
     canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
@@ -303,7 +304,7 @@ class GemPainter extends CustomPainter {
     path_10.close();
 
     Paint paint10Fill = Paint()..style = PaintingStyle.fill;
-    paint10Fill.color = Color(0xff4AACC2).withValues(alpha: 1.0);
+    paint10Fill.color = GameColors.mapAppBarCyanMedium.withValues(alpha: 1.0);
     canvas.drawPath(path_10, paint10Fill);
 
     Path path_11 = Path();
@@ -315,7 +316,7 @@ class GemPainter extends CustomPainter {
     path_11.close();
 
     Paint paint11Fill = Paint()..style = PaintingStyle.fill;
-    paint11Fill.color = Color(0xff1EB5AC).withValues(alpha: 1.0);
+    paint11Fill.color = GameColors.gemPainterColor1.withValues(alpha: 1.0);
     canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
@@ -326,7 +327,7 @@ class GemPainter extends CustomPainter {
     path_12.close();
 
     Paint paint12Fill = Paint()..style = PaintingStyle.fill;
-    paint12Fill.color = Color(0xff30CFC6).withValues(alpha: 1.0);
+    paint12Fill.color = GameColors.gemPainterColor3.withValues(alpha: 1.0);
     canvas.drawPath(path_12, paint12Fill);
 
     Path path_13 = Path();
@@ -351,7 +352,7 @@ class GemPainter extends CustomPainter {
     path_13.close();
 
     Paint paint13Fill = Paint()..style = PaintingStyle.fill;
-    paint13Fill.color = Color(0xffffffff).withValues(alpha: 1.0);
+    paint13Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_13, paint13Fill);
   }
 

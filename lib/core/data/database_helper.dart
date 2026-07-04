@@ -4,7 +4,9 @@ import 'package:flutter/foundation.dart'; // For compute()
 import 'package:balanco_game/core/data/models.dart';
 
 // Top-level function for Isolate computation
-List<LevelProgress> _parseLevelProgressList(List<Map<String, Object?>> jsonList) {
+List<LevelProgress> _parseLevelProgressList(
+  List<Map<String, Object?>> jsonList,
+) {
   return jsonList.map((json) => LevelProgress.fromMap(json)).toList();
 }
 
@@ -142,19 +144,14 @@ CREATE TABLE app_config (
 
   Future<void> saveConfig(String key, String value) async {
     final db = await instance.database;
-    await db.insert(
-      'app_config',
-      {'key': key, 'value': value},
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+    await db.insert('app_config', {
+      'key': key,
+      'value': value,
+    }, conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   Future<void> deleteConfig(String key) async {
     final db = await instance.database;
-    await db.delete(
-      'app_config',
-      where: 'key = ?',
-      whereArgs: [key],
-    );
+    await db.delete('app_config', where: 'key = ?', whereArgs: [key]);
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class MapHolePainter extends CustomPainter {
   final bool isUnlocked;
@@ -22,19 +23,19 @@ class MapHolePainter extends CustomPainter {
     // 1. The Deep Hole Background (Stepped Concentric Circles)
     List<Color> holeColors = !isUnlocked
         ? [
-            const Color(0xFF37474F),
-            const Color(0xFF263238),
-            const Color(0xFF101416),
-            const Color(0xFF000000),
-            const Color(0xFF000000),
+            GameColors.mapHolePainterColor2,
+            GameColors.blueGray900,
+            GameColors.mapHolePainterColor1,
+            GameColors.blackSolid,
+            GameColors.blackSolid,
           ] // Grey locked
         : [
-            const Color(0xFFA18764),
-            const Color(0xFF8A7456),
-            const Color(0xFF7B674D),
-            const Color(0xFF6F5E46),
-            const Color(0xFF665640),
-            const Color(0xFF58493A),
+            GameColors.woodLight,
+            GameColors.woodMedium,
+            GameColors.woodMediumDark,
+            GameColors.woodDark,
+            GameColors.woodVeryDark,
+            GameColors.woodDeep,
           ]; // Gold unlocked
 
     double step = trapInnerRadius / holeColors.length;
@@ -70,9 +71,9 @@ class MapHolePainter extends CustomPainter {
 
     Paint teethPaint = Paint();
     if (!isUnlocked) {
-      teethPaint.color = const Color(0xFF78909C);
+      teethPaint.color = GameColors.beachMapThemeColor3;
     } else {
-      teethPaint.color = const Color(0xFFFFDCB4);
+      teethPaint.color = GameColors.peachPuff;
     }
     canvas.drawPath(teethPath, teethPaint);
 
@@ -80,7 +81,7 @@ class MapHolePainter extends CustomPainter {
     Paint teethShadow = Paint()
       ..shader =
           RadialGradient(
-            colors: [Colors.black87, Colors.transparent],
+            colors: [GameColors.black87, Colors.transparent],
             stops: const [0.2, 1.0],
           ).createShader(
             Rect.fromCircle(center: Offset.zero, radius: trapInnerRadius),
@@ -89,18 +90,18 @@ class MapHolePainter extends CustomPainter {
 
     // 3. The Brass/Gold Ring
     Paint ringShadow = Paint()
-      ..color = Colors.black.withValues(alpha: 0.5)
+      ..color = GameColors.black.withValues(alpha: 0.5)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4.0);
     canvas.drawCircle(Offset.zero, radius, ringShadow); // Outer drop shadow
 
     Paint ringPaint = Paint();
     if (!isUnlocked) {
-      ringPaint.color = const Color(0xFF90A4AE);
+      ringPaint.color = GameColors.blueGray300;
     } else {
       ringPaint.shader = const LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
-        colors: [Color(0xFFFFDF7E), Color(0xFFB57D38)],
+        colors: [GameColors.goldenYellow, GameColors.goldenBrown],
       ).createShader(Rect.fromCircle(center: Offset.zero, radius: radius));
     }
 
@@ -114,14 +115,14 @@ class MapHolePainter extends CustomPainter {
     Paint outerEdgePaint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2.0
-      ..color = !isUnlocked ? const Color(0xFFCFD8DC) : const Color(0xFFFDEB82);
+      ..color = !isUnlocked ? GameColors.blueGray100 : GameColors.lightGold;
     canvas.drawCircle(Offset.zero, radius - 1.0, outerEdgePaint);
 
     // Subtle inner dark edge
     Paint innerEdgePaint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.5
-      ..color = Colors.black38;
+      ..color = GameColors.black38;
     canvas.drawCircle(Offset.zero, trapInnerRadius, innerEdgePaint);
 
     // 4. The Rivets
@@ -129,8 +130,10 @@ class MapHolePainter extends CustomPainter {
     double rivetRadius = (radius - trapInnerRadius) * 0.18;
 
     Paint rivetBasePaint = Paint()
-      ..color = !isUnlocked ? const Color(0xFF455A64) : const Color(0xFF9E7730);
-    Paint rivetHighlightPaint = Paint()..color = Colors.white54;
+      ..color = !isUnlocked
+          ? GameColors.mapHolePainterColor3
+          : GameColors.darkGold;
+    Paint rivetHighlightPaint = Paint()..color = GameColors.white54;
 
     for (int i = 0; i < numTeeth; i++) {
       // Offset the rivets to sit exactly between the teeth
@@ -159,7 +162,7 @@ class MapHolePainter extends CustomPainter {
             fontSize: size.width * 0.45,
             fontFamily: lockIcon.fontFamily,
             package: lockIcon.fontPackage,
-            color: Colors.white.withValues(alpha: 0.5),
+            color: GameColors.white.withValues(alpha: 0.5),
           ),
         ),
         textDirection: TextDirection.ltr,

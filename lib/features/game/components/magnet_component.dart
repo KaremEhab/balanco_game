@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:balanco_game/features/game/game_area.dart';
 import 'package:balanco_game/features/game/components/game_area/magnate_painter.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class MagnetComponent extends PositionComponent
     with HasGameReference<BalancoGame> {
@@ -29,7 +30,7 @@ class MagnetComponent extends PositionComponent
     super.onLoad();
 
     _dropShadowPaint = Paint()
-      ..color = Colors.black.withValues(alpha: 0.5)
+      ..color = GameColors.black.withValues(alpha: 0.5)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6.0);
 
     _fadePaint = Paint();
@@ -80,7 +81,7 @@ class MagnetComponent extends PositionComponent
     }
 
     if (fade < 1.0) {
-      _fadePaint.color = Colors.white.withValues(alpha: fade);
+      _fadePaint.color = GameColors.white.withValues(alpha: fade);
       canvas.saveLayer(
         Rect.fromCircle(center: Offset.zero, radius: 50 * pulseScale),
         _fadePaint,

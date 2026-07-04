@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class CloserSeaPainter extends CustomPainter {
   @override
@@ -13,7 +13,7 @@ class CloserSeaPainter extends CustomPainter {
     path_0.close();
 
     Paint paint0Fill = Paint()..style = PaintingStyle.fill;
-    paint0Fill.color = Color(0xffA8EEE9).withValues(alpha: 1.0);
+    paint0Fill.color = GameColors.seaPainterColor6.withValues(alpha: 1.0);
     canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
@@ -25,7 +25,7 @@ class CloserSeaPainter extends CustomPainter {
     path_1.close();
 
     Paint paint1Fill = Paint()..style = PaintingStyle.fill;
-    paint1Fill.color = Color(0xffA8EEE9).withValues(alpha: 1.0);
+    paint1Fill.color = GameColors.seaPainterColor6.withValues(alpha: 1.0);
     canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
@@ -37,7 +37,7 @@ class CloserSeaPainter extends CustomPainter {
     path_2.close();
 
     Paint paint2Fill = Paint()..style = PaintingStyle.fill;
-    paint2Fill.color = Color(0xff7DDDD9).withValues(alpha: 1.0);
+    paint2Fill.color = GameColors.seaPainterColor4.withValues(alpha: 1.0);
     canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
@@ -48,7 +48,7 @@ class CloserSeaPainter extends CustomPainter {
     path_3.close();
 
     Paint paint3Fill = Paint()..style = PaintingStyle.fill;
-    paint3Fill.color = Color(0xffA8EEE9).withValues(alpha: 1.0);
+    paint3Fill.color = GameColors.seaPainterColor6.withValues(alpha: 1.0);
     canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
@@ -86,7 +86,7 @@ class CloserSeaPainter extends CustomPainter {
     path_4.close();
 
     Paint paint4Fill = Paint()..style = PaintingStyle.fill;
-    paint4Fill.color = Color(0xff00B5B3).withValues(alpha: 1.0);
+    paint4Fill.color = GameColors.seaPainterColor1.withValues(alpha: 1.0);
     canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
@@ -97,7 +97,7 @@ class CloserSeaPainter extends CustomPainter {
     path_5.close();
 
     Paint paint5Fill = Paint()..style = PaintingStyle.fill;
-    paint5Fill.color = Color(0xff9EEAE5).withValues(alpha: 1.0);
+    paint5Fill.color = GameColors.seaPainterColor5.withValues(alpha: 1.0);
     canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
@@ -113,7 +113,7 @@ class CloserSeaPainter extends CustomPainter {
     path_6.close();
 
     Paint paint6Fill = Paint()..style = PaintingStyle.fill;
-    paint6Fill.color = Color(0xff7DDDD9).withValues(alpha: 1.0);
+    paint6Fill.color = GameColors.seaPainterColor4.withValues(alpha: 1.0);
     canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
@@ -124,7 +124,7 @@ class CloserSeaPainter extends CustomPainter {
     path_7.close();
 
     Paint paint7Fill = Paint()..style = PaintingStyle.fill;
-    paint7Fill.color = Color(0xffA8EEE9).withValues(alpha: 1.0);
+    paint7Fill.color = GameColors.seaPainterColor6.withValues(alpha: 1.0);
     canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
@@ -135,7 +135,7 @@ class CloserSeaPainter extends CustomPainter {
     path_8.close();
 
     Paint paint8Fill = Paint()..style = PaintingStyle.fill;
-    paint8Fill.color = Color(0xff4BB7C7).withValues(alpha: 1.0);
+    paint8Fill.color = GameColors.seaPainterColor3.withValues(alpha: 1.0);
     canvas.drawPath(path_8, paint8Fill);
   }
 
@@ -149,8 +149,11 @@ class FurtherSeaPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     canvas.save();
-    canvas.scale(size.width / 1000.0, 1.0); // Make the sea stretch horizontally to the requested width
-    
+    canvas.scale(
+      size.width / 1000.0,
+      1.0,
+    ); // Make the sea stretch horizontally to the requested width
+
     Path path_0 = Path();
     path_0.moveTo(0, 96.105);
     path_0.lineTo(1000, 96.105);
@@ -160,7 +163,7 @@ class FurtherSeaPainter extends CustomPainter {
     path_0.close();
 
     Paint paint0Fill = Paint()..style = PaintingStyle.fill;
-    paint0Fill.color = Color(0xffA8EEE9).withValues(alpha: 1.0);
+    paint0Fill.color = GameColors.seaPainterColor6.withValues(alpha: 1.0);
     canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
@@ -172,7 +175,7 @@ class FurtherSeaPainter extends CustomPainter {
     path_1.close();
 
     Paint paint1Fill = Paint()..style = PaintingStyle.fill;
-    paint1Fill.color = Color(0xffA8EEE9).withValues(alpha: 1.0);
+    paint1Fill.color = GameColors.seaPainterColor6.withValues(alpha: 1.0);
     canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
@@ -184,7 +187,7 @@ class FurtherSeaPainter extends CustomPainter {
     path_2.close();
 
     Paint paint2Fill = Paint()..style = PaintingStyle.fill;
-    paint2Fill.color = Color(0xff7DDDD9).withValues(alpha: 1.0);
+    paint2Fill.color = GameColors.seaPainterColor4.withValues(alpha: 1.0);
     canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
@@ -195,7 +198,7 @@ class FurtherSeaPainter extends CustomPainter {
     path_3.close();
 
     Paint paint3Fill = Paint()..style = PaintingStyle.fill;
-    paint3Fill.color = Color(0xffA8EEE9).withValues(alpha: 1.0);
+    paint3Fill.color = GameColors.seaPainterColor6.withValues(alpha: 1.0);
     canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
@@ -206,7 +209,7 @@ class FurtherSeaPainter extends CustomPainter {
     path_4.close();
 
     Paint paint4Fill = Paint()..style = PaintingStyle.fill;
-    paint4Fill.color = Color(0xff00B5B3).withValues(alpha: 1.0);
+    paint4Fill.color = GameColors.seaPainterColor1.withValues(alpha: 1.0);
     canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
@@ -218,7 +221,7 @@ class FurtherSeaPainter extends CustomPainter {
     path_5.close();
 
     Paint paint5Fill = Paint()..style = PaintingStyle.fill;
-    paint5Fill.color = Color(0xff7DDDD9).withValues(alpha: 1.0);
+    paint5Fill.color = GameColors.seaPainterColor4.withValues(alpha: 1.0);
     canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
@@ -234,7 +237,7 @@ class FurtherSeaPainter extends CustomPainter {
     path_6.close();
 
     Paint paint6Fill = Paint()..style = PaintingStyle.fill;
-    paint6Fill.color = Color(0xff9EEAE5).withValues(alpha: 1.0);
+    paint6Fill.color = GameColors.seaPainterColor5.withValues(alpha: 1.0);
     canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
@@ -245,7 +248,7 @@ class FurtherSeaPainter extends CustomPainter {
     path_7.close();
 
     Paint paint7Fill = Paint()..style = PaintingStyle.fill;
-    paint7Fill.color = Color(0xff7DDDD9).withValues(alpha: 1.0);
+    paint7Fill.color = GameColors.seaPainterColor4.withValues(alpha: 1.0);
     canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
@@ -256,7 +259,7 @@ class FurtherSeaPainter extends CustomPainter {
     path_8.close();
 
     Paint paint8Fill = Paint()..style = PaintingStyle.fill;
-    paint8Fill.color = Color(0xffA8EEE9).withValues(alpha: 1.0);
+    paint8Fill.color = GameColors.seaPainterColor6.withValues(alpha: 1.0);
     canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
@@ -267,9 +270,9 @@ class FurtherSeaPainter extends CustomPainter {
     path_9.close();
 
     Paint paint9Fill = Paint()..style = PaintingStyle.fill;
-    paint9Fill.color = Color(0xff4BB7C7).withValues(alpha: 1.0);
+    paint9Fill.color = GameColors.seaPainterColor3.withValues(alpha: 1.0);
     canvas.drawPath(path_9, paint9Fill);
-    
+
     canvas.restore();
   }
 
@@ -1248,7 +1251,7 @@ class SeaWaterDropsPainter extends CustomPainter {
     path_0.close();
 
     Paint paint0Fill = Paint()..style = PaintingStyle.fill;
-    paint0Fill.color = Color(0xffF1FCFF).withValues(alpha: 1.0);
+    paint0Fill.color = GameColors.seaPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
@@ -1291,7 +1294,7 @@ class SeaWaterDropsPainter extends CustomPainter {
     path_1.close();
 
     Paint paint1Fill = Paint()..style = PaintingStyle.fill;
-    paint1Fill.color = Color(0xffF1FCFF).withValues(alpha: 1.0);
+    paint1Fill.color = GameColors.seaPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
@@ -2252,7 +2255,7 @@ class SeaWaterDropsPainter extends CustomPainter {
     path_2.close();
 
     Paint paint2Fill = Paint()..style = PaintingStyle.fill;
-    paint2Fill.color = Color(0xffF1FCFF).withValues(alpha: 1.0);
+    paint2Fill.color = GameColors.seaPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
@@ -2354,7 +2357,7 @@ class SeaWaterDropsPainter extends CustomPainter {
     path_3.close();
 
     Paint paint3Fill = Paint()..style = PaintingStyle.fill;
-    paint3Fill.color = Color(0xffF1FCFF).withValues(alpha: 1.0);
+    paint3Fill.color = GameColors.seaPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
@@ -2840,7 +2843,7 @@ class SeaWaterDropsPainter extends CustomPainter {
     path_4.close();
 
     Paint paint4Fill = Paint()..style = PaintingStyle.fill;
-    paint4Fill.color = Color(0xffF1FCFF).withValues(alpha: 1.0);
+    paint4Fill.color = GameColors.seaPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
@@ -2884,7 +2887,7 @@ class SeaWaterDropsPainter extends CustomPainter {
     path_5.close();
 
     Paint paint5Fill = Paint()..style = PaintingStyle.fill;
-    paint5Fill.color = Color(0xffF1FCFF).withValues(alpha: 1.0);
+    paint5Fill.color = GameColors.seaPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
@@ -3727,7 +3730,7 @@ class SeaWaterDropsPainter extends CustomPainter {
     path_6.close();
 
     Paint paint6Fill = Paint()..style = PaintingStyle.fill;
-    paint6Fill.color = Color(0xffF1FCFF).withValues(alpha: 1.0);
+    paint6Fill.color = GameColors.seaPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
@@ -3828,7 +3831,7 @@ class SeaWaterDropsPainter extends CustomPainter {
     path_7.close();
 
     Paint paint7Fill = Paint()..style = PaintingStyle.fill;
-    paint7Fill.color = Color(0xffF1FCFF).withValues(alpha: 1.0);
+    paint7Fill.color = GameColors.seaPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
@@ -4277,7 +4280,7 @@ class SeaWaterDropsPainter extends CustomPainter {
     path_8.close();
 
     Paint paint8Fill = Paint()..style = PaintingStyle.fill;
-    paint8Fill.color = Color(0xffF1FCFF).withValues(alpha: 1.0);
+    paint8Fill.color = GameColors.seaPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
@@ -4479,7 +4482,7 @@ class SeaWaterDropsPainter extends CustomPainter {
     path_9.close();
 
     Paint paint9Fill = Paint()..style = PaintingStyle.fill;
-    paint9Fill.color = Color(0xffF1FCFF).withValues(alpha: 1.0);
+    paint9Fill.color = GameColors.seaPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
@@ -4647,7 +4650,7 @@ class SeaWaterDropsPainter extends CustomPainter {
     path_10.close();
 
     Paint paint10Fill = Paint()..style = PaintingStyle.fill;
-    paint10Fill.color = Color(0xffF1FCFF).withValues(alpha: 1.0);
+    paint10Fill.color = GameColors.seaPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_10, paint10Fill);
 
     Path path_11 = Path();
@@ -5316,7 +5319,7 @@ class SeaWaterDropsPainter extends CustomPainter {
     path_11.close();
 
     Paint paint11Fill = Paint()..style = PaintingStyle.fill;
-    paint11Fill.color = Color(0xffF1FCFF).withValues(alpha: 1.0);
+    paint11Fill.color = GameColors.seaPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
@@ -5380,7 +5383,7 @@ class SeaWaterDropsPainter extends CustomPainter {
     path_12.close();
 
     Paint paint12Fill = Paint()..style = PaintingStyle.fill;
-    paint12Fill.color = Color(0xffF1FCFF).withValues(alpha: 1.0);
+    paint12Fill.color = GameColors.seaPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_12, paint12Fill);
 
     Path path_13 = Path();
@@ -5910,7 +5913,7 @@ class SeaWaterDropsPainter extends CustomPainter {
     path_13.close();
 
     Paint paint13Fill = Paint()..style = PaintingStyle.fill;
-    paint13Fill.color = Color(0xffF1FCFF).withValues(alpha: 1.0);
+    paint13Fill.color = GameColors.seaPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_13, paint13Fill);
 
     Path path_14 = Path();
@@ -6012,7 +6015,7 @@ class SeaWaterDropsPainter extends CustomPainter {
     path_14.close();
 
     Paint paint14Fill = Paint()..style = PaintingStyle.fill;
-    paint14Fill.color = Color(0xffF1FCFF).withValues(alpha: 1.0);
+    paint14Fill.color = GameColors.seaPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_14, paint14Fill);
 
     Path path_15 = Path();
@@ -6399,7 +6402,7 @@ class SeaWaterDropsPainter extends CustomPainter {
     path_15.close();
 
     Paint paint15Fill = Paint()..style = PaintingStyle.fill;
-    paint15Fill.color = Color(0xffF1FCFF).withValues(alpha: 1.0);
+    paint15Fill.color = GameColors.seaPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_15, paint15Fill);
 
     Path path_16 = Path();
@@ -6450,7 +6453,7 @@ class SeaWaterDropsPainter extends CustomPainter {
     path_16.close();
 
     Paint paint16Fill = Paint()..style = PaintingStyle.fill;
-    paint16Fill.color = Color(0xffF1FCFF).withValues(alpha: 1.0);
+    paint16Fill.color = GameColors.seaPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_16, paint16Fill);
 
     Path path_17 = Path();
@@ -7374,7 +7377,7 @@ class SeaWaterDropsPainter extends CustomPainter {
     path_17.close();
 
     Paint paint17Fill = Paint()..style = PaintingStyle.fill;
-    paint17Fill.color = Color(0xffF1FCFF).withValues(alpha: 1.0);
+    paint17Fill.color = GameColors.seaPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_17, paint17Fill);
 
     Path path_18 = Path();
@@ -7787,7 +7790,7 @@ class SeaWaterDropsPainter extends CustomPainter {
     path_18.close();
 
     Paint paint18Fill = Paint()..style = PaintingStyle.fill;
-    paint18Fill.color = Color(0xffF1FCFF).withValues(alpha: 1.0);
+    paint18Fill.color = GameColors.seaPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_18, paint18Fill);
 
     Path path_19 = Path();
@@ -9630,7 +9633,7 @@ class SeaWaterDropsPainter extends CustomPainter {
     path_19.close();
 
     Paint paint19Fill = Paint()..style = PaintingStyle.fill;
-    paint19Fill.color = Color(0xffF1FCFF).withValues(alpha: 1.0);
+    paint19Fill.color = GameColors.seaPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_19, paint19Fill);
 
     Path path_20 = Path();
@@ -9694,7 +9697,7 @@ class SeaWaterDropsPainter extends CustomPainter {
     path_20.close();
 
     Paint paint20Fill = Paint()..style = PaintingStyle.fill;
-    paint20Fill.color = Color(0xffF1FCFF).withValues(alpha: 1.0);
+    paint20Fill.color = GameColors.seaPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_20, paint20Fill);
 
     Path path_21 = Path();
@@ -10472,7 +10475,7 @@ class SeaWaterDropsPainter extends CustomPainter {
     path_21.close();
 
     Paint paint21Fill = Paint()..style = PaintingStyle.fill;
-    paint21Fill.color = Color(0xffF1FCFF).withValues(alpha: 1.0);
+    paint21Fill.color = GameColors.seaPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_21, paint21Fill);
 
     Path path_22 = Path();
@@ -10515,7 +10518,7 @@ class SeaWaterDropsPainter extends CustomPainter {
     path_22.close();
 
     Paint paint22Fill = Paint()..style = PaintingStyle.fill;
-    paint22Fill.color = Color(0xffF1FCFF).withValues(alpha: 1.0);
+    paint22Fill.color = GameColors.seaPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_22, paint22Fill);
 
     Path path_23 = Path();
@@ -10573,7 +10576,7 @@ class SeaWaterDropsPainter extends CustomPainter {
     path_23.close();
 
     Paint paint23Fill = Paint()..style = PaintingStyle.fill;
-    paint23Fill.color = Color(0xffF1FCFF).withValues(alpha: 1.0);
+    paint23Fill.color = GameColors.seaPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_23, paint23Fill);
 
     Path path_24 = Path();
@@ -10834,7 +10837,7 @@ class SeaWaterDropsPainter extends CustomPainter {
     path_24.close();
 
     Paint paint24Fill = Paint()..style = PaintingStyle.fill;
-    paint24Fill.color = Color(0xffF1FCFF).withValues(alpha: 1.0);
+    paint24Fill.color = GameColors.seaPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_24, paint24Fill);
 
     Path path_25 = Path();
@@ -10988,7 +10991,7 @@ class SeaWaterDropsPainter extends CustomPainter {
     path_25.close();
 
     Paint paint25Fill = Paint()..style = PaintingStyle.fill;
-    paint25Fill.color = Color(0xffF1FCFF).withValues(alpha: 1.0);
+    paint25Fill.color = GameColors.seaPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_25, paint25Fill);
 
     Path path_26 = Path();
@@ -11712,7 +11715,7 @@ class SeaWaterDropsPainter extends CustomPainter {
     path_26.close();
 
     Paint paint26Fill = Paint()..style = PaintingStyle.fill;
-    paint26Fill.color = Color(0xffF1FCFF).withValues(alpha: 1.0);
+    paint26Fill.color = GameColors.seaPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_26, paint26Fill);
 
     Path path_27 = Path();
@@ -12081,7 +12084,7 @@ class SeaWaterDropsPainter extends CustomPainter {
     path_27.close();
 
     Paint paint27Fill = Paint()..style = PaintingStyle.fill;
-    paint27Fill.color = Color(0xffF1FCFF).withValues(alpha: 1.0);
+    paint27Fill.color = GameColors.seaPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_27, paint27Fill);
 
     Path path_28 = Path();
@@ -12131,7 +12134,7 @@ class SeaWaterDropsPainter extends CustomPainter {
     path_28.close();
 
     Paint paint28Fill = Paint()..style = PaintingStyle.fill;
-    paint28Fill.color = Color(0xffF1FCFF).withValues(alpha: 1.0);
+    paint28Fill.color = GameColors.seaPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_28, paint28Fill);
 
     Path path_29 = Path();
@@ -12778,7 +12781,7 @@ class SeaWaterDropsPainter extends CustomPainter {
     path_29.close();
 
     Paint paint29Fill = Paint()..style = PaintingStyle.fill;
-    paint29Fill.color = Color(0xffF1FCFF).withValues(alpha: 1.0);
+    paint29Fill.color = GameColors.seaPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_29, paint29Fill);
 
     Path path_30 = Path();
@@ -12956,7 +12959,7 @@ class SeaWaterDropsPainter extends CustomPainter {
     path_30.close();
 
     Paint paint30Fill = Paint()..style = PaintingStyle.fill;
-    paint30Fill.color = Color(0xffF1FCFF).withValues(alpha: 1.0);
+    paint30Fill.color = GameColors.seaPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_30, paint30Fill);
 
     Path path_31 = Path();
@@ -13417,7 +13420,7 @@ class SeaWaterDropsPainter extends CustomPainter {
     path_31.close();
 
     Paint paint31Fill = Paint()..style = PaintingStyle.fill;
-    paint31Fill.color = Color(0xffF1FCFF).withValues(alpha: 1.0);
+    paint31Fill.color = GameColors.seaPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_31, paint31Fill);
   }
 
@@ -13439,7 +13442,7 @@ class MountainSeaShadowsPainter extends CustomPainter {
     path_0.close();
 
     Paint paint0Fill = Paint()..style = PaintingStyle.fill;
-    paint0Fill.color = Color(0xff0494A4).withValues(alpha: 1.0);
+    paint0Fill.color = GameColors.seaPainterColor2.withValues(alpha: 1.0);
     canvas.drawPath(path_0, paint0Fill);
   }
 
@@ -14254,7 +14257,7 @@ class SeaMountainWaves extends CustomPainter {
     path_0.close();
 
     Paint paint0Fill = Paint()..style = PaintingStyle.fill;
-    paint0Fill.color = Color(0xffffffff).withValues(alpha: 1.0);
+    paint0Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
@@ -15176,7 +15179,7 @@ class SeaMountainWaves extends CustomPainter {
     path_1.close();
 
     Paint paint1Fill = Paint()..style = PaintingStyle.fill;
-    paint1Fill.color = Color(0xffffffff).withValues(alpha: 1.0);
+    paint1Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
@@ -15212,7 +15215,7 @@ class SeaMountainWaves extends CustomPainter {
     path_2.close();
 
     Paint paint2Fill = Paint()..style = PaintingStyle.fill;
-    paint2Fill.color = Color(0xffffffff).withValues(alpha: 1.0);
+    paint2Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
@@ -16063,7 +16066,7 @@ class SeaMountainWaves extends CustomPainter {
     path_3.close();
 
     Paint paint3Fill = Paint()..style = PaintingStyle.fill;
-    paint3Fill.color = Color(0xffffffff).withValues(alpha: 1.0);
+    paint3Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
@@ -16743,7 +16746,7 @@ class SeaMountainWaves extends CustomPainter {
     path_4.close();
 
     Paint paint4Fill = Paint()..style = PaintingStyle.fill;
-    paint4Fill.color = Color(0xffffffff).withValues(alpha: 1.0);
+    paint4Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
@@ -17343,7 +17346,7 @@ class SeaMountainWaves extends CustomPainter {
     path_5.close();
 
     Paint paint5Fill = Paint()..style = PaintingStyle.fill;
-    paint5Fill.color = Color(0xffffffff).withValues(alpha: 1.0);
+    paint5Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
@@ -20441,7 +20444,7 @@ class SeaMountainWaves extends CustomPainter {
     path_6.close();
 
     Paint paint6Fill = Paint()..style = PaintingStyle.fill;
-    paint6Fill.color = Color(0xffffffff).withValues(alpha: 1.0);
+    paint6Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
@@ -20478,7 +20481,7 @@ class SeaMountainWaves extends CustomPainter {
     path_7.close();
 
     Paint paint7Fill = Paint()..style = PaintingStyle.fill;
-    paint7Fill.color = Color(0xffffffff).withValues(alpha: 1.0);
+    paint7Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
@@ -20857,7 +20860,7 @@ class SeaMountainWaves extends CustomPainter {
     path_8.close();
 
     Paint paint8Fill = Paint()..style = PaintingStyle.fill;
-    paint8Fill.color = Color(0xffffffff).withValues(alpha: 1.0);
+    paint8Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
@@ -21162,7 +21165,7 @@ class SeaMountainWaves extends CustomPainter {
     path_9.close();
 
     Paint paint9Fill = Paint()..style = PaintingStyle.fill;
-    paint9Fill.color = Color(0xffffffff).withValues(alpha: 1.0);
+    paint9Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
@@ -21206,7 +21209,7 @@ class SeaMountainWaves extends CustomPainter {
     path_10.close();
 
     Paint paint10Fill = Paint()..style = PaintingStyle.fill;
-    paint10Fill.color = Color(0xffffffff).withValues(alpha: 1.0);
+    paint10Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_10, paint10Fill);
 
     Path path_11 = Path();
@@ -21230,7 +21233,7 @@ class SeaMountainWaves extends CustomPainter {
     path_11.close();
 
     Paint paint11Fill = Paint()..style = PaintingStyle.fill;
-    paint11Fill.color = Color(0xffffffff).withValues(alpha: 1.0);
+    paint11Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
@@ -22136,7 +22139,7 @@ class SeaMountainWaves extends CustomPainter {
     path_12.close();
 
     Paint paint12Fill = Paint()..style = PaintingStyle.fill;
-    paint12Fill.color = Color(0xffffffff).withValues(alpha: 1.0);
+    paint12Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_12, paint12Fill);
 
     Path path_13 = Path();
@@ -22191,7 +22194,7 @@ class SeaMountainWaves extends CustomPainter {
     path_13.close();
 
     Paint paint13Fill = Paint()..style = PaintingStyle.fill;
-    paint13Fill.color = Color(0xffffffff).withValues(alpha: 1.0);
+    paint13Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_13, paint13Fill);
 
     Path path_14 = Path();
@@ -22728,7 +22731,7 @@ class SeaMountainWaves extends CustomPainter {
     path_14.close();
 
     Paint paint14Fill = Paint()..style = PaintingStyle.fill;
-    paint14Fill.color = Color(0xffffffff).withValues(alpha: 1.0);
+    paint14Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_14, paint14Fill);
 
     Path path_15 = Path();
@@ -22779,7 +22782,7 @@ class SeaMountainWaves extends CustomPainter {
     path_15.close();
 
     Paint paint15Fill = Paint()..style = PaintingStyle.fill;
-    paint15Fill.color = Color(0xffffffff).withValues(alpha: 1.0);
+    paint15Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_15, paint15Fill);
 
     Path path_16 = Path();
@@ -23119,7 +23122,7 @@ class SeaMountainWaves extends CustomPainter {
     path_16.close();
 
     Paint paint16Fill = Paint()..style = PaintingStyle.fill;
-    paint16Fill.color = Color(0xffffffff).withValues(alpha: 1.0);
+    paint16Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_16, paint16Fill);
 
     Path path_17 = Path();
@@ -23964,7 +23967,7 @@ class SeaMountainWaves extends CustomPainter {
     path_17.close();
 
     Paint paint17Fill = Paint()..style = PaintingStyle.fill;
-    paint17Fill.color = Color(0xffffffff).withValues(alpha: 1.0);
+    paint17Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_17, paint17Fill);
 
     Path path_18 = Path();
@@ -24052,7 +24055,7 @@ class SeaMountainWaves extends CustomPainter {
     path_18.close();
 
     Paint paint18Fill = Paint()..style = PaintingStyle.fill;
-    paint18Fill.color = Color(0xffffffff).withValues(alpha: 1.0);
+    paint18Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_18, paint18Fill);
 
     Path path_19 = Path();
@@ -24908,7 +24911,7 @@ class SeaMountainWaves extends CustomPainter {
     path_19.close();
 
     Paint paint19Fill = Paint()..style = PaintingStyle.fill;
-    paint19Fill.color = Color(0xffffffff).withValues(alpha: 1.0);
+    paint19Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_19, paint19Fill);
 
     Path path_20 = Path();
@@ -25338,7 +25341,7 @@ class SeaMountainWaves extends CustomPainter {
     path_20.close();
 
     Paint paint20Fill = Paint()..style = PaintingStyle.fill;
-    paint20Fill.color = Color(0xffffffff).withValues(alpha: 1.0);
+    paint20Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_20, paint20Fill);
 
     Path path_21 = Path();
@@ -25375,7 +25378,7 @@ class SeaMountainWaves extends CustomPainter {
     path_21.close();
 
     Paint paint21Fill = Paint()..style = PaintingStyle.fill;
-    paint21Fill.color = Color(0xffffffff).withValues(alpha: 1.0);
+    paint21Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_21, paint21Fill);
 
     Path path_22 = Path();
@@ -25719,7 +25722,7 @@ class SeaMountainWaves extends CustomPainter {
     path_22.close();
 
     Paint paint22Fill = Paint()..style = PaintingStyle.fill;
-    paint22Fill.color = Color(0xffffffff).withValues(alpha: 1.0);
+    paint22Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_22, paint22Fill);
   }
 

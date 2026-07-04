@@ -1,31 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class AppTheme {
   static ThemeData get lightTheme {
     return ThemeData(
       brightness: Brightness.light,
-      primarySwatch: Colors.blue,
-      scaffoldBackgroundColor: const Color(0xFFF0F2F5),
+      primarySwatch: GameColors.blue,
+      scaffoldBackgroundColor: GameColors.appThemeColor1,
       colorScheme: const ColorScheme.light(
-        primary: Colors.blueAccent,
-        secondary: Colors.orangeAccent,
-        surface: Colors.white,
-        onSurface: Colors.black87,
-        error: Colors.redAccent,
+        primary: GameColors.blueAccent,
+        secondary: GameColors.orangeAccent,
+        surface: GameColors.white,
+        onSurface: GameColors.black87,
+        error: GameColors.redAccent,
       ),
       textTheme: GoogleFonts.robotoTextTheme().apply(
-        bodyColor: Colors.black87,
-        displayColor: Colors.black,
+        bodyColor: GameColors.black87,
+        displayColor: GameColors.black,
       ),
-      iconTheme: const IconThemeData(
-        color: Colors.black87,
-      ),
+      iconTheme: const IconThemeData(color: GameColors.black87),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.blueAccent,
-          foregroundColor: Colors.white,
+          backgroundColor: GameColors.blueAccent,
+          foregroundColor: GameColors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),

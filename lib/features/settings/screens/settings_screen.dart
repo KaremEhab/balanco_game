@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:balanco_game/core/data/app_settings.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class SettingsScreen extends StatelessWidget {
   final ScrollController scrollController;
@@ -12,16 +13,19 @@ class SettingsScreen extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: disabled
-            ? const Color(0xFFD6D6D6)
-            : const Color(0xFFFFF8E7), // Light sand color
+            ? GameColors.modesScreenColor3
+            : GameColors.sandLightUi, // Light sand color
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: const Color(0xFF3E2723), // Dark brown outline
+          color: GameColors.brownDarkUi, // Dark brown outline
           width: 3.5,
         ),
         boxShadow: [
           if (!disabled)
-            const BoxShadow(color: Color(0xFF3E2723), offset: Offset(0, 6)),
+            const BoxShadow(
+              color: GameColors.brownDarkUi,
+              offset: Offset(0, 6),
+            ),
         ],
       ),
       child: Opacity(opacity: disabled ? 0.6 : 1.0, child: child),
@@ -40,14 +44,14 @@ class SettingsScreen extends StatelessWidget {
               foreground: Paint()
                 ..style = PaintingStyle.stroke
                 ..strokeWidth = 4
-                ..color = const Color(0xFF3E2723),
+                ..color = GameColors.brownDarkUi,
               letterSpacing: 2,
             ),
           ),
           Text(
             title,
             style: GoogleFonts.luckiestGuy(
-              color: const Color(0xFFFFB74D), // Vibrant orange/sand
+              color: GameColors.orangeTextUi, // Vibrant orange/sand
               fontSize: 22,
               letterSpacing: 2,
             ),
@@ -75,12 +79,15 @@ class SettingsScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 color: iconColor,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: const Color(0xFF3E2723), width: 2),
+                border: Border.all(color: GameColors.brownDarkUi, width: 2),
                 boxShadow: const [
-                  BoxShadow(color: Color(0xFF3E2723), offset: Offset(0, 3)),
+                  BoxShadow(
+                    color: GameColors.brownDarkUi,
+                    offset: Offset(0, 3),
+                  ),
                 ],
               ),
-              child: Icon(icon, size: 28, color: Colors.white),
+              child: Icon(icon, size: 28, color: GameColors.white),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -90,7 +97,7 @@ class SettingsScreen extends StatelessWidget {
                   Text(
                     title,
                     style: GoogleFonts.luckiestGuy(
-                      color: const Color(0xFF3E2723),
+                      color: GameColors.brownDarkUi,
                       fontSize: 18,
                       letterSpacing: 1,
                     ),
@@ -99,7 +106,7 @@ class SettingsScreen extends StatelessWidget {
                   Text(
                     subtitle,
                     style: const TextStyle(
-                      color: Colors.black87,
+                      color: GameColors.black87,
                       fontSize: 13,
                       fontWeight: FontWeight.bold,
                     ),
@@ -112,14 +119,14 @@ class SettingsScreen extends StatelessWidget {
               child: Switch(
                 value: value,
                 onChanged: onChanged,
-                activeThumbColor: Colors.white,
-                activeTrackColor: const Color(0xFF4CAF50),
-                inactiveThumbColor: Colors.white,
-                inactiveTrackColor: const Color(0xFFE0E0E0),
+                activeThumbColor: GameColors.white,
+                activeTrackColor: GameColors.settingsScreenColor1,
+                inactiveThumbColor: GameColors.white,
+                inactiveTrackColor: GameColors.gray300,
                 trackOutlineColor: WidgetStateProperty.resolveWith<Color?>((
                   Set<WidgetState> states,
                 ) {
-                  return const Color(0xFF3E2723);
+                  return GameColors.brownDarkUi;
                 }),
               ),
             ),
@@ -144,21 +151,24 @@ class SettingsScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: const Color(0xFFE0E0E0),
+                color: GameColors.gray300,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: const Color(0xFF3E2723), width: 2),
+                border: Border.all(color: GameColors.brownDarkUi, width: 2),
                 boxShadow: const [
-                  BoxShadow(color: Color(0xFF3E2723), offset: Offset(0, 2)),
+                  BoxShadow(
+                    color: GameColors.brownDarkUi,
+                    offset: Offset(0, 2),
+                  ),
                 ],
               ),
-              child: Icon(icon, size: 20, color: const Color(0xFF3E2723)),
+              child: Icon(icon, size: 20, color: GameColors.brownDarkUi),
             ),
             const SizedBox(width: 16),
             Expanded(
               child: Text(
                 title,
                 style: GoogleFonts.luckiestGuy(
-                  color: const Color(0xFF3E2723),
+                  color: GameColors.brownDarkUi,
                   fontSize: 16,
                   letterSpacing: 1,
                 ),
@@ -167,7 +177,7 @@ class SettingsScreen extends StatelessWidget {
             const Icon(
               Icons.arrow_forward_ios,
               size: 20,
-              color: Color(0xFF3E2723),
+              color: GameColors.brownDarkUi,
             ),
           ],
         ),
@@ -195,7 +205,7 @@ class SettingsScreen extends StatelessWidget {
               children: [
                 _buildToggleRow(
                   icon: Icons.volume_up_rounded,
-                  iconColor: Colors.blueAccent,
+                  iconColor: GameColors.blueAccent,
                   title: 'Sound Effects',
                   subtitle: 'Game sounds & menu clicks',
                   notifier: AppSettings.soundEnabled,
@@ -205,13 +215,13 @@ class SettingsScreen extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 16.0),
                   child: Divider(
                     height: 2,
-                    color: Color(0xFF3E2723),
+                    color: GameColors.brownDarkUi,
                     thickness: 2,
                   ),
                 ),
                 _buildToggleRow(
                   icon: Icons.vibration,
-                  iconColor: Colors.orangeAccent,
+                  iconColor: GameColors.orangeAccent,
                   title: 'Haptics',
                   subtitle: 'Vibrations for impacts',
                   notifier: AppSettings.hapticsEnabled,
@@ -233,15 +243,15 @@ class SettingsScreen extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF4CAF50),
+                        color: GameColors.settingsScreenColor1,
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
-                          color: const Color(0xFF3E2723),
+                          color: GameColors.brownDarkUi,
                           width: 2,
                         ),
                         boxShadow: const [
                           BoxShadow(
-                            color: Color(0xFF3E2723),
+                            color: GameColors.brownDarkUi,
                             offset: Offset(0, 3),
                           ),
                         ],
@@ -249,7 +259,7 @@ class SettingsScreen extends StatelessWidget {
                       child: const Icon(
                         Icons.gamepad,
                         size: 28,
-                        color: Colors.white,
+                        color: GameColors.white,
                       ),
                     ),
                     const SizedBox(width: 16),
@@ -260,7 +270,7 @@ class SettingsScreen extends StatelessWidget {
                           Text(
                             'Joystick Sensitivity',
                             style: GoogleFonts.luckiestGuy(
-                              color: const Color(0xFF3E2723),
+                              color: GameColors.brownDarkUi,
                               fontSize: 18,
                               letterSpacing: 1,
                             ),
@@ -269,7 +279,7 @@ class SettingsScreen extends StatelessWidget {
                           const Text(
                             'Adjust balance responsiveness',
                             style: TextStyle(
-                              color: Colors.black87,
+                              color: GameColors.black87,
                               fontSize: 13,
                               fontWeight: FontWeight.bold,
                             ),
@@ -286,13 +296,13 @@ class SettingsScreen extends StatelessWidget {
                     return SliderTheme(
                       data: SliderTheme.of(context).copyWith(
                         trackHeight: 12,
-                        activeTrackColor: const Color(0xFF4CAF50),
-                        inactiveTrackColor: const Color(0xFFA5D6A7),
-                        thumbColor: const Color(0xFFFFF8E7),
+                        activeTrackColor: GameColors.settingsScreenColor1,
+                        inactiveTrackColor: GameColors.settingsScreenColor2,
+                        thumbColor: GameColors.sandLightUi,
                         overlayColor: const Color(
                           0xFF4CAF50,
                         ).withValues(alpha: 0.2),
-                        valueIndicatorColor: const Color(0xFF4CAF50),
+                        valueIndicatorColor: GameColors.settingsScreenColor1,
                       ),
                       child: Slider(
                         value: value,
@@ -314,7 +324,7 @@ class SettingsScreen extends StatelessWidget {
           _buildCartoonCard(
             child: _buildToggleRow(
               icon: Icons.layers,
-              iconColor: Colors.purpleAccent,
+              iconColor: GameColors.purpleAccent,
               title: 'Parallax Effect',
               subtitle: 'Smooth background animations',
               notifier: AppSettings.parallaxEnabled,
@@ -337,7 +347,7 @@ class SettingsScreen extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 12.0),
                   child: Divider(
                     height: 2,
-                    color: Color(0xFF3E2723),
+                    color: GameColors.brownDarkUi,
                     thickness: 2,
                   ),
                 ),
@@ -350,7 +360,7 @@ class SettingsScreen extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 12.0),
                   child: Divider(
                     height: 2,
-                    color: Color(0xFF3E2723),
+                    color: GameColors.brownDarkUi,
                     thickness: 2,
                   ),
                 ),
@@ -368,7 +378,7 @@ class SettingsScreen extends StatelessWidget {
             child: Text(
               'v1.0.0 (Build 1)',
               style: GoogleFonts.luckiestGuy(
-                color: const Color(0xFF3E2723).withValues(alpha: 0.5),
+                color: GameColors.brownDarkUi.withValues(alpha: 0.5),
                 fontSize: 16,
                 letterSpacing: 2,
               ),

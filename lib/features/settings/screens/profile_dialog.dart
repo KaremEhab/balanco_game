@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:balanco_game/features/settings/widgets/avatar_shapes.dart';
 import 'package:balanco_game/features/game/components/game_area/star_filled_painter.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 void showProfileDialog(
   BuildContext context, {
@@ -75,14 +76,14 @@ class ProfileDialog extends StatelessWidget {
             width: 340,
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: const Color(0xFFFFF8E7), // Light sand color
+              color: GameColors.sandLightUi, // Light sand color
               borderRadius: BorderRadius.circular(24),
               border: Border.all(
-                color: const Color(0xFF3E2723), // Dark brown outline
+                color: GameColors.brownDarkUi, // Dark brown outline
                 width: 3.5,
               ),
               boxShadow: const [
-                BoxShadow(color: Color(0xFF3E2723), offset: Offset(0, 6)),
+                BoxShadow(color: GameColors.brownDarkUi, offset: Offset(0, 6)),
               ],
             ),
             child: Stack(
@@ -96,12 +97,15 @@ class ProfileDialog extends StatelessWidget {
                     onTap: () => Navigator.of(context).pop(),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: const Color(0xFFF44336), // Solid red
+                        color: GameColors.profileDialogColor1, // Solid red
                         shape: BoxShape.circle,
-                        border: Border.all(color: const Color(0xFF3E2723), width: 2),
+                        border: Border.all(
+                          color: GameColors.brownDarkUi,
+                          width: 2,
+                        ),
                         boxShadow: const [
                           BoxShadow(
-                            color: Color(0xFF3E2723),
+                            color: GameColors.brownDarkUi,
                             offset: Offset(0, 3),
                           ),
                         ],
@@ -109,7 +113,7 @@ class ProfileDialog extends StatelessWidget {
                       padding: const EdgeInsets.all(8),
                       child: const Icon(
                         Icons.close_rounded,
-                        color: Colors.white,
+                        color: GameColors.white,
                         size: 24,
                       ),
                     ),
@@ -143,8 +147,8 @@ class ProfileDialog extends StatelessWidget {
                     _buildStrokedText(
                       name,
                       fontSize: 28,
-                      textColor: const Color(0xFFFFB74D),
-                      strokeColor: const Color(0xFF3E2723),
+                      textColor: GameColors.orangeTextUi,
+                      strokeColor: GameColors.brownDarkUi,
                     ),
                     const SizedBox(height: 10),
 
@@ -155,10 +159,10 @@ class ProfileDialog extends StatelessWidget {
                         horizontal: 10,
                       ),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF3E2723).withValues(alpha: 0.1),
+                        color: GameColors.brownDarkUi.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: const Color(0xFF3E2723).withValues(alpha: 0.2),
+                          color: GameColors.brownDarkUi.withValues(alpha: 0.2),
                           width: 2,
                         ),
                       ),
@@ -168,13 +172,13 @@ class ProfileDialog extends StatelessWidget {
                           _StatBadge(
                             iconWidget: const Icon(
                               Icons.star_rounded,
-                              color: Colors.amber,
+                              color: GameColors.amber,
                               size: 30,
                               shadows: [
                                 Shadow(
-                                  color: Color(0xFF3E2723),
+                                  color: GameColors.brownDarkUi,
                                   offset: Offset(0, 2),
-                                )
+                                ),
                               ],
                             ),
                             value: 'LVL $level',
@@ -190,13 +194,13 @@ class ProfileDialog extends StatelessWidget {
                           _StatBadge(
                             iconWidget: const Icon(
                               Icons.bolt_rounded,
-                              color: Colors.lightBlueAccent,
+                              color: GameColors.lightBlueAccent,
                               size: 30,
                               shadows: [
                                 Shadow(
-                                  color: Color(0xFF3E2723),
+                                  color: GameColors.brownDarkUi,
                                   offset: Offset(0, 2),
-                                )
+                                ),
                               ],
                             ),
                             value: '$sparks',
@@ -210,10 +214,10 @@ class ProfileDialog extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF3E2723).withValues(alpha: 0.1),
+                        color: GameColors.brownDarkUi.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: const Color(0xFF3E2723).withValues(alpha: 0.2),
+                          color: GameColors.brownDarkUi.withValues(alpha: 0.2),
                           width: 2,
                         ),
                       ),
@@ -222,8 +226,8 @@ class ProfileDialog extends StatelessWidget {
                           _buildStrokedText(
                             'Choose Shape',
                             fontSize: 18,
-                            textColor: const Color(0xFFFFB74D),
-                            strokeColor: const Color(0xFF3E2723),
+                            textColor: GameColors.orangeTextUi,
+                            strokeColor: GameColors.brownDarkUi,
                           ),
                           const SizedBox(height: 12),
                           SingleChildScrollView(
@@ -253,13 +257,16 @@ class ProfileDialog extends StatelessWidget {
                                               padding: const EdgeInsets.all(4),
                                               decoration: BoxDecoration(
                                                 color: isSelected
-                                                    ? const Color(0xFF3E2723).withValues(alpha: 0.15)
+                                                    ? GameColors.brownDarkUi
+                                                          .withValues(
+                                                            alpha: 0.15,
+                                                          )
                                                     : Colors.transparent,
                                                 borderRadius:
                                                     BorderRadius.circular(15),
                                                 border: Border.all(
                                                   color: isSelected
-                                                      ? const Color(0xFF3E2723)
+                                                      ? GameColors.brownDarkUi
                                                       : Colors.transparent,
                                                   width: 3,
                                                 ),
@@ -287,10 +294,10 @@ class ProfileDialog extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF3E2723).withValues(alpha: 0.1),
+                        color: GameColors.brownDarkUi.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: const Color(0xFF3E2723).withValues(alpha: 0.2),
+                          color: GameColors.brownDarkUi.withValues(alpha: 0.2),
                           width: 2,
                         ),
                       ),
@@ -299,8 +306,8 @@ class ProfileDialog extends StatelessWidget {
                           _buildStrokedText(
                             'Choose Avatar',
                             fontSize: 18,
-                            textColor: const Color(0xFFFFB74D),
-                            strokeColor: const Color(0xFF3E2723),
+                            textColor: GameColors.orangeTextUi,
+                            strokeColor: GameColors.brownDarkUi,
                           ),
                           const SizedBox(height: 12),
                           SingleChildScrollView(
@@ -332,13 +339,16 @@ class ProfileDialog extends StatelessWidget {
                                               padding: const EdgeInsets.all(4),
                                               decoration: BoxDecoration(
                                                 color: isSelected
-                                                    ? const Color(0xFF3E2723).withValues(alpha: 0.15)
+                                                    ? GameColors.brownDarkUi
+                                                          .withValues(
+                                                            alpha: 0.15,
+                                                          )
                                                     : Colors.transparent,
                                                 borderRadius:
                                                     BorderRadius.circular(15),
                                                 border: Border.all(
                                                   color: isSelected
-                                                      ? const Color(0xFF3E2723)
+                                                      ? GameColors.brownDarkUi
                                                       : Colors.transparent,
                                                   width: 3,
                                                 ),
@@ -375,10 +385,7 @@ class _StatBadge extends StatelessWidget {
   final Widget iconWidget;
   final String value;
 
-  const _StatBadge({
-    required this.iconWidget,
-    required this.value,
-  });
+  const _StatBadge({required this.iconWidget, required this.value});
 
   @override
   Widget build(BuildContext context) {
@@ -395,14 +402,14 @@ class _StatBadge extends StatelessWidget {
                 foreground: Paint()
                   ..style = PaintingStyle.stroke
                   ..strokeWidth = 3
-                  ..color = const Color(0xFF3E2723),
+                  ..color = GameColors.brownDarkUi,
               ),
             ),
             Text(
               value,
               style: GoogleFonts.luckiestGuy(
                 fontSize: 18,
-                color: Colors.white,
+                color: GameColors.white,
               ),
             ),
           ],

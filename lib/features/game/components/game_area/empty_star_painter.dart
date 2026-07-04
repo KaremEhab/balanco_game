@@ -1,14 +1,14 @@
-
-
 import 'package:flutter/material.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class EmptyStarPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     // Apply 50% opacity to the entire composite graphic
     canvas.saveLayer(
-        Offset.zero & size,
-        Paint()..color = const Color.fromRGBO(255, 255, 255, 0.5));
+      Offset.zero & size,
+      Paint()..color = const Color.fromRGBO(255, 255, 255, 0.5),
+    );
 
     // Scale the entire empty star to be smaller than the filled one
     canvas.save();
@@ -20,7 +20,9 @@ class EmptyStarPainter extends CustomPainter {
     canvas.translate(size.width * 0.0488, size.height * 0.0488);
 
     Paint paint0Fill = Paint()..style = PaintingStyle.fill;
-    paint0Fill.color = Color(0xffFFC336).withValues(alpha: 1.0);
+    paint0Fill.color = GameColors.starFilledPainterColor1.withValues(
+      alpha: 1.0,
+    );
     canvas.drawRRect(
       RRect.fromRectAndCorners(
         Rect.fromLTWH(
@@ -40,7 +42,7 @@ class EmptyStarPainter extends CustomPainter {
     Paint paint1Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.02005882;
-    paint1Stroke.color = Color(0xffffffff).withValues(alpha: 1.0);
+    paint1Stroke.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawRRect(
       RRect.fromRectAndCorners(
         Rect.fromLTWH(

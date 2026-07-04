@@ -1,6 +1,5 @@
-
-
 import 'package:flutter/material.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class GamePainter extends CustomPainter {
   final double innerCornerRadius;
@@ -444,9 +443,9 @@ class GamePainter extends CustomPainter {
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: [
-          Color(0xFFFFE082), // Soft bright sand
-          Color(0xFFFFCA28), // Golden sand
-          Color(0xFFFFB300), // Warm amber
+          GameColors.amber300, // Soft bright sand
+          GameColors.amber400, // Golden sand
+          GameColors.magnetPainterColor9, // Warm amber
         ],
       ).createShader(bounds);
     canvas.drawPath(path_0, basePaint);
@@ -456,7 +455,7 @@ class GamePainter extends CustomPainter {
     canvas.clipPath(path_0);
 
     final Paint patternPaint = Paint()
-      ..color = Colors.white.withValues(alpha: 0.1)
+      ..color = GameColors.white.withValues(alpha: 0.1)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 4.0;
 
@@ -477,7 +476,7 @@ class GamePainter extends CustomPainter {
     final Paint innerGlow = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.0
-      ..color = Colors.white.withValues(alpha: 0.1);
+      ..color = GameColors.white.withValues(alpha: 0.1);
     canvas.drawPath(path_0, innerGlow);
 
     canvas.restore();
@@ -516,9 +515,9 @@ class PauseBtnPainter extends CustomPainter {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          Color(0xFFD7CCC8), // Light Wood/Sand
-          Color(0xFF8D6E63), // Main brown
-          Color(0xFF4E342E), // Deep shadow
+          GameColors.brown100, // Light Wood/Sand
+          GameColors.brown400, // Main brown
+          GameColors.gamePainterColor1, // Deep shadow
         ],
       ).createShader(leftBar);
 
@@ -538,7 +537,7 @@ class PauseBtnPainter extends CustomPainter {
       ..shader = const LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
-        colors: [Color(0x99FFFFFF), Color(0x00FFFFFF)],
+        colors: [GameColors.magnetPainterColor1, GameColors.whiteTransparent],
       ).createShader(innerLeft);
 
     canvas.drawRRect(

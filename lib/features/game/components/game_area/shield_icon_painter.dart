@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class ShieldIconPainter extends CustomPainter {
   @override
@@ -6,7 +7,7 @@ class ShieldIconPainter extends CustomPainter {
     Path shieldPath = Path();
     double cx = size.width / 2;
     double cy = size.height / 2;
-    
+
     // We want the icon to take up the majority of the provided size
     double w = size.width * 0.8;
     double h = size.height * 0.9;
@@ -25,7 +26,7 @@ class ShieldIconPainter extends CustomPainter {
     shieldPath.close();
 
     final Paint iconShadow = Paint()
-      ..color = Colors.black.withValues(alpha: 0.5)
+      ..color = GameColors.black.withValues(alpha: 0.5)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 2.0);
     canvas.drawPath(shieldPath.shift(const Offset(0, 2)), iconShadow);
 
@@ -45,7 +46,7 @@ class ShieldIconPainter extends CustomPainter {
     final Paint iconStroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.5
-      ..color = Colors.white.withValues(alpha: 0.8);
+      ..color = GameColors.white.withValues(alpha: 0.8);
     canvas.drawPath(shieldPath, iconStroke);
   }
 

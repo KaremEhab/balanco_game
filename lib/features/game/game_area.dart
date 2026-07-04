@@ -26,6 +26,7 @@ import 'package:balanco_game/features/game/models/ball_data.dart';
 import 'package:balanco_game/features/game/models/level_data.dart';
 import 'package:balanco_game/features/game/level_generator.dart';
 import 'package:balanco_game/core/data/app_settings.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class BalancoGame extends FlameGame {
   final bool isMultiplayer;
@@ -126,7 +127,7 @@ class BalancoGame extends FlameGame {
   });
 
   @override
-  Color backgroundColor() => const Color(0x00000000);
+  Color backgroundColor() => GameColors.transparentBlack;
 
   void reset() {
     currentLevel.value = 1;

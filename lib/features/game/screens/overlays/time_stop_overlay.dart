@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:balanco_game/core/data/app_settings.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class TimeStopOverlay extends StatefulWidget {
   final ValueNotifier<double> timeNotifier;
@@ -93,8 +94,8 @@ class _TimeStopOverlayState extends State<TimeStopOverlay>
                     gradient: RadialGradient(
                       colors: [
                         Colors.transparent,
-                        Colors.red.withValues(alpha: _pulseAnimation.value),
-                        Colors.redAccent.shade700.withValues(
+                        GameColors.red.withValues(alpha: _pulseAnimation.value),
+                        GameColors.redAccent.shade700.withValues(
                           alpha: _pulseAnimation.value + 0.3,
                         ),
                       ],
@@ -111,10 +112,10 @@ class _TimeStopOverlayState extends State<TimeStopOverlay>
               timeRemaining.toStringAsFixed(1),
               style: GoogleFonts.rubikBurned(
                 fontSize: 120,
-                color: Colors.redAccent.shade100,
+                color: GameColors.redAccent.shade100,
                 shadows: [
-                  Shadow(color: Colors.red.shade900, blurRadius: 20),
-                  const Shadow(color: Colors.black, blurRadius: 10),
+                  Shadow(color: GameColors.red.shade900, blurRadius: 20),
+                  const Shadow(color: GameColors.black, blurRadius: 10),
                 ],
               ),
             ),

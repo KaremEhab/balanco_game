@@ -3,6 +3,7 @@ import 'package:balanco_game/features/game/game_area.dart';
 import 'package:balanco_game/features/game/components/game_area/shield_icon_painter.dart';
 import 'package:balanco_game/core/data/app_settings.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class GameControlsOverlay extends StatelessWidget {
   final BalancoGame game;
@@ -59,10 +60,13 @@ class GameControlsOverlay extends StatelessWidget {
                               valueListenable: game.lightChargesNotifier,
                               builder: (context, charges, child) {
                                 return ValueListenableBuilder<double>(
-                                  valueListenable: game.lightChargeTimerNotifier,
+                                  valueListenable:
+                                      game.lightChargeTimerNotifier,
                                   builder: (context, lightTime, child) {
                                     return Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0,
+                                      ),
                                       child: SquarePowerUpButton(
                                         charges: charges,
                                         activeTime: lightTime,
@@ -71,12 +75,20 @@ class GameControlsOverlay extends StatelessWidget {
                                           game.useLightCharge();
                                         },
                                         colors: const [
-                                          Color(0xFFFFF59D), // Highlight
-                                          Color(0xFFFDD835), // Base
-                                          Color(0xFFFBC02D), // Mid
-                                          Color(0xFFF57F17), // Shadow
+                                          GameColors
+                                              .gameControlsOverlayColor11, // Highlight
+                                          GameColors
+                                              .gameControlsOverlayColor9, // Base
+                                          GameColors
+                                              .gameControlsOverlayColor8, // Mid
+                                          GameColors
+                                              .gameControlsOverlayColor7, // Shadow
                                         ],
-                                        child: const Icon(Icons.lightbulb, color: Colors.white, size: 36),
+                                        child: const Icon(
+                                          Icons.lightbulb,
+                                          color: GameColors.white,
+                                          size: 36,
+                                        ),
                                       ),
                                     );
                                   },
@@ -95,7 +107,9 @@ class GameControlsOverlay extends StatelessWidget {
                             valueListenable: game.shieldTimerNotifier,
                             builder: (context, shieldTime, child) {
                               return Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0,
+                                ),
                                 child: SquarePowerUpButton(
                                   charges: shields,
                                   activeTime: shieldTime,
@@ -105,15 +119,17 @@ class GameControlsOverlay extends StatelessWidget {
                                     game.shieldTimer = 5.0;
                                   },
                                   colors: const [
-                                    Color(0xFF81D4FA), // Highlight
-                                    Color(0xFF29B6F6), // Base
-                                    Color(0xFF039BE5), // Mid
-                                    Color(0xFF01579B), // Shadow
+                                    GameColors.lightBlue200, // Highlight
+                                    GameColors.modesScreenColor1, // Base
+                                    GameColors.lightBlue600, // Mid
+                                    GameColors.lightBlue900, // Shadow
                                   ],
                                   child: SizedBox(
                                     width: 36,
                                     height: 36,
-                                    child: CustomPaint(painter: ShieldIconPainter()),
+                                    child: CustomPaint(
+                                      painter: ShieldIconPainter(),
+                                    ),
                                   ),
                                 ),
                               );
@@ -190,7 +206,7 @@ class _SquarePowerUpButtonState extends State<SquarePowerUpButton> {
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.4),
+                  color: GameColors.black.withValues(alpha: 0.4),
                   blurRadius: 4.0,
                   offset: const Offset(0, 4),
                 ),
@@ -214,7 +230,10 @@ class _SquarePowerUpButtonState extends State<SquarePowerUpButton> {
                         gradient: const LinearGradient(
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
-                          colors: [Color(0x99FFFFFF), Color(0x00FFFFFF)],
+                          colors: [
+                            GameColors.magnetPainterColor1,
+                            GameColors.whiteTransparent,
+                          ],
                         ),
                       ),
                     ),
@@ -236,7 +255,7 @@ class _SquarePowerUpButtonState extends State<SquarePowerUpButton> {
                   ),
                 // Main Icon
                 Center(child: widget.child),
-                
+
                 // Charges Badge
                 Positioned(
                   bottom: -2,
@@ -244,13 +263,13 @@ class _SquarePowerUpButtonState extends State<SquarePowerUpButton> {
                   child: Text(
                     '${widget.charges}',
                     style: GoogleFonts.luckiestGuy(
-                      color: Colors.white,
+                      color: GameColors.white,
                       fontSize: 22,
                       fontWeight: FontWeight.w900,
                       shadows: const [
                         Shadow(
                           blurRadius: 2.0,
-                          color: Colors.black,
+                          color: GameColors.black,
                           offset: Offset(0, 2),
                         ),
                       ],
@@ -343,21 +362,22 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
                 borderRadius: BorderRadius.circular(100),
                 gradient: const LinearGradient(
                   colors: [
-                    Color(0xFFFFE082), // Top highlight
-                    Color(0xFFFFCA28), // Base
-                    Color(0xFFFFB300), // Mid shadow
-                    Color(0xFFFF8F00), // Bottom shadow
+                    GameColors.amber300, // Top highlight
+                    GameColors.amber400, // Base
+                    GameColors.magnetPainterColor9, // Mid shadow
+                    GameColors.amber800, // Bottom shadow
                   ],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),
                 boxShadow: const [
                   BoxShadow(
-                    color: Color(0xFF5D4037), // 3D thickness (dark brown)
+                    color: GameColors
+                        .gameControlsOverlayColor3, // 3D thickness (dark brown)
                     offset: Offset(0, 4),
                   ),
                   BoxShadow(
-                    color: Colors.black38,
+                    color: GameColors.black38,
                     offset: Offset(0, 6),
                     blurRadius: 4,
                   ),
@@ -371,13 +391,16 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
                     gradient: const LinearGradient(
-                      colors: [Color(0xFF4E342E), Color(0xFF6D4C41)],
+                      colors: [
+                        GameColors.gamePainterColor1,
+                        GameColors.gameControlsOverlayColor4,
+                      ],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                     ),
                     boxShadow: const [
                       BoxShadow(
-                        color: Colors.black54, // Inner shadow simulation
+                        color: GameColors.black54, // Inner shadow simulation
                         offset: Offset(0, 2),
                         blurRadius: 2,
                       ),
@@ -397,9 +420,9 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
                   shape: BoxShape.circle,
                   gradient: RadialGradient(
                     colors: [
-                      Color(0xFFFFF3E0), // Bright highlight
-                      Color(0xFFFFB74D), // Main orange
-                      Color(0xFFF57C00), // Shadow edge
+                      GameColors.gameControlsOverlayColor10, // Bright highlight
+                      GameColors.orangeTextUi, // Main orange
+                      GameColors.gameControlsOverlayColor6, // Shadow edge
                     ],
                     center: Alignment(
                       -0.3,
@@ -409,11 +432,12 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Color(0xFFE65100), // Knob 3D thickness
+                      color: GameColors
+                          .gameControlsOverlayColor5, // Knob 3D thickness
                       offset: Offset(0, 5),
                     ),
                     BoxShadow(
-                      color: Colors.black45,
+                      color: GameColors.black45,
                       offset: Offset(0, 8),
                       blurRadius: 6,
                     ),
@@ -429,7 +453,7 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: Color(0x33000000),
+                          color: GameColors.gameControlsOverlayColor1,
                           width: 1.5,
                         ),
                       ),
@@ -440,7 +464,7 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: Color(0x33000000),
+                          color: GameColors.gameControlsOverlayColor1,
                           width: 1.5,
                         ),
                       ),
@@ -453,7 +477,8 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
                         width: 12,
                         height: 6,
                         decoration: BoxDecoration(
-                          color: Color(0xD9FFFFFF), // 85% opacity white
+                          color: GameColors
+                              .gameControlsOverlayColor2, // 85% opacity white
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),
@@ -492,7 +517,7 @@ class ActiveTimePainter extends CustomPainter {
 
     canvas.drawRect(
       Rect.fromLTRB(bgRRect.left, topY, bgRRect.right, bgRRect.bottom),
-      Paint()..color = Colors.black.withValues(alpha: 0.55),
+      Paint()..color = GameColors.black.withValues(alpha: 0.55),
     );
 
     canvas.restore();

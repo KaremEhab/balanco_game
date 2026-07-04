@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:balanco_game/features/game/game_area.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class BarComponent extends Component with HasGameReference<BalancoGame> {
   @override
@@ -26,7 +27,7 @@ class BarComponent extends Component with HasGameReference<BalancoGame> {
 
     // 1. Drop shadow
     final Paint shadowPaint = Paint()
-      ..color = Colors.black.withValues(alpha: 0.5)
+      ..color = GameColors.black.withValues(alpha: 0.5)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6.0);
 
     canvas.save();
@@ -49,10 +50,10 @@ class BarComponent extends Component with HasGameReference<BalancoGame> {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          Color(0xFFE0E0E0), // Bright metallic highlight
-          Color(0xFF9E9E9E), // Mid steel
-          Color(0xFF616161), // Dark steel core
-          Color(0xFF212121), // Deep shadow edge
+          GameColors.gray300, // Bright metallic highlight
+          GameColors.gray500, // Mid steel
+          GameColors.gray700, // Dark steel core
+          GameColors.gray900, // Deep shadow edge
         ],
       ).createShader(fullRect);
     canvas.drawRRect(bodyRRect, metalPaint);
@@ -87,10 +88,10 @@ class BarComponent extends Component with HasGameReference<BalancoGame> {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          Color(0xFFCFD8DC), // Bright rim
-          Color(0xFF90A4AE), // Base blue-grey metal
-          Color(0xFF546E7A), // Dark shadow
-          Color(0xFF263238), // Almost black edge
+          GameColors.blueGray100, // Bright rim
+          GameColors.blueGray300, // Base blue-grey metal
+          GameColors.blueGray600, // Dark shadow
+          GameColors.blueGray900, // Almost black edge
         ],
       ).createShader(leftCap);
 
@@ -101,17 +102,17 @@ class BarComponent extends Component with HasGameReference<BalancoGame> {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          Color(0xFFCFD8DC),
-          Color(0xFF90A4AE),
-          Color(0xFF546E7A),
-          Color(0xFF263238),
+          GameColors.blueGray100,
+          GameColors.blueGray300,
+          GameColors.blueGray600,
+          GameColors.blueGray900,
         ],
       ).createShader(rightCap);
     canvas.drawRRect(rightCapRRect, gunmetalPaintRight);
 
     // Add a dark separator line between metal caps and steel body
     final Paint separatorPaint = Paint()
-      ..color = Colors.black.withValues(alpha: 0.6)
+      ..color = GameColors.black.withValues(alpha: 0.6)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.5;
     canvas.drawLine(
@@ -137,9 +138,9 @@ class BarComponent extends Component with HasGameReference<BalancoGame> {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          Color(0xFF01579B), // Dark inner top
-          Color(0xFF03A9F4), // Bright cyan glow
-          Color(0xFFE1F5FE), // Pure white/cyan core at bottom
+          GameColors.lightBlue900, // Dark inner top
+          GameColors.lightBlue, // Bright cyan glow
+          GameColors.lightBlue50, // Pure white/cyan core at bottom
         ],
       ).createShader(grooveRect);
     canvas.drawRRect(
@@ -151,7 +152,7 @@ class BarComponent extends Component with HasGameReference<BalancoGame> {
     final Paint grooveRimPaint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 0.5
-      ..color = Colors.white.withValues(alpha: 0.3);
+      ..color = GameColors.white.withValues(alpha: 0.3);
     canvas.drawRRect(
       RRect.fromRectAndRadius(grooveRect, const Radius.circular(3.0)),
       grooveRimPaint,
@@ -169,8 +170,8 @@ class BarComponent extends Component with HasGameReference<BalancoGame> {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          Color(0x77FFFFFF), // Strong white reflection
-          Color(0x00FFFFFF), // Fades into wood
+          GameColors.whiteAlpha46, // Strong white reflection
+          GameColors.whiteTransparent, // Fades into wood
         ],
       ).createShader(specRect);
     canvas.drawRect(specRect, specPaint);

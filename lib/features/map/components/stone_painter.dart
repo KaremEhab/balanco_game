@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class FirstStonePainter extends CustomPainter {
   @override
@@ -40,10 +41,10 @@ class FirstStonePainter extends CustomPainter {
       Offset(size.width * 0.4984062, size.height * 0.9924318),
       Offset(size.width * 0.4984062, size.height * -0.004545455),
       [
-        Color(0xffA93D54).withValues(alpha: 1),
-        Color(0xffAC454A).withValues(alpha: 1),
-        Color(0xffB3592E).withValues(alpha: 1),
-        Color(0xffB8661D).withValues(alpha: 1),
+        GameColors.islandPainterColor24.withValues(alpha: 1),
+        GameColors.islandPainterColor27.withValues(alpha: 1),
+        GameColors.islandPainterColor31.withValues(alpha: 1),
+        GameColors.islandPainterColor33.withValues(alpha: 1),
       ],
       [0, 0.277, 0.754, 1],
     );
@@ -84,11 +85,11 @@ class FirstStonePainter extends CustomPainter {
       Offset(size.width * 0.4984062, size.height * 0.9924318),
       Offset(size.width * 0.4984062, size.height * 0.3268864),
       [
-        Color(0xffB1765E).withValues(alpha: 1),
-        Color(0xffC28E72).withValues(alpha: 1),
-        Color(0xffE3BB97).withValues(alpha: 1),
-        Color(0xffF7D7AD).withValues(alpha: 1),
-        Color(0xffFFE1B6).withValues(alpha: 1),
+        GameColors.stonePainterColor5.withValues(alpha: 1),
+        GameColors.stonePainterColor7.withValues(alpha: 1),
+        GameColors.stonePainterColor19.withValues(alpha: 1),
+        GameColors.stonePainterColor22.withValues(alpha: 1),
+        GameColors.stonePainterColor24.withValues(alpha: 1),
       ],
       [0, 0.176, 0.547, 0.834, 1],
     );
@@ -133,7 +134,7 @@ class FirstStonePainter extends CustomPainter {
     path_2.close();
 
     Paint paint2Fill = Paint()..style = PaintingStyle.fill;
-    paint2Fill.color = Color(0xffFCC400).withValues(alpha: 1.0);
+    paint2Fill.color = GameColors.stonePainterColor23.withValues(alpha: 1.0);
     canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
@@ -177,11 +178,11 @@ class FirstStonePainter extends CustomPainter {
       Offset(size.width * 0.7767969, size.height * 0.9296136),
       Offset(size.width * 0.7767969, size.height * 0.7178864),
       [
-        Color(0xffB8661D).withValues(alpha: 1),
-        Color(0xffB55F1E).withValues(alpha: 1),
-        Color(0xffA33224).withValues(alpha: 1),
-        Color(0xff971628).withValues(alpha: 1),
-        Color(0xff930C29).withValues(alpha: 1),
+        GameColors.islandPainterColor33.withValues(alpha: 1),
+        GameColors.stonePainterColor6.withValues(alpha: 1),
+        GameColors.stonePainterColor4.withValues(alpha: 1),
+        GameColors.stonePainterColor2.withValues(alpha: 1),
+        GameColors.stonePainterColor1.withValues(alpha: 1),
       ],
       [0, 0.059, 0.482, 0.81, 1],
     );
@@ -212,11 +213,11 @@ class FirstStonePainter extends CustomPainter {
       Offset(size.width * 0.1193750, size.height * 0.6495455),
       Offset(size.width * 0.1193750, size.height * 0.5309318),
       [
-        Color(0xffB8661D).withValues(alpha: 1),
-        Color(0xffB55F1E).withValues(alpha: 1),
-        Color(0xffA33224).withValues(alpha: 1),
-        Color(0xff971628).withValues(alpha: 1),
-        Color(0xff930C29).withValues(alpha: 1),
+        GameColors.islandPainterColor33.withValues(alpha: 1),
+        GameColors.stonePainterColor6.withValues(alpha: 1),
+        GameColors.stonePainterColor4.withValues(alpha: 1),
+        GameColors.stonePainterColor2.withValues(alpha: 1),
+        GameColors.stonePainterColor1.withValues(alpha: 1),
       ],
       [0, 0.059, 0.482, 0.81, 1],
     );
@@ -270,7 +271,7 @@ class FirstStonePainter extends CustomPainter {
     path_5.close();
 
     Paint paint5Fill = Paint()..style = PaintingStyle.fill;
-    paint5Fill.color = Color(0xffCC81B3).withValues(alpha: 1.0);
+    paint5Fill.color = GameColors.islandPainterColor38.withValues(alpha: 1.0);
     canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
@@ -322,7 +323,7 @@ class FirstStonePainter extends CustomPainter {
     path_6.close();
 
     Paint paint6Fill = Paint()..style = PaintingStyle.fill;
-    paint6Fill.color = Color(0xffD46D31).withValues(alpha: 1.0);
+    paint6Fill.color = GameColors.stonePainterColor15.withValues(alpha: 1.0);
     canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
@@ -375,7 +376,7 @@ class FirstStonePainter extends CustomPainter {
     path_7.close();
 
     Paint paint7Fill = Paint()..style = PaintingStyle.fill;
-    paint7Fill.color = Color(0xffCC7CD4).withValues(alpha: 1.0);
+    paint7Fill.color = GameColors.stonePainterColor14.withValues(alpha: 1.0);
     canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
@@ -392,7 +393,7 @@ class FirstStonePainter extends CustomPainter {
     path_8.close();
 
     Paint paint8Fill = Paint()..style = PaintingStyle.fill;
-    paint8Fill.color = Color(0xffF3CAB6).withValues(alpha: 1.0);
+    paint8Fill.color = GameColors.stonePainterColor21.withValues(alpha: 1.0);
     canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
@@ -416,11 +417,11 @@ class FirstStonePainter extends CustomPainter {
       Offset(size.width * 0.6768437, size.height * 0.5401818),
       Offset(size.width * 0.6768437, size.height * 0.3861136),
       [
-        Color(0xffB8661D).withValues(alpha: 1),
-        Color(0xffB55F1E).withValues(alpha: 1),
-        Color(0xffA33224).withValues(alpha: 1),
-        Color(0xff971628).withValues(alpha: 1),
-        Color(0xff930C29).withValues(alpha: 1),
+        GameColors.islandPainterColor33.withValues(alpha: 1),
+        GameColors.stonePainterColor6.withValues(alpha: 1),
+        GameColors.stonePainterColor4.withValues(alpha: 1),
+        GameColors.stonePainterColor2.withValues(alpha: 1),
+        GameColors.stonePainterColor1.withValues(alpha: 1),
       ],
       [0, 0.059, 0.482, 0.81, 1],
     );
@@ -459,7 +460,7 @@ class FirstStonePainter extends CustomPainter {
     path_10.close();
 
     Paint paint10Fill = Paint()..style = PaintingStyle.fill;
-    paint10Fill.color = Color(0xffC55A40).withValues(alpha: 1.0);
+    paint10Fill.color = GameColors.stonePainterColor9.withValues(alpha: 1.0);
     canvas.drawPath(path_10, paint10Fill);
 
     Path path_11 = Path();
@@ -469,7 +470,7 @@ class FirstStonePainter extends CustomPainter {
     path_11.close();
 
     Paint paint11Fill = Paint()..style = PaintingStyle.fill;
-    paint11Fill.color = Color(0xffD96E40).withValues(alpha: 1.0);
+    paint11Fill.color = GameColors.stonePainterColor16.withValues(alpha: 1.0);
     canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
@@ -501,7 +502,7 @@ class FirstStonePainter extends CustomPainter {
     path_12.close();
 
     Paint paint12Fill = Paint()..style = PaintingStyle.fill;
-    paint12Fill.color = Color(0xffCC81B3).withValues(alpha: 1.0);
+    paint12Fill.color = GameColors.islandPainterColor38.withValues(alpha: 1.0);
     canvas.drawPath(path_12, paint12Fill);
 
     Path path_13 = Path();
@@ -615,7 +616,7 @@ class FirstStonePainter extends CustomPainter {
     path_13.close();
 
     Paint paint13Fill = Paint()..style = PaintingStyle.fill;
-    paint13Fill.color = Color(0xffD96E40).withValues(alpha: 1.0);
+    paint13Fill.color = GameColors.stonePainterColor16.withValues(alpha: 1.0);
     canvas.drawPath(path_13, paint13Fill);
   }
 
@@ -659,10 +660,10 @@ class SecondStonePainter extends CustomPainter {
       Offset(size.width * 0.4990882, size.height * 0.9997800),
       Offset(size.width * 0.4990882, size.height * 0.01400000),
       [
-        Color(0xffC35934).withValues(alpha: 1),
-        Color(0xffC5632E).withValues(alpha: 1),
-        Color(0xffC97F1F).withValues(alpha: 1),
-        Color(0xffCA821D).withValues(alpha: 1),
+        GameColors.stonePainterColor8.withValues(alpha: 1),
+        GameColors.stonePainterColor10.withValues(alpha: 1),
+        GameColors.stonePainterColor11.withValues(alpha: 1),
+        GameColors.stonePainterColor12.withValues(alpha: 1),
       ],
       [0, 0.347, 0.945, 1],
     );
@@ -719,11 +720,11 @@ class SecondStonePainter extends CustomPainter {
       Offset(size.width * 0.4990882, size.height * 0.9997600),
       Offset(size.width * 0.4990882, size.height * 0.2525400),
       [
-        Color(0xffB1765E).withValues(alpha: 1),
-        Color(0xffC28E72).withValues(alpha: 1),
-        Color(0xffE3BB97).withValues(alpha: 1),
-        Color(0xffF7D7AD).withValues(alpha: 1),
-        Color(0xffFFE1B6).withValues(alpha: 1),
+        GameColors.stonePainterColor5.withValues(alpha: 1),
+        GameColors.stonePainterColor7.withValues(alpha: 1),
+        GameColors.stonePainterColor19.withValues(alpha: 1),
+        GameColors.stonePainterColor22.withValues(alpha: 1),
+        GameColors.stonePainterColor24.withValues(alpha: 1),
       ],
       [0, 0.176, 0.547, 0.834, 1],
     );
@@ -768,7 +769,7 @@ class SecondStonePainter extends CustomPainter {
     path_2.close();
 
     Paint paint2Fill = Paint()..style = PaintingStyle.fill;
-    paint2Fill.color = Color(0xffFCC400).withValues(alpha: 1.0);
+    paint2Fill.color = GameColors.stonePainterColor23.withValues(alpha: 1.0);
     canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
@@ -792,7 +793,7 @@ class SecondStonePainter extends CustomPainter {
     path_3.close();
 
     Paint paint3Fill = Paint()..style = PaintingStyle.fill;
-    paint3Fill.color = Color(0xffFCC400).withValues(alpha: 1.0);
+    paint3Fill.color = GameColors.stonePainterColor23.withValues(alpha: 1.0);
     canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
@@ -831,7 +832,7 @@ class SecondStonePainter extends CustomPainter {
     path_4.close();
 
     Paint paint4Fill = Paint()..style = PaintingStyle.fill;
-    paint4Fill.color = Color(0xffCC7CD4).withValues(alpha: 1.0);
+    paint4Fill.color = GameColors.stonePainterColor14.withValues(alpha: 1.0);
     canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
@@ -852,11 +853,11 @@ class SecondStonePainter extends CustomPainter {
       Offset(size.width * 0.6977206, size.height * 0.8969000),
       Offset(size.width * 0.6977206, size.height * 0.7147600),
       [
-        Color(0xffB8661D).withValues(alpha: 1),
-        Color(0xffB55F1E).withValues(alpha: 1),
-        Color(0xffA33224).withValues(alpha: 1),
-        Color(0xff971628).withValues(alpha: 1),
-        Color(0xff930C29).withValues(alpha: 1),
+        GameColors.islandPainterColor33.withValues(alpha: 1),
+        GameColors.stonePainterColor6.withValues(alpha: 1),
+        GameColors.stonePainterColor4.withValues(alpha: 1),
+        GameColors.stonePainterColor2.withValues(alpha: 1),
+        GameColors.stonePainterColor1.withValues(alpha: 1),
       ],
       [0, 0.059, 0.482, 0.81, 1],
     );
@@ -877,7 +878,7 @@ class SecondStonePainter extends CustomPainter {
     path_6.close();
 
     Paint paint6Fill = Paint()..style = PaintingStyle.fill;
-    paint6Fill.color = Color(0xffDB90D4).withValues(alpha: 1.0);
+    paint6Fill.color = GameColors.stonePainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
@@ -910,7 +911,7 @@ class SecondStonePainter extends CustomPainter {
     path_7.close();
 
     Paint paint7Fill = Paint()..style = PaintingStyle.fill;
-    paint7Fill.color = Color(0xffDB7F40).withValues(alpha: 1.0);
+    paint7Fill.color = GameColors.stonePainterColor17.withValues(alpha: 1.0);
     canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
@@ -927,7 +928,7 @@ class SecondStonePainter extends CustomPainter {
     path_8.close();
 
     Paint paint8Fill = Paint()..style = PaintingStyle.fill;
-    paint8Fill.color = Color(0xffF3CAB6).withValues(alpha: 1.0);
+    paint8Fill.color = GameColors.stonePainterColor21.withValues(alpha: 1.0);
     canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
@@ -958,11 +959,11 @@ class SecondStonePainter extends CustomPainter {
       Offset(size.width * 0.2608971, size.height * 0.7700600),
       Offset(size.width * 0.2608971, size.height * 0.6663200),
       [
-        Color(0xffB8661D).withValues(alpha: 1),
-        Color(0xffB55F1E).withValues(alpha: 1),
-        Color(0xffA33224).withValues(alpha: 1),
-        Color(0xff971628).withValues(alpha: 1),
-        Color(0xff930C29).withValues(alpha: 1),
+        GameColors.islandPainterColor33.withValues(alpha: 1),
+        GameColors.stonePainterColor6.withValues(alpha: 1),
+        GameColors.stonePainterColor4.withValues(alpha: 1),
+        GameColors.stonePainterColor2.withValues(alpha: 1),
+        GameColors.stonePainterColor1.withValues(alpha: 1),
       ],
       [0, 0.059, 0.482, 0.81, 1],
     );
@@ -1015,7 +1016,7 @@ class SecondStonePainter extends CustomPainter {
     path_10.close();
 
     Paint paint10Fill = Paint()..style = PaintingStyle.fill;
-    paint10Fill.color = Color(0xffDB7F40).withValues(alpha: 1.0);
+    paint10Fill.color = GameColors.stonePainterColor17.withValues(alpha: 1.0);
     canvas.drawPath(path_10, paint10Fill);
   }
 
@@ -1080,10 +1081,10 @@ class ThirdStonePainter extends CustomPainter {
       Offset(size.width * 0.4977544, size.height * 0.9871667),
       Offset(size.width * 0.4977544, size.height * -0.005555556),
       [
-        Color(0xffA93D54).withValues(alpha: 1),
-        Color(0xffAC454A).withValues(alpha: 1),
-        Color(0xffB3592E).withValues(alpha: 1),
-        Color(0xffB8661D).withValues(alpha: 1),
+        GameColors.islandPainterColor24.withValues(alpha: 1),
+        GameColors.islandPainterColor27.withValues(alpha: 1),
+        GameColors.islandPainterColor31.withValues(alpha: 1),
+        GameColors.islandPainterColor33.withValues(alpha: 1),
       ],
       [0, 0.277, 0.754, 1],
     );
@@ -1132,11 +1133,11 @@ class ThirdStonePainter extends CustomPainter {
       Offset(size.width * 0.4977719, size.height * 0.9871667),
       Offset(size.width * 0.4977719, size.height * 0.3406667),
       [
-        Color(0xffB1765E).withValues(alpha: 1),
-        Color(0xffC28E72).withValues(alpha: 1),
-        Color(0xffE3BB97).withValues(alpha: 1),
-        Color(0xffF7D7AD).withValues(alpha: 1),
-        Color(0xffFFE1B6).withValues(alpha: 1),
+        GameColors.stonePainterColor5.withValues(alpha: 1),
+        GameColors.stonePainterColor7.withValues(alpha: 1),
+        GameColors.stonePainterColor19.withValues(alpha: 1),
+        GameColors.stonePainterColor22.withValues(alpha: 1),
+        GameColors.stonePainterColor24.withValues(alpha: 1),
       ],
       [0, 0.176, 0.547, 0.834, 1],
     );
@@ -1157,7 +1158,7 @@ class ThirdStonePainter extends CustomPainter {
     path_2.close();
 
     Paint paint2Fill = Paint()..style = PaintingStyle.fill;
-    paint2Fill.color = Color(0xffFCC400).withValues(alpha: 1.0);
+    paint2Fill.color = GameColors.stonePainterColor23.withValues(alpha: 1.0);
     canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
@@ -1174,7 +1175,7 @@ class ThirdStonePainter extends CustomPainter {
     path_3.close();
 
     Paint paint3Fill = Paint()..style = PaintingStyle.fill;
-    paint3Fill.color = Color(0xffFCC400).withValues(alpha: 1.0);
+    paint3Fill.color = GameColors.stonePainterColor23.withValues(alpha: 1.0);
     canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
@@ -1198,7 +1199,7 @@ class ThirdStonePainter extends CustomPainter {
     path_4.close();
 
     Paint paint4Fill = Paint()..style = PaintingStyle.fill;
-    paint4Fill.color = Color(0xffFCC400).withValues(alpha: 1.0);
+    paint4Fill.color = GameColors.stonePainterColor23.withValues(alpha: 1.0);
     canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
@@ -1220,11 +1221,11 @@ class ThirdStonePainter extends CustomPainter {
       Offset(size.width * 0.7867193, size.height * 0.8656389),
       Offset(size.width * 0.7867193, size.height * 0.5983611),
       [
-        Color(0xffB8661D).withValues(alpha: 1),
-        Color(0xffB55F1E).withValues(alpha: 1),
-        Color(0xffA33224).withValues(alpha: 1),
-        Color(0xff971628).withValues(alpha: 1),
-        Color(0xff930C29).withValues(alpha: 1),
+        GameColors.islandPainterColor33.withValues(alpha: 1),
+        GameColors.stonePainterColor6.withValues(alpha: 1),
+        GameColors.stonePainterColor4.withValues(alpha: 1),
+        GameColors.stonePainterColor2.withValues(alpha: 1),
+        GameColors.stonePainterColor1.withValues(alpha: 1),
       ],
       [0, 0.059, 0.482, 0.81, 1],
     );
@@ -1259,7 +1260,7 @@ class ThirdStonePainter extends CustomPainter {
     path_6.close();
 
     Paint paint6Fill = Paint()..style = PaintingStyle.fill;
-    paint6Fill.color = Color(0xffCC81B3).withValues(alpha: 1.0);
+    paint6Fill.color = GameColors.islandPainterColor38.withValues(alpha: 1.0);
     canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
@@ -1285,7 +1286,7 @@ class ThirdStonePainter extends CustomPainter {
     path_7.close();
 
     Paint paint7Fill = Paint()..style = PaintingStyle.fill;
-    paint7Fill.color = Color(0xffD46D31).withValues(alpha: 1.0);
+    paint7Fill.color = GameColors.stonePainterColor15.withValues(alpha: 1.0);
     canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
@@ -1327,7 +1328,7 @@ class ThirdStonePainter extends CustomPainter {
     path_8.close();
 
     Paint paint8Fill = Paint()..style = PaintingStyle.fill;
-    paint8Fill.color = Color(0xffCC7CD4).withValues(alpha: 1.0);
+    paint8Fill.color = GameColors.stonePainterColor14.withValues(alpha: 1.0);
     canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
@@ -1359,7 +1360,7 @@ class ThirdStonePainter extends CustomPainter {
     path_9.close();
 
     Paint paint9Fill = Paint()..style = PaintingStyle.fill;
-    paint9Fill.color = Color(0xffD96E40).withValues(alpha: 1.0);
+    paint9Fill.color = GameColors.stonePainterColor16.withValues(alpha: 1.0);
     canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
@@ -1391,7 +1392,7 @@ class ThirdStonePainter extends CustomPainter {
     path_10.close();
 
     Paint paint10Fill = Paint()..style = PaintingStyle.fill;
-    paint10Fill.color = Color(0xff9A3116).withValues(alpha: 1.0);
+    paint10Fill.color = GameColors.stonePainterColor3.withValues(alpha: 1.0);
     canvas.drawPath(path_10, paint10Fill);
 
     Path path_11 = Path();
@@ -1432,7 +1433,7 @@ class ThirdStonePainter extends CustomPainter {
     path_11.close();
 
     Paint paint11Fill = Paint()..style = PaintingStyle.fill;
-    paint11Fill.color = Color(0xffD96E40).withValues(alpha: 1.0);
+    paint11Fill.color = GameColors.stonePainterColor16.withValues(alpha: 1.0);
     canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
@@ -1442,7 +1443,7 @@ class ThirdStonePainter extends CustomPainter {
     path_12.close();
 
     Paint paint12Fill = Paint()..style = PaintingStyle.fill;
-    paint12Fill.color = Color(0xffF3CAB6).withValues(alpha: 1.0);
+    paint12Fill.color = GameColors.stonePainterColor21.withValues(alpha: 1.0);
     canvas.drawPath(path_12, paint12Fill);
 
     Path path_13 = Path();
@@ -1494,11 +1495,11 @@ class ThirdStonePainter extends CustomPainter {
       Offset(size.width * 0.2945088, size.height * 0.4344167),
       Offset(size.width * 0.2945088, size.height * 0.2678333),
       [
-        Color(0xffB8661D).withValues(alpha: 1),
-        Color(0xffB55F1E).withValues(alpha: 1),
-        Color(0xffA33224).withValues(alpha: 1),
-        Color(0xff971628).withValues(alpha: 1),
-        Color(0xff930C29).withValues(alpha: 1),
+        GameColors.islandPainterColor33.withValues(alpha: 1),
+        GameColors.stonePainterColor6.withValues(alpha: 1),
+        GameColors.stonePainterColor4.withValues(alpha: 1),
+        GameColors.stonePainterColor2.withValues(alpha: 1),
+        GameColors.stonePainterColor1.withValues(alpha: 1),
       ],
       [0, 0.059, 0.482, 0.81, 1],
     );
@@ -1597,7 +1598,7 @@ class ThirdStonePainter extends CustomPainter {
     path_14.close();
 
     Paint paint14Fill = Paint()..style = PaintingStyle.fill;
-    paint14Fill.color = Color(0xffD96E40).withValues(alpha: 1.0);
+    paint14Fill.color = GameColors.stonePainterColor16.withValues(alpha: 1.0);
     canvas.drawPath(path_14, paint14Fill);
 
     Path path_15 = Path();
@@ -1614,7 +1615,7 @@ class ThirdStonePainter extends CustomPainter {
     path_15.close();
 
     Paint paint15Fill = Paint()..style = PaintingStyle.fill;
-    paint15Fill.color = Color(0xffD96E40).withValues(alpha: 1.0);
+    paint15Fill.color = GameColors.stonePainterColor16.withValues(alpha: 1.0);
     canvas.drawPath(path_15, paint15Fill);
   }
 
@@ -1685,10 +1686,10 @@ class FourthStonePainter extends CustomPainter {
       Offset(size.width * 0.4887692, size.height * 1.000458),
       Offset(size.width * 0.4887692, size.height * -0.02083333),
       [
-        Color(0xffA93D54).withValues(alpha: 1),
-        Color(0xffAC454A).withValues(alpha: 1),
-        Color(0xffB3592E).withValues(alpha: 1),
-        Color(0xffB8661D).withValues(alpha: 1),
+        GameColors.islandPainterColor24.withValues(alpha: 1),
+        GameColors.islandPainterColor27.withValues(alpha: 1),
+        GameColors.islandPainterColor31.withValues(alpha: 1),
+        GameColors.islandPainterColor33.withValues(alpha: 1),
       ],
       [0, 0.277, 0.754, 1],
     );
@@ -1743,11 +1744,11 @@ class FourthStonePainter extends CustomPainter {
       Offset(size.width * 0.4887692, size.height * 1.000417),
       Offset(size.width * 0.4887692, size.height * 0.2912917),
       [
-        Color(0xffB1765E).withValues(alpha: 1),
-        Color(0xffC28E72).withValues(alpha: 1),
-        Color(0xffE3BB97).withValues(alpha: 1),
-        Color(0xffF7D7AD).withValues(alpha: 1),
-        Color(0xffFFE1B6).withValues(alpha: 1),
+        GameColors.stonePainterColor5.withValues(alpha: 1),
+        GameColors.stonePainterColor7.withValues(alpha: 1),
+        GameColors.stonePainterColor19.withValues(alpha: 1),
+        GameColors.stonePainterColor22.withValues(alpha: 1),
+        GameColors.stonePainterColor24.withValues(alpha: 1),
       ],
       [0, 0.176, 0.547, 0.834, 1],
     );
@@ -1782,7 +1783,7 @@ class FourthStonePainter extends CustomPainter {
     path_2.close();
 
     Paint paint2Fill = Paint()..style = PaintingStyle.fill;
-    paint2Fill.color = Color(0xffFCC400).withValues(alpha: 1.0);
+    paint2Fill.color = GameColors.stonePainterColor23.withValues(alpha: 1.0);
     canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
@@ -1806,7 +1807,7 @@ class FourthStonePainter extends CustomPainter {
     path_3.close();
 
     Paint paint3Fill = Paint()..style = PaintingStyle.fill;
-    paint3Fill.color = Color(0xffFCC400).withValues(alpha: 1.0);
+    paint3Fill.color = GameColors.stonePainterColor23.withValues(alpha: 1.0);
     canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
@@ -1832,7 +1833,7 @@ class FourthStonePainter extends CustomPainter {
     path_4.close();
 
     Paint paint4Fill = Paint()..style = PaintingStyle.fill;
-    paint4Fill.color = Color(0xffCC7CD4).withValues(alpha: 1.0);
+    paint4Fill.color = GameColors.stonePainterColor14.withValues(alpha: 1.0);
     canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
@@ -1872,7 +1873,7 @@ class FourthStonePainter extends CustomPainter {
     path_5.close();
 
     Paint paint5Fill = Paint()..style = PaintingStyle.fill;
-    paint5Fill.color = Color(0xffCC6D40).withValues(alpha: 1.0);
+    paint5Fill.color = GameColors.stonePainterColor13.withValues(alpha: 1.0);
     canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
@@ -1889,7 +1890,7 @@ class FourthStonePainter extends CustomPainter {
     path_6.close();
 
     Paint paint6Fill = Paint()..style = PaintingStyle.fill;
-    paint6Fill.color = Color(0xffDB7F40).withValues(alpha: 1.0);
+    paint6Fill.color = GameColors.stonePainterColor17.withValues(alpha: 1.0);
     canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
@@ -1910,7 +1911,7 @@ class FourthStonePainter extends CustomPainter {
     path_7.close();
 
     Paint paint7Fill = Paint()..style = PaintingStyle.fill;
-    paint7Fill.color = Color(0xffDB7F40).withValues(alpha: 1.0);
+    paint7Fill.color = GameColors.stonePainterColor17.withValues(alpha: 1.0);
     canvas.drawPath(path_7, paint7Fill);
   }
 
@@ -1960,10 +1961,10 @@ class FifthStonePainter extends CustomPainter {
       Offset(size.width * 0.4965897, size.height * 0.9759286),
       Offset(size.width * 0.4965897, size.height * 0.01071429),
       [
-        Color(0xffC35934).withValues(alpha: 1),
-        Color(0xffC5632E).withValues(alpha: 1),
-        Color(0xffC97F1F).withValues(alpha: 1),
-        Color(0xffCA821D).withValues(alpha: 1),
+        GameColors.stonePainterColor8.withValues(alpha: 1),
+        GameColors.stonePainterColor10.withValues(alpha: 1),
+        GameColors.stonePainterColor11.withValues(alpha: 1),
+        GameColors.stonePainterColor12.withValues(alpha: 1),
       ],
       [0, 0.347, 0.945, 1],
     );
@@ -2025,11 +2026,11 @@ class FifthStonePainter extends CustomPainter {
       Offset(size.width * 0.4965897, size.height * 0.9759286),
       Offset(size.width * 0.4965897, size.height * 0.2627500),
       [
-        Color(0xffB1765E).withValues(alpha: 1),
-        Color(0xffC28E72).withValues(alpha: 1),
-        Color(0xffE3BB97).withValues(alpha: 1),
-        Color(0xffF7D7AD).withValues(alpha: 1),
-        Color(0xffFFE1B6).withValues(alpha: 1),
+        GameColors.stonePainterColor5.withValues(alpha: 1),
+        GameColors.stonePainterColor7.withValues(alpha: 1),
+        GameColors.stonePainterColor19.withValues(alpha: 1),
+        GameColors.stonePainterColor22.withValues(alpha: 1),
+        GameColors.stonePainterColor24.withValues(alpha: 1),
       ],
       [0, 0.176, 0.547, 0.834, 1],
     );
@@ -2049,7 +2050,7 @@ class FifthStonePainter extends CustomPainter {
     path_2.close();
 
     Paint paint2Fill = Paint()..style = PaintingStyle.fill;
-    paint2Fill.color = Color(0xffFCC400).withValues(alpha: 1.0);
+    paint2Fill.color = GameColors.stonePainterColor23.withValues(alpha: 1.0);
     canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
@@ -2073,7 +2074,7 @@ class FifthStonePainter extends CustomPainter {
     path_3.close();
 
     Paint paint3Fill = Paint()..style = PaintingStyle.fill;
-    paint3Fill.color = Color(0xffFCC400).withValues(alpha: 1.0);
+    paint3Fill.color = GameColors.stonePainterColor23.withValues(alpha: 1.0);
     canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
@@ -2102,11 +2103,11 @@ class FifthStonePainter extends CustomPainter {
       Offset(size.width * 0.6992308, size.height * 0.8201071),
       Offset(size.width * 0.6992308, size.height * 0.7007857),
       [
-        Color(0xffB8661D).withValues(alpha: 1),
-        Color(0xffB55F1E).withValues(alpha: 1),
-        Color(0xffA33224).withValues(alpha: 1),
-        Color(0xff971628).withValues(alpha: 1),
-        Color(0xff930C29).withValues(alpha: 1),
+        GameColors.islandPainterColor33.withValues(alpha: 1),
+        GameColors.stonePainterColor6.withValues(alpha: 1),
+        GameColors.stonePainterColor4.withValues(alpha: 1),
+        GameColors.stonePainterColor2.withValues(alpha: 1),
+        GameColors.stonePainterColor1.withValues(alpha: 1),
       ],
       [0, 0.059, 0.482, 0.81, 1],
     );
@@ -2134,7 +2135,7 @@ class FifthStonePainter extends CustomPainter {
     path_5.close();
 
     Paint paint5Fill = Paint()..style = PaintingStyle.fill;
-    paint5Fill.color = Color(0xffCC81B3).withValues(alpha: 1.0);
+    paint5Fill.color = GameColors.islandPainterColor38.withValues(alpha: 1.0);
     canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
@@ -2144,7 +2145,7 @@ class FifthStonePainter extends CustomPainter {
     path_6.close();
 
     Paint paint6Fill = Paint()..style = PaintingStyle.fill;
-    paint6Fill.color = Color(0xffD46D31).withValues(alpha: 1.0);
+    paint6Fill.color = GameColors.stonePainterColor15.withValues(alpha: 1.0);
     canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
@@ -2188,7 +2189,7 @@ class FifthStonePainter extends CustomPainter {
     path_7.close();
 
     Paint paint7Fill = Paint()..style = PaintingStyle.fill;
-    paint7Fill.color = Color(0xffDB7F40).withValues(alpha: 1.0);
+    paint7Fill.color = GameColors.stonePainterColor17.withValues(alpha: 1.0);
     canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
@@ -2207,7 +2208,7 @@ class FifthStonePainter extends CustomPainter {
     path_8.close();
 
     Paint paint8Fill = Paint()..style = PaintingStyle.fill;
-    paint8Fill.color = Color(0xffCC7CD4).withValues(alpha: 1.0);
+    paint8Fill.color = GameColors.stonePainterColor14.withValues(alpha: 1.0);
     canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
@@ -2257,7 +2258,7 @@ class FifthStonePainter extends CustomPainter {
     path_9.close();
 
     Paint paint9Fill = Paint()..style = PaintingStyle.fill;
-    paint9Fill.color = Color(0xffE88C40).withValues(alpha: 1.0);
+    paint9Fill.color = GameColors.stonePainterColor20.withValues(alpha: 1.0);
     canvas.drawPath(path_9, paint9Fill);
   }
 
@@ -2323,10 +2324,10 @@ class SixthStonePainter extends CustomPainter {
       Offset(size.width * 0.4976735, size.height * 0.9710690),
       Offset(size.width * 0.4976735, size.height * -0.02758621),
       [
-        Color(0xffC35934).withValues(alpha: 1),
-        Color(0xffC5632E).withValues(alpha: 1),
-        Color(0xffC97F1F).withValues(alpha: 1),
-        Color(0xffCA821D).withValues(alpha: 1),
+        GameColors.stonePainterColor8.withValues(alpha: 1),
+        GameColors.stonePainterColor10.withValues(alpha: 1),
+        GameColors.stonePainterColor11.withValues(alpha: 1),
+        GameColors.stonePainterColor12.withValues(alpha: 1),
       ],
       [0, 0.347, 0.945, 1],
     );
@@ -2390,11 +2391,11 @@ class SixthStonePainter extends CustomPainter {
       Offset(size.width * 0.4976735, size.height * 0.9710690),
       Offset(size.width * 0.4976735, size.height * 0.2632414),
       [
-        Color(0xffB1765E).withValues(alpha: 1),
-        Color(0xffC28E72).withValues(alpha: 1),
-        Color(0xffE3BB97).withValues(alpha: 1),
-        Color(0xffF7D7AD).withValues(alpha: 1),
-        Color(0xffFFE1B6).withValues(alpha: 1),
+        GameColors.stonePainterColor5.withValues(alpha: 1),
+        GameColors.stonePainterColor7.withValues(alpha: 1),
+        GameColors.stonePainterColor19.withValues(alpha: 1),
+        GameColors.stonePainterColor22.withValues(alpha: 1),
+        GameColors.stonePainterColor24.withValues(alpha: 1),
       ],
       [0, 0.176, 0.547, 0.834, 1],
     );
@@ -2429,7 +2430,7 @@ class SixthStonePainter extends CustomPainter {
     path_2.close();
 
     Paint paint2Fill = Paint()..style = PaintingStyle.fill;
-    paint2Fill.color = Color(0xffFCC400).withValues(alpha: 1.0);
+    paint2Fill.color = GameColors.stonePainterColor23.withValues(alpha: 1.0);
     canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
@@ -2471,7 +2472,7 @@ class SixthStonePainter extends CustomPainter {
     path_3.close();
 
     Paint paint3Fill = Paint()..style = PaintingStyle.fill;
-    paint3Fill.color = Color(0xffFCC400).withValues(alpha: 1.0);
+    paint3Fill.color = GameColors.stonePainterColor23.withValues(alpha: 1.0);
     canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
@@ -2503,7 +2504,7 @@ class SixthStonePainter extends CustomPainter {
     path_4.close();
 
     Paint paint4Fill = Paint()..style = PaintingStyle.fill;
-    paint4Fill.color = Color(0xffCC7CD4).withValues(alpha: 1.0);
+    paint4Fill.color = GameColors.stonePainterColor14.withValues(alpha: 1.0);
     canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
@@ -2513,7 +2514,7 @@ class SixthStonePainter extends CustomPainter {
     path_5.close();
 
     Paint paint5Fill = Paint()..style = PaintingStyle.fill;
-    paint5Fill.color = Color(0xffDB7F40).withValues(alpha: 1.0);
+    paint5Fill.color = GameColors.stonePainterColor17.withValues(alpha: 1.0);
     canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
@@ -2543,11 +2544,11 @@ class SixthStonePainter extends CustomPainter {
       Offset(size.width * 0.9162449, size.height * 0.7769655),
       Offset(size.width * 0.03514286, size.height * 0.7769655),
       [
-        Color(0xffB1765E).withValues(alpha: 1),
-        Color(0xffC28E72).withValues(alpha: 1),
-        Color(0xffE3BB97).withValues(alpha: 1),
-        Color(0xffF7D7AD).withValues(alpha: 1),
-        Color(0xffFFE1B6).withValues(alpha: 1),
+        GameColors.stonePainterColor5.withValues(alpha: 1),
+        GameColors.stonePainterColor7.withValues(alpha: 1),
+        GameColors.stonePainterColor19.withValues(alpha: 1),
+        GameColors.stonePainterColor22.withValues(alpha: 1),
+        GameColors.stonePainterColor24.withValues(alpha: 1),
       ],
       [0, 0.176, 0.547, 0.834, 1],
     );
@@ -2578,7 +2579,7 @@ class SixthStonePainter extends CustomPainter {
     path_7.close();
 
     Paint paint7Fill = Paint()..style = PaintingStyle.fill;
-    paint7Fill.color = Color(0xffE88C40).withValues(alpha: 1.0);
+    paint7Fill.color = GameColors.stonePainterColor20.withValues(alpha: 1.0);
     canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
@@ -2642,7 +2643,7 @@ class SixthStonePainter extends CustomPainter {
     path_8.close();
 
     Paint paint8Fill = Paint()..style = PaintingStyle.fill;
-    paint8Fill.color = Color(0xffE88C40).withValues(alpha: 1.0);
+    paint8Fill.color = GameColors.stonePainterColor20.withValues(alpha: 1.0);
     canvas.drawPath(path_8, paint8Fill);
   }
 

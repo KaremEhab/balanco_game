@@ -15,6 +15,7 @@ import 'package:balanco_game/core/data/app_settings.dart';
 import 'package:balanco_game/features/game/components/game_background/sky_painter.dart';
 import 'package:balanco_game/features/game/components/game_background/mountains_painter.dart';
 import 'package:balanco_game/features/game/components/game_background/sea_painter.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -171,7 +172,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      backgroundColor: const Color(0xffCCFFFB), // Base sky color
+      backgroundColor: GameColors.mapAppBarCyanLightest, // Base sky color
       body: Stack(
         children: [
           // Parallax Background
@@ -182,7 +183,7 @@ class _MainScreenState extends State<MainScreen> {
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
               child: ColoredBox(
-                color: const Color(0xff44C1FF).withValues(alpha: 0.1),
+                color: GameColors.mainScreenColor1.withValues(alpha: 0.1),
               ),
             ),
           ),
@@ -495,12 +496,15 @@ class _MainScreenState extends State<MainScreen> {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             decoration: BoxDecoration(
-              color: const Color(0xFF6DE8F8).withValues(alpha: 0.3),
+              color: GameColors.mapAppBarCyanLight.withValues(alpha: 0.3),
               borderRadius: BorderRadius.circular(40),
-              border: Border.all(color: Color(0xFF163C47), width: 1.5),
+              border: Border.all(
+                color: GameColors.mapAppBarTealDark,
+                width: 1.5,
+              ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.white.withValues(alpha: 0.1),
+                  color: GameColors.white.withValues(alpha: 0.1),
                   blurRadius: 10,
                   spreadRadius: 1,
                 ),
@@ -522,16 +526,19 @@ class _MainScreenState extends State<MainScreen> {
                       gradient: const LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
-                        colors: [Color(0xFFFFA428), Color(0xFFF54812)],
+                        colors: [
+                          GameColors.playButtonPainterColor10,
+                          GameColors.playButtonPainterColor9,
+                        ],
                       ),
                       borderRadius: BorderRadius.circular(25),
                       border: Border.all(
-                        color: Colors.white.withValues(alpha: 0.8),
+                        color: GameColors.white.withValues(alpha: 0.8),
                         width: 1.5,
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.1),
+                          color: GameColors.black.withValues(alpha: 0.1),
                           blurRadius: 8,
                           offset: const Offset(0, 4),
                         ),
@@ -623,7 +630,7 @@ class _MainScreenState extends State<MainScreen> {
               else
                 Icon(
                   icon,
-                  color: Colors.white.withValues(alpha: 0.7),
+                  color: GameColors.white.withValues(alpha: 0.7),
                   size: iconSize,
                 ),
             ],
@@ -651,7 +658,7 @@ class _MainScreenState extends State<MainScreen> {
                     label,
                     style: GoogleFonts.luckiestGuy(
                       fontSize: 20,
-                      color: const Color(0xffFFF8F3),
+                      color: GameColors.mapScreenColor4,
                     ),
                   ),
                 ],

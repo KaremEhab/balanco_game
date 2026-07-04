@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 
 import 'package:balanco_game/features/game/game_area.dart';
 import 'package:balanco_game/features/game/components/game_area/collected_heart_painter.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
-class HeartComponent extends PositionComponent with HasGameReference<BalancoGame> {
+class HeartComponent extends PositionComponent
+    with HasGameReference<BalancoGame> {
   Vector2 fractionalPosition;
   double _time = 0.0;
   bool isCollected = false;
@@ -28,7 +30,7 @@ class HeartComponent extends PositionComponent with HasGameReference<BalancoGame
     super.onLoad();
 
     _dropShadowPaint = Paint()
-      ..color = Colors.black.withValues(alpha: 0.5)
+      ..color = GameColors.black.withValues(alpha: 0.5)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6.0);
 
     _fadePaint = Paint();
@@ -42,8 +44,11 @@ class HeartComponent extends PositionComponent with HasGameReference<BalancoGame
   @override
   void update(double dt) {
     super.update(dt);
-    
-    if (!game.isSpawningLevel && game.size.x > 0 && game.size.y > 0 && !isCollected) {
+
+    if (!game.isSpawningLevel &&
+        game.size.x > 0 &&
+        game.size.y > 0 &&
+        !isCollected) {
       position = Vector2(
         fractionalPosition.x * game.size.x,
         120.0 + fractionalPosition.y * (game.levelHeight - 320.0),
@@ -76,7 +81,7 @@ class HeartComponent extends PositionComponent with HasGameReference<BalancoGame
     }
 
     if (fade < 1.0) {
-      _fadePaint.color = Colors.white.withValues(alpha: fade);
+      _fadePaint.color = GameColors.white.withValues(alpha: fade);
       canvas.saveLayer(
         Rect.fromCircle(center: Offset.zero, radius: 50 * pulseScale),
         _fadePaint,
@@ -97,7 +102,10 @@ class HeartComponent extends PositionComponent with HasGameReference<BalancoGame
     // We scale the drawing to match this component's size.
     canvas.save();
     canvas.scale(size.x / 48.0, size.y / 48.0);
-    canvas.translate(-24.0, -24.0); // Shift so the center of 48x48 box sits at (0,0)
+    canvas.translate(
+      -24.0,
+      -24.0,
+    ); // Shift so the center of 48x48 box sits at (0,0)
     _painter.paint(canvas, const Size(48, 48));
     canvas.restore();
 

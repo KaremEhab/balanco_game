@@ -8,11 +8,11 @@ class BallData {
   double p = 0.0;
   double velocity = 0.0;
   Vector2 freeFallVelocity = Vector2.zero();
-  
+
   bool isFalling = false;
   bool isFallingInHole = false;
   bool isFreeFalling = false;
-  
+
   HoleComponent? activeHole;
   TeleporterComponent? activeExitTeleporter;
 

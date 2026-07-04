@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:balanco_game/features/settings/widgets/avatar_shapes.dart';
 import 'package:balanco_game/features/settings/screens/profile_dialog.dart';
 import 'package:balanco_game/features/game/components/game_area/collected_star_painter.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class MapAppBar extends StatefulWidget {
   final int highestLevel;
@@ -135,22 +136,25 @@ class _MapAppBarState extends State<MapAppBar> {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             decoration: BoxDecoration(
-              color: const Color(0xFFFFD09B),
+              color: GameColors.mapAppBarPeach,
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
                 color: const Color.fromARGB(255, 104, 77, 30),
                 width: 2,
               ),
               boxShadow: const [
-                BoxShadow(color: Color(0xFF513A13), offset: Offset(0, 3)),
+                BoxShadow(
+                  color: GameColors.mapAppBarBrownText,
+                  offset: Offset(0, 3),
+                ),
               ],
             ),
             child: _buildStrokedText(
               'LVL ${widget.highestLevel}',
               fontSize: 12,
-              textColor: const Color(0xFFFFFBF6),
+              textColor: GameColors.mapAppBarWhiteHint,
               strokeColor: const Color.fromARGB(255, 104, 77, 30),
-              shadowColor: const Color(0xFF513A13),
+              shadowColor: GameColors.mapAppBarBrownText,
             ),
           ),
         ),
@@ -172,14 +176,17 @@ class _MapAppBarState extends State<MapAppBar> {
                   bottom: 4,
                 ),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFFFD09B),
+                  color: GameColors.mapAppBarPeach,
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
                     color: const Color.fromARGB(255, 104, 77, 30),
                     width: 2,
                   ),
                   boxShadow: const [
-                    BoxShadow(color: Color(0xFF513A13), offset: Offset(0, 3)),
+                    BoxShadow(
+                      color: GameColors.mapAppBarBrownText,
+                      offset: Offset(0, 3),
+                    ),
                   ],
                 ),
                 child: _buildStrokedText(
@@ -187,9 +194,9 @@ class _MapAppBarState extends State<MapAppBar> {
                       ? '${(widget.coins / 1000).toStringAsFixed(1)}K'
                       : widget.coins.toString(),
                   fontSize: 14,
-                  textColor: const Color(0xFFFFFBF6),
+                  textColor: GameColors.mapAppBarWhiteHint,
                   strokeColor: const Color.fromARGB(255, 104, 77, 30),
-                  shadowColor: const Color(0xFF513A13),
+                  shadowColor: GameColors.mapAppBarBrownText,
                 ),
               ),
               Positioned(
@@ -236,7 +243,10 @@ class _MapAppBarState extends State<MapAppBar> {
                   gradient: const LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
-                    colors: [Color(0xFF77F9E1), Color(0xFF4AACC2)],
+                    colors: [
+                      GameColors.mapAppBarTealAccent,
+                      GameColors.mapAppBarCyanMedium,
+                    ],
                   ),
                   borderRadius: BorderRadius.circular(30),
                   border: Border.all(
@@ -244,7 +254,10 @@ class _MapAppBarState extends State<MapAppBar> {
                     width: 2,
                   ),
                   boxShadow: const [
-                    BoxShadow(color: Color(0xFF1A4647), offset: Offset(0, 4)),
+                    BoxShadow(
+                      color: GameColors.mapAppBarTealDeep,
+                      offset: Offset(0, 4),
+                    ),
                   ],
                 ),
                 child: ClipRRect(
@@ -261,7 +274,7 @@ class _MapAppBarState extends State<MapAppBar> {
                                       .clamp(0.0, 1.0)
                                 : 1.0,
                             child: Container(
-                              color: Colors.black.withValues(alpha: 0.4),
+                              color: GameColors.black.withValues(alpha: 0.4),
                             ),
                           ),
                         ),
@@ -289,7 +302,7 @@ class _MapAppBarState extends State<MapAppBar> {
                                   100,
                                   141,
                                 ),
-                                shadowColor: const Color(0xFF1A4647),
+                                shadowColor: GameColors.mapAppBarTealDeep,
                               ),
                               const SizedBox(width: 8),
                               Row(
@@ -299,26 +312,26 @@ class _MapAppBarState extends State<MapAppBar> {
                                   _buildStrokedText(
                                     '${widget.sparks}',
                                     fontSize: 22,
-                                    textColor: const Color(0xFFFFFBF6),
+                                    textColor: GameColors.mapAppBarWhiteHint,
                                     strokeColor: const Color.fromARGB(
                                       255,
                                       55,
                                       100,
                                       141,
                                     ),
-                                    shadowColor: const Color(0xFF1A4647),
+                                    shadowColor: GameColors.mapAppBarTealDeep,
                                   ),
                                   _buildStrokedText(
                                     '/${widget.maxSparks}',
                                     fontSize: 13,
-                                    textColor: const Color(0xFFFFFBF6),
+                                    textColor: GameColors.mapAppBarWhiteHint,
                                     strokeColor: const Color.fromARGB(
                                       255,
                                       55,
                                       100,
                                       141,
                                     ),
-                                    shadowColor: const Color(0xFF1A4647),
+                                    shadowColor: GameColors.mapAppBarTealDeep,
                                   ),
                                 ],
                               ),
@@ -360,12 +373,15 @@ class _MapAppBarState extends State<MapAppBar> {
             padding: const EdgeInsets.fromLTRB(20, 8, 24, 6),
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [const Color(0xFFBCFFF3), const Color(0xFF00CD85)],
+                colors: [
+                  GameColors.mapAppBarMint,
+                  GameColors.mapAppBarGreenAccent,
+                ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
               borderRadius: BorderRadius.circular(50),
-              border: Border.all(color: const Color(0xFF00796B), width: 2),
+              border: Border.all(color: GameColors.mapAppBarTeal800, width: 2),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -389,8 +405,8 @@ class _MapAppBarState extends State<MapAppBar> {
                 _buildStrokedText(
                   'PLATINUM',
                   fontSize: 15,
-                  textColor: const Color(0xFFFFFBF6),
-                  strokeColor: const Color(0xFF00796B),
+                  textColor: GameColors.mapAppBarWhiteHint,
+                  strokeColor: GameColors.mapAppBarTeal800,
                   shadowColor: Colors.transparent,
                 ),
               ],
@@ -406,7 +422,10 @@ class _MapAppBarState extends State<MapAppBar> {
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
               boxShadow: [
-                BoxShadow(color: Color(0xFF513A13), offset: Offset(1, 2)),
+                BoxShadow(
+                  color: GameColors.mapAppBarBrownText,
+                  offset: Offset(1, 2),
+                ),
               ],
             ),
             child: SvgPicture.asset(
@@ -431,12 +450,18 @@ class _MapAppBarState extends State<MapAppBar> {
                 height: 45,
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
-                    colors: [Color(0xFF77F9E1), Color(0xFF4AACC2)],
+                    colors: [
+                      GameColors.mapAppBarTealAccent,
+                      GameColors.mapAppBarCyanMedium,
+                    ],
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
                   ),
                   borderRadius: BorderRadius.circular(30),
-                  border: Border.all(color: const Color(0xFF0288D1), width: 2),
+                  border: Border.all(
+                    color: GameColors.mapAppBarBlue700,
+                    width: 2,
+                  ),
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(28),
@@ -452,7 +477,7 @@ class _MapAppBarState extends State<MapAppBar> {
                               : 1.0,
                           heightFactor: 1.0,
                           child: Container(
-                            color: Colors.black.withValues(alpha: 0.4),
+                            color: GameColors.black.withValues(alpha: 0.4),
                           ),
                         ),
                       ),
@@ -466,7 +491,7 @@ class _MapAppBarState extends State<MapAppBar> {
                               'assets/images/Spark-icon.svg',
                               width: 20,
                               height: 20,
-                              strokeColor: const Color(0xFF0288D1),
+                              strokeColor: GameColors.mapAppBarBlue700,
                               shadowColor: Colors.transparent,
                             ),
                             const SizedBox(width: 6),
@@ -477,15 +502,15 @@ class _MapAppBarState extends State<MapAppBar> {
                                 _buildStrokedText(
                                   '${widget.sparks}',
                                   fontSize: 20,
-                                  textColor: const Color(0xFFFFFBF6),
-                                  strokeColor: const Color(0xFF0288D1),
+                                  textColor: GameColors.mapAppBarWhiteHint,
+                                  strokeColor: GameColors.mapAppBarBlue700,
                                   shadowColor: Colors.transparent,
                                 ),
                                 _buildStrokedText(
                                   '/${widget.maxSparks}',
                                   fontSize: 14,
-                                  textColor: const Color(0xFFFFFBF6),
-                                  strokeColor: const Color(0xFF0288D1),
+                                  textColor: GameColors.mapAppBarWhiteHint,
+                                  strokeColor: GameColors.mapAppBarBlue700,
                                   shadowColor: Colors.transparent,
                                 ),
                               ],
@@ -524,12 +549,18 @@ class _MapAppBarState extends State<MapAppBar> {
                 height: 45,
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
-                    colors: [Color(0xFFF9E577), Color(0xFFBE8500)],
+                    colors: [
+                      GameColors.mapAppBarYellow,
+                      GameColors.mapAppBarGoldDark,
+                    ],
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
                   ),
                   borderRadius: BorderRadius.circular(30),
-                  border: Border.all(color: const Color(0xFFB9800E), width: 2),
+                  border: Border.all(
+                    color: GameColors.mapAppBarGoldDarker,
+                    width: 2,
+                  ),
                 ),
                 alignment: Alignment.center,
                 child: Row(
@@ -556,8 +587,8 @@ class _MapAppBarState extends State<MapAppBar> {
                           ? '${(widget.coins / 1000).toStringAsFixed(1)}K'
                           : widget.coins.toString(),
                       fontSize: 20,
-                      textColor: const Color(0xFFFFFBF6),
-                      strokeColor: const Color(0xFFB9800E),
+                      textColor: GameColors.mapAppBarWhiteHint,
+                      strokeColor: GameColors.mapAppBarGoldDarker,
                       shadowColor: Colors.transparent,
                     ),
                   ],
@@ -584,19 +615,22 @@ class _MapAppBarState extends State<MapAppBar> {
             padding: const EdgeInsets.only(top: 8, bottom: 3),
             decoration: BoxDecoration(
               gradient: const LinearGradient(
-                colors: [Color(0xFFAEE6EF), Color(0xFF6DE8F8)],
+                colors: [
+                  GameColors.mapAppBarCyanSoft,
+                  GameColors.mapAppBarCyanLight,
+                ],
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
               ),
               borderRadius: BorderRadius.circular(30),
-              border: Border.all(color: const Color(0xFF163C47), width: 2),
+              border: Border.all(color: GameColors.mapAppBarTealDark, width: 2),
             ),
             alignment: Alignment.center,
             child: _buildStrokedText(
               "${widget.coins.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')} PTS",
               fontSize: 20,
-              textColor: Colors.white,
-              strokeColor: const Color(0xFF163C47),
+              textColor: GameColors.white,
+              strokeColor: GameColors.mapAppBarTealDark,
               shadowColor: Colors.transparent,
             ),
           ),
@@ -617,13 +651,13 @@ class _MapAppBarState extends State<MapAppBar> {
 
     // Transition Colors and Border
     final Color containerColor = Color.lerp(
-      const Color(0xFF6DE8F8).withValues(alpha: 0.3),
-      const Color(0xFF6DE8F8).withValues(alpha: 0.5),
+      GameColors.mapAppBarCyanLight.withValues(alpha: 0.3),
+      GameColors.mapAppBarCyanLight.withValues(alpha: 0.5),
       p,
     )!;
     final Color borderColor = Color.lerp(
-      Color(0xFF163C47),
-      Color(0xFF163C47),
+      GameColors.mapAppBarTealDark,
+      GameColors.mapAppBarTealDark,
       p,
     )!;
     final double borderWidth = lerpDouble(2.0, 3.0, p)!;
@@ -758,9 +792,9 @@ class _MapAppBarState extends State<MapAppBar> {
                           child: _buildStrokedText(
                             'KAREEM EHAB',
                             fontSize: nameSize,
-                            textColor: const Color(0xFFFFFBF6),
+                            textColor: GameColors.mapAppBarWhiteHint,
                             strokeColor: const Color.fromARGB(255, 71, 49, 11),
-                            shadowColor: const Color(0xFF513A13),
+                            shadowColor: GameColors.mapAppBarBrownText,
                           ),
                         ),
                       ],
@@ -781,15 +815,17 @@ class _MapAppBarState extends State<MapAppBar> {
                       child: Container(
                         padding: const EdgeInsets.fromLTRB(24, 8, 24, 4),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFAEE6EF).withValues(alpha: 0.4),
+                          color: GameColors.mapAppBarCyanSoft.withValues(
+                            alpha: 0.4,
+                          ),
                           borderRadius: BorderRadius.circular(30),
                           border: Border.all(
-                            color: const Color(0xFF163C47),
+                            color: GameColors.mapAppBarTealDark,
                             width: 3,
                           ),
                           // boxShadow: const [
                           //   BoxShadow(
-                          //     color: Color(0xFF163C47),
+                          //     color: GameColors.mapAppBarTealDark,
                           //     offset: Offset(0, 4),
                           //   ),
                           // ],
@@ -797,9 +833,9 @@ class _MapAppBarState extends State<MapAppBar> {
                         child: _buildStrokedText(
                           "${widget.coins.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')} PTS",
                           fontSize: 20,
-                          textColor: Colors.white,
-                          strokeColor: const Color(0xFF163C47),
-                          shadowColor: const Color(0xFF163C47),
+                          textColor: GameColors.white,
+                          strokeColor: GameColors.mapAppBarTealDark,
+                          shadowColor: GameColors.mapAppBarTealDark,
                         ),
                       ),
                     ),

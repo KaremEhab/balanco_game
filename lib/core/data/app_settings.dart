@@ -14,7 +14,7 @@ class AppSettings {
     if (soundConfig != null) {
       soundEnabled.value = soundConfig == 'true';
     }
-    
+
     final sensitivityConfig = await db.getConfig('joystick_sensitivity');
     if (sensitivityConfig != null) {
       joystickSensitivity.value = double.tryParse(sensitivityConfig) ?? 1.0;
@@ -38,7 +38,10 @@ class AppSettings {
 
   static void setJoystickSensitivity(double value) {
     joystickSensitivity.value = value;
-    DatabaseHelper.instance.saveConfig('joystick_sensitivity', value.toString());
+    DatabaseHelper.instance.saveConfig(
+      'joystick_sensitivity',
+      value.toString(),
+    );
   }
 
   static void setHapticsEnabled(bool value) {
@@ -51,7 +54,10 @@ class AppSettings {
     DatabaseHelper.instance.saveConfig('parallax_enabled', value.toString());
   }
 
-  static Future<AudioPlayer?> playSound(String file, {double volume = 1.0}) async {
+  static Future<AudioPlayer?> playSound(
+    String file, {
+    double volume = 1.0,
+  }) async {
     if (soundEnabled.value) {
       try {
         return await FlameAudio.play(file, volume: volume);

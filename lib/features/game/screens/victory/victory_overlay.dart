@@ -10,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:balanco_game/features/game/screens/victory/victory_painters.dart';
 import 'package:balanco_game/features/game/components/game_area/star_filled_painter.dart';
 import 'package:balanco_game/features/game/components/game_area/empty_star_painter.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class AnimatedLevelCompleteOverlay extends StatefulWidget {
   final BalancoGame game;
@@ -26,12 +27,12 @@ class _AnimatedLevelCompleteOverlayState
   late AnimationController _mainController;
   late Animation<double> _scaleAnimation;
   late Animation<double> _fadeAnimation;
-  
+
   late AnimationController _coinsController;
   late Animation<int> _coinsAnimation;
 
   bool _isVictory = false;
-  
+
   int _earnedStars = 0;
   int _remainingHearts = 0;
   int _targetCoins = 0;
@@ -42,7 +43,7 @@ class _AnimatedLevelCompleteOverlayState
   void initState() {
     super.initState();
     _isVictory = widget.game.currentLevel.value >= 50;
-    
+
     _earnedStars = widget.game.currentPoints.value;
     _remainingHearts = widget.game.currentLives.value;
     _targetCoins = (_earnedStars * 100) + (_remainingHearts * 50);
@@ -53,10 +54,9 @@ class _AnimatedLevelCompleteOverlayState
       vsync: this,
       duration: const Duration(milliseconds: 600),
     );
-    _scaleAnimation = Tween<double>(
-      begin: 0.5,
-      end: 1.0,
-    ).animate(CurvedAnimation(parent: _mainController, curve: Curves.easeOutBack));
+    _scaleAnimation = Tween<double>(begin: 0.5, end: 1.0).animate(
+      CurvedAnimation(parent: _mainController, curve: Curves.easeOutBack),
+    );
     _fadeAnimation = Tween<double>(
       begin: 0.0,
       end: 1.0,
@@ -66,8 +66,10 @@ class _AnimatedLevelCompleteOverlayState
       vsync: this,
       duration: const Duration(milliseconds: 1500),
     );
-    _coinsAnimation = IntTween(begin: 0, end: _targetCoins)
-      .animate(CurvedAnimation(parent: _coinsController, curve: Curves.easeOut));
+    _coinsAnimation = IntTween(
+      begin: 0,
+      end: _targetCoins,
+    ).animate(CurvedAnimation(parent: _coinsController, curve: Curves.easeOut));
 
     _startSequence();
   }
@@ -76,9 +78,9 @@ class _AnimatedLevelCompleteOverlayState
     // 1. Enter main modal
     _mainController.forward();
     AppSettings.playSound('win.wav', volume: 0.5);
-    
+
     await Future.delayed(const Duration(milliseconds: 500));
-    
+
     // 2. Pop stars sequentially
     for (int i = 0; i < 3; i++) {
       if (i < _earnedStars) {
@@ -100,18 +102,18 @@ class _AnimatedLevelCompleteOverlayState
       final profile = await DatabaseHelper.instance.getPlayerProfile();
       int currentHighest = profile.highestLevel;
       int nextLevel = widget.game.currentLevel.value + 1;
-      
+
       int newHighest = currentHighest;
       if (nextLevel > currentHighest) {
         newHighest = nextLevel > 50 ? 50 : nextLevel;
       }
-      
+
       // Update highest level and add coins
       await DatabaseHelper.instance.updatePlayerProfile(
         profile.copyWith(
           highestLevel: newHighest,
           coins: profile.coins + _targetCoins,
-        )
+        ),
       );
     } catch (e) {
       debugPrint('Failed to save progress: $e');
@@ -146,7 +148,7 @@ class _AnimatedLevelCompleteOverlayState
   Widget _buildStar(int index, double size) {
     bool isEarned = index < _earnedStars;
     bool isVisible = _showStars[index];
-    
+
     return SizedBox(
       width: size,
       height: size,
@@ -161,7 +163,13 @@ class _AnimatedLevelCompleteOverlayState
     );
   }
 
-  Widget _buildRoundButton(IconData icon, String label, VoidCallback onTap, Color c1, Color c2) {
+  Widget _buildRoundButton(
+    IconData icon,
+    String label,
+    VoidCallback onTap,
+    Color c1,
+    Color c2,
+  ) {
     return GestureDetector(
       onTap: onTap,
       child: Column(
@@ -173,25 +181,27 @@ class _AnimatedLevelCompleteOverlayState
             decoration: BoxDecoration(
               color: c1,
               shape: BoxShape.circle,
-              border: Border.all(color: const Color(0xFF3E2723), width: 3),
+              border: Border.all(color: GameColors.brownDarkUi, width: 3),
               boxShadow: const [
-                BoxShadow(
-                  color: Color(0xFF3E2723),
-                  offset: Offset(0, 4),
-                ),
+                BoxShadow(color: GameColors.brownDarkUi, offset: Offset(0, 4)),
               ],
             ),
             child: Center(
-              child: Icon(icon, color: Colors.white, size: 36, shadows: const [
-                Shadow(color: Color(0xFF3E2723), offset: Offset(0, 2))
-              ]),
+              child: Icon(
+                icon,
+                color: GameColors.white,
+                size: 36,
+                shadows: const [
+                  Shadow(color: GameColors.brownDarkUi, offset: Offset(0, 2)),
+                ],
+              ),
             ),
           ),
           const SizedBox(height: 8),
           Text(
             label,
             style: GoogleFonts.luckiestGuy(
-              color: const Color(0xFF3E2723), // Dark brown
+              color: GameColors.brownDarkUi, // Dark brown
               fontSize: 16,
             ),
           ),
@@ -204,10 +214,10 @@ class _AnimatedLevelCompleteOverlayState
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: const Color(0xFF3E2723).withValues(alpha: 0.1),
+        color: GameColors.brownDarkUi.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(30),
         border: Border.all(
-          color: const Color(0xFF3E2723).withValues(alpha: 0.2),
+          color: GameColors.brownDarkUi.withValues(alpha: 0.2),
           width: 2,
         ),
       ),
@@ -220,7 +230,7 @@ class _AnimatedLevelCompleteOverlayState
             value,
             style: GoogleFonts.luckiestGuy(
               fontSize: 24,
-              color: const Color(0xFF3E2723),
+              color: GameColors.brownDarkUi,
             ),
           ),
         ],
@@ -234,7 +244,7 @@ class _AnimatedLevelCompleteOverlayState
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
         child: Container(
-          color: Colors.black.withValues(alpha: 0.5),
+          color: GameColors.black.withValues(alpha: 0.5),
           child: Center(
             child: FadeTransition(
               opacity: _fadeAnimation,
@@ -249,31 +259,34 @@ class _AnimatedLevelCompleteOverlayState
                       width: 320,
                       height: 440,
                       decoration: BoxDecoration(
-                        color: const Color(0xFFFFF8E7), // Light sand color
+                        color: GameColors.sandLightUi, // Light sand color
                         borderRadius: BorderRadius.circular(24),
                         border: Border.all(
-                          color: const Color(0xFF3E2723), // Dark brown outline
+                          color: GameColors.brownDarkUi, // Dark brown outline
                           width: 3.5,
                         ),
                         boxShadow: const [
-                          BoxShadow(color: Color(0xFF3E2723), offset: Offset(0, 6)),
+                          BoxShadow(
+                            color: GameColors.brownDarkUi,
+                            offset: Offset(0, 6),
+                          ),
                         ],
                       ),
                     ),
-                    
-                      // Top Ribbon
-                      Positioned(
-                        top: -30,
-                        child: SizedBox(
-                          width: 380,
-                          height: 90,
-                          child: CustomPaint(
-                            painter: VictoryRibbonPainter(
-                              text: _isVictory ? 'VICTORY' : 'LEVEL CLEARED'
-                            ),
+
+                    // Top Ribbon
+                    Positioned(
+                      top: -30,
+                      child: SizedBox(
+                        width: 380,
+                        height: 90,
+                        child: CustomPaint(
+                          painter: VictoryRibbonPainter(
+                            text: _isVictory ? 'VICTORY' : 'LEVEL CLEARED',
                           ),
                         ),
                       ),
+                    ),
 
                     // Content
                     Positioned(
@@ -293,7 +306,11 @@ class _AnimatedLevelCompleteOverlayState
                                 child: _buildStar(0, 70),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 20.0, left: 10, right: 10),
+                                padding: const EdgeInsets.only(
+                                  bottom: 20.0,
+                                  left: 10,
+                                  right: 10,
+                                ),
                                 child: _buildStar(1, 90),
                               ),
                               Transform.rotate(
@@ -302,16 +319,22 @@ class _AnimatedLevelCompleteOverlayState
                               ),
                             ],
                           ),
-                          
+
                           const SizedBox(height: 15),
-                          
+
                           // Divider line
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Container(width: 40, height: 3, color: const Color(0xFF3E2723)),
+                              Container(
+                                width: 40,
+                                height: 3,
+                                color: GameColors.brownDarkUi,
+                              ),
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                ),
                                 child: Stack(
                                   children: [
                                     Text(
@@ -321,25 +344,29 @@ class _AnimatedLevelCompleteOverlayState
                                         foreground: Paint()
                                           ..style = PaintingStyle.stroke
                                           ..strokeWidth = 3
-                                          ..color = const Color(0xFF3E2723),
+                                          ..color = GameColors.brownDarkUi,
                                       ),
                                     ),
                                     Text(
                                       'REWARDS',
                                       style: GoogleFonts.luckiestGuy(
                                         fontSize: 20,
-                                        color: const Color(0xFFFFB74D),
+                                        color: GameColors.orangeTextUi,
                                       ),
                                     ),
                                   ],
                                 ),
                               ),
-                              Container(width: 40, height: 3, color: const Color(0xFF3E2723)),
+                              Container(
+                                width: 40,
+                                height: 3,
+                                color: GameColors.brownDarkUi,
+                              ),
                             ],
                           ),
-                          
+
                           const SizedBox(height: 15),
-                          
+
                           // Coins Pill
                           AnimatedBuilder(
                             animation: _coinsAnimation,
@@ -348,37 +375,42 @@ class _AnimatedLevelCompleteOverlayState
                                 SizedBox(
                                   width: 30,
                                   height: 30,
-                                  child: CustomPaint(painter: StarFilledPainter()),
+                                  child: CustomPaint(
+                                    painter: StarFilledPainter(),
+                                  ),
                                 ),
                                 _coinsAnimation.value.toString(),
                               );
-                            }
+                            },
                           ),
-                          
+
                           const Spacer(),
-                          
+
                           // Bottom Buttons
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               _buildRoundButton(
-                                Icons.refresh, 
-                                'RETRY', 
+                                Icons.refresh,
+                                'RETRY',
                                 _restartLevel,
-                                const Color(0xFF5AB6E5), const Color(0xFF2C74A2)
+                                GameColors.victoryPainterColor6,
+                                GameColors.victoryPainterColor3,
                               ),
                               _buildRoundButton(
-                                Icons.list, 
-                                'LOBBY', 
+                                Icons.list,
+                                'LOBBY',
                                 _returnToLobby,
-                                const Color(0xFFF07258), const Color(0xFFA6341D)
+                                GameColors.victoryPainterColor13,
+                                GameColors.victoryPainterColor9,
                               ),
                               if (!_isVictory)
                                 _buildRoundButton(
-                                  Icons.play_arrow, 
-                                  'NEXT', 
+                                  Icons.play_arrow,
+                                  'NEXT',
                                   _nextLevel,
-                                  const Color(0xFF82D955), const Color(0xFF45941E)
+                                  GameColors.victoryPainterColor8,
+                                  GameColors.victoryPainterColor4,
                                 ),
                             ],
                           ),

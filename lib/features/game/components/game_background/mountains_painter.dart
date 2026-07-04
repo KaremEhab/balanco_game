@@ -1,6 +1,7 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class BackMountainPainter extends CustomPainter {
   @override
@@ -32,7 +33,10 @@ class BackMountainPainter extends CustomPainter {
     paint0Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6775870, size.height * 0.3904359),
       Offset(size.width * 0.5844933, size.height * 0.5124799),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_0, paint0Fill);
@@ -56,7 +60,10 @@ class BackMountainPainter extends CustomPainter {
     paint1Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6597801, size.height * 0.3233040),
       Offset(size.width * 0.5604455, size.height * 0.4535311),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_1, paint1Fill);
@@ -94,7 +101,10 @@ class BackMountainPainter extends CustomPainter {
     paint2Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6679063, size.height * 0.3492967),
       Offset(size.width * 0.5676329, size.height * 0.4807546),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_2, paint2Fill);
@@ -244,7 +254,10 @@ class BackMountainPainter extends CustomPainter {
     paint3Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3301950, size.height * 0.5760842),
       Offset(size.width * 0.3094857, size.height * 0.5359707),
-      [Color(0xff867E1D).withValues(alpha: 1), Color(0xff68641B).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor7.withValues(alpha: 1),
+        GameColors.mountainPainterColor1.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_3, paint3Fill);
@@ -2005,7 +2018,10 @@ class BackMountainPainter extends CustomPainter {
     paint4Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4485277, size.height * 0.03206960),
       Offset(size.width * 0.4289101, size.height * 0.09402198),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_4, paint4Fill);
@@ -3636,7 +3652,10 @@ class BackMountainPainter extends CustomPainter {
     paint5Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.8179866, size.height * 0.7435458),
       Offset(size.width * 0.7078891, size.height * 0.8501392),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_5, paint5Fill);
@@ -5347,7 +5366,10 @@ class BackMountainPainter extends CustomPainter {
     paint6Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4613461, size.height * -2.752015),
       Offset(size.width * 0.4088279, size.height * 0.1542418),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_6, paint6Fill);
@@ -5377,7 +5399,7 @@ class BackMountainPainter extends CustomPainter {
     path_7.close();
 
     Paint paint7Fill = Paint()..style = PaintingStyle.fill;
-    paint7Fill.color = Color(0xff68641B).withValues(alpha: 1.0);
+    paint7Fill.color = GameColors.mountainPainterColor1.withValues(alpha: 1.0);
     canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
@@ -5409,7 +5431,10 @@ class BackMountainPainter extends CustomPainter {
     paint8Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.08596750, size.height * 0.7340513),
       Offset(size.width * 0.1122581, size.height * 0.7471355),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_8, paint8Fill);
@@ -5590,7 +5615,10 @@ class BackMountainPainter extends CustomPainter {
     paint9Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5746807, size.height * 0.4554359),
       Offset(size.width * 0.6200440, size.height * 0.3374872),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_9, paint9Fill);
@@ -5771,7 +5799,10 @@ class BackMountainPainter extends CustomPainter {
     paint10Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6805315, size.height * 0.7258608),
       Offset(size.width * 0.7527036, size.height * 0.6229084),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_10, paint10Fill);
@@ -5973,7 +6004,10 @@ class BackMountainPainter extends CustomPainter {
     paint11Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4395354, size.height * 0.1384762),
       Offset(size.width * 0.4811549, size.height * 0.03605128),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_11, paint11Fill);
@@ -6161,7 +6195,10 @@ class BackMountainPainter extends CustomPainter {
     paint12Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3829713, size.height * 0.4465238),
       Offset(size.width * 0.3190497, size.height * 0.3411282),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_12, paint12Fill);
@@ -6258,7 +6295,10 @@ class BackMountainPainter extends CustomPainter {
     paint13Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.07283939, size.height * 0.8029304),
       Offset(size.width * 0.1095086, size.height * 0.8504249),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_13, paint13Fill);
@@ -6292,7 +6332,10 @@ class BackMountainPainter extends CustomPainter {
     paint14Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6767361, size.height * 0.4050220),
       Offset(size.width * 0.6277208, size.height * 0.4744542),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_14, paint14Fill);
@@ -6325,7 +6368,10 @@ class BackMountainPainter extends CustomPainter {
     paint15Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6580727, size.height * 0.4117729),
       Offset(size.width * 0.6211568, size.height * 0.5422381),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_15, paint15Fill);
@@ -6359,7 +6405,10 @@ class BackMountainPainter extends CustomPainter {
     paint16Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6791912, size.height * 0.4371941),
       Offset(size.width * 0.6414952, size.height * 0.5704212),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_16, paint16Fill);
@@ -6379,7 +6428,7 @@ class BackMountainPainter extends CustomPainter {
     path_17.close();
 
     Paint paint17Fill = Paint()..style = PaintingStyle.fill;
-    paint17Fill.color = Color(0xff84811F).withValues(alpha: 1.0);
+    paint17Fill.color = GameColors.mountainPainterColor6.withValues(alpha: 1.0);
     canvas.drawPath(path_17, paint17Fill);
 
     Path path_18 = Path();
@@ -6405,7 +6454,9 @@ class BackMountainPainter extends CustomPainter {
     path_18.close();
 
     Paint paint18Fill = Paint()..style = PaintingStyle.fill;
-    paint18Fill.color = Color(0xff9E9826).withValues(alpha: 1.0);
+    paint18Fill.color = GameColors.mountainPainterColor10.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_18, paint18Fill);
 
     Path path_19 = Path();
@@ -6512,7 +6563,10 @@ class BackMountainPainter extends CustomPainter {
     paint19Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2633939, size.height * 0.4091832),
       Offset(size.width * 0.3148011, size.height * 0.6273773),
-      [Color(0xff867E1D).withValues(alpha: 1), Color(0xff68641B).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor7.withValues(alpha: 1),
+        GameColors.mountainPainterColor1.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_19, paint19Fill);
@@ -6547,7 +6601,10 @@ class BackMountainPainter extends CustomPainter {
     paint20Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.1006730, size.height * 0.6738535),
       Offset(size.width * 0.1485201, size.height * 0.7064432),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_20, paint20Fill);
@@ -6579,7 +6636,10 @@ class BackMountainPainter extends CustomPainter {
     paint21Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4246864, size.height * 0.3886996),
       Offset(size.width * 0.4067533, size.height * 0.2380586),
-      [Color(0xffB59478).withValues(alpha: 1), Color(0xff8E776C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor13.withValues(alpha: 1),
+        GameColors.mountainPainterColor8.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_21, paint21Fill);
@@ -6602,7 +6662,10 @@ class BackMountainPainter extends CustomPainter {
     paint22Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4618967, size.height * 0.6293846),
       Offset(size.width * 0.4444359, size.height * 0.4249524),
-      [Color(0xffB59478).withValues(alpha: 1), Color(0xff8E776C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor13.withValues(alpha: 1),
+        GameColors.mountainPainterColor8.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_22, paint22Fill);
@@ -6632,7 +6695,10 @@ class BackMountainPainter extends CustomPainter {
     paint23Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4892141, size.height * 0.4426410),
       Offset(size.width * 0.5346367, size.height * 0.1483993),
-      [Color(0xffB59478).withValues(alpha: 1), Color(0xff755C52).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor13.withValues(alpha: 1),
+        GameColors.mountainPainterColor2.withValues(alpha: 1),
+      ],
       [0, 0.992],
     );
     canvas.drawPath(path_23, paint23Fill);
@@ -6677,7 +6743,10 @@ class BackMountainPainter extends CustomPainter {
     paint24Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5914168, size.height * 0.3798498),
       Offset(size.width * 0.5185010, size.height * 0.4408242),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_24, paint24Fill);
@@ -6708,7 +6777,10 @@ class BackMountainPainter extends CustomPainter {
     paint25Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7705717, size.height * 0.1750000),
       Offset(size.width * 0.5970918, size.height * 0.5291429),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_25, paint25Fill);
@@ -6800,7 +6872,10 @@ class BackMountainPainter extends CustomPainter {
     paint26Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5702600, size.height * 0.4021612),
       Offset(size.width * 0.5587132, size.height * 0.1989451),
-      [Color(0xffB59478).withValues(alpha: 1), Color(0xff8E776C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor13.withValues(alpha: 1),
+        GameColors.mountainPainterColor8.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_26, paint26Fill);
@@ -6824,7 +6899,10 @@ class BackMountainPainter extends CustomPainter {
     paint27Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2201033, size.height * 1.092037),
       Offset(size.width * 0.5246730, size.height * 0.1276667),
-      [Color(0xffB59478).withValues(alpha: 1), Color(0xff755C52).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor13.withValues(alpha: 1),
+        GameColors.mountainPainterColor2.withValues(alpha: 1),
+      ],
       [0, 0.992],
     );
     canvas.drawPath(path_27, paint27Fill);
@@ -6861,7 +6939,10 @@ class BackMountainPainter extends CustomPainter {
     paint28Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5636711, size.height * 0.2598901),
       Offset(size.width * 0.4393690, size.height * 0.2708974),
-      [Color(0xffB59478).withValues(alpha: 1), Color(0xff755C52).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor13.withValues(alpha: 1),
+        GameColors.mountainPainterColor2.withValues(alpha: 1),
+      ],
       [0, 0.992],
     );
     canvas.drawPath(path_28, paint28Fill);
@@ -6917,7 +6998,10 @@ class BackMountainPainter extends CustomPainter {
     paint29Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3661033, size.height * 0.1108278),
       Offset(size.width * 0.3968910, size.height * 0.1728352),
-      [Color(0xffB59478).withValues(alpha: 1), Color(0xff755C52).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor13.withValues(alpha: 1),
+        GameColors.mountainPainterColor2.withValues(alpha: 1),
+      ],
       [0, 0.992],
     );
     canvas.drawPath(path_29, paint29Fill);
@@ -6934,7 +7018,9 @@ class BackMountainPainter extends CustomPainter {
     path_30.close();
 
     Paint paint30Fill = Paint()..style = PaintingStyle.fill;
-    paint30Fill.color = Color(0xffA3886F).withValues(alpha: 1.0);
+    paint30Fill.color = GameColors.mountainPainterColor11.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_30, paint30Fill);
 
     Path path_31 = Path();
@@ -8779,7 +8865,10 @@ class BackMountainPainter extends CustomPainter {
     paint31Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6424226, size.height * 0.5202161),
       Offset(size.width * 0.5406520, size.height * 0.5793663),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_31, paint31Fill);
@@ -10504,7 +10593,10 @@ class BackMountainPainter extends CustomPainter {
     paint32Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5147973, size.height * 0.4654396),
       Offset(size.width * 0.4876157, size.height * 0.5101905),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_32, paint32Fill);
@@ -10685,7 +10777,10 @@ class BackMountainPainter extends CustomPainter {
     paint33Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4629828, size.height * 0.4437692),
       Offset(size.width * 0.3765813, size.height * 0.5613700),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_33, paint33Fill);
@@ -10780,7 +10875,10 @@ class BackMountainPainter extends CustomPainter {
     paint34Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4467323, size.height * 0.8391319),
       Offset(size.width * 0.3078394, size.height * 0.5985055),
-      [Color(0xff867E1D).withValues(alpha: 1), Color(0xff68641B).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor7.withValues(alpha: 1),
+        GameColors.mountainPainterColor1.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_34, paint34Fill);
@@ -10838,7 +10936,10 @@ class BackMountainPainter extends CustomPainter {
     paint35Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6185105, size.height * 1.196740),
       Offset(size.width * 0.4681434, size.height * 0.6102088),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_35, paint35Fill);
@@ -10871,7 +10972,10 @@ class BackMountainPainter extends CustomPainter {
     paint36Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7943021, size.height * 0.7378205),
       Offset(size.width * 0.5839866, size.height * 0.9818278),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_36, paint36Fill);
@@ -10924,7 +11028,10 @@ class BackMountainPainter extends CustomPainter {
     paint37Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7257878, size.height * 0.5448681),
       Offset(size.width * 0.6157533, size.height * 0.7102894),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_37, paint37Fill);
@@ -10956,7 +11063,10 @@ class BackMountainPainter extends CustomPainter {
     paint38Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7347916, size.height * 0.6175238),
       Offset(size.width * 0.7115086, size.height * 0.6525861),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_38, paint38Fill);
@@ -11130,7 +11240,10 @@ class BackMountainPainter extends CustomPainter {
     paint39Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5607017, size.height * 0.4372308),
       Offset(size.width * 0.5222218, size.height * 0.4931099),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_39, paint39Fill);
@@ -11187,7 +11300,10 @@ class BackMountainPainter extends CustomPainter {
     paint40Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7713996, size.height * 0.6659780),
       Offset(size.width * 0.5705143, size.height * 0.8990476),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_40, paint40Fill);
@@ -11265,7 +11381,7 @@ class BackMountainPainter extends CustomPainter {
     path_41.close();
 
     Paint paint41Fill = Paint()..style = PaintingStyle.fill;
-    paint41Fill.color = Color(0xff68641B).withValues(alpha: 1.0);
+    paint41Fill.color = GameColors.mountainPainterColor1.withValues(alpha: 1.0);
     canvas.drawPath(path_41, paint41Fill);
 
     Path path_42 = Path();
@@ -11313,7 +11429,10 @@ class BackMountainPainter extends CustomPainter {
     paint42Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4996138, size.height * 0.2316593),
       Offset(size.width * 0.4588604, size.height * 0.05926007),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_42, paint42Fill);
@@ -11358,7 +11477,10 @@ class BackMountainPainter extends CustomPainter {
     paint43Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4835851, size.height * 0.1284652),
       Offset(size.width * 0.4784245, size.height * 0.3675604),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_43, paint43Fill);
@@ -11428,7 +11550,10 @@ class BackMountainPainter extends CustomPainter {
     paint44Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5188432, size.height * 0.1568095),
       Offset(size.width * 0.5070631, size.height * 0.2419707),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_44, paint44Fill);
@@ -11443,7 +11568,9 @@ class BackMountainPainter extends CustomPainter {
     path_45.close();
 
     Paint paint45Fill = Paint()..style = PaintingStyle.fill;
-    paint45Fill.color = Color(0xffB59478).withValues(alpha: 1.0);
+    paint45Fill.color = GameColors.mountainPainterColor13.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_45, paint45Fill);
 
     Path path_46 = Path();
@@ -11466,7 +11593,10 @@ class BackMountainPainter extends CustomPainter {
     paint46Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.9970803, size.height * 0.9110000),
       Offset(size.width * 0.9535143, size.height * 1.051399),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_46, paint46Fill);
@@ -11502,7 +11632,9 @@ class BackMountainPainter extends CustomPainter {
     path_47.close();
 
     Paint paint47Fill = Paint()..style = PaintingStyle.fill;
-    paint47Fill.color = Color(0xffA89E26).withValues(alpha: 1.0);
+    paint47Fill.color = GameColors.mountainPainterColor12.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_47, paint47Fill);
 
     Path path_48 = Path();
@@ -11525,7 +11657,10 @@ class BackMountainPainter extends CustomPainter {
     paint48Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2876176, size.height * 0.8718864),
       Offset(size.width * 0.2856119, size.height * 0.9060220),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_48, paint48Fill);
@@ -11607,7 +11742,9 @@ class BackMountainPainter extends CustomPainter {
     path_49.close();
 
     Paint paint49Fill = Paint()..style = PaintingStyle.fill;
-    paint49Fill.color = Color(0xff9E9826).withValues(alpha: 1.0);
+    paint49Fill.color = GameColors.mountainPainterColor10.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_49, paint49Fill);
 
     Path path_50 = Path();
@@ -11745,7 +11882,10 @@ class BackMountainPainter extends CustomPainter {
     paint50Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4008222, size.height * 0.8109194),
       Offset(size.width * 0.3527457, size.height * 0.9178755),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_50, paint50Fill);
@@ -11809,7 +11949,9 @@ class BackMountainPainter extends CustomPainter {
     path_51.close();
 
     Paint paint51Fill = Paint()..style = PaintingStyle.fill;
-    paint51Fill.color = Color(0xffD8C72B).withValues(alpha: 1.0);
+    paint51Fill.color = GameColors.mountainPainterColor20.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_51, paint51Fill);
 
     Path path_52 = Path();
@@ -11857,7 +11999,10 @@ class BackMountainPainter extends CustomPainter {
     paint52Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6638050, size.height * 0.7331905),
       Offset(size.width * 0.5180516, size.height * 0.5779890),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_52, paint52Fill);
@@ -11982,7 +12127,10 @@ class BackMountainPainter extends CustomPainter {
     paint53Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6527075, size.height * 0.9981209),
       Offset(size.width * 0.6532983, size.height * 0.8670293),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_53, paint53Fill);
@@ -12013,7 +12161,10 @@ class BackMountainPainter extends CustomPainter {
     paint54Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4016501, size.height * 0.8833810),
       Offset(size.width * 0.4376291, size.height * 0.8858681),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_54, paint54Fill);
@@ -12167,7 +12318,9 @@ class BackMountainPainter extends CustomPainter {
     path_55.close();
 
     Paint paint55Fill = Paint()..style = PaintingStyle.fill;
-    paint55Fill.color = Color(0xffB7AC27).withValues(alpha: 1.0);
+    paint55Fill.color = GameColors.mountainPainterColor14.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_55, paint55Fill);
 
     Path path_56 = Path();
@@ -12200,7 +12353,9 @@ class BackMountainPainter extends CustomPainter {
     path_56.close();
 
     Paint paint56Fill = Paint()..style = PaintingStyle.fill;
-    paint56Fill.color = Color(0xffEAA326).withValues(alpha: 1.0);
+    paint56Fill.color = GameColors.mountainPainterColor22.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_56, paint56Fill);
 
     Path path_57 = Path();
@@ -12256,7 +12411,9 @@ class BackMountainPainter extends CustomPainter {
     path_57.close();
 
     Paint paint57Fill = Paint()..style = PaintingStyle.fill;
-    paint57Fill.color = Color(0xffF9C04E).withValues(alpha: 1.0);
+    paint57Fill.color = GameColors.mountainPainterColor25.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_57, paint57Fill);
 
     Path path_58 = Path();
@@ -12281,7 +12438,9 @@ class BackMountainPainter extends CustomPainter {
     path_58.close();
 
     Paint paint58Fill = Paint()..style = PaintingStyle.fill;
-    paint58Fill.color = Color(0xffD36433).withValues(alpha: 1.0);
+    paint58Fill.color = GameColors.mountainPainterColor18.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_58, paint58Fill);
 
     Path path_59 = Path();
@@ -12298,7 +12457,9 @@ class BackMountainPainter extends CustomPainter {
     path_59.close();
 
     Paint paint59Fill = Paint()..style = PaintingStyle.fill;
-    paint59Fill.color = Color(0xffB59478).withValues(alpha: 1.0);
+    paint59Fill.color = GameColors.mountainPainterColor13.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_59, paint59Fill);
 
     Path path_60 = Path();
@@ -12346,7 +12507,10 @@ class BackMountainPainter extends CustomPainter {
     paint60Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7099446, size.height * 1.234601),
       Offset(size.width * 0.8644474, size.height * 0.8642418),
-      [Color(0xffB59478).withValues(alpha: 1), Color(0xff8E776C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor13.withValues(alpha: 1),
+        GameColors.mountainPainterColor8.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_60, paint60Fill);
@@ -12370,7 +12534,10 @@ class BackMountainPainter extends CustomPainter {
     paint61Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.08600956, size.height * 0.5999560),
       Offset(size.width * 0.1938815, size.height * 0.7641099),
-      [Color(0xffB59478).withValues(alpha: 1), Color(0xff8E776C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor13.withValues(alpha: 1),
+        GameColors.mountainPainterColor8.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_61, paint61Fill);
@@ -12565,7 +12732,10 @@ class BackMountainPainter extends CustomPainter {
     paint62Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3359465, size.height * 0.6032564),
       Offset(size.width * 0.2429197, size.height * 0.7697692),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_62, paint62Fill);
@@ -12614,7 +12784,9 @@ class BackMountainPainter extends CustomPainter {
     path_63.close();
 
     Paint paint63Fill = Paint()..style = PaintingStyle.fill;
-    paint63Fill.color = Color(0xffB59478).withValues(alpha: 1.0);
+    paint63Fill.color = GameColors.mountainPainterColor13.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_63, paint63Fill);
 
     Path path_64 = Path();
@@ -12642,7 +12814,7 @@ class BackMountainPainter extends CustomPainter {
     path_64.close();
 
     Paint paint64Fill = Paint()..style = PaintingStyle.fill;
-    paint64Fill.color = Color(0xff82655D).withValues(alpha: 1.0);
+    paint64Fill.color = GameColors.mountainPainterColor5.withValues(alpha: 1.0);
     canvas.drawPath(path_64, paint64Fill);
 
     Path path_65 = Path();
@@ -12683,7 +12855,9 @@ class BackMountainPainter extends CustomPainter {
     path_65.close();
 
     Paint paint65Fill = Paint()..style = PaintingStyle.fill;
-    paint65Fill.color = Color(0xffEAA326).withValues(alpha: 1.0);
+    paint65Fill.color = GameColors.mountainPainterColor22.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_65, paint65Fill);
 
     Path path_66 = Path();
@@ -12720,7 +12894,10 @@ class BackMountainPainter extends CustomPainter {
     paint66Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4670822, size.height * 0.7001355),
       Offset(size.width * 0.4454187, size.height * 0.6571355),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_66, paint66Fill);
@@ -12759,7 +12936,10 @@ class BackMountainPainter extends CustomPainter {
     paint67Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7178757, size.height * 0.4979670),
       Offset(size.width * 0.6525717, size.height * 0.5024359),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_67, paint67Fill);
@@ -12798,7 +12978,10 @@ class BackMountainPainter extends CustomPainter {
     paint68Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4533117, size.height * 0.6147070),
       Offset(size.width * 0.4240975, size.height * 0.5810916),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_68, paint68Fill);
@@ -12827,7 +13010,9 @@ class BackMountainPainter extends CustomPainter {
     path_69.close();
 
     Paint paint69Fill = Paint()..style = PaintingStyle.fill;
-    paint69Fill.color = Color(0xff9E9826).withValues(alpha: 1.0);
+    paint69Fill.color = GameColors.mountainPainterColor10.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_69, paint69Fill);
 
     Path path_70 = Path();
@@ -12860,7 +13045,10 @@ class BackMountainPainter extends CustomPainter {
     paint70Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.9370822, size.height * 0.8052601),
       Offset(size.width * 0.8880765, size.height * 0.8934359),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_70, paint70Fill);
@@ -12903,7 +13091,10 @@ class BackMountainPainter extends CustomPainter {
     paint71Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3388489, size.height * 0.6192308),
       Offset(size.width * 0.1910688, size.height * 0.7585751),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_71, paint71Fill);
@@ -12919,7 +13110,10 @@ class BackMountainPainter extends CustomPainter {
     paint72Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3263709, size.height * 0.3860440),
       Offset(size.width * 0.1964665, size.height * 0.5713773),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_72, paint72Fill);
@@ -12953,7 +13147,10 @@ class BackMountainPainter extends CustomPainter {
     paint73Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.1218298, size.height * 0.8343736),
       Offset(size.width * 0.04943021, size.height * 1.040824),
-      [Color(0xffB59478).withValues(alpha: 1), Color(0xff8E776C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor13.withValues(alpha: 1),
+        GameColors.mountainPainterColor8.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_73, paint73Fill);
@@ -13017,7 +13214,10 @@ class BackMountainPainter extends CustomPainter {
     paint74Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3635335, size.height * 0.3364029),
       Offset(size.width * 0.3828757, size.height * 0.2069524),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_74, paint74Fill);
@@ -13050,7 +13250,10 @@ class BackMountainPainter extends CustomPainter {
     paint75Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5511683, size.height * 0.1413040),
       Offset(size.width * 0.5205010, size.height * 0.2421355),
-      [Color(0xffB59478).withValues(alpha: 1), Color(0xff8E776C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor13.withValues(alpha: 1),
+        GameColors.mountainPainterColor8.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_75, paint75Fill);
@@ -13080,7 +13283,10 @@ class BackMountainPainter extends CustomPainter {
     paint76Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7802524, size.height * 0.8608608),
       Offset(size.width * 0.8868241, size.height * 0.9190220),
-      [Color(0xff947B6E).withValues(alpha: 1), Color(0xff755C52).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor9.withValues(alpha: 1),
+        GameColors.mountainPainterColor2.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_76, paint76Fill);
@@ -13143,7 +13349,9 @@ class BackMountainPainter extends CustomPainter {
     path_77.close();
 
     Paint paint77Fill = Paint()..style = PaintingStyle.fill;
-    paint77Fill.color = Color(0xffD8C72B).withValues(alpha: 1.0);
+    paint77Fill.color = GameColors.mountainPainterColor20.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_77, paint77Fill);
 
     Path path_78 = Path();
@@ -13181,7 +13389,10 @@ class BackMountainPainter extends CustomPainter {
     paint78Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2791663, size.height * 0.8581941),
       Offset(size.width * 0.2147725, size.height * 0.8879048),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_78, paint78Fill);
@@ -13230,7 +13441,10 @@ class BackMountainPainter extends CustomPainter {
     paint79Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.1156750, size.height * 0.7267875),
       Offset(size.width * 0.2456023, size.height * 0.8269670),
-      [Color(0xffB59478).withValues(alpha: 1), Color(0xff8E776C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor13.withValues(alpha: 1),
+        GameColors.mountainPainterColor8.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_79, paint79Fill);
@@ -13418,7 +13632,10 @@ class BackMountainPainter extends CustomPainter {
     paint80Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5161855, size.height * 0.7618718),
       Offset(size.width * 0.4883939, size.height * 0.7618168),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_80, paint80Fill);
@@ -13542,7 +13759,9 @@ class BackMountainPainter extends CustomPainter {
     path_81.close();
 
     Paint paint81Fill = Paint()..style = PaintingStyle.fill;
-    paint81Fill.color = Color(0xffD8C72B).withValues(alpha: 1.0);
+    paint81Fill.color = GameColors.mountainPainterColor20.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_81, paint81Fill);
 
     Path path_82 = Path();
@@ -13763,7 +13982,9 @@ class BackMountainPainter extends CustomPainter {
     path_82.close();
 
     Paint paint82Fill = Paint()..style = PaintingStyle.fill;
-    paint82Fill.color = Color(0xffD8C72B).withValues(alpha: 1.0);
+    paint82Fill.color = GameColors.mountainPainterColor20.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_82, paint82Fill);
 
     Path path_83 = Path();
@@ -13784,9 +14005,9 @@ class BackMountainPainter extends CustomPainter {
       Offset(size.width * 0.6558413, size.height * 0.4392491),
       Offset(size.width * 0.6324321, size.height * 0.5443626),
       [
-        Color(0xffF2CAA2).withValues(alpha: 1),
-        Color(0xffE9C29B).withValues(alpha: 1),
-        Color(0xffC8A581).withValues(alpha: 1),
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor21.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
       ],
       [0, 0.22, 1],
     );
@@ -13811,7 +14032,10 @@ class BackMountainPainter extends CustomPainter {
     paint84Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5346482, size.height * 0.2833077),
       Offset(size.width * 0.3824837, size.height * 0.2480330),
-      [Color(0xffB59478).withValues(alpha: 1), Color(0xff8E776C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor13.withValues(alpha: 1),
+        GameColors.mountainPainterColor8.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_84, paint84Fill);
@@ -13833,7 +14057,10 @@ class BackMountainPainter extends CustomPainter {
     paint85Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6296539, size.height * 0.3277289),
       Offset(size.width * 0.5160268, size.height * 0.2702527),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_85, paint85Fill);
@@ -13853,7 +14080,10 @@ class BackMountainPainter extends CustomPainter {
     paint86Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5006539, size.height * 0.4026117),
       Offset(size.width * 0.4635526, size.height * 0.3838462),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_86, paint86Fill);
@@ -13873,7 +14103,10 @@ class BackMountainPainter extends CustomPainter {
     paint87Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5025908, size.height * 0.2608901),
       Offset(size.width * 0.3997667, size.height * 0.2271832),
-      [Color(0xffB59478).withValues(alpha: 1), Color(0xff755C52).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor13.withValues(alpha: 1),
+        GameColors.mountainPainterColor2.withValues(alpha: 1),
+      ],
       [0, 0.992],
     );
     canvas.drawPath(path_87, paint87Fill);
@@ -13904,7 +14137,10 @@ class BackMountainPainter extends CustomPainter {
     paint88Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3390287, size.height * 0.5787326),
       Offset(size.width * 0.3260707, size.height * 0.5496007),
-      [Color(0xff867E1D).withValues(alpha: 1), Color(0xff68641B).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor7.withValues(alpha: 1),
+        GameColors.mountainPainterColor1.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_88, paint88Fill);
@@ -13935,7 +14171,10 @@ class BackMountainPainter extends CustomPainter {
     paint89Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3114417, size.height * 0.5343150),
       Offset(size.width * 0.3058929, size.height * 0.4922234),
-      [Color(0xff867E1D).withValues(alpha: 1), Color(0xff68641B).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor7.withValues(alpha: 1),
+        GameColors.mountainPainterColor1.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_89, paint89Fill);
@@ -13973,7 +14212,10 @@ class BackMountainPainter extends CustomPainter {
     paint90Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3519790, size.height * 0.5626190),
       Offset(size.width * 0.3379847, size.height * 0.5311648),
-      [Color(0xff867E1D).withValues(alpha: 1), Color(0xff68641B).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor7.withValues(alpha: 1),
+        GameColors.mountainPainterColor1.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_90, paint90Fill);
@@ -14138,7 +14380,9 @@ class BackMountainPainter extends CustomPainter {
     path_91.close();
 
     Paint paint91Fill = Paint()..style = PaintingStyle.fill;
-    paint91Fill.color = Color(0xffEFD830).withValues(alpha: 1.0);
+    paint91Fill.color = GameColors.mountainPainterColor23.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_91, paint91Fill);
 
     Path path_92 = Path();
@@ -14212,7 +14456,9 @@ class BackMountainPainter extends CustomPainter {
     path_92.close();
 
     Paint paint92Fill = Paint()..style = PaintingStyle.fill;
-    paint92Fill.color = Color(0xffD8C72B).withValues(alpha: 1.0);
+    paint92Fill.color = GameColors.mountainPainterColor20.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_92, paint92Fill);
 
     Path path_93 = Path();
@@ -14242,7 +14488,10 @@ class BackMountainPainter extends CustomPainter {
     paint93Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3749331, size.height * 0.6419414),
       Offset(size.width * 0.2452256, size.height * 0.9294872),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_93, paint93Fill);
@@ -14273,7 +14522,10 @@ class BackMountainPainter extends CustomPainter {
     paint94Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3942390, size.height * 0.6542930),
       Offset(size.width * 0.2529771, size.height * 0.9674505),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_94, paint94Fill);
@@ -14304,7 +14556,10 @@ class BackMountainPainter extends CustomPainter {
     paint95Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3917208, size.height * 0.6650659),
       Offset(size.width * 0.2577514, size.height * 0.9620549),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_95, paint95Fill);
@@ -14432,7 +14687,10 @@ class BackMountainPainter extends CustomPainter {
     paint96Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4308872, size.height * 0.6482821),
       Offset(size.width * 0.2972333, size.height * 0.8770256),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_96, paint96Fill);
@@ -14467,7 +14725,9 @@ class BackMountainPainter extends CustomPainter {
     path_97.close();
 
     Paint paint97Fill = Paint()..style = PaintingStyle.fill;
-    paint97Fill.color = Color(0xff9E9826).withValues(alpha: 1.0);
+    paint97Fill.color = GameColors.mountainPainterColor10.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_97, paint97Fill);
 
     Path path_98 = Path();
@@ -14527,7 +14787,9 @@ class BackMountainPainter extends CustomPainter {
     path_98.close();
 
     Paint paint98Fill = Paint()..style = PaintingStyle.fill;
-    paint98Fill.color = Color(0xff9E9826).withValues(alpha: 1.0);
+    paint98Fill.color = GameColors.mountainPainterColor10.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_98, paint98Fill);
 
     Path path_99 = Path();
@@ -14567,7 +14829,9 @@ class BackMountainPainter extends CustomPainter {
     path_99.close();
 
     Paint paint99Fill = Paint()..style = PaintingStyle.fill;
-    paint99Fill.color = Color(0xff9E9826).withValues(alpha: 1.0);
+    paint99Fill.color = GameColors.mountainPainterColor10.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_99, paint99Fill);
 
     Path path_100 = Path();
@@ -14619,7 +14883,10 @@ class BackMountainPainter extends CustomPainter {
     paint100Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5897629, size.height * 0.7104652),
       Offset(size.width * 0.5189006, size.height * 0.8209597),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_100, paint100Fill);
@@ -14658,7 +14925,10 @@ class BackMountainPainter extends CustomPainter {
     paint101Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5996902, size.height * 0.6860330),
       Offset(size.width * 0.5283078, size.height * 0.7973370),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_101, paint101Fill);
@@ -14703,7 +14973,10 @@ class BackMountainPainter extends CustomPainter {
     paint102Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5846080, size.height * 0.6546557),
       Offset(size.width * 0.5141281, size.height * 0.7645458),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_102, paint102Fill);
@@ -14748,7 +15021,10 @@ class BackMountainPainter extends CustomPainter {
     paint103Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5840344, size.height * 0.6500293),
       Offset(size.width * 0.5139446, size.height * 0.7593150),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_103, paint103Fill);
@@ -14779,7 +15055,10 @@ class BackMountainPainter extends CustomPainter {
     paint104Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5965143, size.height * 0.6530147),
       Offset(size.width * 0.5174321, size.height * 0.7763223),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_104, paint104Fill);
@@ -14862,7 +15141,9 @@ class BackMountainPainter extends CustomPainter {
     path_105.close();
 
     Paint paint105Fill = Paint()..style = PaintingStyle.fill;
-    paint105Fill.color = Color(0xffB7AC27).withValues(alpha: 1.0);
+    paint105Fill.color = GameColors.mountainPainterColor14.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_105, paint105Fill);
 
     Path path_106 = Path();
@@ -15055,7 +15336,10 @@ class BackMountainPainter extends CustomPainter {
     paint106Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3214340, size.height * 0.8300513),
       Offset(size.width * 0.3335545, size.height * 0.6863846),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_106, paint106Fill);
@@ -15191,7 +15475,10 @@ class BackMountainPainter extends CustomPainter {
     paint107Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3433384, size.height * 0.5001245),
       Offset(size.width * 0.3018489, size.height * 0.5522857),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_107, paint107Fill);
@@ -15320,7 +15607,10 @@ class BackMountainPainter extends CustomPainter {
     paint108Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4586424, size.height * 0.6838059),
       Offset(size.width * 0.3992486, size.height * 0.7738352),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_108, paint108Fill);
@@ -15477,7 +15767,10 @@ class BackMountainPainter extends CustomPainter {
     paint109Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4371511, size.height * 0.5520549),
       Offset(size.width * 0.3674168, size.height * 0.6372967),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_109, paint109Fill);
@@ -15516,7 +15809,10 @@ class BackMountainPainter extends CustomPainter {
     paint110Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.9445143, size.height * 0.8529084),
       Offset(size.width * 0.9033499, size.height * 0.9861722),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_110, paint110Fill);
@@ -15535,7 +15831,10 @@ class BackMountainPainter extends CustomPainter {
     paint111Fill.shader = ui.Gradient.linear(
       Offset(size.width * 1.030153, size.height * 0.8017289),
       Offset(size.width * 0.9743289, size.height * 0.9863187),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_111, paint111Fill);
@@ -20819,7 +21118,10 @@ class BackMountainPainter extends CustomPainter {
     paint112Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.1829101, size.height * 0.4668242),
       Offset(size.width * 0.3542620, size.height * 0.5566044),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_112, paint112Fill);
@@ -20851,7 +21153,10 @@ class BackMountainPainter extends CustomPainter {
     paint113Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7781377, size.height * 0.6896996),
       Offset(size.width * 0.7574054, size.height * 0.7582527),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_113, paint113Fill);
@@ -20882,7 +21187,10 @@ class BackMountainPainter extends CustomPainter {
     paint114Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7797763, size.height * 0.6415385),
       Offset(size.width * 0.7524436, size.height * 0.7319231),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_114, paint114Fill);
@@ -20920,7 +21228,10 @@ class BackMountainPainter extends CustomPainter {
     paint115Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3398011, size.height * 0.3221355),
       Offset(size.width * 0.3015813, size.height * 0.4485128),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_115, paint115Fill);
@@ -21090,7 +21401,10 @@ class FrontMountainPainter extends CustomPainter {
     paint0Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4570634, size.height * 0.04342433),
       Offset(size.width * 0.4488515, size.height * 0.08098516),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_0, paint0Fill);
@@ -21250,7 +21564,10 @@ class FrontMountainPainter extends CustomPainter {
     paint1Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5318931, size.height * -5.248665),
       Offset(size.width * 0.4817327, size.height * 0.04870030),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_1, paint1Fill);
@@ -21294,7 +21611,7 @@ class FrontMountainPainter extends CustomPainter {
     path_2.close();
 
     Paint paint2Fill = Paint()..style = PaintingStyle.fill;
-    paint2Fill.color = Color(0xff9E9826).withValues(alpha: 1.0);
+    paint2Fill.color = GameColors.mountainPainterColor10.withValues(alpha: 1.0);
     canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
@@ -21322,7 +21639,7 @@ class FrontMountainPainter extends CustomPainter {
     path_3.close();
 
     Paint paint3Fill = Paint()..style = PaintingStyle.fill;
-    paint3Fill.color = Color(0xff9E9826).withValues(alpha: 1.0);
+    paint3Fill.color = GameColors.mountainPainterColor10.withValues(alpha: 1.0);
     canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
@@ -21372,7 +21689,7 @@ class FrontMountainPainter extends CustomPainter {
     path_4.close();
 
     Paint paint4Fill = Paint()..style = PaintingStyle.fill;
-    paint4Fill.color = Color(0xff9E9826).withValues(alpha: 1.0);
+    paint4Fill.color = GameColors.mountainPainterColor10.withValues(alpha: 1.0);
     canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
@@ -21415,7 +21732,7 @@ class FrontMountainPainter extends CustomPainter {
     path_5.close();
 
     Paint paint5Fill = Paint()..style = PaintingStyle.fill;
-    paint5Fill.color = Color(0xff9E9826).withValues(alpha: 1.0);
+    paint5Fill.color = GameColors.mountainPainterColor10.withValues(alpha: 1.0);
     canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
@@ -21659,7 +21976,7 @@ class FrontMountainPainter extends CustomPainter {
     path_6.close();
 
     Paint paint6Fill = Paint()..style = PaintingStyle.fill;
-    paint6Fill.color = Color(0xff9E9826).withValues(alpha: 1.0);
+    paint6Fill.color = GameColors.mountainPainterColor10.withValues(alpha: 1.0);
     canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
@@ -21819,7 +22136,7 @@ class FrontMountainPainter extends CustomPainter {
     path_7.close();
 
     Paint paint7Fill = Paint()..style = PaintingStyle.fill;
-    paint7Fill.color = Color(0xffB7AC27).withValues(alpha: 1.0);
+    paint7Fill.color = GameColors.mountainPainterColor14.withValues(alpha: 1.0);
     canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
@@ -21842,7 +22159,10 @@ class FrontMountainPainter extends CustomPainter {
     paint8Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3215426, size.height * 0.4180772),
       Offset(size.width * 0.3570059, size.height * 0.3889763),
-      [Color(0xffB59478).withValues(alpha: 1), Color(0xff755C52).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor13.withValues(alpha: 1),
+        GameColors.mountainPainterColor2.withValues(alpha: 1),
+      ],
       [0, 0.992],
     );
     canvas.drawPath(path_8, paint8Fill);
@@ -21925,7 +22245,7 @@ class FrontMountainPainter extends CustomPainter {
     path_9.close();
 
     Paint paint9Fill = Paint()..style = PaintingStyle.fill;
-    paint9Fill.color = Color(0xff9E9826).withValues(alpha: 1.0);
+    paint9Fill.color = GameColors.mountainPainterColor10.withValues(alpha: 1.0);
     canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
@@ -22083,7 +22403,10 @@ class FrontMountainPainter extends CustomPainter {
     paint10Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.1094931, size.height * 0.6723116),
       Offset(size.width * 0.2225604, size.height * 0.7584481),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_10, paint10Fill);
@@ -22285,7 +22608,10 @@ class FrontMountainPainter extends CustomPainter {
     paint11Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2405525, size.height * 0.5647864),
       Offset(size.width * 0.2766733, size.height * 0.5860564),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_11, paint11Fill);
@@ -22487,7 +22813,10 @@ class FrontMountainPainter extends CustomPainter {
     paint12Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3312218, size.height * 0.5526350),
       Offset(size.width * 0.2563010, size.height * 0.4365252),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_12, paint12Fill);
@@ -22665,7 +22994,9 @@ class FrontMountainPainter extends CustomPainter {
     path_13.close();
 
     Paint paint13Fill = Paint()..style = PaintingStyle.fill;
-    paint13Fill.color = Color(0xff9E9826).withValues(alpha: 1.0);
+    paint13Fill.color = GameColors.mountainPainterColor10.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_13, paint13Fill);
 
     Path path_14 = Path();
@@ -22737,7 +23068,7 @@ class FrontMountainPainter extends CustomPainter {
     path_14.close();
 
     Paint paint14Fill = Paint()..style = PaintingStyle.fill;
-    paint14Fill.color = Color(0xff7F781F).withValues(alpha: 1.0);
+    paint14Fill.color = GameColors.mountainPainterColor4.withValues(alpha: 1.0);
     canvas.drawPath(path_14, paint14Fill);
 
     Path path_15 = Path();
@@ -22756,7 +23087,9 @@ class FrontMountainPainter extends CustomPainter {
     path_15.close();
 
     Paint paint15Fill = Paint()..style = PaintingStyle.fill;
-    paint15Fill.color = Color(0xffBC6226).withValues(alpha: 1.0);
+    paint15Fill.color = GameColors.mountainPainterColor15.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_15, paint15Fill);
 
     Path path_16 = Path();
@@ -22782,7 +23115,9 @@ class FrontMountainPainter extends CustomPainter {
     path_16.close();
 
     Paint paint16Fill = Paint()..style = PaintingStyle.fill;
-    paint16Fill.color = Color(0xffF9C04E).withValues(alpha: 1.0);
+    paint16Fill.color = GameColors.mountainPainterColor25.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_16, paint16Fill);
 
     Path path_17 = Path();
@@ -22806,7 +23141,10 @@ class FrontMountainPainter extends CustomPainter {
     paint17Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6447248, size.height * 0.8019021),
       Offset(size.width * 0.6613208, size.height * 0.5619822),
-      [Color(0xffB59478).withValues(alpha: 1), Color(0xff8E776C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor13.withValues(alpha: 1),
+        GameColors.mountainPainterColor8.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_17, paint17Fill);
@@ -22846,7 +23184,10 @@ class FrontMountainPainter extends CustomPainter {
     paint18Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6346040, size.height * 0.7035549),
       Offset(size.width * 0.6319822, size.height * 0.6747448),
-      [Color(0xffB59478).withValues(alpha: 1), Color(0xff8E776C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor13.withValues(alpha: 1),
+        GameColors.mountainPainterColor8.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_18, paint18Fill);
@@ -22897,7 +23238,10 @@ class FrontMountainPainter extends CustomPainter {
     paint19Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7176455, size.height * 0.7372077),
       Offset(size.width * 0.7009703, size.height * 0.7218279),
-      [Color(0xffB59478).withValues(alpha: 1), Color(0xff8E776C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor13.withValues(alpha: 1),
+        GameColors.mountainPainterColor8.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_19, paint19Fill);
@@ -22993,7 +23337,9 @@ class FrontMountainPainter extends CustomPainter {
     path_20.close();
 
     Paint paint20Fill = Paint()..style = PaintingStyle.fill;
-    paint20Fill.color = Color(0xffF2CAA2).withValues(alpha: 1.0);
+    paint20Fill.color = GameColors.mountainPainterColor24.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_20, paint20Fill);
 
     Path path_21 = Path();
@@ -23013,7 +23359,10 @@ class FrontMountainPainter extends CustomPainter {
     paint21Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7693762, size.height * 0.5070267),
       Offset(size.width * 0.6243782, size.height * 0.4515786),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_21, paint21Fill);
@@ -23095,7 +23444,10 @@ class FrontMountainPainter extends CustomPainter {
     paint22Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7729941, size.height * 0.8608042),
       Offset(size.width * 0.4837842, size.height * 0.4380772),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_22, paint22Fill);
@@ -23169,7 +23521,10 @@ class FrontMountainPainter extends CustomPainter {
     paint23Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7937168, size.height * 0.7058783),
       Offset(size.width * 0.6280693, size.height * 0.5378457),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_23, paint23Fill);
@@ -23192,7 +23547,10 @@ class FrontMountainPainter extends CustomPainter {
     paint24Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6527287, size.height * 0.6028190),
       Offset(size.width * 0.5046931, size.height * 0.4053086),
-      [Color(0xffB59478).withValues(alpha: 1), Color(0xff8E776C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor13.withValues(alpha: 1),
+        GameColors.mountainPainterColor8.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_24, paint24Fill);
@@ -23225,7 +23583,10 @@ class FrontMountainPainter extends CustomPainter {
     paint25Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6176554, size.height * 0.5537596),
       Offset(size.width * 0.4716218, size.height * 0.3589199),
-      [Color(0xffB59478).withValues(alpha: 1), Color(0xff8E776C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor13.withValues(alpha: 1),
+        GameColors.mountainPainterColor8.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_25, paint25Fill);
@@ -23313,7 +23674,7 @@ class FrontMountainPainter extends CustomPainter {
     path_26.close();
 
     Paint paint26Fill = Paint()..style = PaintingStyle.fill;
-    paint26Fill.color = Color(0xff7F781F).withValues(alpha: 1.0);
+    paint26Fill.color = GameColors.mountainPainterColor4.withValues(alpha: 1.0);
     canvas.drawPath(path_26, paint26Fill);
 
     Path path_27 = Path();
@@ -23613,7 +23974,7 @@ class FrontMountainPainter extends CustomPainter {
     path_27.close();
 
     Paint paint27Fill = Paint()..style = PaintingStyle.fill;
-    paint27Fill.color = Color(0xff7F781F).withValues(alpha: 1.0);
+    paint27Fill.color = GameColors.mountainPainterColor4.withValues(alpha: 1.0);
     canvas.drawPath(path_27, paint27Fill);
 
     Path path_28 = Path();
@@ -23733,7 +24094,7 @@ class FrontMountainPainter extends CustomPainter {
     path_28.close();
 
     Paint paint28Fill = Paint()..style = PaintingStyle.fill;
-    paint28Fill.color = Color(0xff7F781F).withValues(alpha: 1.0);
+    paint28Fill.color = GameColors.mountainPainterColor4.withValues(alpha: 1.0);
     canvas.drawPath(path_28, paint28Fill);
 
     Path path_29 = Path();
@@ -23841,7 +24202,7 @@ class FrontMountainPainter extends CustomPainter {
     path_29.close();
 
     Paint paint29Fill = Paint()..style = PaintingStyle.fill;
-    paint29Fill.color = Color(0xff7F781F).withValues(alpha: 1.0);
+    paint29Fill.color = GameColors.mountainPainterColor4.withValues(alpha: 1.0);
     canvas.drawPath(path_29, paint29Fill);
 
     Path path_30 = Path();
@@ -23996,7 +24357,7 @@ class FrontMountainPainter extends CustomPainter {
     path_30.close();
 
     Paint paint30Fill = Paint()..style = PaintingStyle.fill;
-    paint30Fill.color = Color(0xff7F781F).withValues(alpha: 1.0);
+    paint30Fill.color = GameColors.mountainPainterColor4.withValues(alpha: 1.0);
     canvas.drawPath(path_30, paint30Fill);
 
     Path path_31 = Path();
@@ -24045,7 +24406,7 @@ class FrontMountainPainter extends CustomPainter {
     path_31.close();
 
     Paint paint31Fill = Paint()..style = PaintingStyle.fill;
-    paint31Fill.color = Color(0xff7F781F).withValues(alpha: 1.0);
+    paint31Fill.color = GameColors.mountainPainterColor4.withValues(alpha: 1.0);
     canvas.drawPath(path_31, paint31Fill);
 
     Path path_32 = Path();
@@ -24221,7 +24582,7 @@ class FrontMountainPainter extends CustomPainter {
     path_32.close();
 
     Paint paint32Fill = Paint()..style = PaintingStyle.fill;
-    paint32Fill.color = Color(0xff7F781F).withValues(alpha: 1.0);
+    paint32Fill.color = GameColors.mountainPainterColor4.withValues(alpha: 1.0);
     canvas.drawPath(path_32, paint32Fill);
 
     Path path_33 = Path();
@@ -24258,7 +24619,10 @@ class FrontMountainPainter extends CustomPainter {
     paint33Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7392673, size.height * 0.7642938),
       Offset(size.width * 0.7070040, size.height * 0.8053887),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_33, paint33Fill);
@@ -24439,7 +24803,9 @@ class FrontMountainPainter extends CustomPainter {
     path_34.close();
 
     Paint paint34Fill = Paint()..style = PaintingStyle.fill;
-    paint34Fill.color = Color(0xff9E9826).withValues(alpha: 1.0);
+    paint34Fill.color = GameColors.mountainPainterColor10.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_34, paint34Fill);
 
     Path path_35 = Path();
@@ -24534,7 +24900,10 @@ class FrontMountainPainter extends CustomPainter {
     paint35Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.1881485, size.height * 0.7972967),
       Offset(size.width * 0.2291347, size.height * 0.8355282),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_35, paint35Fill);
@@ -24667,7 +25036,7 @@ class FrontMountainPainter extends CustomPainter {
     path_36.close();
 
     Paint paint36Fill = Paint()..style = PaintingStyle.fill;
-    paint36Fill.color = Color(0xff7F781F).withValues(alpha: 1.0);
+    paint36Fill.color = GameColors.mountainPainterColor4.withValues(alpha: 1.0);
     canvas.drawPath(path_36, paint36Fill);
 
     Path path_37 = Path();
@@ -25370,7 +25739,10 @@ class FrontMountainPainter extends CustomPainter {
     paint37Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6067545, size.height * 0.4870356),
       Offset(size.width * 0.2935129, size.height * 0.5109288),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_37, paint37Fill);
@@ -25394,7 +25766,9 @@ class FrontMountainPainter extends CustomPainter {
     path_38.close();
 
     Paint paint38Fill = Paint()..style = PaintingStyle.fill;
-    paint38Fill.color = Color(0xff9E9826).withValues(alpha: 1.0);
+    paint38Fill.color = GameColors.mountainPainterColor10.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_38, paint38Fill);
 
     Path path_39 = Path();
@@ -25718,7 +26092,9 @@ class FrontMountainPainter extends CustomPainter {
     path_39.close();
 
     Paint paint39Fill = Paint()..style = PaintingStyle.fill;
-    paint39Fill.color = Color(0xff9E9826).withValues(alpha: 1.0);
+    paint39Fill.color = GameColors.mountainPainterColor10.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_39, paint39Fill);
 
     Path path_40 = Path();
@@ -25866,7 +26242,9 @@ class FrontMountainPainter extends CustomPainter {
     path_40.close();
 
     Paint paint40Fill = Paint()..style = PaintingStyle.fill;
-    paint40Fill.color = Color(0xffD8C72B).withValues(alpha: 1.0);
+    paint40Fill.color = GameColors.mountainPainterColor20.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_40, paint40Fill);
 
     Path path_41 = Path();
@@ -25961,7 +26339,9 @@ class FrontMountainPainter extends CustomPainter {
     path_41.close();
 
     Paint paint41Fill = Paint()..style = PaintingStyle.fill;
-    paint41Fill.color = Color(0xff9E9826).withValues(alpha: 1.0);
+    paint41Fill.color = GameColors.mountainPainterColor10.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_41, paint41Fill);
 
     Path path_42 = Path();
@@ -25987,7 +26367,9 @@ class FrontMountainPainter extends CustomPainter {
     path_42.close();
 
     Paint paint42Fill = Paint()..style = PaintingStyle.fill;
-    paint42Fill.color = Color(0xffD8C72B).withValues(alpha: 1.0);
+    paint42Fill.color = GameColors.mountainPainterColor20.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_42, paint42Fill);
 
     Path path_43 = Path();
@@ -26216,7 +26598,9 @@ class FrontMountainPainter extends CustomPainter {
     path_43.close();
 
     Paint paint43Fill = Paint()..style = PaintingStyle.fill;
-    paint43Fill.color = Color(0xffD8C72B).withValues(alpha: 1.0);
+    paint43Fill.color = GameColors.mountainPainterColor20.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_43, paint43Fill);
 
     Path path_44 = Path();
@@ -26300,7 +26684,10 @@ class FrontMountainPainter extends CustomPainter {
     paint44Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2456911, size.height * 1.014163),
       Offset(size.width * 0.2384891, size.height * 0.9248902),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_44, paint44Fill);
@@ -26386,7 +26773,10 @@ class FrontMountainPainter extends CustomPainter {
     paint45Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4675663, size.height * 0.9683947),
       Offset(size.width * 0.3865683, size.height * 0.8281988),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_45, paint45Fill);
@@ -26429,7 +26819,9 @@ class FrontMountainPainter extends CustomPainter {
     path_46.close();
 
     Paint paint46Fill = Paint()..style = PaintingStyle.fill;
-    paint46Fill.color = Color(0xffCEBF34).withValues(alpha: 1.0);
+    paint46Fill.color = GameColors.mountainPainterColor17.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_46, paint46Fill);
 
     Path path_47 = Path();
@@ -26726,7 +27118,9 @@ class FrontMountainPainter extends CustomPainter {
     path_47.close();
 
     Paint paint47Fill = Paint()..style = PaintingStyle.fill;
-    paint47Fill.color = Color(0xffB7AC27).withValues(alpha: 1.0);
+    paint47Fill.color = GameColors.mountainPainterColor14.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_47, paint47Fill);
 
     Path path_48 = Path();
@@ -26776,7 +27170,9 @@ class FrontMountainPainter extends CustomPainter {
     path_48.close();
 
     Paint paint48Fill = Paint()..style = PaintingStyle.fill;
-    paint48Fill.color = Color(0xffF9C04E).withValues(alpha: 1.0);
+    paint48Fill.color = GameColors.mountainPainterColor25.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_48, paint48Fill);
 
     Path path_49 = Path();
@@ -26824,7 +27220,9 @@ class FrontMountainPainter extends CustomPainter {
     path_49.close();
 
     Paint paint49Fill = Paint()..style = PaintingStyle.fill;
-    paint49Fill.color = Color(0xffFFDD50).withValues(alpha: 1.0);
+    paint49Fill.color = GameColors.mountainPainterColor26.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_49, paint49Fill);
 
     Path path_50 = Path();
@@ -26865,7 +27263,9 @@ class FrontMountainPainter extends CustomPainter {
     path_50.close();
 
     Paint paint50Fill = Paint()..style = PaintingStyle.fill;
-    paint50Fill.color = Color(0xffEAA326).withValues(alpha: 1.0);
+    paint50Fill.color = GameColors.mountainPainterColor22.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_50, paint50Fill);
 
     Path path_51 = Path();
@@ -26908,7 +27308,10 @@ class FrontMountainPainter extends CustomPainter {
     paint51Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.1850515, size.height * 0.8475668),
       Offset(size.width * 0.1062713, size.height * 0.9698872),
-      [Color(0xffB59478).withValues(alpha: 1), Color(0xff8E776C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor13.withValues(alpha: 1),
+        GameColors.mountainPainterColor8.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_51, paint51Fill);
@@ -26953,7 +27356,10 @@ class FrontMountainPainter extends CustomPainter {
     paint52Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.1876871, size.height * 0.7843591),
       Offset(size.width * 0.1434614, size.height * 0.9131157),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_52, paint52Fill);
@@ -26974,7 +27380,9 @@ class FrontMountainPainter extends CustomPainter {
     path_53.close();
 
     Paint paint53Fill = Paint()..style = PaintingStyle.fill;
-    paint53Fill.color = Color(0xffB7AC27).withValues(alpha: 1.0);
+    paint53Fill.color = GameColors.mountainPainterColor14.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_53, paint53Fill);
 
     Path path_54 = Path();
@@ -27053,7 +27461,9 @@ class FrontMountainPainter extends CustomPainter {
     path_54.close();
 
     Paint paint54Fill = Paint()..style = PaintingStyle.fill;
-    paint54Fill.color = Color(0xffCEBF34).withValues(alpha: 1.0);
+    paint54Fill.color = GameColors.mountainPainterColor17.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_54, paint54Fill);
 
     Path path_55 = Path();
@@ -27189,7 +27599,9 @@ class FrontMountainPainter extends CustomPainter {
     path_55.close();
 
     Paint paint55Fill = Paint()..style = PaintingStyle.fill;
-    paint55Fill.color = Color(0xffEFD830).withValues(alpha: 1.0);
+    paint55Fill.color = GameColors.mountainPainterColor23.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_55, paint55Fill);
 
     Path path_56 = Path();
@@ -27229,7 +27641,9 @@ class FrontMountainPainter extends CustomPainter {
     path_56.close();
 
     Paint paint56Fill = Paint()..style = PaintingStyle.fill;
-    paint56Fill.color = Color(0xffEFD830).withValues(alpha: 1.0);
+    paint56Fill.color = GameColors.mountainPainterColor23.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_56, paint56Fill);
 
     Path path_57 = Path();
@@ -27346,7 +27760,10 @@ class FrontMountainPainter extends CustomPainter {
     paint57Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4316554, size.height * 0.2026558),
       Offset(size.width * 0.3410970, size.height * 0.2808724),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_57, paint57Fill);
@@ -27377,7 +27794,10 @@ class FrontMountainPainter extends CustomPainter {
     paint58Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4313822, size.height * 0.2019614),
       Offset(size.width * 0.3411168, size.height * 0.2799288),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_58, paint58Fill);
@@ -27412,7 +27832,9 @@ class FrontMountainPainter extends CustomPainter {
     path_59.close();
 
     Paint paint59Fill = Paint()..style = PaintingStyle.fill;
-    paint59Fill.color = Color(0xffD8C72B).withValues(alpha: 1.0);
+    paint59Fill.color = GameColors.mountainPainterColor20.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_59, paint59Fill);
 
     Path path_60 = Path();
@@ -27486,7 +27908,9 @@ class FrontMountainPainter extends CustomPainter {
     path_60.close();
 
     Paint paint60Fill = Paint()..style = PaintingStyle.fill;
-    paint60Fill.color = Color(0xffD8C72B).withValues(alpha: 1.0);
+    paint60Fill.color = GameColors.mountainPainterColor20.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_60, paint60Fill);
 
     Path path_61 = Path();
@@ -27526,7 +27950,9 @@ class FrontMountainPainter extends CustomPainter {
     path_61.close();
 
     Paint paint61Fill = Paint()..style = PaintingStyle.fill;
-    paint61Fill.color = Color(0xffD8C72B).withValues(alpha: 1.0);
+    paint61Fill.color = GameColors.mountainPainterColor20.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_61, paint61Fill);
 
     Path path_62 = Path();
@@ -27538,7 +27964,9 @@ class FrontMountainPainter extends CustomPainter {
     path_62.close();
 
     Paint paint62Fill = Paint()..style = PaintingStyle.fill;
-    paint62Fill.color = Color(0xff9E9826).withValues(alpha: 1.0);
+    paint62Fill.color = GameColors.mountainPainterColor10.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_62, paint62Fill);
 
     Path path_63 = Path();
@@ -27571,7 +27999,9 @@ class FrontMountainPainter extends CustomPainter {
     path_63.close();
 
     Paint paint63Fill = Paint()..style = PaintingStyle.fill;
-    paint63Fill.color = Color(0xffD8C72B).withValues(alpha: 1.0);
+    paint63Fill.color = GameColors.mountainPainterColor20.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_63, paint63Fill);
 
     Path path_64 = Path();
@@ -27617,7 +28047,9 @@ class FrontMountainPainter extends CustomPainter {
     path_64.close();
 
     Paint paint64Fill = Paint()..style = PaintingStyle.fill;
-    paint64Fill.color = Color(0xffD8C72B).withValues(alpha: 1.0);
+    paint64Fill.color = GameColors.mountainPainterColor20.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_64, paint64Fill);
 
     Path path_65 = Path();
@@ -27636,7 +28068,9 @@ class FrontMountainPainter extends CustomPainter {
     path_65.close();
 
     Paint paint65Fill = Paint()..style = PaintingStyle.fill;
-    paint65Fill.color = Color(0xffD8C72B).withValues(alpha: 1.0);
+    paint65Fill.color = GameColors.mountainPainterColor20.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_65, paint65Fill);
 
     Path path_66 = Path();
@@ -27714,7 +28148,9 @@ class FrontMountainPainter extends CustomPainter {
     path_66.close();
 
     Paint paint66Fill = Paint()..style = PaintingStyle.fill;
-    paint66Fill.color = Color(0xffEFD830).withValues(alpha: 1.0);
+    paint66Fill.color = GameColors.mountainPainterColor23.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_66, paint66Fill);
 
     Path path_67 = Path();
@@ -27766,7 +28202,9 @@ class FrontMountainPainter extends CustomPainter {
     path_67.close();
 
     Paint paint67Fill = Paint()..style = PaintingStyle.fill;
-    paint67Fill.color = Color(0xff9E9826).withValues(alpha: 1.0);
+    paint67Fill.color = GameColors.mountainPainterColor10.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_67, paint67Fill);
 
     Path path_68 = Path();
@@ -27804,7 +28242,9 @@ class FrontMountainPainter extends CustomPainter {
     path_68.close();
 
     Paint paint68Fill = Paint()..style = PaintingStyle.fill;
-    paint68Fill.color = Color(0xffB7AC27).withValues(alpha: 1.0);
+    paint68Fill.color = GameColors.mountainPainterColor14.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_68, paint68Fill);
 
     Path path_69 = Path();
@@ -27827,7 +28267,9 @@ class FrontMountainPainter extends CustomPainter {
     path_69.close();
 
     Paint paint69Fill = Paint()..style = PaintingStyle.fill;
-    paint69Fill.color = Color(0xffFFDD50).withValues(alpha: 1.0);
+    paint69Fill.color = GameColors.mountainPainterColor26.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_69, paint69Fill);
 
     Path path_70 = Path();
@@ -27845,7 +28287,10 @@ class FrontMountainPainter extends CustomPainter {
     paint70Fill.shader = ui.Gradient.linear(
       Offset(size.width * 1.067121, size.height * 0.9032819),
       Offset(size.width * 0.7783683, size.height * 0.9666053),
-      [Color(0xffD8B187).withValues(alpha: 1), Color(0xff8E776C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor19.withValues(alpha: 1),
+        GameColors.mountainPainterColor8.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_70, paint70Fill);
@@ -27879,7 +28324,10 @@ class FrontMountainPainter extends CustomPainter {
     paint71Fill.shader = ui.Gradient.linear(
       Offset(size.width * 1.065356, size.height * 0.7541395),
       Offset(size.width * 0.9494475, size.height * 0.9366736),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_71, paint71Fill);
@@ -27914,7 +28362,10 @@ class FrontMountainPainter extends CustomPainter {
     paint72Fill.shader = ui.Gradient.linear(
       Offset(size.width * 1.028475, size.height * 0.9072433),
       Offset(size.width * 0.8926099, size.height * 0.9463501),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_72, paint72Fill);
@@ -27957,7 +28408,10 @@ class FrontMountainPainter extends CustomPainter {
     paint73Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7063149, size.height * 0.7494985),
       Offset(size.width * 0.7037465, size.height * 0.7414214),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_73, paint73Fill);
@@ -28012,7 +28466,10 @@ class FrontMountainPainter extends CustomPainter {
     paint74Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7072139, size.height * 0.6393591),
       Offset(size.width * 0.6738099, size.height * 0.5912463),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_74, paint74Fill);
@@ -28052,7 +28509,10 @@ class FrontMountainPainter extends CustomPainter {
     paint75Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6336238, size.height * 0.6316320),
       Offset(size.width * 0.4955168, size.height * 0.5788190),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_75, paint75Fill);
@@ -28071,7 +28531,10 @@ class FrontMountainPainter extends CustomPainter {
     paint76Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6238832, size.height * 0.3777151),
       Offset(size.width * 0.7069149, size.height * 0.5106558),
-      [Color(0xffB59478).withValues(alpha: 1), Color(0xff8E776C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor13.withValues(alpha: 1),
+        GameColors.mountainPainterColor8.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_76, paint76Fill);
@@ -28148,7 +28611,7 @@ class FrontMountainPainter extends CustomPainter {
     path_77.close();
 
     Paint paint77Fill = Paint()..style = PaintingStyle.fill;
-    paint77Fill.color = Color(0xff7F781F).withValues(alpha: 1.0);
+    paint77Fill.color = GameColors.mountainPainterColor4.withValues(alpha: 1.0);
     canvas.drawPath(path_77, paint77Fill);
 
     Path path_78 = Path();
@@ -28201,7 +28664,9 @@ class FrontMountainPainter extends CustomPainter {
     path_78.close();
 
     Paint paint78Fill = Paint()..style = PaintingStyle.fill;
-    paint78Fill.color = Color(0xffEFD830).withValues(alpha: 1.0);
+    paint78Fill.color = GameColors.mountainPainterColor23.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_78, paint78Fill);
 
     Path path_79 = Path();
@@ -28384,7 +28849,9 @@ class FrontMountainPainter extends CustomPainter {
     path_79.close();
 
     Paint paint79Fill = Paint()..style = PaintingStyle.fill;
-    paint79Fill.color = Color(0xff9E9826).withValues(alpha: 1.0);
+    paint79Fill.color = GameColors.mountainPainterColor10.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_79, paint79Fill);
 
     Path path_80 = Path();
@@ -28578,7 +29045,9 @@ class FrontMountainPainter extends CustomPainter {
     path_80.close();
 
     Paint paint80Fill = Paint()..style = PaintingStyle.fill;
-    paint80Fill.color = Color(0xffD8C72B).withValues(alpha: 1.0);
+    paint80Fill.color = GameColors.mountainPainterColor20.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_80, paint80Fill);
 
     Path path_81 = Path();
@@ -28667,7 +29136,9 @@ class FrontMountainPainter extends CustomPainter {
     path_81.close();
 
     Paint paint81Fill = Paint()..style = PaintingStyle.fill;
-    paint81Fill.color = Color(0xffB7AC27).withValues(alpha: 1.0);
+    paint81Fill.color = GameColors.mountainPainterColor14.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_81, paint81Fill);
 
     Path path_82 = Path();
@@ -28700,7 +29171,9 @@ class FrontMountainPainter extends CustomPainter {
     path_82.close();
 
     Paint paint82Fill = Paint()..style = PaintingStyle.fill;
-    paint82Fill.color = Color(0xffB7AC27).withValues(alpha: 1.0);
+    paint82Fill.color = GameColors.mountainPainterColor14.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_82, paint82Fill);
 
     Path path_83 = Path();
@@ -28730,7 +29203,10 @@ class FrontMountainPainter extends CustomPainter {
     paint83Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.9768257, size.height * 0.9071306),
       Offset(size.width * 0.8610653, size.height * 0.9404481),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_83, paint83Fill);
@@ -28753,7 +29229,10 @@ class FrontMountainPainter extends CustomPainter {
     paint84Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.9310099, size.height * 0.8408961),
       Offset(size.width * 0.9000257, size.height * 1.012570),
-      [Color(0xffD8B187).withValues(alpha: 1), Color(0xff8E776C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor19.withValues(alpha: 1),
+        GameColors.mountainPainterColor8.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_84, paint84Fill);
@@ -28779,7 +29258,10 @@ class FrontMountainPainter extends CustomPainter {
     paint85Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.9622634, size.height * 0.9070297),
       Offset(size.width * 0.9518950, size.height * 0.9691691),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_85, paint85Fill);
@@ -28814,7 +29296,9 @@ class FrontMountainPainter extends CustomPainter {
     path_86.close();
 
     Paint paint86Fill = Paint()..style = PaintingStyle.fill;
-    paint86Fill.color = Color(0xffEFD830).withValues(alpha: 1.0);
+    paint86Fill.color = GameColors.mountainPainterColor23.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_86, paint86Fill);
 
     Path path_87 = Path();
@@ -28830,7 +29314,9 @@ class FrontMountainPainter extends CustomPainter {
     path_87.close();
 
     Paint paint87Fill = Paint()..style = PaintingStyle.fill;
-    paint87Fill.color = Color(0xff9E9826).withValues(alpha: 1.0);
+    paint87Fill.color = GameColors.mountainPainterColor10.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_87, paint87Fill);
 
     Path path_88 = Path();
@@ -29009,7 +29495,9 @@ class FrontMountainPainter extends CustomPainter {
     path_88.close();
 
     Paint paint88Fill = Paint()..style = PaintingStyle.fill;
-    paint88Fill.color = Color(0xffD8C72B).withValues(alpha: 1.0);
+    paint88Fill.color = GameColors.mountainPainterColor20.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_88, paint88Fill);
 
     Path path_89 = Path();
@@ -29052,7 +29540,10 @@ class FrontMountainPainter extends CustomPainter {
     paint89Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6031822, size.height * 0.8298457),
       Offset(size.width * 0.6657802, size.height * 0.8298457),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_89, paint89Fill);
@@ -29090,7 +29581,10 @@ class FrontMountainPainter extends CustomPainter {
     paint90Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6266535, size.height * 0.8094214),
       Offset(size.width * 0.6686931, size.height * 0.8094214),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_90, paint90Fill);
@@ -29124,7 +29618,9 @@ class FrontMountainPainter extends CustomPainter {
     path_91.close();
 
     Paint paint91Fill = Paint()..style = PaintingStyle.fill;
-    paint91Fill.color = Color(0xffD8C72B).withValues(alpha: 1.0);
+    paint91Fill.color = GameColors.mountainPainterColor20.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_91, paint91Fill);
 
     Path path_92 = Path();
@@ -29138,7 +29634,10 @@ class FrontMountainPainter extends CustomPainter {
     paint92Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.9107327, size.height * 0.4601039),
       Offset(size.width * 0.8740693, size.height * 0.4671454),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_92, paint92Fill);
@@ -29154,7 +29653,10 @@ class FrontMountainPainter extends CustomPainter {
     paint93Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.9016574, size.height * 0.4141009),
       Offset(size.width * 0.8679545, size.height * 0.4205757),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_93, paint93Fill);
@@ -29170,7 +29672,10 @@ class FrontMountainPainter extends CustomPainter {
     paint94Fill.shader = ui.Gradient.linear(
       Offset(size.width * 1.031343, size.height * 0.3479941),
       Offset(size.width * 0.9735723, size.height * 0.3590920),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_94, paint94Fill);
@@ -29187,7 +29692,10 @@ class FrontMountainPainter extends CustomPainter {
     paint95Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.8279960, size.height * 0.5050623),
       Offset(size.width * 0.7957703, size.height * 0.5112552),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_95, paint95Fill);
@@ -29204,7 +29712,10 @@ class FrontMountainPainter extends CustomPainter {
     paint96Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7088059, size.height * 0.6162018),
       Offset(size.width * 0.6928911, size.height * 0.6192611),
-      [Color(0xffF2CAA2).withValues(alpha: 1), Color(0xffC8A581).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor24.withValues(alpha: 1),
+        GameColors.mountainPainterColor16.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_96, paint96Fill);
@@ -29217,7 +29728,9 @@ class FrontMountainPainter extends CustomPainter {
     path_97.close();
 
     Paint paint97Fill = Paint()..style = PaintingStyle.fill;
-    paint97Fill.color = Color(0xff9E9826).withValues(alpha: 1.0);
+    paint97Fill.color = GameColors.mountainPainterColor10.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_97, paint97Fill);
 
     Path path_98 = Path();
@@ -29291,7 +29804,9 @@ class FrontMountainPainter extends CustomPainter {
     path_98.close();
 
     Paint paint98Fill = Paint()..style = PaintingStyle.fill;
-    paint98Fill.color = Color(0xffEFD830).withValues(alpha: 1.0);
+    paint98Fill.color = GameColors.mountainPainterColor23.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_98, paint98Fill);
 
     Path path_99 = Path();
@@ -29351,7 +29866,9 @@ class FrontMountainPainter extends CustomPainter {
     path_99.close();
 
     Paint paint99Fill = Paint()..style = PaintingStyle.fill;
-    paint99Fill.color = Color(0xffB7AC27).withValues(alpha: 1.0);
+    paint99Fill.color = GameColors.mountainPainterColor14.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_99, paint99Fill);
 
     Path path_100 = Path();
@@ -29411,7 +29928,9 @@ class FrontMountainPainter extends CustomPainter {
     path_100.close();
 
     Paint paint100Fill = Paint()..style = PaintingStyle.fill;
-    paint100Fill.color = Color(0xff9E9826).withValues(alpha: 1.0);
+    paint100Fill.color = GameColors.mountainPainterColor10.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_100, paint100Fill);
 
     Path path_101 = Path();
@@ -29440,7 +29959,10 @@ class FrontMountainPainter extends CustomPainter {
     paint101Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5369069, size.height * 0.2480415),
       Offset(size.width * 0.4572475, size.height * 0.3756647),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_101, paint101Fill);
@@ -29578,7 +30100,9 @@ class FrontMountainPainter extends CustomPainter {
     path_102.close();
 
     Paint paint102Fill = Paint()..style = PaintingStyle.fill;
-    paint102Fill.color = Color(0xffEFD830).withValues(alpha: 1.0);
+    paint102Fill.color = GameColors.mountainPainterColor23.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_102, paint102Fill);
 
     Path path_103 = Path();
@@ -29610,7 +30134,9 @@ class FrontMountainPainter extends CustomPainter {
     path_103.close();
 
     Paint paint103Fill = Paint()..style = PaintingStyle.fill;
-    paint103Fill.color = Color(0xffEAA326).withValues(alpha: 1.0);
+    paint103Fill.color = GameColors.mountainPainterColor22.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_103, paint103Fill);
 
     Path path_104 = Path();
@@ -29632,7 +30158,10 @@ class FrontMountainPainter extends CustomPainter {
     paint104Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6035663, size.height * 0.9142404),
       Offset(size.width * 0.6170871, size.height * 0.8452582),
-      [Color(0xffB7AC27).withValues(alpha: 1), Color(0xff7F781C).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+        GameColors.mountainPainterColor3.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_104, paint104Fill);
@@ -29671,7 +30200,10 @@ class FrontMountainPainter extends CustomPainter {
     paint105Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7095980, size.height * 0.3489318),
       Offset(size.width * 0.7458673, size.height * 0.3489318),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_105, paint105Fill);
@@ -29765,7 +30297,9 @@ class FrontMountainPainter extends CustomPainter {
     path_106.close();
 
     Paint paint106Fill = Paint()..style = PaintingStyle.fill;
-    paint106Fill.color = Color(0xffD8C72B).withValues(alpha: 1.0);
+    paint106Fill.color = GameColors.mountainPainterColor20.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_106, paint106Fill);
 
     Path path_107 = Path();
@@ -29786,7 +30320,10 @@ class FrontMountainPainter extends CustomPainter {
     paint107Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7920832, size.height * 0.2293976),
       Offset(size.width * 0.7101584, size.height * 0.2754362),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_107, paint107Fill);
@@ -29802,7 +30339,10 @@ class FrontMountainPainter extends CustomPainter {
     paint108Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.1309485, size.height * 0.7490534),
       Offset(size.width * 0.1534574, size.height * 0.7490534),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_108, paint108Fill);
@@ -29834,7 +30374,10 @@ class FrontMountainPainter extends CustomPainter {
     paint109Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.1119822, size.height * 0.6935549),
       Offset(size.width * 0.1631762, size.height * 0.6935549),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_109, paint109Fill);
@@ -29857,7 +30400,10 @@ class FrontMountainPainter extends CustomPainter {
     paint110Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.1652990, size.height * 0.6523472),
       Offset(size.width * 0.1835050, size.height * 0.6523472),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_110, paint110Fill);
@@ -29903,7 +30449,10 @@ class FrontMountainPainter extends CustomPainter {
     paint111Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2657802, size.height * 0.4455401),
       Offset(size.width * 0.2450337, size.height * 0.4133887),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_111, paint111Fill);
@@ -29934,7 +30483,10 @@ class FrontMountainPainter extends CustomPainter {
     paint112Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2491604, size.height * 0.4776202),
       Offset(size.width * 0.2412198, size.height * 0.4653175),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_112, paint112Fill);
@@ -30106,7 +30658,10 @@ class FrontMountainPainter extends CustomPainter {
     paint113Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.8062079, size.height * 0.7100475),
       Offset(size.width * 0.7686337, size.height * 0.7113887),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_113, paint113Fill);
@@ -30263,7 +30818,10 @@ class FrontMountainPainter extends CustomPainter {
     paint114Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.8116713, size.height * 0.7947715),
       Offset(size.width * 0.8697347, size.height * 0.7947715),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_114, paint114Fill);
@@ -30294,7 +30852,10 @@ class FrontMountainPainter extends CustomPainter {
     paint115Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6962297, size.height * 0.5892018),
       Offset(size.width * 0.7280079, size.height * 0.5892018),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_115, paint115Fill);
@@ -30318,7 +30879,10 @@ class FrontMountainPainter extends CustomPainter {
     paint116Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7366772, size.height * 0.4995935),
       Offset(size.width * 0.7411188, size.height * 0.4995935),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_116, paint116Fill);
@@ -30353,7 +30917,10 @@ class FrontMountainPainter extends CustomPainter {
     paint117Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7364356, size.height * 0.5282849),
       Offset(size.width * 0.7442396, size.height * 0.5282849),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_117, paint117Fill);
@@ -30380,7 +30947,9 @@ class FrontMountainPainter extends CustomPainter {
     path_118.close();
 
     Paint paint118Fill = Paint()..style = PaintingStyle.fill;
-    paint118Fill.color = Color(0xff9E9826).withValues(alpha: 1.0);
+    paint118Fill.color = GameColors.mountainPainterColor10.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_118, paint118Fill);
 
     Path path_119 = Path();
@@ -30455,7 +31024,10 @@ class FrontMountainPainter extends CustomPainter {
     paint119Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7859683, size.height * 0.1463353),
       Offset(size.width * 0.6145347, size.height * 0.3264392),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_119, paint119Fill);
@@ -30479,7 +31051,10 @@ class FrontMountainPainter extends CustomPainter {
     paint120Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6306832, size.height * 0.2142344),
       Offset(size.width * 0.6535386, size.height * 0.1653561),
-      [Color(0xffCEBF34).withValues(alpha: 1), Color(0xffB7AC27).withValues(alpha: 1)],
+      [
+        GameColors.mountainPainterColor17.withValues(alpha: 1),
+        GameColors.mountainPainterColor14.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_120, paint120Fill);
@@ -30506,7 +31081,9 @@ class FrontMountainPainter extends CustomPainter {
     path_121.close();
 
     Paint paint121Fill = Paint()..style = PaintingStyle.fill;
-    paint121Fill.color = Color(0xff9E9826).withValues(alpha: 1.0);
+    paint121Fill.color = GameColors.mountainPainterColor10.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_121, paint121Fill);
 
     Path path_122 = Path();
@@ -30564,7 +31141,9 @@ class FrontMountainPainter extends CustomPainter {
     path_122.close();
 
     Paint paint122Fill = Paint()..style = PaintingStyle.fill;
-    paint122Fill.color = Color(0xff7F781F).withValues(alpha: 1.0);
+    paint122Fill.color = GameColors.mountainPainterColor4.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_122, paint122Fill);
   }
 

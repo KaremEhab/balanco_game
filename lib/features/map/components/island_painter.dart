@@ -1,6 +1,7 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 //Copy this CustomPainter code to the Bottom of the File
 class FirstIslandPainter extends CustomPainter {
@@ -65,10 +66,10 @@ class FirstIslandPainter extends CustomPainter {
       Offset(size.width * 0.5637980, size.height * 1.000269),
       Offset(size.width * 0.4478687, size.height * -0.3059701),
       [
-        Color(0xff63902F).withValues(alpha: 1),
-        Color(0xff84B017).withValues(alpha: 1),
-        Color(0xff99C508).withValues(alpha: 1),
-        Color(0xffA1CC02).withValues(alpha: 1),
+        GameColors.islandPainterColor8.withValues(alpha: 1),
+        GameColors.islandPainterColor12.withValues(alpha: 1),
+        GameColors.islandPainterColor17.withValues(alpha: 1),
+        GameColors.islandPainterColor21.withValues(alpha: 1),
       ],
       [0, 0.417, 0.769, 1],
     );
@@ -88,7 +89,7 @@ class FirstIslandPainter extends CustomPainter {
     path_1.close();
 
     Paint paint1Fill = Paint()..style = PaintingStyle.fill;
-    paint1Fill.color = Color(0xffEDE0A9).withValues(alpha: 1.0);
+    paint1Fill.color = GameColors.islandPainterColor51.withValues(alpha: 1.0);
     canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
@@ -123,7 +124,7 @@ class FirstIslandPainter extends CustomPainter {
     path_2.close();
 
     Paint paint2Fill = Paint()..style = PaintingStyle.fill;
-    paint2Fill.color = Color(0xffCC81B3).withValues(alpha: 1.0);
+    paint2Fill.color = GameColors.islandPainterColor38.withValues(alpha: 1.0);
     canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
@@ -137,12 +138,12 @@ class FirstIslandPainter extends CustomPainter {
       Offset(size.width * 0.9919394, size.height * 0.3734328),
       Offset(size.width * 0.9913838, size.height * 0.3686269),
       [
-        Color(0xffBA5270).withValues(alpha: 1),
-        Color(0xffC56D76).withValues(alpha: 1),
-        Color(0xffDEAB83).withValues(alpha: 1),
-        Color(0xffF0D98D).withValues(alpha: 1),
-        Color(0xffFBF593).withValues(alpha: 1),
-        Color(0xffFFFF95).withValues(alpha: 1),
+        GameColors.islandPainterColor34.withValues(alpha: 1),
+        GameColors.islandPainterColor36.withValues(alpha: 1),
+        GameColors.islandPainterColor42.withValues(alpha: 1),
+        GameColors.islandPainterColor52.withValues(alpha: 1),
+        GameColors.islandPainterColor58.withValues(alpha: 1),
+        GameColors.islandPainterColor77.withValues(alpha: 1),
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
@@ -159,12 +160,12 @@ class FirstIslandPainter extends CustomPainter {
       Offset(size.width * 0.9913535, size.height * 0.3686119),
       Offset(size.width * 0.9911616, size.height * 0.3670149),
       [
-        Color(0xffBA5270).withValues(alpha: 1),
-        Color(0xffC56D76).withValues(alpha: 1),
-        Color(0xffDEAB83).withValues(alpha: 1),
-        Color(0xffF0D98D).withValues(alpha: 1),
-        Color(0xffFBF593).withValues(alpha: 1),
-        Color(0xffFFFF95).withValues(alpha: 1),
+        GameColors.islandPainterColor34.withValues(alpha: 1),
+        GameColors.islandPainterColor36.withValues(alpha: 1),
+        GameColors.islandPainterColor42.withValues(alpha: 1),
+        GameColors.islandPainterColor52.withValues(alpha: 1),
+        GameColors.islandPainterColor58.withValues(alpha: 1),
+        GameColors.islandPainterColor77.withValues(alpha: 1),
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
@@ -195,12 +196,12 @@ class FirstIslandPainter extends CustomPainter {
       Offset(size.width * 0.9925354, size.height * 0.3791791),
       Offset(size.width * 0.9918687, size.height * 0.3734328),
       [
-        Color(0xffBA5270).withValues(alpha: 1),
-        Color(0xffC56D76).withValues(alpha: 1),
-        Color(0xffDEAB83).withValues(alpha: 1),
-        Color(0xffF0D98D).withValues(alpha: 1),
-        Color(0xffFBF593).withValues(alpha: 1),
-        Color(0xffFFFF95).withValues(alpha: 1),
+        GameColors.islandPainterColor34.withValues(alpha: 1),
+        GameColors.islandPainterColor36.withValues(alpha: 1),
+        GameColors.islandPainterColor42.withValues(alpha: 1),
+        GameColors.islandPainterColor52.withValues(alpha: 1),
+        GameColors.islandPainterColor58.withValues(alpha: 1),
+        GameColors.islandPainterColor77.withValues(alpha: 1),
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
@@ -247,12 +248,12 @@ class FirstIslandPainter extends CustomPainter {
       Offset(size.width * 0.5637273, size.height * 1.000284),
       Offset(size.width * 0.4776970, size.height * 0.2557612),
       [
-        Color(0xffBA5270).withValues(alpha: 1),
-        Color(0xffC56D76).withValues(alpha: 1),
-        Color(0xffDEAB83).withValues(alpha: 1),
-        Color(0xffF0D98D).withValues(alpha: 1),
-        Color(0xffFBF593).withValues(alpha: 1),
-        Color(0xffFFFF95).withValues(alpha: 1),
+        GameColors.islandPainterColor34.withValues(alpha: 1),
+        GameColors.islandPainterColor36.withValues(alpha: 1),
+        GameColors.islandPainterColor42.withValues(alpha: 1),
+        GameColors.islandPainterColor52.withValues(alpha: 1),
+        GameColors.islandPainterColor58.withValues(alpha: 1),
+        GameColors.islandPainterColor77.withValues(alpha: 1),
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
@@ -291,10 +292,10 @@ class FirstIslandPainter extends CustomPainter {
       Offset(size.width * 0.5484242, size.height * 0.7330448),
       Offset(size.width * 0.4633434, size.height * -0.3238806),
       [
-        Color(0xff63902F).withValues(alpha: 1),
-        Color(0xff84B017).withValues(alpha: 1),
-        Color(0xff99C508).withValues(alpha: 1),
-        Color(0xffA1CC02).withValues(alpha: 1),
+        GameColors.islandPainterColor8.withValues(alpha: 1),
+        GameColors.islandPainterColor12.withValues(alpha: 1),
+        GameColors.islandPainterColor17.withValues(alpha: 1),
+        GameColors.islandPainterColor21.withValues(alpha: 1),
       ],
       [0, 0.417, 0.769, 1],
     );
@@ -334,11 +335,11 @@ class FirstIslandPainter extends CustomPainter {
       Offset(size.width * 0.5564646, size.height * 0.7730149),
       Offset(size.width * 0.4860909, size.height * 0.1640448),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -365,7 +366,7 @@ class FirstIslandPainter extends CustomPainter {
     path_9.close();
 
     Paint paint9Fill = Paint()..style = PaintingStyle.fill;
-    paint9Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint9Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
@@ -405,7 +406,7 @@ class FirstIslandPainter extends CustomPainter {
     path_10.close();
 
     Paint paint10Fill = Paint()..style = PaintingStyle.fill;
-    paint10Fill.color = Color(0xffFFDD81).withValues(alpha: 1.0);
+    paint10Fill.color = GameColors.islandPainterColor76.withValues(alpha: 1.0);
     canvas.drawPath(path_10, paint10Fill);
 
     Path path_11 = Path();
@@ -430,7 +431,7 @@ class FirstIslandPainter extends CustomPainter {
     path_11.close();
 
     Paint paint11Fill = Paint()..style = PaintingStyle.fill;
-    paint11Fill.color = Color(0xffFFDD81).withValues(alpha: 1.0);
+    paint11Fill.color = GameColors.islandPainterColor76.withValues(alpha: 1.0);
     canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
@@ -447,7 +448,7 @@ class FirstIslandPainter extends CustomPainter {
     path_12.close();
 
     Paint paint12Fill = Paint()..style = PaintingStyle.fill;
-    paint12Fill.color = Color(0xffD36F3B).withValues(alpha: 1.0);
+    paint12Fill.color = GameColors.islandPainterColor39.withValues(alpha: 1.0);
     canvas.drawPath(path_12, paint12Fill);
 
     Path path_13 = Path();
@@ -474,7 +475,7 @@ class FirstIslandPainter extends CustomPainter {
     path_13.close();
 
     Paint paint13Fill = Paint()..style = PaintingStyle.fill;
-    paint13Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint13Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_13, paint13Fill);
 
     Path path_14 = Path();
@@ -491,7 +492,7 @@ class FirstIslandPainter extends CustomPainter {
     path_14.close();
 
     Paint paint14Fill = Paint()..style = PaintingStyle.fill;
-    paint14Fill.color = Color(0xffE7792C).withValues(alpha: 1.0);
+    paint14Fill.color = GameColors.islandPainterColor47.withValues(alpha: 1.0);
     canvas.drawPath(path_14, paint14Fill);
 
     Path path_15 = Path();
@@ -557,7 +558,7 @@ class FirstIslandPainter extends CustomPainter {
     path_15.close();
 
     Paint paint15Fill = Paint()..style = PaintingStyle.fill;
-    paint15Fill.color = Color(0xffEDE0A9).withValues(alpha: 1.0);
+    paint15Fill.color = GameColors.islandPainterColor51.withValues(alpha: 1.0);
     canvas.drawPath(path_15, paint15Fill);
 
     Path path_16 = Path();
@@ -585,7 +586,7 @@ class FirstIslandPainter extends CustomPainter {
     path_16.close();
 
     Paint paint16Fill = Paint()..style = PaintingStyle.fill;
-    paint16Fill.color = Color(0xffCC81B3).withValues(alpha: 1.0);
+    paint16Fill.color = GameColors.islandPainterColor38.withValues(alpha: 1.0);
     canvas.drawPath(path_16, paint16Fill);
 
     Path path_17 = Path();
@@ -627,7 +628,7 @@ class FirstIslandPainter extends CustomPainter {
     path_17.close();
 
     Paint paint17Fill = Paint()..style = PaintingStyle.fill;
-    paint17Fill.color = Color(0xffCC81B3).withValues(alpha: 1.0);
+    paint17Fill.color = GameColors.islandPainterColor38.withValues(alpha: 1.0);
     canvas.drawPath(path_17, paint17Fill);
 
     Path path_18 = Path();
@@ -652,7 +653,7 @@ class FirstIslandPainter extends CustomPainter {
     path_18.close();
 
     Paint paint18Fill = Paint()..style = PaintingStyle.fill;
-    paint18Fill.color = Color(0xffEDE0A9).withValues(alpha: 1.0);
+    paint18Fill.color = GameColors.islandPainterColor51.withValues(alpha: 1.0);
     canvas.drawPath(path_18, paint18Fill);
 
     Path path_19 = Path();
@@ -687,7 +688,7 @@ class FirstIslandPainter extends CustomPainter {
     path_19.close();
 
     Paint paint19Fill = Paint()..style = PaintingStyle.fill;
-    paint19Fill.color = Color(0xffCC81B3).withValues(alpha: 1.0);
+    paint19Fill.color = GameColors.islandPainterColor38.withValues(alpha: 1.0);
     canvas.drawPath(path_19, paint19Fill);
 
     Path path_20 = Path();
@@ -715,11 +716,11 @@ class FirstIslandPainter extends CustomPainter {
       Offset(size.width * 0.5782929, size.height * 0.5775970),
       Offset(size.width * 0.2553535, size.height * 0.6153284),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -750,11 +751,11 @@ class FirstIslandPainter extends CustomPainter {
       Offset(size.width * 0.2608687, size.height * 0.1553134),
       Offset(size.width * 0.1020303, size.height * 0.1738657),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -817,7 +818,7 @@ class FirstIslandPainter extends CustomPainter {
     path_22.close();
 
     Paint paint22Fill = Paint()..style = PaintingStyle.fill;
-    paint22Fill.color = Color(0xff86A500).withValues(alpha: 1.0);
+    paint22Fill.color = GameColors.islandPainterColor13.withValues(alpha: 1.0);
     canvas.drawPath(path_22, paint22Fill);
 
     Path path_23 = Path();
@@ -834,7 +835,7 @@ class FirstIslandPainter extends CustomPainter {
     path_23.close();
 
     Paint paint23Fill = Paint()..style = PaintingStyle.fill;
-    paint23Fill.color = Color(0xffA1B3D4).withValues(alpha: 1.0);
+    paint23Fill.color = GameColors.islandPainterColor20.withValues(alpha: 1.0);
     canvas.drawPath(path_23, paint23Fill);
 
     Path path_24 = Path();
@@ -891,7 +892,7 @@ class FirstIslandPainter extends CustomPainter {
     path_24.close();
 
     Paint paint24Fill = Paint()..style = PaintingStyle.fill;
-    paint24Fill.color = Color(0xffEABA13).withValues(alpha: 1.0);
+    paint24Fill.color = GameColors.islandPainterColor49.withValues(alpha: 1.0);
     canvas.drawPath(path_24, paint24Fill);
 
     Path path_25 = Path();
@@ -1002,7 +1003,7 @@ class FirstIslandPainter extends CustomPainter {
     path_25.close();
 
     Paint paint25Fill = Paint()..style = PaintingStyle.fill;
-    paint25Fill.color = Color(0xffB0FF00).withValues(alpha: 1.0);
+    paint25Fill.color = GameColors.islandPainterColor29.withValues(alpha: 1.0);
     canvas.drawPath(path_25, paint25Fill);
   }
 
@@ -1108,10 +1109,10 @@ class SecondIslandPainter extends CustomPainter {
       Offset(size.width * 0.4977434, size.height * 0.9980123),
       Offset(size.width * 0.4977434, size.height * -0.01111111),
       [
-        Color(0xff63902F).withValues(alpha: 1),
-        Color(0xff84B017).withValues(alpha: 1),
-        Color(0xff99C508).withValues(alpha: 1),
-        Color(0xffA1CC02).withValues(alpha: 1),
+        GameColors.islandPainterColor8.withValues(alpha: 1),
+        GameColors.islandPainterColor12.withValues(alpha: 1),
+        GameColors.islandPainterColor17.withValues(alpha: 1),
+        GameColors.islandPainterColor21.withValues(alpha: 1),
       ],
       [0, 0.417, 0.769, 1],
     );
@@ -1135,12 +1136,12 @@ class SecondIslandPainter extends CustomPainter {
       Offset(size.width * 0.9904425, size.height * 0.5039012),
       Offset(size.width * 0.9904425, size.height * 0.5035679),
       [
-        Color(0xffBA5270).withValues(alpha: 1),
-        Color(0xffC56D76).withValues(alpha: 1),
-        Color(0xffDEAB83).withValues(alpha: 1),
-        Color(0xffF0D98D).withValues(alpha: 1),
-        Color(0xffFBF593).withValues(alpha: 1),
-        Color(0xffFFFF95).withValues(alpha: 1),
+        GameColors.islandPainterColor34.withValues(alpha: 1),
+        GameColors.islandPainterColor36.withValues(alpha: 1),
+        GameColors.islandPainterColor42.withValues(alpha: 1),
+        GameColors.islandPainterColor52.withValues(alpha: 1),
+        GameColors.islandPainterColor58.withValues(alpha: 1),
+        GameColors.islandPainterColor77.withValues(alpha: 1),
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
@@ -1198,12 +1199,12 @@ class SecondIslandPainter extends CustomPainter {
       Offset(size.width * 0.4977345, size.height * 0.9980370),
       Offset(size.width * 0.4977345, size.height * 0.3452222),
       [
-        Color(0xffBA5270).withValues(alpha: 1),
-        Color(0xffC56D76).withValues(alpha: 1),
-        Color(0xffDEAB83).withValues(alpha: 1),
-        Color(0xffF0D98D).withValues(alpha: 1),
-        Color(0xffFBF593).withValues(alpha: 1),
-        Color(0xffFFFF95).withValues(alpha: 1),
+        GameColors.islandPainterColor34.withValues(alpha: 1),
+        GameColors.islandPainterColor36.withValues(alpha: 1),
+        GameColors.islandPainterColor42.withValues(alpha: 1),
+        GameColors.islandPainterColor52.withValues(alpha: 1),
+        GameColors.islandPainterColor58.withValues(alpha: 1),
+        GameColors.islandPainterColor77.withValues(alpha: 1),
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
@@ -1250,12 +1251,12 @@ class SecondIslandPainter extends CustomPainter {
       Offset(size.width * 0.4846637, size.height * 0.9980123),
       Offset(size.width * 0.4846637, size.height * 0.7174815),
       [
-        Color(0xffBA5270).withValues(alpha: 1),
-        Color(0xffC56D76).withValues(alpha: 1),
-        Color(0xffDEAB83).withValues(alpha: 1),
-        Color(0xffF0D98D).withValues(alpha: 1),
-        Color(0xffFBF593).withValues(alpha: 1),
-        Color(0xffFFFF95).withValues(alpha: 1),
+        GameColors.islandPainterColor34.withValues(alpha: 1),
+        GameColors.islandPainterColor36.withValues(alpha: 1),
+        GameColors.islandPainterColor42.withValues(alpha: 1),
+        GameColors.islandPainterColor52.withValues(alpha: 1),
+        GameColors.islandPainterColor58.withValues(alpha: 1),
+        GameColors.islandPainterColor77.withValues(alpha: 1),
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
@@ -1287,10 +1288,10 @@ class SecondIslandPainter extends CustomPainter {
       Offset(size.width * 0.5046195, size.height * 0.7294938),
       Offset(size.width * 0.5046195, size.height * 0.02988889),
       [
-        Color(0xff63902F).withValues(alpha: 1),
-        Color(0xff84B017).withValues(alpha: 1),
-        Color(0xff99C508).withValues(alpha: 1),
-        Color(0xffA1CC02).withValues(alpha: 1),
+        GameColors.islandPainterColor8.withValues(alpha: 1),
+        GameColors.islandPainterColor12.withValues(alpha: 1),
+        GameColors.islandPainterColor17.withValues(alpha: 1),
+        GameColors.islandPainterColor21.withValues(alpha: 1),
       ],
       [0, 0.417, 0.769, 1],
     );
@@ -1346,11 +1347,11 @@ class SecondIslandPainter extends CustomPainter {
       Offset(size.width * 0.5046195, size.height * 0.7683457),
       Offset(size.width * 0.5046195, size.height * 0.1631235),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -1403,7 +1404,7 @@ class SecondIslandPainter extends CustomPainter {
     path_6.close();
 
     Paint paint6Fill = Paint()..style = PaintingStyle.fill;
-    paint6Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint6Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
@@ -1431,11 +1432,11 @@ class SecondIslandPainter extends CustomPainter {
       Offset(size.width * 0.3986637, size.height * 0.1002840),
       Offset(size.width * 0.2906372, size.height * 0.09962963),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -1464,7 +1465,7 @@ class SecondIslandPainter extends CustomPainter {
     path_8.close();
 
     Paint paint8Fill = Paint()..style = PaintingStyle.fill;
-    paint8Fill.color = Color(0xff86A500).withValues(alpha: 1.0);
+    paint8Fill.color = GameColors.islandPainterColor13.withValues(alpha: 1.0);
     canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
@@ -1492,11 +1493,11 @@ class SecondIslandPainter extends CustomPainter {
       Offset(size.width * 0.4689735, size.height * 0.5077284),
       Offset(size.width * 0.1806903, size.height * 0.4550370),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -1511,7 +1512,7 @@ class SecondIslandPainter extends CustomPainter {
     path_10.close();
 
     Paint paint10Fill = Paint()..style = PaintingStyle.fill;
-    paint10Fill.color = Color(0xff86A500).withValues(alpha: 1.0);
+    paint10Fill.color = GameColors.islandPainterColor13.withValues(alpha: 1.0);
     canvas.drawPath(path_10, paint10Fill);
 
     Path path_11 = Path();
@@ -1534,7 +1535,7 @@ class SecondIslandPainter extends CustomPainter {
     path_11.close();
 
     Paint paint11Fill = Paint()..style = PaintingStyle.fill;
-    paint11Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint11Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
@@ -1560,7 +1561,7 @@ class SecondIslandPainter extends CustomPainter {
     path_12.close();
 
     Paint paint12Fill = Paint()..style = PaintingStyle.fill;
-    paint12Fill.color = Color(0xffFFDD81).withValues(alpha: 1.0);
+    paint12Fill.color = GameColors.islandPainterColor76.withValues(alpha: 1.0);
     canvas.drawPath(path_12, paint12Fill);
 
     Path path_13 = Path();
@@ -1618,7 +1619,7 @@ class SecondIslandPainter extends CustomPainter {
     path_13.close();
 
     Paint paint13Fill = Paint()..style = PaintingStyle.fill;
-    paint13Fill.color = Color(0xffFFDD81).withValues(alpha: 1.0);
+    paint13Fill.color = GameColors.islandPainterColor76.withValues(alpha: 1.0);
     canvas.drawPath(path_13, paint13Fill);
 
     Path path_14 = Path();
@@ -1675,7 +1676,7 @@ class SecondIslandPainter extends CustomPainter {
     path_14.close();
 
     Paint paint14Fill = Paint()..style = PaintingStyle.fill;
-    paint14Fill.color = Color(0xffEABA13).withValues(alpha: 1.0);
+    paint14Fill.color = GameColors.islandPainterColor49.withValues(alpha: 1.0);
     canvas.drawPath(path_14, paint14Fill);
 
     Path path_15 = Path();
@@ -1725,7 +1726,7 @@ class SecondIslandPainter extends CustomPainter {
     path_15.close();
 
     Paint paint15Fill = Paint()..style = PaintingStyle.fill;
-    paint15Fill.color = Color(0xffEDE0A9).withValues(alpha: 1.0);
+    paint15Fill.color = GameColors.islandPainterColor51.withValues(alpha: 1.0);
     canvas.drawPath(path_15, paint15Fill);
 
     Path path_16 = Path();
@@ -1767,7 +1768,7 @@ class SecondIslandPainter extends CustomPainter {
     path_16.close();
 
     Paint paint16Fill = Paint()..style = PaintingStyle.fill;
-    paint16Fill.color = Color(0xffCC81B3).withValues(alpha: 1.0);
+    paint16Fill.color = GameColors.islandPainterColor38.withValues(alpha: 1.0);
     canvas.drawPath(path_16, paint16Fill);
 
     Path path_17 = Path();
@@ -1777,7 +1778,7 @@ class SecondIslandPainter extends CustomPainter {
     path_17.close();
 
     Paint paint17Fill = Paint()..style = PaintingStyle.fill;
-    paint17Fill.color = Color(0xffEDE0A9).withValues(alpha: 1.0);
+    paint17Fill.color = GameColors.islandPainterColor51.withValues(alpha: 1.0);
     canvas.drawPath(path_17, paint17Fill);
 
     Path path_18 = Path();
@@ -1860,7 +1861,7 @@ class SecondIslandPainter extends CustomPainter {
     path_18.close();
 
     Paint paint18Fill = Paint()..style = PaintingStyle.fill;
-    paint18Fill.color = Color(0xffCC81B3).withValues(alpha: 1.0);
+    paint18Fill.color = GameColors.islandPainterColor38.withValues(alpha: 1.0);
     canvas.drawPath(path_18, paint18Fill);
 
     Path path_19 = Path();
@@ -1884,7 +1885,7 @@ class SecondIslandPainter extends CustomPainter {
     path_19.close();
 
     Paint paint19Fill = Paint()..style = PaintingStyle.fill;
-    paint19Fill.color = Color(0xffEDE0A9).withValues(alpha: 1.0);
+    paint19Fill.color = GameColors.islandPainterColor51.withValues(alpha: 1.0);
     canvas.drawPath(path_19, paint19Fill);
 
     Path path_20 = Path();
@@ -1919,7 +1920,7 @@ class SecondIslandPainter extends CustomPainter {
     path_20.close();
 
     Paint paint20Fill = Paint()..style = PaintingStyle.fill;
-    paint20Fill.color = Color(0xffCC81B3).withValues(alpha: 1.0);
+    paint20Fill.color = GameColors.islandPainterColor38.withValues(alpha: 1.0);
     canvas.drawPath(path_20, paint20Fill);
 
     Path path_21 = Path();
@@ -1936,7 +1937,7 @@ class SecondIslandPainter extends CustomPainter {
     path_21.close();
 
     Paint paint21Fill = Paint()..style = PaintingStyle.fill;
-    paint21Fill.color = Color(0xffD36F3B).withValues(alpha: 1.0);
+    paint21Fill.color = GameColors.islandPainterColor39.withValues(alpha: 1.0);
     canvas.drawPath(path_21, paint21Fill);
 
     Path path_22 = Path();
@@ -1977,7 +1978,7 @@ class SecondIslandPainter extends CustomPainter {
     path_22.close();
 
     Paint paint22Fill = Paint()..style = PaintingStyle.fill;
-    paint22Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint22Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_22, paint22Fill);
 
     Path path_23 = Path();
@@ -1994,7 +1995,7 @@ class SecondIslandPainter extends CustomPainter {
     path_23.close();
 
     Paint paint23Fill = Paint()..style = PaintingStyle.fill;
-    paint23Fill.color = Color(0xffE7792C).withValues(alpha: 1.0);
+    paint23Fill.color = GameColors.islandPainterColor47.withValues(alpha: 1.0);
     canvas.drawPath(path_23, paint23Fill);
 
     Path path_24 = Path();
@@ -2011,7 +2012,7 @@ class SecondIslandPainter extends CustomPainter {
     path_24.close();
 
     Paint paint24Fill = Paint()..style = PaintingStyle.fill;
-    paint24Fill.color = Color(0xffD36F3B).withValues(alpha: 1.0);
+    paint24Fill.color = GameColors.islandPainterColor39.withValues(alpha: 1.0);
     canvas.drawPath(path_24, paint24Fill);
 
     Path path_25 = Path();
@@ -2059,7 +2060,7 @@ class SecondIslandPainter extends CustomPainter {
     path_25.close();
 
     Paint paint25Fill = Paint()..style = PaintingStyle.fill;
-    paint25Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint25Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_25, paint25Fill);
 
     Path path_26 = Path();
@@ -2083,7 +2084,7 @@ class SecondIslandPainter extends CustomPainter {
     path_26.close();
 
     Paint paint26Fill = Paint()..style = PaintingStyle.fill;
-    paint26Fill.color = Color(0xffE7792C).withValues(alpha: 1.0);
+    paint26Fill.color = GameColors.islandPainterColor47.withValues(alpha: 1.0);
     canvas.drawPath(path_26, paint26Fill);
 
     Path path_27 = Path();
@@ -2209,7 +2210,7 @@ class SecondIslandPainter extends CustomPainter {
     path_27.close();
 
     Paint paint27Fill = Paint()..style = PaintingStyle.fill;
-    paint27Fill.color = Color(0xffB0FF00).withValues(alpha: 1.0);
+    paint27Fill.color = GameColors.islandPainterColor29.withValues(alpha: 1.0);
     canvas.drawPath(path_27, paint27Fill);
 
     Path path_28 = Path();
@@ -2219,7 +2220,7 @@ class SecondIslandPainter extends CustomPainter {
     path_28.close();
 
     Paint paint28Fill = Paint()..style = PaintingStyle.fill;
-    paint28Fill.color = Color(0xffB0FF00).withValues(alpha: 1.0);
+    paint28Fill.color = GameColors.islandPainterColor29.withValues(alpha: 1.0);
     canvas.drawPath(path_28, paint28Fill);
   }
 
@@ -2328,10 +2329,10 @@ class ThirdIslandPainter extends CustomPainter {
       Offset(size.width * 0.4986721, size.height * 0.9983409),
       Offset(size.width * 0.4986721, size.height * 0.07239394),
       [
-        Color(0xff63902F).withValues(alpha: 1),
-        Color(0xff84B017).withValues(alpha: 1),
-        Color(0xff99C508).withValues(alpha: 1),
-        Color(0xffA1CC02).withValues(alpha: 1),
+        GameColors.islandPainterColor8.withValues(alpha: 1),
+        GameColors.islandPainterColor12.withValues(alpha: 1),
+        GameColors.islandPainterColor17.withValues(alpha: 1),
+        GameColors.islandPainterColor21.withValues(alpha: 1),
       ],
       [0, 0.417, 0.769, 1],
     );
@@ -2418,12 +2419,12 @@ class ThirdIslandPainter extends CustomPainter {
       Offset(size.width * 0.4986721, size.height * 0.9983409),
       Offset(size.width * 0.4986721, size.height * 0.5770909),
       [
-        Color(0xffBA5270).withValues(alpha: 1),
-        Color(0xffC56D76).withValues(alpha: 1),
-        Color(0xffDEAB83).withValues(alpha: 1),
-        Color(0xffF0D98D).withValues(alpha: 1),
-        Color(0xffFBF593).withValues(alpha: 1),
-        Color(0xffFFFF95).withValues(alpha: 1),
+        GameColors.islandPainterColor34.withValues(alpha: 1),
+        GameColors.islandPainterColor36.withValues(alpha: 1),
+        GameColors.islandPainterColor42.withValues(alpha: 1),
+        GameColors.islandPainterColor52.withValues(alpha: 1),
+        GameColors.islandPainterColor58.withValues(alpha: 1),
+        GameColors.islandPainterColor77.withValues(alpha: 1),
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
@@ -2502,10 +2503,10 @@ class ThirdIslandPainter extends CustomPainter {
       Offset(size.width * 0.5229631, size.height * 0.8656667),
       Offset(size.width * 0.5229631, size.height * 0.1122803),
       [
-        Color(0xff63902F).withValues(alpha: 1),
-        Color(0xff84B017).withValues(alpha: 1),
-        Color(0xff99C508).withValues(alpha: 1),
-        Color(0xffA1CC02).withValues(alpha: 1),
+        GameColors.islandPainterColor8.withValues(alpha: 1),
+        GameColors.islandPainterColor12.withValues(alpha: 1),
+        GameColors.islandPainterColor17.withValues(alpha: 1),
+        GameColors.islandPainterColor21.withValues(alpha: 1),
       ],
       [0, 0.417, 0.769, 1],
     );
@@ -2616,11 +2617,11 @@ class ThirdIslandPainter extends CustomPainter {
       Offset(size.width * 0.5260943, size.height * 0.8836591),
       Offset(size.width * 0.5260943, size.height * 0.4750227),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -2662,11 +2663,11 @@ class ThirdIslandPainter extends CustomPainter {
       Offset(size.width * 0.3347459, size.height * 0.4784167),
       Offset(size.width * 0.3347459, size.height * 0.3814091),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -2687,7 +2688,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_5.close();
 
     Paint paint5Fill = Paint()..style = PaintingStyle.fill;
-    paint5Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint5Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
@@ -2739,7 +2740,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_6.close();
 
     Paint paint6Fill = Paint()..style = PaintingStyle.fill;
-    paint6Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint6Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
@@ -2779,7 +2780,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_7.close();
 
     Paint paint7Fill = Paint()..style = PaintingStyle.fill;
-    paint7Fill.color = Color(0xffFFDD81).withValues(alpha: 1.0);
+    paint7Fill.color = GameColors.islandPainterColor76.withValues(alpha: 1.0);
     canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
@@ -2851,7 +2852,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_8.close();
 
     Paint paint8Fill = Paint()..style = PaintingStyle.fill;
-    paint8Fill.color = Color(0xffFFDD81).withValues(alpha: 1.0);
+    paint8Fill.color = GameColors.islandPainterColor76.withValues(alpha: 1.0);
     canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
@@ -2875,7 +2876,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_9.close();
 
     Paint paint9Fill = Paint()..style = PaintingStyle.fill;
-    paint9Fill.color = Color(0xffFFDD81).withValues(alpha: 1.0);
+    paint9Fill.color = GameColors.islandPainterColor76.withValues(alpha: 1.0);
     canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
@@ -2919,12 +2920,12 @@ class ThirdIslandPainter extends CustomPainter {
       Offset(size.width * 0.5121352, size.height * 0.8860455),
       Offset(size.width * 0.005118852, size.height * 0.8860455),
       [
-        Color(0xffBA5270).withValues(alpha: 1),
-        Color(0xffC56D76).withValues(alpha: 1),
-        Color(0xffDEAB83).withValues(alpha: 1),
-        Color(0xffF0D98D).withValues(alpha: 1),
-        Color(0xffFBF593).withValues(alpha: 1),
-        Color(0xffFFFF95).withValues(alpha: 1),
+        GameColors.islandPainterColor34.withValues(alpha: 1),
+        GameColors.islandPainterColor36.withValues(alpha: 1),
+        GameColors.islandPainterColor42.withValues(alpha: 1),
+        GameColors.islandPainterColor52.withValues(alpha: 1),
+        GameColors.islandPainterColor58.withValues(alpha: 1),
+        GameColors.islandPainterColor77.withValues(alpha: 1),
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
@@ -2971,12 +2972,12 @@ class ThirdIslandPainter extends CustomPainter {
       Offset(size.width * 0.9964467, size.height * 0.8371818),
       Offset(size.width * 0.6463279, size.height * 0.8371818),
       [
-        Color(0xffBA5270).withValues(alpha: 1),
-        Color(0xffC56D76).withValues(alpha: 1),
-        Color(0xffDEAB83).withValues(alpha: 1),
-        Color(0xffF0D98D).withValues(alpha: 1),
-        Color(0xffFBF593).withValues(alpha: 1),
-        Color(0xffFFFF95).withValues(alpha: 1),
+        GameColors.islandPainterColor34.withValues(alpha: 1),
+        GameColors.islandPainterColor36.withValues(alpha: 1),
+        GameColors.islandPainterColor42.withValues(alpha: 1),
+        GameColors.islandPainterColor52.withValues(alpha: 1),
+        GameColors.islandPainterColor58.withValues(alpha: 1),
+        GameColors.islandPainterColor77.withValues(alpha: 1),
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
@@ -3007,11 +3008,11 @@ class ThirdIslandPainter extends CustomPainter {
       Offset(size.width * 0.2177008, size.height * 0.5905682),
       Offset(size.width * 0.1055820, size.height * 0.5905682),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -3035,11 +3036,11 @@ class ThirdIslandPainter extends CustomPainter {
       Offset(size.width * 0.6227582, size.height * 0.2681061),
       Offset(size.width * 0.3478443, size.height * 0.2681061),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -3070,11 +3071,11 @@ class ThirdIslandPainter extends CustomPainter {
       Offset(size.width * 0.7672582, size.height * 0.1844394),
       Offset(size.width * 0.6390287, size.height * 0.1844394),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -3117,7 +3118,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_15.close();
 
     Paint paint15Fill = Paint()..style = PaintingStyle.fill;
-    paint15Fill.color = Color(0xffFFC74B).withValues(alpha: 1.0);
+    paint15Fill.color = GameColors.islandPainterColor72.withValues(alpha: 1.0);
     canvas.drawPath(path_15, paint15Fill);
 
     Path path_16 = Path();
@@ -3191,7 +3192,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_16.close();
 
     Paint paint16Fill = Paint()..style = PaintingStyle.fill;
-    paint16Fill.color = Color(0xff9BB900).withValues(alpha: 1.0);
+    paint16Fill.color = GameColors.islandPainterColor19.withValues(alpha: 1.0);
     canvas.drawPath(path_16, paint16Fill);
 
     Path path_17 = Path();
@@ -3253,7 +3254,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_17.close();
 
     Paint paint17Fill = Paint()..style = PaintingStyle.fill;
-    paint17Fill.color = Color(0xffEDE0A9).withValues(alpha: 1.0);
+    paint17Fill.color = GameColors.islandPainterColor51.withValues(alpha: 1.0);
     canvas.drawPath(path_17, paint17Fill);
 
     Path path_18 = Path();
@@ -3335,7 +3336,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_18.close();
 
     Paint paint18Fill = Paint()..style = PaintingStyle.fill;
-    paint18Fill.color = Color(0xffEDE0A9).withValues(alpha: 1.0);
+    paint18Fill.color = GameColors.islandPainterColor51.withValues(alpha: 1.0);
     canvas.drawPath(path_18, paint18Fill);
 
     Path path_19 = Path();
@@ -3440,7 +3441,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_19.close();
 
     Paint paint19Fill = Paint()..style = PaintingStyle.fill;
-    paint19Fill.color = Color(0xffCC81B3).withValues(alpha: 1.0);
+    paint19Fill.color = GameColors.islandPainterColor38.withValues(alpha: 1.0);
     canvas.drawPath(path_19, paint19Fill);
 
     Path path_20 = Path();
@@ -3464,7 +3465,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_20.close();
 
     Paint paint20Fill = Paint()..style = PaintingStyle.fill;
-    paint20Fill.color = Color(0xffEDE0A9).withValues(alpha: 1.0);
+    paint20Fill.color = GameColors.islandPainterColor51.withValues(alpha: 1.0);
     canvas.drawPath(path_20, paint20Fill);
 
     Path path_21 = Path();
@@ -3484,7 +3485,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_21.close();
 
     Paint paint21Fill = Paint()..style = PaintingStyle.fill;
-    paint21Fill.color = Color(0xffCC81B3).withValues(alpha: 1.0);
+    paint21Fill.color = GameColors.islandPainterColor38.withValues(alpha: 1.0);
     canvas.drawPath(path_21, paint21Fill);
 
     Path path_22 = Path();
@@ -3494,7 +3495,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_22.close();
 
     Paint paint22Fill = Paint()..style = PaintingStyle.fill;
-    paint22Fill.color = Color(0xffEDE0A9).withValues(alpha: 1.0);
+    paint22Fill.color = GameColors.islandPainterColor51.withValues(alpha: 1.0);
     canvas.drawPath(path_22, paint22Fill);
 
     Path path_23 = Path();
@@ -3711,7 +3712,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_23.close();
 
     Paint paint23Fill = Paint()..style = PaintingStyle.fill;
-    paint23Fill.color = Color(0xffCC81B3).withValues(alpha: 1.0);
+    paint23Fill.color = GameColors.islandPainterColor38.withValues(alpha: 1.0);
     canvas.drawPath(path_23, paint23Fill);
 
     Path path_24 = Path();
@@ -3736,7 +3737,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_24.close();
 
     Paint paint24Fill = Paint()..style = PaintingStyle.fill;
-    paint24Fill.color = Color(0xffFFDD81).withValues(alpha: 1.0);
+    paint24Fill.color = GameColors.islandPainterColor76.withValues(alpha: 1.0);
     canvas.drawPath(path_24, paint24Fill);
 
     Path path_25 = Path();
@@ -3805,11 +3806,11 @@ class ThirdIslandPainter extends CustomPainter {
       Offset(size.width * 0.8092910, size.height * 0.8866136),
       Offset(size.width * 0.8092910, size.height * 0.7589924),
       [
-        Color(0xffDF7A70).withValues(alpha: 1),
-        Color(0xffE1816E).withValues(alpha: 1),
-        Color(0xffF1AE63).withValues(alpha: 1),
-        Color(0xffFBCA5D).withValues(alpha: 1),
-        Color(0xffFFD45A).withValues(alpha: 1),
+        GameColors.islandPainterColor43.withValues(alpha: 1),
+        GameColors.islandPainterColor46.withValues(alpha: 1),
+        GameColors.islandPainterColor53.withValues(alpha: 1),
+        GameColors.islandPainterColor57.withValues(alpha: 1),
+        GameColors.islandPainterColor73.withValues(alpha: 1),
       ],
       [0, 0.059, 0.482, 0.81, 1],
     );
@@ -3947,9 +3948,9 @@ class ThirdIslandPainter extends CustomPainter {
       Offset(size.width * 0.6475533, size.height * 0.3735530),
       Offset(size.width * 0.6350779, size.height * 0.2356061),
       [
-        Color(0xff408700).withValues(alpha: 1),
-        Color(0xff4A8300).withValues(alpha: 1),
-        Color(0xff607A00).withValues(alpha: 1),
+        GameColors.islandPainterColor2.withValues(alpha: 1),
+        GameColors.islandPainterColor4.withValues(alpha: 1),
+        GameColors.islandPainterColor7.withValues(alpha: 1),
       ],
       [0, 0.42, 1],
     );
@@ -4094,12 +4095,12 @@ class ThirdIslandPainter extends CustomPainter {
       Offset(size.width * 0.6475533, size.height * 0.3735530),
       Offset(size.width * 0.6353361, size.height * 0.01003788),
       [
-        Color(0xffAE9D24).withValues(alpha: 1),
-        Color(0xffC9BD6C).withValues(alpha: 1),
-        Color(0xffE0DAAB).withValues(alpha: 1),
-        Color(0xffF1EED9).withValues(alpha: 1),
-        Color(0xffFBFAF5).withValues(alpha: 1),
-        Color(0xffffffff).withValues(alpha: 1),
+        GameColors.islandPainterColor28.withValues(alpha: 1),
+        GameColors.islandPainterColor37.withValues(alpha: 1),
+        GameColors.islandPainterColor45.withValues(alpha: 1),
+        GameColors.islandPainterColor54.withValues(alpha: 1),
+        GameColors.islandPainterColor59.withValues(alpha: 1),
+        GameColors.whiteSolid.withValues(alpha: 1),
       ],
       [0, 0.265, 0.522, 0.738, 0.904, 1],
     );
@@ -4134,7 +4135,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_28.close();
 
     Paint paint28Fill = Paint()..style = PaintingStyle.fill;
-    paint28Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint28Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_28, paint28Fill);
 
     Path path_29 = Path();
@@ -4237,7 +4238,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_29.close();
 
     Paint paint29Fill = Paint()..style = PaintingStyle.fill;
-    paint29Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint29Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_29, paint29Fill);
 
     Path path_30 = Path();
@@ -4261,7 +4262,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_30.close();
 
     Paint paint30Fill = Paint()..style = PaintingStyle.fill;
-    paint30Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint30Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_30, paint30Fill);
 
     Path path_31 = Path();
@@ -4305,12 +4306,12 @@ class ThirdIslandPainter extends CustomPainter {
       Offset(size.width * 0.8518115, size.height * 0.8840152),
       Offset(size.width * 0.8518115, size.height * 0.8351364),
       [
-        Color(0xffBA5270).withValues(alpha: 1),
-        Color(0xffC56D76).withValues(alpha: 1),
-        Color(0xffDEAB83).withValues(alpha: 1),
-        Color(0xffF0D98D).withValues(alpha: 1),
-        Color(0xffFBF593).withValues(alpha: 1),
-        Color(0xffFFFF95).withValues(alpha: 1),
+        GameColors.islandPainterColor34.withValues(alpha: 1),
+        GameColors.islandPainterColor36.withValues(alpha: 1),
+        GameColors.islandPainterColor42.withValues(alpha: 1),
+        GameColors.islandPainterColor52.withValues(alpha: 1),
+        GameColors.islandPainterColor58.withValues(alpha: 1),
+        GameColors.islandPainterColor77.withValues(alpha: 1),
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
@@ -4345,7 +4346,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_32.close();
 
     Paint paint32Fill = Paint()..style = PaintingStyle.fill;
-    paint32Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint32Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_32, paint32Fill);
 
     Path path_33 = Path();
@@ -4371,7 +4372,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_33.close();
 
     Paint paint33Fill = Paint()..style = PaintingStyle.fill;
-    paint33Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint33Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_33, paint33Fill);
 
     Path path_34 = Path();
@@ -4388,7 +4389,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_34.close();
 
     Paint paint34Fill = Paint()..style = PaintingStyle.fill;
-    paint34Fill.color = Color(0xffA9B1D4).withValues(alpha: 1.0);
+    paint34Fill.color = GameColors.islandPainterColor26.withValues(alpha: 1.0);
     canvas.drawPath(path_34, paint34Fill);
 
     Path path_35 = Path();
@@ -4412,7 +4413,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_35.close();
 
     Paint paint35Fill = Paint()..style = PaintingStyle.fill;
-    paint35Fill.color = Color(0xffA9B1D4).withValues(alpha: 1.0);
+    paint35Fill.color = GameColors.islandPainterColor26.withValues(alpha: 1.0);
     canvas.drawPath(path_35, paint35Fill);
 
     Path path_36 = Path();
@@ -4444,7 +4445,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_36.close();
 
     Paint paint36Fill = Paint()..style = PaintingStyle.fill;
-    paint36Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint36Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_36, paint36Fill);
 
     Path path_37 = Path();
@@ -4482,10 +4483,10 @@ class ThirdIslandPainter extends CustomPainter {
       Offset(size.width * 0.7608525, size.height * 0.4345909),
       Offset(size.width * 0.7608525, size.height * 0.2541212),
       [
-        Color(0xffA93D54).withValues(alpha: 1),
-        Color(0xffAC454A).withValues(alpha: 1),
-        Color(0xffB3592E).withValues(alpha: 1),
-        Color(0xffB8661D).withValues(alpha: 1),
+        GameColors.islandPainterColor24.withValues(alpha: 1),
+        GameColors.islandPainterColor27.withValues(alpha: 1),
+        GameColors.islandPainterColor31.withValues(alpha: 1),
+        GameColors.islandPainterColor33.withValues(alpha: 1),
       ],
       [0, 0.277, 0.754, 1],
     );
@@ -4536,7 +4537,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_38.close();
 
     Paint paint38Fill = Paint()..style = PaintingStyle.fill;
-    paint38Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint38Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_38, paint38Fill);
 
     Path path_39 = Path();
@@ -4576,7 +4577,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_39.close();
 
     Paint paint39Fill = Paint()..style = PaintingStyle.fill;
-    paint39Fill.color = Color(0xffD96840).withValues(alpha: 1.0);
+    paint39Fill.color = GameColors.islandPainterColor40.withValues(alpha: 1.0);
     canvas.drawPath(path_39, paint39Fill);
 
     Path path_40 = Path();
@@ -4594,7 +4595,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_40.close();
 
     Paint paint40Fill = Paint()..style = PaintingStyle.fill;
-    paint40Fill.color = Color(0xffB2562B).withValues(alpha: 1.0);
+    paint40Fill.color = GameColors.islandPainterColor30.withValues(alpha: 1.0);
     canvas.drawPath(path_40, paint40Fill);
 
     Path path_41 = Path();
@@ -4643,7 +4644,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_41.close();
 
     Paint paint41Fill = Paint()..style = PaintingStyle.fill;
-    paint41Fill.color = Color(0xffEA8E40).withValues(alpha: 1.0);
+    paint41Fill.color = GameColors.islandPainterColor48.withValues(alpha: 1.0);
     canvas.drawPath(path_41, paint41Fill);
 
     Path path_42 = Path();
@@ -4704,7 +4705,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_42.close();
 
     Paint paint42Fill = Paint()..style = PaintingStyle.fill;
-    paint42Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint42Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_42, paint42Fill);
 
     Path path_43 = Path();
@@ -4748,10 +4749,10 @@ class ThirdIslandPainter extends CustomPainter {
       Offset(size.width * 0.6156762, size.height * 0.3841364),
       Offset(size.width * 0.6156762, size.height * 0.3221591),
       [
-        Color(0xffA93D54).withValues(alpha: 1),
-        Color(0xffAC454A).withValues(alpha: 1),
-        Color(0xffB3592E).withValues(alpha: 1),
-        Color(0xffB8661D).withValues(alpha: 1),
+        GameColors.islandPainterColor24.withValues(alpha: 1),
+        GameColors.islandPainterColor27.withValues(alpha: 1),
+        GameColors.islandPainterColor31.withValues(alpha: 1),
+        GameColors.islandPainterColor33.withValues(alpha: 1),
       ],
       [0, 0.277, 0.754, 1],
     );
@@ -4794,7 +4795,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_44.close();
 
     Paint paint44Fill = Paint()..style = PaintingStyle.fill;
-    paint44Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint44Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_44, paint44Fill);
 
     Path path_45 = Path();
@@ -4834,7 +4835,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_45.close();
 
     Paint paint45Fill = Paint()..style = PaintingStyle.fill;
-    paint45Fill.color = Color(0xffD96840).withValues(alpha: 1.0);
+    paint45Fill.color = GameColors.islandPainterColor40.withValues(alpha: 1.0);
     canvas.drawPath(path_45, paint45Fill);
 
     Path path_46 = Path();
@@ -4866,7 +4867,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_46.close();
 
     Paint paint46Fill = Paint()..style = PaintingStyle.fill;
-    paint46Fill.color = Color(0xffB2562B).withValues(alpha: 1.0);
+    paint46Fill.color = GameColors.islandPainterColor30.withValues(alpha: 1.0);
     canvas.drawPath(path_46, paint46Fill);
 
     Path path_47 = Path();
@@ -4909,7 +4910,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_47.close();
 
     Paint paint47Fill = Paint()..style = PaintingStyle.fill;
-    paint47Fill.color = Color(0xffEA8E40).withValues(alpha: 1.0);
+    paint47Fill.color = GameColors.islandPainterColor48.withValues(alpha: 1.0);
     canvas.drawPath(path_47, paint47Fill);
 
     Path path_48 = Path();
@@ -4933,7 +4934,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_48.close();
 
     Paint paint48Fill = Paint()..style = PaintingStyle.fill;
-    paint48Fill.color = Color(0xffA9B1D4).withValues(alpha: 1.0);
+    paint48Fill.color = GameColors.islandPainterColor26.withValues(alpha: 1.0);
     canvas.drawPath(path_48, paint48Fill);
 
     Path path_49 = Path();
@@ -4950,7 +4951,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_49.close();
 
     Paint paint49Fill = Paint()..style = PaintingStyle.fill;
-    paint49Fill.color = Color(0xffFFDD81).withValues(alpha: 1.0);
+    paint49Fill.color = GameColors.islandPainterColor76.withValues(alpha: 1.0);
     canvas.drawPath(path_49, paint49Fill);
 
     Path path_50 = Path();
@@ -4967,7 +4968,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_50.close();
 
     Paint paint50Fill = Paint()..style = PaintingStyle.fill;
-    paint50Fill.color = Color(0xffD36F3B).withValues(alpha: 1.0);
+    paint50Fill.color = GameColors.islandPainterColor39.withValues(alpha: 1.0);
     canvas.drawPath(path_50, paint50Fill);
 
     Path path_51 = Path();
@@ -5015,7 +5016,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_51.close();
 
     Paint paint51Fill = Paint()..style = PaintingStyle.fill;
-    paint51Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint51Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_51, paint51Fill);
 
     Path path_52 = Path();
@@ -5025,7 +5026,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_52.close();
 
     Paint paint52Fill = Paint()..style = PaintingStyle.fill;
-    paint52Fill.color = Color(0xffE7792C).withValues(alpha: 1.0);
+    paint52Fill.color = GameColors.islandPainterColor47.withValues(alpha: 1.0);
     canvas.drawPath(path_52, paint52Fill);
 
     Path path_53 = Path();
@@ -5049,7 +5050,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_53.close();
 
     Paint paint53Fill = Paint()..style = PaintingStyle.fill;
-    paint53Fill.color = Color(0xffD36F3B).withValues(alpha: 1.0);
+    paint53Fill.color = GameColors.islandPainterColor39.withValues(alpha: 1.0);
     canvas.drawPath(path_53, paint53Fill);
 
     Path path_54 = Path();
@@ -5090,7 +5091,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_54.close();
 
     Paint paint54Fill = Paint()..style = PaintingStyle.fill;
-    paint54Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint54Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_54, paint54Fill);
 
     Path path_55 = Path();
@@ -5107,7 +5108,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_55.close();
 
     Paint paint55Fill = Paint()..style = PaintingStyle.fill;
-    paint55Fill.color = Color(0xffE7792C).withValues(alpha: 1.0);
+    paint55Fill.color = GameColors.islandPainterColor47.withValues(alpha: 1.0);
     canvas.drawPath(path_55, paint55Fill);
 
     Path path_56 = Path();
@@ -5225,7 +5226,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_56.close();
 
     Paint paint56Fill = Paint()..style = PaintingStyle.fill;
-    paint56Fill.color = Color(0xffEABA13).withValues(alpha: 1.0);
+    paint56Fill.color = GameColors.islandPainterColor49.withValues(alpha: 1.0);
     canvas.drawPath(path_56, paint56Fill);
 
     Path path_57 = Path();
@@ -5296,7 +5297,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_57.close();
 
     Paint paint57Fill = Paint()..style = PaintingStyle.fill;
-    paint57Fill.color = Color(0xffB0FF00).withValues(alpha: 1.0);
+    paint57Fill.color = GameColors.islandPainterColor29.withValues(alpha: 1.0);
     canvas.drawPath(path_57, paint57Fill);
 
     Path path_58 = Path();
@@ -5385,7 +5386,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_58.close();
 
     Paint paint58Fill = Paint()..style = PaintingStyle.fill;
-    paint58Fill.color = Color(0xffB0FF00).withValues(alpha: 1.0);
+    paint58Fill.color = GameColors.islandPainterColor29.withValues(alpha: 1.0);
     canvas.drawPath(path_58, paint58Fill);
 
     Path path_59 = Path();
@@ -5409,7 +5410,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_59.close();
 
     Paint paint59Fill = Paint()..style = PaintingStyle.fill;
-    paint59Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint59Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_59, paint59Fill);
 
     Path path_60 = Path();
@@ -5453,12 +5454,12 @@ class ThirdIslandPainter extends CustomPainter {
       Offset(size.width * 0.7958443, size.height * 0.7190227),
       Offset(size.width * 0.8158238, size.height * 0.4592424),
       [
-        Color(0xffFF9572).withValues(alpha: 1),
-        Color(0xffFF9271).withValues(alpha: 1),
-        Color(0xffFF5465).withValues(alpha: 1),
-        Color(0xffFF265C).withValues(alpha: 1),
-        Color(0xffFF0A56).withValues(alpha: 1),
-        Color(0xffFF0054).withValues(alpha: 1),
+        GameColors.islandPainterColor67.withValues(alpha: 1),
+        GameColors.islandPainterColor66.withValues(alpha: 1),
+        GameColors.islandPainterColor65.withValues(alpha: 1),
+        GameColors.islandPainterColor64.withValues(alpha: 1),
+        GameColors.islandPainterColor63.withValues(alpha: 1),
+        GameColors.islandPainterColor62.withValues(alpha: 1),
       ],
       [0, 0.017, 0.359, 0.648, 0.871, 1],
     );
@@ -5486,7 +5487,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_61.close();
 
     Paint paint61Fill = Paint()..style = PaintingStyle.fill;
-    paint61Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint61Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_61, paint61Fill);
 
     Path path_62 = Path();
@@ -5512,7 +5513,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_62.close();
 
     Paint paint62Fill = Paint()..style = PaintingStyle.fill;
-    paint62Fill.color = Color(0xffFFA7FF).withValues(alpha: 1.0);
+    paint62Fill.color = GameColors.islandPainterColor68.withValues(alpha: 1.0);
     canvas.drawPath(path_62, paint62Fill);
 
     Path path_63 = Path();
@@ -5552,7 +5553,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_63.close();
 
     Paint paint63Fill = Paint()..style = PaintingStyle.fill;
-    paint63Fill.color = Color(0xffFFA7FF).withValues(alpha: 1.0);
+    paint63Fill.color = GameColors.islandPainterColor68.withValues(alpha: 1.0);
     canvas.drawPath(path_63, paint63Fill);
 
     Path path_64 = Path();
@@ -5584,7 +5585,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_64.close();
 
     Paint paint64Fill = Paint()..style = PaintingStyle.fill;
-    paint64Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint64Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_64, paint64Fill);
 
     Path path_65 = Path();
@@ -5642,7 +5643,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_65.close();
 
     Paint paint65Fill = Paint()..style = PaintingStyle.fill;
-    paint65Fill.color = Colors.yellow.withValues(alpha: 1.0);
+    paint65Fill.color = GameColors.yellow.withValues(alpha: 1.0);
     canvas.drawPath(path_65, paint65Fill);
 
     Path path_66 = Path();
@@ -5674,7 +5675,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_66.close();
 
     Paint paint66Fill = Paint()..style = PaintingStyle.fill;
-    paint66Fill.color = Color(0xffFFB5E8).withValues(alpha: 1.0);
+    paint66Fill.color = GameColors.islandPainterColor71.withValues(alpha: 1.0);
     canvas.drawPath(path_66, paint66Fill);
 
     Path path_67 = Path();
@@ -5699,7 +5700,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_67.close();
 
     Paint paint67Fill = Paint()..style = PaintingStyle.fill;
-    paint67Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint67Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_67, paint67Fill);
 
     Path path_68 = Path();
@@ -5736,12 +5737,12 @@ class ThirdIslandPainter extends CustomPainter {
       Offset(size.width * 0.7340656, size.height * 0.7673030),
       Offset(size.width * 0.7475410, size.height * 0.5920985),
       [
-        Color(0xffFF9572).withValues(alpha: 1),
-        Color(0xffFF9271).withValues(alpha: 1),
-        Color(0xffFF5465).withValues(alpha: 1),
-        Color(0xffFF265C).withValues(alpha: 1),
-        Color(0xffFF0A56).withValues(alpha: 1),
-        Color(0xffFF0054).withValues(alpha: 1),
+        GameColors.islandPainterColor67.withValues(alpha: 1),
+        GameColors.islandPainterColor66.withValues(alpha: 1),
+        GameColors.islandPainterColor65.withValues(alpha: 1),
+        GameColors.islandPainterColor64.withValues(alpha: 1),
+        GameColors.islandPainterColor63.withValues(alpha: 1),
+        GameColors.islandPainterColor62.withValues(alpha: 1),
       ],
       [0, 0.017, 0.359, 0.648, 0.871, 1],
     );
@@ -5762,7 +5763,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_69.close();
 
     Paint paint69Fill = Paint()..style = PaintingStyle.fill;
-    paint69Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint69Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_69, paint69Fill);
 
     Path path_70 = Path();
@@ -5795,7 +5796,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_70.close();
 
     Paint paint70Fill = Paint()..style = PaintingStyle.fill;
-    paint70Fill.color = Color(0xffFFA7FF).withValues(alpha: 1.0);
+    paint70Fill.color = GameColors.islandPainterColor68.withValues(alpha: 1.0);
     canvas.drawPath(path_70, paint70Fill);
 
     Path path_71 = Path();
@@ -5827,7 +5828,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_71.close();
 
     Paint paint71Fill = Paint()..style = PaintingStyle.fill;
-    paint71Fill.color = Color(0xffFFA7FF).withValues(alpha: 1.0);
+    paint71Fill.color = GameColors.islandPainterColor68.withValues(alpha: 1.0);
     canvas.drawPath(path_71, paint71Fill);
 
     Path path_72 = Path();
@@ -5853,7 +5854,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_72.close();
 
     Paint paint72Fill = Paint()..style = PaintingStyle.fill;
-    paint72Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint72Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_72, paint72Fill);
 
     Path path_73 = Path();
@@ -5885,7 +5886,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_73.close();
 
     Paint paint73Fill = Paint()..style = PaintingStyle.fill;
-    paint73Fill.color = Colors.yellow.withValues(alpha: 1.0);
+    paint73Fill.color = GameColors.yellow.withValues(alpha: 1.0);
     canvas.drawPath(path_73, paint73Fill);
 
     Path path_74 = Path();
@@ -5909,7 +5910,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_74.close();
 
     Paint paint74Fill = Paint()..style = PaintingStyle.fill;
-    paint74Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint74Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_74, paint74Fill);
 
     Path path_75 = Path();
@@ -5945,12 +5946,12 @@ class ThirdIslandPainter extends CustomPainter {
       Offset(size.width * 0.6127254, size.height * 0.7399848),
       Offset(size.width * 0.6196393, size.height * 0.6500909),
       [
-        Color(0xffFF9572).withValues(alpha: 1),
-        Color(0xffFF9271).withValues(alpha: 1),
-        Color(0xffFF5465).withValues(alpha: 1),
-        Color(0xffFF265C).withValues(alpha: 1),
-        Color(0xffFF0A56).withValues(alpha: 1),
-        Color(0xffFF0054).withValues(alpha: 1),
+        GameColors.islandPainterColor67.withValues(alpha: 1),
+        GameColors.islandPainterColor66.withValues(alpha: 1),
+        GameColors.islandPainterColor65.withValues(alpha: 1),
+        GameColors.islandPainterColor64.withValues(alpha: 1),
+        GameColors.islandPainterColor63.withValues(alpha: 1),
+        GameColors.islandPainterColor62.withValues(alpha: 1),
       ],
       [0, 0.017, 0.359, 0.648, 0.871, 1],
     );
@@ -5978,7 +5979,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_76.close();
 
     Paint paint76Fill = Paint()..style = PaintingStyle.fill;
-    paint76Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint76Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_76, paint76Fill);
 
     Path path_77 = Path();
@@ -6018,7 +6019,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_77.close();
 
     Paint paint77Fill = Paint()..style = PaintingStyle.fill;
-    paint77Fill.color = Color(0xffFFA7FF).withValues(alpha: 1.0);
+    paint77Fill.color = GameColors.islandPainterColor68.withValues(alpha: 1.0);
     canvas.drawPath(path_77, paint77Fill);
 
     Path path_78 = Path();
@@ -6044,7 +6045,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_78.close();
 
     Paint paint78Fill = Paint()..style = PaintingStyle.fill;
-    paint78Fill.color = Color(0xffFFA7FF).withValues(alpha: 1.0);
+    paint78Fill.color = GameColors.islandPainterColor68.withValues(alpha: 1.0);
     canvas.drawPath(path_78, paint78Fill);
 
     Path path_79 = Path();
@@ -6069,7 +6070,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_79.close();
 
     Paint paint79Fill = Paint()..style = PaintingStyle.fill;
-    paint79Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint79Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_79, paint79Fill);
 
     Path path_80 = Path();
@@ -6106,7 +6107,7 @@ class ThirdIslandPainter extends CustomPainter {
     path_80.close();
 
     Paint paint80Fill = Paint()..style = PaintingStyle.fill;
-    paint80Fill.color = Colors.yellow.withValues(alpha: 1.0);
+    paint80Fill.color = GameColors.yellow.withValues(alpha: 1.0);
     canvas.drawPath(path_80, paint80Fill);
   }
 
@@ -6154,10 +6155,10 @@ class ForthIslandPainter extends CustomPainter {
       Offset(size.width * 0.4943882, size.height * 0.9920179),
       Offset(size.width * 0.4943882, size.height * -0.005357143),
       [
-        Color(0xff63902F).withValues(alpha: 1),
-        Color(0xff84B017).withValues(alpha: 1),
-        Color(0xff99C508).withValues(alpha: 1),
-        Color(0xffA1CC02).withValues(alpha: 1),
+        GameColors.islandPainterColor8.withValues(alpha: 1),
+        GameColors.islandPainterColor12.withValues(alpha: 1),
+        GameColors.islandPainterColor17.withValues(alpha: 1),
+        GameColors.islandPainterColor21.withValues(alpha: 1),
       ],
       [0, 0.417, 0.769, 1],
     );
@@ -6191,12 +6192,12 @@ class ForthIslandPainter extends CustomPainter {
       Offset(size.width * 0.4943882, size.height * 0.9920179),
       Offset(size.width * 0.4943882, size.height * 0.3047679),
       [
-        Color(0xffBA5270).withValues(alpha: 1),
-        Color(0xffC56D76).withValues(alpha: 1),
-        Color(0xffDEAB83).withValues(alpha: 1),
-        Color(0xffF0D98D).withValues(alpha: 1),
-        Color(0xffFBF593).withValues(alpha: 1),
-        Color(0xffFFFF95).withValues(alpha: 1),
+        GameColors.islandPainterColor34.withValues(alpha: 1),
+        GameColors.islandPainterColor36.withValues(alpha: 1),
+        GameColors.islandPainterColor42.withValues(alpha: 1),
+        GameColors.islandPainterColor52.withValues(alpha: 1),
+        GameColors.islandPainterColor58.withValues(alpha: 1),
+        GameColors.islandPainterColor77.withValues(alpha: 1),
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
@@ -6236,12 +6237,12 @@ class ForthIslandPainter extends CustomPainter {
       Offset(size.width * 0.4009059, size.height * 0.9904286),
       Offset(size.width * 0.4009059, size.height * 0.5770357),
       [
-        Color(0xffBA5270).withValues(alpha: 1),
-        Color(0xffC56D76).withValues(alpha: 1),
-        Color(0xffDEAB83).withValues(alpha: 1),
-        Color(0xffF0D98D).withValues(alpha: 1),
-        Color(0xffFBF593).withValues(alpha: 1),
-        Color(0xffFFFF95).withValues(alpha: 1),
+        GameColors.islandPainterColor34.withValues(alpha: 1),
+        GameColors.islandPainterColor36.withValues(alpha: 1),
+        GameColors.islandPainterColor42.withValues(alpha: 1),
+        GameColors.islandPainterColor52.withValues(alpha: 1),
+        GameColors.islandPainterColor58.withValues(alpha: 1),
+        GameColors.islandPainterColor77.withValues(alpha: 1),
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
@@ -6268,7 +6269,7 @@ class ForthIslandPainter extends CustomPainter {
     path_3.close();
 
     Paint paint3Fill = Paint()..style = PaintingStyle.fill;
-    paint3Fill.color = Color(0xffFFDD4A).withValues(alpha: 1.0);
+    paint3Fill.color = GameColors.islandPainterColor74.withValues(alpha: 1.0);
     canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
@@ -6290,9 +6291,9 @@ class ForthIslandPainter extends CustomPainter {
       Offset(size.width * 0.5259294, size.height * 0.8292857),
       Offset(size.width * 0.5259294, size.height * 0.5493571),
       [
-        Color(0xffFFB447).withValues(alpha: 1),
-        Color(0xffFCAA47).withValues(alpha: 1),
-        Color(0xffF59346).withValues(alpha: 1),
+        GameColors.islandPainterColor70.withValues(alpha: 1),
+        GameColors.islandPainterColor60.withValues(alpha: 1),
+        GameColors.islandPainterColor55.withValues(alpha: 1),
       ],
       [0, 0.41, 1],
     );
@@ -6326,12 +6327,12 @@ class ForthIslandPainter extends CustomPainter {
       Offset(size.width * 0.5247765, size.height * 0.7683393),
       Offset(size.width * 0.5247765, size.height * 0.5509464),
       [
-        Color(0xffFFFF95).withValues(alpha: 1),
-        Color(0xffFBF593).withValues(alpha: 1),
-        Color(0xffF0D98D).withValues(alpha: 1),
-        Color(0xffDEAB83).withValues(alpha: 1),
-        Color(0xffC56D76).withValues(alpha: 1),
-        Color(0xffBA5270).withValues(alpha: 1),
+        GameColors.islandPainterColor77.withValues(alpha: 1),
+        GameColors.islandPainterColor58.withValues(alpha: 1),
+        GameColors.islandPainterColor52.withValues(alpha: 1),
+        GameColors.islandPainterColor42.withValues(alpha: 1),
+        GameColors.islandPainterColor36.withValues(alpha: 1),
+        GameColors.islandPainterColor34.withValues(alpha: 1),
       ],
       [0, 0.115, 0.314, 0.572, 0.876, 1],
     );
@@ -6366,7 +6367,7 @@ class ForthIslandPainter extends CustomPainter {
     path_6.close();
 
     Paint paint6Fill = Paint()..style = PaintingStyle.fill;
-    paint6Fill.color = Color(0xffFFDD5E).withValues(alpha: 1.0);
+    paint6Fill.color = GameColors.islandPainterColor75.withValues(alpha: 1.0);
     canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
@@ -6395,9 +6396,9 @@ class ForthIslandPainter extends CustomPainter {
       Offset(size.width * 0.2453529, size.height * 0.7913750),
       Offset(size.width * 0.2453529, size.height * 0.6368929),
       [
-        Color(0xffFFB447).withValues(alpha: 1),
-        Color(0xffFCAA47).withValues(alpha: 1),
-        Color(0xffF59346).withValues(alpha: 1),
+        GameColors.islandPainterColor70.withValues(alpha: 1),
+        GameColors.islandPainterColor60.withValues(alpha: 1),
+        GameColors.islandPainterColor55.withValues(alpha: 1),
       ],
       [0, 0.41, 1],
     );
@@ -6430,12 +6431,12 @@ class ForthIslandPainter extends CustomPainter {
       Offset(size.width * 0.2451059, size.height * 0.7732857),
       Offset(size.width * 0.2451059, size.height * 0.6353036),
       [
-        Color(0xffFFFF95).withValues(alpha: 1),
-        Color(0xffFBF593).withValues(alpha: 1),
-        Color(0xffF0D98D).withValues(alpha: 1),
-        Color(0xffDEAB83).withValues(alpha: 1),
-        Color(0xffC56D76).withValues(alpha: 1),
-        Color(0xffBA5270).withValues(alpha: 1),
+        GameColors.islandPainterColor77.withValues(alpha: 1),
+        GameColors.islandPainterColor58.withValues(alpha: 1),
+        GameColors.islandPainterColor52.withValues(alpha: 1),
+        GameColors.islandPainterColor42.withValues(alpha: 1),
+        GameColors.islandPainterColor36.withValues(alpha: 1),
+        GameColors.islandPainterColor34.withValues(alpha: 1),
       ],
       [0, 0.115, 0.314, 0.572, 0.876, 1],
     );
@@ -6457,7 +6458,7 @@ class ForthIslandPainter extends CustomPainter {
     path_9.close();
 
     Paint paint9Fill = Paint()..style = PaintingStyle.fill;
-    paint9Fill.color = Color(0xffFFDD5E).withValues(alpha: 1.0);
+    paint9Fill.color = GameColors.islandPainterColor75.withValues(alpha: 1.0);
     canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
@@ -6486,7 +6487,7 @@ class ForthIslandPainter extends CustomPainter {
     path_10.close();
 
     Paint paint10Fill = Paint()..style = PaintingStyle.fill;
-    paint10Fill.color = Color(0xffFFDD5E).withValues(alpha: 1.0);
+    paint10Fill.color = GameColors.islandPainterColor75.withValues(alpha: 1.0);
     canvas.drawPath(path_10, paint10Fill);
 
     Path path_11 = Path();
@@ -6540,7 +6541,7 @@ class ForthIslandPainter extends CustomPainter {
     path_11.close();
 
     Paint paint11Fill = Paint()..style = PaintingStyle.fill;
-    paint11Fill.color = Color(0xffEDE0A9).withValues(alpha: 1.0);
+    paint11Fill.color = GameColors.islandPainterColor51.withValues(alpha: 1.0);
     canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
@@ -6622,7 +6623,7 @@ class ForthIslandPainter extends CustomPainter {
     path_12.close();
 
     Paint paint12Fill = Paint()..style = PaintingStyle.fill;
-    paint12Fill.color = Color(0xffCC81B3).withValues(alpha: 1.0);
+    paint12Fill.color = GameColors.islandPainterColor38.withValues(alpha: 1.0);
     canvas.drawPath(path_12, paint12Fill);
 
     Path path_13 = Path();
@@ -6658,10 +6659,10 @@ class ForthIslandPainter extends CustomPainter {
       Offset(size.width * 0.2207176, size.height * 0.3818214),
       Offset(size.width * 0.2207176, size.height * 0.1117857),
       [
-        Color(0xff63902F).withValues(alpha: 1),
-        Color(0xff84B017).withValues(alpha: 1),
-        Color(0xff99C508).withValues(alpha: 1),
-        Color(0xffA1CC02).withValues(alpha: 1),
+        GameColors.islandPainterColor8.withValues(alpha: 1),
+        GameColors.islandPainterColor12.withValues(alpha: 1),
+        GameColors.islandPainterColor17.withValues(alpha: 1),
+        GameColors.islandPainterColor21.withValues(alpha: 1),
       ],
       [0, 0.417, 0.769, 1],
     );
@@ -6688,11 +6689,11 @@ class ForthIslandPainter extends CustomPainter {
       Offset(size.width * 0.2232588, size.height * 0.3966429),
       Offset(size.width * 0.2232588, size.height * 0.1607143),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -6759,10 +6760,10 @@ class FifthIslandPainter extends CustomPainter {
       Offset(size.width * 0.4989667, size.height * 0.9983696),
       Offset(size.width * 0.4989667, size.height * 0.1707971),
       [
-        Color(0xff63902F).withValues(alpha: 1),
-        Color(0xff84B017).withValues(alpha: 1),
-        Color(0xff99C508).withValues(alpha: 1),
-        Color(0xffA1CC02).withValues(alpha: 1),
+        GameColors.islandPainterColor8.withValues(alpha: 1),
+        GameColors.islandPainterColor12.withValues(alpha: 1),
+        GameColors.islandPainterColor17.withValues(alpha: 1),
+        GameColors.islandPainterColor21.withValues(alpha: 1),
       ],
       [0, 0.417, 0.769, 1],
     );
@@ -6812,12 +6813,12 @@ class FifthIslandPainter extends CustomPainter {
       Offset(size.width * 0.4989667, size.height * 0.9983696),
       Offset(size.width * 0.4989667, size.height * 0.4785362),
       [
-        Color(0xffBA5270).withValues(alpha: 1),
-        Color(0xffC56D76).withValues(alpha: 1),
-        Color(0xffDEAB83).withValues(alpha: 1),
-        Color(0xffF0D98D).withValues(alpha: 1),
-        Color(0xffFBF593).withValues(alpha: 1),
-        Color(0xffFFFF95).withValues(alpha: 1),
+        GameColors.islandPainterColor34.withValues(alpha: 1),
+        GameColors.islandPainterColor36.withValues(alpha: 1),
+        GameColors.islandPainterColor42.withValues(alpha: 1),
+        GameColors.islandPainterColor52.withValues(alpha: 1),
+        GameColors.islandPainterColor58.withValues(alpha: 1),
+        GameColors.islandPainterColor77.withValues(alpha: 1),
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
@@ -6864,12 +6865,12 @@ class FifthIslandPainter extends CustomPainter {
       Offset(size.width * 0.4851444, size.height * 0.9978406),
       Offset(size.width * 0.4851444, size.height * 0.7655725),
       [
-        Color(0xffBA5270).withValues(alpha: 1),
-        Color(0xffC56D76).withValues(alpha: 1),
-        Color(0xffDEAB83).withValues(alpha: 1),
-        Color(0xffF0D98D).withValues(alpha: 1),
-        Color(0xffFBF593).withValues(alpha: 1),
-        Color(0xffFFFF95).withValues(alpha: 1),
+        GameColors.islandPainterColor34.withValues(alpha: 1),
+        GameColors.islandPainterColor36.withValues(alpha: 1),
+        GameColors.islandPainterColor42.withValues(alpha: 1),
+        GameColors.islandPainterColor52.withValues(alpha: 1),
+        GameColors.islandPainterColor58.withValues(alpha: 1),
+        GameColors.islandPainterColor77.withValues(alpha: 1),
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
@@ -6916,10 +6917,10 @@ class FifthIslandPainter extends CustomPainter {
       Offset(size.width * 0.5030000, size.height * 0.8330942),
       Offset(size.width * 0.5030000, size.height * 0.1959130),
       [
-        Color(0xff63902F).withValues(alpha: 1),
-        Color(0xff84B017).withValues(alpha: 1),
-        Color(0xff99C508).withValues(alpha: 1),
-        Color(0xffA1CC02).withValues(alpha: 1),
+        GameColors.islandPainterColor8.withValues(alpha: 1),
+        GameColors.islandPainterColor12.withValues(alpha: 1),
+        GameColors.islandPainterColor17.withValues(alpha: 1),
+        GameColors.islandPainterColor21.withValues(alpha: 1),
       ],
       [0, 0.417, 0.769, 1],
     );
@@ -6960,11 +6961,11 @@ class FifthIslandPainter extends CustomPainter {
       Offset(size.width * 0.5010667, size.height * 0.8401812),
       Offset(size.width * 0.5010667, size.height * 0.4288116),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -7003,10 +7004,10 @@ class FifthIslandPainter extends CustomPainter {
       Offset(size.width * 0.5607278, size.height * 0.3437754),
       Offset(size.width * 0.1160222, size.height * 0.3437754),
       [
-        Color(0xff63902F).withValues(alpha: 1),
-        Color(0xff84B017).withValues(alpha: 1),
-        Color(0xff99C508).withValues(alpha: 1),
-        Color(0xffA1CC02).withValues(alpha: 1),
+        GameColors.islandPainterColor8.withValues(alpha: 1),
+        GameColors.islandPainterColor12.withValues(alpha: 1),
+        GameColors.islandPainterColor17.withValues(alpha: 1),
+        GameColors.islandPainterColor21.withValues(alpha: 1),
       ],
       [0, 0.417, 0.769, 1],
     );
@@ -7045,10 +7046,10 @@ class FifthIslandPainter extends CustomPainter {
       Offset(size.width * 0.3158667, size.height * 0.4188986),
       Offset(size.width * 0.3158667, size.height * 0.1636522),
       [
-        Color(0xff63902F).withValues(alpha: 1),
-        Color(0xff84B017).withValues(alpha: 1),
-        Color(0xff99C508).withValues(alpha: 1),
-        Color(0xffA1CC02).withValues(alpha: 1),
+        GameColors.islandPainterColor8.withValues(alpha: 1),
+        GameColors.islandPainterColor12.withValues(alpha: 1),
+        GameColors.islandPainterColor17.withValues(alpha: 1),
+        GameColors.islandPainterColor21.withValues(alpha: 1),
       ],
       [0, 0.417, 0.769, 1],
     );
@@ -7111,11 +7112,11 @@ class FifthIslandPainter extends CustomPainter {
       Offset(size.width * 0.3169944, size.height * 0.4265652),
       Offset(size.width * 0.3169944, size.height * 0.1919058),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -7159,7 +7160,7 @@ class FifthIslandPainter extends CustomPainter {
     path_8.close();
 
     Paint paint8Fill = Paint()..style = PaintingStyle.fill;
-    paint8Fill.color = Color(0xffA58DA9).withValues(alpha: 1.0);
+    paint8Fill.color = GameColors.islandPainterColor22.withValues(alpha: 1.0);
     canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
@@ -7197,12 +7198,12 @@ class FifthIslandPainter extends CustomPainter {
       Offset(size.width * 0.3304778, size.height * 0.5128913),
       Offset(size.width * 0.3304778, size.height * 0.2909420),
       [
-        Color(0xffBA5270).withValues(alpha: 1),
-        Color(0xffC56D76).withValues(alpha: 1),
-        Color(0xffDEAB83).withValues(alpha: 1),
-        Color(0xffF0D98D).withValues(alpha: 1),
-        Color(0xffFBF593).withValues(alpha: 1),
-        Color(0xffFFFF95).withValues(alpha: 1),
+        GameColors.islandPainterColor34.withValues(alpha: 1),
+        GameColors.islandPainterColor36.withValues(alpha: 1),
+        GameColors.islandPainterColor42.withValues(alpha: 1),
+        GameColors.islandPainterColor52.withValues(alpha: 1),
+        GameColors.islandPainterColor58.withValues(alpha: 1),
+        GameColors.islandPainterColor77.withValues(alpha: 1),
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
@@ -7316,9 +7317,9 @@ class FifthIslandPainter extends CustomPainter {
       Offset(size.width * 0.3189056, size.height * 0.3271522),
       Offset(size.width * 0.3189056, 0),
       [
-        Color(0xff408700).withValues(alpha: 1),
-        Color(0xff4A8300).withValues(alpha: 1),
-        Color(0xff607A00).withValues(alpha: 1),
+        GameColors.islandPainterColor2.withValues(alpha: 1),
+        GameColors.islandPainterColor4.withValues(alpha: 1),
+        GameColors.islandPainterColor7.withValues(alpha: 1),
       ],
       [0, 0.42, 1],
     );
@@ -7365,7 +7366,7 @@ class FifthIslandPainter extends CustomPainter {
     path_11.close();
 
     Paint paint11Fill = Paint()..style = PaintingStyle.fill;
-    paint11Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint11Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
@@ -7409,10 +7410,10 @@ class FifthIslandPainter extends CustomPainter {
       Offset(size.width * 0.6221444, size.height * 0.2957029),
       Offset(size.width * 0.6221444, size.height * 0.05426087),
       [
-        Color(0xffA93D54).withValues(alpha: 1),
-        Color(0xffAC454A).withValues(alpha: 1),
-        Color(0xffB3592E).withValues(alpha: 1),
-        Color(0xffB8661D).withValues(alpha: 1),
+        GameColors.islandPainterColor24.withValues(alpha: 1),
+        GameColors.islandPainterColor27.withValues(alpha: 1),
+        GameColors.islandPainterColor31.withValues(alpha: 1),
+        GameColors.islandPainterColor33.withValues(alpha: 1),
       ],
       [0, 0.277, 0.754, 1],
     );
@@ -7451,10 +7452,10 @@ class FifthIslandPainter extends CustomPainter {
       Offset(size.width * 0.1670833, size.height * 0.6528986),
       Offset(size.width * 0.1670833, size.height * 0.4984783),
       [
-        Color(0xffA93D54).withValues(alpha: 1),
-        Color(0xffAC454A).withValues(alpha: 1),
-        Color(0xffB3592E).withValues(alpha: 1),
-        Color(0xffB8661D).withValues(alpha: 1),
+        GameColors.islandPainterColor24.withValues(alpha: 1),
+        GameColors.islandPainterColor27.withValues(alpha: 1),
+        GameColors.islandPainterColor31.withValues(alpha: 1),
+        GameColors.islandPainterColor33.withValues(alpha: 1),
       ],
       [0, 0.277, 0.754, 1],
     );
@@ -7502,7 +7503,7 @@ class FifthIslandPainter extends CustomPainter {
     path_14.close();
 
     Paint paint14Fill = Paint()..style = PaintingStyle.fill;
-    paint14Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint14Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_14, paint14Fill);
 
     Path path_15 = Path();
@@ -7561,7 +7562,7 @@ class FifthIslandPainter extends CustomPainter {
     path_15.close();
 
     Paint paint15Fill = Paint()..style = PaintingStyle.fill;
-    paint15Fill.color = Color(0xffD96840).withValues(alpha: 1.0);
+    paint15Fill.color = GameColors.islandPainterColor40.withValues(alpha: 1.0);
     canvas.drawPath(path_15, paint15Fill);
 
     Path path_16 = Path();
@@ -7591,7 +7592,7 @@ class FifthIslandPainter extends CustomPainter {
     path_16.close();
 
     Paint paint16Fill = Paint()..style = PaintingStyle.fill;
-    paint16Fill.color = Color(0xffB2562B).withValues(alpha: 1.0);
+    paint16Fill.color = GameColors.islandPainterColor30.withValues(alpha: 1.0);
     canvas.drawPath(path_16, paint16Fill);
 
     Path path_17 = Path();
@@ -7672,7 +7673,7 @@ class FifthIslandPainter extends CustomPainter {
     path_17.close();
 
     Paint paint17Fill = Paint()..style = PaintingStyle.fill;
-    paint17Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint17Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_17, paint17Fill);
 
     Path path_18 = Path();
@@ -7704,7 +7705,7 @@ class FifthIslandPainter extends CustomPainter {
     path_18.close();
 
     Paint paint18Fill = Paint()..style = PaintingStyle.fill;
-    paint18Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint18Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_18, paint18Fill);
 
     Path path_19 = Path();
@@ -7748,10 +7749,10 @@ class FifthIslandPainter extends CustomPainter {
       Offset(size.width * 0.6416111, size.height * 0.3747899),
       Offset(size.width * 0.6370389, size.height * 0.2305145),
       [
-        Color(0xffA93D54).withValues(alpha: 1),
-        Color(0xffAC454A).withValues(alpha: 1),
-        Color(0xffB3592E).withValues(alpha: 1),
-        Color(0xffB8661D).withValues(alpha: 1),
+        GameColors.islandPainterColor24.withValues(alpha: 1),
+        GameColors.islandPainterColor27.withValues(alpha: 1),
+        GameColors.islandPainterColor31.withValues(alpha: 1),
+        GameColors.islandPainterColor33.withValues(alpha: 1),
       ],
       [0, 0.277, 0.754, 1],
     );
@@ -7786,7 +7787,7 @@ class FifthIslandPainter extends CustomPainter {
     path_20.close();
 
     Paint paint20Fill = Paint()..style = PaintingStyle.fill;
-    paint20Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint20Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_20, paint20Fill);
 
     Path path_21 = Path();
@@ -7819,7 +7820,7 @@ class FifthIslandPainter extends CustomPainter {
     path_21.close();
 
     Paint paint21Fill = Paint()..style = PaintingStyle.fill;
-    paint21Fill.color = Color(0xffD96840).withValues(alpha: 1.0);
+    paint21Fill.color = GameColors.islandPainterColor40.withValues(alpha: 1.0);
     canvas.drawPath(path_21, paint21Fill);
 
     Path path_22 = Path();
@@ -7836,7 +7837,7 @@ class FifthIslandPainter extends CustomPainter {
     path_22.close();
 
     Paint paint22Fill = Paint()..style = PaintingStyle.fill;
-    paint22Fill.color = Color(0xffB2562B).withValues(alpha: 1.0);
+    paint22Fill.color = GameColors.islandPainterColor30.withValues(alpha: 1.0);
     canvas.drawPath(path_22, paint22Fill);
 
     Path path_23 = Path();
@@ -7887,7 +7888,7 @@ class FifthIslandPainter extends CustomPainter {
     path_23.close();
 
     Paint paint23Fill = Paint()..style = PaintingStyle.fill;
-    paint23Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint23Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_23, paint23Fill);
 
     Path path_24 = Path();
@@ -7908,11 +7909,11 @@ class FifthIslandPainter extends CustomPainter {
       Offset(size.width * 0.8684667, size.height * 0.4256812),
       Offset(size.width * 0.7201056, size.height * 0.3836594),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -7948,7 +7949,7 @@ class FifthIslandPainter extends CustomPainter {
     path_25.close();
 
     Paint paint25Fill = Paint()..style = PaintingStyle.fill;
-    paint25Fill.color = Color(0xff9BB900).withValues(alpha: 1.0);
+    paint25Fill.color = GameColors.islandPainterColor19.withValues(alpha: 1.0);
     canvas.drawPath(path_25, paint25Fill);
 
     Path path_26 = Path();
@@ -7976,11 +7977,11 @@ class FifthIslandPainter extends CustomPainter {
       Offset(size.width * 0.4077278, size.height * 0.7293333),
       Offset(size.width * 0.2670611, size.height * 0.6894928),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -8016,7 +8017,7 @@ class FifthIslandPainter extends CustomPainter {
     path_27.close();
 
     Paint paint27Fill = Paint()..style = PaintingStyle.fill;
-    paint27Fill.color = Color(0xff86A500).withValues(alpha: 1.0);
+    paint27Fill.color = GameColors.islandPainterColor13.withValues(alpha: 1.0);
     canvas.drawPath(path_27, paint27Fill);
 
     Path path_28 = Path();
@@ -8088,7 +8089,7 @@ class FifthIslandPainter extends CustomPainter {
     path_28.close();
 
     Paint paint28Fill = Paint()..style = PaintingStyle.fill;
-    paint28Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint28Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_28, paint28Fill);
 
     Path path_29 = Path();
@@ -8146,7 +8147,7 @@ class FifthIslandPainter extends CustomPainter {
     path_29.close();
 
     Paint paint29Fill = Paint()..style = PaintingStyle.fill;
-    paint29Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint29Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_29, paint29Fill);
 
     Path path_30 = Path();
@@ -8199,7 +8200,7 @@ class FifthIslandPainter extends CustomPainter {
     path_30.close();
 
     Paint paint30Fill = Paint()..style = PaintingStyle.fill;
-    paint30Fill.color = Color(0xffA9B1D4).withValues(alpha: 1.0);
+    paint30Fill.color = GameColors.islandPainterColor26.withValues(alpha: 1.0);
     canvas.drawPath(path_30, paint30Fill);
 
     Path path_31 = Path();
@@ -8277,7 +8278,7 @@ class FifthIslandPainter extends CustomPainter {
     path_31.close();
 
     Paint paint31Fill = Paint()..style = PaintingStyle.fill;
-    paint31Fill.color = Color(0xffFFDD81).withValues(alpha: 1.0);
+    paint31Fill.color = GameColors.islandPainterColor76.withValues(alpha: 1.0);
     canvas.drawPath(path_31, paint31Fill);
 
     Path path_32 = Path();
@@ -8415,7 +8416,7 @@ class FifthIslandPainter extends CustomPainter {
     path_32.close();
 
     Paint paint32Fill = Paint()..style = PaintingStyle.fill;
-    paint32Fill.color = Color(0xffEA8E40).withValues(alpha: 1.0);
+    paint32Fill.color = GameColors.islandPainterColor48.withValues(alpha: 1.0);
     canvas.drawPath(path_32, paint32Fill);
 
     Path path_33 = Path();
@@ -8519,7 +8520,7 @@ class FifthIslandPainter extends CustomPainter {
     path_33.close();
 
     Paint paint33Fill = Paint()..style = PaintingStyle.fill;
-    paint33Fill.color = Color(0xffEABA13).withValues(alpha: 1.0);
+    paint33Fill.color = GameColors.islandPainterColor49.withValues(alpha: 1.0);
     canvas.drawPath(path_33, paint33Fill);
 
     Path path_34 = Path();
@@ -8669,7 +8670,7 @@ class FifthIslandPainter extends CustomPainter {
     path_34.close();
 
     Paint paint34Fill = Paint()..style = PaintingStyle.fill;
-    paint34Fill.color = Color(0xffB0FF00).withValues(alpha: 1.0);
+    paint34Fill.color = GameColors.islandPainterColor29.withValues(alpha: 1.0);
     canvas.drawPath(path_34, paint34Fill);
 
     Path path_35 = Path();
@@ -8693,7 +8694,7 @@ class FifthIslandPainter extends CustomPainter {
     path_35.close();
 
     Paint paint35Fill = Paint()..style = PaintingStyle.fill;
-    paint35Fill.color = Color(0xffB0FF00).withValues(alpha: 1.0);
+    paint35Fill.color = GameColors.islandPainterColor29.withValues(alpha: 1.0);
     canvas.drawPath(path_35, paint35Fill);
 
     Path path_36 = Path();
@@ -8839,7 +8840,7 @@ class FifthIslandPainter extends CustomPainter {
     path_36.close();
 
     Paint paint36Fill = Paint()..style = PaintingStyle.fill;
-    paint36Fill.color = Color(0xffEDE0A9).withValues(alpha: 1.0);
+    paint36Fill.color = GameColors.islandPainterColor51.withValues(alpha: 1.0);
     canvas.drawPath(path_36, paint36Fill);
 
     Path path_37 = Path();
@@ -9105,7 +9106,7 @@ class FifthIslandPainter extends CustomPainter {
     path_37.close();
 
     Paint paint37Fill = Paint()..style = PaintingStyle.fill;
-    paint37Fill.color = Color(0xffCC81B3).withValues(alpha: 1.0);
+    paint37Fill.color = GameColors.islandPainterColor38.withValues(alpha: 1.0);
     canvas.drawPath(path_37, paint37Fill);
 
     Path path_38 = Path();
@@ -9137,7 +9138,7 @@ class FifthIslandPainter extends CustomPainter {
     path_38.close();
 
     Paint paint38Fill = Paint()..style = PaintingStyle.fill;
-    paint38Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint38Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_38, paint38Fill);
 
     Path path_39 = Path();
@@ -9155,7 +9156,7 @@ class FifthIslandPainter extends CustomPainter {
     path_39.close();
 
     Paint paint39Fill = Paint()..style = PaintingStyle.fill;
-    paint39Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint39Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_39, paint39Fill);
 
     Path path_40 = Path();
@@ -9347,11 +9348,11 @@ class FifthIslandPainter extends CustomPainter {
       Offset(size.width * 0.1355167, size.height * 0.2049638),
       Offset(size.width * 0.5016389, size.height * 0.2049638),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -9386,7 +9387,7 @@ class FifthIslandPainter extends CustomPainter {
     path_41.close();
 
     Paint paint41Fill = Paint()..style = PaintingStyle.fill;
-    paint41Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint41Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_41, paint41Fill);
 
     Path path_42 = Path();
@@ -9409,10 +9410,10 @@ class FifthIslandPainter extends CustomPainter {
       Offset(size.width * 0.3857833, size.height * 0.2882101),
       Offset(size.width * 0.3242333, size.height * 0.1198261),
       [
-        Color(0xffA93D54).withValues(alpha: 1),
-        Color(0xffAC454A).withValues(alpha: 1),
-        Color(0xffB3592E).withValues(alpha: 1),
-        Color(0xffB8661D).withValues(alpha: 1),
+        GameColors.islandPainterColor24.withValues(alpha: 1),
+        GameColors.islandPainterColor27.withValues(alpha: 1),
+        GameColors.islandPainterColor31.withValues(alpha: 1),
+        GameColors.islandPainterColor33.withValues(alpha: 1),
       ],
       [0, 0.277, 0.754, 1],
     );
@@ -9447,7 +9448,7 @@ class FifthIslandPainter extends CustomPainter {
     path_43.close();
 
     Paint paint43Fill = Paint()..style = PaintingStyle.fill;
-    paint43Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint43Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_43, paint43Fill);
 
     Path path_44 = Path();
@@ -9473,7 +9474,7 @@ class FifthIslandPainter extends CustomPainter {
     path_44.close();
 
     Paint paint44Fill = Paint()..style = PaintingStyle.fill;
-    paint44Fill.color = Color(0xffD96840).withValues(alpha: 1.0);
+    paint44Fill.color = GameColors.islandPainterColor40.withValues(alpha: 1.0);
     canvas.drawPath(path_44, paint44Fill);
 
     Path path_45 = Path();
@@ -9490,7 +9491,7 @@ class FifthIslandPainter extends CustomPainter {
     path_45.close();
 
     Paint paint45Fill = Paint()..style = PaintingStyle.fill;
-    paint45Fill.color = Color(0xffB2562B).withValues(alpha: 1.0);
+    paint45Fill.color = GameColors.islandPainterColor30.withValues(alpha: 1.0);
     canvas.drawPath(path_45, paint45Fill);
 
     Path path_46 = Path();
@@ -9541,7 +9542,7 @@ class FifthIslandPainter extends CustomPainter {
     path_46.close();
 
     Paint paint46Fill = Paint()..style = PaintingStyle.fill;
-    paint46Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint46Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_46, paint46Fill);
 
     Path path_47 = Path();
@@ -9598,7 +9599,7 @@ class FifthIslandPainter extends CustomPainter {
     path_47.close();
 
     Paint paint47Fill = Paint()..style = PaintingStyle.fill;
-    paint47Fill.color = Color(0xffEA8E40).withValues(alpha: 1.0);
+    paint47Fill.color = GameColors.islandPainterColor48.withValues(alpha: 1.0);
     canvas.drawPath(path_47, paint47Fill);
 
     Path path_48 = Path();
@@ -9615,7 +9616,7 @@ class FifthIslandPainter extends CustomPainter {
     path_48.close();
 
     Paint paint48Fill = Paint()..style = PaintingStyle.fill;
-    paint48Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint48Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_48, paint48Fill);
 
     Path path_49 = Path();
@@ -9645,12 +9646,12 @@ class FifthIslandPainter extends CustomPainter {
       Offset(size.width * 0.6920167, size.height * 0.7112609),
       Offset(size.width * 0.7170222, size.height * 0.4818116),
       [
-        Color(0xffFF9572).withValues(alpha: 1),
-        Color(0xffFF9271).withValues(alpha: 1),
-        Color(0xffFF5465).withValues(alpha: 1),
-        Color(0xffFF265C).withValues(alpha: 1),
-        Color(0xffFF0A56).withValues(alpha: 1),
-        Color(0xffFF0054).withValues(alpha: 1),
+        GameColors.islandPainterColor67.withValues(alpha: 1),
+        GameColors.islandPainterColor66.withValues(alpha: 1),
+        GameColors.islandPainterColor65.withValues(alpha: 1),
+        GameColors.islandPainterColor64.withValues(alpha: 1),
+        GameColors.islandPainterColor63.withValues(alpha: 1),
+        GameColors.islandPainterColor62.withValues(alpha: 1),
       ],
       [0, 0.017, 0.359, 0.648, 0.871, 1],
     );
@@ -9678,7 +9679,7 @@ class FifthIslandPainter extends CustomPainter {
     path_50.close();
 
     Paint paint50Fill = Paint()..style = PaintingStyle.fill;
-    paint50Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint50Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_50, paint50Fill);
 
     Path path_51 = Path();
@@ -9711,7 +9712,7 @@ class FifthIslandPainter extends CustomPainter {
     path_51.close();
 
     Paint paint51Fill = Paint()..style = PaintingStyle.fill;
-    paint51Fill.color = Color(0xffFFA7FF).withValues(alpha: 1.0);
+    paint51Fill.color = GameColors.islandPainterColor68.withValues(alpha: 1.0);
     canvas.drawPath(path_51, paint51Fill);
 
     Path path_52 = Path();
@@ -9744,7 +9745,7 @@ class FifthIslandPainter extends CustomPainter {
     path_52.close();
 
     Paint paint52Fill = Paint()..style = PaintingStyle.fill;
-    paint52Fill.color = Color(0xffFFA7FF).withValues(alpha: 1.0);
+    paint52Fill.color = GameColors.islandPainterColor68.withValues(alpha: 1.0);
     canvas.drawPath(path_52, paint52Fill);
 
     Path path_53 = Path();
@@ -9770,7 +9771,7 @@ class FifthIslandPainter extends CustomPainter {
     path_53.close();
 
     Paint paint53Fill = Paint()..style = PaintingStyle.fill;
-    paint53Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint53Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_53, paint53Fill);
 
     Path path_54 = Path();
@@ -9814,7 +9815,7 @@ class FifthIslandPainter extends CustomPainter {
     path_54.close();
 
     Paint paint54Fill = Paint()..style = PaintingStyle.fill;
-    paint54Fill.color = Colors.yellow.withValues(alpha: 1.0);
+    paint54Fill.color = GameColors.yellow.withValues(alpha: 1.0);
     canvas.drawPath(path_54, paint54Fill);
 
     Path path_55 = Path();
@@ -9846,7 +9847,7 @@ class FifthIslandPainter extends CustomPainter {
     path_55.close();
 
     Paint paint55Fill = Paint()..style = PaintingStyle.fill;
-    paint55Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint55Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_55, paint55Fill);
 
     Path path_56 = Path();
@@ -9890,12 +9891,12 @@ class FifthIslandPainter extends CustomPainter {
       Offset(size.width * 0.5531889, size.height * 0.7869710),
       Offset(size.width * 0.5655667, size.height * 0.6734130),
       [
-        Color(0xffFF9572).withValues(alpha: 1),
-        Color(0xffFF9271).withValues(alpha: 1),
-        Color(0xffFF5465).withValues(alpha: 1),
-        Color(0xffFF265C).withValues(alpha: 1),
-        Color(0xffFF0A56).withValues(alpha: 1),
-        Color(0xffFF0054).withValues(alpha: 1),
+        GameColors.islandPainterColor67.withValues(alpha: 1),
+        GameColors.islandPainterColor66.withValues(alpha: 1),
+        GameColors.islandPainterColor65.withValues(alpha: 1),
+        GameColors.islandPainterColor64.withValues(alpha: 1),
+        GameColors.islandPainterColor63.withValues(alpha: 1),
+        GameColors.islandPainterColor62.withValues(alpha: 1),
       ],
       [0, 0.017, 0.359, 0.648, 0.871, 1],
     );
@@ -9930,7 +9931,7 @@ class FifthIslandPainter extends CustomPainter {
     path_57.close();
 
     Paint paint57Fill = Paint()..style = PaintingStyle.fill;
-    paint57Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint57Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_57, paint57Fill);
 
     Path path_58 = Path();
@@ -9956,7 +9957,7 @@ class FifthIslandPainter extends CustomPainter {
     path_58.close();
 
     Paint paint58Fill = Paint()..style = PaintingStyle.fill;
-    paint58Fill.color = Color(0xffFFA7FF).withValues(alpha: 1.0);
+    paint58Fill.color = GameColors.islandPainterColor68.withValues(alpha: 1.0);
     canvas.drawPath(path_58, paint58Fill);
 
     Path path_59 = Path();
@@ -9989,7 +9990,7 @@ class FifthIslandPainter extends CustomPainter {
     path_59.close();
 
     Paint paint59Fill = Paint()..style = PaintingStyle.fill;
-    paint59Fill.color = Color(0xffFFA7FF).withValues(alpha: 1.0);
+    paint59Fill.color = GameColors.islandPainterColor68.withValues(alpha: 1.0);
     canvas.drawPath(path_59, paint59Fill);
 
     Path path_60 = Path();
@@ -10029,7 +10030,7 @@ class FifthIslandPainter extends CustomPainter {
     path_60.close();
 
     Paint paint60Fill = Paint()..style = PaintingStyle.fill;
-    paint60Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint60Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_60, paint60Fill);
 
     Path path_61 = Path();
@@ -10061,7 +10062,7 @@ class FifthIslandPainter extends CustomPainter {
     path_61.close();
 
     Paint paint61Fill = Paint()..style = PaintingStyle.fill;
-    paint61Fill.color = Colors.yellow.withValues(alpha: 1.0);
+    paint61Fill.color = GameColors.yellow.withValues(alpha: 1.0);
     canvas.drawPath(path_61, paint61Fill);
 
     Path path_62 = Path();
@@ -10079,7 +10080,7 @@ class FifthIslandPainter extends CustomPainter {
     path_62.close();
 
     Paint paint62Fill = Paint()..style = PaintingStyle.fill;
-    paint62Fill.color = Colors.yellow.withValues(alpha: 1.0);
+    paint62Fill.color = GameColors.yellow.withValues(alpha: 1.0);
     canvas.drawPath(path_62, paint62Fill);
   }
 
@@ -10238,10 +10239,10 @@ class SixthIslandPainter extends CustomPainter {
       Offset(size.width * 0.4987594, size.height * 0.9954805),
       Offset(size.width * 0.4987594, size.height * 0.02630519),
       [
-        Color(0xff63902F).withValues(alpha: 1),
-        Color(0xff84B017).withValues(alpha: 1),
-        Color(0xff99C508).withValues(alpha: 1),
-        Color(0xffA1CC02).withValues(alpha: 1),
+        GameColors.islandPainterColor8.withValues(alpha: 1),
+        GameColors.islandPainterColor12.withValues(alpha: 1),
+        GameColors.islandPainterColor17.withValues(alpha: 1),
+        GameColors.islandPainterColor21.withValues(alpha: 1),
       ],
       [0, 0.417, 0.769, 1],
     );
@@ -10345,11 +10346,11 @@ class SixthIslandPainter extends CustomPainter {
       Offset(size.width * 0.4987642, size.height * 0.9954805),
       Offset(size.width * 0.4987642, size.height * 0.2544091),
       [
-        Color(0xffDF7A70).withValues(alpha: 1),
-        Color(0xffE1816E).withValues(alpha: 1),
-        Color(0xffF1AE63).withValues(alpha: 1),
-        Color(0xffFBCA5D).withValues(alpha: 1),
-        Color(0xffFFD45A).withValues(alpha: 1),
+        GameColors.islandPainterColor43.withValues(alpha: 1),
+        GameColors.islandPainterColor46.withValues(alpha: 1),
+        GameColors.islandPainterColor53.withValues(alpha: 1),
+        GameColors.islandPainterColor57.withValues(alpha: 1),
+        GameColors.islandPainterColor73.withValues(alpha: 1),
       ],
       [0, 0.059, 0.482, 0.81, 1],
     );
@@ -10413,10 +10414,10 @@ class SixthIslandPainter extends CustomPainter {
       Offset(size.width * 0.4924858, size.height * 0.7943636),
       Offset(size.width * 0.4924858, size.height * 0.06175325),
       [
-        Color(0xff63902F).withValues(alpha: 1),
-        Color(0xff84B017).withValues(alpha: 1),
-        Color(0xff99C508).withValues(alpha: 1),
-        Color(0xffA1CC02).withValues(alpha: 1),
+        GameColors.islandPainterColor8.withValues(alpha: 1),
+        GameColors.islandPainterColor12.withValues(alpha: 1),
+        GameColors.islandPainterColor17.withValues(alpha: 1),
+        GameColors.islandPainterColor21.withValues(alpha: 1),
       ],
       [0, 0.417, 0.769, 1],
     );
@@ -10472,11 +10473,11 @@ class SixthIslandPainter extends CustomPainter {
       Offset(size.width * 0.4917736, size.height * 0.8104805),
       Offset(size.width * 0.4917736, size.height * 0.2798117),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -10532,11 +10533,11 @@ class SixthIslandPainter extends CustomPainter {
       Offset(size.width * 0.4412642, size.height * 0.8956623),
       Offset(size.width * 0.4412642, size.height * 0.7403571),
       [
-        Color(0xffDF7A70).withValues(alpha: 1),
-        Color(0xffE1816E).withValues(alpha: 1),
-        Color(0xffF1AE63).withValues(alpha: 1),
-        Color(0xffFBCA5D).withValues(alpha: 1),
-        Color(0xffFFD45A).withValues(alpha: 1),
+        GameColors.islandPainterColor43.withValues(alpha: 1),
+        GameColors.islandPainterColor46.withValues(alpha: 1),
+        GameColors.islandPainterColor53.withValues(alpha: 1),
+        GameColors.islandPainterColor57.withValues(alpha: 1),
+        GameColors.islandPainterColor73.withValues(alpha: 1),
       ],
       [0, 0.059, 0.482, 0.81, 1],
     );
@@ -10563,7 +10564,7 @@ class SixthIslandPainter extends CustomPainter {
     path_5.close();
 
     Paint paint5Fill = Paint()..style = PaintingStyle.fill;
-    paint5Fill.color = Color(0xffFFDD81).withValues(alpha: 1.0);
+    paint5Fill.color = GameColors.islandPainterColor76.withValues(alpha: 1.0);
     canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
@@ -10603,7 +10604,7 @@ class SixthIslandPainter extends CustomPainter {
     path_6.close();
 
     Paint paint6Fill = Paint()..style = PaintingStyle.fill;
-    paint6Fill.color = Color(0xffFFDD81).withValues(alpha: 1.0);
+    paint6Fill.color = GameColors.islandPainterColor76.withValues(alpha: 1.0);
     canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
@@ -10640,12 +10641,12 @@ class SixthIslandPainter extends CustomPainter {
       Offset(size.width * 0.3643208, size.height * 0.9876623),
       Offset(size.width * 0.3643208, size.height * 0.8424545),
       [
-        Color(0xffBA5270).withValues(alpha: 1),
-        Color(0xffC56D76).withValues(alpha: 1),
-        Color(0xffDEAB83).withValues(alpha: 1),
-        Color(0xffF0D98D).withValues(alpha: 1),
-        Color(0xffFBF593).withValues(alpha: 1),
-        Color(0xffFFFF95).withValues(alpha: 1),
+        GameColors.islandPainterColor34.withValues(alpha: 1),
+        GameColors.islandPainterColor36.withValues(alpha: 1),
+        GameColors.islandPainterColor42.withValues(alpha: 1),
+        GameColors.islandPainterColor52.withValues(alpha: 1),
+        GameColors.islandPainterColor58.withValues(alpha: 1),
+        GameColors.islandPainterColor77.withValues(alpha: 1),
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
@@ -10700,12 +10701,12 @@ class SixthIslandPainter extends CustomPainter {
       Offset(size.width * 0.4192925, size.height * 0.8935325),
       Offset(size.width * 0.4192925, size.height * 0.8077078),
       [
-        Color(0xffBA5270).withValues(alpha: 1),
-        Color(0xffC56D76).withValues(alpha: 1),
-        Color(0xffDEAB83).withValues(alpha: 1),
-        Color(0xffF0D98D).withValues(alpha: 1),
-        Color(0xffFBF593).withValues(alpha: 1),
-        Color(0xffFFFF95).withValues(alpha: 1),
+        GameColors.islandPainterColor34.withValues(alpha: 1),
+        GameColors.islandPainterColor36.withValues(alpha: 1),
+        GameColors.islandPainterColor42.withValues(alpha: 1),
+        GameColors.islandPainterColor52.withValues(alpha: 1),
+        GameColors.islandPainterColor58.withValues(alpha: 1),
+        GameColors.islandPainterColor77.withValues(alpha: 1),
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
@@ -10748,7 +10749,7 @@ class SixthIslandPainter extends CustomPainter {
     path_9.close();
 
     Paint paint9Fill = Paint()..style = PaintingStyle.fill;
-    paint9Fill.color = Color(0xffFFDD81).withValues(alpha: 1.0);
+    paint9Fill.color = GameColors.islandPainterColor76.withValues(alpha: 1.0);
     canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
@@ -10816,7 +10817,7 @@ class SixthIslandPainter extends CustomPainter {
     path_10.close();
 
     Paint paint10Fill = Paint()..style = PaintingStyle.fill;
-    paint10Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint10Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_10, paint10Fill);
 
     Path path_11 = Path();
@@ -10883,12 +10884,12 @@ class SixthIslandPainter extends CustomPainter {
       Offset(size.width * 0.9974953, size.height * 0.6201494),
       Offset(size.width * 0.7465896, size.height * 0.6201494),
       [
-        Color(0xffBA5270).withValues(alpha: 1),
-        Color(0xffC56D76).withValues(alpha: 1),
-        Color(0xffDEAB83).withValues(alpha: 1),
-        Color(0xffF0D98D).withValues(alpha: 1),
-        Color(0xffFBF593).withValues(alpha: 1),
-        Color(0xffFFFF95).withValues(alpha: 1),
+        GameColors.islandPainterColor34.withValues(alpha: 1),
+        GameColors.islandPainterColor36.withValues(alpha: 1),
+        GameColors.islandPainterColor42.withValues(alpha: 1),
+        GameColors.islandPainterColor52.withValues(alpha: 1),
+        GameColors.islandPainterColor58.withValues(alpha: 1),
+        GameColors.islandPainterColor77.withValues(alpha: 1),
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
@@ -10924,7 +10925,7 @@ class SixthIslandPainter extends CustomPainter {
     path_12.close();
 
     Paint paint12Fill = Paint()..style = PaintingStyle.fill;
-    paint12Fill.color = Color(0xffFFDD81).withValues(alpha: 1.0);
+    paint12Fill.color = GameColors.islandPainterColor76.withValues(alpha: 1.0);
     canvas.drawPath(path_12, paint12Fill);
 
     Path path_13 = Path();
@@ -10968,7 +10969,7 @@ class SixthIslandPainter extends CustomPainter {
     path_13.close();
 
     Paint paint13Fill = Paint()..style = PaintingStyle.fill;
-    paint13Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint13Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_13, paint13Fill);
 
     Path path_14 = Path();
@@ -10993,7 +10994,7 @@ class SixthIslandPainter extends CustomPainter {
     path_14.close();
 
     Paint paint14Fill = Paint()..style = PaintingStyle.fill;
-    paint14Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint14Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_14, paint14Fill);
 
     Path path_15 = Path();
@@ -11022,10 +11023,10 @@ class SixthIslandPainter extends CustomPainter {
       Offset(size.width * 0.7610330, size.height * 0.7795260),
       Offset(size.width * 0.7610330, size.height * 0.5451429),
       [
-        Color(0xffA93D54).withValues(alpha: 1),
-        Color(0xffAC454A).withValues(alpha: 1),
-        Color(0xffB3592E).withValues(alpha: 1),
-        Color(0xffB8661D).withValues(alpha: 1),
+        GameColors.islandPainterColor24.withValues(alpha: 1),
+        GameColors.islandPainterColor27.withValues(alpha: 1),
+        GameColors.islandPainterColor31.withValues(alpha: 1),
+        GameColors.islandPainterColor33.withValues(alpha: 1),
       ],
       [0, 0.277, 0.754, 1],
     );
@@ -11061,7 +11062,7 @@ class SixthIslandPainter extends CustomPainter {
     path_16.close();
 
     Paint paint16Fill = Paint()..style = PaintingStyle.fill;
-    paint16Fill.color = Color(0xffD96840).withValues(alpha: 1.0);
+    paint16Fill.color = GameColors.islandPainterColor40.withValues(alpha: 1.0);
     canvas.drawPath(path_16, paint16Fill);
 
     Path path_17 = Path();
@@ -11109,7 +11110,7 @@ class SixthIslandPainter extends CustomPainter {
     path_17.close();
 
     Paint paint17Fill = Paint()..style = PaintingStyle.fill;
-    paint17Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint17Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_17, paint17Fill);
 
     Path path_18 = Path();
@@ -11141,7 +11142,7 @@ class SixthIslandPainter extends CustomPainter {
     path_18.close();
 
     Paint paint18Fill = Paint()..style = PaintingStyle.fill;
-    paint18Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint18Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_18, paint18Fill);
 
     Path path_19 = Path();
@@ -11165,7 +11166,7 @@ class SixthIslandPainter extends CustomPainter {
     path_19.close();
 
     Paint paint19Fill = Paint()..style = PaintingStyle.fill;
-    paint19Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint19Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_19, paint19Fill);
 
     Path path_20 = Path();
@@ -11194,11 +11195,11 @@ class SixthIslandPainter extends CustomPainter {
       Offset(size.width * 0.6594340, size.height * 0.6499481),
       Offset(size.width * 0.4204009, size.height * 0.6499481),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -11234,7 +11235,7 @@ class SixthIslandPainter extends CustomPainter {
     path_21.close();
 
     Paint paint21Fill = Paint()..style = PaintingStyle.fill;
-    paint21Fill.color = Color(0xff86A500).withValues(alpha: 1.0);
+    paint21Fill.color = GameColors.islandPainterColor13.withValues(alpha: 1.0);
     canvas.drawPath(path_21, paint21Fill);
 
     Path path_22 = Path();
@@ -11255,11 +11256,11 @@ class SixthIslandPainter extends CustomPainter {
       Offset(size.width * 0.7842877, size.height * 0.4892987),
       Offset(size.width * 0.6562123, size.height * 0.4892987),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -11302,7 +11303,7 @@ class SixthIslandPainter extends CustomPainter {
     path_23.close();
 
     Paint paint23Fill = Paint()..style = PaintingStyle.fill;
-    paint23Fill.color = Color(0xff639100).withValues(alpha: 1.0);
+    paint23Fill.color = GameColors.islandPainterColor9.withValues(alpha: 1.0);
     canvas.drawPath(path_23, paint23Fill);
 
     Path path_24 = Path();
@@ -11323,11 +11324,11 @@ class SixthIslandPainter extends CustomPainter {
       Offset(size.width * 0.6813160, size.height * 0.4231169),
       Offset(size.width * 0.6077028, size.height * 0.4231169),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -11362,7 +11363,7 @@ class SixthIslandPainter extends CustomPainter {
     path_25.close();
 
     Paint paint25Fill = Paint()..style = PaintingStyle.fill;
-    paint25Fill.color = Color(0xff639100).withValues(alpha: 1.0);
+    paint25Fill.color = GameColors.islandPainterColor9.withValues(alpha: 1.0);
     canvas.drawPath(path_25, paint25Fill);
 
     Path path_26 = Path();
@@ -11394,7 +11395,7 @@ class SixthIslandPainter extends CustomPainter {
     path_26.close();
 
     Paint paint26Fill = Paint()..style = PaintingStyle.fill;
-    paint26Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint26Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_26, paint26Fill);
 
     Path path_27 = Path();
@@ -11405,7 +11406,7 @@ class SixthIslandPainter extends CustomPainter {
     path_27.close();
 
     Paint paint27Fill = Paint()..style = PaintingStyle.fill;
-    paint27Fill.color = Color(0xffB2562B).withValues(alpha: 1.0);
+    paint27Fill.color = GameColors.islandPainterColor30.withValues(alpha: 1.0);
     canvas.drawPath(path_27, paint27Fill);
 
     Path path_28 = Path();
@@ -11430,7 +11431,7 @@ class SixthIslandPainter extends CustomPainter {
     path_28.close();
 
     Paint paint28Fill = Paint()..style = PaintingStyle.fill;
-    paint28Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint28Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_28, paint28Fill);
 
     Path path_29 = Path();
@@ -11494,7 +11495,7 @@ class SixthIslandPainter extends CustomPainter {
     path_29.close();
 
     Paint paint29Fill = Paint()..style = PaintingStyle.fill;
-    paint29Fill.color = Color(0xffEA8E40).withValues(alpha: 1.0);
+    paint29Fill.color = GameColors.islandPainterColor48.withValues(alpha: 1.0);
     canvas.drawPath(path_29, paint29Fill);
 
     Path path_30 = Path();
@@ -11534,7 +11535,7 @@ class SixthIslandPainter extends CustomPainter {
     path_30.close();
 
     Paint paint30Fill = Paint()..style = PaintingStyle.fill;
-    paint30Fill.color = Color(0xffD36F3B).withValues(alpha: 1.0);
+    paint30Fill.color = GameColors.islandPainterColor39.withValues(alpha: 1.0);
     canvas.drawPath(path_30, paint30Fill);
 
     Path path_31 = Path();
@@ -11637,7 +11638,7 @@ class SixthIslandPainter extends CustomPainter {
     path_31.close();
 
     Paint paint31Fill = Paint()..style = PaintingStyle.fill;
-    paint31Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint31Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_31, paint31Fill);
 
     Path path_32 = Path();
@@ -11672,7 +11673,7 @@ class SixthIslandPainter extends CustomPainter {
     path_32.close();
 
     Paint paint32Fill = Paint()..style = PaintingStyle.fill;
-    paint32Fill.color = Color(0xffE7792C).withValues(alpha: 1.0);
+    paint32Fill.color = GameColors.islandPainterColor47.withValues(alpha: 1.0);
     canvas.drawPath(path_32, paint32Fill);
 
     Path path_33 = Path();
@@ -11689,7 +11690,7 @@ class SixthIslandPainter extends CustomPainter {
     path_33.close();
 
     Paint paint33Fill = Paint()..style = PaintingStyle.fill;
-    paint33Fill.color = Color(0xffD36F3B).withValues(alpha: 1.0);
+    paint33Fill.color = GameColors.islandPainterColor39.withValues(alpha: 1.0);
     canvas.drawPath(path_33, paint33Fill);
 
     Path path_34 = Path();
@@ -11722,7 +11723,7 @@ class SixthIslandPainter extends CustomPainter {
     path_34.close();
 
     Paint paint34Fill = Paint()..style = PaintingStyle.fill;
-    paint34Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint34Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_34, paint34Fill);
 
     Path path_35 = Path();
@@ -11747,7 +11748,7 @@ class SixthIslandPainter extends CustomPainter {
     path_35.close();
 
     Paint paint35Fill = Paint()..style = PaintingStyle.fill;
-    paint35Fill.color = Color(0xffE7792C).withValues(alpha: 1.0);
+    paint35Fill.color = GameColors.islandPainterColor47.withValues(alpha: 1.0);
     canvas.drawPath(path_35, paint35Fill);
 
     Path path_36 = Path();
@@ -11771,7 +11772,7 @@ class SixthIslandPainter extends CustomPainter {
     path_36.close();
 
     Paint paint36Fill = Paint()..style = PaintingStyle.fill;
-    paint36Fill.color = Color(0xffD36F3B).withValues(alpha: 1.0);
+    paint36Fill.color = GameColors.islandPainterColor39.withValues(alpha: 1.0);
     canvas.drawPath(path_36, paint36Fill);
 
     Path path_37 = Path();
@@ -11804,7 +11805,7 @@ class SixthIslandPainter extends CustomPainter {
     path_37.close();
 
     Paint paint37Fill = Paint()..style = PaintingStyle.fill;
-    paint37Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint37Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_37, paint37Fill);
 
     Path path_38 = Path();
@@ -11836,7 +11837,7 @@ class SixthIslandPainter extends CustomPainter {
     path_38.close();
 
     Paint paint38Fill = Paint()..style = PaintingStyle.fill;
-    paint38Fill.color = Color(0xffE7792C).withValues(alpha: 1.0);
+    paint38Fill.color = GameColors.islandPainterColor47.withValues(alpha: 1.0);
     canvas.drawPath(path_38, paint38Fill);
 
     Path path_39 = Path();
@@ -11860,7 +11861,7 @@ class SixthIslandPainter extends CustomPainter {
     path_39.close();
 
     Paint paint39Fill = Paint()..style = PaintingStyle.fill;
-    paint39Fill.color = Color(0xffD36F3B).withValues(alpha: 1.0);
+    paint39Fill.color = GameColors.islandPainterColor39.withValues(alpha: 1.0);
     canvas.drawPath(path_39, paint39Fill);
 
     Path path_40 = Path();
@@ -11901,7 +11902,7 @@ class SixthIslandPainter extends CustomPainter {
     path_40.close();
 
     Paint paint40Fill = Paint()..style = PaintingStyle.fill;
-    paint40Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint40Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_40, paint40Fill);
 
     Path path_41 = Path();
@@ -11925,7 +11926,7 @@ class SixthIslandPainter extends CustomPainter {
     path_41.close();
 
     Paint paint41Fill = Paint()..style = PaintingStyle.fill;
-    paint41Fill.color = Color(0xffE7792C).withValues(alpha: 1.0);
+    paint41Fill.color = GameColors.islandPainterColor47.withValues(alpha: 1.0);
     canvas.drawPath(path_41, paint41Fill);
 
     Path path_42 = Path();
@@ -11961,10 +11962,10 @@ class SixthIslandPainter extends CustomPainter {
       Offset(size.width * 0.08434434, size.height * 0.4645260),
       Offset(size.width * 0.08434434, size.height * 0.3169221),
       [
-        Color(0xffA93D54).withValues(alpha: 1),
-        Color(0xffAC454A).withValues(alpha: 1),
-        Color(0xffB3592E).withValues(alpha: 1),
-        Color(0xffB8661D).withValues(alpha: 1),
+        GameColors.islandPainterColor24.withValues(alpha: 1),
+        GameColors.islandPainterColor27.withValues(alpha: 1),
+        GameColors.islandPainterColor31.withValues(alpha: 1),
+        GameColors.islandPainterColor33.withValues(alpha: 1),
       ],
       [0, 0.277, 0.754, 1],
     );
@@ -11989,10 +11990,10 @@ class SixthIslandPainter extends CustomPainter {
       Offset(size.width * 0.04299528, size.height * 0.5444805),
       Offset(size.width * 0.04299528, size.height * 0.4292403),
       [
-        Color(0xffA93D54).withValues(alpha: 1),
-        Color(0xffAC454A).withValues(alpha: 1),
-        Color(0xffB3592E).withValues(alpha: 1),
-        Color(0xffB8661D).withValues(alpha: 1),
+        GameColors.islandPainterColor24.withValues(alpha: 1),
+        GameColors.islandPainterColor27.withValues(alpha: 1),
+        GameColors.islandPainterColor31.withValues(alpha: 1),
+        GameColors.islandPainterColor33.withValues(alpha: 1),
       ],
       [0, 0.277, 0.754, 1],
     );
@@ -12039,7 +12040,7 @@ class SixthIslandPainter extends CustomPainter {
     path_44.close();
 
     Paint paint44Fill = Paint()..style = PaintingStyle.fill;
-    paint44Fill.color = Color(0xffD96840).withValues(alpha: 1.0);
+    paint44Fill.color = GameColors.islandPainterColor40.withValues(alpha: 1.0);
     canvas.drawPath(path_44, paint44Fill);
 
     Path path_45 = Path();
@@ -12093,7 +12094,7 @@ class SixthIslandPainter extends CustomPainter {
     path_45.close();
 
     Paint paint45Fill = Paint()..style = PaintingStyle.fill;
-    paint45Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint45Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_45, paint45Fill);
 
     Path path_46 = Path();
@@ -12172,7 +12173,7 @@ class SixthIslandPainter extends CustomPainter {
     path_46.close();
 
     Paint paint46Fill = Paint()..style = PaintingStyle.fill;
-    paint46Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint46Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_46, paint46Fill);
 
     Path path_47 = Path();
@@ -12223,7 +12224,7 @@ class SixthIslandPainter extends CustomPainter {
     path_47.close();
 
     Paint paint47Fill = Paint()..style = PaintingStyle.fill;
-    paint47Fill.color = Color(0xffB2562B).withValues(alpha: 1.0);
+    paint47Fill.color = GameColors.islandPainterColor30.withValues(alpha: 1.0);
     canvas.drawPath(path_47, paint47Fill);
 
     Path path_48 = Path();
@@ -12298,7 +12299,7 @@ class SixthIslandPainter extends CustomPainter {
     path_48.close();
 
     Paint paint48Fill = Paint()..style = PaintingStyle.fill;
-    paint48Fill.color = Color(0xffEA8E40).withValues(alpha: 1.0);
+    paint48Fill.color = GameColors.islandPainterColor48.withValues(alpha: 1.0);
     canvas.drawPath(path_48, paint48Fill);
 
     Path path_49 = Path();
@@ -12380,9 +12381,9 @@ class SixthIslandPainter extends CustomPainter {
       Offset(size.width * 0.4971651, size.height * 0.2846948),
       Offset(size.width * 0.4971651, size.height * 0.04237013),
       [
-        Color(0xff515E00).withValues(alpha: 1),
-        Color(0xff457500).withValues(alpha: 1),
-        Color(0xff407F00).withValues(alpha: 1),
+        GameColors.islandPainterColor5.withValues(alpha: 1),
+        GameColors.islandPainterColor3.withValues(alpha: 1),
+        GameColors.islandPainterColor1.withValues(alpha: 1),
       ],
       [0, 0.59, 1],
     );
@@ -12479,11 +12480,11 @@ class SixthIslandPainter extends CustomPainter {
       Offset(size.width * 0.4987594, size.height * 0.2901429),
       Offset(size.width * 0.4987594, size.height * 0.1077273),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -12501,11 +12502,11 @@ class SixthIslandPainter extends CustomPainter {
       Offset(size.width * 0.5318726, size.height * 0.09480519),
       Offset(size.width * 0.5318726, size.height * 0.04398701),
       [
-        Color(0xffDF7A8E).withValues(alpha: 1),
-        Color(0xffEBACB8).withValues(alpha: 1),
-        Color(0xffF6D9DE).withValues(alpha: 1),
-        Color(0xffFDF5F6).withValues(alpha: 1),
-        Color(0xffffffff).withValues(alpha: 1),
+        GameColors.islandPainterColor44.withValues(alpha: 1),
+        GameColors.islandPainterColor50.withValues(alpha: 1),
+        GameColors.islandPainterColor56.withValues(alpha: 1),
+        GameColors.islandPainterColor61.withValues(alpha: 1),
+        GameColors.whiteSolid.withValues(alpha: 1),
       ],
       [0, 0.303, 0.616, 0.859, 1],
     );
@@ -12569,7 +12570,7 @@ class SixthIslandPainter extends CustomPainter {
     path_52.close();
 
     Paint paint52Fill = Paint()..style = PaintingStyle.fill;
-    paint52Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint52Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_52, paint52Fill);
 
     Path path_53 = Path();
@@ -12706,7 +12707,7 @@ class SixthIslandPainter extends CustomPainter {
     path_53.close();
 
     Paint paint53Fill = Paint()..style = PaintingStyle.fill;
-    paint53Fill.color = Color(0xffEABA13).withValues(alpha: 1.0);
+    paint53Fill.color = GameColors.islandPainterColor49.withValues(alpha: 1.0);
     canvas.drawPath(path_53, paint53Fill);
 
     Path path_54 = Path();
@@ -12772,7 +12773,7 @@ class SixthIslandPainter extends CustomPainter {
     path_54.close();
 
     Paint paint54Fill = Paint()..style = PaintingStyle.fill;
-    paint54Fill.color = Color(0xffFFDD5E).withValues(alpha: 1.0);
+    paint54Fill.color = GameColors.islandPainterColor75.withValues(alpha: 1.0);
     canvas.drawPath(path_54, paint54Fill);
 
     Path path_55 = Path();
@@ -12840,7 +12841,7 @@ class SixthIslandPainter extends CustomPainter {
     path_55.close();
 
     Paint paint55Fill = Paint()..style = PaintingStyle.fill;
-    paint55Fill.color = Color(0xffEDE0A9).withValues(alpha: 1.0);
+    paint55Fill.color = GameColors.islandPainterColor51.withValues(alpha: 1.0);
     canvas.drawPath(path_55, paint55Fill);
 
     Path path_56 = Path();
@@ -12889,7 +12890,7 @@ class SixthIslandPainter extends CustomPainter {
     path_56.close();
 
     Paint paint56Fill = Paint()..style = PaintingStyle.fill;
-    paint56Fill.color = Color(0xffCC81B3).withValues(alpha: 1.0);
+    paint56Fill.color = GameColors.islandPainterColor38.withValues(alpha: 1.0);
     canvas.drawPath(path_56, paint56Fill);
 
     Path path_57 = Path();
@@ -12929,7 +12930,7 @@ class SixthIslandPainter extends CustomPainter {
     path_57.close();
 
     Paint paint57Fill = Paint()..style = PaintingStyle.fill;
-    paint57Fill.color = Color(0xffCC81B3).withValues(alpha: 1.0);
+    paint57Fill.color = GameColors.islandPainterColor38.withValues(alpha: 1.0);
     canvas.drawPath(path_57, paint57Fill);
 
     Path path_58 = Path();
@@ -12964,7 +12965,7 @@ class SixthIslandPainter extends CustomPainter {
     path_58.close();
 
     Paint paint58Fill = Paint()..style = PaintingStyle.fill;
-    paint58Fill.color = Color(0xffCC81B3).withValues(alpha: 1.0);
+    paint58Fill.color = GameColors.islandPainterColor38.withValues(alpha: 1.0);
     canvas.drawPath(path_58, paint58Fill);
 
     Path path_59 = Path();
@@ -13233,7 +13234,7 @@ class SixthIslandPainter extends CustomPainter {
     path_59.close();
 
     Paint paint59Fill = Paint()..style = PaintingStyle.fill;
-    paint59Fill.color = Color(0xffB0FF00).withValues(alpha: 1.0);
+    paint59Fill.color = GameColors.islandPainterColor29.withValues(alpha: 1.0);
     canvas.drawPath(path_59, paint59Fill);
 
     Path path_60 = Path();
@@ -13250,7 +13251,7 @@ class SixthIslandPainter extends CustomPainter {
     path_60.close();
 
     Paint paint60Fill = Paint()..style = PaintingStyle.fill;
-    paint60Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint60Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_60, paint60Fill);
 
     Path path_61 = Path();
@@ -13287,12 +13288,12 @@ class SixthIslandPainter extends CustomPainter {
       Offset(size.width * 0.5331321, size.height * 0.6819026),
       Offset(size.width * 0.5544292, size.height * 0.5002597),
       [
-        Color(0xffFF9572).withValues(alpha: 1),
-        Color(0xffFF9271).withValues(alpha: 1),
-        Color(0xffFF5465).withValues(alpha: 1),
-        Color(0xffFF265C).withValues(alpha: 1),
-        Color(0xffFF0A56).withValues(alpha: 1),
-        Color(0xffFF0054).withValues(alpha: 1),
+        GameColors.islandPainterColor67.withValues(alpha: 1),
+        GameColors.islandPainterColor66.withValues(alpha: 1),
+        GameColors.islandPainterColor65.withValues(alpha: 1),
+        GameColors.islandPainterColor64.withValues(alpha: 1),
+        GameColors.islandPainterColor63.withValues(alpha: 1),
+        GameColors.islandPainterColor62.withValues(alpha: 1),
       ],
       [0, 0.017, 0.359, 0.648, 0.871, 1],
     );
@@ -13327,7 +13328,7 @@ class SixthIslandPainter extends CustomPainter {
     path_62.close();
 
     Paint paint62Fill = Paint()..style = PaintingStyle.fill;
-    paint62Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint62Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_62, paint62Fill);
 
     Path path_63 = Path();
@@ -13353,7 +13354,7 @@ class SixthIslandPainter extends CustomPainter {
     path_63.close();
 
     Paint paint63Fill = Paint()..style = PaintingStyle.fill;
-    paint63Fill.color = Color(0xffFFA7FF).withValues(alpha: 1.0);
+    paint63Fill.color = GameColors.islandPainterColor68.withValues(alpha: 1.0);
     canvas.drawPath(path_63, paint63Fill);
 
     Path path_64 = Path();
@@ -13372,7 +13373,7 @@ class SixthIslandPainter extends CustomPainter {
     path_64.close();
 
     Paint paint64Fill = Paint()..style = PaintingStyle.fill;
-    paint64Fill.color = Color(0xffFFA7FF).withValues(alpha: 1.0);
+    paint64Fill.color = GameColors.islandPainterColor68.withValues(alpha: 1.0);
     canvas.drawPath(path_64, paint64Fill);
 
     Path path_65 = Path();
@@ -13384,7 +13385,7 @@ class SixthIslandPainter extends CustomPainter {
     path_65.close();
 
     Paint paint65Fill = Paint()..style = PaintingStyle.fill;
-    paint65Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint65Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_65, paint65Fill);
 
     Path path_66 = Path();
@@ -13407,7 +13408,7 @@ class SixthIslandPainter extends CustomPainter {
     path_66.close();
 
     Paint paint66Fill = Paint()..style = PaintingStyle.fill;
-    paint66Fill.color = Colors.yellow.withValues(alpha: 1.0);
+    paint66Fill.color = GameColors.yellow.withValues(alpha: 1.0);
     canvas.drawPath(path_66, paint66Fill);
 
     Path path_67 = Path();
@@ -13424,7 +13425,7 @@ class SixthIslandPainter extends CustomPainter {
     path_67.close();
 
     Paint paint67Fill = Paint()..style = PaintingStyle.fill;
-    paint67Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint67Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_67, paint67Fill);
 
     Path path_68 = Path();
@@ -13453,12 +13454,12 @@ class SixthIslandPainter extends CustomPainter {
       Offset(size.width * 0.5081321, size.height * 0.7047857),
       Offset(size.width * 0.5160472, size.height * 0.6281688),
       [
-        Color(0xffFF9572).withValues(alpha: 1),
-        Color(0xffFF9271).withValues(alpha: 1),
-        Color(0xffFF5465).withValues(alpha: 1),
-        Color(0xffFF265C).withValues(alpha: 1),
-        Color(0xffFF0A56).withValues(alpha: 1),
-        Color(0xffFF0054).withValues(alpha: 1),
+        GameColors.islandPainterColor67.withValues(alpha: 1),
+        GameColors.islandPainterColor66.withValues(alpha: 1),
+        GameColors.islandPainterColor65.withValues(alpha: 1),
+        GameColors.islandPainterColor64.withValues(alpha: 1),
+        GameColors.islandPainterColor63.withValues(alpha: 1),
+        GameColors.islandPainterColor62.withValues(alpha: 1),
       ],
       [0, 0.017, 0.359, 0.648, 0.871, 1],
     );
@@ -13493,7 +13494,7 @@ class SixthIslandPainter extends CustomPainter {
     path_69.close();
 
     Paint paint69Fill = Paint()..style = PaintingStyle.fill;
-    paint69Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint69Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_69, paint69Fill);
 
     Path path_70 = Path();
@@ -13533,7 +13534,7 @@ class SixthIslandPainter extends CustomPainter {
     path_70.close();
 
     Paint paint70Fill = Paint()..style = PaintingStyle.fill;
-    paint70Fill.color = Color(0xffFFA7FF).withValues(alpha: 1.0);
+    paint70Fill.color = GameColors.islandPainterColor68.withValues(alpha: 1.0);
     canvas.drawPath(path_70, paint70Fill);
 
     Path path_71 = Path();
@@ -13573,7 +13574,7 @@ class SixthIslandPainter extends CustomPainter {
     path_71.close();
 
     Paint paint71Fill = Paint()..style = PaintingStyle.fill;
-    paint71Fill.color = Color(0xffFFA7FF).withValues(alpha: 1.0);
+    paint71Fill.color = GameColors.islandPainterColor68.withValues(alpha: 1.0);
     canvas.drawPath(path_71, paint71Fill);
 
     Path path_72 = Path();
@@ -13598,7 +13599,7 @@ class SixthIslandPainter extends CustomPainter {
     path_72.close();
 
     Paint paint72Fill = Paint()..style = PaintingStyle.fill;
-    paint72Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint72Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_72, paint72Fill);
 
     Path path_73 = Path();
@@ -13656,7 +13657,7 @@ class SixthIslandPainter extends CustomPainter {
     path_73.close();
 
     Paint paint73Fill = Paint()..style = PaintingStyle.fill;
-    paint73Fill.color = Colors.yellow.withValues(alpha: 1.0);
+    paint73Fill.color = GameColors.yellow.withValues(alpha: 1.0);
     canvas.drawPath(path_73, paint73Fill);
   }
 
@@ -13780,10 +13781,10 @@ class SeventhIslandPainter extends CustomPainter {
       Offset(size.width * 0.4994416, size.height * 0.9971792),
       Offset(size.width * 0.4994416, size.height * 0.007547170),
       [
-        Color(0xff63902F).withValues(alpha: 1),
-        Color(0xff84B017).withValues(alpha: 1),
-        Color(0xff99C508).withValues(alpha: 1),
-        Color(0xffA1CC02).withValues(alpha: 1),
+        GameColors.islandPainterColor8.withValues(alpha: 1),
+        GameColors.islandPainterColor12.withValues(alpha: 1),
+        GameColors.islandPainterColor17.withValues(alpha: 1),
+        GameColors.islandPainterColor21.withValues(alpha: 1),
       ],
       [0, 0.417, 0.769, 1],
     );
@@ -13854,11 +13855,11 @@ class SeventhIslandPainter extends CustomPainter {
       Offset(size.width * 0.4994481, size.height * 0.9971698),
       Offset(size.width * 0.4994481, size.height * 0.2587736),
       [
-        Color(0xffDF7A70).withValues(alpha: 1),
-        Color(0xffE1816E).withValues(alpha: 1),
-        Color(0xffF1AE63).withValues(alpha: 1),
-        Color(0xffFBCA5D).withValues(alpha: 1),
-        Color(0xffFFD45A).withValues(alpha: 1),
+        GameColors.islandPainterColor43.withValues(alpha: 1),
+        GameColors.islandPainterColor46.withValues(alpha: 1),
+        GameColors.islandPainterColor53.withValues(alpha: 1),
+        GameColors.islandPainterColor57.withValues(alpha: 1),
+        GameColors.islandPainterColor73.withValues(alpha: 1),
       ],
       [0, 0.059, 0.482, 0.81, 1],
     );
@@ -13906,10 +13907,10 @@ class SeventhIslandPainter extends CustomPainter {
       Offset(size.width * 0.5230065, size.height * 0.7539528),
       Offset(size.width * 0.5230065, size.height * 0.02606604),
       [
-        Color(0xff63902F).withValues(alpha: 1),
-        Color(0xff84B017).withValues(alpha: 1),
-        Color(0xff99C508).withValues(alpha: 1),
-        Color(0xffA1CC02).withValues(alpha: 1),
+        GameColors.islandPainterColor8.withValues(alpha: 1),
+        GameColors.islandPainterColor12.withValues(alpha: 1),
+        GameColors.islandPainterColor17.withValues(alpha: 1),
+        GameColors.islandPainterColor21.withValues(alpha: 1),
       ],
       [0, 0.417, 0.769, 1],
     );
@@ -13980,11 +13981,11 @@ class SeventhIslandPainter extends CustomPainter {
       Offset(size.width * 0.5187532, size.height * 0.7829340),
       Offset(size.width * 0.5187532, size.height * 0.2302830),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -14025,12 +14026,12 @@ class SeventhIslandPainter extends CustomPainter {
       Offset(size.width * 0.5187532, size.height * 0.9971792),
       Offset(size.width * 0.5187532, size.height * 0.6689811),
       [
-        Color(0xffBA5270).withValues(alpha: 1),
-        Color(0xffC56D76).withValues(alpha: 1),
-        Color(0xffDEAB83).withValues(alpha: 1),
-        Color(0xffF0D98D).withValues(alpha: 1),
-        Color(0xffFBF593).withValues(alpha: 1),
-        Color(0xffFFFF95).withValues(alpha: 1),
+        GameColors.islandPainterColor34.withValues(alpha: 1),
+        GameColors.islandPainterColor36.withValues(alpha: 1),
+        GameColors.islandPainterColor42.withValues(alpha: 1),
+        GameColors.islandPainterColor52.withValues(alpha: 1),
+        GameColors.islandPainterColor58.withValues(alpha: 1),
+        GameColors.islandPainterColor77.withValues(alpha: 1),
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
@@ -14065,7 +14066,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_5.close();
 
     Paint paint5Fill = Paint()..style = PaintingStyle.fill;
-    paint5Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint5Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
@@ -14115,7 +14116,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_6.close();
 
     Paint paint6Fill = Paint()..style = PaintingStyle.fill;
-    paint6Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint6Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
@@ -14202,9 +14203,9 @@ class SeventhIslandPainter extends CustomPainter {
       Offset(size.width * 0.5607922, size.height * 0.2274811),
       Offset(size.width * 0.5607922, size.height * 0.02627358),
       [
-        Color(0xff515E00).withValues(alpha: 1),
-        Color(0xff457500).withValues(alpha: 1),
-        Color(0xff407F00).withValues(alpha: 1),
+        GameColors.islandPainterColor5.withValues(alpha: 1),
+        GameColors.islandPainterColor3.withValues(alpha: 1),
+        GameColors.islandPainterColor1.withValues(alpha: 1),
       ],
       [0, 0.59, 1],
     );
@@ -14252,11 +14253,11 @@ class SeventhIslandPainter extends CustomPainter {
       Offset(size.width * 0.5753117, size.height * 0.2377075),
       Offset(size.width * 0.5753117, size.height * 0.1736698),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -14354,11 +14355,11 @@ class SeventhIslandPainter extends CustomPainter {
       Offset(size.width * 0.5997338, size.height * 0.2129245),
       Offset(size.width * 0.5997338, size.height * 0.1224906),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -14391,11 +14392,11 @@ class SeventhIslandPainter extends CustomPainter {
       Offset(size.width * 0.4914286, size.height * 0.1300377),
       Offset(size.width * 0.4914286, size.height * 0.06757547),
       [
-        Color(0xffBAD4B6).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xff8E765E).withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
       ],
       [0, 0.184, 0.501, 0.91, 1],
     );
@@ -14420,11 +14421,11 @@ class SeventhIslandPainter extends CustomPainter {
       Offset(size.width * 0.5322922, size.height * 0.1007358),
       Offset(size.width * 0.5094091, size.height * 0.1050660),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -14523,7 +14524,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_12.close();
 
     Paint paint12Fill = Paint()..style = PaintingStyle.fill;
-    paint12Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint12Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_12, paint12Fill);
 
     Path path_13 = Path();
@@ -14551,11 +14552,11 @@ class SeventhIslandPainter extends CustomPainter {
       Offset(size.width * 0.4627208, size.height * 0.5393396),
       Offset(size.width * 0.1703766, size.height * 0.5393396),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -14586,11 +14587,11 @@ class SeventhIslandPainter extends CustomPainter {
       Offset(size.width * 0.7142597, size.height * 0.5747736),
       Offset(size.width * 0.5223377, size.height * 0.5747736),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -14626,7 +14627,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_15.close();
 
     Paint paint15Fill = Paint()..style = PaintingStyle.fill;
-    paint15Fill.color = Color(0xff86A500).withValues(alpha: 1.0);
+    paint15Fill.color = GameColors.islandPainterColor13.withValues(alpha: 1.0);
     canvas.drawPath(path_15, paint15Fill);
 
     Path path_16 = Path();
@@ -14645,7 +14646,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_16.close();
 
     Paint paint16Fill = Paint()..style = PaintingStyle.fill;
-    paint16Fill.color = Color(0xff639100).withValues(alpha: 1.0);
+    paint16Fill.color = GameColors.islandPainterColor9.withValues(alpha: 1.0);
     canvas.drawPath(path_16, paint16Fill);
 
     Path path_17 = Path();
@@ -14655,7 +14656,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_17.close();
 
     Paint paint17Fill = Paint()..style = PaintingStyle.fill;
-    paint17Fill.color = Color(0xffD36F3B).withValues(alpha: 1.0);
+    paint17Fill.color = GameColors.islandPainterColor39.withValues(alpha: 1.0);
     canvas.drawPath(path_17, paint17Fill);
 
     Path path_18 = Path();
@@ -14689,7 +14690,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_18.close();
 
     Paint paint18Fill = Paint()..style = PaintingStyle.fill;
-    paint18Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint18Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_18, paint18Fill);
 
     Path path_19 = Path();
@@ -14706,7 +14707,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_19.close();
 
     Paint paint19Fill = Paint()..style = PaintingStyle.fill;
-    paint19Fill.color = Color(0xffE7792C).withValues(alpha: 1.0);
+    paint19Fill.color = GameColors.islandPainterColor47.withValues(alpha: 1.0);
     canvas.drawPath(path_19, paint19Fill);
 
     Path path_20 = Path();
@@ -14716,7 +14717,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_20.close();
 
     Paint paint20Fill = Paint()..style = PaintingStyle.fill;
-    paint20Fill.color = Color(0xffD36F3B).withValues(alpha: 1.0);
+    paint20Fill.color = GameColors.islandPainterColor39.withValues(alpha: 1.0);
     canvas.drawPath(path_20, paint20Fill);
 
     Path path_21 = Path();
@@ -14757,7 +14758,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_21.close();
 
     Paint paint21Fill = Paint()..style = PaintingStyle.fill;
-    paint21Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint21Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_21, paint21Fill);
 
     Path path_22 = Path();
@@ -14781,7 +14782,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_22.close();
 
     Paint paint22Fill = Paint()..style = PaintingStyle.fill;
-    paint22Fill.color = Color(0xffE7792C).withValues(alpha: 1.0);
+    paint22Fill.color = GameColors.islandPainterColor47.withValues(alpha: 1.0);
     canvas.drawPath(path_22, paint22Fill);
 
     Path path_23 = Path();
@@ -14807,7 +14808,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_23.close();
 
     Paint paint23Fill = Paint()..style = PaintingStyle.fill;
-    paint23Fill.color = Color(0xffFFDD81).withValues(alpha: 1.0);
+    paint23Fill.color = GameColors.islandPainterColor76.withValues(alpha: 1.0);
     canvas.drawPath(path_23, paint23Fill);
 
     Path path_24 = Path();
@@ -14840,7 +14841,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_24.close();
 
     Paint paint24Fill = Paint()..style = PaintingStyle.fill;
-    paint24Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint24Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_24, paint24Fill);
 
     Path path_25 = Path();
@@ -14878,10 +14879,10 @@ class SeventhIslandPainter extends CustomPainter {
       Offset(size.width * 0.2076753, size.height * 0.2696509),
       Offset(size.width * 0.2076753, size.height * 0.7056604),
       [
-        Color(0xffA93D54).withValues(alpha: 1),
-        Color(0xffAC454A).withValues(alpha: 1),
-        Color(0xffB3592E).withValues(alpha: 1),
-        Color(0xffB8661D).withValues(alpha: 1),
+        GameColors.islandPainterColor24.withValues(alpha: 1),
+        GameColors.islandPainterColor27.withValues(alpha: 1),
+        GameColors.islandPainterColor31.withValues(alpha: 1),
+        GameColors.islandPainterColor33.withValues(alpha: 1),
       ],
       [0, 0.277, 0.754, 1],
     );
@@ -14916,7 +14917,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_26.close();
 
     Paint paint26Fill = Paint()..style = PaintingStyle.fill;
-    paint26Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint26Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_26, paint26Fill);
 
     Path path_27 = Path();
@@ -14941,7 +14942,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_27.close();
 
     Paint paint27Fill = Paint()..style = PaintingStyle.fill;
-    paint27Fill.color = Color(0xffD96840).withValues(alpha: 1.0);
+    paint27Fill.color = GameColors.islandPainterColor40.withValues(alpha: 1.0);
     canvas.drawPath(path_27, paint27Fill);
 
     Path path_28 = Path();
@@ -15017,7 +15018,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_28.close();
 
     Paint paint28Fill = Paint()..style = PaintingStyle.fill;
-    paint28Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint28Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_28, paint28Fill);
 
     Path path_29 = Path();
@@ -15042,7 +15043,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_29.close();
 
     Paint paint29Fill = Paint()..style = PaintingStyle.fill;
-    paint29Fill.color = Color(0xffB2562B).withValues(alpha: 1.0);
+    paint29Fill.color = GameColors.islandPainterColor30.withValues(alpha: 1.0);
     canvas.drawPath(path_29, paint29Fill);
 
     Path path_30 = Path();
@@ -15077,7 +15078,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_30.close();
 
     Paint paint30Fill = Paint()..style = PaintingStyle.fill;
-    paint30Fill.color = Color(0xffEA8E40).withValues(alpha: 1.0);
+    paint30Fill.color = GameColors.islandPainterColor48.withValues(alpha: 1.0);
     canvas.drawPath(path_30, paint30Fill);
 
     Path path_31 = Path();
@@ -15109,7 +15110,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_31.close();
 
     Paint paint31Fill = Paint()..style = PaintingStyle.fill;
-    paint31Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint31Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_31, paint31Fill);
 
     Path path_32 = Path();
@@ -15127,7 +15128,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_32.close();
 
     Paint paint32Fill = Paint()..style = PaintingStyle.fill;
-    paint32Fill.color = Color(0xffEA8E40).withValues(alpha: 1.0);
+    paint32Fill.color = GameColors.islandPainterColor48.withValues(alpha: 1.0);
     canvas.drawPath(path_32, paint32Fill);
 
     Path path_33 = Path();
@@ -15209,7 +15210,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_33.close();
 
     Paint paint33Fill = Paint()..style = PaintingStyle.fill;
-    paint33Fill.color = Color(0xffEDE0A9).withValues(alpha: 1.0);
+    paint33Fill.color = GameColors.islandPainterColor51.withValues(alpha: 1.0);
     canvas.drawPath(path_33, paint33Fill);
 
     Path path_34 = Path();
@@ -15226,7 +15227,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_34.close();
 
     Paint paint34Fill = Paint()..style = PaintingStyle.fill;
-    paint34Fill.color = Color(0xffEDE0A9).withValues(alpha: 1.0);
+    paint34Fill.color = GameColors.islandPainterColor51.withValues(alpha: 1.0);
     canvas.drawPath(path_34, paint34Fill);
 
     Path path_35 = Path();
@@ -15316,7 +15317,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_35.close();
 
     Paint paint35Fill = Paint()..style = PaintingStyle.fill;
-    paint35Fill.color = Color(0xffCC81B3).withValues(alpha: 1.0);
+    paint35Fill.color = GameColors.islandPainterColor38.withValues(alpha: 1.0);
     canvas.drawPath(path_35, paint35Fill);
 
     Path path_36 = Path();
@@ -15333,7 +15334,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_36.close();
 
     Paint paint36Fill = Paint()..style = PaintingStyle.fill;
-    paint36Fill.color = Color(0xffEDE0A9).withValues(alpha: 1.0);
+    paint36Fill.color = GameColors.islandPainterColor51.withValues(alpha: 1.0);
     canvas.drawPath(path_36, paint36Fill);
 
     Path path_37 = Path();
@@ -15352,7 +15353,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_37.close();
 
     Paint paint37Fill = Paint()..style = PaintingStyle.fill;
-    paint37Fill.color = Color(0xffCC81B3).withValues(alpha: 1.0);
+    paint37Fill.color = GameColors.islandPainterColor38.withValues(alpha: 1.0);
     canvas.drawPath(path_37, paint37Fill);
 
     Path path_38 = Path();
@@ -15369,7 +15370,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_38.close();
 
     Paint paint38Fill = Paint()..style = PaintingStyle.fill;
-    paint38Fill.color = Color(0xffEDE0A9).withValues(alpha: 1.0);
+    paint38Fill.color = GameColors.islandPainterColor51.withValues(alpha: 1.0);
     canvas.drawPath(path_38, paint38Fill);
 
     Path path_39 = Path();
@@ -15395,7 +15396,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_39.close();
 
     Paint paint39Fill = Paint()..style = PaintingStyle.fill;
-    paint39Fill.color = Color(0xffCC81B3).withValues(alpha: 1.0);
+    paint39Fill.color = GameColors.islandPainterColor38.withValues(alpha: 1.0);
     canvas.drawPath(path_39, paint39Fill);
 
     Path path_40 = Path();
@@ -15419,7 +15420,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_40.close();
 
     Paint paint40Fill = Paint()..style = PaintingStyle.fill;
-    paint40Fill.color = Color(0xffEDE0A9).withValues(alpha: 1.0);
+    paint40Fill.color = GameColors.islandPainterColor51.withValues(alpha: 1.0);
     canvas.drawPath(path_40, paint40Fill);
 
     Path path_41 = Path();
@@ -15538,7 +15539,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_41.close();
 
     Paint paint41Fill = Paint()..style = PaintingStyle.fill;
-    paint41Fill.color = Color(0xffCC81B3).withValues(alpha: 1.0);
+    paint41Fill.color = GameColors.islandPainterColor38.withValues(alpha: 1.0);
     canvas.drawPath(path_41, paint41Fill);
 
     Path path_42 = Path();
@@ -15570,7 +15571,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_42.close();
 
     Paint paint42Fill = Paint()..style = PaintingStyle.fill;
-    paint42Fill.color = Color(0xffEDE0A9).withValues(alpha: 1.0);
+    paint42Fill.color = GameColors.islandPainterColor51.withValues(alpha: 1.0);
     canvas.drawPath(path_42, paint42Fill);
 
     Path path_43 = Path();
@@ -15648,7 +15649,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_43.close();
 
     Paint paint43Fill = Paint()..style = PaintingStyle.fill;
-    paint43Fill.color = Color(0xffCC81B3).withValues(alpha: 1.0);
+    paint43Fill.color = GameColors.islandPainterColor38.withValues(alpha: 1.0);
     canvas.drawPath(path_43, paint43Fill);
 
     Path path_44 = Path();
@@ -15658,7 +15659,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_44.close();
 
     Paint paint44Fill = Paint()..style = PaintingStyle.fill;
-    paint44Fill.color = Color(0xffEDE0A9).withValues(alpha: 1.0);
+    paint44Fill.color = GameColors.islandPainterColor51.withValues(alpha: 1.0);
     canvas.drawPath(path_44, paint44Fill);
 
     Path path_45 = Path();
@@ -15707,7 +15708,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_45.close();
 
     Paint paint45Fill = Paint()..style = PaintingStyle.fill;
-    paint45Fill.color = Color(0xffCC81B3).withValues(alpha: 1.0);
+    paint45Fill.color = GameColors.islandPainterColor38.withValues(alpha: 1.0);
     canvas.drawPath(path_45, paint45Fill);
 
     Path path_46 = Path();
@@ -15717,7 +15718,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_46.close();
 
     Paint paint46Fill = Paint()..style = PaintingStyle.fill;
-    paint46Fill.color = Color(0xffD36F3B).withValues(alpha: 1.0);
+    paint46Fill.color = GameColors.islandPainterColor39.withValues(alpha: 1.0);
     canvas.drawPath(path_46, paint46Fill);
 
     Path path_47 = Path();
@@ -15751,7 +15752,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_47.close();
 
     Paint paint47Fill = Paint()..style = PaintingStyle.fill;
-    paint47Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint47Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_47, paint47Fill);
 
     Path path_48 = Path();
@@ -15761,7 +15762,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_48.close();
 
     Paint paint48Fill = Paint()..style = PaintingStyle.fill;
-    paint48Fill.color = Color(0xffE7792C).withValues(alpha: 1.0);
+    paint48Fill.color = GameColors.islandPainterColor47.withValues(alpha: 1.0);
     canvas.drawPath(path_48, paint48Fill);
 
     Path path_49 = Path();
@@ -15901,7 +15902,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_49.close();
 
     Paint paint49Fill = Paint()..style = PaintingStyle.fill;
-    paint49Fill.color = Color(0xffB0FF00).withValues(alpha: 1.0);
+    paint49Fill.color = GameColors.islandPainterColor29.withValues(alpha: 1.0);
     canvas.drawPath(path_49, paint49Fill);
 
     Path path_50 = Path();
@@ -15911,7 +15912,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_50.close();
 
     Paint paint50Fill = Paint()..style = PaintingStyle.fill;
-    paint50Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint50Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_50, paint50Fill);
 
     Path path_51 = Path();
@@ -15934,12 +15935,12 @@ class SeventhIslandPainter extends CustomPainter {
       Offset(size.width * 0.2351883, size.height * 0.6343774),
       Offset(size.width * 0.3025584, size.height * 0.3871792),
       [
-        Color(0xffFF9572).withValues(alpha: 1),
-        Color(0xffFF9271).withValues(alpha: 1),
-        Color(0xffFF5465).withValues(alpha: 1),
-        Color(0xffFF265C).withValues(alpha: 1),
-        Color(0xffFF0A56).withValues(alpha: 1),
-        Color(0xffFF0054).withValues(alpha: 1),
+        GameColors.islandPainterColor67.withValues(alpha: 1),
+        GameColors.islandPainterColor66.withValues(alpha: 1),
+        GameColors.islandPainterColor65.withValues(alpha: 1),
+        GameColors.islandPainterColor64.withValues(alpha: 1),
+        GameColors.islandPainterColor63.withValues(alpha: 1),
+        GameColors.islandPainterColor62.withValues(alpha: 1),
       ],
       [0, 0.017, 0.359, 0.648, 0.871, 1],
     );
@@ -15974,7 +15975,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_52.close();
 
     Paint paint52Fill = Paint()..style = PaintingStyle.fill;
-    paint52Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint52Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_52, paint52Fill);
 
     Path path_53 = Path();
@@ -16014,7 +16015,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_53.close();
 
     Paint paint53Fill = Paint()..style = PaintingStyle.fill;
-    paint53Fill.color = Color(0xffFFA7FF).withValues(alpha: 1.0);
+    paint53Fill.color = GameColors.islandPainterColor68.withValues(alpha: 1.0);
     canvas.drawPath(path_53, paint53Fill);
 
     Path path_54 = Path();
@@ -16054,7 +16055,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_54.close();
 
     Paint paint54Fill = Paint()..style = PaintingStyle.fill;
-    paint54Fill.color = Color(0xffFFA7FF).withValues(alpha: 1.0);
+    paint54Fill.color = GameColors.islandPainterColor68.withValues(alpha: 1.0);
     canvas.drawPath(path_54, paint54Fill);
 
     Path path_55 = Path();
@@ -16086,7 +16087,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_55.close();
 
     Paint paint55Fill = Paint()..style = PaintingStyle.fill;
-    paint55Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint55Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_55, paint55Fill);
 
     Path path_56 = Path();
@@ -16116,7 +16117,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_56.close();
 
     Paint paint56Fill = Paint()..style = PaintingStyle.fill;
-    paint56Fill.color = Colors.yellow.withValues(alpha: 1.0);
+    paint56Fill.color = GameColors.yellow.withValues(alpha: 1.0);
     canvas.drawPath(path_56, paint56Fill);
 
     Path path_57 = Path();
@@ -16134,7 +16135,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_57.close();
 
     Paint paint57Fill = Paint()..style = PaintingStyle.fill;
-    paint57Fill.color = Color(0xffFFB5E8).withValues(alpha: 1.0);
+    paint57Fill.color = GameColors.islandPainterColor71.withValues(alpha: 1.0);
     canvas.drawPath(path_57, paint57Fill);
 
     Path path_58 = Path();
@@ -16152,7 +16153,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_58.close();
 
     Paint paint58Fill = Paint()..style = PaintingStyle.fill;
-    paint58Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint58Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_58, paint58Fill);
 
     Path path_59 = Path();
@@ -16182,12 +16183,12 @@ class SeventhIslandPainter extends CustomPainter {
       Offset(size.width * 0.3337208, size.height * 0.6313774),
       Offset(size.width * 0.3667013, size.height * 0.5103491),
       [
-        Color(0xffFF9572).withValues(alpha: 1),
-        Color(0xffFF9271).withValues(alpha: 1),
-        Color(0xffFF5465).withValues(alpha: 1),
-        Color(0xffFF265C).withValues(alpha: 1),
-        Color(0xffFF0A56).withValues(alpha: 1),
-        Color(0xffFF0054).withValues(alpha: 1),
+        GameColors.islandPainterColor67.withValues(alpha: 1),
+        GameColors.islandPainterColor66.withValues(alpha: 1),
+        GameColors.islandPainterColor65.withValues(alpha: 1),
+        GameColors.islandPainterColor64.withValues(alpha: 1),
+        GameColors.islandPainterColor63.withValues(alpha: 1),
+        GameColors.islandPainterColor62.withValues(alpha: 1),
       ],
       [0, 0.017, 0.359, 0.648, 0.871, 1],
     );
@@ -16208,7 +16209,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_60.close();
 
     Paint paint60Fill = Paint()..style = PaintingStyle.fill;
-    paint60Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint60Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_60, paint60Fill);
 
     Path path_61 = Path();
@@ -16248,7 +16249,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_61.close();
 
     Paint paint61Fill = Paint()..style = PaintingStyle.fill;
-    paint61Fill.color = Color(0xffFFA7FF).withValues(alpha: 1.0);
+    paint61Fill.color = GameColors.islandPainterColor68.withValues(alpha: 1.0);
     canvas.drawPath(path_61, paint61Fill);
 
     Path path_62 = Path();
@@ -16288,7 +16289,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_62.close();
 
     Paint paint62Fill = Paint()..style = PaintingStyle.fill;
-    paint62Fill.color = Color(0xffFFA7FF).withValues(alpha: 1.0);
+    paint62Fill.color = GameColors.islandPainterColor68.withValues(alpha: 1.0);
     canvas.drawPath(path_62, paint62Fill);
 
     Path path_63 = Path();
@@ -16321,7 +16322,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_63.close();
 
     Paint paint63Fill = Paint()..style = PaintingStyle.fill;
-    paint63Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint63Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_63, paint63Fill);
 
     Path path_64 = Path();
@@ -16337,7 +16338,7 @@ class SeventhIslandPainter extends CustomPainter {
     path_64.close();
 
     Paint paint64Fill = Paint()..style = PaintingStyle.fill;
-    paint64Fill.color = Colors.yellow.withValues(alpha: 1.0);
+    paint64Fill.color = GameColors.yellow.withValues(alpha: 1.0);
     canvas.drawPath(path_64, paint64Fill);
   }
 
@@ -16464,10 +16465,10 @@ class EighthIslandPainter extends CustomPainter {
       Offset(size.width * 0.4980630, size.height * 0.9982900),
       Offset(size.width * 0.4980630, size.height * 0.04988000),
       [
-        Color(0xff63902F).withValues(alpha: 1),
-        Color(0xff84B017).withValues(alpha: 1),
-        Color(0xff99C508).withValues(alpha: 1),
-        Color(0xffA1CC02).withValues(alpha: 1),
+        GameColors.islandPainterColor8.withValues(alpha: 1),
+        GameColors.islandPainterColor12.withValues(alpha: 1),
+        GameColors.islandPainterColor17.withValues(alpha: 1),
+        GameColors.islandPainterColor21.withValues(alpha: 1),
       ],
       [0, 0.417, 0.769, 1],
     );
@@ -16522,12 +16523,12 @@ class EighthIslandPainter extends CustomPainter {
       Offset(size.width * 0.4980630, size.height * 0.9982900),
       Offset(size.width * 0.4980630, size.height * 0.4083800),
       [
-        Color(0xffBA5270).withValues(alpha: 1),
-        Color(0xffC56D76).withValues(alpha: 1),
-        Color(0xffDEAB83).withValues(alpha: 1),
-        Color(0xffF0D98D).withValues(alpha: 1),
-        Color(0xffFBF593).withValues(alpha: 1),
-        Color(0xffFFFF95).withValues(alpha: 1),
+        GameColors.islandPainterColor34.withValues(alpha: 1),
+        GameColors.islandPainterColor36.withValues(alpha: 1),
+        GameColors.islandPainterColor42.withValues(alpha: 1),
+        GameColors.islandPainterColor52.withValues(alpha: 1),
+        GameColors.islandPainterColor58.withValues(alpha: 1),
+        GameColors.islandPainterColor77.withValues(alpha: 1),
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
@@ -16574,12 +16575,12 @@ class EighthIslandPainter extends CustomPainter {
       Offset(size.width * 0.4982835, size.height * 0.9982900),
       Offset(size.width * 0.4982835, size.height * 0.7489400),
       [
-        Color(0xffBA5270).withValues(alpha: 1),
-        Color(0xffC56D76).withValues(alpha: 1),
-        Color(0xffDEAB83).withValues(alpha: 1),
-        Color(0xffF0D98D).withValues(alpha: 1),
-        Color(0xffFBF593).withValues(alpha: 1),
-        Color(0xffFFFF95).withValues(alpha: 1),
+        GameColors.islandPainterColor34.withValues(alpha: 1),
+        GameColors.islandPainterColor36.withValues(alpha: 1),
+        GameColors.islandPainterColor42.withValues(alpha: 1),
+        GameColors.islandPainterColor52.withValues(alpha: 1),
+        GameColors.islandPainterColor58.withValues(alpha: 1),
+        GameColors.islandPainterColor77.withValues(alpha: 1),
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
@@ -16635,10 +16636,10 @@ class EighthIslandPainter extends CustomPainter {
       Offset(size.width * 0.5001024, size.height * 0.8353800),
       Offset(size.width * 0.5001024, size.height * 0.09196000),
       [
-        Color(0xff63902F).withValues(alpha: 1),
-        Color(0xff84B017).withValues(alpha: 1),
-        Color(0xff99C508).withValues(alpha: 1),
-        Color(0xffA1CC02).withValues(alpha: 1),
+        GameColors.islandPainterColor8.withValues(alpha: 1),
+        GameColors.islandPainterColor12.withValues(alpha: 1),
+        GameColors.islandPainterColor17.withValues(alpha: 1),
+        GameColors.islandPainterColor21.withValues(alpha: 1),
       ],
       [0, 0.417, 0.769, 1],
     );
@@ -16694,11 +16695,11 @@ class EighthIslandPainter extends CustomPainter {
       Offset(size.width * 0.4990945, size.height * 0.8527300),
       Offset(size.width * 0.4990945, size.height * 0.4333800),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -16745,11 +16746,11 @@ class EighthIslandPainter extends CustomPainter {
       Offset(size.width * 0.2139921, size.height * 0.3213200),
       Offset(size.width * 0.2139921, size.height * 0.1739200),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -16784,7 +16785,7 @@ class EighthIslandPainter extends CustomPainter {
     path_6.close();
 
     Paint paint6Fill = Paint()..style = PaintingStyle.fill;
-    paint6Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint6Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
@@ -16842,7 +16843,7 @@ class EighthIslandPainter extends CustomPainter {
     path_7.close();
 
     Paint paint7Fill = Paint()..style = PaintingStyle.fill;
-    paint7Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint7Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
@@ -16863,11 +16864,11 @@ class EighthIslandPainter extends CustomPainter {
       Offset(size.width * 0.4393780, size.height * 0.2054000),
       Offset(size.width * 0.2515591, size.height * 0.1536100),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -16903,7 +16904,7 @@ class EighthIslandPainter extends CustomPainter {
     path_9.close();
 
     Paint paint9Fill = Paint()..style = PaintingStyle.fill;
-    paint9Fill.color = Color(0xff9BB900).withValues(alpha: 1.0);
+    paint9Fill.color = GameColors.islandPainterColor19.withValues(alpha: 1.0);
     canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
@@ -16931,11 +16932,11 @@ class EighthIslandPainter extends CustomPainter {
       Offset(size.width * 0.7204252, size.height * 0.7337100),
       Offset(size.width * 0.5570315, size.height * 0.6886400),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -16964,7 +16965,7 @@ class EighthIslandPainter extends CustomPainter {
     path_11.close();
 
     Paint paint11Fill = Paint()..style = PaintingStyle.fill;
-    paint11Fill.color = Color(0xffFFB04B).withValues(alpha: 1.0);
+    paint11Fill.color = GameColors.islandPainterColor69.withValues(alpha: 1.0);
     canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
@@ -16981,7 +16982,7 @@ class EighthIslandPainter extends CustomPainter {
     path_12.close();
 
     Paint paint12Fill = Paint()..style = PaintingStyle.fill;
-    paint12Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint12Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_12, paint12Fill);
 
     Path path_13 = Path();
@@ -17005,7 +17006,7 @@ class EighthIslandPainter extends CustomPainter {
     path_13.close();
 
     Paint paint13Fill = Paint()..style = PaintingStyle.fill;
-    paint13Fill.color = Color(0xffFFDD81).withValues(alpha: 1.0);
+    paint13Fill.color = GameColors.islandPainterColor76.withValues(alpha: 1.0);
     canvas.drawPath(path_13, paint13Fill);
 
     Path path_14 = Path();
@@ -17045,7 +17046,7 @@ class EighthIslandPainter extends CustomPainter {
     path_14.close();
 
     Paint paint14Fill = Paint()..style = PaintingStyle.fill;
-    paint14Fill.color = Color(0xffFFDD81).withValues(alpha: 1.0);
+    paint14Fill.color = GameColors.islandPainterColor76.withValues(alpha: 1.0);
     canvas.drawPath(path_14, paint14Fill);
 
     Path path_15 = Path();
@@ -17093,7 +17094,7 @@ class EighthIslandPainter extends CustomPainter {
     path_15.close();
 
     Paint paint15Fill = Paint()..style = PaintingStyle.fill;
-    paint15Fill.color = Color(0xffFFDD81).withValues(alpha: 1.0);
+    paint15Fill.color = GameColors.islandPainterColor76.withValues(alpha: 1.0);
     canvas.drawPath(path_15, paint15Fill);
 
     Path path_16 = Path();
@@ -17118,7 +17119,7 @@ class EighthIslandPainter extends CustomPainter {
     path_16.close();
 
     Paint paint16Fill = Paint()..style = PaintingStyle.fill;
-    paint16Fill.color = Color(0xffFFDD81).withValues(alpha: 1.0);
+    paint16Fill.color = GameColors.islandPainterColor76.withValues(alpha: 1.0);
     canvas.drawPath(path_16, paint16Fill);
 
     Path path_17 = Path();
@@ -17173,7 +17174,7 @@ class EighthIslandPainter extends CustomPainter {
     path_17.close();
 
     Paint paint17Fill = Paint()..style = PaintingStyle.fill;
-    paint17Fill.color = Color(0xffEDE0A9).withValues(alpha: 1.0);
+    paint17Fill.color = GameColors.islandPainterColor51.withValues(alpha: 1.0);
     canvas.drawPath(path_17, paint17Fill);
 
     Path path_18 = Path();
@@ -17205,7 +17206,7 @@ class EighthIslandPainter extends CustomPainter {
     path_18.close();
 
     Paint paint18Fill = Paint()..style = PaintingStyle.fill;
-    paint18Fill.color = Color(0xffEDE0A9).withValues(alpha: 1.0);
+    paint18Fill.color = GameColors.islandPainterColor51.withValues(alpha: 1.0);
     canvas.drawPath(path_18, paint18Fill);
 
     Path path_19 = Path();
@@ -17345,7 +17346,7 @@ class EighthIslandPainter extends CustomPainter {
     path_19.close();
 
     Paint paint19Fill = Paint()..style = PaintingStyle.fill;
-    paint19Fill.color = Color(0xffCC81B3).withValues(alpha: 1.0);
+    paint19Fill.color = GameColors.islandPainterColor38.withValues(alpha: 1.0);
     canvas.drawPath(path_19, paint19Fill);
 
     Path path_20 = Path();
@@ -17377,7 +17378,7 @@ class EighthIslandPainter extends CustomPainter {
     path_20.close();
 
     Paint paint20Fill = Paint()..style = PaintingStyle.fill;
-    paint20Fill.color = Color(0xffEDE0A9).withValues(alpha: 1.0);
+    paint20Fill.color = GameColors.islandPainterColor51.withValues(alpha: 1.0);
     canvas.drawPath(path_20, paint20Fill);
 
     Path path_21 = Path();
@@ -17425,7 +17426,7 @@ class EighthIslandPainter extends CustomPainter {
     path_21.close();
 
     Paint paint21Fill = Paint()..style = PaintingStyle.fill;
-    paint21Fill.color = Color(0xffCC81B3).withValues(alpha: 1.0);
+    paint21Fill.color = GameColors.islandPainterColor38.withValues(alpha: 1.0);
     canvas.drawPath(path_21, paint21Fill);
 
     Path path_22 = Path();
@@ -17449,7 +17450,7 @@ class EighthIslandPainter extends CustomPainter {
     path_22.close();
 
     Paint paint22Fill = Paint()..style = PaintingStyle.fill;
-    paint22Fill.color = Color(0xffD36F3B).withValues(alpha: 1.0);
+    paint22Fill.color = GameColors.islandPainterColor39.withValues(alpha: 1.0);
     canvas.drawPath(path_22, paint22Fill);
 
     Path path_23 = Path();
@@ -17497,7 +17498,7 @@ class EighthIslandPainter extends CustomPainter {
     path_23.close();
 
     Paint paint23Fill = Paint()..style = PaintingStyle.fill;
-    paint23Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint23Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_23, paint23Fill);
 
     Path path_24 = Path();
@@ -17521,7 +17522,7 @@ class EighthIslandPainter extends CustomPainter {
     path_24.close();
 
     Paint paint24Fill = Paint()..style = PaintingStyle.fill;
-    paint24Fill.color = Color(0xffE7792C).withValues(alpha: 1.0);
+    paint24Fill.color = GameColors.islandPainterColor47.withValues(alpha: 1.0);
     canvas.drawPath(path_24, paint24Fill);
 
     Path path_25 = Path();
@@ -17571,7 +17572,7 @@ class EighthIslandPainter extends CustomPainter {
     path_25.close();
 
     Paint paint25Fill = Paint()..style = PaintingStyle.fill;
-    paint25Fill.color = Color(0xffD36F3B).withValues(alpha: 1.0);
+    paint25Fill.color = GameColors.islandPainterColor39.withValues(alpha: 1.0);
     canvas.drawPath(path_25, paint25Fill);
 
     Path path_26 = Path();
@@ -17661,7 +17662,7 @@ class EighthIslandPainter extends CustomPainter {
     path_26.close();
 
     Paint paint26Fill = Paint()..style = PaintingStyle.fill;
-    paint26Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint26Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_26, paint26Fill);
 
     Path path_27 = Path();
@@ -17705,7 +17706,7 @@ class EighthIslandPainter extends CustomPainter {
     path_27.close();
 
     Paint paint27Fill = Paint()..style = PaintingStyle.fill;
-    paint27Fill.color = Color(0xffE7792C).withValues(alpha: 1.0);
+    paint27Fill.color = GameColors.islandPainterColor47.withValues(alpha: 1.0);
     canvas.drawPath(path_27, paint27Fill);
 
     Path path_28 = Path();
@@ -17731,7 +17732,7 @@ class EighthIslandPainter extends CustomPainter {
     path_28.close();
 
     Paint paint28Fill = Paint()..style = PaintingStyle.fill;
-    paint28Fill.color = Color(0xffA990D4).withValues(alpha: 1.0);
+    paint28Fill.color = GameColors.islandPainterColor25.withValues(alpha: 1.0);
     canvas.drawPath(path_28, paint28Fill);
 
     Path path_29 = Path();
@@ -17828,7 +17829,7 @@ class EighthIslandPainter extends CustomPainter {
     path_29.close();
 
     Paint paint29Fill = Paint()..style = PaintingStyle.fill;
-    paint29Fill.color = Color(0xffEABA13).withValues(alpha: 1.0);
+    paint29Fill.color = GameColors.islandPainterColor49.withValues(alpha: 1.0);
     canvas.drawPath(path_29, paint29Fill);
 
     Path path_30 = Path();
@@ -17905,10 +17906,10 @@ class EighthIslandPainter extends CustomPainter {
       Offset(size.width * 0.6572992, size.height * 0.3292500),
       Offset(size.width * 0.6375039, size.height * 0.01121000),
       [
-        Color(0xff5C9020).withValues(alpha: 1),
-        Color(0xff669919).withValues(alpha: 1),
-        Color(0xff82AF05).withValues(alpha: 1),
-        Color(0xff89B500).withValues(alpha: 1),
+        GameColors.islandPainterColor6.withValues(alpha: 1),
+        GameColors.islandPainterColor10.withValues(alpha: 1),
+        GameColors.islandPainterColor11.withValues(alpha: 1),
+        GameColors.islandPainterColor14.withValues(alpha: 1),
       ],
       [0, 0.324, 0.879, 1],
     );
@@ -17955,12 +17956,12 @@ class EighthIslandPainter extends CustomPainter {
       Offset(size.width * 0.6482992, size.height * 0.3084300),
       Offset(size.width * 0.6300236, size.height * 0.01474000),
       [
-        Color(0xffAE9D24).withValues(alpha: 1),
-        Color(0xffC9BD6C).withValues(alpha: 1),
-        Color(0xffE0DAAB).withValues(alpha: 1),
-        Color(0xffF1EED9).withValues(alpha: 1),
-        Color(0xffFBFAF5).withValues(alpha: 1),
-        Color(0xffffffff).withValues(alpha: 1),
+        GameColors.islandPainterColor28.withValues(alpha: 1),
+        GameColors.islandPainterColor37.withValues(alpha: 1),
+        GameColors.islandPainterColor45.withValues(alpha: 1),
+        GameColors.islandPainterColor54.withValues(alpha: 1),
+        GameColors.islandPainterColor59.withValues(alpha: 1),
+        GameColors.whiteSolid.withValues(alpha: 1),
       ],
       [0, 0.265, 0.522, 0.738, 0.904, 1],
     );
@@ -18047,7 +18048,7 @@ class EighthIslandPainter extends CustomPainter {
     path_32.close();
 
     Paint paint32Fill = Paint()..style = PaintingStyle.fill;
-    paint32Fill.color = Color(0xffA1B3D4).withValues(alpha: 1.0);
+    paint32Fill.color = GameColors.islandPainterColor20.withValues(alpha: 1.0);
     canvas.drawPath(path_32, paint32Fill);
 
     Path path_33 = Path();
@@ -18079,7 +18080,7 @@ class EighthIslandPainter extends CustomPainter {
     path_33.close();
 
     Paint paint33Fill = Paint()..style = PaintingStyle.fill;
-    paint33Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint33Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_33, paint33Fill);
 
     Path path_34 = Path();
@@ -18115,10 +18116,10 @@ class EighthIslandPainter extends CustomPainter {
       Offset(size.width * 0.5409528, size.height * 0.4224000),
       Offset(size.width * 0.6027559, size.height * 0.2323300),
       [
-        Color(0xffA93D54).withValues(alpha: 1),
-        Color(0xffAC454A).withValues(alpha: 1),
-        Color(0xffB3592E).withValues(alpha: 1),
-        Color(0xffB8661D).withValues(alpha: 1),
+        GameColors.islandPainterColor24.withValues(alpha: 1),
+        GameColors.islandPainterColor27.withValues(alpha: 1),
+        GameColors.islandPainterColor31.withValues(alpha: 1),
+        GameColors.islandPainterColor33.withValues(alpha: 1),
       ],
       [0, 0.277, 0.754, 1],
     );
@@ -18150,10 +18151,10 @@ class EighthIslandPainter extends CustomPainter {
       Offset(size.width * 0.8496535, size.height * 0.6250300),
       Offset(size.width * 0.8121102, size.height * 0.5095800),
       [
-        Color(0xffA93D54).withValues(alpha: 1),
-        Color(0xffAC454A).withValues(alpha: 1),
-        Color(0xffB3592E).withValues(alpha: 1),
-        Color(0xffB8661D).withValues(alpha: 1),
+        GameColors.islandPainterColor24.withValues(alpha: 1),
+        GameColors.islandPainterColor27.withValues(alpha: 1),
+        GameColors.islandPainterColor31.withValues(alpha: 1),
+        GameColors.islandPainterColor33.withValues(alpha: 1),
       ],
       [0, 0.277, 0.754, 1],
     );
@@ -18200,7 +18201,7 @@ class EighthIslandPainter extends CustomPainter {
     path_36.close();
 
     Paint paint36Fill = Paint()..style = PaintingStyle.fill;
-    paint36Fill.color = Color(0xffD96840).withValues(alpha: 1.0);
+    paint36Fill.color = GameColors.islandPainterColor40.withValues(alpha: 1.0);
     canvas.drawPath(path_36, paint36Fill);
 
     Path path_37 = Path();
@@ -18254,7 +18255,7 @@ class EighthIslandPainter extends CustomPainter {
     path_37.close();
 
     Paint paint37Fill = Paint()..style = PaintingStyle.fill;
-    paint37Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint37Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_37, paint37Fill);
 
     Path path_38 = Path();
@@ -18312,7 +18313,7 @@ class EighthIslandPainter extends CustomPainter {
     path_38.close();
 
     Paint paint38Fill = Paint()..style = PaintingStyle.fill;
-    paint38Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint38Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_38, paint38Fill);
 
     Path path_39 = Path();
@@ -18363,7 +18364,7 @@ class EighthIslandPainter extends CustomPainter {
     path_39.close();
 
     Paint paint39Fill = Paint()..style = PaintingStyle.fill;
-    paint39Fill.color = Color(0xffB2562B).withValues(alpha: 1.0);
+    paint39Fill.color = GameColors.islandPainterColor30.withValues(alpha: 1.0);
     canvas.drawPath(path_39, paint39Fill);
 
     Path path_40 = Path();
@@ -18424,7 +18425,7 @@ class EighthIslandPainter extends CustomPainter {
     path_40.close();
 
     Paint paint40Fill = Paint()..style = PaintingStyle.fill;
-    paint40Fill.color = Color(0xffEA8E40).withValues(alpha: 1.0);
+    paint40Fill.color = GameColors.islandPainterColor48.withValues(alpha: 1.0);
     canvas.drawPath(path_40, paint40Fill);
 
     Path path_41 = Path();
@@ -18532,7 +18533,7 @@ class EighthIslandPainter extends CustomPainter {
     path_41.close();
 
     Paint paint41Fill = Paint()..style = PaintingStyle.fill;
-    paint41Fill.color = Color(0xffB0FF00).withValues(alpha: 1.0);
+    paint41Fill.color = GameColors.islandPainterColor29.withValues(alpha: 1.0);
     canvas.drawPath(path_41, paint41Fill);
 
     Path path_42 = Path();
@@ -18542,7 +18543,7 @@ class EighthIslandPainter extends CustomPainter {
     path_42.close();
 
     Paint paint42Fill = Paint()..style = PaintingStyle.fill;
-    paint42Fill.color = Color(0xffB0FF00).withValues(alpha: 1.0);
+    paint42Fill.color = GameColors.islandPainterColor29.withValues(alpha: 1.0);
     canvas.drawPath(path_42, paint42Fill);
 
     Path path_43 = Path();
@@ -18566,7 +18567,7 @@ class EighthIslandPainter extends CustomPainter {
     path_43.close();
 
     Paint paint43Fill = Paint()..style = PaintingStyle.fill;
-    paint43Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint43Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_43, paint43Fill);
 
     Path path_44 = Path();
@@ -18610,12 +18611,12 @@ class EighthIslandPainter extends CustomPainter {
       Offset(size.width * 0.4821102, size.height * 0.5217700),
       Offset(size.width * 0.5125197, size.height * 0.2630000),
       [
-        Color(0xffFF9572).withValues(alpha: 1),
-        Color(0xffFF9271).withValues(alpha: 1),
-        Color(0xffFF5465).withValues(alpha: 1),
-        Color(0xffFF265C).withValues(alpha: 1),
-        Color(0xffFF0A56).withValues(alpha: 1),
-        Color(0xffFF0054).withValues(alpha: 1),
+        GameColors.islandPainterColor67.withValues(alpha: 1),
+        GameColors.islandPainterColor66.withValues(alpha: 1),
+        GameColors.islandPainterColor65.withValues(alpha: 1),
+        GameColors.islandPainterColor64.withValues(alpha: 1),
+        GameColors.islandPainterColor63.withValues(alpha: 1),
+        GameColors.islandPainterColor62.withValues(alpha: 1),
       ],
       [0, 0.017, 0.359, 0.648, 0.871, 1],
     );
@@ -18643,7 +18644,7 @@ class EighthIslandPainter extends CustomPainter {
     path_45.close();
 
     Paint paint45Fill = Paint()..style = PaintingStyle.fill;
-    paint45Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint45Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_45, paint45Fill);
 
     Path path_46 = Path();
@@ -18683,7 +18684,7 @@ class EighthIslandPainter extends CustomPainter {
     path_46.close();
 
     Paint paint46Fill = Paint()..style = PaintingStyle.fill;
-    paint46Fill.color = Color(0xffFFA7FF).withValues(alpha: 1.0);
+    paint46Fill.color = GameColors.islandPainterColor68.withValues(alpha: 1.0);
     canvas.drawPath(path_46, paint46Fill);
 
     Path path_47 = Path();
@@ -18709,7 +18710,7 @@ class EighthIslandPainter extends CustomPainter {
     path_47.close();
 
     Paint paint47Fill = Paint()..style = PaintingStyle.fill;
-    paint47Fill.color = Color(0xffFFA7FF).withValues(alpha: 1.0);
+    paint47Fill.color = GameColors.islandPainterColor68.withValues(alpha: 1.0);
     canvas.drawPath(path_47, paint47Fill);
 
     Path path_48 = Path();
@@ -18742,7 +18743,7 @@ class EighthIslandPainter extends CustomPainter {
     path_48.close();
 
     Paint paint48Fill = Paint()..style = PaintingStyle.fill;
-    paint48Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint48Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_48, paint48Fill);
 
     Path path_49 = Path();
@@ -18786,7 +18787,7 @@ class EighthIslandPainter extends CustomPainter {
     path_49.close();
 
     Paint paint49Fill = Paint()..style = PaintingStyle.fill;
-    paint49Fill.color = Colors.yellow.withValues(alpha: 1.0);
+    paint49Fill.color = GameColors.yellow.withValues(alpha: 1.0);
     canvas.drawPath(path_49, paint49Fill);
 
     Path path_50 = Path();
@@ -18810,7 +18811,7 @@ class EighthIslandPainter extends CustomPainter {
     path_50.close();
 
     Paint paint50Fill = Paint()..style = PaintingStyle.fill;
-    paint50Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint50Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_50, paint50Fill);
 
     Path path_51 = Path();
@@ -18846,12 +18847,12 @@ class EighthIslandPainter extends CustomPainter {
       Offset(size.width * 0.3224488, size.height * 0.5468800),
       Offset(size.width * 0.3342283, size.height * 0.4416000),
       [
-        Color(0xffFF9572).withValues(alpha: 1),
-        Color(0xffFF9271).withValues(alpha: 1),
-        Color(0xffFF5465).withValues(alpha: 1),
-        Color(0xffFF265C).withValues(alpha: 1),
-        Color(0xffFF0A56).withValues(alpha: 1),
-        Color(0xffFF0054).withValues(alpha: 1),
+        GameColors.islandPainterColor67.withValues(alpha: 1),
+        GameColors.islandPainterColor66.withValues(alpha: 1),
+        GameColors.islandPainterColor65.withValues(alpha: 1),
+        GameColors.islandPainterColor64.withValues(alpha: 1),
+        GameColors.islandPainterColor63.withValues(alpha: 1),
+        GameColors.islandPainterColor62.withValues(alpha: 1),
       ],
       [0, 0.017, 0.359, 0.648, 0.871, 1],
     );
@@ -18865,7 +18866,7 @@ class EighthIslandPainter extends CustomPainter {
     path_52.close();
 
     Paint paint52Fill = Paint()..style = PaintingStyle.fill;
-    paint52Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint52Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_52, paint52Fill);
 
     Path path_53 = Path();
@@ -18877,7 +18878,7 @@ class EighthIslandPainter extends CustomPainter {
     path_53.close();
 
     Paint paint53Fill = Paint()..style = PaintingStyle.fill;
-    paint53Fill.color = Color(0xffFFA7FF).withValues(alpha: 1.0);
+    paint53Fill.color = GameColors.islandPainterColor68.withValues(alpha: 1.0);
     canvas.drawPath(path_53, paint53Fill);
 
     Path path_54 = Path();
@@ -18910,7 +18911,7 @@ class EighthIslandPainter extends CustomPainter {
     path_54.close();
 
     Paint paint54Fill = Paint()..style = PaintingStyle.fill;
-    paint54Fill.color = Color(0xffFFA7FF).withValues(alpha: 1.0);
+    paint54Fill.color = GameColors.islandPainterColor68.withValues(alpha: 1.0);
     canvas.drawPath(path_54, paint54Fill);
 
     Path path_55 = Path();
@@ -18942,7 +18943,7 @@ class EighthIslandPainter extends CustomPainter {
     path_55.close();
 
     Paint paint55Fill = Paint()..style = PaintingStyle.fill;
-    paint55Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint55Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_55, paint55Fill);
 
     Path path_56 = Path();
@@ -18979,7 +18980,7 @@ class EighthIslandPainter extends CustomPainter {
     path_56.close();
 
     Paint paint56Fill = Paint()..style = PaintingStyle.fill;
-    paint56Fill.color = Colors.yellow.withValues(alpha: 1.0);
+    paint56Fill.color = GameColors.yellow.withValues(alpha: 1.0);
     canvas.drawPath(path_56, paint56Fill);
   }
 
@@ -19092,10 +19093,10 @@ class NinthIslandPainter extends CustomPainter {
       Offset(size.width * 0.4461413, size.height * 1.011875),
       Offset(size.width * 0.5893587, size.height * 0.04639583),
       [
-        Color(0xff63902F).withValues(alpha: 1),
-        Color(0xff84B017).withValues(alpha: 1),
-        Color(0xff99C508).withValues(alpha: 1),
-        Color(0xffA1CC02).withValues(alpha: 1),
+        GameColors.islandPainterColor8.withValues(alpha: 1),
+        GameColors.islandPainterColor12.withValues(alpha: 1),
+        GameColors.islandPainterColor17.withValues(alpha: 1),
+        GameColors.islandPainterColor21.withValues(alpha: 1),
       ],
       [0, 0.417, 0.769, 1],
     );
@@ -19161,10 +19162,10 @@ class NinthIslandPainter extends CustomPainter {
       Offset(size.width * 0.1539239, size.height * 1.048281),
       Offset(size.width * 0.3119239, size.height * -1.684375),
       [
-        Color(0xff63902F).withValues(alpha: 1),
-        Color(0xff84B017).withValues(alpha: 1),
-        Color(0xff99C508).withValues(alpha: 1),
-        Color(0xffA1CC02).withValues(alpha: 1),
+        GameColors.islandPainterColor8.withValues(alpha: 1),
+        GameColors.islandPainterColor12.withValues(alpha: 1),
+        GameColors.islandPainterColor17.withValues(alpha: 1),
+        GameColors.islandPainterColor21.withValues(alpha: 1),
       ],
       [0, 0.417, 0.769, 1],
     );
@@ -19228,12 +19229,12 @@ class NinthIslandPainter extends CustomPainter {
       Offset(size.width * 0.4968913, size.height * 0.9967708),
       Offset(size.width * 0.4968913, size.height * 0.5756562),
       [
-        Color(0xffBA5270).withValues(alpha: 1),
-        Color(0xffC56D76).withValues(alpha: 1),
-        Color(0xffDEAB83).withValues(alpha: 1),
-        Color(0xffF0D98D).withValues(alpha: 1),
-        Color(0xffFBF593).withValues(alpha: 1),
-        Color(0xffFFFF95).withValues(alpha: 1),
+        GameColors.islandPainterColor34.withValues(alpha: 1),
+        GameColors.islandPainterColor36.withValues(alpha: 1),
+        GameColors.islandPainterColor42.withValues(alpha: 1),
+        GameColors.islandPainterColor52.withValues(alpha: 1),
+        GameColors.islandPainterColor58.withValues(alpha: 1),
+        GameColors.islandPainterColor77.withValues(alpha: 1),
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
@@ -19274,12 +19275,12 @@ class NinthIslandPainter extends CustomPainter {
       Offset(size.width * 0.1137065, size.height * 0.3305729),
       Offset(size.width * 0.1137065, size.height * 0.1322292),
       [
-        Color(0xffBA5270).withValues(alpha: 1),
-        Color(0xffC56D76).withValues(alpha: 1),
-        Color(0xffDEAB83).withValues(alpha: 1),
-        Color(0xffF0D98D).withValues(alpha: 1),
-        Color(0xffFBF593).withValues(alpha: 1),
-        Color(0xffFFFF95).withValues(alpha: 1),
+        GameColors.islandPainterColor34.withValues(alpha: 1),
+        GameColors.islandPainterColor36.withValues(alpha: 1),
+        GameColors.islandPainterColor42.withValues(alpha: 1),
+        GameColors.islandPainterColor52.withValues(alpha: 1),
+        GameColors.islandPainterColor58.withValues(alpha: 1),
+        GameColors.islandPainterColor77.withValues(alpha: 1),
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
@@ -19323,12 +19324,12 @@ class NinthIslandPainter extends CustomPainter {
       Offset(size.width * 0.5271304, size.height * 0.2459687),
       Offset(size.width * 0.5271304, size.height * 0.1131042),
       [
-        Color(0xffBA5270).withValues(alpha: 1),
-        Color(0xffC56D76).withValues(alpha: 1),
-        Color(0xffDEAB83).withValues(alpha: 1),
-        Color(0xffF0D98D).withValues(alpha: 1),
-        Color(0xffFBF593).withValues(alpha: 1),
-        Color(0xffFFFF95).withValues(alpha: 1),
+        GameColors.islandPainterColor34.withValues(alpha: 1),
+        GameColors.islandPainterColor36.withValues(alpha: 1),
+        GameColors.islandPainterColor42.withValues(alpha: 1),
+        GameColors.islandPainterColor52.withValues(alpha: 1),
+        GameColors.islandPainterColor58.withValues(alpha: 1),
+        GameColors.islandPainterColor77.withValues(alpha: 1),
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
@@ -19356,7 +19357,7 @@ class NinthIslandPainter extends CustomPainter {
     path_5.close();
 
     Paint paint5Fill = Paint()..style = PaintingStyle.fill;
-    paint5Fill.color = Color(0xffFFDD4A).withValues(alpha: 1.0);
+    paint5Fill.color = GameColors.islandPainterColor74.withValues(alpha: 1.0);
     canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
@@ -19388,7 +19389,7 @@ class NinthIslandPainter extends CustomPainter {
     path_6.close();
 
     Paint paint6Fill = Paint()..style = PaintingStyle.fill;
-    paint6Fill.color = Color(0xffFFDD4A).withValues(alpha: 1.0);
+    paint6Fill.color = GameColors.islandPainterColor74.withValues(alpha: 1.0);
     canvas.drawPath(path_6, paint6Fill);
 
     Path path_7 = Path();
@@ -19417,9 +19418,9 @@ class NinthIslandPainter extends CustomPainter {
       Offset(size.width * 0.4763478, size.height * 0.7370937),
       Offset(size.width * 0.4763478, size.height * 0.5527083),
       [
-        Color(0xffFFB447).withValues(alpha: 1),
-        Color(0xffFCAA47).withValues(alpha: 1),
-        Color(0xffF59346).withValues(alpha: 1),
+        GameColors.islandPainterColor70.withValues(alpha: 1),
+        GameColors.islandPainterColor60.withValues(alpha: 1),
+        GameColors.islandPainterColor55.withValues(alpha: 1),
       ],
       [0, 0.41, 1],
     );
@@ -19436,9 +19437,9 @@ class NinthIslandPainter extends CustomPainter {
       Offset(size.width * 0.6570761, size.height * 0.5537500),
       Offset(size.width * 0.6570761, size.height * 0.4489896),
       [
-        Color(0xffFFB447).withValues(alpha: 1),
-        Color(0xffFCAA47).withValues(alpha: 1),
-        Color(0xffF59346).withValues(alpha: 1),
+        GameColors.islandPainterColor70.withValues(alpha: 1),
+        GameColors.islandPainterColor60.withValues(alpha: 1),
+        GameColors.islandPainterColor55.withValues(alpha: 1),
       ],
       [0, 0.41, 1],
     );
@@ -19486,12 +19487,12 @@ class NinthIslandPainter extends CustomPainter {
       Offset(size.width * 0.4750761, size.height * 0.6969375),
       Offset(size.width * 0.4750761, size.height * 0.5537500),
       [
-        Color(0xffFFFF95).withValues(alpha: 1),
-        Color(0xffFBF593).withValues(alpha: 1),
-        Color(0xffF0D98D).withValues(alpha: 1),
-        Color(0xffDEAB83).withValues(alpha: 1),
-        Color(0xffC56D76).withValues(alpha: 1),
-        Color(0xffBA5270).withValues(alpha: 1),
+        GameColors.islandPainterColor77.withValues(alpha: 1),
+        GameColors.islandPainterColor58.withValues(alpha: 1),
+        GameColors.islandPainterColor52.withValues(alpha: 1),
+        GameColors.islandPainterColor42.withValues(alpha: 1),
+        GameColors.islandPainterColor36.withValues(alpha: 1),
+        GameColors.islandPainterColor34.withValues(alpha: 1),
       ],
       [0, 0.115, 0.314, 0.572, 0.876, 1],
     );
@@ -19539,12 +19540,12 @@ class NinthIslandPainter extends CustomPainter {
       Offset(size.width * 0.6572174, size.height * 0.5447812),
       Offset(size.width * 0.6572174, size.height * 0.4475104),
       [
-        Color(0xffFFFF95).withValues(alpha: 1),
-        Color(0xffFBF593).withValues(alpha: 1),
-        Color(0xffF0D98D).withValues(alpha: 1),
-        Color(0xffDEAB83).withValues(alpha: 1),
-        Color(0xffC56D76).withValues(alpha: 1),
-        Color(0xffBA5270).withValues(alpha: 1),
+        GameColors.islandPainterColor77.withValues(alpha: 1),
+        GameColors.islandPainterColor58.withValues(alpha: 1),
+        GameColors.islandPainterColor52.withValues(alpha: 1),
+        GameColors.islandPainterColor42.withValues(alpha: 1),
+        GameColors.islandPainterColor36.withValues(alpha: 1),
+        GameColors.islandPainterColor34.withValues(alpha: 1),
       ],
       [0, 0.115, 0.314, 0.572, 0.876, 1],
     );
@@ -19584,11 +19585,11 @@ class NinthIslandPainter extends CustomPainter {
       Offset(size.width * 0.4968913, size.height * 0.9248437),
       Offset(size.width * 0.4968913, size.height * 0.6655104),
       [
-        Color(0xffDF7A70).withValues(alpha: 1),
-        Color(0xffE1816E).withValues(alpha: 1),
-        Color(0xffF1AE63).withValues(alpha: 1),
-        Color(0xffFBCA5D).withValues(alpha: 1),
-        Color(0xffFFD45A).withValues(alpha: 1),
+        GameColors.islandPainterColor43.withValues(alpha: 1),
+        GameColors.islandPainterColor46.withValues(alpha: 1),
+        GameColors.islandPainterColor53.withValues(alpha: 1),
+        GameColors.islandPainterColor57.withValues(alpha: 1),
+        GameColors.islandPainterColor73.withValues(alpha: 1),
       ],
       [0, 0.059, 0.482, 0.81, 1],
     );
@@ -19613,12 +19614,12 @@ class NinthIslandPainter extends CustomPainter {
       Offset(size.width * 0.4183043, size.height * 0.9255833),
       Offset(size.width * 0.4183043, size.height * 0.8107292),
       [
-        Color(0xffBA5270).withValues(alpha: 1),
-        Color(0xffC56D76).withValues(alpha: 1),
-        Color(0xffDEAB83).withValues(alpha: 1),
-        Color(0xffF0D98D).withValues(alpha: 1),
-        Color(0xffFBF593).withValues(alpha: 1),
-        Color(0xffFFFF95).withValues(alpha: 1),
+        GameColors.islandPainterColor34.withValues(alpha: 1),
+        GameColors.islandPainterColor36.withValues(alpha: 1),
+        GameColors.islandPainterColor42.withValues(alpha: 1),
+        GameColors.islandPainterColor52.withValues(alpha: 1),
+        GameColors.islandPainterColor58.withValues(alpha: 1),
+        GameColors.islandPainterColor77.withValues(alpha: 1),
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
@@ -19657,10 +19658,10 @@ class NinthIslandPainter extends CustomPainter {
       Offset(size.width * 0.2886630, size.height * 0.2194062),
       Offset(size.width * 0.2886630, size.height * 0.02178125),
       [
-        Color(0xff63902F).withValues(alpha: 1),
-        Color(0xff84B017).withValues(alpha: 1),
-        Color(0xff99C508).withValues(alpha: 1),
-        Color(0xffA1CC02).withValues(alpha: 1),
+        GameColors.islandPainterColor8.withValues(alpha: 1),
+        GameColors.islandPainterColor12.withValues(alpha: 1),
+        GameColors.islandPainterColor17.withValues(alpha: 1),
+        GameColors.islandPainterColor21.withValues(alpha: 1),
       ],
       [0, 0.417, 0.769, 1],
     );
@@ -19700,11 +19701,11 @@ class NinthIslandPainter extends CustomPainter {
       Offset(size.width * 0.2877391, size.height * 0.2269479),
       Offset(size.width * 0.2877391, size.height * 0.09309375),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -19739,7 +19740,7 @@ class NinthIslandPainter extends CustomPainter {
     path_15.close();
 
     Paint paint15Fill = Paint()..style = PaintingStyle.fill;
-    paint15Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint15Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_15, paint15Fill);
 
     Path path_16 = Path();
@@ -19764,7 +19765,7 @@ class NinthIslandPainter extends CustomPainter {
     path_16.close();
 
     Paint paint16Fill = Paint()..style = PaintingStyle.fill;
-    paint16Fill.color = Color(0xffFFDD5E).withValues(alpha: 1.0);
+    paint16Fill.color = GameColors.islandPainterColor75.withValues(alpha: 1.0);
     canvas.drawPath(path_16, paint16Fill);
 
     Path path_17 = Path();
@@ -19788,7 +19789,7 @@ class NinthIslandPainter extends CustomPainter {
     path_17.close();
 
     Paint paint17Fill = Paint()..style = PaintingStyle.fill;
-    paint17Fill.color = Color(0xffFFDD5E).withValues(alpha: 1.0);
+    paint17Fill.color = GameColors.islandPainterColor75.withValues(alpha: 1.0);
     canvas.drawPath(path_17, paint17Fill);
 
     Path path_18 = Path();
@@ -19856,7 +19857,7 @@ class NinthIslandPainter extends CustomPainter {
     path_18.close();
 
     Paint paint18Fill = Paint()..style = PaintingStyle.fill;
-    paint18Fill.color = Color(0xffEDE0A9).withValues(alpha: 1.0);
+    paint18Fill.color = GameColors.islandPainterColor51.withValues(alpha: 1.0);
     canvas.drawPath(path_18, paint18Fill);
 
     Path path_19 = Path();
@@ -19988,7 +19989,7 @@ class NinthIslandPainter extends CustomPainter {
     path_19.close();
 
     Paint paint19Fill = Paint()..style = PaintingStyle.fill;
-    paint19Fill.color = Color(0xffCC81B3).withValues(alpha: 1.0);
+    paint19Fill.color = GameColors.islandPainterColor38.withValues(alpha: 1.0);
     canvas.drawPath(path_19, paint19Fill);
 
     Path path_20 = Path();
@@ -20050,7 +20051,7 @@ class NinthIslandPainter extends CustomPainter {
     path_20.close();
 
     Paint paint20Fill = Paint()..style = PaintingStyle.fill;
-    paint20Fill.color = Color(0xffFFDD5E).withValues(alpha: 1.0);
+    paint20Fill.color = GameColors.islandPainterColor75.withValues(alpha: 1.0);
     canvas.drawPath(path_20, paint20Fill);
   }
 
@@ -20148,10 +20149,10 @@ class TenthIslandPainter extends CustomPainter {
       Offset(size.width * 0.4994286, size.height * 0.9893167),
       Offset(size.width * 0.4994286, size.height * -0.006666667),
       [
-        Color(0xff63902F).withValues(alpha: 1),
-        Color(0xff84B017).withValues(alpha: 1),
-        Color(0xff99C508).withValues(alpha: 1),
-        Color(0xffA1CC02).withValues(alpha: 1),
+        GameColors.islandPainterColor8.withValues(alpha: 1),
+        GameColors.islandPainterColor12.withValues(alpha: 1),
+        GameColors.islandPainterColor17.withValues(alpha: 1),
+        GameColors.islandPainterColor21.withValues(alpha: 1),
       ],
       [0, 0.417, 0.769, 1],
     );
@@ -20199,12 +20200,12 @@ class TenthIslandPainter extends CustomPainter {
       Offset(size.width * 0.5002381, size.height * 0.9893167),
       Offset(size.width * 0.5002381, size.height * 0.5132333),
       [
-        Color(0xffBA5270).withValues(alpha: 1),
-        Color(0xffC56D76).withValues(alpha: 1),
-        Color(0xffDEAB83).withValues(alpha: 1),
-        Color(0xffF0D98D).withValues(alpha: 1),
-        Color(0xffFBF593).withValues(alpha: 1),
-        Color(0xffFFFF95).withValues(alpha: 1),
+        GameColors.islandPainterColor34.withValues(alpha: 1),
+        GameColors.islandPainterColor36.withValues(alpha: 1),
+        GameColors.islandPainterColor42.withValues(alpha: 1),
+        GameColors.islandPainterColor52.withValues(alpha: 1),
+        GameColors.islandPainterColor58.withValues(alpha: 1),
+        GameColors.islandPainterColor77.withValues(alpha: 1),
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
@@ -20252,12 +20253,12 @@ class TenthIslandPainter extends CustomPainter {
       Offset(size.width * 0.3423095, size.height * 0.9893000),
       Offset(size.width * 0.3423095, size.height * 0.7425000),
       [
-        Color(0xffBA5270).withValues(alpha: 1),
-        Color(0xffC56D76).withValues(alpha: 1),
-        Color(0xffDEAB83).withValues(alpha: 1),
-        Color(0xffF0D98D).withValues(alpha: 1),
-        Color(0xffFBF593).withValues(alpha: 1),
-        Color(0xffFFFF95).withValues(alpha: 1),
+        GameColors.islandPainterColor34.withValues(alpha: 1),
+        GameColors.islandPainterColor36.withValues(alpha: 1),
+        GameColors.islandPainterColor42.withValues(alpha: 1),
+        GameColors.islandPainterColor52.withValues(alpha: 1),
+        GameColors.islandPainterColor58.withValues(alpha: 1),
+        GameColors.islandPainterColor77.withValues(alpha: 1),
       ],
       [0, 0.124, 0.428, 0.686, 0.885, 1],
     );
@@ -20289,9 +20290,9 @@ class TenthIslandPainter extends CustomPainter {
       Offset(size.width * 0.5458571, size.height * 0.8660667),
       Offset(size.width * 0.5458571, size.height * 0.6310667),
       [
-        Color(0xffFFB447).withValues(alpha: 1),
-        Color(0xffFCAA47).withValues(alpha: 1),
-        Color(0xffF59346).withValues(alpha: 1),
+        GameColors.islandPainterColor70.withValues(alpha: 1),
+        GameColors.islandPainterColor60.withValues(alpha: 1),
+        GameColors.islandPainterColor55.withValues(alpha: 1),
       ],
       [0, 0.41, 1],
     );
@@ -20346,12 +20347,12 @@ class TenthIslandPainter extends CustomPainter {
       Offset(size.width * 0.5448929, size.height * 0.8149000),
       Offset(size.width * 0.5448929, size.height * 0.6324167),
       [
-        Color(0xffFFFF95).withValues(alpha: 1),
-        Color(0xffFBF593).withValues(alpha: 1),
-        Color(0xffF0D98D).withValues(alpha: 1),
-        Color(0xffDEAB83).withValues(alpha: 1),
-        Color(0xffC56D76).withValues(alpha: 1),
-        Color(0xffBA5270).withValues(alpha: 1),
+        GameColors.islandPainterColor77.withValues(alpha: 1),
+        GameColors.islandPainterColor58.withValues(alpha: 1),
+        GameColors.islandPainterColor52.withValues(alpha: 1),
+        GameColors.islandPainterColor42.withValues(alpha: 1),
+        GameColors.islandPainterColor36.withValues(alpha: 1),
+        GameColors.islandPainterColor34.withValues(alpha: 1),
       ],
       [0, 0.115, 0.314, 0.572, 0.876, 1],
     );
@@ -20365,7 +20366,7 @@ class TenthIslandPainter extends CustomPainter {
     path_5.close();
 
     Paint paint5Fill = Paint()..style = PaintingStyle.fill;
-    paint5Fill.color = Color(0xffFFDD5E).withValues(alpha: 1.0);
+    paint5Fill.color = GameColors.islandPainterColor75.withValues(alpha: 1.0);
     canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
@@ -20401,9 +20402,9 @@ class TenthIslandPainter extends CustomPainter {
       Offset(size.width * 0.2815714, size.height * 0.7465500),
       Offset(size.width * 0.2815714, size.height * 0.5581500),
       [
-        Color(0xffFFB447).withValues(alpha: 1),
-        Color(0xffFCAA47).withValues(alpha: 1),
-        Color(0xffF59346).withValues(alpha: 1),
+        GameColors.islandPainterColor70.withValues(alpha: 1),
+        GameColors.islandPainterColor60.withValues(alpha: 1),
+        GameColors.islandPainterColor55.withValues(alpha: 1),
       ],
       [0, 0.41, 1],
     );
@@ -20443,12 +20444,12 @@ class TenthIslandPainter extends CustomPainter {
       Offset(size.width * 0.2811786, size.height * 0.7244833),
       Offset(size.width * 0.2811786, size.height * 0.5562333),
       [
-        Color(0xffFFFF95).withValues(alpha: 1),
-        Color(0xffFBF593).withValues(alpha: 1),
-        Color(0xffF0D98D).withValues(alpha: 1),
-        Color(0xffDEAB83).withValues(alpha: 1),
-        Color(0xffC56D76).withValues(alpha: 1),
-        Color(0xffBA5270).withValues(alpha: 1),
+        GameColors.islandPainterColor77.withValues(alpha: 1),
+        GameColors.islandPainterColor58.withValues(alpha: 1),
+        GameColors.islandPainterColor52.withValues(alpha: 1),
+        GameColors.islandPainterColor42.withValues(alpha: 1),
+        GameColors.islandPainterColor36.withValues(alpha: 1),
+        GameColors.islandPainterColor34.withValues(alpha: 1),
       ],
       [0, 0.115, 0.314, 0.572, 0.876, 1],
     );
@@ -20484,7 +20485,7 @@ class TenthIslandPainter extends CustomPainter {
     path_8.close();
 
     Paint paint8Fill = Paint()..style = PaintingStyle.fill;
-    paint8Fill.color = Color(0xffFFDD5E).withValues(alpha: 1.0);
+    paint8Fill.color = GameColors.islandPainterColor75.withValues(alpha: 1.0);
     canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
@@ -20517,7 +20518,7 @@ class TenthIslandPainter extends CustomPainter {
     path_9.close();
 
     Paint paint9Fill = Paint()..style = PaintingStyle.fill;
-    paint9Fill.color = Color(0xffFFDD5E).withValues(alpha: 1.0);
+    paint9Fill.color = GameColors.islandPainterColor75.withValues(alpha: 1.0);
     canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
@@ -20549,7 +20550,7 @@ class TenthIslandPainter extends CustomPainter {
     path_10.close();
 
     Paint paint10Fill = Paint()..style = PaintingStyle.fill;
-    paint10Fill.color = Color(0xffFFDD4A).withValues(alpha: 1.0);
+    paint10Fill.color = GameColors.islandPainterColor74.withValues(alpha: 1.0);
     canvas.drawPath(path_10, paint10Fill);
 
     Path path_11 = Path();
@@ -20591,7 +20592,7 @@ class TenthIslandPainter extends CustomPainter {
     path_11.close();
 
     Paint paint11Fill = Paint()..style = PaintingStyle.fill;
-    paint11Fill.color = Color(0xffFFDD5E).withValues(alpha: 1.0);
+    paint11Fill.color = GameColors.islandPainterColor75.withValues(alpha: 1.0);
     canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
@@ -20649,7 +20650,7 @@ class TenthIslandPainter extends CustomPainter {
     path_12.close();
 
     Paint paint12Fill = Paint()..style = PaintingStyle.fill;
-    paint12Fill.color = Color(0xffEDE0A9).withValues(alpha: 1.0);
+    paint12Fill.color = GameColors.islandPainterColor51.withValues(alpha: 1.0);
     canvas.drawPath(path_12, paint12Fill);
 
     Path path_13 = Path();
@@ -20709,7 +20710,7 @@ class TenthIslandPainter extends CustomPainter {
     path_13.close();
 
     Paint paint13Fill = Paint()..style = PaintingStyle.fill;
-    paint13Fill.color = Color(0xffCC81B3).withValues(alpha: 1.0);
+    paint13Fill.color = GameColors.islandPainterColor38.withValues(alpha: 1.0);
     canvas.drawPath(path_13, paint13Fill);
 
     Path path_14 = Path();
@@ -20719,7 +20720,7 @@ class TenthIslandPainter extends CustomPainter {
     path_14.close();
 
     Paint paint14Fill = Paint()..style = PaintingStyle.fill;
-    paint14Fill.color = Color(0xffEDE0A9).withValues(alpha: 1.0);
+    paint14Fill.color = GameColors.islandPainterColor51.withValues(alpha: 1.0);
     canvas.drawPath(path_14, paint14Fill);
 
     Path path_15 = Path();
@@ -20745,7 +20746,7 @@ class TenthIslandPainter extends CustomPainter {
     path_15.close();
 
     Paint paint15Fill = Paint()..style = PaintingStyle.fill;
-    paint15Fill.color = Color(0xffCC81B3).withValues(alpha: 1.0);
+    paint15Fill.color = GameColors.islandPainterColor38.withValues(alpha: 1.0);
     canvas.drawPath(path_15, paint15Fill);
 
     Path path_16 = Path();
@@ -20769,7 +20770,7 @@ class TenthIslandPainter extends CustomPainter {
     path_16.close();
 
     Paint paint16Fill = Paint()..style = PaintingStyle.fill;
-    paint16Fill.color = Color(0xffEDE0A9).withValues(alpha: 1.0);
+    paint16Fill.color = GameColors.islandPainterColor51.withValues(alpha: 1.0);
     canvas.drawPath(path_16, paint16Fill);
 
     Path path_17 = Path();
@@ -20837,7 +20838,7 @@ class TenthIslandPainter extends CustomPainter {
     path_17.close();
 
     Paint paint17Fill = Paint()..style = PaintingStyle.fill;
-    paint17Fill.color = Color(0xffCC81B3).withValues(alpha: 1.0);
+    paint17Fill.color = GameColors.islandPainterColor38.withValues(alpha: 1.0);
     canvas.drawPath(path_17, paint17Fill);
 
     Path path_18 = Path();
@@ -20847,7 +20848,7 @@ class TenthIslandPainter extends CustomPainter {
     path_18.close();
 
     Paint paint18Fill = Paint()..style = PaintingStyle.fill;
-    paint18Fill.color = Color(0xffEDE0A9).withValues(alpha: 1.0);
+    paint18Fill.color = GameColors.islandPainterColor51.withValues(alpha: 1.0);
     canvas.drawPath(path_18, paint18Fill);
 
     Path path_19 = Path();
@@ -20874,7 +20875,7 @@ class TenthIslandPainter extends CustomPainter {
     path_19.close();
 
     Paint paint19Fill = Paint()..style = PaintingStyle.fill;
-    paint19Fill.color = Color(0xffCC81B3).withValues(alpha: 1.0);
+    paint19Fill.color = GameColors.islandPainterColor38.withValues(alpha: 1.0);
     canvas.drawPath(path_19, paint19Fill);
 
     Path path_20 = Path();
@@ -20928,10 +20929,10 @@ class TenthIslandPainter extends CustomPainter {
       Offset(size.width * 0.4074405, size.height * 0.5073167),
       Offset(size.width * 0.4074405, size.height * 1.300000),
       [
-        Color(0xff63902F).withValues(alpha: 1),
-        Color(0xff84B017).withValues(alpha: 1),
-        Color(0xff99C508).withValues(alpha: 1),
-        Color(0xffA1CC02).withValues(alpha: 1),
+        GameColors.islandPainterColor8.withValues(alpha: 1),
+        GameColors.islandPainterColor12.withValues(alpha: 1),
+        GameColors.islandPainterColor17.withValues(alpha: 1),
+        GameColors.islandPainterColor21.withValues(alpha: 1),
       ],
       [0, 0.417, 0.769, 1],
     );
@@ -21020,11 +21021,11 @@ class TenthIslandPainter extends CustomPainter {
       Offset(size.width * 0.4091667, size.height * 0.5216000),
       Offset(size.width * 0.4091667, size.height * 0.1317833),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -21104,7 +21105,7 @@ class TenthIslandPainter extends CustomPainter {
     path_22.close();
 
     Paint paint22Fill = Paint()..style = PaintingStyle.fill;
-    paint22Fill.color = Color(0xff9ADD00).withValues(alpha: 1.0);
+    paint22Fill.color = GameColors.islandPainterColor18.withValues(alpha: 1.0);
     canvas.drawPath(path_22, paint22Fill);
 
     Path path_23 = Path();
@@ -21125,11 +21126,11 @@ class TenthIslandPainter extends CustomPainter {
       Offset(size.width * 0.6416429, size.height * 0.3380333),
       Offset(size.width * 0.4206905, size.height * 0.3380333),
       [
-        Color(0xff8E765E).withValues(alpha: 1),
-        Color(0xff938168).withValues(alpha: 1),
-        Color(0xffA8AE92).withValues(alpha: 1),
-        Color(0xffB5CAAC).withValues(alpha: 1),
-        Color(0xffBAD4B6).withValues(alpha: 1),
+        GameColors.islandPainterColor15.withValues(alpha: 1),
+        GameColors.islandPainterColor16.withValues(alpha: 1),
+        GameColors.islandPainterColor23.withValues(alpha: 1),
+        GameColors.islandPainterColor32.withValues(alpha: 1),
+        GameColors.islandPainterColor35.withValues(alpha: 1),
       ],
       [0, 0.09, 0.499, 0.816, 1],
     );
@@ -21164,7 +21165,7 @@ class TenthIslandPainter extends CustomPainter {
     path_24.close();
 
     Paint paint24Fill = Paint()..style = PaintingStyle.fill;
-    paint24Fill.color = Color(0xffFFB04B).withValues(alpha: 1.0);
+    paint24Fill.color = GameColors.islandPainterColor69.withValues(alpha: 1.0);
     canvas.drawPath(path_24, paint24Fill);
 
     Path path_25 = Path();
@@ -21189,7 +21190,7 @@ class TenthIslandPainter extends CustomPainter {
     path_25.close();
 
     Paint paint25Fill = Paint()..style = PaintingStyle.fill;
-    paint25Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint25Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_25, paint25Fill);
 
     Path path_26 = Path();
@@ -21233,12 +21234,12 @@ class TenthIslandPainter extends CustomPainter {
       Offset(size.width * 0.5937738, size.height * 0.2097667),
       Offset(size.width * 0.6818690, size.height * -2.073333),
       [
-        Color(0xffFF9572).withValues(alpha: 1),
-        Color(0xffFF9271).withValues(alpha: 1),
-        Color(0xffFF5465).withValues(alpha: 1),
-        Color(0xffFF265C).withValues(alpha: 1),
-        Color(0xffFF0A56).withValues(alpha: 1),
-        Color(0xffFF0054).withValues(alpha: 1),
+        GameColors.islandPainterColor67.withValues(alpha: 1),
+        GameColors.islandPainterColor66.withValues(alpha: 1),
+        GameColors.islandPainterColor65.withValues(alpha: 1),
+        GameColors.islandPainterColor64.withValues(alpha: 1),
+        GameColors.islandPainterColor63.withValues(alpha: 1),
+        GameColors.islandPainterColor62.withValues(alpha: 1),
       ],
       [0, 0.017, 0.359, 0.648, 0.871, 1],
     );
@@ -21273,7 +21274,7 @@ class TenthIslandPainter extends CustomPainter {
     path_27.close();
 
     Paint paint27Fill = Paint()..style = PaintingStyle.fill;
-    paint27Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint27Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_27, paint27Fill);
 
     Path path_28 = Path();
@@ -21306,7 +21307,7 @@ class TenthIslandPainter extends CustomPainter {
     path_28.close();
 
     Paint paint28Fill = Paint()..style = PaintingStyle.fill;
-    paint28Fill.color = Color(0xffFFA7FF).withValues(alpha: 1.0);
+    paint28Fill.color = GameColors.islandPainterColor68.withValues(alpha: 1.0);
     canvas.drawPath(path_28, paint28Fill);
 
     Path path_29 = Path();
@@ -21318,7 +21319,7 @@ class TenthIslandPainter extends CustomPainter {
     path_29.close();
 
     Paint paint29Fill = Paint()..style = PaintingStyle.fill;
-    paint29Fill.color = Color(0xffFFA7FF).withValues(alpha: 1.0);
+    paint29Fill.color = GameColors.islandPainterColor68.withValues(alpha: 1.0);
     canvas.drawPath(path_29, paint29Fill);
 
     Path path_30 = Path();
@@ -21351,7 +21352,7 @@ class TenthIslandPainter extends CustomPainter {
     path_30.close();
 
     Paint paint30Fill = Paint()..style = PaintingStyle.fill;
-    paint30Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint30Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_30, paint30Fill);
 
     Path path_31 = Path();
@@ -21409,7 +21410,7 @@ class TenthIslandPainter extends CustomPainter {
     path_31.close();
 
     Paint paint31Fill = Paint()..style = PaintingStyle.fill;
-    paint31Fill.color = Colors.yellow.withValues(alpha: 1.0);
+    paint31Fill.color = GameColors.yellow.withValues(alpha: 1.0);
     canvas.drawPath(path_31, paint31Fill);
 
     Path path_32 = Path();
@@ -21426,7 +21427,7 @@ class TenthIslandPainter extends CustomPainter {
     path_32.close();
 
     Paint paint32Fill = Paint()..style = PaintingStyle.fill;
-    paint32Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint32Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_32, paint32Fill);
 
     Path path_33 = Path();
@@ -21448,12 +21449,12 @@ class TenthIslandPainter extends CustomPainter {
       Offset(size.width * 0.5202500, size.height * 0.2448167),
       Offset(size.width * 0.5347381, size.height * 0.1021667),
       [
-        Color(0xffFF9572).withValues(alpha: 1),
-        Color(0xffFF9271).withValues(alpha: 1),
-        Color(0xffFF5465).withValues(alpha: 1),
-        Color(0xffFF265C).withValues(alpha: 1),
-        Color(0xffFF0A56).withValues(alpha: 1),
-        Color(0xffFF0054).withValues(alpha: 1),
+        GameColors.islandPainterColor67.withValues(alpha: 1),
+        GameColors.islandPainterColor66.withValues(alpha: 1),
+        GameColors.islandPainterColor65.withValues(alpha: 1),
+        GameColors.islandPainterColor64.withValues(alpha: 1),
+        GameColors.islandPainterColor63.withValues(alpha: 1),
+        GameColors.islandPainterColor62.withValues(alpha: 1),
       ],
       [0, 0.017, 0.359, 0.648, 0.871, 1],
     );
@@ -21467,7 +21468,7 @@ class TenthIslandPainter extends CustomPainter {
     path_34.close();
 
     Paint paint34Fill = Paint()..style = PaintingStyle.fill;
-    paint34Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint34Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_34, paint34Fill);
 
     Path path_35 = Path();
@@ -21500,7 +21501,7 @@ class TenthIslandPainter extends CustomPainter {
     path_35.close();
 
     Paint paint35Fill = Paint()..style = PaintingStyle.fill;
-    paint35Fill.color = Color(0xffFFA7FF).withValues(alpha: 1.0);
+    paint35Fill.color = GameColors.islandPainterColor68.withValues(alpha: 1.0);
     canvas.drawPath(path_35, paint35Fill);
 
     Path path_36 = Path();
@@ -21540,7 +21541,7 @@ class TenthIslandPainter extends CustomPainter {
     path_36.close();
 
     Paint paint36Fill = Paint()..style = PaintingStyle.fill;
-    paint36Fill.color = Color(0xffFFA7FF).withValues(alpha: 1.0);
+    paint36Fill.color = GameColors.islandPainterColor68.withValues(alpha: 1.0);
     canvas.drawPath(path_36, paint36Fill);
 
     Path path_37 = Path();
@@ -21558,7 +21559,7 @@ class TenthIslandPainter extends CustomPainter {
     path_37.close();
 
     Paint paint37Fill = Paint()..style = PaintingStyle.fill;
-    paint37Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint37Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_37, paint37Fill);
 
     Path path_38 = Path();
@@ -21602,7 +21603,7 @@ class TenthIslandPainter extends CustomPainter {
     path_38.close();
 
     Paint paint38Fill = Paint()..style = PaintingStyle.fill;
-    paint38Fill.color = Colors.yellow.withValues(alpha: 1.0);
+    paint38Fill.color = GameColors.yellow.withValues(alpha: 1.0);
     canvas.drawPath(path_38, paint38Fill);
 
     Path path_39 = Path();
@@ -21612,7 +21613,7 @@ class TenthIslandPainter extends CustomPainter {
     path_39.close();
 
     Paint paint39Fill = Paint()..style = PaintingStyle.fill;
-    paint39Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint39Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_39, paint39Fill);
 
     Path path_40 = Path();
@@ -21648,12 +21649,12 @@ class TenthIslandPainter extends CustomPainter {
       Offset(size.width * 0.1701667, size.height * 0.3689167),
       Offset(size.width * 0.2076071, size.height * 0.2551000),
       [
-        Color(0xffFF9572).withValues(alpha: 1),
-        Color(0xffFF9271).withValues(alpha: 1),
-        Color(0xffFF5465).withValues(alpha: 1),
-        Color(0xffFF265C).withValues(alpha: 1),
-        Color(0xffFF0A56).withValues(alpha: 1),
-        Color(0xffFF0054).withValues(alpha: 1),
+        GameColors.islandPainterColor67.withValues(alpha: 1),
+        GameColors.islandPainterColor66.withValues(alpha: 1),
+        GameColors.islandPainterColor65.withValues(alpha: 1),
+        GameColors.islandPainterColor64.withValues(alpha: 1),
+        GameColors.islandPainterColor63.withValues(alpha: 1),
+        GameColors.islandPainterColor62.withValues(alpha: 1),
       ],
       [0, 0.017, 0.359, 0.648, 0.871, 1],
     );
@@ -21688,7 +21689,7 @@ class TenthIslandPainter extends CustomPainter {
     path_41.close();
 
     Paint paint41Fill = Paint()..style = PaintingStyle.fill;
-    paint41Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint41Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_41, paint41Fill);
 
     Path path_42 = Path();
@@ -21714,7 +21715,7 @@ class TenthIslandPainter extends CustomPainter {
     path_42.close();
 
     Paint paint42Fill = Paint()..style = PaintingStyle.fill;
-    paint42Fill.color = Color(0xffFFA7FF).withValues(alpha: 1.0);
+    paint42Fill.color = GameColors.islandPainterColor68.withValues(alpha: 1.0);
     canvas.drawPath(path_42, paint42Fill);
 
     Path path_43 = Path();
@@ -21747,7 +21748,7 @@ class TenthIslandPainter extends CustomPainter {
     path_43.close();
 
     Paint paint43Fill = Paint()..style = PaintingStyle.fill;
-    paint43Fill.color = Color(0xffFFA7FF).withValues(alpha: 1.0);
+    paint43Fill.color = GameColors.islandPainterColor68.withValues(alpha: 1.0);
     canvas.drawPath(path_43, paint43Fill);
 
     Path path_44 = Path();
@@ -21779,7 +21780,7 @@ class TenthIslandPainter extends CustomPainter {
     path_44.close();
 
     Paint paint44Fill = Paint()..style = PaintingStyle.fill;
-    paint44Fill.color = Color(0xffDB83A9).withValues(alpha: 1.0);
+    paint44Fill.color = GameColors.islandPainterColor41.withValues(alpha: 1.0);
     canvas.drawPath(path_44, paint44Fill);
 
     Path path_45 = Path();
@@ -21830,7 +21831,7 @@ class TenthIslandPainter extends CustomPainter {
     path_45.close();
 
     Paint paint45Fill = Paint()..style = PaintingStyle.fill;
-    paint45Fill.color = Colors.yellow.withValues(alpha: 1.0);
+    paint45Fill.color = GameColors.yellow.withValues(alpha: 1.0);
     canvas.drawPath(path_45, paint45Fill);
   }
 

@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:balanco_game/features/game/game_area.dart';
 import 'package:balanco_game/features/game/models/ball_data.dart';
 import 'package:balanco_game/features/game/components/ball_component.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class MultiBallItem extends PositionComponent
     with HasGameReference<BalancoGame> {
@@ -22,8 +23,10 @@ class MultiBallItem extends PositionComponent
   late final Paint _miniShiny;
   late final Paint _ringPaint;
 
-  Color get primaryColor => ballCount == 2 ? Colors.purpleAccent : Colors.cyanAccent;
-  Color get secondaryColor => ballCount == 2 ? Colors.deepPurpleAccent : Colors.blueAccent;
+  Color get primaryColor =>
+      ballCount == 2 ? GameColors.purpleAccent : GameColors.cyanAccent;
+  Color get secondaryColor =>
+      ballCount == 2 ? GameColors.deepPurpleAccent : GameColors.blueAccent;
 
   MultiBallItem(this.fractionalPosition, {this.ballCount = 1})
     : super(size: Vector2.all(30.0), anchor: Anchor.center);
@@ -34,13 +37,13 @@ class MultiBallItem extends PositionComponent
     final double r = size.x / 2;
 
     _glowPaint = Paint()..style = PaintingStyle.fill;
-    
+
     _corePaint = Paint()
       ..style = PaintingStyle.fill
       ..shader = RadialGradient(
         colors: [
-          const Color(0xFF0F2027).withValues(alpha: 0.95),
-          const Color(0xFF203A43).withValues(alpha: 0.98),
+          GameColors.magnetDarkBlue.withValues(alpha: 0.95),
+          GameColors.magnetMediumBlue.withValues(alpha: 0.98),
         ],
       ).createShader(Rect.fromCircle(center: Offset.zero, radius: r * 0.85));
 
@@ -55,7 +58,7 @@ class MultiBallItem extends PositionComponent
 
     _miniCore = Paint()
       ..style = PaintingStyle.fill
-      ..color = Colors.white;
+      ..color = GameColors.white;
 
     _miniShiny = Paint()
       ..style = PaintingStyle.fill
@@ -65,12 +68,7 @@ class MultiBallItem extends PositionComponent
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3.0
       ..shader = SweepGradient(
-        colors: [
-          primaryColor,
-          secondaryColor,
-          Colors.white,
-          primaryColor,
-        ],
+        colors: [primaryColor, secondaryColor, GameColors.white, primaryColor],
       ).createShader(Rect.fromCircle(center: Offset.zero, radius: r));
   }
 
@@ -122,7 +120,10 @@ class MultiBallItem extends PositionComponent
       newBall.isFreeFalling = true;
       newBall.pos2D = game.teleportingGateComponent.position.clone();
       // Give them a slight random horizontal velocity so they don't fall perfectly stacked
-      newBall.freeFallVelocity = Vector2((Random().nextDouble() - 0.5) * 150, 0); 
+      newBall.freeFallVelocity = Vector2(
+        (Random().nextDouble() - 0.5) * 150,
+        0,
+      );
       newBall.scale = 1.0;
       newBall.p = (game.size.x - 2 * game.barPadding) / 2.0;
 
@@ -148,7 +149,7 @@ class MultiBallItem extends PositionComponent
 
     final double r = size.x / 2;
     final double pulse = sin(_pulseTime);
-    
+
     canvas.save();
     canvas.translate(r, r);
 

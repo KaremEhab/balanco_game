@@ -2,6 +2,7 @@ import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/material.dart';
 import 'package:balanco_game/features/game/game_area.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class TeleportingGateComponent extends PositionComponent
     with HasGameReference<BalancoGame> {
@@ -90,7 +91,9 @@ class TeleportingGateComponent extends PositionComponent
       for (int i = 6; i >= 0; i--) {
         final Paint glowPaint = Paint()
           // Start with a very low base opacity and softly fade inwards
-          ..color = const Color(0xFFC3ABFF).withValues(alpha: 0.02 + (6 - i) * 0.05)
+          ..color = GameColors.teleporterLightPurple.withValues(
+            alpha: 0.02 + (6 - i) * 0.05,
+          )
           ..style = PaintingStyle.fill;
         canvas.drawCircle(Offset.zero, 36 + i * 2.5, glowPaint);
       }
@@ -102,7 +105,7 @@ class TeleportingGateComponent extends PositionComponent
 
       // Draw base outer color to prevent empty gaps at the edge
       final Paint basePaint = Paint()
-        ..color = const Color(0xffD6C5FF)
+        ..color = GameColors.teleporterVeryLightPurple
         ..style = PaintingStyle.fill;
       canvas.drawCircle(Offset.zero, 36, basePaint);
 
@@ -123,14 +126,14 @@ class TeleportingGateComponent extends PositionComponent
         Color c;
         if (phase > 0.5) {
           c = Color.lerp(
-            const Color(0xff8E76CC),
-            const Color(0xffD6C5FF),
+            GameColors.teleporterDeepPurple,
+            GameColors.teleporterVeryLightPurple,
             (phase - 0.5) * 2,
           )!;
         } else {
           c = Color.lerp(
-            const Color(0xff1A0D36),
-            const Color(0xff8E76CC),
+            GameColors.teleporterDarkBg,
+            GameColors.teleporterDeepPurple,
             phase * 2,
           )!;
         }
@@ -143,13 +146,13 @@ class TeleportingGateComponent extends PositionComponent
 
         // Add subtle edge shadows for a stepped 3D look
         final Paint strokePaint = Paint()
-          ..color = Colors.black.withValues(alpha: 0.08)
+          ..color = GameColors.black.withValues(alpha: 0.08)
           ..style = PaintingStyle.stroke
           ..strokeWidth = 1.0;
         canvas.drawCircle(Offset.zero, r, strokePaint);
 
         final Paint highlightPaint = Paint()
-          ..color = Colors.white.withValues(alpha: 0.1 * phase)
+          ..color = GameColors.white.withValues(alpha: 0.1 * phase)
           ..style = PaintingStyle.stroke
           ..strokeWidth = 1.0;
         canvas.drawCircle(Offset(0, -1), r, highlightPaint);

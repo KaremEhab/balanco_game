@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class SkyPainter extends CustomPainter {
   @override
@@ -13,7 +13,7 @@ class SkyPainter extends CustomPainter {
     path_0.close();
 
     Paint paint0Fill = Paint()..style = PaintingStyle.fill;
-    paint0Fill.color = Color(0xffCCFFFB).withValues(alpha: 1.0);
+    paint0Fill.color = GameColors.mapAppBarCyanLightest.withValues(alpha: 1.0);
     canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
@@ -25,7 +25,7 @@ class SkyPainter extends CustomPainter {
     path_1.close();
 
     Paint paint1Fill = Paint()..style = PaintingStyle.fill;
-    paint1Fill.color = Color(0xffBFFAFF).withValues(alpha: 1.0);
+    paint1Fill.color = GameColors.skyPainterColor3.withValues(alpha: 1.0);
     canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
@@ -37,7 +37,7 @@ class SkyPainter extends CustomPainter {
     path_2.close();
 
     Paint paint2Fill = Paint()..style = PaintingStyle.fill;
-    paint2Fill.color = Color(0xffA6FBFF).withValues(alpha: 1.0);
+    paint2Fill.color = GameColors.skyPainterColor2.withValues(alpha: 1.0);
     canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
@@ -220,7 +220,7 @@ class SkyPainter extends CustomPainter {
     path_3.close();
 
     Paint paint3Fill = Paint()..style = PaintingStyle.fill;
-    paint3Fill.color = Color(0xffE5FFFB).withValues(alpha: 1.0);
+    paint3Fill.color = GameColors.logoPainterColor44.withValues(alpha: 1.0);
     canvas.drawPath(path_3, paint3Fill);
   }
 
@@ -431,7 +431,7 @@ class BirdsPainter extends CustomPainter {
     path_0.close();
 
     Paint paint0Fill = Paint()..style = PaintingStyle.fill;
-    paint0Fill.color = Color(0xff8DA8B0).withValues(alpha: 1.0);
+    paint0Fill.color = GameColors.skyPainterColor1.withValues(alpha: 1.0);
     canvas.drawPath(path_0, paint0Fill);
   }
 
@@ -552,7 +552,7 @@ class FirstCloudPainter extends CustomPainter {
     path_0.close();
 
     Paint paint0Fill = Paint()..style = PaintingStyle.fill;
-    paint0Fill.color = Color(0xffE9FFFC).withValues(alpha: 1.0);
+    paint0Fill.color = GameColors.logoPainterColor48.withValues(alpha: 1.0);
     canvas.drawPath(path_0, paint0Fill);
   }
 
@@ -673,7 +673,7 @@ class SecondCloudPainter extends CustomPainter {
     path_0.close();
 
     Paint paint0Fill = Paint()..style = PaintingStyle.fill;
-    paint0Fill.color = Color(0xffE9FFFC).withValues(alpha: 1.0);
+    paint0Fill.color = GameColors.logoPainterColor48.withValues(alpha: 1.0);
     canvas.drawPath(path_0, paint0Fill);
   }
 
@@ -748,7 +748,7 @@ class ThirdCloudPainter extends CustomPainter {
     path_0.close();
 
     Paint paint0Fill = Paint()..style = PaintingStyle.fill;
-    paint0Fill.color = Color(0xffE9FFFC).withValues(alpha: 1.0);
+    paint0Fill.color = GameColors.logoPainterColor48.withValues(alpha: 1.0);
     canvas.drawPath(path_0, paint0Fill);
   }
 
@@ -832,7 +832,7 @@ class ForthCloudPainter extends CustomPainter {
     path_0.close();
 
     Paint paint0Fill = Paint()..style = PaintingStyle.fill;
-    paint0Fill.color = Color(0xffE9FFFC).withValues(alpha: 1.0);
+    paint0Fill.color = GameColors.logoPainterColor48.withValues(alpha: 1.0);
     canvas.drawPath(path_0, paint0Fill);
   }
 
@@ -931,7 +931,7 @@ class FifthCloudPainter extends CustomPainter {
     path_0.close();
 
     Paint paint0Fill = Paint()..style = PaintingStyle.fill;
-    paint0Fill.color = Color(0xffE9FFFC).withValues(alpha: 1.0);
+    paint0Fill.color = GameColors.logoPainterColor48.withValues(alpha: 1.0);
     canvas.drawPath(path_0, paint0Fill);
   }
 

@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:balanco_game/features/game/game_area.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class BumperComponent extends PositionComponent
     with HasGameReference<BalancoGame> {
@@ -20,10 +21,7 @@ class BumperComponent extends PositionComponent
   late final Paint _shadowPaint;
 
   BumperComponent(this.fractionalPosition, this.radius)
-      : super(
-          size: Vector2.all(radius * 2),
-          anchor: Anchor.center,
-        );
+    : super(size: Vector2.all(radius * 2), anchor: Anchor.center);
 
   @override
   Future<void> onLoad() async {
@@ -34,22 +32,28 @@ class BumperComponent extends PositionComponent
       ..shader = RadialGradient(
         center: const Alignment(-0.3, -0.3),
         radius: 0.9,
-        colors: [Colors.blueGrey.shade400, Colors.blueGrey.shade900],
+        colors: [GameColors.blueGrey.shade400, GameColors.blueGrey.shade900],
       ).createShader(Rect.fromCircle(center: Offset.zero, radius: radius));
 
     // Rubbery neon dome
     _domePaint = Paint()
-      ..shader = RadialGradient(
-        center: const Alignment(-0.2, -0.2),
-        radius: 0.8,
-        colors: [Colors.purpleAccent.shade100, Colors.deepPurpleAccent.shade700],
-      ).createShader(Rect.fromCircle(center: Offset.zero, radius: radius * 0.8));
+      ..shader =
+          RadialGradient(
+            center: const Alignment(-0.2, -0.2),
+            radius: 0.8,
+            colors: [
+              GameColors.purpleAccent.shade100,
+              GameColors.deepPurpleAccent.shade700,
+            ],
+          ).createShader(
+            Rect.fromCircle(center: Offset.zero, radius: radius * 0.8),
+          );
 
     // Metallic Rim edge
     _rimPaint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3.0
-      ..color = Colors.blueGrey.shade800;
+      ..color = GameColors.blueGrey.shade800;
 
     // Highlight
     _highlightPaint = Paint()
@@ -58,12 +62,12 @@ class BumperComponent extends PositionComponent
       ..shader = RadialGradient(
         center: const Alignment(-0.5, -0.5),
         radius: 1.0,
-        colors: [Colors.white.withValues(alpha: 0.6), Colors.transparent],
+        colors: [GameColors.white.withValues(alpha: 0.6), Colors.transparent],
       ).createShader(Rect.fromCircle(center: Offset.zero, radius: radius));
 
     // Drop shadow on the floor
     _shadowPaint = Paint()
-      ..color = Colors.black.withValues(alpha: 0.5)
+      ..color = GameColors.black.withValues(alpha: 0.5)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8.0);
   }
 
@@ -110,7 +114,7 @@ class BumperComponent extends PositionComponent
 
     // Jelly Dome
     canvas.save();
-    
+
     // Wobble effect: damped sine wave
     if (_isWobbling) {
       // Damped harmonic oscillator
@@ -118,13 +122,14 @@ class BumperComponent extends PositionComponent
       double amplitude = 0.3;
       double damping = 8.0;
       double freq = 40.0;
-      
-      double scaleMod = amplitude * exp(-damping * _wobbleTime) * sin(freq * _wobbleTime);
-      
+
+      double scaleMod =
+          amplitude * exp(-damping * _wobbleTime) * sin(freq * _wobbleTime);
+
       // We squash and stretch (scale X inversely to scale Y)
       canvas.scale(1.0 + scaleMod, 1.0 - scaleMod * 0.5);
     }
-    
+
     canvas.drawCircle(Offset.zero, radius * 0.8, _domePaint);
     canvas.restore();
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:balanco_game/features/game/components/ball_component.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class MapBallLayer extends CustomPainter {
   final Offset position;
@@ -15,11 +16,11 @@ class MapBallLayer extends CustomPainter {
 
   // Paints
   final Paint _dropShadowPaint = Paint()
-    ..color = Colors.black.withValues(alpha: 0.5)
+    ..color = GameColors.black.withValues(alpha: 0.5)
     ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8.0);
   late final Paint _highlightPaint;
   final Paint _borderPaint = Paint()
-    ..color = Colors.black87
+    ..color = GameColors.black87
     ..style = PaintingStyle.stroke
     ..strokeWidth = 2;
 
@@ -40,9 +41,9 @@ class MapBallLayer extends CustomPainter {
         center: const Alignment(-0.3, -0.3),
         radius: 0.8,
         colors: [
-          Colors.white.withValues(alpha: 0.6),
+          GameColors.white.withValues(alpha: 0.6),
           Colors.transparent,
-          Colors.black.withValues(alpha: 0.6),
+          GameColors.black.withValues(alpha: 0.6),
         ],
         stops: const [0.0, 0.4, 1.0],
       ).createShader(Rect.fromCircle(center: Offset.zero, radius: radius));
@@ -60,7 +61,7 @@ class MapBallLayer extends CustomPainter {
 
     // 1. Heavy Black Blurred Material (Shadow) on Level Button
     final Paint deepShadowPaint = Paint()
-      ..color = Colors.black.withValues(alpha: 0.5)
+      ..color = GameColors.black.withValues(alpha: 0.5)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 12.0);
 
     // Draw a wide elliptical heavy shadow at the base of the platform
@@ -93,7 +94,8 @@ class MapBallLayer extends CustomPainter {
 
     final Paint basePaint = Paint()
       ..color = isLocked
-          ? const Color(0xFF2D1A11) // Solid very dark brown/black
+          ? GameColors
+                .brown900 // Solid very dark brown/black
           : const Color.fromARGB(255, 97, 54, 5) // Deep sea blue
       ..maskFilter = const MaskFilter.blur(
         BlurStyle.normal,
@@ -141,10 +143,13 @@ class MapBallLayer extends CustomPainter {
         end: Alignment.bottomCenter,
         colors: isLocked
             ? const [
-                Color(0xFFE0E0E0),
-                Color(0xFF9E9E9E),
+                GameColors.gray300,
+                GameColors.gray500,
               ] // Bright metallic top
-            : const [Color(0xFFFFE082), Color(0xFFFFB74D)], // Warm beach sand
+            : const [
+                GameColors.amber300,
+                GameColors.orangeTextUi,
+              ], // Warm beach sand
       ).createShader(Rect.fromLTRB(-frontW, backY, frontW, frontY));
 
     canvas.drawPath(topFacePath, topFacePaint);
@@ -175,8 +180,8 @@ class MapBallLayer extends CustomPainter {
         end: Alignment.bottomCenter,
         colors: isLocked
             ? const [
-                Color(0xFF616161),
-                Color(0xFF212121),
+                GameColors.gray700,
+                GameColors.gray900,
               ] // Darker metal front edge
             : const [
                 Color.fromARGB(255, 247, 219, 79),
@@ -188,7 +193,7 @@ class MapBallLayer extends CustomPainter {
 
     // 4. Metallic details: Panel lines on Top Face
     final Paint panelLine = Paint()
-      ..color = Colors.black.withValues(alpha: 0.3)
+      ..color = GameColors.black.withValues(alpha: 0.3)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.5;
 
@@ -202,24 +207,24 @@ class MapBallLayer extends CustomPainter {
 
     // Glowing cyan dot
     final Paint glowPaint = Paint()
-      ..color = const Color(0xFF03A9F4).withValues(alpha: 0.8)
+      ..color = GameColors.lightBlue.withValues(alpha: 0.8)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3.0);
 
-    final Paint corePaint = Paint()..color = const Color(0xFFE1F5FE);
+    final Paint corePaint = Paint()..color = GameColors.lightBlue50;
 
     canvas.drawCircle(Offset(cx, cy), 3.0, glowPaint);
     canvas.drawCircle(Offset(cx, cy), 1.5, corePaint);
 
     // Add some "rivets" on the front face
     final Paint rivetPaint = Paint()
-      ..color = Colors.black.withValues(alpha: 0.5);
+      ..color = GameColors.black.withValues(alpha: 0.5);
     canvas.drawCircle(Offset(-38, cy), 1.5, rivetPaint);
     canvas.drawCircle(Offset(-25, cy), 1.5, rivetPaint);
     canvas.drawCircle(Offset(25, cy), 1.5, rivetPaint);
 
     // 6. Highlight on the top front edge to make it pop
     final Paint edgeHighlight = Paint()
-      ..color = Colors.white.withValues(alpha: 0.4)
+      ..color = GameColors.white.withValues(alpha: 0.4)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.5;
     canvas.drawLine(

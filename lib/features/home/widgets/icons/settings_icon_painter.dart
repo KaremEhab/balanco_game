@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class SettingsIconPainter extends CustomPainter {
   @override
@@ -240,7 +241,7 @@ class SettingsIconPainter extends CustomPainter {
     path_1.close();
 
     Paint fillPaint = Paint()..style = PaintingStyle.fill;
-    fillPaint.color = Colors.white.withValues(alpha: 0.7);
+    fillPaint.color = GameColors.white.withValues(alpha: 0.7);
 
     canvas.drawPath(path_0, fillPaint);
     canvas.drawPath(path_1, fillPaint);

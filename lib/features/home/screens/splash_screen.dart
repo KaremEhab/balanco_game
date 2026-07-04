@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:balanco_game/features/home/screens/main_screen.dart';
 import 'package:balanco_game/core/widgets/logo_painter.dart';
 import 'package:balanco_game/features/game/components/game_background/sky_painter.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -67,7 +68,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffCCFFFB),
+      backgroundColor: GameColors.mapAppBarCyanLightest,
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -151,7 +152,7 @@ class _SplashScreenState extends State<SplashScreen>
                 child: const Text(
                   '© Developer Kareem Ehab',
                   style: TextStyle(
-                    color: Color(0xff1B4F72),
+                    color: GameColors.splashScreenColor1,
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1.2,

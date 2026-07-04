@@ -1,6 +1,7 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class LogoPainter extends CustomPainter {
   final double progress;
@@ -59,7 +60,10 @@ class LogoPainter extends CustomPainter {
     paint0Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.9267777, size.height * -14.20830),
       Offset(size.width * -3.978324, size.height * 1.054586),
-      [Color(0xff80E3FF).withValues(alpha: 1), Color(0xffEAFAFF).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor5.withValues(alpha: 1),
+        GameColors.logoPainterColor51.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     // _drawAnimatedPath(canvas, path_0, paint0Fill, 0);
@@ -253,7 +257,7 @@ class LogoPainter extends CustomPainter {
     path_1.close();
 
     Paint paint1Fill = Paint()..style = PaintingStyle.fill;
-    paint1Fill.color = Color(0xffE5FFFB).withValues(alpha: 1.0);
+    paint1Fill.color = GameColors.logoPainterColor44.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_1, paint1Fill, 1);
 
     Path path_2 = Path();
@@ -408,7 +412,7 @@ class LogoPainter extends CustomPainter {
     path_2.close();
 
     Paint paint2Fill = Paint()..style = PaintingStyle.fill;
-    paint2Fill.color = Color(0xffE9FFFC).withValues(alpha: 1.0);
+    paint2Fill.color = GameColors.logoPainterColor48.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_2, paint2Fill, 2);
 
     Path path_3 = Path();
@@ -885,7 +889,10 @@ class LogoPainter extends CustomPainter {
     paint3Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7781311, size.height * 0.5130505),
       Offset(size.width * 0.9002458, size.height * 0.4375178),
-      [Color(0xff14A865).withValues(alpha: 1), Color(0xff084228).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor2.withValues(alpha: 1),
+        GameColors.logoPainterColor1.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     _drawAnimatedPath(canvas, path_3, paint3Fill, 3);
@@ -1049,7 +1056,7 @@ class LogoPainter extends CustomPainter {
     path_4.close();
 
     Paint paint4Fill = Paint()..style = PaintingStyle.fill;
-    paint4Fill.color = Color(0xff47B365).withValues(alpha: 1.0);
+    paint4Fill.color = GameColors.logoPainterColor4.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_4, paint4Fill, 4);
 
     Path path_5 = Path();
@@ -1533,7 +1540,10 @@ class LogoPainter extends CustomPainter {
     paint5Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7327967, size.height * 0.4892070),
       Offset(size.width * 0.8683267, size.height * 0.5366270),
-      [Color(0xff14A865).withValues(alpha: 1), Color(0xff084228).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor2.withValues(alpha: 1),
+        GameColors.logoPainterColor1.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     _drawAnimatedPath(canvas, path_5, paint5Fill, 5);
@@ -1690,7 +1700,7 @@ class LogoPainter extends CustomPainter {
     path_6.close();
 
     Paint paint6Fill = Paint()..style = PaintingStyle.fill;
-    paint6Fill.color = Color(0xff47B365).withValues(alpha: 1.0);
+    paint6Fill.color = GameColors.logoPainterColor4.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_6, paint6Fill, 6);
 
     Path path_7 = Path();
@@ -1795,7 +1805,10 @@ class LogoPainter extends CustomPainter {
     paint7Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.8058314, size.height * 0.5569548),
       Offset(size.width * 0.7754084, size.height * 0.4971002),
-      [Color(0xff14A865).withValues(alpha: 1), Color(0xff084228).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor2.withValues(alpha: 1),
+        GameColors.logoPainterColor1.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     _drawAnimatedPath(canvas, path_7, paint7Fill, 7);
@@ -1902,7 +1915,10 @@ class LogoPainter extends CustomPainter {
     paint8Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.8485593, size.height * 0.4926725),
       Offset(size.width * 0.7672852, size.height * 0.4341686),
-      [Color(0xff14A865).withValues(alpha: 1), Color(0xff084228).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor2.withValues(alpha: 1),
+        GameColors.logoPainterColor1.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     _drawAnimatedPath(canvas, path_8, paint8Fill, 8);
@@ -2367,7 +2383,10 @@ class LogoPainter extends CustomPainter {
     paint9Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7007216, size.height * 0.4885144),
       Offset(size.width * 0.9112847, size.height * 0.6330954),
-      [Color(0xff14A865).withValues(alpha: 1), Color(0xff084228).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor2.withValues(alpha: 1),
+        GameColors.logoPainterColor1.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     _drawAnimatedPath(canvas, path_9, paint9Fill, 9);
@@ -2531,7 +2550,7 @@ class LogoPainter extends CustomPainter {
     path_10.close();
 
     Paint paint10Fill = Paint()..style = PaintingStyle.fill;
-    paint10Fill.color = Color(0xff47B365).withValues(alpha: 1.0);
+    paint10Fill.color = GameColors.logoPainterColor4.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_10, paint10Fill, 10);
 
     Path path_11 = Path();
@@ -3015,7 +3034,10 @@ class LogoPainter extends CustomPainter {
     paint11Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5880386, size.height * 0.5018054),
       Offset(size.width * 0.8289453, size.height * 0.4169257),
-      [Color(0xff14A865).withValues(alpha: 1), Color(0xff084228).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor2.withValues(alpha: 1),
+        GameColors.logoPainterColor1.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     _drawAnimatedPath(canvas, path_11, paint11Fill, 11);
@@ -3179,7 +3201,7 @@ class LogoPainter extends CustomPainter {
     path_12.close();
 
     Paint paint12Fill = Paint()..style = PaintingStyle.fill;
-    paint12Fill.color = Color(0xff47B365).withValues(alpha: 1.0);
+    paint12Fill.color = GameColors.logoPainterColor4.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_12, paint12Fill, 12);
 
     Path path_13 = Path();
@@ -3277,7 +3299,10 @@ class LogoPainter extends CustomPainter {
     paint13Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.8832064, size.height * 0.5791753),
       Offset(size.width * 0.8697172, size.height * 0.5134021),
-      [Color(0xff14A865).withValues(alpha: 1), Color(0xff084228).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor2.withValues(alpha: 1),
+        GameColors.logoPainterColor1.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     _drawAnimatedPath(canvas, path_13, paint13Fill, 13);
@@ -3384,7 +3409,10 @@ class LogoPainter extends CustomPainter {
     paint14Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.9023500, size.height * 0.5073751),
       Offset(size.width * 0.8412609, size.height * 0.4795136),
-      [Color(0xff14A865).withValues(alpha: 1), Color(0xff084228).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor2.withValues(alpha: 1),
+        GameColors.logoPainterColor1.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     _drawAnimatedPath(canvas, path_14, paint14Fill, 14);
@@ -3484,7 +3512,10 @@ class LogoPainter extends CustomPainter {
     paint15Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.8570182, size.height * 0.4583241),
       Offset(size.width * 0.7569654, size.height * 0.4541501),
-      [Color(0xff14A865).withValues(alpha: 1), Color(0xff084228).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor2.withValues(alpha: 1),
+        GameColors.logoPainterColor1.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     _drawAnimatedPath(canvas, path_15, paint15Fill, 15);
@@ -3584,7 +3615,10 @@ class LogoPainter extends CustomPainter {
     paint16Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7838462, size.height * 0.6242770),
       Offset(size.width * 0.8281153, size.height * 0.5344568),
-      [Color(0xff14A865).withValues(alpha: 1), Color(0xff084228).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor2.withValues(alpha: 1),
+        GameColors.logoPainterColor1.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     _drawAnimatedPath(canvas, path_16, paint16Fill, 16);
@@ -3698,7 +3732,10 @@ class LogoPainter extends CustomPainter {
     paint17Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7309331, size.height * 0.4809067),
       Offset(size.width * 0.7899366, size.height * 0.4488633),
-      [Color(0xff14A865).withValues(alpha: 1), Color(0xff084228).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor2.withValues(alpha: 1),
+        GameColors.logoPainterColor1.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     _drawAnimatedPath(canvas, path_17, paint17Fill, 17);
@@ -4177,7 +4214,10 @@ class LogoPainter extends CustomPainter {
     paint18Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2993365, size.height * 0.4885223),
       Offset(size.width * 0.08877082, size.height * 0.6331034),
-      [Color(0xff14A865).withValues(alpha: 1), Color(0xff084228).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor2.withValues(alpha: 1),
+        GameColors.logoPainterColor1.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     _drawAnimatedPath(canvas, path_18, paint18Fill, 18);
@@ -4341,7 +4381,7 @@ class LogoPainter extends CustomPainter {
     path_19.close();
 
     Paint paint19Fill = Paint()..style = PaintingStyle.fill;
-    paint19Fill.color = Color(0xff47B365).withValues(alpha: 1.0);
+    paint19Fill.color = GameColors.logoPainterColor4.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_19, paint19Fill, 19);
 
     Path path_20 = Path();
@@ -4811,7 +4851,10 @@ class LogoPainter extends CustomPainter {
     paint20Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4120169, size.height * 0.5018054),
       Offset(size.width * 0.1711102, size.height * 0.4169231),
-      [Color(0xff14A865).withValues(alpha: 1), Color(0xff084228).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor2.withValues(alpha: 1),
+        GameColors.logoPainterColor1.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     _drawAnimatedPath(canvas, path_20, paint20Fill, 20);
@@ -4961,7 +5004,7 @@ class LogoPainter extends CustomPainter {
     path_21.close();
 
     Paint paint21Fill = Paint()..style = PaintingStyle.fill;
-    paint21Fill.color = Color(0xff47B365).withValues(alpha: 1.0);
+    paint21Fill.color = GameColors.logoPainterColor4.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_21, paint21Fill, 21);
 
     Path path_22 = Path();
@@ -5066,7 +5109,10 @@ class LogoPainter extends CustomPainter {
     paint22Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.1168485, size.height * 0.5791832),
       Offset(size.width * 0.1303376, size.height * 0.5134100),
-      [Color(0xff14A865).withValues(alpha: 1), Color(0xff084228).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor2.withValues(alpha: 1),
+        GameColors.logoPainterColor1.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     _drawAnimatedPath(canvas, path_22, paint22Fill, 22);
@@ -5180,7 +5226,10 @@ class LogoPainter extends CustomPainter {
     paint23Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.09770579, size.height * 0.5073830),
       Offset(size.width * 0.1587946, size.height * 0.4795215),
-      [Color(0xff14A865).withValues(alpha: 1), Color(0xff084228).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor2.withValues(alpha: 1),
+        GameColors.logoPainterColor1.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     _drawAnimatedPath(canvas, path_23, paint23Fill, 23);
@@ -5294,7 +5343,10 @@ class LogoPainter extends CustomPainter {
     paint24Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.1430375, size.height * 0.4583320),
       Offset(size.width * 0.2430891, size.height * 0.4541581),
-      [Color(0xff14A865).withValues(alpha: 1), Color(0xff084228).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor2.withValues(alpha: 1),
+        GameColors.logoPainterColor1.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     _drawAnimatedPath(canvas, path_24, paint24Fill, 24);
@@ -5408,7 +5460,10 @@ class LogoPainter extends CustomPainter {
     paint25Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2162099, size.height * 0.6242850),
       Offset(size.width * 0.1719400, size.height * 0.5344647),
-      [Color(0xff14A865).withValues(alpha: 1), Color(0xff084228).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor2.withValues(alpha: 1),
+        GameColors.logoPainterColor1.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     _drawAnimatedPath(canvas, path_25, paint25Fill, 25);
@@ -5522,7 +5577,10 @@ class LogoPainter extends CustomPainter {
     paint26Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2691224, size.height * 0.4809146),
       Offset(size.width * 0.2101192, size.height * 0.4488713),
-      [Color(0xff14A865).withValues(alpha: 1), Color(0xff084228).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor2.withValues(alpha: 1),
+        GameColors.logoPainterColor1.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     _drawAnimatedPath(canvas, path_26, paint26Fill, 26);
@@ -5629,7 +5687,10 @@ class LogoPainter extends CustomPainter {
     paint27Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7506476, size.height * 0.4214750),
       Offset(size.width * 0.7736135, size.height * 0.4845678),
-      [Color(0xff14A865).withValues(alpha: 1), Color(0xff084228).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor2.withValues(alpha: 1),
+        GameColors.logoPainterColor1.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     _drawAnimatedPath(canvas, path_27, paint27Fill, 27);
@@ -5999,7 +6060,10 @@ class LogoPainter extends CustomPainter {
     paint28Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.1821723, size.height * 0.4479170),
       Offset(size.width * 0.1821723, size.height * 0.5759344),
-      [Color(0xffFFD44B).withValues(alpha: 1), Color(0xffD86B11).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor69.withValues(alpha: 1),
+        GameColors.logoPainterColor33.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     _drawAnimatedPath(canvas, path_28, paint28Fill, 28);
@@ -6441,13 +6505,16 @@ class LogoPainter extends CustomPainter {
     paint29Stroke.shader = ui.Gradient.linear(
       Offset(size.width * 0.1820973, size.height * 0.4479170),
       Offset(size.width * 0.1820217, size.height * 0.5799022),
-      [Color(0xffFAF0B3).withValues(alpha: 1), Color(0xffD4C98A).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor64.withValues(alpha: 1),
+        GameColors.logoPainterColor29.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     _drawAnimatedPath(canvas, path_29, paint29Stroke, 29);
 
     Paint paint29Fill = Paint()..style = PaintingStyle.fill;
-    paint29Fill.color = Color(0xff000000).withValues(alpha: 0.0);
+    paint29Fill.color = GameColors.blackSolid.withValues(alpha: 0.0);
     _drawAnimatedPath(canvas, path_29, paint29Fill, 29);
 
     Path path_30 = Path();
@@ -6554,7 +6621,7 @@ class LogoPainter extends CustomPainter {
     path_30.close();
 
     Paint paint30Fill = Paint()..style = PaintingStyle.fill;
-    paint30Fill.color = Color(0xffF58548).withValues(alpha: 1.0);
+    paint30Fill.color = GameColors.logoPainterColor60.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_30, paint30Fill, 30);
 
     Path path_31 = Path();
@@ -6632,7 +6699,7 @@ class LogoPainter extends CustomPainter {
     path_31.close();
 
     Paint paint31Fill = Paint()..style = PaintingStyle.fill;
-    paint31Fill.color = Color(0xffEDC06F).withValues(alpha: 1.0);
+    paint31Fill.color = GameColors.logoPainterColor53.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_31, paint31Fill, 31);
 
     Path path_32 = Path();
@@ -6734,10 +6801,10 @@ class LogoPainter extends CustomPainter {
       Offset(size.width * 0.4876870, size.height * 0.4479170),
       Offset(size.width * 0.4876870, size.height * 0.7172799),
       [
-        Color(0xffFFD44B).withValues(alpha: 1),
-        Color(0xffD96D12).withValues(alpha: 1),
-        Color(0xffFFD44B).withValues(alpha: 1),
-        Color(0xffD96D12).withValues(alpha: 1),
+        GameColors.logoPainterColor69.withValues(alpha: 1),
+        GameColors.logoPainterColor34.withValues(alpha: 1),
+        GameColors.logoPainterColor69.withValues(alpha: 1),
+        GameColors.logoPainterColor34.withValues(alpha: 1),
       ],
       [0, 0.457, 0.564, 1],
     );
@@ -6799,10 +6866,10 @@ class LogoPainter extends CustomPainter {
       Offset(size.width * 0.4876870, size.height * 0.4479170),
       Offset(size.width * 0.4876870, size.height * 0.7172799),
       [
-        Color(0xffFFD44B).withValues(alpha: 1),
-        Color(0xffD96D12).withValues(alpha: 1),
-        Color(0xffFFD44B).withValues(alpha: 1),
-        Color(0xffD96D12).withValues(alpha: 1),
+        GameColors.logoPainterColor69.withValues(alpha: 1),
+        GameColors.logoPainterColor34.withValues(alpha: 1),
+        GameColors.logoPainterColor69.withValues(alpha: 1),
+        GameColors.logoPainterColor34.withValues(alpha: 1),
       ],
       [0, 0.457, 0.564, 1],
     );
@@ -6900,10 +6967,10 @@ class LogoPainter extends CustomPainter {
       Offset(size.width * 0.4876870, size.height * 0.4479170),
       Offset(size.width * 0.4876870, size.height * 0.7172799),
       [
-        Color(0xffFFD44B).withValues(alpha: 1),
-        Color(0xffD96D12).withValues(alpha: 1),
-        Color(0xffFFD44B).withValues(alpha: 1),
-        Color(0xffD96D12).withValues(alpha: 1),
+        GameColors.logoPainterColor69.withValues(alpha: 1),
+        GameColors.logoPainterColor34.withValues(alpha: 1),
+        GameColors.logoPainterColor69.withValues(alpha: 1),
+        GameColors.logoPainterColor34.withValues(alpha: 1),
       ],
       [0, 0.457, 0.564, 1],
     );
@@ -7177,10 +7244,10 @@ class LogoPainter extends CustomPainter {
       Offset(size.width * 0.4876870, size.height * 0.4479170),
       Offset(size.width * 0.4876870, size.height * 0.7172799),
       [
-        Color(0xffFFD44B).withValues(alpha: 1),
-        Color(0xffD96D12).withValues(alpha: 1),
-        Color(0xffFFD44B).withValues(alpha: 1),
-        Color(0xffD96D12).withValues(alpha: 1),
+        GameColors.logoPainterColor69.withValues(alpha: 1),
+        GameColors.logoPainterColor34.withValues(alpha: 1),
+        GameColors.logoPainterColor69.withValues(alpha: 1),
+        GameColors.logoPainterColor34.withValues(alpha: 1),
       ],
       [0, 0.457, 0.564, 1],
     );
@@ -7436,10 +7503,10 @@ class LogoPainter extends CustomPainter {
       Offset(size.width * 0.4876870, size.height * 0.4479170),
       Offset(size.width * 0.4876870, size.height * 0.7172799),
       [
-        Color(0xffFFD44B).withValues(alpha: 1),
-        Color(0xffD96D12).withValues(alpha: 1),
-        Color(0xffFFD44B).withValues(alpha: 1),
-        Color(0xffD96D12).withValues(alpha: 1),
+        GameColors.logoPainterColor69.withValues(alpha: 1),
+        GameColors.logoPainterColor34.withValues(alpha: 1),
+        GameColors.logoPainterColor69.withValues(alpha: 1),
+        GameColors.logoPainterColor34.withValues(alpha: 1),
       ],
       [0, 0.457, 0.564, 1],
     );
@@ -8239,17 +8306,17 @@ class LogoPainter extends CustomPainter {
       Offset(size.width * 0.4877531, size.height * 0.4479170),
       Offset(size.width * 0.4876870, size.height * 0.7256067),
       [
-        Color(0xffFAF0B3).withValues(alpha: 1),
-        Color(0xffD4C98A).withValues(alpha: 1),
-        Color(0xffFAF0B3).withValues(alpha: 1),
-        Color(0xffD4C98A).withValues(alpha: 1),
+        GameColors.logoPainterColor64.withValues(alpha: 1),
+        GameColors.logoPainterColor29.withValues(alpha: 1),
+        GameColors.logoPainterColor64.withValues(alpha: 1),
+        GameColors.logoPainterColor29.withValues(alpha: 1),
       ],
       [0, 0.473, 0.527, 1],
     );
     _drawAnimatedPath(canvas, path_37, paint37Stroke, 37);
 
     Paint paint37Fill = Paint()..style = PaintingStyle.fill;
-    paint37Fill.color = Color(0xff000000).withValues(alpha: 0.0);
+    paint37Fill.color = GameColors.blackSolid.withValues(alpha: 0.0);
     _drawAnimatedPath(canvas, path_37, paint37Fill, 37);
 
     Path path_38 = Path();
@@ -8451,7 +8518,7 @@ class LogoPainter extends CustomPainter {
     path_38.close();
 
     Paint paint38Fill = Paint()..style = PaintingStyle.fill;
-    paint38Fill.color = Color(0xffEDC06F).withValues(alpha: 1.0);
+    paint38Fill.color = GameColors.logoPainterColor53.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_38, paint38Fill, 38);
 
     Path path_39 = Path();
@@ -8573,7 +8640,7 @@ class LogoPainter extends CustomPainter {
     path_39.close();
 
     Paint paint39Fill = Paint()..style = PaintingStyle.fill;
-    paint39Fill.color = Color(0xffF58548).withValues(alpha: 1.0);
+    paint39Fill.color = GameColors.logoPainterColor60.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_39, paint39Fill, 39);
 
     Path path_40 = Path();
@@ -8606,7 +8673,7 @@ class LogoPainter extends CustomPainter {
     path_40.close();
 
     Paint paint40Fill = Paint()..style = PaintingStyle.fill;
-    paint40Fill.color = Color(0xffEBEBEB).withValues(alpha: 1.0);
+    paint40Fill.color = GameColors.ballHighlight1.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_40, paint40Fill, 40);
 
     Path path_41 = Path();
@@ -8666,10 +8733,10 @@ class LogoPainter extends CustomPainter {
       Offset(0, 0),
       size.width * 0.0002643405,
       [
-        Color(0xffFFE300).withValues(alpha: 1),
-        Color(0xffFFDA00).withValues(alpha: 1),
-        Color(0xffC77500).withValues(alpha: 1),
-        Color(0xffFFDA00).withValues(alpha: 1),
+        GameColors.ballHighlight2.withValues(alpha: 1),
+        GameColors.ballHighlight3.withValues(alpha: 1),
+        GameColors.ballHighlight4.withValues(alpha: 1),
+        GameColors.ballHighlight3.withValues(alpha: 1),
       ],
       [0, 0.351, 0.714, 0.918],
     );
@@ -8709,10 +8776,10 @@ class LogoPainter extends CustomPainter {
       Offset(0, 0),
       size.width * 0.0002643405,
       [
-        Color(0xffFFE300).withValues(alpha: 1),
-        Color(0xffFFDA00).withValues(alpha: 1),
-        Color(0xffC77500).withValues(alpha: 1),
-        Color(0xffFFDA00).withValues(alpha: 1),
+        GameColors.ballHighlight2.withValues(alpha: 1),
+        GameColors.ballHighlight3.withValues(alpha: 1),
+        GameColors.ballHighlight4.withValues(alpha: 1),
+        GameColors.ballHighlight3.withValues(alpha: 1),
       ],
       [0, 0.351, 0.714, 0.918],
     );
@@ -8752,10 +8819,10 @@ class LogoPainter extends CustomPainter {
       Offset(0, 0),
       size.width * 0.0002643405,
       [
-        Color(0xffFFE300).withValues(alpha: 1),
-        Color(0xffFFDA00).withValues(alpha: 1),
-        Color(0xffC77500).withValues(alpha: 1),
-        Color(0xffFFDA00).withValues(alpha: 1),
+        GameColors.ballHighlight2.withValues(alpha: 1),
+        GameColors.ballHighlight3.withValues(alpha: 1),
+        GameColors.ballHighlight4.withValues(alpha: 1),
+        GameColors.ballHighlight3.withValues(alpha: 1),
       ],
       [0, 0.351, 0.714, 0.918],
     );
@@ -8794,11 +8861,11 @@ class LogoPainter extends CustomPainter {
       Offset(0, 0),
       size.width * 0.0002643405,
       [
-        Color(0xffF03100).withValues(alpha: 1),
-        Color(0xffED0009).withValues(alpha: 1),
-        Color(0xffE00008).withValues(alpha: 1),
-        Color(0xffAA0006).withValues(alpha: 1),
-        Color(0xffF53200).withValues(alpha: 1),
+        GameColors.ballHighlight5.withValues(alpha: 1),
+        GameColors.ballHighlight6.withValues(alpha: 1),
+        GameColors.ballHighlight7.withValues(alpha: 1),
+        GameColors.ballHighlight8.withValues(alpha: 1),
+        GameColors.ballHighlight9.withValues(alpha: 1),
       ],
       [0.104, 0.383, 0.56, 0.816, 1],
     );
@@ -8838,11 +8905,11 @@ class LogoPainter extends CustomPainter {
       Offset(0, 0),
       size.width * 0.0002643405,
       [
-        Color(0xffF03100).withValues(alpha: 1),
-        Color(0xffED0009).withValues(alpha: 1),
-        Color(0xffE00008).withValues(alpha: 1),
-        Color(0xffAA0006).withValues(alpha: 1),
-        Color(0xffF53200).withValues(alpha: 1),
+        GameColors.ballHighlight5.withValues(alpha: 1),
+        GameColors.ballHighlight6.withValues(alpha: 1),
+        GameColors.ballHighlight7.withValues(alpha: 1),
+        GameColors.ballHighlight8.withValues(alpha: 1),
+        GameColors.ballHighlight9.withValues(alpha: 1),
       ],
       [0.104, 0.383, 0.56, 0.816, 1],
     );
@@ -8889,11 +8956,11 @@ class LogoPainter extends CustomPainter {
       Offset(0, 0),
       size.width * 0.0002643405,
       [
-        Color(0xffF03100).withValues(alpha: 1),
-        Color(0xffED0009).withValues(alpha: 1),
-        Color(0xffE00008).withValues(alpha: 1),
-        Color(0xffAA0006).withValues(alpha: 1),
-        Color(0xffF53200).withValues(alpha: 1),
+        GameColors.ballHighlight5.withValues(alpha: 1),
+        GameColors.ballHighlight6.withValues(alpha: 1),
+        GameColors.ballHighlight7.withValues(alpha: 1),
+        GameColors.ballHighlight8.withValues(alpha: 1),
+        GameColors.ballHighlight9.withValues(alpha: 1),
       ],
       [0.104, 0.383, 0.56, 0.816, 1],
     );
@@ -8940,9 +9007,9 @@ class LogoPainter extends CustomPainter {
       Offset(size.width * 0.7813402, size.height * 0.4747370),
       Offset(size.width * 0.7931007, size.height * 0.4930478),
       [
-        Color(0xffffffff).withValues(alpha: 1),
-        Color(0xffC1D8E8).withValues(alpha: 1),
-        Color(0xff84B2D2).withValues(alpha: 1),
+        GameColors.whiteSolid.withValues(alpha: 1),
+        GameColors.logoPainterColor16.withValues(alpha: 1),
+        GameColors.logoPainterColor6.withValues(alpha: 1),
       ],
       [0, 0.49, 1],
     );
@@ -8985,7 +9052,7 @@ class LogoPainter extends CustomPainter {
     path_48.close();
 
     Paint paint48Fill = Paint()..style = PaintingStyle.fill;
-    paint48Fill.color = Color(0xffB2D2DF).withValues(alpha: 1.0);
+    paint48Fill.color = GameColors.logoPainterColor7.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_48, paint48Fill, 48);
 
     Path path_49 = Path();
@@ -9025,7 +9092,7 @@ class LogoPainter extends CustomPainter {
     path_49.close();
 
     Paint paint49Fill = Paint()..style = PaintingStyle.fill;
-    paint49Fill.color = Color(0xffB4D3E0).withValues(alpha: 1.0);
+    paint49Fill.color = GameColors.logoPainterColor8.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_49, paint49Fill, 49);
 
     Path path_50 = Path();
@@ -9065,7 +9132,7 @@ class LogoPainter extends CustomPainter {
     path_50.close();
 
     Paint paint50Fill = Paint()..style = PaintingStyle.fill;
-    paint50Fill.color = Color(0xffB7D5E1).withValues(alpha: 1.0);
+    paint50Fill.color = GameColors.logoPainterColor10.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_50, paint50Fill, 50);
 
     Path path_51 = Path();
@@ -9091,7 +9158,7 @@ class LogoPainter extends CustomPainter {
     path_51.close();
 
     Paint paint51Fill = Paint()..style = PaintingStyle.fill;
-    paint51Fill.color = Color(0xffB9D6E2).withValues(alpha: 1.0);
+    paint51Fill.color = GameColors.logoPainterColor11.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_51, paint51Fill, 51);
 
     Path path_52 = Path();
@@ -9131,7 +9198,7 @@ class LogoPainter extends CustomPainter {
     path_52.close();
 
     Paint paint52Fill = Paint()..style = PaintingStyle.fill;
-    paint52Fill.color = Color(0xffBCD8E3).withValues(alpha: 1.0);
+    paint52Fill.color = GameColors.logoPainterColor12.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_52, paint52Fill, 52);
 
     Path path_53 = Path();
@@ -9164,7 +9231,7 @@ class LogoPainter extends CustomPainter {
     path_53.close();
 
     Paint paint53Fill = Paint()..style = PaintingStyle.fill;
-    paint53Fill.color = Color(0xffBED9E4).withValues(alpha: 1.0);
+    paint53Fill.color = GameColors.logoPainterColor14.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_53, paint53Fill, 53);
 
     Path path_54 = Path();
@@ -9197,7 +9264,7 @@ class LogoPainter extends CustomPainter {
     path_54.close();
 
     Paint paint54Fill = Paint()..style = PaintingStyle.fill;
-    paint54Fill.color = Color(0xffC0DAE5).withValues(alpha: 1.0);
+    paint54Fill.color = GameColors.logoPainterColor15.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_54, paint54Fill, 54);
 
     Path path_55 = Path();
@@ -9237,7 +9304,7 @@ class LogoPainter extends CustomPainter {
     path_55.close();
 
     Paint paint55Fill = Paint()..style = PaintingStyle.fill;
-    paint55Fill.color = Color(0xffC3DCE6).withValues(alpha: 1.0);
+    paint55Fill.color = GameColors.logoPainterColor17.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_55, paint55Fill, 55);
 
     Path path_56 = Path();
@@ -9263,7 +9330,7 @@ class LogoPainter extends CustomPainter {
     path_56.close();
 
     Paint paint56Fill = Paint()..style = PaintingStyle.fill;
-    paint56Fill.color = Color(0xffC5DDE7).withValues(alpha: 1.0);
+    paint56Fill.color = GameColors.logoPainterColor19.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_56, paint56Fill, 56);
 
     Path path_57 = Path();
@@ -9303,7 +9370,7 @@ class LogoPainter extends CustomPainter {
     path_57.close();
 
     Paint paint57Fill = Paint()..style = PaintingStyle.fill;
-    paint57Fill.color = Color(0xffC8DFE8).withValues(alpha: 1.0);
+    paint57Fill.color = GameColors.logoPainterColor21.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_57, paint57Fill, 57);
 
     Path path_58 = Path();
@@ -9343,7 +9410,7 @@ class LogoPainter extends CustomPainter {
     path_58.close();
 
     Paint paint58Fill = Paint()..style = PaintingStyle.fill;
-    paint58Fill.color = Color(0xffCAE0E9).withValues(alpha: 1.0);
+    paint58Fill.color = GameColors.logoPainterColor22.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_58, paint58Fill, 58);
 
     Path path_59 = Path();
@@ -9376,7 +9443,7 @@ class LogoPainter extends CustomPainter {
     path_59.close();
 
     Paint paint59Fill = Paint()..style = PaintingStyle.fill;
-    paint59Fill.color = Color(0xffCCE1EA).withValues(alpha: 1.0);
+    paint59Fill.color = GameColors.logoPainterColor24.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_59, paint59Fill, 59);
 
     Path path_60 = Path();
@@ -9409,7 +9476,7 @@ class LogoPainter extends CustomPainter {
     path_60.close();
 
     Paint paint60Fill = Paint()..style = PaintingStyle.fill;
-    paint60Fill.color = Color(0xffCFE3EB).withValues(alpha: 1.0);
+    paint60Fill.color = GameColors.logoPainterColor26.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_60, paint60Fill, 60);
 
     Path path_61 = Path();
@@ -9449,7 +9516,7 @@ class LogoPainter extends CustomPainter {
     path_61.close();
 
     Paint paint61Fill = Paint()..style = PaintingStyle.fill;
-    paint61Fill.color = Color(0xffD1E4EC).withValues(alpha: 1.0);
+    paint61Fill.color = GameColors.logoPainterColor27.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_61, paint61Fill, 61);
 
     Path path_62 = Path();
@@ -9482,7 +9549,7 @@ class LogoPainter extends CustomPainter {
     path_62.close();
 
     Paint paint62Fill = Paint()..style = PaintingStyle.fill;
-    paint62Fill.color = Color(0xffD4E6ED).withValues(alpha: 1.0);
+    paint62Fill.color = GameColors.logoPainterColor30.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_62, paint62Fill, 62);
 
     Path path_63 = Path();
@@ -9508,7 +9575,7 @@ class LogoPainter extends CustomPainter {
     path_63.close();
 
     Paint paint63Fill = Paint()..style = PaintingStyle.fill;
-    paint63Fill.color = Color(0xffD6E7EE).withValues(alpha: 1.0);
+    paint63Fill.color = GameColors.logoPainterColor32.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_63, paint63Fill, 63);
 
     Path path_64 = Path();
@@ -9548,7 +9615,7 @@ class LogoPainter extends CustomPainter {
     path_64.close();
 
     Paint paint64Fill = Paint()..style = PaintingStyle.fill;
-    paint64Fill.color = Color(0xffD9E9EF).withValues(alpha: 1.0);
+    paint64Fill.color = GameColors.logoPainterColor35.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_64, paint64Fill, 64);
 
     Path path_65 = Path();
@@ -9588,7 +9655,7 @@ class LogoPainter extends CustomPainter {
     path_65.close();
 
     Paint paint65Fill = Paint()..style = PaintingStyle.fill;
-    paint65Fill.color = Color(0xffDBEAF0).withValues(alpha: 1.0);
+    paint65Fill.color = GameColors.logoPainterColor36.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_65, paint65Fill, 65);
 
     Path path_66 = Path();
@@ -9628,7 +9695,7 @@ class LogoPainter extends CustomPainter {
     path_66.close();
 
     Paint paint66Fill = Paint()..style = PaintingStyle.fill;
-    paint66Fill.color = Color(0xffDDEBF1).withValues(alpha: 1.0);
+    paint66Fill.color = GameColors.logoPainterColor38.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_66, paint66Fill, 66);
 
     Path path_67 = Path();
@@ -9654,7 +9721,7 @@ class LogoPainter extends CustomPainter {
     path_67.close();
 
     Paint paint67Fill = Paint()..style = PaintingStyle.fill;
-    paint67Fill.color = Color(0xffE0EDF2).withValues(alpha: 1.0);
+    paint67Fill.color = GameColors.logoPainterColor40.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_67, paint67Fill, 67);
 
     Path path_68 = Path();
@@ -9694,7 +9761,7 @@ class LogoPainter extends CustomPainter {
     path_68.close();
 
     Paint paint68Fill = Paint()..style = PaintingStyle.fill;
-    paint68Fill.color = Color(0xffE2EEF3).withValues(alpha: 1.0);
+    paint68Fill.color = GameColors.logoPainterColor41.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_68, paint68Fill, 68);
 
     Path path_69 = Path();
@@ -9727,7 +9794,7 @@ class LogoPainter extends CustomPainter {
     path_69.close();
 
     Paint paint69Fill = Paint()..style = PaintingStyle.fill;
-    paint69Fill.color = Color(0xffE5F0F4).withValues(alpha: 1.0);
+    paint69Fill.color = GameColors.logoPainterColor43.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_69, paint69Fill, 69);
 
     Path path_70 = Path();
@@ -9767,7 +9834,7 @@ class LogoPainter extends CustomPainter {
     path_70.close();
 
     Paint paint70Fill = Paint()..style = PaintingStyle.fill;
-    paint70Fill.color = Color(0xffE7F1F5).withValues(alpha: 1.0);
+    paint70Fill.color = GameColors.logoPainterColor46.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_70, paint70Fill, 70);
 
     Path path_71 = Path();
@@ -9807,7 +9874,7 @@ class LogoPainter extends CustomPainter {
     path_71.close();
 
     Paint paint71Fill = Paint()..style = PaintingStyle.fill;
-    paint71Fill.color = Color(0xffE9F2F6).withValues(alpha: 1.0);
+    paint71Fill.color = GameColors.logoPainterColor47.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_71, paint71Fill, 71);
 
     Path path_72 = Path();
@@ -9847,7 +9914,7 @@ class LogoPainter extends CustomPainter {
     path_72.close();
 
     Paint paint72Fill = Paint()..style = PaintingStyle.fill;
-    paint72Fill.color = Color(0xffECF4F7).withValues(alpha: 1.0);
+    paint72Fill.color = GameColors.logoPainterColor52.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_72, paint72Fill, 72);
 
     Path path_73 = Path();
@@ -9880,7 +9947,7 @@ class LogoPainter extends CustomPainter {
     path_73.close();
 
     Paint paint73Fill = Paint()..style = PaintingStyle.fill;
-    paint73Fill.color = Color(0xffEEF5F8).withValues(alpha: 1.0);
+    paint73Fill.color = GameColors.logoPainterColor55.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_73, paint73Fill, 73);
 
     Path path_74 = Path();
@@ -9906,7 +9973,7 @@ class LogoPainter extends CustomPainter {
     path_74.close();
 
     Paint paint74Fill = Paint()..style = PaintingStyle.fill;
-    paint74Fill.color = Color(0xffF1F7F9).withValues(alpha: 1.0);
+    paint74Fill.color = GameColors.logoPainterColor56.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_74, paint74Fill, 74);
 
     Path path_75 = Path();
@@ -9946,7 +10013,7 @@ class LogoPainter extends CustomPainter {
     path_75.close();
 
     Paint paint75Fill = Paint()..style = PaintingStyle.fill;
-    paint75Fill.color = Color(0xffF3F8FA).withValues(alpha: 1.0);
+    paint75Fill.color = GameColors.logoPainterColor58.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_75, paint75Fill, 75);
 
     Path path_76 = Path();
@@ -9986,7 +10053,7 @@ class LogoPainter extends CustomPainter {
     path_76.close();
 
     Paint paint76Fill = Paint()..style = PaintingStyle.fill;
-    paint76Fill.color = Color(0xffF5F9FB).withValues(alpha: 1.0);
+    paint76Fill.color = GameColors.logoPainterColor61.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_76, paint76Fill, 76);
 
     Path path_77 = Path();
@@ -10026,7 +10093,7 @@ class LogoPainter extends CustomPainter {
     path_77.close();
 
     Paint paint77Fill = Paint()..style = PaintingStyle.fill;
-    paint77Fill.color = Color(0xffF8FBFC).withValues(alpha: 1.0);
+    paint77Fill.color = GameColors.logoPainterColor63.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_77, paint77Fill, 77);
 
     Path path_78 = Path();
@@ -10059,7 +10126,7 @@ class LogoPainter extends CustomPainter {
     path_78.close();
 
     Paint paint78Fill = Paint()..style = PaintingStyle.fill;
-    paint78Fill.color = Color(0xffFAFCFD).withValues(alpha: 1.0);
+    paint78Fill.color = GameColors.logoPainterColor65.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_78, paint78Fill, 78);
 
     Path path_79 = Path();
@@ -10085,7 +10152,7 @@ class LogoPainter extends CustomPainter {
     path_79.close();
 
     Paint paint79Fill = Paint()..style = PaintingStyle.fill;
-    paint79Fill.color = Color(0xffFDFEFE).withValues(alpha: 1.0);
+    paint79Fill.color = GameColors.logoPainterColor67.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_79, paint79Fill, 79);
 
     Path path_80 = Path();
@@ -10114,7 +10181,7 @@ class LogoPainter extends CustomPainter {
     paint80Fill.strokeWidth = 15.0;
     paint80Fill.strokeCap = StrokeCap.round;
     paint80Fill.strokeJoin = StrokeJoin.round;
-    paint80Fill.color = Color(0xffffffff).withValues(alpha: 0.0);
+    paint80Fill.color = GameColors.whiteSolid.withValues(alpha: 0.0);
     paint80Fill.maskFilter = const MaskFilter.blur(BlurStyle.normal, 12.0);
     _drawAnimatedPath(canvas, path_80, paint80Fill, 80);
 
@@ -10152,9 +10219,9 @@ class LogoPainter extends CustomPainter {
       Offset(size.width * 0.7852657, size.height * 0.4764208),
       Offset(size.width * 0.7888369, size.height * 0.4899577),
       [
-        Color(0xffffffff).withValues(alpha: 1),
-        Color(0xffC1D8E8).withValues(alpha: 1),
-        Color(0xff84B2D2).withValues(alpha: 1),
+        GameColors.whiteSolid.withValues(alpha: 1),
+        GameColors.logoPainterColor16.withValues(alpha: 1),
+        GameColors.logoPainterColor6.withValues(alpha: 1),
       ],
       [0, 0.49, 1],
     );
@@ -10197,7 +10264,7 @@ class LogoPainter extends CustomPainter {
     path_82.close();
 
     Paint paint82Fill = Paint()..style = PaintingStyle.fill;
-    paint82Fill.color = Color(0xffB2D2DF).withValues(alpha: 1.0);
+    paint82Fill.color = GameColors.logoPainterColor7.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_82, paint82Fill, 82);
 
     Path path_83 = Path();
@@ -10237,7 +10304,7 @@ class LogoPainter extends CustomPainter {
     path_83.close();
 
     Paint paint83Fill = Paint()..style = PaintingStyle.fill;
-    paint83Fill.color = Color(0xffB6D4E0).withValues(alpha: 1.0);
+    paint83Fill.color = GameColors.logoPainterColor9.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_83, paint83Fill, 83);
 
     Path path_84 = Path();
@@ -10270,7 +10337,7 @@ class LogoPainter extends CustomPainter {
     path_84.close();
 
     Paint paint84Fill = Paint()..style = PaintingStyle.fill;
-    paint84Fill.color = Color(0xffB9D6E2).withValues(alpha: 1.0);
+    paint84Fill.color = GameColors.logoPainterColor11.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_84, paint84Fill, 84);
 
     Path path_85 = Path();
@@ -10296,7 +10363,7 @@ class LogoPainter extends CustomPainter {
     path_85.close();
 
     Paint paint85Fill = Paint()..style = PaintingStyle.fill;
-    paint85Fill.color = Color(0xffBDD8E3).withValues(alpha: 1.0);
+    paint85Fill.color = GameColors.logoPainterColor13.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_85, paint85Fill, 85);
 
     Path path_86 = Path();
@@ -10336,7 +10403,7 @@ class LogoPainter extends CustomPainter {
     path_86.close();
 
     Paint paint86Fill = Paint()..style = PaintingStyle.fill;
-    paint86Fill.color = Color(0xffC0DAE5).withValues(alpha: 1.0);
+    paint86Fill.color = GameColors.logoPainterColor15.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_86, paint86Fill, 86);
 
     Path path_87 = Path();
@@ -10369,7 +10436,7 @@ class LogoPainter extends CustomPainter {
     path_87.close();
 
     Paint paint87Fill = Paint()..style = PaintingStyle.fill;
-    paint87Fill.color = Color(0xffC4DCE6).withValues(alpha: 1.0);
+    paint87Fill.color = GameColors.logoPainterColor18.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_87, paint87Fill, 87);
 
     Path path_88 = Path();
@@ -10409,7 +10476,7 @@ class LogoPainter extends CustomPainter {
     path_88.close();
 
     Paint paint88Fill = Paint()..style = PaintingStyle.fill;
-    paint88Fill.color = Color(0xffC7DEE8).withValues(alpha: 1.0);
+    paint88Fill.color = GameColors.logoPainterColor20.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_88, paint88Fill, 88);
 
     Path path_89 = Path();
@@ -10449,7 +10516,7 @@ class LogoPainter extends CustomPainter {
     path_89.close();
 
     Paint paint89Fill = Paint()..style = PaintingStyle.fill;
-    paint89Fill.color = Color(0xffCBE0E9).withValues(alpha: 1.0);
+    paint89Fill.color = GameColors.logoPainterColor23.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_89, paint89Fill, 89);
 
     Path path_90 = Path();
@@ -10489,7 +10556,7 @@ class LogoPainter extends CustomPainter {
     path_90.close();
 
     Paint paint90Fill = Paint()..style = PaintingStyle.fill;
-    paint90Fill.color = Color(0xffCEE2EB).withValues(alpha: 1.0);
+    paint90Fill.color = GameColors.logoPainterColor25.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_90, paint90Fill, 90);
 
     Path path_91 = Path();
@@ -10529,7 +10596,7 @@ class LogoPainter extends CustomPainter {
     path_91.close();
 
     Paint paint91Fill = Paint()..style = PaintingStyle.fill;
-    paint91Fill.color = Color(0xffD2E4EC).withValues(alpha: 1.0);
+    paint91Fill.color = GameColors.logoPainterColor28.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_91, paint91Fill, 91);
 
     Path path_92 = Path();
@@ -10569,7 +10636,7 @@ class LogoPainter extends CustomPainter {
     path_92.close();
 
     Paint paint92Fill = Paint()..style = PaintingStyle.fill;
-    paint92Fill.color = Color(0xffD5E6EE).withValues(alpha: 1.0);
+    paint92Fill.color = GameColors.logoPainterColor31.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_92, paint92Fill, 92);
 
     Path path_93 = Path();
@@ -10609,7 +10676,7 @@ class LogoPainter extends CustomPainter {
     path_93.close();
 
     Paint paint93Fill = Paint()..style = PaintingStyle.fill;
-    paint93Fill.color = Color(0xffD9E9EF).withValues(alpha: 1.0);
+    paint93Fill.color = GameColors.logoPainterColor35.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_93, paint93Fill, 93);
 
     Path path_94 = Path();
@@ -10649,7 +10716,7 @@ class LogoPainter extends CustomPainter {
     path_94.close();
 
     Paint paint94Fill = Paint()..style = PaintingStyle.fill;
-    paint94Fill.color = Color(0xffDCEBF0).withValues(alpha: 1.0);
+    paint94Fill.color = GameColors.logoPainterColor37.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_94, paint94Fill, 94);
 
     Path path_95 = Path();
@@ -10682,7 +10749,7 @@ class LogoPainter extends CustomPainter {
     path_95.close();
 
     Paint paint95Fill = Paint()..style = PaintingStyle.fill;
-    paint95Fill.color = Color(0xffDFEDF2).withValues(alpha: 1.0);
+    paint95Fill.color = GameColors.logoPainterColor39.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_95, paint95Fill, 95);
 
     Path path_96 = Path();
@@ -10722,7 +10789,7 @@ class LogoPainter extends CustomPainter {
     path_96.close();
 
     Paint paint96Fill = Paint()..style = PaintingStyle.fill;
-    paint96Fill.color = Color(0xffE3EFF3).withValues(alpha: 1.0);
+    paint96Fill.color = GameColors.logoPainterColor42.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_96, paint96Fill, 96);
 
     Path path_97 = Path();
@@ -10755,7 +10822,7 @@ class LogoPainter extends CustomPainter {
     path_97.close();
 
     Paint paint97Fill = Paint()..style = PaintingStyle.fill;
-    paint97Fill.color = Color(0xffE6F1F5).withValues(alpha: 1.0);
+    paint97Fill.color = GameColors.logoPainterColor45.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_97, paint97Fill, 97);
 
     Path path_98 = Path();
@@ -10795,7 +10862,7 @@ class LogoPainter extends CustomPainter {
     path_98.close();
 
     Paint paint98Fill = Paint()..style = PaintingStyle.fill;
-    paint98Fill.color = Color(0xffEAF3F6).withValues(alpha: 1.0);
+    paint98Fill.color = GameColors.logoPainterColor50.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_98, paint98Fill, 98);
 
     Path path_99 = Path();
@@ -10835,7 +10902,7 @@ class LogoPainter extends CustomPainter {
     path_99.close();
 
     Paint paint99Fill = Paint()..style = PaintingStyle.fill;
-    paint99Fill.color = Color(0xffEDF5F8).withValues(alpha: 1.0);
+    paint99Fill.color = GameColors.logoPainterColor54.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_99, paint99Fill, 99);
 
     Path path_100 = Path();
@@ -10868,7 +10935,7 @@ class LogoPainter extends CustomPainter {
     path_100.close();
 
     Paint paint100Fill = Paint()..style = PaintingStyle.fill;
-    paint100Fill.color = Color(0xffF1F7F9).withValues(alpha: 1.0);
+    paint100Fill.color = GameColors.logoPainterColor56.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_100, paint100Fill, 100);
 
     Path path_101 = Path();
@@ -10887,7 +10954,7 @@ class LogoPainter extends CustomPainter {
     path_101.close();
 
     Paint paint101Fill = Paint()..style = PaintingStyle.fill;
-    paint101Fill.color = Color(0xffF4F9FB).withValues(alpha: 1.0);
+    paint101Fill.color = GameColors.logoPainterColor59.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_101, paint101Fill, 101);
 
     Path path_102 = Path();
@@ -10913,7 +10980,7 @@ class LogoPainter extends CustomPainter {
     path_102.close();
 
     Paint paint102Fill = Paint()..style = PaintingStyle.fill;
-    paint102Fill.color = Color(0xffF8FBFC).withValues(alpha: 1.0);
+    paint102Fill.color = GameColors.logoPainterColor63.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_102, paint102Fill, 102);
 
     Path path_103 = Path();
@@ -10939,7 +11006,7 @@ class LogoPainter extends CustomPainter {
     path_103.close();
 
     Paint paint103Fill = Paint()..style = PaintingStyle.fill;
-    paint103Fill.color = Color(0xffFBFDFE).withValues(alpha: 1.0);
+    paint103Fill.color = GameColors.logoPainterColor66.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_103, paint103Fill, 103);
 
     Path path_104 = Path();
@@ -10982,7 +11049,7 @@ class LogoPainter extends CustomPainter {
     paint104Fill.strokeWidth = 15.0;
     paint104Fill.strokeCap = StrokeCap.round;
     paint104Fill.strokeJoin = StrokeJoin.round;
-    paint104Fill.color = Color(0xffffffff).withValues(alpha: 0.0);
+    paint104Fill.color = GameColors.whiteSolid.withValues(alpha: 0.0);
     paint104Fill.maskFilter = const MaskFilter.blur(BlurStyle.normal, 12.0);
     _drawAnimatedPath(canvas, path_104, paint104Fill, 104);
 
@@ -11051,7 +11118,7 @@ class LogoPainter extends CustomPainter {
     paint105Fill.strokeWidth = 15.0;
     paint105Fill.strokeCap = StrokeCap.round;
     paint105Fill.strokeJoin = StrokeJoin.round;
-    paint105Fill.color = Color(0xffffffff).withValues(alpha: 0.0);
+    paint105Fill.color = GameColors.whiteSolid.withValues(alpha: 0.0);
     paint105Fill.maskFilter = const MaskFilter.blur(BlurStyle.normal, 12.0);
     _drawAnimatedPath(canvas, path_105, paint105Fill, 105);
 
@@ -11112,7 +11179,7 @@ class LogoPainter extends CustomPainter {
     paint106Fill.strokeWidth = 15.0;
     paint106Fill.strokeCap = StrokeCap.round;
     paint106Fill.strokeJoin = StrokeJoin.round;
-    paint106Fill.color = Color(0xffffffff).withValues(alpha: 0.0);
+    paint106Fill.color = GameColors.whiteSolid.withValues(alpha: 0.0);
     paint106Fill.maskFilter = const MaskFilter.blur(BlurStyle.normal, 12.0);
     _drawAnimatedPath(canvas, path_106, paint106Fill, 106);
 
@@ -11120,7 +11187,7 @@ class LogoPainter extends CustomPainter {
     paint107Fill.strokeWidth = 15.0;
     paint107Fill.strokeCap = StrokeCap.round;
     paint107Fill.strokeJoin = StrokeJoin.round;
-    paint107Fill.color = Color(0xffffffff).withValues(alpha: 0.0);
+    paint107Fill.color = GameColors.whiteSolid.withValues(alpha: 0.0);
     paint107Fill.maskFilter = const MaskFilter.blur(BlurStyle.normal, 12.0);
     canvas.drawCircle(
       Offset(size.width * 0.2759344, size.height * 0.5059318),
@@ -11132,7 +11199,7 @@ class LogoPainter extends CustomPainter {
     paint108Fill.strokeWidth = 15.0;
     paint108Fill.strokeCap = StrokeCap.round;
     paint108Fill.strokeJoin = StrokeJoin.round;
-    paint108Fill.color = Color(0xffffffff).withValues(alpha: 0.0);
+    paint108Fill.color = GameColors.whiteSolid.withValues(alpha: 0.0);
     paint108Fill.maskFilter = const MaskFilter.blur(BlurStyle.normal, 12.0);
     canvas.drawCircle(
       Offset(size.width * 0.2759344, size.height * 0.4895427),
@@ -11144,7 +11211,7 @@ class LogoPainter extends CustomPainter {
     paint109Fill.strokeWidth = 15.0;
     paint109Fill.strokeCap = StrokeCap.round;
     paint109Fill.strokeJoin = StrokeJoin.round;
-    paint109Fill.color = Color(0xffffffff).withValues(alpha: 0.0);
+    paint109Fill.color = GameColors.whiteSolid.withValues(alpha: 0.0);
     paint109Fill.maskFilter = const MaskFilter.blur(BlurStyle.normal, 12.0);
     canvas.drawCircle(
       Offset(size.width * 0.2759344, size.height * 0.4731536),
@@ -11156,7 +11223,7 @@ class LogoPainter extends CustomPainter {
     paint110Fill.strokeWidth = 15.0;
     paint110Fill.strokeCap = StrokeCap.round;
     paint110Fill.strokeJoin = StrokeJoin.round;
-    paint110Fill.color = Color(0xffffffff).withValues(alpha: 0.0);
+    paint110Fill.color = GameColors.whiteSolid.withValues(alpha: 0.0);
     paint110Fill.maskFilter = const MaskFilter.blur(BlurStyle.normal, 12.0);
     canvas.drawCircle(
       Offset(size.width * 0.2890193, size.height * 0.5190167),
@@ -11168,7 +11235,7 @@ class LogoPainter extends CustomPainter {
     paint111Fill.strokeWidth = 15.0;
     paint111Fill.strokeCap = StrokeCap.round;
     paint111Fill.strokeJoin = StrokeJoin.round;
-    paint111Fill.color = Color(0xffffffff).withValues(alpha: 0.0);
+    paint111Fill.color = GameColors.whiteSolid.withValues(alpha: 0.0);
     paint111Fill.maskFilter = const MaskFilter.blur(BlurStyle.normal, 12.0);
     canvas.drawCircle(
       Offset(size.width * 0.1461430, size.height * 0.5059318),
@@ -11180,7 +11247,7 @@ class LogoPainter extends CustomPainter {
     paint112Fill.strokeWidth = 15.0;
     paint112Fill.strokeCap = StrokeCap.round;
     paint112Fill.strokeJoin = StrokeJoin.round;
-    paint112Fill.color = Color(0xffffffff).withValues(alpha: 0.0);
+    paint112Fill.color = GameColors.whiteSolid.withValues(alpha: 0.0);
     paint112Fill.maskFilter = const MaskFilter.blur(BlurStyle.normal, 12.0);
     canvas.drawCircle(
       Offset(size.width * 0.1461430, size.height * 0.4895427),
@@ -11192,7 +11259,7 @@ class LogoPainter extends CustomPainter {
     paint113Fill.strokeWidth = 15.0;
     paint113Fill.strokeCap = StrokeCap.round;
     paint113Fill.strokeJoin = StrokeJoin.round;
-    paint113Fill.color = Color(0xffffffff).withValues(alpha: 0.0);
+    paint113Fill.color = GameColors.whiteSolid.withValues(alpha: 0.0);
     paint113Fill.maskFilter = const MaskFilter.blur(BlurStyle.normal, 12.0);
     canvas.drawCircle(
       Offset(size.width * 0.1461430, size.height * 0.4731536),
@@ -11204,7 +11271,7 @@ class LogoPainter extends CustomPainter {
     paint114Fill.strokeWidth = 15.0;
     paint114Fill.strokeCap = StrokeCap.round;
     paint114Fill.strokeJoin = StrokeJoin.round;
-    paint114Fill.color = Color(0xffffffff).withValues(alpha: 0.0);
+    paint114Fill.color = GameColors.whiteSolid.withValues(alpha: 0.0);
     paint114Fill.maskFilter = const MaskFilter.blur(BlurStyle.normal, 12.0);
     canvas.drawCircle(
       Offset(size.width * 0.1592279, size.height * 0.5190167),
@@ -11216,7 +11283,7 @@ class LogoPainter extends CustomPainter {
     paint115Fill.strokeWidth = 15.0;
     paint115Fill.strokeCap = StrokeCap.round;
     paint115Fill.strokeJoin = StrokeJoin.round;
-    paint115Fill.color = Color(0xffffffff).withValues(alpha: 0.0);
+    paint115Fill.color = GameColors.whiteSolid.withValues(alpha: 0.0);
     paint115Fill.maskFilter = const MaskFilter.blur(BlurStyle.normal, 12.0);
     canvas.drawCircle(
       Offset(size.width * 0.3666032, size.height * 0.5442612),
@@ -11228,7 +11295,7 @@ class LogoPainter extends CustomPainter {
     paint116Fill.strokeWidth = 15.0;
     paint116Fill.strokeCap = StrokeCap.round;
     paint116Fill.strokeJoin = StrokeJoin.round;
-    paint116Fill.color = Color(0xffffffff).withValues(alpha: 0.0);
+    paint116Fill.color = GameColors.whiteSolid.withValues(alpha: 0.0);
     paint116Fill.maskFilter = const MaskFilter.blur(BlurStyle.normal, 12.0);
     canvas.drawCircle(
       Offset(size.width * 0.3666032, size.height * 0.5278721),
@@ -11240,7 +11307,7 @@ class LogoPainter extends CustomPainter {
     paint117Fill.strokeWidth = 15.0;
     paint117Fill.strokeCap = StrokeCap.round;
     paint117Fill.strokeJoin = StrokeJoin.round;
-    paint117Fill.color = Color(0xffffffff).withValues(alpha: 0.0);
+    paint117Fill.color = GameColors.whiteSolid.withValues(alpha: 0.0);
     paint117Fill.maskFilter = const MaskFilter.blur(BlurStyle.normal, 12.0);
     canvas.drawCircle(
       Offset(size.width * 0.3666032, size.height * 0.5114830),
@@ -11252,7 +11319,7 @@ class LogoPainter extends CustomPainter {
     paint118Fill.strokeWidth = 15.0;
     paint118Fill.strokeCap = StrokeCap.round;
     paint118Fill.strokeJoin = StrokeJoin.round;
-    paint118Fill.color = Color(0xffffffff).withValues(alpha: 0.0);
+    paint118Fill.color = GameColors.whiteSolid.withValues(alpha: 0.0);
     paint118Fill.maskFilter = const MaskFilter.blur(BlurStyle.normal, 12.0);
     canvas.drawCircle(
       Offset(size.width * 0.3796881, size.height * 0.5573460),
@@ -11264,7 +11331,7 @@ class LogoPainter extends CustomPainter {
     paint119Fill.strokeWidth = 15.0;
     paint119Fill.strokeCap = StrokeCap.round;
     paint119Fill.strokeJoin = StrokeJoin.round;
-    paint119Fill.color = Color(0xffffffff).withValues(alpha: 0.0);
+    paint119Fill.color = GameColors.whiteSolid.withValues(alpha: 0.0);
     paint119Fill.maskFilter = const MaskFilter.blur(BlurStyle.normal, 12.0);
     canvas.drawCircle(
       Offset(size.width * 0.4575363, size.height * 0.5278694),
@@ -11276,7 +11343,7 @@ class LogoPainter extends CustomPainter {
     paint120Fill.strokeWidth = 15.0;
     paint120Fill.strokeCap = StrokeCap.round;
     paint120Fill.strokeJoin = StrokeJoin.round;
-    paint120Fill.color = Color(0xffffffff).withValues(alpha: 0.0);
+    paint120Fill.color = GameColors.whiteSolid.withValues(alpha: 0.0);
     paint120Fill.maskFilter = const MaskFilter.blur(BlurStyle.normal, 12.0);
     canvas.drawCircle(
       Offset(size.width * 0.4575363, size.height * 0.5114803),
@@ -11288,7 +11355,7 @@ class LogoPainter extends CustomPainter {
     paint121Fill.strokeWidth = 15.0;
     paint121Fill.strokeCap = StrokeCap.round;
     paint121Fill.strokeJoin = StrokeJoin.round;
-    paint121Fill.color = Color(0xffffffff).withValues(alpha: 0.0);
+    paint121Fill.color = GameColors.whiteSolid.withValues(alpha: 0.0);
     paint121Fill.maskFilter = const MaskFilter.blur(BlurStyle.normal, 12.0);
     canvas.drawCircle(
       Offset(size.width * 0.4575363, size.height * 0.4950912),
@@ -11300,7 +11367,7 @@ class LogoPainter extends CustomPainter {
     paint122Fill.strokeWidth = 15.0;
     paint122Fill.strokeCap = StrokeCap.round;
     paint122Fill.strokeJoin = StrokeJoin.round;
-    paint122Fill.color = Color(0xffffffff).withValues(alpha: 0.0);
+    paint122Fill.color = GameColors.whiteSolid.withValues(alpha: 0.0);
     paint122Fill.maskFilter = const MaskFilter.blur(BlurStyle.normal, 12.0);
     canvas.drawCircle(
       Offset(size.width * 0.4706212, size.height * 0.5409543),
@@ -11312,7 +11379,7 @@ class LogoPainter extends CustomPainter {
     paint123Fill.strokeWidth = 15.0;
     paint123Fill.strokeCap = StrokeCap.round;
     paint123Fill.strokeJoin = StrokeJoin.round;
-    paint123Fill.color = Color(0xffffffff).withValues(alpha: 0.0);
+    paint123Fill.color = GameColors.whiteSolid.withValues(alpha: 0.0);
     paint123Fill.maskFilter = const MaskFilter.blur(BlurStyle.normal, 12.0);
     canvas.drawCircle(
       Offset(size.width * 0.5612054, size.height * 0.5059292),
@@ -11324,7 +11391,7 @@ class LogoPainter extends CustomPainter {
     paint124Fill.strokeWidth = 15.0;
     paint124Fill.strokeCap = StrokeCap.round;
     paint124Fill.strokeJoin = StrokeJoin.round;
-    paint124Fill.color = Color(0xffffffff).withValues(alpha: 0.0);
+    paint124Fill.color = GameColors.whiteSolid.withValues(alpha: 0.0);
     paint124Fill.maskFilter = const MaskFilter.blur(BlurStyle.normal, 12.0);
     canvas.drawCircle(
       Offset(size.width * 0.5612054, size.height * 0.4895400),
@@ -11336,7 +11403,7 @@ class LogoPainter extends CustomPainter {
     paint125Fill.strokeWidth = 15.0;
     paint125Fill.strokeCap = StrokeCap.round;
     paint125Fill.strokeJoin = StrokeJoin.round;
-    paint125Fill.color = Color(0xffffffff).withValues(alpha: 0.0);
+    paint125Fill.color = GameColors.whiteSolid.withValues(alpha: 0.0);
     paint125Fill.maskFilter = const MaskFilter.blur(BlurStyle.normal, 12.0);
     canvas.drawCircle(
       Offset(size.width * 0.5612054, size.height * 0.4731509),
@@ -11348,7 +11415,7 @@ class LogoPainter extends CustomPainter {
     paint126Fill.strokeWidth = 15.0;
     paint126Fill.strokeCap = StrokeCap.round;
     paint126Fill.strokeJoin = StrokeJoin.round;
-    paint126Fill.color = Color(0xffffffff).withValues(alpha: 0.0);
+    paint126Fill.color = GameColors.whiteSolid.withValues(alpha: 0.0);
     paint126Fill.maskFilter = const MaskFilter.blur(BlurStyle.normal, 12.0);
     canvas.drawCircle(
       Offset(size.width * 0.5742902, size.height * 0.5190140),
@@ -11360,7 +11427,7 @@ class LogoPainter extends CustomPainter {
     paint127Fill.strokeWidth = 15.0;
     paint127Fill.strokeCap = StrokeCap.round;
     paint127Fill.strokeJoin = StrokeJoin.round;
-    paint127Fill.color = Color(0xffffffff).withValues(alpha: 0.0);
+    paint127Fill.color = GameColors.whiteSolid.withValues(alpha: 0.0);
     paint127Fill.maskFilter = const MaskFilter.blur(BlurStyle.normal, 12.0);
     canvas.drawCircle(
       Offset(size.width * 0.6275496, size.height * 0.5487523),
@@ -11372,7 +11439,7 @@ class LogoPainter extends CustomPainter {
     paint128Fill.strokeWidth = 15.0;
     paint128Fill.strokeCap = StrokeCap.round;
     paint128Fill.strokeJoin = StrokeJoin.round;
-    paint128Fill.color = Color(0xffffffff).withValues(alpha: 0.0);
+    paint128Fill.color = GameColors.whiteSolid.withValues(alpha: 0.0);
     paint128Fill.maskFilter = const MaskFilter.blur(BlurStyle.normal, 12.0);
     canvas.drawCircle(
       Offset(size.width * 0.6275496, size.height * 0.5323632),
@@ -11384,7 +11451,7 @@ class LogoPainter extends CustomPainter {
     paint129Fill.strokeWidth = 15.0;
     paint129Fill.strokeCap = StrokeCap.round;
     paint129Fill.strokeJoin = StrokeJoin.round;
-    paint129Fill.color = Color(0xffffffff).withValues(alpha: 0.0);
+    paint129Fill.color = GameColors.whiteSolid.withValues(alpha: 0.0);
     paint129Fill.maskFilter = const MaskFilter.blur(BlurStyle.normal, 12.0);
     canvas.drawCircle(
       Offset(size.width * 0.6275496, size.height * 0.5159741),
@@ -11396,7 +11463,7 @@ class LogoPainter extends CustomPainter {
     paint130Fill.strokeWidth = 15.0;
     paint130Fill.strokeCap = StrokeCap.round;
     paint130Fill.strokeJoin = StrokeJoin.round;
-    paint130Fill.color = Color(0xffffffff).withValues(alpha: 0.0);
+    paint130Fill.color = GameColors.whiteSolid.withValues(alpha: 0.0);
     paint130Fill.maskFilter = const MaskFilter.blur(BlurStyle.normal, 12.0);
     canvas.drawCircle(
       Offset(size.width * 0.6406344, size.height * 0.5618372),
@@ -11491,7 +11558,10 @@ class LogoPainter extends CustomPainter {
     paint131Fill.shader = ui.Gradient.radial(
       Offset(0, 0),
       size.width * 0.0002643405,
-      [Color(0xffF2D79D).withValues(alpha: 1), Color(0xffEABD55).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor57.withValues(alpha: 1),
+        GameColors.logoPainterColor49.withValues(alpha: 1),
+      ],
       [0, 0.572],
     );
     _drawAnimatedPath(canvas, path_131, paint131Fill, 131);
@@ -11583,7 +11653,10 @@ class LogoPainter extends CustomPainter {
     paint132Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5009675, size.height * 0.7126540),
       Offset(size.width * 0.5009675, size.height * 0.6575443),
-      [Color(0xffffffff).withValues(alpha: 1), Color(0xffffffff).withValues(alpha: 0)],
+      [
+        GameColors.whiteSolid.withValues(alpha: 1),
+        GameColors.whiteSolid.withValues(alpha: 0),
+      ],
       [0.216, 0.923],
     );
     _drawAnimatedPath(canvas, path_132, paint132Fill, 132);
@@ -11632,7 +11705,10 @@ class LogoPainter extends CustomPainter {
     paint133Fill.shader = ui.Gradient.radial(
       Offset(0, 0),
       size.width * 0.0002643405,
-      [Color(0xffF2D79D).withValues(alpha: 1), Color(0xffEABD55).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor57.withValues(alpha: 1),
+        GameColors.logoPainterColor49.withValues(alpha: 1),
+      ],
       [0, 0.572],
     );
     _drawAnimatedPath(canvas, path_133, paint133Fill, 133);
@@ -11720,7 +11796,10 @@ class LogoPainter extends CustomPainter {
     paint134Fill.shader = ui.Gradient.radial(
       Offset(0, 0),
       size.width * 0.0002643405,
-      [Color(0xffF2D79D).withValues(alpha: 1), Color(0xffEABD55).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor57.withValues(alpha: 1),
+        GameColors.logoPainterColor49.withValues(alpha: 1),
+      ],
       [0, 0.572],
     );
     _drawAnimatedPath(canvas, path_134, paint134Fill, 134);
@@ -11755,7 +11834,10 @@ class LogoPainter extends CustomPainter {
     paint135Fill.shader = ui.Gradient.radial(
       Offset(0, 0),
       size.width * 0.0002643405,
-      [Color(0xffF2D79D).withValues(alpha: 1), Color(0xffEABD55).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor57.withValues(alpha: 1),
+        GameColors.logoPainterColor49.withValues(alpha: 1),
+      ],
       [0, 0.572],
     );
     _drawAnimatedPath(canvas, path_135, paint135Fill, 135);
@@ -11806,7 +11888,7 @@ class LogoPainter extends CustomPainter {
     path_136.close();
 
     Paint paint136Fill = Paint()..style = PaintingStyle.fill;
-    paint136Fill.color = Color(0xffF68B55).withValues(alpha: 1.0);
+    paint136Fill.color = GameColors.logoPainterColor62.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_136, paint136Fill, 136);
 
     Path path_137 = Path();
@@ -11827,7 +11909,10 @@ class LogoPainter extends CustomPainter {
     paint137Fill.shader = ui.Gradient.radial(
       Offset(0, 0),
       size.width * 0.0002643405,
-      [Color(0xffF2D79D).withValues(alpha: 1), Color(0xffEABD55).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor57.withValues(alpha: 1),
+        GameColors.logoPainterColor49.withValues(alpha: 1),
+      ],
       [0, 0.572],
     );
     _drawAnimatedPath(canvas, path_137, paint137Fill, 137);
@@ -11850,7 +11935,10 @@ class LogoPainter extends CustomPainter {
     paint138Fill.shader = ui.Gradient.radial(
       Offset(0, 0),
       size.width * 0.0002643405,
-      [Color(0xffF2D79D).withValues(alpha: 1), Color(0xffEABD55).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor57.withValues(alpha: 1),
+        GameColors.logoPainterColor49.withValues(alpha: 1),
+      ],
       [0, 0.572],
     );
     _drawAnimatedPath(canvas, path_138, paint138Fill, 138);
@@ -11873,7 +11961,10 @@ class LogoPainter extends CustomPainter {
     paint139Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5009701, size.height * 0.6958102),
       Offset(size.width * 0.5009701, size.height * 0.6598097),
-      [Color(0xffffffff).withValues(alpha: 1), Color(0xffffffff).withValues(alpha: 0)],
+      [
+        GameColors.whiteSolid.withValues(alpha: 1),
+        GameColors.whiteSolid.withValues(alpha: 0),
+      ],
       [0.29, 0.923],
     );
     _drawAnimatedPath(canvas, path_139, paint139Fill, 139);
@@ -11920,7 +12011,10 @@ class LogoPainter extends CustomPainter {
     paint140Fill.shader = ui.Gradient.radial(
       Offset(0, 0),
       size.width * 0.0002643405,
-      [Color(0xffF2D79D).withValues(alpha: 1), Color(0xffEABD55).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor57.withValues(alpha: 1),
+        GameColors.logoPainterColor49.withValues(alpha: 1),
+      ],
       [0, 0.572],
     );
     _drawAnimatedPath(canvas, path_140, paint140Fill, 140);
@@ -11952,7 +12046,7 @@ class LogoPainter extends CustomPainter {
     path_141.close();
 
     Paint paint141Fill = Paint()..style = PaintingStyle.fill;
-    paint141Fill.color = Color(0xff513A13).withValues(alpha: 1.0);
+    paint141Fill.color = GameColors.mapAppBarBrownText.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_141, paint141Fill, 141);
 
     Path path_142 = Path();
@@ -12156,13 +12250,16 @@ class LogoPainter extends CustomPainter {
     paint142Stroke.shader = ui.Gradient.linear(
       Offset(size.width * 0.5005815, size.height * 0.6238435),
       Offset(size.width * 0.5005815, size.height * 0.6904573),
-      [Color(0xffFFD24A).withValues(alpha: 1), Color(0xffD96D12).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor68.withValues(alpha: 1),
+        GameColors.logoPainterColor34.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     _drawAnimatedPath(canvas, path_142, paint142Stroke, 142);
 
     Paint paint142Fill = Paint()..style = PaintingStyle.fill;
-    paint142Fill.color = Color(0xff000000).withValues(alpha: 0.0);
+    paint142Fill.color = GameColors.blackSolid.withValues(alpha: 0.0);
     _drawAnimatedPath(canvas, path_142, paint142Fill, 142);
 
     Path path_143 = Path();
@@ -12198,7 +12295,7 @@ class LogoPainter extends CustomPainter {
     path_143.close();
 
     Paint paint143Fill = Paint()..style = PaintingStyle.fill;
-    paint143Fill.color = Color(0xff413726).withValues(alpha: 1.0);
+    paint143Fill.color = GameColors.logoPainterColor3.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_143, paint143Fill, 143);
 
     Path path_144 = Path();
@@ -12212,7 +12309,10 @@ class LogoPainter extends CustomPainter {
     paint144Fill.shader = ui.Gradient.radial(
       Offset(0, 0),
       size.width * 0.0002643405,
-      [Color(0xffF2D79D).withValues(alpha: 1), Color(0xffEABD55).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor57.withValues(alpha: 1),
+        GameColors.logoPainterColor49.withValues(alpha: 1),
+      ],
       [0, 0.572],
     );
     _drawAnimatedPath(canvas, path_144, paint144Fill, 144);
@@ -12228,7 +12328,10 @@ class LogoPainter extends CustomPainter {
     paint145Fill.shader = ui.Gradient.radial(
       Offset(0, 0),
       size.width * 0.0002643405,
-      [Color(0xffF2D79D).withValues(alpha: 1), Color(0xffEABD55).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor57.withValues(alpha: 1),
+        GameColors.logoPainterColor49.withValues(alpha: 1),
+      ],
       [0, 0.572],
     );
     _drawAnimatedPath(canvas, path_145, paint145Fill, 145);
@@ -12244,7 +12347,10 @@ class LogoPainter extends CustomPainter {
     paint146Fill.shader = ui.Gradient.radial(
       Offset(0, 0),
       size.width * 0.0002643405,
-      [Color(0xffF2D79D).withValues(alpha: 1), Color(0xffEABD55).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor57.withValues(alpha: 1),
+        GameColors.logoPainterColor49.withValues(alpha: 1),
+      ],
       [0, 0.572],
     );
     _drawAnimatedPath(canvas, path_146, paint146Fill, 146);
@@ -12323,7 +12429,7 @@ class LogoPainter extends CustomPainter {
     paint147Fill.strokeWidth = 15.0;
     paint147Fill.strokeCap = StrokeCap.round;
     paint147Fill.strokeJoin = StrokeJoin.round;
-    paint147Fill.color = Color(0xffffffff).withValues(alpha: 0.0);
+    paint147Fill.color = GameColors.whiteSolid.withValues(alpha: 0.0);
     paint147Fill.maskFilter = const MaskFilter.blur(BlurStyle.normal, 12.0);
     _drawAnimatedPath(canvas, path_147, paint147Fill, 147);
 
@@ -12368,7 +12474,7 @@ class LogoPainter extends CustomPainter {
     path_148.close();
 
     Paint paint148Fill = Paint()..style = PaintingStyle.fill;
-    paint148Fill.color = Color(0xff413726).withValues(alpha: 1.0);
+    paint148Fill.color = GameColors.logoPainterColor3.withValues(alpha: 1.0);
     _drawAnimatedPath(canvas, path_148, paint148Fill, 148);
 
     Path path_149 = Path();
@@ -12382,7 +12488,10 @@ class LogoPainter extends CustomPainter {
     paint149Fill.shader = ui.Gradient.radial(
       Offset(0, 0),
       size.width * 0.0002643405,
-      [Color(0xffF2D79D).withValues(alpha: 1), Color(0xffEABD55).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor57.withValues(alpha: 1),
+        GameColors.logoPainterColor49.withValues(alpha: 1),
+      ],
       [0, 0.572],
     );
     _drawAnimatedPath(canvas, path_149, paint149Fill, 149);
@@ -12398,7 +12507,10 @@ class LogoPainter extends CustomPainter {
     paint150Fill.shader = ui.Gradient.radial(
       Offset(0, 0),
       size.width * 0.0002643405,
-      [Color(0xffF2D79D).withValues(alpha: 1), Color(0xffEABD55).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor57.withValues(alpha: 1),
+        GameColors.logoPainterColor49.withValues(alpha: 1),
+      ],
       [0, 0.572],
     );
     _drawAnimatedPath(canvas, path_150, paint150Fill, 150);
@@ -12414,7 +12526,10 @@ class LogoPainter extends CustomPainter {
     paint151Fill.shader = ui.Gradient.radial(
       Offset(0, 0),
       size.width * 0.0002643405,
-      [Color(0xffF2D79D).withValues(alpha: 1), Color(0xffEABD55).withValues(alpha: 1)],
+      [
+        GameColors.logoPainterColor57.withValues(alpha: 1),
+        GameColors.logoPainterColor49.withValues(alpha: 1),
+      ],
       [0, 0.572],
     );
     _drawAnimatedPath(canvas, path_151, paint151Fill, 151);
@@ -12486,7 +12601,7 @@ class LogoPainter extends CustomPainter {
     paint152Fill.strokeWidth = 15.0;
     paint152Fill.strokeCap = StrokeCap.round;
     paint152Fill.strokeJoin = StrokeJoin.round;
-    paint152Fill.color = Color(0xffffffff).withValues(alpha: 0.0);
+    paint152Fill.color = GameColors.whiteSolid.withValues(alpha: 0.0);
     paint152Fill.maskFilter = const MaskFilter.blur(BlurStyle.normal, 12.0);
     _drawAnimatedPath(canvas, path_152, paint152Fill, 152);
   }

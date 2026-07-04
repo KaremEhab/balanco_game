@@ -1,12 +1,13 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class CollectedHeartPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint0Fill = Paint()..style = PaintingStyle.fill;
-    paint0Fill.color = Color(0xffF02300).withValues(alpha: 1.0);
+    paint0Fill.color = GameColors.magnetPainterColor6.withValues(alpha: 1.0);
     canvas.drawRRect(
       RRect.fromRectAndCorners(
         Rect.fromLTWH(
@@ -26,7 +27,9 @@ class CollectedHeartPainter extends CustomPainter {
     Paint paint1Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.01656250;
-    paint1Stroke.color = Color(0xff99210D).withValues(alpha: 1.0);
+    paint1Stroke.color = GameColors.collectedItemPainterColor1.withValues(
+      alpha: 1.0,
+    );
     canvas.drawRRect(
       RRect.fromRectAndCorners(
         Rect.fromLTWH(
@@ -157,11 +160,15 @@ class CollectedHeartPainter extends CustomPainter {
     Paint paint2Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.01827083;
-    paint2Stroke.color = Color(0xff99210D).withValues(alpha: 1.0);
+    paint2Stroke.color = GameColors.collectedItemPainterColor1.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_2, paint2Stroke);
 
     Paint paint2Fill = Paint()..style = PaintingStyle.fill;
-    paint2Fill.color = Color(0xffFF9393).withValues(alpha: 1.0);
+    paint2Fill.color = GameColors.collectedItemPainterColor3.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
@@ -268,7 +275,9 @@ class CollectedHeartPainter extends CustomPainter {
     path_3.close();
 
     Paint paint3Fill = Paint()..style = PaintingStyle.fill;
-    paint3Fill.color = Color(0xffFF9393).withValues(alpha: 1.0);
+    paint3Fill.color = GameColors.collectedItemPainterColor3.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
@@ -384,7 +393,9 @@ class CollectedHeartPainter extends CustomPainter {
     path_4.close();
 
     Paint paint4Fill = Paint()..style = PaintingStyle.fill;
-    paint4Fill.color = Color(0xffFF9393).withValues(alpha: 1.0);
+    paint4Fill.color = GameColors.collectedItemPainterColor3.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_4, paint4Fill);
 
     Path path_5 = Path();
@@ -428,7 +439,10 @@ class CollectedHeartPainter extends CustomPainter {
     paint5Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.5964583, size.height * 0.1669583),
       Offset(size.width * 0.6525000, size.height * 0.4364583),
-      [Color(0xffffffff).withValues(alpha: 1), Color(0xffffffff).withValues(alpha: 0)],
+      [
+        GameColors.whiteSolid.withValues(alpha: 1),
+        GameColors.whiteSolid.withValues(alpha: 0),
+      ],
       [0.253, 0.807],
     );
     canvas.drawPath(path_5, paint5Fill);

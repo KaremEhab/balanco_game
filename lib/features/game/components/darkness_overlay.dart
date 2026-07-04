@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:balanco_game/features/game/game_area.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class DarknessOverlay extends PositionComponent
     with HasGameReference<BalancoGame> {
@@ -41,7 +42,7 @@ class DarknessOverlay extends PositionComponent
 
     // Draw the full darkness overlay
     final Paint bgPaint = Paint()
-      ..color = const Color(0xFF0A0A1A).withValues(alpha: overlayOpacity);
+      ..color = GameColors.darknessOverlayBg.withValues(alpha: overlayOpacity);
     canvas.drawRect(Rect.fromLTWH(0, 0, game.size.x, game.size.y), bgPaint);
 
     // Punch out the soft spotlight using BlendMode.dstOut
@@ -49,10 +50,10 @@ class DarknessOverlay extends PositionComponent
       ..blendMode = BlendMode.dstOut
       ..shader = RadialGradient(
         colors: [
-          Colors.black, // Center core is completely transparent
-          Colors.black, // Core extends out a bit
-          Colors.black.withValues(alpha: 0.6), // Smooth fade starts
-          Colors.black.withValues(alpha: 0.2), // Fades out
+          GameColors.black, // Center core is completely transparent
+          GameColors.black, // Core extends out a bit
+          GameColors.black.withValues(alpha: 0.6), // Smooth fade starts
+          GameColors.black.withValues(alpha: 0.2), // Fades out
           Colors.transparent, // Edges are dark
         ],
         stops: const [0.0, 0.25, 0.45, 0.75, 1.0],

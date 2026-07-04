@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class LeaderboardScreen extends StatelessWidget {
   final ScrollController scrollController;
@@ -24,7 +25,7 @@ class LeaderboardScreen extends StatelessWidget {
             padding: EdgeInsets.only(bottom: 8.0),
             child: Icon(
               Icons.workspace_premium,
-              color: Color(0xFFFFB300),
+              color: GameColors.magnetPainterColor9,
               size: 48,
             ),
           ),
@@ -33,14 +34,14 @@ class LeaderboardScreen extends StatelessWidget {
           decoration: BoxDecoration(
             color: color,
             shape: BoxShape.circle,
-            border: Border.all(color: const Color(0xFF3E2723), width: 3),
+            border: Border.all(color: GameColors.brownDarkUi, width: 3),
             boxShadow: const [
-              BoxShadow(color: Color(0xFF3E2723), offset: Offset(0, 4)),
+              BoxShadow(color: GameColors.brownDarkUi, offset: Offset(0, 4)),
             ],
           ),
           child: CircleAvatar(
             radius: isFirst ? 34 : 28,
-            backgroundColor: Colors.white,
+            backgroundColor: GameColors.white,
             child: Icon(avatarIcon, size: isFirst ? 40 : 32, color: color),
           ),
         ),
@@ -48,11 +49,11 @@ class LeaderboardScreen extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: GameColors.white,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: const Color(0xFF3E2723), width: 2.5),
+            border: Border.all(color: GameColors.brownDarkUi, width: 2.5),
             boxShadow: const [
-              BoxShadow(color: Color(0xFF3E2723), offset: Offset(0, 3)),
+              BoxShadow(color: GameColors.brownDarkUi, offset: Offset(0, 3)),
             ],
           ),
           child: Column(
@@ -60,7 +61,7 @@ class LeaderboardScreen extends StatelessWidget {
               Text(
                 name,
                 style: GoogleFonts.luckiestGuy(
-                  color: const Color(0xFF3E2723),
+                  color: GameColors.brownDarkUi,
                   fontSize: isFirst ? 16 : 14,
                   letterSpacing: 1,
                 ),
@@ -73,7 +74,7 @@ class LeaderboardScreen extends StatelessWidget {
                   Text(
                     score,
                     style: const TextStyle(
-                      color: Color(0xFF3E2723),
+                      color: GameColors.brownDarkUi,
                       fontWeight: FontWeight.w900,
                       fontSize: 12,
                     ),
@@ -93,10 +94,10 @@ class LeaderboardScreen extends StatelessWidget {
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20),
             ),
-            border: Border.all(color: const Color(0xFF3E2723), width: 3.5),
+            border: Border.all(color: GameColors.brownDarkUi, width: 3.5),
             boxShadow: const [
               BoxShadow(
-                color: Color(0xFF3E2723),
+                color: GameColors.brownDarkUi,
                 offset: Offset(0, -3), // Inner depth feeling
               ),
             ],
@@ -105,10 +106,10 @@ class LeaderboardScreen extends StatelessWidget {
           child: Text(
             '$rank',
             style: GoogleFonts.luckiestGuy(
-              color: Colors.white,
+              color: GameColors.white,
               fontSize: isFirst ? 56 : 44,
               shadows: const [
-                Shadow(color: Color(0xFF3E2723), offset: Offset(0, 3)),
+                Shadow(color: GameColors.brownDarkUi, offset: Offset(0, 3)),
               ],
             ),
           ),
@@ -128,11 +129,11 @@ class LeaderboardScreen extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: const Color(0xFFFFF8E7), // Light sand
+        color: GameColors.sandLightUi, // Light sand
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFF3E2723), width: 3),
+        border: Border.all(color: GameColors.brownDarkUi, width: 3),
         boxShadow: const [
-          BoxShadow(color: Color(0xFF3E2723), offset: Offset(0, 5)),
+          BoxShadow(color: GameColors.brownDarkUi, offset: Offset(0, 5)),
         ],
       ),
       child: Row(
@@ -142,13 +143,16 @@ class LeaderboardScreen extends StatelessWidget {
             width: 40,
             height: 40,
             decoration: const BoxDecoration(
-              color: Color(0xFF3E2723),
+              color: GameColors.brownDarkUi,
               shape: BoxShape.circle,
             ),
             alignment: Alignment.center,
             child: Text(
               '$rank',
-              style: GoogleFonts.luckiestGuy(color: Colors.white, fontSize: 20),
+              style: GoogleFonts.luckiestGuy(
+                color: GameColors.white,
+                fontSize: 20,
+              ),
             ),
           ),
           const SizedBox(width: 16),
@@ -168,7 +172,7 @@ class LeaderboardScreen extends StatelessWidget {
             child: Text(
               name,
               style: GoogleFonts.luckiestGuy(
-                color: const Color(0xFF3E2723),
+                color: GameColors.brownDarkUi,
                 fontSize: 18,
                 letterSpacing: 1.2,
               ),
@@ -178,19 +182,23 @@ class LeaderboardScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
-              color: const Color(0xFF4CAF50), // Vibrant Green
+              color: GameColors.settingsScreenColor1, // Vibrant Green
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: const Color(0xFF3E2723), width: 2.5),
+              border: Border.all(color: GameColors.brownDarkUi, width: 2.5),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.star_rounded, color: Colors.yellow, size: 18),
+                const Icon(
+                  Icons.star_rounded,
+                  color: GameColors.yellow,
+                  size: 18,
+                ),
                 const SizedBox(width: 6),
                 Text(
                   score,
                   style: GoogleFonts.luckiestGuy(
-                    color: Colors.white,
+                    color: GameColors.white,
                     fontSize: 14,
                     letterSpacing: 1,
                   ),
@@ -222,7 +230,7 @@ class LeaderboardScreen extends StatelessWidget {
           //   children: [
           //     const Icon(
           //       Icons.emoji_events,
-          //       color: Color(0xFFFFB300),
+          //       color: GameColors.magnetPainterColor9,
           //       size: 40,
           //     ),
           //     const SizedBox(width: 12),
@@ -244,7 +252,7 @@ class LeaderboardScreen extends StatelessWidget {
                   name: 'Karem',
                   score: '4500',
                   height: 100,
-                  color: const Color(0xFF29B6F6), // Vibrant Blue
+                  color: GameColors.modesScreenColor1, // Vibrant Blue
                   avatarIcon: Icons.pets,
                 ),
                 const SizedBox(width: 12),
@@ -254,7 +262,7 @@ class LeaderboardScreen extends StatelessWidget {
                   name: 'You',
                   score: '6200',
                   height: 140,
-                  color: const Color(0xFFFFB300), // Bright Gold/Orange
+                  color: GameColors.magnetPainterColor9, // Bright Gold/Orange
                   avatarIcon: Icons.face,
                 ),
                 const SizedBox(width: 12),
@@ -264,7 +272,7 @@ class LeaderboardScreen extends StatelessWidget {
                   name: 'Guest',
                   score: '3100',
                   height: 80,
-                  color: const Color(0xFF66BB6A), // Playful Green
+                  color: GameColors.modesScreenColor2, // Playful Green
                   avatarIcon: Icons.rocket_launch,
                 ),
               ],
@@ -281,7 +289,7 @@ class LeaderboardScreen extends StatelessWidget {
               name: 'Player 4',
               score: '2800',
               avatarIcon: Icons.star,
-              iconColor: Colors.blue,
+              iconColor: GameColors.blue,
             ),
           ),
           _ScrollScalingCard(
@@ -291,7 +299,7 @@ class LeaderboardScreen extends StatelessWidget {
               name: 'Player 5',
               score: '2100',
               avatarIcon: Icons.bolt,
-              iconColor: Colors.deepPurple,
+              iconColor: GameColors.deepPurple,
             ),
           ),
           _ScrollScalingCard(
@@ -301,7 +309,7 @@ class LeaderboardScreen extends StatelessWidget {
               name: 'Player 6',
               score: '1500',
               avatarIcon: Icons.favorite,
-              iconColor: Colors.redAccent,
+              iconColor: GameColors.redAccent,
             ),
           ),
           _ScrollScalingCard(
@@ -311,7 +319,7 @@ class LeaderboardScreen extends StatelessWidget {
               name: 'Player 7',
               score: '900',
               avatarIcon: Icons.eco,
-              iconColor: Colors.green,
+              iconColor: GameColors.green,
             ),
           ),
         ],

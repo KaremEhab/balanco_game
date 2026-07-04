@@ -1,6 +1,7 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class LockedLevelPainter extends CustomPainter {
   @override
@@ -670,7 +671,9 @@ class LockedLevelPainter extends CustomPainter {
     path_0.close();
 
     Paint paint0Fill = Paint()..style = PaintingStyle.fill;
-    paint0Fill.color = Color(0xff6C7884).withValues(alpha: 1.0);
+    paint0Fill.color = GameColors.lockedLevelPainterColor4.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
@@ -1849,7 +1852,7 @@ class LockedLevelPainter extends CustomPainter {
 
     // Inner White Shadow (Bevel) for the Gear
     final Paint shapeInnerWhite = Paint()
-      ..color = Colors.white.withValues(alpha: 0.5)
+      ..color = GameColors.white.withValues(alpha: 0.5)
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.03
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3.0);
@@ -1862,7 +1865,9 @@ class LockedLevelPainter extends CustomPainter {
     Paint paint1Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.02053191;
-    paint1Stroke.color = Color(0xff242B33).withValues(alpha: 1.0);
+    paint1Stroke.color = GameColors.lockedLevelPainterColor2.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_1, paint1Stroke);
 
     Path path_3 = Path();
@@ -1903,12 +1908,14 @@ class LockedLevelPainter extends CustomPainter {
     Paint paint3Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.01548936;
-    paint3Stroke.color = Color(0xff212A33).withValues(alpha: 1.0);
+    paint3Stroke.color = GameColors.lockedLevelPainterColor1.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_3, paint3Stroke);
 
     // --- Draw the "X" to board up the hole (behind the padlock) ---
     final Paint xShadow = Paint()
-      ..color = Colors.black.withValues(alpha: 0.5)
+      ..color = GameColors.black.withValues(alpha: 0.5)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 2.0);
 
     final Paint xBase = Paint()
@@ -1922,15 +1929,16 @@ class LockedLevelPainter extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     final Paint xHighlight = Paint()
-      ..color = Colors.white
+      ..color = GameColors.white
           .withValues(alpha: 0.5) // Silver edge highlight
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.01;
 
-    final Paint rivetPaint = Paint()..color = const Color(0xff2A2F33);
+    final Paint rivetPaint = Paint()
+      ..color = GameColors.lockedLevelPainterColor3;
 
     final Paint xInnerWhite = Paint()
-      ..color = Colors.white.withValues(alpha: 0.5)
+      ..color = GameColors.white.withValues(alpha: 0.5)
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.03
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3.0);
@@ -2149,7 +2157,10 @@ class LockedLevelPainter extends CustomPainter {
     paint16Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4955319, size.height * 0.2314632),
       Offset(size.width * 0.4955319, size.height * 0.7427158),
-      [Color(0xffCBCBCB).withValues(alpha: 1), Color(0xff7C8184).withValues(alpha: 1)],
+      [
+        GameColors.lockedLevelPainterColor6.withValues(alpha: 1),
+        GameColors.lockedLevelPainterColor5.withValues(alpha: 1),
+      ],
       [0, 1],
     );
     canvas.drawPath(path_16, paint16Fill);
@@ -2179,7 +2190,9 @@ class LockedLevelPainter extends CustomPainter {
     path_17.close();
 
     Paint paint17Fill = Paint()..style = PaintingStyle.fill;
-    paint17Fill.color = Color(0xff444444).withValues(alpha: 1.0);
+    paint17Fill.color = GameColors.playButtonPainterColor3.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_17, paint17Fill);
 
     Path path_18 = Path();
@@ -2305,7 +2318,9 @@ class LockedLevelPainter extends CustomPainter {
     Paint paint18Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.01548936;
-    paint18Stroke.color = Color(0xff212A33).withValues(alpha: 1.0);
+    paint18Stroke.color = GameColors.lockedLevelPainterColor1.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_18, paint18Stroke);
 
     canvas.restore();

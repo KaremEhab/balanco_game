@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:balanco_game/features/game/components/game_area/magnate_painter.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class MagnateBtnPainter extends CustomPainter {
   @override
@@ -8,7 +9,7 @@ class MagnateBtnPainter extends CustomPainter {
 
     // 1. Drop Shadow
     final Paint shadowPaint = Paint()
-      ..color = Colors.black.withValues(alpha: 0.4)
+      ..color = GameColors.black.withValues(alpha: 0.4)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4.0);
     canvas.drawRRect(
       RRect.fromRectAndRadius(rect.translate(0, 4), const Radius.circular(16)),
@@ -21,10 +22,10 @@ class MagnateBtnPainter extends CustomPainter {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          Color(0xFFFFE082), // Highlight
-          Color(0xFFFFCA28), // Base
-          Color(0xFFFFB300), // Mid
-          Color(0xFFFF8F00), // Shadow
+          GameColors.amber300, // Highlight
+          GameColors.amber400, // Base
+          GameColors.magnetPainterColor9, // Mid
+          GameColors.amber800, // Shadow
         ],
       ).createShader(rect);
     canvas.drawRRect(
@@ -38,7 +39,7 @@ class MagnateBtnPainter extends CustomPainter {
       ..shader = const LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
-        colors: [Color(0x99FFFFFF), Color(0x00FFFFFF)],
+        colors: [GameColors.magnetPainterColor1, GameColors.whiteTransparent],
       ).createShader(innerRect);
     canvas.drawRRect(
       RRect.fromRectAndRadius(innerRect, const Radius.circular(14)),

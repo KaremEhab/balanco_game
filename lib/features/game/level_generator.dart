@@ -45,14 +45,22 @@ LevelData generateLevelData(int currentLevel) {
     for (int i = 0; i < numPairs; i++) {
       double tY1 = 0.05 + (i * (0.9 / numPairs));
       double tY2 = 0.95 - (i * (0.9 / numPairs));
-      
-      Vector2 p1 = Vector2(0.2 + random.nextDouble() * 0.2 + ((i % 2) * 0.4), tY1);
-      Vector2 p2 = Vector2(0.2 + random.nextDouble() * 0.2 + ((i % 2) * 0.4), tY2);
+
+      Vector2 p1 = Vector2(
+        0.2 + random.nextDouble() * 0.2 + ((i % 2) * 0.4),
+        tY1,
+      );
+      Vector2 p2 = Vector2(
+        0.2 + random.nextDouble() * 0.2 + ((i % 2) * 0.4),
+        tY2,
+      );
 
       teleporters.add(TeleporterData(p1, 30.0, i));
       teleporters.add(TeleporterData(p2, 30.0, i));
-      
-      occupied.add(_OccupiedSpace(p1, 0.20)); // Generous clearance for teleporters
+
+      occupied.add(
+        _OccupiedSpace(p1, 0.20),
+      ); // Generous clearance for teleporters
       occupied.add(_OccupiedSpace(p2, 0.20));
     }
   }
@@ -116,22 +124,26 @@ LevelData generateLevelData(int currentLevel) {
           }
         }
 
-        double requiredSpace = isSucking ? 0.35 : (isMoving ? 0.16 + moveRange : 0.16);
+        double requiredSpace = isSucking
+            ? 0.35
+            : (isMoving ? 0.16 + moveRange : 0.16);
 
         if (isSpaceSafe(Vector2(x, y), requiredSpace)) {
           double suckRad = isSucking ? 50.0 + (currentLevel * 2.0) : 0.0;
 
-          holes.add(HoleData(
-            Vector2(x, y),
-            hSize,
-            random.nextDouble() * 2 * pi,
-            isSucking,
-            suckRad,
-            isMovingHole: isMoving,
-            moveRange: moveRange,
-            moveSpeed: moveSpeed,
-          ));
-          
+          holes.add(
+            HoleData(
+              Vector2(x, y),
+              hSize,
+              random.nextDouble() * 2 * pi,
+              isSucking,
+              suckRad,
+              isMovingHole: isMoving,
+              moveRange: moveRange,
+              moveSpeed: moveSpeed,
+            ),
+          );
+
           // Add to occupied space so other obstacles stay away
           occupied.add(_OccupiedSpace(Vector2(x, y), requiredSpace));
           break; // successfully placed
@@ -203,7 +215,10 @@ LevelData generateLevelData(int currentLevel) {
       double x = 0, y = 0;
 
       while (attempts < 50) {
-        y = 0.05 + (i / numHearts) * 0.9 + random.nextDouble() * (0.9 / numHearts);
+        y =
+            0.05 +
+            (i / numHearts) * 0.9 +
+            random.nextDouble() * (0.9 / numHearts);
         double safeX = 0.5 + 0.3 * sin(y * 2 * pi);
 
         x = safeX + (random.nextDouble() - 0.5) * 0.15;
@@ -227,7 +242,7 @@ LevelData generateLevelData(int currentLevel) {
     while (attempts < 50) {
       double x = 0.5 + (random.nextDouble() - 0.5) * 0.4;
       double y = 0.3 + random.nextDouble() * 0.4;
-      
+
       if (isSpaceSafe(Vector2(x, y), 0.12)) {
         multiBalls.add(Vector2(x, y));
         occupied.add(_OccupiedSpace(Vector2(x, y), 0.12));
@@ -245,7 +260,7 @@ LevelData generateLevelData(int currentLevel) {
     while (attempts < 50) {
       double x = 0.5 + (random.nextDouble() - 0.5) * 0.6;
       double y = 0.2 + random.nextDouble() * 0.6;
-      
+
       if (isSpaceSafe(Vector2(x, y), 0.12)) {
         magnets.add(Vector2(x, y));
         occupied.add(_OccupiedSpace(Vector2(x, y), 0.12));

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 enum AvatarShape { shield, circle, hexagon }
 
@@ -100,7 +101,7 @@ class ShieldClipper extends CustomClipper<Path> {
 class ShieldShadowPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.drawShadow(getShieldPath(size), Colors.black87, 4.0, false);
+    canvas.drawShadow(getShieldPath(size), GameColors.black87, 4.0, false);
   }
 
   @override
@@ -117,7 +118,7 @@ class GameProfileBadgePainter extends CustomPainter {
 
     Paint rimPaint = Paint()
       ..shader = const LinearGradient(
-        colors: [Color(0xFFFFDF7E), Color(0xFFB57D38)],
+        colors: [GameColors.goldenYellow, GameColors.goldenBrown],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
@@ -127,7 +128,7 @@ class GameProfileBadgePainter extends CustomPainter {
 
     Paint shinePaint = Paint()
       ..shader = LinearGradient(
-        colors: [Colors.white.withValues(alpha: 0.35), Colors.transparent],
+        colors: [GameColors.white.withValues(alpha: 0.35), Colors.transparent],
         begin: Alignment.topCenter,
         end: Alignment.center,
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
@@ -160,7 +161,7 @@ class CircleAvatarClipper extends CustomClipper<Path> {
 class CircleShadowPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.drawShadow(getCirclePath(size), Colors.black87, 4.0, false);
+    canvas.drawShadow(getCirclePath(size), GameColors.black87, 4.0, false);
   }
 
   @override
@@ -177,7 +178,7 @@ class CircleFramePainter extends CustomPainter {
 
     Paint rimPaint = Paint()
       ..shader = const LinearGradient(
-        colors: [Color(0xFFFFDF7E), Color(0xFFB57D38)],
+        colors: [GameColors.goldenYellow, GameColors.goldenBrown],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
@@ -187,7 +188,7 @@ class CircleFramePainter extends CustomPainter {
 
     Paint shinePaint = Paint()
       ..shader = LinearGradient(
-        colors: [Colors.white.withValues(alpha: 0.35), Colors.transparent],
+        colors: [GameColors.white.withValues(alpha: 0.35), Colors.transparent],
         begin: Alignment.topCenter,
         end: Alignment.center,
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
@@ -232,7 +233,7 @@ class HexagonAvatarClipper extends CustomClipper<Path> {
 class HexagonShadowPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.drawShadow(getHexagonPath(size), Colors.black87, 4.0, false);
+    canvas.drawShadow(getHexagonPath(size), GameColors.black87, 4.0, false);
   }
 
   @override
@@ -249,7 +250,7 @@ class HexagonFramePainter extends CustomPainter {
 
     Paint rimPaint = Paint()
       ..shader = const LinearGradient(
-        colors: [Color(0xFFFFDF7E), Color(0xFFB57D38)],
+        colors: [GameColors.goldenYellow, GameColors.goldenBrown],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
@@ -259,7 +260,7 @@ class HexagonFramePainter extends CustomPainter {
 
     Paint shinePaint = Paint()
       ..shader = LinearGradient(
-        colors: [Colors.white.withValues(alpha: 0.35), Colors.transparent],
+        colors: [GameColors.white.withValues(alpha: 0.35), Colors.transparent],
         begin: Alignment.topCenter,
         end: Alignment.center,
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));

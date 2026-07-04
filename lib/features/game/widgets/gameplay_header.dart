@@ -7,6 +7,7 @@ import 'package:balanco_game/features/game/components/game_area/star_filled_pain
 import 'package:balanco_game/features/game/components/game_area/empty_star_painter.dart';
 import 'package:balanco_game/features/game/game_area.dart';
 import 'package:balanco_game/features/game/screens/victory/victory_painters.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class GameplayHeader extends StatelessWidget {
   final BalancoGame game;
@@ -73,12 +74,12 @@ class GameplayHeader extends StatelessWidget {
                           Text(
                             'LEVEL',
                             style: GoogleFonts.luckiestGuy(
-                              color: Colors.white,
+                              color: GameColors.white,
                               fontSize: 28, // Increased font size
                               height: 1.0,
                               shadows: const [
                                 Shadow(
-                                  color: Color(0xFF8D5800),
+                                  color: GameColors.headerDarkBrown,
                                   offset: Offset(0, 3),
                                   blurRadius: 0,
                                 ),
@@ -89,12 +90,12 @@ class GameplayHeader extends StatelessWidget {
                           Text(
                             '$level',
                             style: GoogleFonts.luckiestGuy(
-                              color: Colors.white,
+                              color: GameColors.white,
                               fontSize: 48, // Increased font size
                               height: 1.0,
                               shadows: const [
                                 Shadow(
-                                  color: Color(0xFF8D5800),
+                                  color: GameColors.headerDarkBrown,
                                   offset: Offset(0, 4),
                                   blurRadius: 0,
                                 ),
@@ -165,13 +166,13 @@ class GameplayHeader extends StatelessWidget {
                                       'LEAVE GAME?',
                                       textAlign: TextAlign.center,
                                       style: GoogleFonts.luckiestGuy(
-                                        color: const Color(0xFFB5701B),
+                                        color: GameColors.headerBrown,
                                         fontSize: 32,
                                         letterSpacing: 2.0,
                                         shadows: const [
                                           Shadow(
                                             offset: Offset(0, 3),
-                                            color: Colors.black26,
+                                            color: GameColors.black26,
                                             blurRadius: 2,
                                           ),
                                         ],
@@ -200,24 +201,36 @@ class GameplayHeader extends StatelessWidget {
                                             game.resumeEngine();
                                           },
                                           child: Container(
-                                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 20,
+                                              vertical: 10,
+                                            ),
                                             decoration: BoxDecoration(
-                                              color: const Color(0xFF81C784), // Green
-                                              borderRadius: BorderRadius.circular(16),
-                                              border: Border.all(color: const Color(0xFF3E2723), width: 3),
+                                              color: GameColors
+                                                  .green300, // Green
+                                              borderRadius:
+                                                  BorderRadius.circular(16),
+                                              border: Border.all(
+                                                color: GameColors.brownDarkUi,
+                                                width: 3,
+                                              ),
                                               boxShadow: const [
-                                                BoxShadow(color: Color(0xFF3E2723), offset: Offset(0, 4)),
+                                                BoxShadow(
+                                                  color: GameColors.brownDarkUi,
+                                                  offset: Offset(0, 4),
+                                                ),
                                               ],
                                             ),
                                             child: Text(
                                               'STAY',
                                               style: GoogleFonts.luckiestGuy(
-                                                color: Colors.white,
+                                                color: GameColors.white,
                                                 fontSize: 22,
                                                 shadows: const [
                                                   Shadow(
                                                     offset: Offset(0, 2),
-                                                    color: Color(0xFF3E2723),
+                                                    color:
+                                                        GameColors.brownDarkUi,
                                                   ),
                                                 ],
                                               ),
@@ -233,24 +246,35 @@ class GameplayHeader extends StatelessWidget {
                                             );
                                           },
                                           child: Container(
-                                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 20,
+                                              vertical: 10,
+                                            ),
                                             decoration: BoxDecoration(
-                                              color: const Color(0xFFE57373), // Red
-                                              borderRadius: BorderRadius.circular(16),
-                                              border: Border.all(color: const Color(0xFF3E2723), width: 3),
+                                              color: GameColors.red300, // Red
+                                              borderRadius:
+                                                  BorderRadius.circular(16),
+                                              border: Border.all(
+                                                color: GameColors.brownDarkUi,
+                                                width: 3,
+                                              ),
                                               boxShadow: const [
-                                                BoxShadow(color: Color(0xFF3E2723), offset: Offset(0, 4)),
+                                                BoxShadow(
+                                                  color: GameColors.brownDarkUi,
+                                                  offset: Offset(0, 4),
+                                                ),
                                               ],
                                             ),
                                             child: Text(
                                               'LEAVE',
                                               style: GoogleFonts.luckiestGuy(
-                                                color: Colors.white,
+                                                color: GameColors.white,
                                                 fontSize: 22,
                                                 shadows: const [
                                                   Shadow(
                                                     offset: Offset(0, 2),
-                                                    color: Color(0xFF3E2723),
+                                                    color:
+                                                        GameColors.brownDarkUi,
                                                   ),
                                                 ],
                                               ),
@@ -305,7 +329,7 @@ class GameplayHeader extends StatelessWidget {
                       return Text(
                         timeString,
                         style: GoogleFonts.luckiestGuy(
-                          color: isCritical ? Colors.red : Colors.green,
+                          color: isCritical ? GameColors.red : GameColors.green,
                           fontSize: 28,
                           shadows: [
                             Shadow(
@@ -429,7 +453,7 @@ class _AnimatedGameStatSlotState extends State<AnimatedGameStatSlot>
                         offset: widget.shadowOffset,
                         child: ColorFiltered(
                           colorFilter: const ColorFilter.mode(
-                            Color(0xFF8D5800),
+                            GameColors.headerDarkBrown,
                             BlendMode.srcIn,
                           ),
                           child: CustomPaint(

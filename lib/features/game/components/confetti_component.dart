@@ -1,18 +1,19 @@
 import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class ConfettiComponent extends PositionComponent {
   final Random _random = Random();
   final List<ConfettiPiece> _pieces = [];
   final List<Color> _colors = [
-    Colors.redAccent,
-    Colors.greenAccent,
-    Colors.blueAccent,
-    Colors.yellowAccent,
-    Colors.orangeAccent,
-    Colors.purpleAccent,
-    Colors.cyanAccent,
+    GameColors.redAccent,
+    GameColors.greenAccent,
+    GameColors.blueAccent,
+    GameColors.yellowAccent,
+    GameColors.orangeAccent,
+    GameColors.purpleAccent,
+    GameColors.cyanAccent,
   ];
 
   @override
@@ -29,7 +30,7 @@ class ConfettiComponent extends PositionComponent {
     double angle = _random.nextDouble() * pi; // Burst upwards (0 to pi radians)
     // Actually, screen coordinates: Y goes down. So we want angle between pi and 2*pi
     angle = _random.nextDouble() * pi + pi;
-    
+
     return ConfettiPiece(
       position: Vector2(size.x / 2, size.y * 0.2), // Start at top 20%
       velocity: Vector2(cos(angle) * speed, sin(angle) * speed),
@@ -47,7 +48,7 @@ class ConfettiComponent extends PositionComponent {
   @override
   void update(double dt) {
     super.update(dt);
-    
+
     bool allDead = true;
     for (var piece in _pieces) {
       if (piece.position.y > size.y + 50) continue; // Off screen

@@ -17,7 +17,7 @@ void main() async {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
   }
-  
+
   // Ensure the database is initialized
   await DatabaseHelper.instance.database;
   await AppSettings.init();

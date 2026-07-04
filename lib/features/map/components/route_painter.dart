@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class RoutePainter extends CustomPainter {
   @override
@@ -11,7 +12,7 @@ class RoutePainter extends CustomPainter {
     path_0.close();
 
     Paint paint0Fill = Paint()..style = PaintingStyle.fill;
-    paint0Fill.color = Color(0xffF0CF91).withValues(alpha: 1.0);
+    paint0Fill.color = GameColors.routePainterColor6.withValues(alpha: 1.0);
     canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
@@ -24,11 +25,11 @@ class RoutePainter extends CustomPainter {
     Paint paint1Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2;
-    paint1Stroke.color = Color(0xffffffff).withValues(alpha: 1.0);
+    paint1Stroke.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_1, paint1Stroke);
 
     Paint paint1Fill = Paint()..style = PaintingStyle.fill;
-    paint1Fill.color = Color(0xff000000).withValues(alpha: 1.0);
+    paint1Fill.color = GameColors.blackSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_1, paint1Fill);
 
     Path path_2 = Path();
@@ -39,7 +40,7 @@ class RoutePainter extends CustomPainter {
     path_2.close();
 
     Paint paint2Fill = Paint()..style = PaintingStyle.fill;
-    paint2Fill.color = Color(0xffC6A26B).withValues(alpha: 1.0);
+    paint2Fill.color = GameColors.routePainterColor5.withValues(alpha: 1.0);
     canvas.drawPath(path_2, paint2Fill);
   }
 

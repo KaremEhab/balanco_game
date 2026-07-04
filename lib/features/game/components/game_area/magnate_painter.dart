@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class MagnatePainter extends CustomPainter {
   @override
@@ -43,7 +44,7 @@ class MagnatePainter extends CustomPainter {
     path_0.close();
 
     Paint paint0Fill = Paint()..style = PaintingStyle.fill;
-    paint0Fill.color = Color(0xffF02300).withValues(alpha: 1.0);
+    paint0Fill.color = GameColors.magnetPainterColor6.withValues(alpha: 1.0);
     canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
@@ -264,7 +265,7 @@ class MagnatePainter extends CustomPainter {
     path_2.close();
 
     Paint paint2Fill = Paint()..style = PaintingStyle.fill;
-    paint2Fill.color = Color(0xffFFAEA3).withValues(alpha: 1.0);
+    paint2Fill.color = GameColors.magnetPainterColor8.withValues(alpha: 1.0);
     canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
@@ -290,7 +291,7 @@ class MagnatePainter extends CustomPainter {
     path_3.close();
 
     Paint paint3Fill = Paint()..style = PaintingStyle.fill;
-    paint3Fill.color = Color(0xffA3A5A8).withValues(alpha: 1.0);
+    paint3Fill.color = GameColors.magnetPainterColor4.withValues(alpha: 1.0);
     canvas.drawPath(path_3, paint3Fill);
 
     Path path_4 = Path();
@@ -356,7 +357,7 @@ class MagnatePainter extends CustomPainter {
     path_5.close();
 
     Paint paint5Fill = Paint()..style = PaintingStyle.fill;
-    paint5Fill.color = Color(0xffA3A5A8).withValues(alpha: 1.0);
+    paint5Fill.color = GameColors.magnetPainterColor4.withValues(alpha: 1.0);
     canvas.drawPath(path_5, paint5Fill);
 
     Path path_6 = Path();
@@ -407,7 +408,7 @@ class MagnatePainter extends CustomPainter {
     path_7.close();
 
     Paint paint7Fill = Paint()..style = PaintingStyle.fill;
-    paint7Fill.color = Color(0xffA3A5A8).withValues(alpha: 1.0);
+    paint7Fill.color = GameColors.magnetPainterColor4.withValues(alpha: 1.0);
     canvas.drawPath(path_7, paint7Fill);
 
     Path path_8 = Path();
@@ -473,7 +474,7 @@ class MagnatePainter extends CustomPainter {
     path_9.close();
 
     Paint paint9Fill = Paint()..style = PaintingStyle.fill;
-    paint9Fill.color = Color(0xffA3A5A8).withValues(alpha: 1.0);
+    paint9Fill.color = GameColors.magnetPainterColor4.withValues(alpha: 1.0);
     canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
@@ -492,7 +493,7 @@ class MagnatePainter extends CustomPainter {
     path_10.close();
 
     Paint paint10Fill = Paint()..style = PaintingStyle.fill;
-    paint10Fill.color = Color(0xff8B1000).withValues(alpha: 1.0);
+    paint10Fill.color = GameColors.magnetPainterColor3.withValues(alpha: 1.0);
     canvas.drawPath(path_10, paint10Fill);
 
     Path path_11 = Path();
@@ -516,7 +517,7 @@ class MagnatePainter extends CustomPainter {
     path_11.close();
 
     Paint paint11Fill = Paint()..style = PaintingStyle.fill;
-    paint11Fill.color = Color(0xffA3A5A8).withValues(alpha: 1.0);
+    paint11Fill.color = GameColors.magnetPainterColor4.withValues(alpha: 1.0);
     canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
@@ -549,7 +550,7 @@ class MagnatePainter extends CustomPainter {
     path_12.close();
 
     Paint paint12Fill = Paint()..style = PaintingStyle.fill;
-    paint12Fill.color = Color(0xff8B1000).withValues(alpha: 1.0);
+    paint12Fill.color = GameColors.magnetPainterColor3.withValues(alpha: 1.0);
     canvas.drawPath(path_12, paint12Fill);
 
     Path path_13 = Path();
@@ -584,7 +585,7 @@ class MagnatePainter extends CustomPainter {
     path_13.close();
 
     Paint paint13Fill = Paint()..style = PaintingStyle.fill;
-    paint13Fill.color = Color(0xffFDFFFF).withValues(alpha: 1.0);
+    paint13Fill.color = GameColors.magnetPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_13, paint13Fill);
 
     Path path_14 = Path();
@@ -618,7 +619,7 @@ class MagnatePainter extends CustomPainter {
     path_14.close();
 
     Paint paint14Fill = Paint()..style = PaintingStyle.fill;
-    paint14Fill.color = Color(0xff5C5D60).withValues(alpha: 1.0);
+    paint14Fill.color = GameColors.magnetPainterColor2.withValues(alpha: 1.0);
     canvas.drawPath(path_14, paint14Fill);
 
     Path path_15 = Path();
@@ -674,7 +675,7 @@ class MagnatePainter extends CustomPainter {
     path_15.close();
 
     Paint paint15Fill = Paint()..style = PaintingStyle.fill;
-    paint15Fill.color = Color(0xffCFD1D4).withValues(alpha: 1.0);
+    paint15Fill.color = GameColors.magnetPainterColor5.withValues(alpha: 1.0);
     canvas.drawPath(path_15, paint15Fill);
 
     Path path_16 = Path();
@@ -702,7 +703,7 @@ class MagnatePainter extends CustomPainter {
     path_16.close();
 
     Paint paint16Fill = Paint()..style = PaintingStyle.fill;
-    paint16Fill.color = Color(0xffFDFFFF).withValues(alpha: 1.0);
+    paint16Fill.color = GameColors.magnetPainterColor7.withValues(alpha: 1.0);
     canvas.drawPath(path_16, paint16Fill);
 
     Path path_17 = Path();
@@ -737,7 +738,7 @@ class MagnatePainter extends CustomPainter {
     path_17.close();
 
     Paint paint17Fill = Paint()..style = PaintingStyle.fill;
-    paint17Fill.color = Color(0xff5C5D60).withValues(alpha: 1.0);
+    paint17Fill.color = GameColors.magnetPainterColor2.withValues(alpha: 1.0);
     canvas.drawPath(path_17, paint17Fill);
 
     Path path_18 = Path();
@@ -783,7 +784,7 @@ class MagnatePainter extends CustomPainter {
     path_18.close();
 
     Paint paint18Fill = Paint()..style = PaintingStyle.fill;
-    paint18Fill.color = Color(0xffCFD1D4).withValues(alpha: 1.0);
+    paint18Fill.color = GameColors.magnetPainterColor5.withValues(alpha: 1.0);
     canvas.drawPath(path_18, paint18Fill);
 
     Path path_19 = Path();
@@ -803,7 +804,7 @@ class MagnatePainter extends CustomPainter {
     path_19.close();
 
     Paint paint19Fill = Paint()..style = PaintingStyle.fill;
-    paint19Fill.color = Color(0xffFFAEA3).withValues(alpha: 1.0);
+    paint19Fill.color = GameColors.magnetPainterColor8.withValues(alpha: 1.0);
     canvas.drawPath(path_19, paint19Fill);
   }
 

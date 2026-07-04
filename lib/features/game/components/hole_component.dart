@@ -3,8 +3,10 @@ import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:balanco_game/features/game/game_area.dart';
 import 'package:balanco_game/features/game/models/ball_data.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
-class HoleComponent extends PositionComponent with HasGameReference<BalancoGame> {
+class HoleComponent extends PositionComponent
+    with HasGameReference<BalancoGame> {
   Vector2 fractionalPosition;
   double _rotation = 0.0;
   double _pulseTime = 0.0;
@@ -63,28 +65,29 @@ class HoleComponent extends PositionComponent with HasGameReference<BalancoGame>
         center: Alignment.center,
         radius: 1.0,
         colors: [
-          Colors.purpleAccent.withValues(alpha: 0.1),
+          GameColors.purpleAccent.withValues(alpha: 0.1),
           Colors.transparent,
         ],
       ).createShader(Rect.fromCircle(center: Offset.zero, radius: suckRadius));
 
-    _suckParticlePaint = Paint()..color = Colors.purpleAccent.withValues(alpha: 0.5);
+    _suckParticlePaint = Paint()
+      ..color = GameColors.purpleAccent.withValues(alpha: 0.5);
 
     List<Color> holeColors = isSuckingHole
         ? const [
-            Color(0xFF4A148C),
-            Color(0xFF311B92),
-            Color(0xFF1A237E),
-            Color(0xFF111111),
-            Color(0xFF000000),
+            GameColors.holeDarkPurple,
+            GameColors.holeDeepPurple,
+            GameColors.holeIndigo,
+            GameColors.holeVeryDark,
+            GameColors.blackSolid,
           ]
         : const [
-            Color(0xFFA18764),
-            Color(0xFF8A7456),
-            Color(0xFF7B674D),
-            Color(0xFF6F5E46),
-            Color(0xFF665640),
-            Color(0xFF58493A),
+            GameColors.woodLight,
+            GameColors.woodMedium,
+            GameColors.woodMediumDark,
+            GameColors.woodDark,
+            GameColors.woodVeryDark,
+            GameColors.woodDeep,
           ];
 
     _holePaints = holeColors.map((c) => Paint()..color = c).toList();
@@ -114,26 +117,29 @@ class HoleComponent extends PositionComponent with HasGameReference<BalancoGame>
     }
 
     _teethPaint = Paint()
-      ..color = isSuckingHole ? const Color(0xFF9C27B0) : const Color(0xFFFFDCB4);
+      ..color = isSuckingHole ? GameColors.purple500 : GameColors.peachPuff;
 
     _teethShadow = Paint()
-      ..shader = RadialGradient(
-        colors: const [Colors.black87, Colors.transparent],
-        stops: const [0.2, 1.0],
-      ).createShader(Rect.fromCircle(center: Offset.zero, radius: _trapInnerRadius));
+      ..shader =
+          RadialGradient(
+            colors: const [GameColors.black87, Colors.transparent],
+            stops: const [0.2, 1.0],
+          ).createShader(
+            Rect.fromCircle(center: Offset.zero, radius: _trapInnerRadius),
+          );
 
     _ringShadow = Paint()
-      ..color = Colors.black.withValues(alpha: 0.5)
+      ..color = GameColors.black.withValues(alpha: 0.5)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4.0);
 
     _ringPaint = Paint();
     if (isSuckingHole) {
-      _ringPaint.color = const Color(0xFFBA68C8);
+      _ringPaint.color = GameColors.purple300;
     } else {
       _ringPaint.shader = const LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
-        colors: [Color(0xFFFFDF7E), Color(0xFFB57D38)],
+        colors: [GameColors.goldenYellow, GameColors.goldenBrown],
       ).createShader(Rect.fromCircle(center: Offset.zero, radius: _radius));
     }
 
@@ -145,17 +151,17 @@ class HoleComponent extends PositionComponent with HasGameReference<BalancoGame>
     _outerEdgePaint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2.0
-      ..color = isSuckingHole ? const Color(0xFFE1BEE7) : const Color(0xFFFDEB82);
+      ..color = isSuckingHole ? GameColors.purple100 : GameColors.lightGold;
 
     _innerEdgePaint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.5
-      ..color = Colors.black38;
+      ..color = GameColors.black38;
 
     _rivetBasePaint = Paint()
-      ..color = isSuckingHole ? const Color(0xFF6A1B9A) : const Color(0xFF9E7730);
+      ..color = isSuckingHole ? GameColors.purple800 : GameColors.darkGold;
 
-    _rivetHighlightPaint = Paint()..color = Colors.white54;
+    _rivetHighlightPaint = Paint()..color = GameColors.white54;
 
     _splashPaint = Paint();
     _dropPaint = Paint();
@@ -165,18 +171,19 @@ class HoleComponent extends PositionComponent with HasGameReference<BalancoGame>
         center: Alignment.center,
         radius: 0.8,
         colors: isSuckingHole
-            ? const [Colors.purpleAccent, Colors.transparent]
-            : const [Colors.cyanAccent, Colors.transparent],
+            ? const [GameColors.purpleAccent, Colors.transparent]
+            : const [GameColors.cyanAccent, Colors.transparent],
       ).createShader(Rect.fromCircle(center: Offset.zero, radius: _radius));
   }
 
   @override
   void update(double dt) {
     super.update(dt);
-    
+
     if (isMovingHole && !game.isSpawningLevel) {
       _timeAccumulator += dt;
-      fractionalPosition.x = _originalFractionalX + sin(_timeAccumulator * moveSpeed) * moveRange;
+      fractionalPosition.x =
+          _originalFractionalX + sin(_timeAccumulator * moveSpeed) * moveRange;
     }
 
     if (!game.isSpawningLevel && game.size.x > 0 && game.size.y > 0) {
@@ -226,7 +233,11 @@ class HoleComponent extends PositionComponent with HasGameReference<BalancoGame>
     // 2a. The Deep Hole Background
     double step = _trapInnerRadius / _holePaints.length;
     for (int i = 0; i < _holePaints.length; i++) {
-      canvas.drawCircle(Offset.zero, _trapInnerRadius - (i * step), _holePaints[i]);
+      canvas.drawCircle(
+        Offset.zero,
+        _trapInnerRadius - (i * step),
+        _holePaints[i],
+      );
     }
 
     // 2b. The Spikes (Teeth)
@@ -278,15 +289,16 @@ class HoleComponent extends PositionComponent with HasGameReference<BalancoGame>
       }
 
       if (splashProgress > 0) {
-        _splashPaint.color = (isSuckingHole ? Colors.purpleAccent : Colors.white)
-            .withValues(alpha: 0.85 * splashProgress);
+        _splashPaint.color =
+            (isSuckingHole ? GameColors.purpleAccent : GameColors.white)
+                .withValues(alpha: 0.85 * splashProgress);
         canvas.drawCircle(
           Offset.zero,
           _innerRadius * splashProgress,
           _splashPaint,
         );
 
-        _dropPaint.color = Colors.white.withValues(
+        _dropPaint.color = GameColors.white.withValues(
           alpha: 0.7 * (1.0 - splashProgress),
         );
         for (int i = 0; i < 8; i++) {
@@ -306,7 +318,10 @@ class HoleComponent extends PositionComponent with HasGameReference<BalancoGame>
     // --- 7. Outer Glow for Active/Sucking Hole ---
     if (activeBall != null) {
       double glowAlpha = (0.3 + 0.7 * sin(_pulseTime * 2)).clamp(0.0, 1.0);
-      canvas.saveLayer(Rect.fromCircle(center: Offset.zero, radius: _radius), Paint()..color = Colors.white.withValues(alpha: glowAlpha));
+      canvas.saveLayer(
+        Rect.fromCircle(center: Offset.zero, radius: _radius),
+        Paint()..color = GameColors.white.withValues(alpha: glowAlpha),
+      );
       canvas.drawCircle(Offset.zero, _radius, _glowPaint);
       canvas.restore();
     }

@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:balanco_game/features/game/game_area.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class TeleporterComponent extends PositionComponent
     with HasGameReference<BalancoGame> {
@@ -28,17 +29,17 @@ class TeleporterComponent extends PositionComponent
     _vortexPaint = Paint()
       ..shader = SweepGradient(
         colors: [
-          Colors.cyanAccent.withValues(alpha: 0.1),
-          Colors.blueAccent.withValues(alpha: 0.8),
-          Colors.indigo.withValues(alpha: 0.9),
-          Colors.cyanAccent.withValues(alpha: 0.1),
+          GameColors.cyanAccent.withValues(alpha: 0.1),
+          GameColors.blueAccent.withValues(alpha: 0.8),
+          GameColors.indigo.withValues(alpha: 0.9),
+          GameColors.cyanAccent.withValues(alpha: 0.1),
         ],
         stops: const [0.0, 0.4, 0.8, 1.0],
       ).createShader(Rect.fromCircle(center: Offset.zero, radius: radius));
 
     // Dark core
     _corePaint = Paint()
-      ..color = Colors.black
+      ..color = GameColors.black
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4.0);
 
     // Mechanical outer rim
@@ -46,7 +47,7 @@ class TeleporterComponent extends PositionComponent
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3.0
       ..shader = RadialGradient(
-        colors: [Colors.blueGrey.shade800, Colors.grey.shade400],
+        colors: [GameColors.blueGrey.shade800, GameColors.grey.shade400],
       ).createShader(Rect.fromCircle(center: Offset.zero, radius: radius));
   }
 

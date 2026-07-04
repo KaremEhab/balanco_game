@@ -1,12 +1,15 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class CollectedStarPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint0Fill = Paint()..style = PaintingStyle.fill;
-    paint0Fill.color = Color(0xffFFC336).withValues(alpha: 1.0);
+    paint0Fill.color = GameColors.starFilledPainterColor1.withValues(
+      alpha: 1.0,
+    );
     canvas.drawRRect(
       RRect.fromRectAndCorners(
         Rect.fromLTWH(
@@ -26,7 +29,9 @@ class CollectedStarPainter extends CustomPainter {
     Paint paint1Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.01656250;
-    paint1Stroke.color = Color(0xffAE801D).withValues(alpha: 1.0);
+    paint1Stroke.color = GameColors.collectedItemPainterColor2.withValues(
+      alpha: 1.0,
+    );
     canvas.drawRRect(
       RRect.fromRectAndCorners(
         Rect.fromLTWH(
@@ -152,11 +157,15 @@ class CollectedStarPainter extends CustomPainter {
     Paint paint2Stroke = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width * 0.02125000;
-    paint2Stroke.color = Color(0xffAE801D).withValues(alpha: 1.0);
+    paint2Stroke.color = GameColors.collectedItemPainterColor2.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_2, paint2Stroke);
 
     Paint paint2Fill = Paint()..style = PaintingStyle.fill;
-    paint2Fill.color = Color(0xffFFDC93).withValues(alpha: 1.0);
+    paint2Fill.color = GameColors.collectedItemPainterColor4.withValues(
+      alpha: 1.0,
+    );
     canvas.drawPath(path_2, paint2Fill);
 
     Path path_3 = Path();
@@ -200,7 +209,10 @@ class CollectedStarPainter extends CustomPainter {
     paint3Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2266250, size.height * 0.2070833),
       Offset(size.width * 0.4860208, size.height * 0.3357708),
-      [Color(0xffffffff).withValues(alpha: 1), Color(0xffffffff).withValues(alpha: 0)],
+      [
+        GameColors.whiteSolid.withValues(alpha: 1),
+        GameColors.whiteSolid.withValues(alpha: 0),
+      ],
       [0.611, 0.807],
     );
     canvas.drawPath(path_3, paint3Fill);
@@ -245,7 +257,10 @@ class CollectedStarPainter extends CustomPainter {
     paint4Fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6310000, size.height * 0.08835417),
       Offset(size.width * 0.5901875, size.height * 0.3750208),
-      [Color(0xffffffff).withValues(alpha: 1), Color(0xffffffff).withValues(alpha: 0)],
+      [
+        GameColors.whiteSolid.withValues(alpha: 1),
+        GameColors.whiteSolid.withValues(alpha: 0),
+      ],
       [0.611, 0.807],
     );
     canvas.drawPath(path_4, paint4Fill);

@@ -17,6 +17,7 @@ import 'package:balanco_game/features/map/components/map_ball_layer.dart';
 import 'package:balanco_game/features/map/theme/map_theme.dart';
 import 'package:balanco_game/features/map/theme/themes/beach_map_theme.dart';
 import 'package:balanco_game/core/data/app_settings.dart';
+import 'package:balanco_game/core/theme/game_colors.dart';
 
 class HomeScreen extends StatefulWidget {
   final ScrollController scrollController;
@@ -296,12 +297,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         content: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
           decoration: BoxDecoration(
-            color: const Color(0xFF333333),
+            color: GameColors.mapScreenColor1,
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: Colors.white, width: 3),
+            border: Border.all(color: GameColors.white, width: 3),
             boxShadow: const [
               BoxShadow(
-                color: Colors.black54,
+                color: GameColors.black54,
                 offset: Offset(0, 4),
                 blurRadius: 0, // Cartoonish hard shadow
               ),
@@ -310,13 +311,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.lock_rounded, color: Colors.amber, size: 28),
+              const Icon(Icons.lock_rounded, color: GameColors.amber, size: 28),
               const SizedBox(width: 12),
               Text(
                 "Level Locked!",
                 style: GoogleFonts.luckiestGuy(
                   fontSize: 20,
-                  color: Colors.white,
+                  color: GameColors.white,
                   letterSpacing: 1.2,
                 ),
               ),
@@ -858,12 +859,12 @@ class _BouncingLevelButtonState extends State<BouncingLevelButton>
                           ..style = PaintingStyle.stroke
                           ..strokeWidth = 4
                           ..color = widget.isLocked
-                              ? const Color(0xFF555555)
+                              ? GameColors.mapScreenColor2
                               : const Color.fromARGB(255, 126, 40, 17),
                         shadows: [
                           Shadow(
                             color: widget.isLocked
-                                ? const Color(0xFF333333)
+                                ? GameColors.mapScreenColor1
                                 : const Color.fromARGB(255, 104, 28, 4),
                             blurRadius: 0,
                             offset: const Offset(0, 6),
@@ -877,8 +878,8 @@ class _BouncingLevelButtonState extends State<BouncingLevelButton>
                       style: GoogleFonts.luckiestGuy(
                         fontSize: 30,
                         color: widget.isLocked
-                            ? const Color(0xFFDDDDDD)
-                            : const Color(0xffFFF8F3),
+                            ? GameColors.mapScreenColor3
+                            : GameColors.mapScreenColor4,
                       ),
                     ),
                   ],
@@ -1219,10 +1220,10 @@ class _AnimatedLevelNodeState extends State<AnimatedLevelNode>
                       height: widget.unlockedSize * 1.5,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white.withValues(alpha: 0.5),
+                        color: GameColors.white.withValues(alpha: 0.5),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.white.withValues(alpha: 0.8),
+                            color: GameColors.white.withValues(alpha: 0.8),
                             blurRadius: 40.0,
                             spreadRadius: 20.0,
                           ),
@@ -1287,7 +1288,7 @@ class SuckingEffectPainter extends CustomPainter {
     if (progress > 0.8) opacity = (1.0 - progress) / 0.2;
 
     final Paint paint = Paint()
-      ..color = Colors.white.withValues(alpha: 0.6 * opacity)
+      ..color = GameColors.white.withValues(alpha: 0.6 * opacity)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2.5
       ..strokeCap = StrokeCap.round;
