@@ -49,11 +49,13 @@ class BalancoGame extends FlameGame with KeyboardEvents {
   final ValueNotifier<double> darknessOpacityNotifier = ValueNotifier<double>(
     0.0,
   );
-  final ValueNotifier<List<Offset>> lightSpotNotifier = ValueNotifier<List<Offset>>([]);
+  final ValueNotifier<List<Offset>> lightSpotNotifier =
+      ValueNotifier<List<Offset>>([]);
   final ValueNotifier<double> lightRadiusNotifier = ValueNotifier<double>(65.0);
 
   final ValueNotifier<int> currentLevel = ValueNotifier<int>(1);
-  BiomeModel get currentBiome => BiomeConfig.getBiomeForLevel(currentLevel.value);
+  BiomeModel get currentBiome =>
+      BiomeConfig.getBiomeForLevel(currentLevel.value);
   final ValueNotifier<int> currentPoints = ValueNotifier<int>(0);
   final ValueNotifier<int> currentScore = ValueNotifier<int>(0);
   final ValueNotifier<int> currentLives = ValueNotifier<int>(3);
@@ -208,10 +210,13 @@ class BalancoGame extends FlameGame with KeyboardEvents {
     bool respawnFromHole = false,
     HoleComponent? prevHole,
   }) {
-    print("DEBUG: _resetPositions called. size: ${size.x}x${size.y}, isSpawningLevel: $isSpawningLevel, loseLife: $loseLife");
+    print(
+      "DEBUG: _resetPositions called. size: ${size.x}x${size.y}, isSpawningLevel: $isSpawningLevel, loseLife: $loseLife",
+    );
 
     double currentSizeY = size.y > 0 ? size.y : 800.0;
-    double currentLevelHeight = currentSizeY * (currentLevel.value >= 10 ? 3.0 : 1.0);
+    double currentLevelHeight =
+        currentSizeY * (currentLevel.value >= 10 ? 3.0 : 1.0);
 
     if (leftY != 0.0 && size.y > 0 && !isSpawningLevel) {
       initialLeftY = leftY;
@@ -222,7 +227,7 @@ class BalancoGame extends FlameGame with KeyboardEvents {
       leftY = currentLevelHeight - 70.0;
       rightY = currentLevelHeight - 70.0;
     }
-    
+
     isBoardHidden = false;
     isLevelCompleteOverlayShown = false;
     teleportingGateComponent.reset();
@@ -271,7 +276,6 @@ class BalancoGame extends FlameGame with KeyboardEvents {
         return; // Don't reset position yet
       }
     }
-
 
     // Always clear balls and components, even if size is temporarily 0
     activeBalls.clear();
@@ -647,12 +651,21 @@ class BalancoGame extends FlameGame with KeyboardEvents {
             !b.isRespawningFromEdge &&
             b.spawnTimer <= 0,
       );
+      bool anyPortalCatchWindow = activeBalls.any(
+        (b) =>
+            !b.isDead &&
+            (b.spawnTimer > 0 ||
+                b.isRespawningFromEdge ||
+                (b.isFreeFalling && b.activeExitTeleporter != null)),
+      );
 
-      if (anyBallOnBar) {
+      if (anyBallOnBar || anyPortalCatchWindow) {
         // Base speed balanced so default (1.0) is not too high and not too low
-        double speed = timeStopNotifier.value > 0
+        final double baseSpeed = timeStopNotifier.value > 0
             ? 150.0 * AppSettings.joystickSensitivity.value
             : 250.0 * AppSettings.joystickSensitivity.value;
+        final double speed =
+            baseSpeed * (!anyBallOnBar && anyPortalCatchWindow ? 0.60 : 1.0);
         double maxDiff = 120.0;
 
         double newLeftY = leftY + leftJoystickValue * speed * dt;
@@ -872,7 +885,9 @@ class BalancoGame extends FlameGame with KeyboardEvents {
         !isLevelCompleteOverlayShown) {
       Vector2 gateCenter = teleportingGateComponent.position;
       if (ball.pos2D.distanceTo(gateCenter) < 40) {
-        print("DEBUG: isSuckingToGate = true triggered. pos2D: ${ball.pos2D}, gateCenter: $gateCenter, isSpawningLevel: $isSpawningLevel");
+        print(
+          "DEBUG: isSuckingToGate = true triggered. pos2D: ${ball.pos2D}, gateCenter: $gateCenter, isSpawningLevel: $isSpawningLevel",
+        );
         ball.isSuckingToGate = true;
         ball.isFalling = false;
         HapticFeedback.heavyImpact();

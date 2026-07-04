@@ -16,6 +16,7 @@ import 'package:balanco_game/core/data/app_settings.dart';
 import 'package:balanco_game/features/game/components/game_background/sky_painter.dart';
 import 'package:balanco_game/features/game/components/game_background/mountains_painter.dart';
 import 'package:balanco_game/features/game/components/game_background/sea_painter.dart';
+import 'package:balanco_game/features/game/components/game_background/biome_background_transition.dart';
 import 'package:balanco_game/features/game/components/game_background/pyramids_painter.dart';
 import 'package:balanco_game/features/game/components/game_background/bg_config_screen.dart';
 import 'package:balanco_game/features/map/theme/biome_config.dart';
@@ -566,6 +567,13 @@ class _MainScreenState extends State<MainScreen> {
                           currTint,
                           progress,
                         )!;
+                        final double transitionProgress =
+                            (pyramidOpacity /
+                                    (beachOpacity + pyramidOpacity).clamp(
+                                      0.001,
+                                      2.0,
+                                    ))
+                                .clamp(0.0, 1.0);
 
                         return Container(
                           width: double.infinity,
@@ -574,25 +582,12 @@ class _MainScreenState extends State<MainScreen> {
                               .mapAppBarCyanLightest, // fallback color
                           child: FittedBox(
                             fit: BoxFit.cover,
-                            child: Stack(
-                              children: [
-                                if (beachOpacity > 0.0)
-                                  Opacity(
-                                    opacity: beachOpacity,
-                                    child: ColorFiltered(
-                                      colorFilter: ColorFilter.mode(
-                                        tintColor,
-                                        BlendMode.srcATop,
-                                      ),
-                                      child: beachParallax,
-                                    ),
-                                  ),
-                                if (pyramidOpacity > 0.0)
-                                  Opacity(
-                                    opacity: pyramidOpacity,
-                                    child: pyramidParallax,
-                                  ),
-                              ],
+                            child: BiomeBackgroundTransition(
+                              tropical: beachParallax,
+                              pyramids: pyramidParallax,
+                              progress: transitionProgress,
+                              tropicalTint: tintColor,
+                              pyramidTint: const Color(0x336A2CA0),
                             ),
                           ),
                         );

@@ -5,28 +5,144 @@ import 'package:flutter/material.dart';
 // Layer 1: PyramidSkyPainter  (parallax speed 0.0 – static)
 // ─────────────────────────────────────────────────────────────────────────────
 class PyramidSkyPainter extends CustomPainter {
+  final double colorBlend;
+
+  const PyramidSkyPainter({this.colorBlend = 1.0});
+
+  Color _sky(Color tropical, Color pyramid) =>
+      Color.lerp(tropical, pyramid, colorBlend.clamp(0.0, 1.0))!;
+
   @override
   void paint(Canvas canvas, Size size) {
-    final Rect rect = Offset.zero & size;
-    canvas.drawRect(
-      rect,
+    Path path0 = Path()
+      ..moveTo(1000, 0)
+      ..lineTo(0, 0)
+      ..lineTo(0, 472.49)
+      ..lineTo(1000, 472.49)
+      ..close();
+    canvas.drawPath(
+      path0,
       Paint()
-        ..shader = const LinearGradient(
+        ..style = PaintingStyle.fill
+        ..color = _sky(const Color(0xFF83DCE8), const Color(0xFF8B3FA0)),
+    );
+
+    Path path1 = Path()
+      ..moveTo(1000, 193.69)
+      ..lineTo(0, 360.29)
+      ..lineTo(0, 0)
+      ..lineTo(1000, 0)
+      ..close();
+    canvas.drawPath(
+      path1,
+      Paint()
+        ..style = PaintingStyle.fill
+        ..shader = LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            Color(0xFFB57BCC),
-            Color(0xFFE8909E),
-            Color(0xFFD06090),
-            Color(0xFF8B3FA0),
+            _sky(const Color(0xFF7FCFE3), const Color(0xFFB57BCC)),
+            _sky(const Color(0xFFA8ECF0), const Color(0xFFE8909E)),
+            _sky(const Color(0xFF74C6D7), const Color(0xFFD06090)),
           ],
-          stops: [0.0, 0.35, 0.65, 1.0],
-        ).createShader(rect),
+          stops: const [0.0, 0.55, 1.0],
+        ).createShader(Offset.zero & size),
+    );
+
+    Path path2 = Path()
+      ..moveTo(1000, 90.29)
+      ..lineTo(0, 167.95)
+      ..lineTo(0, 0)
+      ..lineTo(1000, 0)
+      ..close();
+    canvas.drawPath(
+      path2,
+      Paint()
+        ..style = PaintingStyle.fill
+        ..shader = LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            _sky(const Color(0xFFE9FAFF), const Color(0xFFEEC1BE)),
+            _sky(const Color(0xFFBDEFF4), const Color(0xFFDFA0BA)),
+          ],
+        ).createShader(Offset.zero & size),
+    );
+
+    Path path3 = Path();
+    path3.moveTo(735.95, 222.661);
+    path3.cubicTo(676.06, 228.301, 613.22, 240.251, 557.17, 222.421);
+    path3.cubicTo(535.69, 215.591, 516.45, 204.651, 494.64, 198.501);
+    path3.cubicTo(456.94, 187.871, 415.52, 192.481, 375.75, 189.231);
+    path3.cubicTo(351.69, 187.271, 328, 182.361, 305.76, 174.741);
+    path3.cubicTo(285.75, 167.881, 266.76, 158.801, 245.71, 154.361);
+    path3.cubicTo(216.01, 148.091, 184.31, 151.491, 154.25, 146.441);
+    path3.cubicTo(135.52, 143.291, 117.86, 136.941, 99.3, 133.201);
+    path3.cubicTo(79.5, 129.211, 58.97, 128.261, 38.58, 127.331);
+    path3.lineTo(0, 125.561);
+    path3.lineTo(0, 171.831);
+    path3.cubicTo(60.04, 171.501, 115.85, 176.121, 171.5, 180.931);
+    path3.cubicTo(241.73, 187.001, 311.93, 193.371, 381.87, 201.321);
+    path3.cubicTo(401.97, 203.601, 422.05, 206.021, 441.94, 209.291);
+    path3.cubicTo(477.13, 215.081, 511.54, 223.551, 545.89, 232.001);
+    path3.cubicTo(564.48, 236.571, 583.29, 241.181, 602.7, 242.041);
+    path3.cubicTo(626.83, 243.111, 650.68, 238.341, 674.36, 234.441);
+    path3.cubicTo(740.1, 223.601, 807.48, 219.191, 874.54, 221.361);
+    path3.arcToPoint(
+      const Offset(735.95, 222.661),
+      radius: const Radius.elliptical(822.272, 822.272),
+      rotation: 0,
+      largeArc: false,
+      clockwise: false,
+    );
+    path3.close();
+    path3.moveTo(1000, 75.66);
+    path3.arcToPoint(
+      const Offset(815.59, 76.05),
+      radius: const Radius.elliptical(1349.46, 1349.46),
+      rotation: 0,
+      largeArc: false,
+      clockwise: false,
+    );
+    path3.cubicTo(818.02, 77.73, 820.46, 79.41, 822.89, 81.09);
+    path3.cubicTo(824.59, 84.59, 820.54, 88.02, 817.19, 89.41);
+    path3.cubicTo(769.27, 109.221, 716.88, 109.541, 665.75, 109.621);
+    path3.cubicTo(574.8, 109.771, 483.75, 109.921, 393.06, 102.251);
+    path3.cubicTo(356.02, 99.121, 318.54, 94.711, 281.95, 101.791);
+    path3.cubicTo(449.53, 109.531, 617.1, 117.261, 784.68, 125.001);
+    path3.cubicTo(889.18, 129.841, 899, 77.821, 1000, 154.261);
+    path3.close();
+    canvas.drawPath(
+      path3,
+      Paint()
+        ..style = PaintingStyle.fill
+        ..color = _sky(
+          const Color(0xFFFFFFFF),
+          const Color(0xFFFFE1C8),
+        ).withValues(alpha: 0.48),
+    );
+
+    final Rect sunRect = Rect.fromCircle(
+      center: Offset(size.width * 0.80, size.height * 0.18),
+      radius: size.width * 0.20,
+    );
+    canvas.drawCircle(
+      Offset(size.width * 0.80, size.height * 0.18),
+      size.width * 0.20,
+      Paint()
+        ..shader = RadialGradient(
+          colors: [
+            const Color(0xFFFFF4C7).withValues(alpha: 0.26),
+            const Color(0xFFFFB67E).withValues(alpha: 0.10),
+            Colors.transparent,
+          ],
+        ).createShader(sunRect),
     );
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(PyramidSkyPainter oldDelegate) =>
+      oldDelegate.colorBlend != colorBlend;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
