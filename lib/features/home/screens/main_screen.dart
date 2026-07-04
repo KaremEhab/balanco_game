@@ -9,8 +9,9 @@ import 'package:balanco_game/features/home/widgets/icons/home_icon_painter.dart'
 import 'package:balanco_game/features/home/widgets/icons/modes_icon_painter.dart';
 import 'package:balanco_game/features/home/widgets/icons/settings_icon_painter.dart';
 import 'package:balanco_game/features/settings/screens/modes_screen.dart';
-import 'package:balanco_game/features/leaderboard/screens/leaderboard_screen.dart';
 import 'package:balanco_game/features/settings/screens/settings_screen.dart';
+import 'package:balanco_game/features/leaderboard/screens/leaderboard_screen.dart';
+import 'package:balanco_game/features/map/models/biome_model.dart';
 import 'package:balanco_game/core/data/app_settings.dart';
 import 'package:balanco_game/features/game/components/game_background/sky_painter.dart';
 import 'package:balanco_game/features/game/components/game_background/mountains_painter.dart';
@@ -33,6 +34,8 @@ class _MainScreenState extends State<MainScreen> {
   late PageController _pageController;
   final ValueNotifier<double> _expandProgressNotifier = ValueNotifier(0.0);
   final ValueNotifier<double> biomeTransitionProgress = ValueNotifier(0.0);
+  final ValueNotifier<BiomeModel?> currentBiomeNotifier = ValueNotifier(null);
+  final ValueNotifier<BiomeModel?> previousBiomeNotifier = ValueNotifier(null);
   double _lastOffset = 0;
   double _lastScrollProgress = 1.0; // Default to bottom (Level 1)
 
@@ -61,6 +64,8 @@ class _MainScreenState extends State<MainScreen> {
       HomeScreen(
         scrollController: _mapScrollController,
         biomeTransitionProgress: biomeTransitionProgress,
+        currentBiomeNotifier: currentBiomeNotifier,
+        previousBiomeNotifier: previousBiomeNotifier,
       ),
       ModesScreen(scrollController: _modesScrollController),
       LeaderboardScreen(scrollController: _leaderboardScrollController),
@@ -477,23 +482,33 @@ class _MainScreenState extends State<MainScreen> {
             );
 
             // Apply Biome color tint dynamically over the background stack
-            return ValueListenableBuilder<double>(
-              valueListenable: biomeTransitionProgress,
-              builder: (context, progress, child) {
-                // When progress is 0.0, we have the normal tropical look (no tint)
-                // When progress is 1.0, we tint it heavily towards dark purple
-                final Color targetTint = GameColors.holeDeepPurple.withValues(
-                  alpha: 0.85,
-                );
-                final Color tintColor = Color.lerp(
-                  Colors.transparent,
-                  targetTint,
-                  progress,
-                )!;
+            return ValueListenableBuilder<BiomeModel?>(
+              valueListenable: currentBiomeNotifier,
+              builder: (context, currentBiome, child) {
+                return ValueListenableBuilder<BiomeModel?>(
+                  valueListenable: previousBiomeNotifier,
+                  builder: (context, previousBiome, child) {
+                    return ValueListenableBuilder<double>(
+                      valueListenable: biomeTransitionProgress,
+                      builder: (context, progress, child) {
+                        // When progress is 0.0, we have the normal look (no tint or target biome tint)
+                        // Actually, if we want to smoothly tint the background between biomes:
+                        final Color prevTint = previousBiome?.primaryColor.withValues(alpha: 0.15) ?? Colors.transparent;
+                        final Color currTint = currentBiome?.primaryColor.withValues(alpha: 0.15) ?? Colors.transparent;
+                        
+                        final Color tintColor = Color.lerp(
+                          prevTint,
+                          currTint,
+                          progress,
+                        )!;
 
-                return ColorFiltered(
-                  colorFilter: ColorFilter.mode(tintColor, BlendMode.srcATop),
-                  child: content,
+                        return ColorFiltered(
+                          colorFilter: ColorFilter.mode(tintColor, BlendMode.srcATop),
+                          child: content,
+                        );
+                      },
+                    );
+                  },
                 );
               },
             );
@@ -504,15 +519,28 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Widget _buildTopAppBar() {
-    return ValueListenableBuilder<double>(
-      valueListenable: _expandProgressNotifier,
-      builder: (context, expandProgress, child) {
-        return MapAppBar(
-          highestLevel: _highestLevel,
-          coins: _coins,
-          sparks: 2, // Defaulting to 2 as per the previous mockup
-          maxSparks: 5,
-          expandProgress: expandProgress,
+    return ValueListenableBuilder<BiomeModel?>(
+      valueListenable: currentBiomeNotifier,
+      builder: (context, currentBiome, child) {
+        return ValueListenableBuilder<BiomeModel?>(
+          valueListenable: previousBiomeNotifier,
+          builder: (context, previousBiome, child) {
+            return ValueListenableBuilder<double>(
+              valueListenable: _expandProgressNotifier,
+              builder: (context, expandProgress, child) {
+                return MapAppBar(
+                  highestLevel: _highestLevel,
+                  coins: _coins,
+                  sparks: 2, // Defaulting to 2 as per the previous mockup
+                  maxSparks: 5,
+                  expandProgress: expandProgress,
+                  biomeTransitionProgress: biomeTransitionProgress,
+                  currentBiome: currentBiome,
+                  previousBiome: previousBiome,
+                );
+              },
+            );
+          },
         );
       },
     );
@@ -547,37 +575,60 @@ class _MainScreenState extends State<MainScreen> {
               key: _rowKey,
               clipBehavior: Clip.none,
               children: [
-                AnimatedPositioned(
-                  duration: const Duration(milliseconds: 250),
-                  curve: Curves.easeOutCubic,
-                  left: _indicatorLeft,
-                  width: _indicatorWidth,
-                  top: 0,
-                  bottom: 0,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          GameColors.playButtonPainterColor10,
-                          GameColors.playButtonPainterColor9,
-                        ],
-                      ),
-                      borderRadius: BorderRadius.circular(25),
-                      border: Border.all(
-                        color: GameColors.white.withValues(alpha: 0.8),
-                        width: 1.5,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: GameColors.black.withValues(alpha: 0.1),
-                          blurRadius: 8,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                  ),
+                ValueListenableBuilder<BiomeModel?>(
+                  valueListenable: currentBiomeNotifier,
+                  builder: (context, currentBiome, child) {
+                    return ValueListenableBuilder<BiomeModel?>(
+                      valueListenable: previousBiomeNotifier,
+                      builder: (context, previousBiome, child) {
+                        return ValueListenableBuilder<double>(
+                          valueListenable: biomeTransitionProgress,
+                          builder: (context, progress, child) {
+                            final Color prevColor = previousBiome?.primaryColor ?? GameColors.playButtonPainterColor10;
+                            final Color currColor = currentBiome?.primaryColor ?? GameColors.playButtonPainterColor10;
+                            final Color blendedColor = Color.lerp(prevColor, currColor, progress)!;
+
+                            final Color prevColorLight = previousBiome?.secondaryColor ?? GameColors.playButtonPainterColor9;
+                            final Color currColorLight = currentBiome?.secondaryColor ?? GameColors.playButtonPainterColor9;
+                            final Color blendedColorLight = Color.lerp(prevColorLight, currColorLight, progress)!;
+                            
+                            return AnimatedPositioned(
+                              duration: const Duration(milliseconds: 250),
+                              curve: Curves.easeOutCubic,
+                              left: _indicatorLeft,
+                              width: _indicatorWidth,
+                              top: 0,
+                              bottom: 0,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [
+                                      blendedColor,
+                                      blendedColorLight,
+                                    ],
+                                  ),
+                                  borderRadius: BorderRadius.circular(25),
+                                  border: Border.all(
+                                    color: GameColors.white.withValues(alpha: 0.8),
+                                    width: 1.5,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: GameColors.black.withValues(alpha: 0.1),
+                                      blurRadius: 8,
+                                      offset: const Offset(0, 4),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    );
+                  },
                 ),
                 Row(
                   mainAxisSize: MainAxisSize.min,

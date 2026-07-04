@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
 import 'package:balanco_game/features/game/components/ball_component.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
 import 'package:balanco_game/features/map/models/biome_model.dart';
@@ -18,6 +19,8 @@ class MapBallLayer extends CustomPainter {
   final BiomeModel? platformBiome;
   final double ballOpacity;
   final double ballScaleModifier;
+  final double platformTransitionProgress; // 0→1: lava crack wipe of new color
+  final BiomeModel? platformNewBiome;      // the incoming biome color
 
   // Paints
   final Paint _dropShadowPaint = Paint()
@@ -44,6 +47,8 @@ class MapBallLayer extends CustomPainter {
     this.platformBiome,
     this.ballOpacity = 1.0,
     this.ballScaleModifier = 1.0,
+    this.platformTransitionProgress = 0.0,
+    this.platformNewBiome,
   }) {
     _highlightPaint = Paint()
       ..shader = RadialGradient(
@@ -247,6 +252,118 @@ class MapBallLayer extends CustomPainter {
     }
   }
 
+  /// Draws the "lava crack" color reveal when a new biome floods in.
+  /// [p] is 0→1 progress. Colors spread from center outward; glowing edge + sparks at wavefront.
+  void _drawLavaCrackOverlay(Canvas canvas, BiomeModel newBiome, double p) {
+    const double backY = -6.0;
+    const double frontY = 8.0;
+    const double backW = 38.0;
+    const double frontW = 50.0;
+    const double frontBottomY = 20.0;
+    const double cornerRadius = 4.0;
+
+    final double sweepX = frontW * p;
+
+    // 1. New-color top + front face clipped to expanding centre strip
+    canvas.save();
+    canvas.clipRect(Rect.fromLTRB(-sweepX, backY - 1, sweepX, frontBottomY + 1));
+
+    final topPath = Path()
+      ..moveTo(-backW + cornerRadius, backY)
+      ..lineTo(backW - cornerRadius, backY)
+      ..quadraticBezierTo(backW, backY, backW + (frontW - backW) * 0.1, backY + (frontY - backY) * 0.1)
+      ..lineTo(frontW - cornerRadius * 0.5, frontY - cornerRadius)
+      ..quadraticBezierTo(frontW, frontY, frontW - cornerRadius, frontY)
+      ..lineTo(-frontW + cornerRadius, frontY)
+      ..quadraticBezierTo(-frontW, frontY, -frontW + cornerRadius * 0.5, frontY - cornerRadius)
+      ..lineTo(-backW - (frontW - backW) * 0.1, backY + (frontY - backY) * 0.1)
+      ..quadraticBezierTo(-backW, backY, -backW + cornerRadius, backY)
+      ..close();
+
+    canvas.drawPath(
+      topPath,
+      Paint()
+        ..shader = LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [newBiome.nodeUnlockedColor, newBiome.nodeUnlockedBorderColor],
+        ).createShader(Rect.fromLTRB(-frontW, backY, frontW, frontY)),
+    );
+
+    final frontPath = Path()
+      ..moveTo(-frontW, frontY)
+      ..lineTo(frontW, frontY)
+      ..lineTo(frontW, frontBottomY - cornerRadius)
+      ..quadraticBezierTo(frontW, frontBottomY, frontW - cornerRadius, frontBottomY)
+      ..lineTo(-frontW + cornerRadius, frontBottomY)
+      ..quadraticBezierTo(-frontW, frontBottomY, -frontW, frontBottomY - cornerRadius)
+      ..close();
+
+    canvas.drawPath(
+      frontPath,
+      Paint()
+        ..shader = LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [newBiome.nodeUnlockedBorderColor, newBiome.nodeUnlockedRivetColor],
+        ).createShader(Rect.fromLTRB(-frontW, frontY, frontW, frontBottomY)),
+    );
+
+    canvas.restore();
+
+    // 2. Glowing molten-edge cracks at the wavefront (only while still sweeping)
+    if (p < 1.0) {
+      for (final double edgeX in [-sweepX, sweepX]) {
+        // Blurred heat glow
+        canvas.drawLine(
+          Offset(edgeX, backY),
+          Offset(edgeX, frontBottomY),
+          Paint()
+            ..color = newBiome.primaryColor.withValues(alpha: 0.85)
+            ..strokeWidth = 4.0
+            ..style = PaintingStyle.stroke
+            ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 5.0),
+        );
+        // Bright core line
+        canvas.drawLine(
+          Offset(edgeX, backY),
+          Offset(edgeX, frontBottomY),
+          Paint()
+            ..color = Colors.white.withValues(alpha: 0.75)
+            ..strokeWidth = 1.2
+            ..style = PaintingStyle.stroke,
+        );
+
+        // 3. Sparks flying upward from wavefront
+        const List<double> sparkAngles = [-1.1, -0.7, -0.4, 0.0, 0.5, 0.9, 1.2];
+        const List<double> sparkLengths = [10.0, 7.0, 12.0, 8.0, 11.0, 6.0, 9.0];
+        for (int i = 0; i < sparkAngles.length; i++) {
+          final double delay = i * 0.06;
+          final double sp = ((p - delay) / 0.4).clamp(0.0, 1.0);
+          if (sp <= 0 || sp >= 1.0) continue;
+
+          final double len = sparkLengths[i % sparkLengths.length];
+          // bias sparks upward
+          final double angle = sparkAngles[i % sparkAngles.length] - math.pi / 2;
+          final double sparkOpacity = (1.0 - sp) * 0.9;
+
+          canvas.drawLine(
+            Offset(edgeX, backY),
+            Offset(
+              edgeX + math.cos(angle) * len * sp,
+              backY + math.sin(angle) * len * sp,
+            ),
+            Paint()
+              ..color = newBiome.secondaryColor.withValues(alpha: sparkOpacity)
+              ..strokeWidth = 1.5
+              ..style = PaintingStyle.stroke
+              ..strokeCap = StrokeCap.round,
+          );
+        }
+      }
+    }
+  }
+
   @override
   void paint(Canvas canvas, Size size) {
     canvas.save();
@@ -259,6 +376,12 @@ class MapBallLayer extends CustomPainter {
       // The platform's top surface center is visually at y = -2. So we shift by radius + 2.
       canvas.translate(0.0, radius + 2.0);
       _drawPlatform(canvas);
+
+      // Lava crack wipe: new biome color floods from center outward
+      if (platformTransitionProgress > 0.0 && platformNewBiome != null) {
+        _drawLavaCrackOverlay(canvas, platformNewBiome!, platformTransitionProgress);
+      }
+
       canvas.restore();
     }
 

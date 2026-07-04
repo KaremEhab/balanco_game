@@ -114,17 +114,20 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
 
   bool get _isFallingInAir {
     if ((ballData.isFreeFalling || ballData.isFalling) &&
-        ballData.freeFallVelocity.y > 50.0)
+        ballData.freeFallVelocity.y > 50.0) {
       return true;
+    }
     if (game.isSpawningLevel &&
         ballData.spawnTimer <= 1.0 &&
         ballData.spawnTimer > 0 &&
-        ballData.freeFallVelocity.y > 50.0)
+        ballData.freeFallVelocity.y > 50.0) {
       return true;
+    }
     if ((ballData.isRespawningFromHole || ballData.isRespawningFromEdge) &&
         ballData.respawnTimer > 0 &&
-        ballData.respawnTimer <= 0.8)
+        ballData.respawnTimer <= 0.8) {
       return true;
+    }
     return false;
   }
 

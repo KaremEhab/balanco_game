@@ -7,6 +7,7 @@ import 'package:balanco_game/features/settings/widgets/avatar_shapes.dart';
 import 'package:balanco_game/features/settings/screens/profile_dialog.dart';
 import 'package:balanco_game/features/game/components/game_area/collected_star_painter.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
+import 'package:balanco_game/features/map/models/biome_model.dart';
 
 class MapAppBar extends StatefulWidget {
   final int highestLevel;
@@ -15,6 +16,8 @@ class MapAppBar extends StatefulWidget {
   final int maxSparks;
   final double expandProgress;
   final ValueNotifier<double>? biomeTransitionProgress;
+  final BiomeModel? currentBiome;
+  final BiomeModel? previousBiome;
 
   const MapAppBar({
     super.key,
@@ -24,6 +27,8 @@ class MapAppBar extends StatefulWidget {
     this.maxSparks = 5,
     this.expandProgress = 0.0,
     this.biomeTransitionProgress,
+    this.currentBiome,
+    this.previousBiome,
   });
 
   @override
@@ -363,7 +368,11 @@ class _MapAppBarState extends State<MapAppBar> {
   // =========================================================================
   // EXPANDED CONTENT (Visible when p = 1.0)
   // =========================================================================
-  Widget _buildExpandedContent(double w) {
+  Widget _buildExpandedContent(
+    double width,
+    Color containerColor,
+    Color borderColor,
+  ) {
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -448,7 +457,7 @@ class _MapAppBarState extends State<MapAppBar> {
             children: [
               Container(
                 margin: const EdgeInsets.only(left: 20),
-                width: w / 2 - 25,
+                width: width / 2 - 25,
                 height: 45,
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
@@ -538,7 +547,7 @@ class _MapAppBarState extends State<MapAppBar> {
 
         // --- Expanded Coins ---
         Positioned(
-          left: w / 2 - 15,
+          left: width / 2 - 15,
           top: 110,
           child: Stack(
             clipBehavior: Clip.none,
@@ -547,7 +556,7 @@ class _MapAppBarState extends State<MapAppBar> {
               Container(
                 margin: const EdgeInsets.only(left: 20),
                 padding: const EdgeInsets.only(right: 20),
-                width: w / 2 - 25,
+                width: width / 2 - 25,
                 height: 45,
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
@@ -616,23 +625,16 @@ class _MapAppBarState extends State<MapAppBar> {
           child: Container(
             padding: const EdgeInsets.only(top: 8, bottom: 3),
             decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [
-                  GameColors.mapAppBarCyanSoft,
-                  GameColors.mapAppBarCyanLight,
-                ],
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-              ),
+              color: containerColor,
               borderRadius: BorderRadius.circular(30),
-              border: Border.all(color: GameColors.mapAppBarTealDark, width: 2),
+              border: Border.all(color: borderColor, width: 2),
             ),
             alignment: Alignment.center,
             child: _buildStrokedText(
               "${widget.coins.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')} PTS",
               fontSize: 20,
               textColor: GameColors.white,
-              strokeColor: GameColors.mapAppBarTealDark,
+              strokeColor: borderColor,
               shadowColor: Colors.transparent,
             ),
           ),
@@ -647,7 +649,8 @@ class _MapAppBarState extends State<MapAppBar> {
       animation: widget.biomeTransitionProgress ?? ValueNotifier(0.0),
       builder: (context, child) {
         final double p = widget.expandProgress; // 0.0 to 1.0
-        final double biomeProgress = widget.biomeTransitionProgress?.value ?? 0.0;
+        final double biomeProgress =
+            widget.biomeTransitionProgress?.value ?? 0.0;
 
         // Heights
         final double minHeight = 90.0;
@@ -655,219 +658,234 @@ class _MapAppBarState extends State<MapAppBar> {
         final double currentHeight = lerpDouble(minHeight, maxHeight, p)!;
         final double borderRadius = lerpDouble(100.0, 40.0, p)!;
 
-        // Tropical colors
-        final Color tropicalContainerColor = Color.lerp(
-          GameColors.mapAppBarCyanLight.withValues(alpha: 0.3),
-          GameColors.mapAppBarCyanLight.withValues(alpha: 0.5),
-          p,
-        )!;
-        final Color tropicalBorderColor = GameColors.mapAppBarTealDark;
+        // Previous Biome colors
+        final Color prevPrimary =
+            widget.previousBiome?.primaryColor ?? GameColors.mapAppBarTealDark;
+        final Color prevSecondary =
+            widget.previousBiome?.secondaryColor ??
+            GameColors.mapAppBarCyanLight;
 
-        // Crystal Cave colors
-        final Color caveContainerColor = Color.lerp(
-          GameColors.holeDeepPurple.withValues(alpha: 0.5),
-          GameColors.holeDarkPurple.withValues(alpha: 0.7),
+        final Color prevContainerColor = Color.lerp(
+          prevSecondary.withValues(alpha: 0.3),
+          prevSecondary.withValues(alpha: 0.5),
           p,
         )!;
-        final Color caveBorderColor = GameColors.teleporterLightPurple;
+        final Color prevBorderColor = prevPrimary;
+
+        // Current Biome colors
+        final Color currPrimary =
+            widget.currentBiome?.primaryColor ?? GameColors.mapAppBarTealDark;
+        final Color currSecondary =
+            widget.currentBiome?.secondaryColor ??
+            GameColors.mapAppBarCyanLight;
+
+        final Color currContainerColor = Color.lerp(
+          currSecondary.withValues(alpha: 0.3),
+          currSecondary.withValues(alpha: 0.5),
+          p,
+        )!;
+        final Color currBorderColor = currPrimary;
 
         // Transition Colors and Border based on Biome
         final Color containerColor = Color.lerp(
-          tropicalContainerColor,
-          caveContainerColor,
+          prevContainerColor,
+          currContainerColor,
           biomeProgress,
         )!;
         final Color borderColor = Color.lerp(
-          tropicalBorderColor,
-          caveBorderColor,
+          prevBorderColor,
+          currBorderColor,
           biomeProgress,
         )!;
-    final double borderWidth = lerpDouble(2.0, 3.0, p)!;
-    final Color shadowColor = Color.lerp(
-      Colors.transparent,
-      Colors.transparent,
-      p,
-    )!;
-    final Offset shadowOffset = Offset(0, lerpDouble(0.0, 6.0, p)!);
+        final double borderWidth = lerpDouble(2.0, 3.0, p)!;
+        final Color shadowColor = Color.lerp(
+          Colors.transparent,
+          Colors.transparent,
+          p,
+        )!;
+        final Offset shadowOffset = Offset(0, lerpDouble(0.0, 6.0, p)!);
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final double w = constraints.maxWidth;
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            final double w = constraints.maxWidth;
 
-        // Math for Avatar and Name Interpolation (Shared Elements)
-        final double avatarSize = lerpDouble(55, 75, p)!;
-        final double avatarLeft = lerpDouble(16, 20, p)!;
-        final double avatarTop = lerpDouble(12, 20, p)!;
+            // Math for Avatar and Name Interpolation (Shared Elements)
+            final double avatarSize = lerpDouble(55, 75, p)!;
+            final double avatarLeft = lerpDouble(16, 20, p)!;
+            final double avatarTop = lerpDouble(12, 20, p)!;
 
-        final double nameLeft = lerpDouble(82, 110, p)!;
-        final double nameTop = lerpDouble(12, 22, p)!;
-        final double nameSize = lerpDouble(18, 18, p)!;
+            final double nameLeft = lerpDouble(82, 110, p)!;
+            final double nameTop = lerpDouble(12, 22, p)!;
+            final double nameSize = lerpDouble(18, 18, p)!;
 
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(
-              width: w,
-              height: currentHeight,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(borderRadius),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: containerColor,
-                      borderRadius: BorderRadius.circular(borderRadius),
-                      border: Border.all(
-                        color: borderColor,
-                        width: borderWidth,
-                      ),
-                      boxShadow: [
-                        if (p > 0)
-                          BoxShadow(color: shadowColor, offset: shadowOffset),
-                      ],
-                    ),
-                    child: Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        // --- 1. Fade out AppBar Content ---
-                        if (p < 1.0)
-                          Opacity(
-                            opacity: (1 - p).clamp(0.0, 1.0),
-                            child: IgnorePointer(
-                              ignoring: p > 0.5,
-                              child: _buildAppBarContent(w),
-                            ),
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  width: w,
+                  height: currentHeight,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(borderRadius),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: containerColor,
+                          borderRadius: BorderRadius.circular(borderRadius),
+                          border: Border.all(
+                            color: borderColor,
+                            width: borderWidth,
                           ),
+                          boxShadow: [
+                            if (p > 0)
+                              BoxShadow(
+                                color: shadowColor,
+                                offset: shadowOffset,
+                              ),
+                          ],
+                        ),
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            // --- 1. Fade out AppBar Content ---
+                            if (p < 1.0)
+                              Opacity(
+                                opacity: (1 - p).clamp(0.0, 1.0),
+                                child: IgnorePointer(
+                                  ignoring: p > 0.5,
+                                  child: _buildAppBarContent(w),
+                                ),
+                              ),
 
-                        // --- 2. Fade in Expanded Content ---
-                        if (p > 0.0)
-                          Opacity(
-                            opacity: p,
-                            child: IgnorePointer(
-                              ignoring: p <= 0.5,
-                              child: _buildExpandedContent(w),
-                            ),
-                          ),
+                            // --- 2. Fade in Expanded Content ---
+                            if (p > 0.0)
+                              Opacity(
+                                opacity: p,
+                                child: IgnorePointer(
+                                  ignoring: p <= 0.5,
+                                  child: _buildExpandedContent(
+                                    w,
+                                    containerColor,
+                                    borderColor,
+                                  ),
+                                ),
+                              ),
 
-                        // --- 3. Sliding Shared Elements (Avatar & Name) ---
-                        Positioned(
-                          left: avatarLeft,
-                          top: avatarTop,
-                          child: GestureDetector(
-                            onTap: () {
-                              showProfileDialog(
-                                context,
-                                name: 'KAREEM EHAB',
-                                level: widget.highestLevel,
-                                coins: widget.coins,
-                                sparks: widget.sparks,
-                              );
-                            },
-                            child: Stack(
-                              clipBehavior: Clip.none,
-                              alignment: Alignment.bottomCenter,
-                              children: [
-                                ValueListenableBuilder<AvatarShape>(
-                                  valueListenable: currentAvatarShapeNotifier,
-                                  builder: (context, shape, _) {
-                                    return ValueListenableBuilder<String>(
-                                      valueListenable: currentAvatarUrlNotifier,
-                                      builder: (context, url, _) {
-                                        return ProfileAvatarWidget(
-                                          shape: shape,
-                                          size: avatarSize,
-                                          imageUrl: url,
+                            // --- 3. Sliding Shared Elements (Avatar & Name) ---
+                            Positioned(
+                              left: avatarLeft,
+                              top: avatarTop,
+                              child: GestureDetector(
+                                onTap: () {
+                                  showProfileDialog(
+                                    context,
+                                    name: 'KAREEM EHAB',
+                                    level: widget.highestLevel,
+                                    coins: widget.coins,
+                                    sparks: widget.sparks,
+                                  );
+                                },
+                                child: Stack(
+                                  clipBehavior: Clip.none,
+                                  alignment: Alignment.bottomCenter,
+                                  children: [
+                                    ValueListenableBuilder<AvatarShape>(
+                                      valueListenable:
+                                          currentAvatarShapeNotifier,
+                                      builder: (context, shape, _) {
+                                        return ValueListenableBuilder<String>(
+                                          valueListenable:
+                                              currentAvatarUrlNotifier,
+                                          builder: (context, url, _) {
+                                            return ProfileAvatarWidget(
+                                              shape: shape,
+                                              size: avatarSize,
+                                              imageUrl: url,
+                                            );
+                                          },
                                         );
                                       },
-                                    );
-                                  },
-                                ),
-                                if (p < 1.0)
-                                  Positioned(
-                                    bottom: lerpDouble(-8, -12, p)!,
-                                    child: Opacity(
-                                      opacity: 1 - p,
-                                      child: SizedBox(
-                                        width: lerpDouble(26, 36, p)!,
-                                        height: lerpDouble(26, 36, p)!,
-                                        child: FittedBox(
-                                          fit: BoxFit.contain,
+                                    ),
+                                    if (p < 1.0)
+                                      Positioned(
+                                        bottom: lerpDouble(-8, -12, p)!,
+                                        child: Opacity(
+                                          opacity: 1 - p,
                                           child: SizedBox(
-                                            width: 22,
-                                            height: 22,
-                                            child: CustomPaint(
-                                              painter: GemPainter(),
+                                            width: lerpDouble(26, 36, p)!,
+                                            height: lerpDouble(26, 36, p)!,
+                                            child: FittedBox(
+                                              fit: BoxFit.contain,
+                                              child: SizedBox(
+                                                width: 22,
+                                                height: 22,
+                                                child: CustomPaint(
+                                                  painter: GemPainter(),
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ),
-                              ],
+                                  ],
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
 
-                        Positioned(
-                          left: nameLeft,
-                          top: nameTop,
-                          child: _buildStrokedText(
-                            'KAREEM EHAB',
-                            fontSize: nameSize,
-                            textColor: GameColors.mapAppBarWhiteHint,
-                            strokeColor: const Color.fromARGB(255, 71, 49, 11),
-                            shadowColor: GameColors.mapAppBarBrownText,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            if (p < 1.0)
-              Opacity(
-                opacity: (1 - p).clamp(0.0, 1.0),
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 7),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(30),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                      child: Container(
-                        padding: const EdgeInsets.fromLTRB(24, 8, 24, 4),
-                        decoration: BoxDecoration(
-                          color: GameColors.mapAppBarCyanSoft.withValues(
-                            alpha: 0.4,
-                          ),
-                          borderRadius: BorderRadius.circular(30),
-                          border: Border.all(
-                            color: GameColors.mapAppBarTealDark,
-                            width: 3,
-                          ),
-                          // boxShadow: const [
-                          //   BoxShadow(
-                          //     color: GameColors.mapAppBarTealDark,
-                          //     offset: Offset(0, 4),
-                          //   ),
-                          // ],
-                        ),
-                        child: _buildStrokedText(
-                          "${widget.coins.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')} PTS",
-                          fontSize: 20,
-                          textColor: GameColors.white,
-                          strokeColor: GameColors.mapAppBarTealDark,
-                          shadowColor: GameColors.mapAppBarTealDark,
+                            Positioned(
+                              left: nameLeft,
+                              top: nameTop,
+                              child: _buildStrokedText(
+                                'KAREEM EHAB',
+                                fontSize: nameSize,
+                                textColor: GameColors.mapAppBarWhiteHint,
+                                strokeColor: const Color.fromARGB(
+                                  255,
+                                  71,
+                                  49,
+                                  11,
+                                ),
+                                shadowColor: GameColors.mapAppBarBrownText,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-          ],
+                if (p < 1.0)
+                  Opacity(
+                    opacity: (1 - p).clamp(0.0, 1.0),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 7),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                          child: Container(
+                            padding: const EdgeInsets.fromLTRB(24, 8, 24, 4),
+                            decoration: BoxDecoration(
+                              color: containerColor,
+                              borderRadius: BorderRadius.circular(30),
+                              border: Border.all(color: borderColor, width: 3),
+                            ),
+                            child: _buildStrokedText(
+                              "${widget.coins.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')} PTS",
+                              fontSize: 20,
+                              textColor: GameColors.white,
+                              strokeColor: borderColor,
+                              shadowColor: borderColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            );
+          },
         );
-      },
-    );
       },
     );
   }
