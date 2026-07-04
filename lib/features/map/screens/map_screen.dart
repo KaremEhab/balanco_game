@@ -15,6 +15,7 @@ import 'package:balanco_game/features/map/components/wooden_route_painter.dart';
 import 'package:balanco_game/features/map/components/locked_level_painter.dart';
 import 'package:balanco_game/features/map/components/map_hole_painter.dart';
 import 'package:balanco_game/features/map/components/map_ball_layer.dart';
+import 'package:balanco_game/features/map/components/ball_shatter_painter.dart';
 import 'package:balanco_game/features/map/theme/map_theme.dart';
 import 'package:balanco_game/features/map/theme/themes/beach_map_theme.dart';
 import 'package:balanco_game/core/data/app_settings.dart';
@@ -160,16 +161,123 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ]).animate(
           CurvedAnimation(parent: _buzzerController, curve: Curves.easeInOut),
         );
+
+    _biomeTransitionController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200), // 1.2s total duration
+    );
+
+    _biomeTransitionController.addListener(() {
+      setState(() {});
+    });
+
+    _explosionOpacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _biomeTransitionController,
+        // 0→1 is the SHATTER PROGRESS used by BallShatterPainter
+        curve: const Interval(0.0, 0.5, curve: Curves.easeIn),
+      ),
+    );
+
+    _newBallDropAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _biomeTransitionController,
+        curve: const Interval(0.3, 0.8, curve: Curves.bounceOut),
+      ),
+    );
+
+    // Implode → elastic snap-back with a slight overshoot
+    _playButtonBulgeAnimation = TweenSequence<double>([
+      // Compress inward (feels "charged")
+      TweenSequenceItem(
+        tween: Tween(begin: 1.0, end: 0.82).chain(CurveTween(curve: Curves.easeIn)),
+        weight: 20,
+      ),
+      // Elastic BOOM back (color changes here at peak compress — 0.2)
+      TweenSequenceItem(
+        tween: Tween(begin: 0.82, end: 1.0).chain(CurveTween(curve: Curves.elasticOut)),
+        weight: 50,
+      ),
+      // Settle
+      TweenSequenceItem(
+        tween: ConstantTween(1.0),
+        weight: 30,
+      ),
+    ]).animate(
+      CurvedAnimation(
+        parent: _biomeTransitionController,
+        curve: const Interval(0.0, 0.8),
+      ),
+    );
+
+    // Wobble rotation: button tilts slightly then corrects
+    _playButtonRotationAnimation = TweenSequence<double>([
+      TweenSequenceItem(
+        tween: Tween(begin: 0.0, end: 0.07).chain(CurveTween(curve: Curves.easeIn)),
+        weight: 15,
+      ),
+      TweenSequenceItem(
+        tween: Tween(begin: 0.07, end: -0.05).chain(CurveTween(curve: Curves.easeOut)),
+        weight: 20,
+      ),
+      TweenSequenceItem(
+        tween: Tween(begin: -0.05, end: 0.0).chain(CurveTween(curve: Curves.easeOut)),
+        weight: 15,
+      ),
+      TweenSequenceItem(
+        tween: ConstantTween(0.0),
+        weight: 50,
+      ),
+    ]).animate(
+      CurvedAnimation(
+        parent: _biomeTransitionController,
+        curve: const Interval(0.0, 0.8),
+      ),
+    );
+
+    // Haptic and Sound trigger at exactly 0.8
+    _biomeTransitionController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _isBiomeTransitioning = false;
+        _previousBiome = null;
+        setState(() {}); // One last build to clean up
+      }
+    });
+
+    bool hasTriggeredImpact = false;
+    _biomeTransitionController.addListener(() {
+      if (_biomeTransitionController.value >= 0.8 && !hasTriggeredImpact) {
+        hasTriggeredImpact = true;
+        HapticFeedback.heavyImpact();
+        try {
+          AppSettings.playSound('heavy_thud.wav'); // Assuming a sound exists or it will just fail gracefully
+        } catch (_) {}
+      } else if (_biomeTransitionController.value < 0.8) {
+        hasTriggeredImpact = false;
+      }
+    });
   }
 
   late AnimationController _buzzerController;
   late Animation<double> _buzzerAnimation;
+
+  // Biome Transition Animations
+  late AnimationController _biomeTransitionController;
+  late Animation<double> _explosionOpacityAnimation;
+  late Animation<double> _newBallDropAnimation;
+  late Animation<double> _playButtonBulgeAnimation;
+  late Animation<double> _playButtonRotationAnimation;
+
+  BiomeModel? _previousBiome;
+  BiomeModel? _targetBiome;
+  bool _isBiomeTransitioning = false;
 
   @override
   void dispose() {
     _buzzerController.dispose();
     _playLevelController.dispose();
     _idleJumpController.dispose();
+    _biomeTransitionController.dispose();
     widget.scrollController.removeListener(_onScroll);
     super.dispose();
   }
@@ -188,6 +296,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     int calculatedLevel = rawLevel.round().clamp(1, totalLevels);
 
     if (calculatedLevel != _displayedLevel) {
+      final currentBiome = BiomeConfig.getBiomeForLevel(_displayedLevel);
+      final newBiome = BiomeConfig.getBiomeForLevel(calculatedLevel);
+
+      if (currentBiome.startLevel != newBiome.startLevel) {
+        _previousBiome = currentBiome;
+        _targetBiome = newBiome;
+        _isBiomeTransitioning = true;
+        _biomeTransitionController.forward(from: 0.0);
+      }
+
       setState(() {
         _displayedLevel = calculatedLevel;
       });
@@ -694,63 +812,157 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
           Positioned.fill(
             child: AnimatedBuilder(
-              animation: _buzzerAnimation,
+              animation: _biomeTransitionController,
               builder: (context, child) {
-                return Stack(
-                  children: [
-                    // Fixed Level Button
-                    Positioned(
-                      bottom: 130, // Positioned above the navbar
-                      left:
-                          (screenWidth - 200) / 2 +
-                          _buzzerAnimation.value, // Centered with shake
-                      child: BouncingLevelButton(
-                        currentLevel: _displayedLevel,
-                        biome: BiomeConfig.getBiomeForLevel(_displayedLevel),
-                        isLocked: _displayedLevel > highestLevel,
-                        onTap: () {
-                          HapticFeedback.lightImpact();
-                          _handleNodeTap(_displayedLevel);
-                        },
-                      ),
-                    ),
+                final screenHeight = MediaQuery.of(context).size.height;
+                final currentBiome = BiomeConfig.getBiomeForLevel(_displayedLevel);
+                final bool isTransitioning = _isBiomeTransitioning && _previousBiome != null && _targetBiome != null;
 
-                    // Fixed Idle Ball and Platform Overlay
-                    Positioned(
-                      bottom:
-                          208, // Offset adjusted so platform stays above the button
-                      left:
-                          (screenWidth - 60) / 2 +
-                          _buzzerAnimation.value, // Centered with shake
-                      child: AnimatedBuilder(
-                        animation: _idleJumpController,
-                        builder: (context, child) {
-                          // Keep the platform drawn but hide the ball if it's currently flying
-                          return SizedBox(
-                            width: 60,
-                            height: 60,
-                            child: CustomPaint(
-                              painter: MapBallLayer(
-                                position: const Offset(30, 30),
-                                scale: _idleScaleZAnimation.value,
-                                squashScaleX: _idleSquashXAnimation.value,
-                                squashScaleY: _idleSquashYAnimation.value,
-                                rotation: 0.0,
-                                radius: 16.0,
-                                ballOffsetY: _idleJumpAnimation.value,
-                                drawPlatform: true,
-                                drawBall: _animatingLevel == null,
-                                isLocked: _displayedLevel > highestLevel,
-                                biome: BiomeConfig.getBiomeForLevel(
-                                  _displayedLevel,
+                final platformBiome = isTransitioning && _biomeTransitionController.value < 0.8
+                    ? _previousBiome!
+                    : currentBiome;
+
+
+                // The falling ball's top position on screen:
+                // Platform sits at bottom: 208, widget height ~60
+                // Ball landing position from top = screenHeight - 208 - 60 + ball center offset
+                final double ballLandingTopFromTop = screenHeight - 268 - 16;
+                final double ballStartTopFromTop = -60.0; // above the status bar
+                // _newBallDropAnimation goes 0.0 (start, top) → 1.0 (landed)
+                final double fallingBallTop = ballStartTopFromTop +
+                    _newBallDropAnimation.value * (ballLandingTopFromTop - ballStartTopFromTop);
+
+                return AnimatedBuilder(
+                  animation: _buzzerAnimation,
+                  builder: (context, child) {
+                    return Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        // ─── Play Button ───────────────────────────────────────────
+                        Positioned(
+                          bottom: 130,
+                          left: (screenWidth - 200) / 2 + _buzzerAnimation.value,
+                          child: Stack(
+                            clipBehavior: Clip.none,
+                            alignment: Alignment.center,
+                            children: [
+                              // Shockwave rings overlay (bigger canvas so rings can escape)
+                              if (isTransitioning)
+                                Positioned(
+                                  left: -60,
+                                  right: -60,
+                                  top: -40,
+                                  bottom: -40,
+                                  child: CustomPaint(
+                                    painter: PlayButtonRipplePainter(
+                                      progress: _biomeTransitionController.value,
+                                      newBiome: currentBiome,
+                                      buttonWidth: 200,
+                                      buttonHeight: 70,
+                                    ),
+                                  ),
+                                ),
+                              // The actual button: implode → elastic snap + wobble
+                              Transform.rotate(
+                                angle: isTransitioning ? _playButtonRotationAnimation.value : 0.0,
+                                child: Transform.scale(
+                                  scale: isTransitioning ? _playButtonBulgeAnimation.value : 1.0,
+                                  alignment: Alignment.center,
+                                  child: BouncingLevelButton(
+                                    currentLevel: _displayedLevel,
+                                    // Color switches at the bottom of the implosion (t=0.2)
+                                    biome: isTransitioning && _biomeTransitionController.value < 0.2
+                                        ? _previousBiome!
+                                        : currentBiome,
+                                    isLocked: _displayedLevel > highestLevel,
+                                    onTap: () {
+                                      HapticFeedback.lightImpact();
+                                      _handleNodeTap(_displayedLevel);
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        // ─── Platform + Normal (idle) ball ────────────────────────
+                        Positioned(
+                          bottom: 208,
+                          left: (screenWidth - 60) / 2 + _buzzerAnimation.value,
+                          child: AnimatedBuilder(
+                            animation: _idleJumpController,
+                            builder: (context, child) {
+                              return SizedBox(
+                                width: 60,
+                                height: 60,
+                                child: CustomPaint(
+                                  painter: MapBallLayer(
+                                    position: const Offset(30, 30),
+                                    scale: isTransitioning ? 0.0 : _idleScaleZAnimation.value,
+                                    squashScaleX: _idleSquashXAnimation.value,
+                                    squashScaleY: _idleSquashYAnimation.value,
+                                    rotation: 0.0,
+                                    radius: 16.0,
+                                    ballOffsetY: _idleJumpAnimation.value,
+                                    drawPlatform: true,
+                                    drawBall: !isTransitioning && _animatingLevel == null,
+                                    isLocked: _displayedLevel > highestLevel,
+                                    biome: currentBiome,
+                                    platformBiome: platformBiome,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+
+                        // ─── OLD Ball Shatter (top-level so it's never clipped) ──
+                        if (isTransitioning)
+                          Positioned(
+                            // Centre the 120x120 shatter canvas over where the ball was
+                            bottom: 208 - 30, // -30 to vertically center the larger canvas
+                            left: (screenWidth - 120) / 2 + _buzzerAnimation.value,
+                            child: SizedBox(
+                              width: 120,
+                              height: 120,
+                              child: CustomPaint(
+                                // _explosionOpacityAnimation is now the shatter PROGRESS (0→1)
+                                painter: BallShatterPainter(
+                                  progress: _explosionOpacityAnimation.value.clamp(0.0, 1.0),
+                                  biome: _previousBiome!,
+                                  radius: 16.0,
                                 ),
                               ),
                             ),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
+                          ),
+
+                        // ─── NEW Ball Falling (top-level, starts above status bar) ─
+                        if (isTransitioning)
+                          Positioned(
+                            top: fallingBallTop,
+                            left: (screenWidth - 60) / 2 + _buzzerAnimation.value,
+                            child: SizedBox(
+                              width: 60,
+                              height: 60,
+                              child: CustomPaint(
+                                painter: MapBallLayer(
+                                  position: const Offset(30, 30),
+                                  scale: 1.0,
+                                  rotation: 0.0,
+                                  radius: 16.0,
+                                  ballOffsetY: 0.0,
+                                  drawPlatform: false,
+                                  drawBall: true,
+                                  isLocked: false,
+                                  biome: _targetBiome!,
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
+                    );
+                  },
                 );
               },
             ),
@@ -759,6 +971,81 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       ),
     );
   }
+}
+
+/// Draws expanding shockwave rings around the play button during a biome transition.
+/// [progress] is the raw biome controller value (0.0 to 1.0).
+class PlayButtonRipplePainter extends CustomPainter {
+  final double progress;
+  final BiomeModel newBiome;
+  final double buttonWidth;
+  final double buttonHeight;
+
+  static const int _ringCount = 3;
+  static const double _ringDelay = 0.07;
+
+  const PlayButtonRipplePainter({
+    required this.progress,
+    required this.newBiome,
+    this.buttonWidth = 200,
+    this.buttonHeight = 70,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final cx = size.width / 2;
+    final cy = size.height / 2;
+    final maxRadius = sqrt(cx * cx + cy * cy) * 1.6;
+
+    for (int i = 0; i < _ringCount; i++) {
+      final startT = 0.2 + i * _ringDelay;
+      final endT = startT + 0.45;
+      if (progress < startT || progress > endT) continue;
+
+      final t = (progress - startT) / (endT - startT);
+      final radius = maxRadius * t;
+      final strokeWidth = 4.0 * (1.0 - t * 0.7);
+      final opacity = (1.0 - t) * (0.75 - i * 0.15);
+
+      // Outer glow ring
+      canvas.drawCircle(
+        Offset(cx, cy),
+        radius,
+        Paint()
+          ..color = newBiome.primaryColor.withValues(alpha: opacity * 0.4)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = strokeWidth + 6
+          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6),
+      );
+
+      // Sharp colored ring
+      canvas.drawCircle(
+        Offset(cx, cy),
+        radius,
+        Paint()
+          ..color = newBiome.secondaryColor.withValues(alpha: opacity)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = strokeWidth,
+      );
+    }
+
+    // White burst flash at t=0.2
+    if (progress >= 0.18 && progress <= 0.38) {
+      final flashT = (progress - 0.18) / 0.2;
+      final flashOpacity = (1.0 - flashT) * 0.85;
+      final flashRadius = maxRadius * 0.6 * flashT;
+      canvas.drawCircle(
+        Offset(cx, cy),
+        flashRadius,
+        Paint()
+          ..color = Colors.white.withValues(alpha: flashOpacity)
+          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 10),
+      );
+    }
+  }
+
+  @override
+  bool shouldRepaint(PlayButtonRipplePainter old) => old.progress != progress;
 }
 
 /// A custom ScrollPhysics that snaps exactly to intervals (e.g. 130px)

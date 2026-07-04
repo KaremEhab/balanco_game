@@ -15,6 +15,9 @@ class MapBallLayer extends CustomPainter {
   final bool drawBall;
   final bool isLocked;
   final BiomeModel biome;
+  final BiomeModel? platformBiome;
+  final double ballOpacity;
+  final double ballScaleModifier;
 
   // Paints
   final Paint _dropShadowPaint = Paint()
@@ -38,6 +41,9 @@ class MapBallLayer extends CustomPainter {
     this.drawBall = true,
     this.isLocked = false,
     required this.biome,
+    this.platformBiome,
+    this.ballOpacity = 1.0,
+    this.ballScaleModifier = 1.0,
   }) {
     _highlightPaint = Paint()
       ..shader = RadialGradient(
@@ -148,13 +154,15 @@ class MapBallLayer extends CustomPainter {
       ) // Top left curve
       ..close();
 
+    final currentPlatformBiome = platformBiome ?? biome;
+
     final Paint topFacePaint = Paint()
       ..shader = LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          biome.nodeUnlockedColor,
-          biome.nodeUnlockedBorderColor,
+          currentPlatformBiome.nodeUnlockedColor,
+          currentPlatformBiome.nodeUnlockedBorderColor,
         ], 
       ).createShader(Rect.fromLTRB(-frontW, backY, frontW, frontY));
 
@@ -185,8 +193,8 @@ class MapBallLayer extends CustomPainter {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          biome.nodeUnlockedBorderColor,
-          biome.nodeUnlockedRivetColor,
+          currentPlatformBiome.nodeUnlockedBorderColor,
+          currentPlatformBiome.nodeUnlockedRivetColor,
         ], 
       ).createShader(Rect.fromLTRB(-frontW, frontY, frontW, frontBottomY));
 
@@ -275,6 +283,17 @@ class MapBallLayer extends CustomPainter {
       canvas.scale(squashScaleX, squashScaleY);
       canvas.translate(0.0, -radius);
 
+      // Apply custom modifier scale (for explosion/pop effect)
+      if (ballScaleModifier != 1.0) {
+        canvas.scale(ballScaleModifier, ballScaleModifier);
+      }
+
+      // If opacity is less than 1.0, save a layer with opacity
+      if (ballOpacity < 1.0) {
+        final opacityPaint = Paint()..color = Color.fromRGBO(0, 0, 0, ballOpacity);
+        canvas.saveLayer(null, opacityPaint);
+      }
+
       // Draw rotating BallPainter graphic from gameplay
       canvas.save();
 
@@ -306,6 +325,10 @@ class MapBallLayer extends CustomPainter {
 
       // Always restore since we saveLayer for both locked and unlocked
       canvas.restore();
+
+      if (ballOpacity < 1.0) {
+        canvas.restore(); // Restore opacity layer
+      }
 
       canvas.restore();
 

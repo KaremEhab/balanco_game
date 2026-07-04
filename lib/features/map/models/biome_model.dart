@@ -105,3 +105,17 @@ class BiomeModel {
     );
   }
 }
+
+class BiomeTween extends Tween<BiomeModel> {
+  BiomeTween({super.begin, super.end});
+
+  @override
+  BiomeModel lerp(double t) {
+    if (begin == null && end == null) {
+      throw Exception('Cannot lerp BiomeTween with null begin and end');
+    }
+    if (begin == null) return end!;
+    if (end == null) return begin!;
+    return BiomeModel.lerp(begin!, end!, t);
+  }
+}
