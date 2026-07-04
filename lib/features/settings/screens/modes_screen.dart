@@ -307,6 +307,62 @@ class ModesScreen extends StatelessWidget {
 
           const SizedBox(height: 32),
 
+          _buildSectionHeader('GAME TYPE'),
+
+          BlocBuilder<AppBloc, AppState>(
+            builder: (context, state) {
+              final isInfinity = state.gameMode == 'infinityBalance';
+              return _buildCartoonCard(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(
+                      children: [
+                        _buildModeButton(
+                          label: 'CLASSIC',
+                          icon: Icons.map_rounded,
+                          isSelected: !isInfinity,
+                          activeColor: GameColors.orangeTextUi,
+                          onTap: () {
+                            context.read<AppBloc>().add(
+                              const ChangeGameMode('classic'),
+                            );
+                          },
+                        ),
+                        const SizedBox(width: 16),
+                        _buildModeButton(
+                          label: 'INFINITY',
+                          icon: Icons.all_inclusive_rounded,
+                          isSelected: isInfinity,
+                          activeColor: GameColors.deepPurple,
+                          onTap: () {
+                            context.read<AppBloc>().add(
+                              const ChangeGameMode('infinityBalance'),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 18),
+                    Text(
+                      isInfinity
+                          ? 'INFINITY BALANCE: endless levels, shifting colors, bigger score climbs.'
+                          : 'CLASSIC MAP: clear levels, unlock the route, collect PTS.',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        color: GameColors.brownDarkUi,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+
+          const SizedBox(height: 32),
+
           _buildSectionHeader('UPCOMING MODES'),
 
           _buildCartoonCard(

@@ -76,6 +76,64 @@ class BiomeConfig {
 
   static final List<BiomeModel> biomes = [tropicalBeach, crystalCave];
 
+  static BiomeModel getInfinityBiomeForLevel(int level) {
+    final double hue = ((level * 37) % 360).toDouble();
+    final Color primary = HSVColor.fromAHSV(1, hue, 0.82, 0.58).toColor();
+    final Color secondary = HSVColor.fromAHSV(
+      1,
+      (hue + 56) % 360,
+      0.78,
+      0.88,
+    ).toColor();
+    final Color dark = HSVColor.fromAHSV(
+      1,
+      (hue + 24) % 360,
+      0.86,
+      0.28,
+    ).toColor();
+    final Color deep = HSVColor.fromAHSV(
+      1,
+      (hue + 220) % 360,
+      0.72,
+      0.18,
+    ).toColor();
+    final Color glow = HSVColor.fromAHSV(
+      1,
+      (hue + 112) % 360,
+      0.62,
+      1.0,
+    ).toColor();
+
+    return BiomeModel(
+      startLevel: level,
+      endLevel: level,
+      primaryColor: primary,
+      secondaryColor: secondary,
+      nodeUnlockedColor: secondary,
+      nodeUnlockedBorderColor: primary,
+      nodeUnlockedTeethColor: glow,
+      nodeUnlockedOuterEdgeColor: GameColors.white,
+      nodeUnlockedRivetColor: dark,
+      nodeUnlockedInnerColors: [
+        glow,
+        secondary,
+        primary,
+        dark,
+        deep,
+        GameColors.blackSolid,
+      ],
+      nodeLockedColor: dark,
+      nodeLockedBorderColor: deep,
+      nodeLockedTeethColor: deep,
+      nodeLockedOuterEdgeColor: GameColors.blueGray100,
+      nodeLockedRivetColor: deep,
+      nodeLockedInnerColors: [primary, dark, deep, GameColors.blackSolid],
+      pathColor: glow,
+      bgTopColor: deep,
+      bgBottomColor: primary,
+    );
+  }
+
   static BiomeModel getBiomeForLevel(int level) {
     for (final biome in biomes) {
       if (level >= biome.startLevel && level <= biome.endLevel) {

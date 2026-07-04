@@ -132,10 +132,12 @@ class _ParallaxBackgroundWidgetState extends State<ParallaxBackgroundWidget> {
       child: ValueListenableBuilder<int>(
         valueListenable: widget.game.currentLevel,
         builder: (context, level, child) {
-          final targetProgress =
-              BiomeConfig.getBiomeForLevel(level) == BiomeConfig.crystalCave
+          final double targetProgress = widget.game.isInfinityMode
+              ? ((level - 1) % 20) / 19.0
+              : BiomeConfig.getBiomeForLevel(level) == BiomeConfig.crystalCave
               ? 1.0
               : 0.0;
+          final currentBiome = widget.game.currentBiome;
 
           return TweenAnimationBuilder<double>(
             tween: Tween<double>(end: targetProgress),
@@ -273,7 +275,12 @@ class _ParallaxBackgroundWidgetState extends State<ParallaxBackgroundWidget> {
                     tropical: tropicalScene,
                     pyramids: pyramidScene,
                     progress: progress,
-                    pyramidTint: const Color(0x336A2CA0),
+                    tropicalTint: widget.game.isInfinityMode
+                        ? currentBiome.secondaryColor.withValues(alpha: 0.16)
+                        : Colors.transparent,
+                    pyramidTint: widget.game.isInfinityMode
+                        ? currentBiome.primaryColor.withValues(alpha: 0.22)
+                        : const Color(0x336A2CA0),
                   ),
                 ),
               );

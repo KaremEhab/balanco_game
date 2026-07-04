@@ -36,6 +36,21 @@ class MapAppBar extends StatefulWidget {
 }
 
 class _MapAppBarState extends State<MapAppBar> {
+  String _formatCompactPoints(int points) {
+    final value = points >= 1000
+        ? '${(points / 1000).toStringAsFixed(1)}K'
+        : points.toString();
+    return '$value PTS';
+  }
+
+  String _formatFullPoints(int points) {
+    final formatted = points.toString().replaceAllMapped(
+      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+      (Match m) => '${m[1]},',
+    );
+    return '$formatted PTS';
+  }
+
   Widget _buildStrokedText(
     String text, {
     required double fontSize,
@@ -197,10 +212,8 @@ class _MapAppBarState extends State<MapAppBar> {
                   ],
                 ),
                 child: _buildStrokedText(
-                  widget.coins >= 1000
-                      ? '${(widget.coins / 1000).toStringAsFixed(1)}K'
-                      : widget.coins.toString(),
-                  fontSize: 14,
+                  _formatCompactPoints(widget.coins),
+                  fontSize: 12,
                   textColor: GameColors.mapAppBarWhiteHint,
                   strokeColor: const Color.fromARGB(255, 104, 77, 30),
                   shadowColor: GameColors.mapAppBarBrownText,
@@ -594,10 +607,8 @@ class _MapAppBarState extends State<MapAppBar> {
                     ),
                     const SizedBox(width: 4),
                     _buildStrokedText(
-                      widget.coins >= 1000
-                          ? '${(widget.coins / 1000).toStringAsFixed(1)}K'
-                          : widget.coins.toString(),
-                      fontSize: 20,
+                      _formatCompactPoints(widget.coins),
+                      fontSize: 16,
                       textColor: GameColors.mapAppBarWhiteHint,
                       strokeColor: GameColors.mapAppBarGoldDarker,
                       shadowColor: Colors.transparent,
@@ -631,7 +642,7 @@ class _MapAppBarState extends State<MapAppBar> {
             ),
             alignment: Alignment.center,
             child: _buildStrokedText(
-              "${widget.coins.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')} PTS",
+              _formatFullPoints(widget.coins),
               fontSize: 20,
               textColor: GameColors.white,
               strokeColor: borderColor,
@@ -871,7 +882,7 @@ class _MapAppBarState extends State<MapAppBar> {
                               border: Border.all(color: borderColor, width: 3),
                             ),
                             child: _buildStrokedText(
-                              "${widget.coins.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')} PTS",
+                              _formatFullPoints(widget.coins),
                               fontSize: 20,
                               textColor: GameColors.white,
                               strokeColor: borderColor,

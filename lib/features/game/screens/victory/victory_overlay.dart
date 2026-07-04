@@ -34,7 +34,6 @@ class _AnimatedLevelCompleteOverlayState
   bool _isVictory = false;
 
   int _earnedStars = 0;
-  int _remainingHearts = 0;
   int _targetCoins = 0;
 
   final List<bool> _showStars = [false, false, false];
@@ -42,11 +41,13 @@ class _AnimatedLevelCompleteOverlayState
   @override
   void initState() {
     super.initState();
-    _isVictory = widget.game.currentLevel.value >= 50;
+    _isVictory =
+        !widget.game.isInfinityMode && widget.game.currentLevel.value >= 50;
 
     _earnedStars = widget.game.currentPoints.value;
-    _remainingHearts = widget.game.currentLives.value;
-    _targetCoins = (_earnedStars * 100) + (_remainingHearts * 50);
+    _targetCoins = widget.game.calculateLevelRewardPoints();
+    widget.game.earnedLevelPoints.value = _targetCoins;
+    widget.game.currentScore.value += _targetCoins;
 
     _saveProgress();
 
@@ -93,22 +94,22 @@ class _AnimatedLevelCompleteOverlayState
       }
     }
 
-    // 3. Roll coins
+    // 3. Roll points
     _coinsController.forward();
   }
 
   Future<void> _saveProgress() async {
     try {
       final profile = await DatabaseHelper.instance.getPlayerProfile();
-      int currentHighest = profile.highestLevel;
-      int nextLevel = widget.game.currentLevel.value + 1;
+      final int currentHighest = profile.highestLevel;
+      final int nextLevel = widget.game.currentLevel.value + 1;
 
       int newHighest = currentHighest;
-      if (nextLevel > currentHighest) {
+      if (!widget.game.isInfinityMode && nextLevel > currentHighest) {
         newHighest = nextLevel > 50 ? 50 : nextLevel;
       }
 
-      // Update highest level and add coins
+      // Update highest level and add points
       await DatabaseHelper.instance.updatePlayerProfile(
         profile.copyWith(
           highestLevel: newHighest,
@@ -365,7 +366,7 @@ class _AnimatedLevelCompleteOverlayState
 
                           const SizedBox(height: 15),
 
-                          // Coins Pill
+                          // Points Pill
                           AnimatedBuilder(
                             animation: _coinsAnimation,
                             builder: (context, child) {
@@ -377,7 +378,7 @@ class _AnimatedLevelCompleteOverlayState
                                     painter: StarFilledPainter(),
                                   ),
                                 ),
-                                _coinsAnimation.value.toString(),
+                                '${_coinsAnimation.value} PTS',
                               );
                             },
                           ),

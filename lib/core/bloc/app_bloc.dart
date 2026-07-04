@@ -5,21 +5,28 @@ import 'package:equatable/equatable.dart';
 class AppState extends Equatable {
   final bool isMultiplayer;
   final String playerRole;
+  final String gameMode;
 
   const AppState({
     this.isMultiplayer = false,
     this.playerRole = 'BOTH', // 'LEFT', 'RIGHT', 'BOTH'
+    this.gameMode = 'classic', // 'classic', 'infinityBalance'
   });
 
-  AppState copyWith({bool? isMultiplayer, String? playerRole}) {
+  AppState copyWith({
+    bool? isMultiplayer,
+    String? playerRole,
+    String? gameMode,
+  }) {
     return AppState(
       isMultiplayer: isMultiplayer ?? this.isMultiplayer,
       playerRole: playerRole ?? this.playerRole,
+      gameMode: gameMode ?? this.gameMode,
     );
   }
 
   @override
-  List<Object?> get props => [isMultiplayer, playerRole];
+  List<Object?> get props => [isMultiplayer, playerRole, gameMode];
 }
 
 // --- Events ---
@@ -46,6 +53,14 @@ class ChangePlayerRole extends AppEvent {
   List<Object?> get props => [role];
 }
 
+class ChangeGameMode extends AppEvent {
+  final String gameMode;
+  const ChangeGameMode(this.gameMode);
+
+  @override
+  List<Object?> get props => [gameMode];
+}
+
 // --- Bloc ---
 class AppBloc extends Bloc<AppEvent, AppState> {
   AppBloc() : super(const AppState()) {
@@ -55,6 +70,10 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
     on<ChangePlayerRole>((event, emit) {
       emit(state.copyWith(playerRole: event.role));
+    });
+
+    on<ChangeGameMode>((event, emit) {
+      emit(state.copyWith(gameMode: event.gameMode));
     });
   }
 }

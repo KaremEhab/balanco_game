@@ -34,6 +34,7 @@ import 'package:balanco_game/core/theme/game_colors.dart';
 
 class BalancoGame extends FlameGame with KeyboardEvents {
   final bool isMultiplayer;
+  final bool isInfinityMode;
   final String playerRole;
 
   VoidCallback? onGameOver;
@@ -54,11 +55,18 @@ class BalancoGame extends FlameGame with KeyboardEvents {
   final ValueNotifier<double> lightRadiusNotifier = ValueNotifier<double>(65.0);
 
   final ValueNotifier<int> currentLevel = ValueNotifier<int>(1);
-  BiomeModel get currentBiome =>
-      BiomeConfig.getBiomeForLevel(currentLevel.value);
+  BiomeModel get currentBiome => isInfinityMode
+      ? BiomeConfig.getInfinityBiomeForLevel(currentLevel.value)
+      : BiomeConfig.getBiomeForLevel(currentLevel.value);
   final ValueNotifier<int> currentPoints = ValueNotifier<int>(0);
   final ValueNotifier<int> currentScore = ValueNotifier<int>(0);
   final ValueNotifier<int> currentLives = ValueNotifier<int>(3);
+  final ValueNotifier<int> earnedLevelPoints = ValueNotifier<int>(0);
+
+  static const int regularHolePoints = 3;
+  static const int suckingHolePoints = 10;
+  static const int movingHolePoints = 20;
+  static const int bumperPoints = 5;
 
   // Shield state
   final ValueNotifier<int> remainingShields = ValueNotifier<int>(3);
@@ -128,6 +136,7 @@ class BalancoGame extends FlameGame with KeyboardEvents {
 
   BalancoGame({
     required this.isMultiplayer,
+    this.isInfinityMode = false,
     required this.playerRole,
     this.onGameOver,
     this.onLevelComplete,
@@ -145,6 +154,7 @@ class BalancoGame extends FlameGame with KeyboardEvents {
     print("DEBUG: restartCurrentLevel called. Level: ${currentLevel.value}");
     isSpawningLevel = true;
     currentPoints.value = 0;
+    earnedLevelPoints.value = 0;
     currentLives.value = 3;
     showGameOverOverlay.value = false;
 
@@ -168,6 +178,12 @@ class BalancoGame extends FlameGame with KeyboardEvents {
     showVictoryOverlay.value = false;
     showGameOverOverlay.value = false;
     isLevelCompleteOverlayShown = false;
+
+    if (isInfinityMode) {
+      currentLevel.value++;
+      restartCurrentLevel();
+      return;
+    }
 
     final profile = await DatabaseHelper.instance.getPlayerProfile();
     int completedLevel = currentLevel.value;
@@ -202,8 +218,28 @@ class BalancoGame extends FlameGame with KeyboardEvents {
     showVictoryOverlay.value = false;
     showGameOverOverlay.value = false;
     isLevelCompleteOverlayShown = false;
+    earnedLevelPoints.value = 0;
     restartCurrentLevel();
   }
+
+  int get levelPointMultiplier {
+    final level = currentLevel.value;
+    if (level <= 10) return 1;
+    if (level <= 30) return 2;
+    if (level <= 50) return 3;
+    return 3 + ((level - 51) ~/ 20);
+  }
+
+  int get baseLevelPoints {
+    final holePoints = holes.fold<int>(0, (sum, hole) {
+      if (hole.isMovingHole) return sum + movingHolePoints;
+      if (hole.isSuckingHole) return sum + suckingHolePoints;
+      return sum + regularHolePoints;
+    });
+    return holePoints + bumpers.length * bumperPoints;
+  }
+
+  int calculateLevelRewardPoints() => baseLevelPoints * levelPointMultiplier;
 
   void _resetPositions({
     bool loseLife = false,

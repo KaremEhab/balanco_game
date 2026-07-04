@@ -476,7 +476,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void _handleNodeTap(int level) {
     if (_animatingLevel != null) return; // Prevent multiple taps
 
-    if (level <= highestLevel) {
+    final isInfinityMode =
+        context.read<AppBloc>().state.gameMode == 'infinityBalance';
+    if (isInfinityMode || level <= highestLevel) {
       setState(() {
         _animatingLevel = level;
       });
@@ -657,8 +659,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             drawPlatform:
                                 false, // Don't draw the platform while flying
                             drawBall: true,
-                            isLocked: level > highestLevel,
-                            biome: BiomeConfig.getBiomeForLevel(level),
+                            isLocked:
+                                context.read<AppBloc>().state.gameMode !=
+                                    'infinityBalance' &&
+                                level > highestLevel,
+                            biome:
+                                context.read<AppBloc>().state.gameMode ==
+                                    'infinityBalance'
+                                ? BiomeConfig.getInfinityBiomeForLevel(level)
+                                : BiomeConfig.getBiomeForLevel(level),
                           ),
                         ),
                       ),
@@ -696,6 +705,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
     final game = BalancoGame(
       isMultiplayer: context.read<AppBloc>().state.isMultiplayer,
+      isInfinityMode:
+          context.read<AppBloc>().state.gameMode == 'infinityBalance',
       playerRole: context.read<AppBloc>().state.playerRole,
       onLevelComplete: () {
         Navigator.pop(context); // Return to map
@@ -728,6 +739,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     double screenWidth = MediaQuery.of(context).size.width;
     _calculateNodes(screenWidth);
     final double totalHeight = _getVirtualHeight();
+    final bool isInfinityMode =
+        context.watch<AppBloc>().state.gameMode == 'infinityBalance';
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -799,7 +812,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     // Level Holes
                     ...List.generate(totalLevels, (index) {
                       final int level = index + 1;
-                      final bool isUnlocked = level <= highestLevel;
+                      final bool isUnlocked =
+                          isInfinityMode || level <= highestLevel;
                       final Offset pos = _nodePositions[index];
 
                       // Control the size of the levels here!
@@ -818,7 +832,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             lockedSize: lockedHoleSize,
                             unlockedSize: unlockedHoleSize,
                             pos: pos,
-                            biome: BiomeConfig.getBiomeForLevel(level),
+                            biome: isInfinityMode
+                                ? BiomeConfig.getInfinityBiomeForLevel(level)
+                                : BiomeConfig.getBiomeForLevel(level),
                             teethClosure: _animatingLevel == level
                                 ? _teethClosureAnimation.value
                                 : 0.0,
@@ -864,9 +880,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               animation: _biomeTransitionController,
               builder: (context, child) {
                 final screenHeight = MediaQuery.of(context).size.height;
-                final currentBiome = BiomeConfig.getBiomeForLevel(
-                  _displayedLevel,
-                );
+                final currentBiome = isInfinityMode
+                    ? BiomeConfig.getInfinityBiomeForLevel(_displayedLevel)
+                    : BiomeConfig.getBiomeForLevel(_displayedLevel);
                 final bool isTransitioning =
                     _isBiomeTransitioning &&
                     _previousBiome != null &&
@@ -935,7 +951,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                 0.2
                                         ? _previousBiome!
                                         : currentBiome,
-                                    isLocked: _displayedLevel > highestLevel,
+                                    isLocked:
+                                        !isInfinityMode &&
+                                        _displayedLevel > highestLevel,
                                     onTap: () {
                                       HapticFeedback.lightImpact();
                                       _handleNodeTap(_displayedLevel);
@@ -972,7 +990,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     drawBall:
                                         !isTransitioning &&
                                         _animatingLevel == null,
-                                    isLocked: _displayedLevel > highestLevel,
+                                    isLocked:
+                                        !isInfinityMode &&
+                                        _displayedLevel > highestLevel,
                                     biome: currentBiome,
                                     platformBiome: isTransitioning
                                         ? _previousBiome
