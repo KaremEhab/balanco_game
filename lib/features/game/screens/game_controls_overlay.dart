@@ -4,6 +4,7 @@ import 'package:balanco_game/features/game/components/game_area/shield_icon_pain
 import 'package:balanco_game/core/data/app_settings.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
+import 'package:balanco_game/features/map/models/biome_model.dart';
 
 class GameControlsOverlay extends StatelessWidget {
   final BalancoGame game;
@@ -12,6 +13,8 @@ class GameControlsOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentBiome = game.currentBiome;
+
     return SizedBox(
       height: 200,
       width: double.infinity,
@@ -25,6 +28,7 @@ class GameControlsOverlay extends StatelessWidget {
               bottom: 0,
               child: VerticalJoystick(
                 isLeft: true,
+                biome: currentBiome,
                 onChanged: (val) => game.leftJoystickValue = val,
               ),
             ),
@@ -36,6 +40,7 @@ class GameControlsOverlay extends StatelessWidget {
               bottom: 0,
               child: VerticalJoystick(
                 isLeft: false,
+                biome: currentBiome,
                 onChanged: (val) => game.rightJoystickValue = val,
               ),
             ),
@@ -74,15 +79,11 @@ class GameControlsOverlay extends StatelessWidget {
                                         onTap: () {
                                           game.useLightCharge();
                                         },
-                                        colors: const [
-                                          GameColors
-                                              .gameControlsOverlayColor11, // Highlight
-                                          GameColors
-                                              .gameControlsOverlayColor9, // Base
-                                          GameColors
-                                              .gameControlsOverlayColor8, // Mid
-                                          GameColors
-                                              .gameControlsOverlayColor7, // Shadow
+                                        colors: [
+                                          currentBiome.nodeUnlockedColor, // Highlight
+                                          currentBiome.primaryColor, // Base
+                                          currentBiome.primaryColor, // Mid
+                                          currentBiome.nodeUnlockedBorderColor, // Shadow
                                         ],
                                         child: const Icon(
                                           Icons.lightbulb,
@@ -118,11 +119,10 @@ class GameControlsOverlay extends StatelessWidget {
                                     game.remainingShields.value -= 1;
                                     game.shieldTimer = 5.0;
                                   },
-                                  colors: const [
-                                    GameColors.lightBlue200, // Highlight
-                                    GameColors.modesScreenColor1, // Base
-                                    GameColors.lightBlue600, // Mid
-                                    GameColors.lightBlue900, // Shadow
+                                  colors: [
+                                    currentBiome.nodeUnlockedColor, // Highlight
+                                    currentBiome.secondaryColor, // Base
+                                    currentBiome.nodeUnlockedBorderColor, // Shadow
                                   ],
                                   child: SizedBox(
                                     width: 36,
@@ -288,11 +288,13 @@ class _SquarePowerUpButtonState extends State<SquarePowerUpButton> {
 class VerticalJoystick extends StatefulWidget {
   final ValueChanged<double> onChanged;
   final bool isLeft;
+  final BiomeModel biome;
 
   const VerticalJoystick({
     super.key,
     required this.onChanged,
     required this.isLeft,
+    required this.biome,
   });
 
   @override
@@ -360,21 +362,20 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
               height: 160,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100),
-                gradient: const LinearGradient(
+                gradient: LinearGradient(
                   colors: [
-                    GameColors.amber300, // Top highlight
-                    GameColors.amber400, // Base
-                    GameColors.magnetPainterColor9, // Mid shadow
-                    GameColors.amber800, // Bottom shadow
+                    widget.biome.secondaryColor, // Top highlight
+                    widget.biome.primaryColor, // Base
+                    widget.biome.nodeUnlockedColor, // Mid shadow
+                    widget.biome.nodeUnlockedBorderColor, // Bottom shadow
                   ],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),
-                boxShadow: const [
+                boxShadow: [
                   BoxShadow(
-                    color: GameColors
-                        .gameControlsOverlayColor3, // 3D thickness (dark brown)
-                    offset: Offset(0, 4),
+                    color: widget.biome.nodeUnlockedBorderColor, // 3D thickness
+                    offset: const Offset(0, 4),
                   ),
                   BoxShadow(
                     color: GameColors.black38,
@@ -416,15 +417,15 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
               child: Container(
                 width: 65,
                 height: 65,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: RadialGradient(
                     colors: [
-                      GameColors.gameControlsOverlayColor10, // Bright highlight
-                      GameColors.orangeTextUi, // Main orange
-                      GameColors.gameControlsOverlayColor6, // Shadow edge
+                      widget.biome.nodeUnlockedColor, // Bright highlight
+                      widget.biome.secondaryColor, // Main orange
+                      widget.biome.primaryColor, // Shadow edge
                     ],
-                    center: Alignment(
+                    center: const Alignment(
                       -0.3,
                       -0.3,
                     ), // Top-left specular highlight
@@ -432,9 +433,8 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: GameColors
-                          .gameControlsOverlayColor5, // Knob 3D thickness
-                      offset: Offset(0, 5),
+                      color: widget.biome.nodeUnlockedBorderColor, // Knob 3D thickness
+                      offset: const Offset(0, 5),
                     ),
                     BoxShadow(
                       color: GameColors.black45,

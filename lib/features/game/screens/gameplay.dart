@@ -11,6 +11,7 @@ import 'package:balanco_game/features/game/components/game_area/game_painter.dar
 import 'package:balanco_game/features/game/screens/animated_game_overlays.dart';
 import 'package:balanco_game/features/game/screens/victory/victory_overlay.dart';
 import 'package:balanco_game/features/game/screens/game_controls_overlay.dart';
+import 'package:balanco_game/features/map/theme/biome_config.dart';
 
 import 'package:balanco_game/features/game/widgets/gameplay_header.dart';
 import 'package:balanco_game/core/widgets/parallax_background_widget.dart';
@@ -34,6 +35,8 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
 
   void _showPauseMenu() {
     widget.game.pauseEngine();
+
+    final currentBiome = widget.game.currentBiome;
 
     showGeneralDialog(
       context: context,
@@ -61,16 +64,18 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                       vertical: 32,
                     ),
                     decoration: BoxDecoration(
-                      color: GameColors.sandLightUi, // Light sand color
+                      color:
+                          currentBiome.nodeUnlockedColor, // Light dynamic color
                       borderRadius: BorderRadius.circular(24),
                       border: Border.all(
-                        color: GameColors.brownDarkUi, // Dark brown outline
+                        color: currentBiome
+                            .nodeUnlockedBorderColor, // Dark outline
                         width: 3.5,
                       ),
-                      boxShadow: const [
+                      boxShadow: [
                         BoxShadow(
-                          color: GameColors.brownDarkUi,
-                          offset: Offset(0, 6),
+                          color: currentBiome.nodeUnlockedBorderColor,
+                          offset: const Offset(0, 6),
                         ),
                       ],
                     ),
@@ -140,7 +145,8 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                                     'LVL ${widget.game.currentLevel.value}',
                                     style: GoogleFonts.luckiestGuy(
                                       fontSize: 18,
-                                      color: GameColors.brownDarkUi,
+                                      color:
+                                          currentBiome.nodeUnlockedBorderColor,
                                     ),
                                   ),
                                 ],
@@ -156,7 +162,8 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                                     '${widget.game.currentScore.value}',
                                     style: GoogleFonts.luckiestGuy(
                                       fontSize: 18,
-                                      color: GameColors.brownDarkUi,
+                                      color:
+                                          currentBiome.nodeUnlockedBorderColor,
                                     ),
                                   ),
                                 ],
@@ -172,7 +179,8 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                                     '${widget.game.currentLives.value}',
                                     style: GoogleFonts.luckiestGuy(
                                       fontSize: 18,
-                                      color: GameColors.brownDarkUi,
+                                      color:
+                                          currentBiome.nodeUnlockedBorderColor,
                                     ),
                                   ),
                                 ],
@@ -254,6 +262,8 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
   }
 
   void _showSettingsMenu() {
+    final currentBiome = widget.game.currentBiome;
+
     showGeneralDialog(
       context: context,
       barrierDismissible: true,
@@ -268,16 +278,16 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
               width: 320,
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 36),
               decoration: BoxDecoration(
-                color: GameColors.sandLightUi, // Light sand color
+                color: currentBiome.nodeUnlockedColor, // Light dynamic color
                 borderRadius: BorderRadius.circular(24),
                 border: Border.all(
-                  color: GameColors.brownDarkUi, // Dark brown outline
+                  color: currentBiome.nodeUnlockedBorderColor, // Dark outline
                   width: 3.5,
                 ),
-                boxShadow: const [
+                boxShadow: [
                   BoxShadow(
-                    color: GameColors.brownDarkUi,
-                    offset: Offset(0, 6),
+                    color: currentBiome.nodeUnlockedBorderColor,
+                    offset: const Offset(0, 6),
                   ),
                 ],
               ),
@@ -486,198 +496,225 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
   Widget build(BuildContext context) {
     const double innerCornerRadius = 50.0;
 
-    // --- GAMEPLAY CARD COLORS ---
-    const List<Color> cardBaseGradient = [
-      GameColors.gameStarGold,
-      GameColors.orangeBrightUi,
-    ];
-    const List<Color> cardHighlightGradient = [
-      Color.fromARGB(255, 255, 180, 80),
-      Color.fromARGB(255, 229, 145, 49),
-    ];
-
     return PopScope(
       canPop: false,
       child: Scaffold(
-        body: Stack(
-          children: [
-            // Dynamic Background based on current level
-            ValueListenableBuilder<int>(
-              valueListenable: widget.game.currentLevel,
-              builder: (context, level, child) {
-                return Stack(
+        body: ValueListenableBuilder<int>(
+          valueListenable: widget.game.currentLevel,
+          builder: (context, level, child) {
+            final currentBiome = BiomeConfig.getBiomeForLevel(level);
+            return Stack(
+              children: [
+                // Dynamic Background based on current level
+                Stack(
                   children: [
                     Positioned.fill(
                       child: ParallaxBackgroundWidget(game: widget.game),
                     ),
                   ],
-                );
-              },
-            ),
+                ),
 
-            // Big centered blurry container
-            Center(
-              child: SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: AspectRatio(
-                    aspectRatio: 410 / 850,
-                    child: FittedBox(
-                      fit: BoxFit.contain,
-                      clipBehavior: Clip.none,
-                      child: SizedBox(
-                        width: 410,
-                        height: 870,
-                        child: Stack(
+                // Big centered blurry container
+                Center(
+                  child: SafeArea(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: AspectRatio(
+                        aspectRatio: 410 / 850,
+                        child: FittedBox(
+                          fit: BoxFit.contain,
                           clipBehavior: Clip.none,
-                          children: [
-                            // Blurry Background (Placed behind GamePainter)
-                            Positioned(
-                              top: 99, // Extended height by 10px (was 109)
-                              bottom: 41, // Extended height by 10px (was 110)
-                              left: 6,
-                              right: 6,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(innerCornerRadius),
-                                  topRight: Radius.circular(innerCornerRadius),
-                                  bottomLeft: const Radius.circular(41),
-                                  bottomRight: const Radius.circular(41),
-                                ),
-                                child: BackdropFilter(
-                                  filter: ImageFilter.blur(
-                                    sigmaX: 3.5,
-                                    sigmaY: 3.5,
-                                  ),
-                                  child: Container(
-                                    color: GameColors.white.withValues(
-                                      alpha: 0.2,
+                          child: SizedBox(
+                            width: 410,
+                            height: 870,
+                            child: Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                // Blurry Background (Placed behind GamePainter)
+                                Positioned(
+                                  top: 99,
+                                  bottom: 41,
+                                  left: 6,
+                                  right: 6,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(
+                                        innerCornerRadius,
+                                      ),
+                                      topRight: Radius.circular(
+                                        innerCornerRadius,
+                                      ),
+                                      bottomLeft: const Radius.circular(41),
+                                      bottomRight: const Radius.circular(41),
+                                    ),
+                                    child: BackdropFilter(
+                                      filter: ImageFilter.blur(
+                                        sigmaX: 3.5,
+                                        sigmaY: 3.5,
+                                      ),
+                                      child: Container(
+                                        color: GameColors.white.withValues(
+                                          alpha: 0.2,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ),
 
-                            // Base Frame
-                            Positioned.fill(
-                              child: IgnorePointer(
-                                child: CustomPaint(
-                                  painter: GamePainter(
-                                    innerCornerRadius: innerCornerRadius,
-                                  ),
-                                ),
-                              ),
-                            ),
-
-                            // Middle Game Area
-                            Positioned(
-                              top: 124,
-                              bottom: 110,
-                              left: 6,
-                              right: 6,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(innerCornerRadius),
-                                  topRight: Radius.circular(innerCornerRadius),
-                                  bottomLeft: const Radius.circular(16),
-                                  bottomRight: const Radius.circular(16),
-                                ),
-                                child: Stack(
-                                  children: [
-                                    GameWidget(game: widget.game),
-                                    TimeStopOverlay(
-                                      timeNotifier:
-                                          widget.game.timeStopNotifier,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-
-                            // Fullscreen Darkness Overlay
-                            Positioned(
-                              top: -4000,
-                              bottom: -4000,
-                              left: -4000,
-                              right: -4000,
-                              child: FullScreenDarknessOverlay(
-                                game: widget.game,
-                              ),
-                            ),
-
-                            // Top Header (Hearts, Energy, Stars)
-                            Positioned(
-                              top: 0,
-                              left: 0,
-                              right: 0,
-                              height: 115,
-                              child: GameplayHeader(
-                                game: widget.game,
-                                cardBaseGradient: cardBaseGradient,
-                                cardHighlightGradient: cardHighlightGradient,
-                              ),
-                            ),
-
-                            // Joysticks & Controls Overlay
-                            Positioned(
-                              bottom: 10,
-                              left: 0,
-                              right: 0,
-                              height: 150,
-                              child: GameControlsOverlay(game: widget.game),
-                            ),
-
-                            // Pause Button Overlay
-                            Positioned(
-                              bottom: -15,
-                              left: 0,
-                              right: 0,
-                              child: Center(
-                                child: AnimatedPressButton(
-                                  onTap: _showPauseMenu,
-                                  child: const Padding(
-                                    padding: EdgeInsets.all(16.0),
-                                    child: Icon(
-                                      Icons
-                                          .pause_rounded, // Iconly doesn't have a pause icon, using Material rounded
-                                      color: GameColors.brown,
-                                      size: 45,
+                                // Base Frame
+                                Positioned.fill(
+                                  child: IgnorePointer(
+                                    child: CustomPaint(
+                                      painter: GamePainter(
+                                        innerCornerRadius: innerCornerRadius,
+                                        biome: currentBiome,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
+
+                                // Middle Game Area
+                                Positioned(
+                                  top: 124,
+                                  bottom: 110,
+                                  left: 6,
+                                  right: 6,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(
+                                        innerCornerRadius,
+                                      ),
+                                      topRight: Radius.circular(
+                                        innerCornerRadius,
+                                      ),
+                                      bottomLeft: const Radius.circular(16),
+                                      bottomRight: const Radius.circular(16),
+                                    ),
+                                    child: Stack(
+                                      children: [
+                                        GameWidget(game: widget.game),
+                                        TimeStopOverlay(
+                                          timeNotifier:
+                                              widget.game.timeStopNotifier,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+
+                                // Fullscreen Darkness Overlay
+                                Positioned(
+                                  top: -4000,
+                                  bottom: -4000,
+                                  left: -4000,
+                                  right: -4000,
+                                  child: FullScreenDarknessOverlay(
+                                    game: widget.game,
+                                  ),
+                                ),
+
+                                // TOP HEADER (Hearts, Score, etc.)
+                                Positioned(
+                                  top: 24, // Push down slightly
+                                  left: 0,
+                                  right: 0,
+                                  child: Center(
+                                    child: GameplayHeader(
+                                      game: widget.game,
+                                      cardBaseGradient: [
+                                        currentBiome.primaryColor,
+                                        currentBiome.primaryColor,
+                                      ],
+                                      cardHighlightGradient: [
+                                        currentBiome.nodeUnlockedColor,
+                                        currentBiome.nodeUnlockedColor,
+                                      ],
+                                    ),
+                                  ),
+                                ),
+
+                                // Joysticks & Controls Overlay
+                                Positioned(
+                                  bottom: 10,
+                                  left: 0,
+                                  right: 0,
+                                  height: 150,
+                                  child: GameControlsOverlay(game: widget.game),
+                                ),
+
+                                // Pause Button Overlay
+                                Positioned(
+                                  bottom: -15,
+                                  left: 0,
+                                  right: 0,
+                                  child: Center(
+                                    child: AnimatedPressButton(
+                                      onTap: _showPauseMenu,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(16.0),
+                                        child: Container(
+                                          padding: const EdgeInsets.all(8.0),
+                                          decoration: BoxDecoration(
+                                            color: currentBiome
+                                                .nodeUnlockedColor, // Bright contrasting base
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                              color: currentBiome
+                                                  .primaryColor, // Dark outline
+                                              width: 3.5,
+                                            ),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: currentBiome
+                                                    .nodeUnlockedBorderColor,
+                                                offset: const Offset(0, 4),
+                                              ),
+                                            ],
+                                          ),
+                                          child: Icon(
+                                            Icons.pause_rounded,
+                                            color: GameColors
+                                                .white, // Dark contrasting icon
+                                            size: 30,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ),
 
-            // Fullscreen Victory Overlay
-            ValueListenableBuilder<bool>(
-              valueListenable: widget.game.showVictoryOverlay,
-              builder: (context, showVictory, child) {
-                if (showVictory) {
-                  return AnimatedLevelCompleteOverlay(game: widget.game);
-                }
-                return const SizedBox.shrink();
-              },
-            ),
+                // Fullscreen Victory Overlay
+                ValueListenableBuilder<bool>(
+                  valueListenable: widget.game.showVictoryOverlay,
+                  builder: (context, showVictory, child) {
+                    if (showVictory) {
+                      return AnimatedLevelCompleteOverlay(game: widget.game);
+                    }
+                    return const SizedBox.shrink();
+                  },
+                ),
 
-            // Fullscreen Game Over Overlay
-            ValueListenableBuilder<bool>(
-              valueListenable: widget.game.showGameOverOverlay,
-              builder: (context, showGameOver, child) {
-                if (showGameOver) {
-                  return AnimatedGameOverOverlay(game: widget.game);
-                }
-                return const SizedBox.shrink();
-              },
-            ),
-          ],
+                // Fullscreen Game Over Overlay
+                ValueListenableBuilder<bool>(
+                  valueListenable: widget.game.showGameOverOverlay,
+                  builder: (context, showGameOver, child) {
+                    if (showGameOver) {
+                      return AnimatedGameOverOverlay(game: widget.game);
+                    }
+                    return const SizedBox.shrink();
+                  },
+                ),
+              ],
+            );
+          },
         ),
       ),
     );

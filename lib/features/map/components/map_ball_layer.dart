@@ -291,27 +291,8 @@ class MapBallLayer extends CustomPainter {
           paint,
         );
       } else {
-        // Use nodeUnlockedColor which is brighter than primaryColor, preventing the ball from becoming too dark
-        final r = biome.nodeUnlockedColor.r;
-        final g = biome.nodeUnlockedColor.g;
-        final b = biome.nodeUnlockedColor.b;
-        
-        // We use a matrix to map the grayscale luminance of the ball to the biome's primary color.
-        // This preserves the alpha channel perfectly (no background square!)
-        // We boost the intensity slightly (1.5) so it remains bright and glossy.
-        final intensity = 1.5;
-        
-        final paint = Paint()
-          ..colorFilter = ColorFilter.matrix(<double>[
-            0.2126 * r * intensity, 0.7152 * r * intensity, 0.0722 * r * intensity, 0, 0,
-            0.2126 * g * intensity, 0.7152 * g * intensity, 0.0722 * g * intensity, 0, 0,
-            0.2126 * b * intensity, 0.7152 * b * intensity, 0.0722 * b * intensity, 0, 0,
-            0, 0, 0, 1, 0,
-          ]);
-        canvas.saveLayer(
-          Rect.fromCircle(center: Offset.zero, radius: radius * 2),
-          paint,
-        );
+        // We no longer need a tinting ColorFilter because BallPainter handles dynamic biome colors natively!
+        canvas.save();
       }
 
       canvas.rotate(rotation);
@@ -321,7 +302,7 @@ class MapBallLayer extends CustomPainter {
       canvas.scale(ballScale, ballScale);
       canvas.translate(-20.73, -21.028);
 
-      BallPainter().paint(canvas, const Size(42.0, 42.0));
+      BallPainter(biome: biome).paint(canvas, const Size(42.0, 42.0));
 
       // Always restore since we saveLayer for both locked and unlocked
       canvas.restore();

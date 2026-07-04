@@ -25,6 +25,8 @@ import 'package:balanco_game/features/game/components/magnet_component.dart';
 import 'package:balanco_game/features/game/models/ball_data.dart';
 import 'package:balanco_game/features/game/models/level_data.dart';
 import 'package:balanco_game/features/game/level_generator.dart';
+import 'package:balanco_game/features/map/theme/biome_config.dart';
+import 'package:balanco_game/features/map/models/biome_model.dart';
 import 'package:balanco_game/core/data/app_settings.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
 
@@ -49,6 +51,7 @@ class BalancoGame extends FlameGame {
   final ValueNotifier<double> lightRadiusNotifier = ValueNotifier<double>(65.0);
 
   final ValueNotifier<int> currentLevel = ValueNotifier<int>(1);
+  BiomeModel get currentBiome => BiomeConfig.getBiomeForLevel(currentLevel.value);
   final ValueNotifier<int> currentPoints = ValueNotifier<int>(0);
   final ValueNotifier<int> currentScore = ValueNotifier<int>(0);
   final ValueNotifier<int> currentLives = ValueNotifier<int>(3);

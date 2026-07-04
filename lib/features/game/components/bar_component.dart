@@ -46,14 +46,14 @@ class BarComponent extends Component with HasGameReference<BalancoGame> {
       const Radius.circular(10),
     );
     final Paint metalPaint = Paint()
-      ..shader = const LinearGradient(
+      ..shader = LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          GameColors.gray300, // Bright metallic highlight
-          GameColors.gray500, // Mid steel
-          GameColors.gray700, // Dark steel core
-          GameColors.gray900, // Deep shadow edge
+          game.currentBiome.secondaryColor, // Bright metallic highlight
+          game.currentBiome.primaryColor, // Mid steel
+          game.currentBiome.primaryColor, // Dark steel core
+          game.currentBiome.nodeUnlockedBorderColor, // Deep shadow edge
         ],
       ).createShader(fullRect);
     canvas.drawRRect(bodyRRect, metalPaint);
@@ -84,28 +84,28 @@ class BarComponent extends Component with HasGameReference<BalancoGame> {
     );
 
     final Paint gunmetalPaint = Paint()
-      ..shader = const LinearGradient(
+      ..shader = LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          GameColors.blueGray100, // Bright rim
-          GameColors.blueGray300, // Base blue-grey metal
-          GameColors.blueGray600, // Dark shadow
-          GameColors.blueGray900, // Almost black edge
+          game.currentBiome.nodeUnlockedColor, // Bright rim
+          game.currentBiome.primaryColor, // Base blue-grey metal
+          game.currentBiome.nodeUnlockedBorderColor, // Dark shadow
+          game.currentBiome.nodeUnlockedBorderColor, // Almost black edge
         ],
       ).createShader(leftCap);
 
     canvas.drawRRect(leftCapRRect, gunmetalPaint);
 
     final Paint gunmetalPaintRight = Paint()
-      ..shader = const LinearGradient(
+      ..shader = LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          GameColors.blueGray100,
-          GameColors.blueGray300,
-          GameColors.blueGray600,
-          GameColors.blueGray900,
+          game.currentBiome.nodeUnlockedColor,
+          game.currentBiome.primaryColor,
+          game.currentBiome.nodeUnlockedBorderColor,
+          game.currentBiome.nodeUnlockedBorderColor,
         ],
       ).createShader(rightCap);
     canvas.drawRRect(rightCapRRect, gunmetalPaintRight);
@@ -126,7 +126,7 @@ class BarComponent extends Component with HasGameReference<BalancoGame> {
       separatorPaint,
     );
 
-    // 4. Glowing Cyan Groove (Matches the new shield button)
+    // 4. Glowing Groove
     Rect grooveRect = Rect.fromLTRB(
       capWidth + 12,
       -3.0,
@@ -134,13 +134,13 @@ class BarComponent extends Component with HasGameReference<BalancoGame> {
       3.0,
     );
     final Paint groovePaint = Paint()
-      ..shader = const LinearGradient(
+      ..shader = LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          GameColors.lightBlue900, // Dark inner top
-          GameColors.lightBlue, // Bright cyan glow
-          GameColors.lightBlue50, // Pure white/cyan core at bottom
+          game.currentBiome.nodeUnlockedBorderColor, // Dark inner top
+          game.currentBiome.nodeUnlockedColor, // Bright glow
+          GameColors.whiteAlpha46, // Pure white core at bottom
         ],
       ).createShader(grooveRect);
     canvas.drawRRect(

@@ -1,9 +1,11 @@
+import 'package:balanco_game/features/map/models/biome_model.dart';
 import 'dart:math';
 import 'dart:ui' as ui;
 
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:balanco_game/features/game/game_area.dart';
+
 
 import 'package:balanco_game/features/game/models/ball_data.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
@@ -41,7 +43,7 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8.0);
 
     // _stripePaint = Paint()
-    //  ..color = GameColors.white.withValues(alpha: 0.7)
+    //  ..color = GameColors.whiteSolid.withValues(alpha: 0.7)
     //  ..style = PaintingStyle.stroke
     //  ..strokeWidth = 4;
 
@@ -51,9 +53,9 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
             center: const Alignment(-0.3, -0.3), // Highlight from top-left
             radius: 0.8,
             colors: [
-              GameColors.white.withValues(alpha: 0.6),
+              GameColors.whiteSolid.withValues(alpha: 0.6),
               Colors.transparent,
-              GameColors.black.withValues(alpha: 0.6),
+              GameColors.black.withValues(alpha: 0.4),
             ],
             stops: const [0.0, 0.4, 1.0],
           ).createShader(
@@ -70,7 +72,9 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
     // Cache the entire complex BallPainter vector graphic!
     final recorder = ui.PictureRecorder();
     final pictureCanvas = Canvas(recorder);
-    BallPainter().paint(pictureCanvas, const Size(42.0, 42.0));
+    BallPainter(
+      biome: game.currentBiome,
+    ).paint(pictureCanvas, const Size(42.0, 42.0));
     _ballPicture = recorder.endRecording();
 
     _wavePaint = Paint()..style = PaintingStyle.stroke;
@@ -79,8 +83,8 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
       ..shader =
           RadialGradient(
             colors: [
-              GameColors.cyanAccent.withValues(alpha: 0.1),
-              GameColors.lightBlueAccent.withValues(alpha: 0.6),
+              game.currentBiome.nodeUnlockedColor.withValues(alpha: 0.1),
+              game.currentBiome.secondaryColor.withValues(alpha: 0.6),
               Colors.transparent,
             ],
             stops: const [0.0, 0.8, 1.0],
@@ -90,7 +94,7 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
       ..style = PaintingStyle.fill;
 
     _shieldBorderPaint = Paint()
-      ..color = GameColors.cyanAccent.withValues(alpha: 0.8)
+      ..color = game.currentBiome.nodeUnlockedColor.withValues(alpha: 0.8)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3.0;
 
@@ -170,7 +174,12 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
     }
 
     if (fallFade < 1.0) {
-      _fadePaint.color = GameColors.white.withValues(alpha: fallFade);
+      _fadePaint.color = const ui.Color.fromARGB(
+        255,
+        255,
+        255,
+        255,
+      ).withValues(alpha: fallFade);
       canvas.saveLayer(
         Rect.fromCircle(center: Offset.zero, radius: 50 * ballData.scale),
         _fadePaint,
@@ -215,7 +224,7 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
 
       double baseRadius = game.ballRadius + 8.0;
 
-      _wavePaint.color = GameColors.cyanAccent.withValues(
+      _wavePaint.color = game.currentBiome.nodeUnlockedColor.withValues(
         alpha: 0.3 * (1.0 - pulse2),
       );
       _wavePaint.strokeWidth = 4.0 * (1.0 - pulse2);
@@ -227,7 +236,9 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
       canvas.saveLayer(
         Rect.fromCircle(center: Offset.zero, radius: baseRadius + 4),
         Paint()
-          ..color = GameColors.white.withValues(alpha: 0.4 + (0.4 * pulse1)),
+          ..color = GameColors.whiteSolid.withValues(
+            alpha: 0.4 + (0.4 * pulse1),
+          ),
       );
       canvas.drawCircle(Offset.zero, baseRadius + 4, _coreFill);
       canvas.restore();
@@ -285,7 +296,9 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
     if (_isFallingInAir) {
       double intensity = _airIntensity;
 
-      _windPaint.color = GameColors.white.withValues(alpha: 0.6 * intensity);
+      _windPaint.color = GameColors.whiteSolid.withValues(
+        alpha: 0.6 * intensity,
+      );
       _windPaint.strokeWidth = 2.5;
 
       canvas.save();
@@ -320,6 +333,9 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
 }
 
 class BallPainter extends CustomPainter {
+  final BiomeModel biome;
+  BallPainter({required this.biome});
+
   @override
   void paint(Canvas canvas, Size size) {
     Path path_0 = Path();
@@ -331,7 +347,7 @@ class BallPainter extends CustomPainter {
     path_0.close();
 
     Paint paint0Fill = Paint()..style = PaintingStyle.fill;
-    paint0Fill.color = GameColors.ballHighlight1.withValues(alpha: 1.0);
+    paint0Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_0, paint0Fill);
 
     Path path_1 = Path();
@@ -362,10 +378,10 @@ class BallPainter extends CustomPainter {
       Offset(0, 0),
       size.width * 0.02380952,
       [
-        GameColors.ballHighlight2.withValues(alpha: 1),
-        GameColors.ballHighlight3.withValues(alpha: 1),
-        GameColors.ballHighlight4.withValues(alpha: 1),
-        GameColors.ballHighlight3.withValues(alpha: 1),
+        GameColors.whiteSolid.withValues(alpha: 1),
+        GameColors.whiteSolid.withValues(alpha: 1),
+        biome.secondaryColor.withValues(alpha: 1),
+        GameColors.whiteSolid.withValues(alpha: 1),
       ],
       [0, 0.351, 0.714, 0.918],
     );
@@ -396,10 +412,10 @@ class BallPainter extends CustomPainter {
       Offset(0, 0),
       size.width * 0.02380952,
       [
-        GameColors.ballHighlight2.withValues(alpha: 1),
-        GameColors.ballHighlight3.withValues(alpha: 1),
-        GameColors.ballHighlight4.withValues(alpha: 1),
-        GameColors.ballHighlight3.withValues(alpha: 1),
+        GameColors.whiteSolid.withValues(alpha: 1),
+        GameColors.whiteSolid.withValues(alpha: 1),
+        biome.secondaryColor.withValues(alpha: 1),
+        GameColors.whiteSolid.withValues(alpha: 1),
       ],
       [0, 0.351, 0.714, 0.918],
     );
@@ -425,10 +441,10 @@ class BallPainter extends CustomPainter {
       Offset(0, 0),
       size.width * 0.02380952,
       [
-        GameColors.ballHighlight2.withValues(alpha: 1),
-        GameColors.ballHighlight3.withValues(alpha: 1),
-        GameColors.ballHighlight4.withValues(alpha: 1),
-        GameColors.ballHighlight3.withValues(alpha: 1),
+        GameColors.whiteSolid.withValues(alpha: 1),
+        GameColors.whiteSolid.withValues(alpha: 1),
+        biome.secondaryColor.withValues(alpha: 1),
+        GameColors.whiteSolid.withValues(alpha: 1),
       ],
       [0, 0.351, 0.714, 0.918],
     );
@@ -453,11 +469,11 @@ class BallPainter extends CustomPainter {
       Offset(0, 0),
       size.width * 0.02380952,
       [
-        GameColors.ballHighlight5.withValues(alpha: 1),
-        GameColors.ballHighlight6.withValues(alpha: 1),
-        GameColors.ballHighlight7.withValues(alpha: 1),
-        GameColors.ballHighlight8.withValues(alpha: 1),
-        GameColors.ballHighlight9.withValues(alpha: 1),
+        biome.secondaryColor.withValues(alpha: 1),
+        biome.primaryColor.withValues(alpha: 1),
+        biome.primaryColor.withValues(alpha: 1),
+        biome.nodeUnlockedBorderColor.withValues(alpha: 1),
+        biome.secondaryColor.withValues(alpha: 1),
       ],
       [0.104, 0.383, 0.56, 0.816, 1],
     );
@@ -496,11 +512,11 @@ class BallPainter extends CustomPainter {
       Offset(0, 0),
       size.width * 0.02380952,
       [
-        GameColors.ballHighlight5.withValues(alpha: 1),
-        GameColors.ballHighlight6.withValues(alpha: 1),
-        GameColors.ballHighlight7.withValues(alpha: 1),
-        GameColors.ballHighlight8.withValues(alpha: 1),
-        GameColors.ballHighlight9.withValues(alpha: 1),
+        biome.secondaryColor.withValues(alpha: 1),
+        biome.primaryColor.withValues(alpha: 1),
+        biome.primaryColor.withValues(alpha: 1),
+        biome.nodeUnlockedBorderColor.withValues(alpha: 1),
+        biome.secondaryColor.withValues(alpha: 1),
       ],
       [0.104, 0.383, 0.56, 0.816, 1],
     );
@@ -545,11 +561,11 @@ class BallPainter extends CustomPainter {
       Offset(0, 0),
       size.width * 0.02380952,
       [
-        GameColors.ballHighlight5.withValues(alpha: 1),
-        GameColors.ballHighlight6.withValues(alpha: 1),
-        GameColors.ballHighlight7.withValues(alpha: 1),
-        GameColors.ballHighlight8.withValues(alpha: 1),
-        GameColors.ballHighlight9.withValues(alpha: 1),
+        biome.secondaryColor.withValues(alpha: 1),
+        biome.primaryColor.withValues(alpha: 1),
+        biome.primaryColor.withValues(alpha: 1),
+        biome.nodeUnlockedBorderColor.withValues(alpha: 1),
+        biome.secondaryColor.withValues(alpha: 1),
       ],
       [0.104, 0.383, 0.56, 0.816, 1],
     );
@@ -583,8 +599,8 @@ class BallPainter extends CustomPainter {
       Offset(size.width * 0.3721667, size.height * 0.2765116),
       [
         GameColors.whiteSolid.withValues(alpha: 1),
-        GameColors.logoPainterColor16.withValues(alpha: 1),
-        GameColors.logoPainterColor6.withValues(alpha: 1),
+        GameColors.whiteSolid.withValues(alpha: 1),
+        biome.nodeUnlockedColor.withValues(alpha: 1),
       ],
       [0, 0.49, 1],
     );
@@ -613,7 +629,7 @@ class BallPainter extends CustomPainter {
     path_8.close();
 
     Paint paint8Fill = Paint()..style = PaintingStyle.fill;
-    paint8Fill.color = GameColors.logoPainterColor7.withValues(alpha: 1.0);
+    paint8Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_8, paint8Fill);
 
     Path path_9 = Path();
@@ -639,7 +655,7 @@ class BallPainter extends CustomPainter {
     path_9.close();
 
     Paint paint9Fill = Paint()..style = PaintingStyle.fill;
-    paint9Fill.color = GameColors.logoPainterColor8.withValues(alpha: 1.0);
+    paint9Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_9, paint9Fill);
 
     Path path_10 = Path();
@@ -665,7 +681,7 @@ class BallPainter extends CustomPainter {
     path_10.close();
 
     Paint paint10Fill = Paint()..style = PaintingStyle.fill;
-    paint10Fill.color = GameColors.logoPainterColor10.withValues(alpha: 1.0);
+    paint10Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_10, paint10Fill);
 
     Path path_11 = Path();
@@ -698,7 +714,7 @@ class BallPainter extends CustomPainter {
     path_11.close();
 
     Paint paint11Fill = Paint()..style = PaintingStyle.fill;
-    paint11Fill.color = GameColors.logoPainterColor11.withValues(alpha: 1.0);
+    paint11Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_11, paint11Fill);
 
     Path path_12 = Path();
@@ -724,7 +740,7 @@ class BallPainter extends CustomPainter {
     path_12.close();
 
     Paint paint12Fill = Paint()..style = PaintingStyle.fill;
-    paint12Fill.color = GameColors.logoPainterColor12.withValues(alpha: 1.0);
+    paint12Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_12, paint12Fill);
 
     Path path_13 = Path();
@@ -750,7 +766,7 @@ class BallPainter extends CustomPainter {
     path_13.close();
 
     Paint paint13Fill = Paint()..style = PaintingStyle.fill;
-    paint13Fill.color = GameColors.logoPainterColor14.withValues(alpha: 1.0);
+    paint13Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_13, paint13Fill);
 
     Path path_14 = Path();
@@ -776,7 +792,7 @@ class BallPainter extends CustomPainter {
     path_14.close();
 
     Paint paint14Fill = Paint()..style = PaintingStyle.fill;
-    paint14Fill.color = GameColors.logoPainterColor15.withValues(alpha: 1.0);
+    paint14Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_14, paint14Fill);
 
     Path path_15 = Path();
@@ -809,7 +825,7 @@ class BallPainter extends CustomPainter {
     path_15.close();
 
     Paint paint15Fill = Paint()..style = PaintingStyle.fill;
-    paint15Fill.color = GameColors.logoPainterColor17.withValues(alpha: 1.0);
+    paint15Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_15, paint15Fill);
 
     Path path_16 = Path();
@@ -828,7 +844,7 @@ class BallPainter extends CustomPainter {
     path_16.close();
 
     Paint paint16Fill = Paint()..style = PaintingStyle.fill;
-    paint16Fill.color = GameColors.logoPainterColor19.withValues(alpha: 1.0);
+    paint16Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_16, paint16Fill);
 
     Path path_17 = Path();
@@ -868,7 +884,7 @@ class BallPainter extends CustomPainter {
     path_17.close();
 
     Paint paint17Fill = Paint()..style = PaintingStyle.fill;
-    paint17Fill.color = GameColors.logoPainterColor21.withValues(alpha: 1.0);
+    paint17Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_17, paint17Fill);
 
     Path path_18 = Path();
@@ -894,7 +910,7 @@ class BallPainter extends CustomPainter {
     path_18.close();
 
     Paint paint18Fill = Paint()..style = PaintingStyle.fill;
-    paint18Fill.color = GameColors.logoPainterColor22.withValues(alpha: 1.0);
+    paint18Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_18, paint18Fill);
 
     Path path_19 = Path();
@@ -934,7 +950,7 @@ class BallPainter extends CustomPainter {
     path_19.close();
 
     Paint paint19Fill = Paint()..style = PaintingStyle.fill;
-    paint19Fill.color = GameColors.logoPainterColor24.withValues(alpha: 1.0);
+    paint19Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_19, paint19Fill);
 
     Path path_20 = Path();
@@ -953,7 +969,7 @@ class BallPainter extends CustomPainter {
     path_20.close();
 
     Paint paint20Fill = Paint()..style = PaintingStyle.fill;
-    paint20Fill.color = GameColors.logoPainterColor26.withValues(alpha: 1.0);
+    paint20Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_20, paint20Fill);
 
     Path path_21 = Path();
@@ -993,7 +1009,7 @@ class BallPainter extends CustomPainter {
     path_21.close();
 
     Paint paint21Fill = Paint()..style = PaintingStyle.fill;
-    paint21Fill.color = GameColors.logoPainterColor27.withValues(alpha: 1.0);
+    paint21Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_21, paint21Fill);
 
     Path path_22 = Path();
@@ -1026,7 +1042,7 @@ class BallPainter extends CustomPainter {
     path_22.close();
 
     Paint paint22Fill = Paint()..style = PaintingStyle.fill;
-    paint22Fill.color = GameColors.logoPainterColor30.withValues(alpha: 1.0);
+    paint22Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_22, paint22Fill);
 
     Path path_23 = Path();
@@ -1045,7 +1061,7 @@ class BallPainter extends CustomPainter {
     path_23.close();
 
     Paint paint23Fill = Paint()..style = PaintingStyle.fill;
-    paint23Fill.color = GameColors.logoPainterColor32.withValues(alpha: 1.0);
+    paint23Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_23, paint23Fill);
 
     Path path_24 = Path();
@@ -1064,7 +1080,7 @@ class BallPainter extends CustomPainter {
     path_24.close();
 
     Paint paint24Fill = Paint()..style = PaintingStyle.fill;
-    paint24Fill.color = GameColors.logoPainterColor35.withValues(alpha: 1.0);
+    paint24Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_24, paint24Fill);
 
     Path path_25 = Path();
@@ -1090,7 +1106,7 @@ class BallPainter extends CustomPainter {
     path_25.close();
 
     Paint paint25Fill = Paint()..style = PaintingStyle.fill;
-    paint25Fill.color = GameColors.logoPainterColor36.withValues(alpha: 1.0);
+    paint25Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_25, paint25Fill);
 
     Path path_26 = Path();
@@ -1116,7 +1132,7 @@ class BallPainter extends CustomPainter {
     path_26.close();
 
     Paint paint26Fill = Paint()..style = PaintingStyle.fill;
-    paint26Fill.color = GameColors.logoPainterColor38.withValues(alpha: 1.0);
+    paint26Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_26, paint26Fill);
 
     Path path_27 = Path();
@@ -1149,7 +1165,7 @@ class BallPainter extends CustomPainter {
     path_27.close();
 
     Paint paint27Fill = Paint()..style = PaintingStyle.fill;
-    paint27Fill.color = GameColors.logoPainterColor40.withValues(alpha: 1.0);
+    paint27Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_27, paint27Fill);
 
     Path path_28 = Path();
@@ -1168,7 +1184,7 @@ class BallPainter extends CustomPainter {
     path_28.close();
 
     Paint paint28Fill = Paint()..style = PaintingStyle.fill;
-    paint28Fill.color = GameColors.logoPainterColor41.withValues(alpha: 1.0);
+    paint28Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_28, paint28Fill);
 
     Path path_29 = Path();
@@ -1208,7 +1224,7 @@ class BallPainter extends CustomPainter {
     path_29.close();
 
     Paint paint29Fill = Paint()..style = PaintingStyle.fill;
-    paint29Fill.color = GameColors.logoPainterColor43.withValues(alpha: 1.0);
+    paint29Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_29, paint29Fill);
 
     Path path_30 = Path();
@@ -1241,7 +1257,7 @@ class BallPainter extends CustomPainter {
     path_30.close();
 
     Paint paint30Fill = Paint()..style = PaintingStyle.fill;
-    paint30Fill.color = GameColors.logoPainterColor46.withValues(alpha: 1.0);
+    paint30Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_30, paint30Fill);
 
     Path path_31 = Path();
@@ -1281,7 +1297,7 @@ class BallPainter extends CustomPainter {
     path_31.close();
 
     Paint paint31Fill = Paint()..style = PaintingStyle.fill;
-    paint31Fill.color = GameColors.logoPainterColor47.withValues(alpha: 1.0);
+    paint31Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_31, paint31Fill);
 
     Path path_32 = Path();
@@ -1307,7 +1323,7 @@ class BallPainter extends CustomPainter {
     path_32.close();
 
     Paint paint32Fill = Paint()..style = PaintingStyle.fill;
-    paint32Fill.color = GameColors.logoPainterColor52.withValues(alpha: 1.0);
+    paint32Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_32, paint32Fill);
 
     Path path_33 = Path();
@@ -1340,7 +1356,7 @@ class BallPainter extends CustomPainter {
     path_33.close();
 
     Paint paint33Fill = Paint()..style = PaintingStyle.fill;
-    paint33Fill.color = GameColors.logoPainterColor55.withValues(alpha: 1.0);
+    paint33Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_33, paint33Fill);
 
     Path path_34 = Path();
@@ -1373,7 +1389,7 @@ class BallPainter extends CustomPainter {
     path_34.close();
 
     Paint paint34Fill = Paint()..style = PaintingStyle.fill;
-    paint34Fill.color = GameColors.logoPainterColor56.withValues(alpha: 1.0);
+    paint34Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_34, paint34Fill);
 
     Path path_35 = Path();
@@ -1406,7 +1422,7 @@ class BallPainter extends CustomPainter {
     path_35.close();
 
     Paint paint35Fill = Paint()..style = PaintingStyle.fill;
-    paint35Fill.color = GameColors.logoPainterColor58.withValues(alpha: 1.0);
+    paint35Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_35, paint35Fill);
 
     Path path_36 = Path();
@@ -1432,7 +1448,7 @@ class BallPainter extends CustomPainter {
     path_36.close();
 
     Paint paint36Fill = Paint()..style = PaintingStyle.fill;
-    paint36Fill.color = GameColors.logoPainterColor61.withValues(alpha: 1.0);
+    paint36Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_36, paint36Fill);
 
     Path path_37 = Path();
@@ -1465,7 +1481,7 @@ class BallPainter extends CustomPainter {
     path_37.close();
 
     Paint paint37Fill = Paint()..style = PaintingStyle.fill;
-    paint37Fill.color = GameColors.logoPainterColor63.withValues(alpha: 1.0);
+    paint37Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_37, paint37Fill);
 
     Path path_38 = Path();
@@ -1484,7 +1500,7 @@ class BallPainter extends CustomPainter {
     path_38.close();
 
     Paint paint38Fill = Paint()..style = PaintingStyle.fill;
-    paint38Fill.color = GameColors.logoPainterColor65.withValues(alpha: 1.0);
+    paint38Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_38, paint38Fill);
 
     Path path_39 = Path();
@@ -1524,7 +1540,7 @@ class BallPainter extends CustomPainter {
     path_39.close();
 
     Paint paint39Fill = Paint()..style = PaintingStyle.fill;
-    paint39Fill.color = GameColors.logoPainterColor67.withValues(alpha: 1.0);
+    paint39Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_39, paint39Fill);
 
     Path path_40 = Path();
@@ -1595,8 +1611,8 @@ class BallPainter extends CustomPainter {
       Offset(size.width * 0.3388333, size.height * 0.2542791),
       [
         GameColors.whiteSolid.withValues(alpha: 1),
-        GameColors.logoPainterColor16.withValues(alpha: 1),
-        GameColors.logoPainterColor6.withValues(alpha: 1),
+        GameColors.whiteSolid.withValues(alpha: 1),
+        biome.nodeUnlockedColor.withValues(alpha: 1),
       ],
       [0, 0.49, 1],
     );
@@ -1639,7 +1655,7 @@ class BallPainter extends CustomPainter {
     path_42.close();
 
     Paint paint42Fill = Paint()..style = PaintingStyle.fill;
-    paint42Fill.color = GameColors.logoPainterColor7.withValues(alpha: 1.0);
+    paint42Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_42, paint42Fill);
 
     Path path_43 = Path();
@@ -1665,7 +1681,7 @@ class BallPainter extends CustomPainter {
     path_43.close();
 
     Paint paint43Fill = Paint()..style = PaintingStyle.fill;
-    paint43Fill.color = GameColors.logoPainterColor9.withValues(alpha: 1.0);
+    paint43Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_43, paint43Fill);
 
     Path path_44 = Path();
@@ -1684,7 +1700,7 @@ class BallPainter extends CustomPainter {
     path_44.close();
 
     Paint paint44Fill = Paint()..style = PaintingStyle.fill;
-    paint44Fill.color = GameColors.logoPainterColor11.withValues(alpha: 1.0);
+    paint44Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_44, paint44Fill);
 
     Path path_45 = Path();
@@ -1717,7 +1733,7 @@ class BallPainter extends CustomPainter {
     path_45.close();
 
     Paint paint45Fill = Paint()..style = PaintingStyle.fill;
-    paint45Fill.color = GameColors.logoPainterColor13.withValues(alpha: 1.0);
+    paint45Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_45, paint45Fill);
 
     Path path_46 = Path();
@@ -1750,7 +1766,7 @@ class BallPainter extends CustomPainter {
     path_46.close();
 
     Paint paint46Fill = Paint()..style = PaintingStyle.fill;
-    paint46Fill.color = GameColors.logoPainterColor15.withValues(alpha: 1.0);
+    paint46Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_46, paint46Fill);
 
     Path path_47 = Path();
@@ -1790,7 +1806,7 @@ class BallPainter extends CustomPainter {
     path_47.close();
 
     Paint paint47Fill = Paint()..style = PaintingStyle.fill;
-    paint47Fill.color = GameColors.logoPainterColor18.withValues(alpha: 1.0);
+    paint47Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_47, paint47Fill);
 
     Path path_48 = Path();
@@ -1809,7 +1825,7 @@ class BallPainter extends CustomPainter {
     path_48.close();
 
     Paint paint48Fill = Paint()..style = PaintingStyle.fill;
-    paint48Fill.color = GameColors.logoPainterColor20.withValues(alpha: 1.0);
+    paint48Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_48, paint48Fill);
 
     Path path_49 = Path();
@@ -1842,7 +1858,7 @@ class BallPainter extends CustomPainter {
     path_49.close();
 
     Paint paint49Fill = Paint()..style = PaintingStyle.fill;
-    paint49Fill.color = GameColors.logoPainterColor23.withValues(alpha: 1.0);
+    paint49Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_49, paint49Fill);
 
     Path path_50 = Path();
@@ -1875,7 +1891,7 @@ class BallPainter extends CustomPainter {
     path_50.close();
 
     Paint paint50Fill = Paint()..style = PaintingStyle.fill;
-    paint50Fill.color = GameColors.logoPainterColor25.withValues(alpha: 1.0);
+    paint50Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_50, paint50Fill);
 
     Path path_51 = Path();
@@ -1901,7 +1917,7 @@ class BallPainter extends CustomPainter {
     path_51.close();
 
     Paint paint51Fill = Paint()..style = PaintingStyle.fill;
-    paint51Fill.color = GameColors.logoPainterColor28.withValues(alpha: 1.0);
+    paint51Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_51, paint51Fill);
 
     Path path_52 = Path();
@@ -1927,7 +1943,7 @@ class BallPainter extends CustomPainter {
     path_52.close();
 
     Paint paint52Fill = Paint()..style = PaintingStyle.fill;
-    paint52Fill.color = GameColors.logoPainterColor31.withValues(alpha: 1.0);
+    paint52Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_52, paint52Fill);
 
     Path path_53 = Path();
@@ -1953,7 +1969,7 @@ class BallPainter extends CustomPainter {
     path_53.close();
 
     Paint paint53Fill = Paint()..style = PaintingStyle.fill;
-    paint53Fill.color = GameColors.logoPainterColor35.withValues(alpha: 1.0);
+    paint53Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_53, paint53Fill);
 
     Path path_54 = Path();
@@ -1993,7 +2009,7 @@ class BallPainter extends CustomPainter {
     path_54.close();
 
     Paint paint54Fill = Paint()..style = PaintingStyle.fill;
-    paint54Fill.color = GameColors.logoPainterColor37.withValues(alpha: 1.0);
+    paint54Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_54, paint54Fill);
 
     Path path_55 = Path();
@@ -2026,7 +2042,7 @@ class BallPainter extends CustomPainter {
     path_55.close();
 
     Paint paint55Fill = Paint()..style = PaintingStyle.fill;
-    paint55Fill.color = GameColors.logoPainterColor39.withValues(alpha: 1.0);
+    paint55Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_55, paint55Fill);
 
     Path path_56 = Path();
@@ -2066,7 +2082,7 @@ class BallPainter extends CustomPainter {
     path_56.close();
 
     Paint paint56Fill = Paint()..style = PaintingStyle.fill;
-    paint56Fill.color = GameColors.logoPainterColor42.withValues(alpha: 1.0);
+    paint56Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_56, paint56Fill);
 
     Path path_57 = Path();
@@ -2099,7 +2115,7 @@ class BallPainter extends CustomPainter {
     path_57.close();
 
     Paint paint57Fill = Paint()..style = PaintingStyle.fill;
-    paint57Fill.color = GameColors.logoPainterColor45.withValues(alpha: 1.0);
+    paint57Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_57, paint57Fill);
 
     Path path_58 = Path();
@@ -2132,7 +2148,7 @@ class BallPainter extends CustomPainter {
     path_58.close();
 
     Paint paint58Fill = Paint()..style = PaintingStyle.fill;
-    paint58Fill.color = GameColors.logoPainterColor50.withValues(alpha: 1.0);
+    paint58Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_58, paint58Fill);
 
     Path path_59 = Path();
@@ -2172,7 +2188,7 @@ class BallPainter extends CustomPainter {
     path_59.close();
 
     Paint paint59Fill = Paint()..style = PaintingStyle.fill;
-    paint59Fill.color = GameColors.logoPainterColor54.withValues(alpha: 1.0);
+    paint59Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_59, paint59Fill);
 
     Path path_60 = Path();
@@ -2191,7 +2207,7 @@ class BallPainter extends CustomPainter {
     path_60.close();
 
     Paint paint60Fill = Paint()..style = PaintingStyle.fill;
-    paint60Fill.color = GameColors.logoPainterColor56.withValues(alpha: 1.0);
+    paint60Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_60, paint60Fill);
 
     Path path_61 = Path();
@@ -2231,7 +2247,7 @@ class BallPainter extends CustomPainter {
     path_61.close();
 
     Paint paint61Fill = Paint()..style = PaintingStyle.fill;
-    paint61Fill.color = GameColors.logoPainterColor59.withValues(alpha: 1.0);
+    paint61Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_61, paint61Fill);
 
     Path path_62 = Path();
@@ -2264,7 +2280,7 @@ class BallPainter extends CustomPainter {
     path_62.close();
 
     Paint paint62Fill = Paint()..style = PaintingStyle.fill;
-    paint62Fill.color = GameColors.logoPainterColor63.withValues(alpha: 1.0);
+    paint62Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_62, paint62Fill);
 
     Path path_63 = Path();
@@ -2290,7 +2306,7 @@ class BallPainter extends CustomPainter {
     path_63.close();
 
     Paint paint63Fill = Paint()..style = PaintingStyle.fill;
-    paint63Fill.color = GameColors.logoPainterColor66.withValues(alpha: 1.0);
+    paint63Fill.color = GameColors.whiteSolid.withValues(alpha: 1.0);
     canvas.drawPath(path_63, paint63Fill);
 
     Path path_64 = Path();

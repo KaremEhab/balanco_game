@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
+import 'package:balanco_game/features/map/models/biome_model.dart';
 
 class GamePainter extends CustomPainter {
   final double innerCornerRadius;
+  final BiomeModel biome;
 
-  GamePainter({this.innerCornerRadius = 75.0});
+  GamePainter({this.innerCornerRadius = 75.0, required this.biome});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -439,13 +441,13 @@ class GamePainter extends CustomPainter {
     // Smooth, borderless premium gradient (Golden Sand)
     Rect bounds = path_0.getBounds();
     final Paint basePaint = Paint()
-      ..shader = const LinearGradient(
+      ..shader = LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: [
-          GameColors.amber300, // Soft bright sand
-          GameColors.amber400, // Golden sand
-          GameColors.magnetPainterColor9, // Warm amber
+          biome.pathColor, // Soft bright
+          biome.primaryColor, // Base
+          biome.nodeUnlockedColor, // Shadow
         ],
       ).createShader(bounds);
     canvas.drawPath(path_0, basePaint);
@@ -473,11 +475,9 @@ class GamePainter extends CustomPainter {
     }
 
     // Add a very soft inner highlight to give the frame a tiny bit of depth without being cartoonish
-    final Paint innerGlow = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.0
-      ..color = GameColors.white.withValues(alpha: 0.1);
-    canvas.drawPath(path_0, innerGlow);
+    final Paint paint0Fill = Paint()..style = PaintingStyle.fill;
+    paint0Fill.color = biome.primaryColor.withValues(alpha: 1.0);
+    canvas.drawPath(path_0, paint0Fill);
 
     canvas.restore();
   }
@@ -489,6 +489,10 @@ class GamePainter extends CustomPainter {
 }
 
 class PauseBtnPainter extends CustomPainter {
+  final BiomeModel biome;
+
+  PauseBtnPainter({required this.biome});
+
   @override
   void paint(Canvas canvas, Size size) {
     double barWidth = size.width * 0.35;
@@ -511,13 +515,13 @@ class PauseBtnPainter extends CustomPainter {
 
     // 3D Glossy Metallic Red/Orange Base
     final Paint iconPaint = Paint()
-      ..shader = const LinearGradient(
+      ..shader = LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          GameColors.brown100, // Light Wood/Sand
-          GameColors.brown400, // Main brown
-          GameColors.gamePainterColor1, // Deep shadow
+          biome.secondaryColor, // Highlight
+          biome.primaryColor, // Base
+          biome.nodeUnlockedColor, // Shadow
         ],
       ).createShader(leftBar);
 
@@ -534,10 +538,10 @@ class PauseBtnPainter extends CustomPainter {
     Rect innerLeft = leftBar.deflate(1.5);
     Rect innerRight = rightBar.deflate(1.5);
     final Paint glossPaint = Paint()
-      ..shader = const LinearGradient(
+      ..shader = LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
-        colors: [GameColors.magnetPainterColor1, GameColors.whiteTransparent],
+        colors: [biome.nodeUnlockedBorderColor.withValues(alpha: 0.5), GameColors.whiteTransparent],
       ).createShader(innerLeft);
 
     canvas.drawRRect(

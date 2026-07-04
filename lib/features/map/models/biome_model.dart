@@ -50,23 +50,58 @@ class BiomeModel {
     return BiomeModel(
       startLevel: t < 0.5 ? a.startLevel : b.startLevel,
       endLevel: t < 0.5 ? a.endLevel : b.endLevel,
-      primaryColor: Color.lerp(a.primaryColor, b.primaryColor, t) ?? a.primaryColor,
-      secondaryColor: Color.lerp(a.secondaryColor, b.secondaryColor, t) ?? a.secondaryColor,
-      nodeUnlockedColor: Color.lerp(a.nodeUnlockedColor, b.nodeUnlockedColor, t) ?? a.nodeUnlockedColor,
-      nodeUnlockedBorderColor: Color.lerp(a.nodeUnlockedBorderColor, b.nodeUnlockedBorderColor, t) ?? a.nodeUnlockedBorderColor,
-      nodeUnlockedTeethColor: Color.lerp(a.nodeUnlockedTeethColor, b.nodeUnlockedTeethColor, t) ?? a.nodeUnlockedTeethColor,
-      nodeUnlockedOuterEdgeColor: Color.lerp(a.nodeUnlockedOuterEdgeColor, b.nodeUnlockedOuterEdgeColor, t) ?? a.nodeUnlockedOuterEdgeColor,
-      nodeUnlockedRivetColor: Color.lerp(a.nodeUnlockedRivetColor, b.nodeUnlockedRivetColor, t) ?? a.nodeUnlockedRivetColor,
-      nodeUnlockedInnerColors: t < 0.5 ? a.nodeUnlockedInnerColors : b.nodeUnlockedInnerColors,
-      nodeLockedColor: Color.lerp(a.nodeLockedColor, b.nodeLockedColor, t) ?? a.nodeLockedColor,
-      nodeLockedBorderColor: Color.lerp(a.nodeLockedBorderColor, b.nodeLockedBorderColor, t) ?? a.nodeLockedBorderColor,
-      nodeLockedTeethColor: Color.lerp(a.nodeLockedTeethColor, b.nodeLockedTeethColor, t) ?? a.nodeLockedTeethColor,
-      nodeLockedOuterEdgeColor: Color.lerp(a.nodeLockedOuterEdgeColor, b.nodeLockedOuterEdgeColor, t) ?? a.nodeLockedOuterEdgeColor,
-      nodeLockedRivetColor: Color.lerp(a.nodeLockedRivetColor, b.nodeLockedRivetColor, t) ?? a.nodeLockedRivetColor,
-      nodeLockedInnerColors: t < 0.5 ? a.nodeLockedInnerColors : b.nodeLockedInnerColors,
+      primaryColor:
+          Color.lerp(a.primaryColor, b.primaryColor, t) ?? a.primaryColor,
+      secondaryColor:
+          Color.lerp(a.secondaryColor, b.secondaryColor, t) ?? a.secondaryColor,
+      nodeUnlockedColor:
+          Color.lerp(a.nodeUnlockedColor, b.nodeUnlockedColor, t) ??
+          a.nodeUnlockedColor,
+      nodeUnlockedBorderColor:
+          Color.lerp(a.nodeUnlockedBorderColor, b.nodeUnlockedBorderColor, t) ??
+          a.nodeUnlockedBorderColor,
+      nodeUnlockedTeethColor:
+          Color.lerp(a.nodeUnlockedTeethColor, b.nodeUnlockedTeethColor, t) ??
+          a.nodeUnlockedTeethColor,
+      nodeUnlockedOuterEdgeColor:
+          Color.lerp(
+            a.nodeUnlockedOuterEdgeColor,
+            b.nodeUnlockedOuterEdgeColor,
+            t,
+          ) ??
+          a.nodeUnlockedOuterEdgeColor,
+      nodeUnlockedRivetColor:
+          Color.lerp(a.nodeUnlockedRivetColor, b.nodeUnlockedRivetColor, t) ??
+          a.nodeUnlockedRivetColor,
+      nodeUnlockedInnerColors: t < 0.5
+          ? a.nodeUnlockedInnerColors
+          : b.nodeUnlockedInnerColors,
+      nodeLockedColor:
+          Color.lerp(a.nodeLockedColor, b.nodeLockedColor, t) ??
+          a.nodeLockedColor,
+      nodeLockedBorderColor:
+          Color.lerp(a.nodeLockedBorderColor, b.nodeLockedBorderColor, t) ??
+          a.nodeLockedBorderColor,
+      nodeLockedTeethColor:
+          Color.lerp(a.nodeLockedTeethColor, b.nodeLockedTeethColor, t) ??
+          a.nodeLockedTeethColor,
+      nodeLockedOuterEdgeColor:
+          Color.lerp(
+            a.nodeLockedOuterEdgeColor,
+            b.nodeLockedOuterEdgeColor,
+            t,
+          ) ??
+          a.nodeLockedOuterEdgeColor,
+      nodeLockedRivetColor:
+          Color.lerp(a.nodeLockedRivetColor, b.nodeLockedRivetColor, t) ??
+          a.nodeLockedRivetColor,
+      nodeLockedInnerColors: t < 0.5
+          ? a.nodeLockedInnerColors
+          : b.nodeLockedInnerColors,
       pathColor: Color.lerp(a.pathColor, b.pathColor, t) ?? a.pathColor,
       bgTopColor: Color.lerp(a.bgTopColor, b.bgTopColor, t) ?? a.bgTopColor,
-      bgBottomColor: Color.lerp(a.bgBottomColor, b.bgBottomColor, t) ?? a.bgBottomColor,
+      bgBottomColor:
+          Color.lerp(a.bgBottomColor, b.bgBottomColor, t) ?? a.bgBottomColor,
     );
   }
 }
