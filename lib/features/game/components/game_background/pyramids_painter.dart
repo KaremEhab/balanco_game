@@ -325,6 +325,15 @@ class MainPyramidsPainter extends CustomPainter {
       rightShadow: Color(0xFF7B5CC0),
       ridgeLine: Color(0xFF1A0840),
     ),
+    //  this.colors = const PyramidColorConfig(
+    //   leftShadow: Color(0xFF301800),
+    //   leftMid: Color(0xFF654012),
+    //   leftLight: Color(0xFF906020),
+    //   rightLight: Color(0xFFF8E080),
+    //   rightMid: Color(0xFFC4A050),
+    //   rightShadow: Color(0xFF906020),
+    //   ridgeLine: Color(0xFF1A0840),
+    // ),
   });
 
   @override
