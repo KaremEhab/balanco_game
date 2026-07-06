@@ -76,8 +76,12 @@ class BiomeConfig {
 
   static final List<BiomeModel> biomes = [tropicalBeach, crystalCave];
 
-  static BiomeModel getInfinityBiomeForLevel(int level) {
-    final double hue = ((level * 37) % 360).toDouble();
+  static BiomeModel getDynamicScoreBiome(int score) {
+    // The hue shifts smoothly based on the current score.
+    // 360 degrees of hue, shift a little bit for every point.
+    // Score / 5 means 1800 points for a full rainbow cycle.
+    final double hue = ((score / 5.0) % 360).toDouble();
+    
     final Color primary = HSVColor.fromAHSV(1, hue, 0.82, 0.58).toColor();
     final Color secondary = HSVColor.fromAHSV(
       1,
@@ -105,8 +109,8 @@ class BiomeConfig {
     ).toColor();
 
     return BiomeModel(
-      startLevel: level,
-      endLevel: level,
+      startLevel: 999, // Infinity
+      endLevel: 999,
       primaryColor: primary,
       secondaryColor: secondary,
       nodeUnlockedColor: secondary,

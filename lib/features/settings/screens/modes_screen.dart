@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:balanco_game/core/bloc/app_bloc.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
+import 'package:balanco_game/features/game/screens/gameplay.dart';
+import 'package:balanco_game/features/game/game_area.dart';
 
 class ModesScreen extends StatelessWidget {
   final ScrollController scrollController;
@@ -355,6 +357,52 @@ class ModesScreen extends StatelessWidget {
                         fontWeight: FontWeight.w800,
                       ),
                     ),
+                    if (isInfinity) ...[
+                      const SizedBox(height: 16),
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          final game = BalancoGame(
+                            isMultiplayer: context.read<AppBloc>().state.isMultiplayer,
+                            isInfinityMode: true,
+                            playerRole: context.read<AppBloc>().state.playerRole,
+                            onLevelComplete: () {
+                              Navigator.pop(context);
+                            },
+                          );
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => GamePlayOverlay(game: game),
+                            ),
+                          );
+                        },
+                        icon: const Icon(
+                          Icons.play_arrow_rounded,
+                          size: 32,
+                          color: GameColors.white,
+                        ),
+                        label: Text(
+                          'PLAY INFINITY',
+                          style: GoogleFonts.luckiestGuy(
+                            fontSize: 24,
+                            letterSpacing: 1.5,
+                            color: GameColors.white,
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: GameColors.deepPurple,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            side: const BorderSide(
+                              color: GameColors.brownDarkUi,
+                              width: 3.5,
+                            ),
+                          ),
+                          elevation: 6,
+                          shadowColor: GameColors.brownDarkUi,
+                        ),
+                      ),
+                    ],
                   ],
                 ),
               );

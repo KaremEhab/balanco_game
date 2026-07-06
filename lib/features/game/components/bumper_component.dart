@@ -12,6 +12,7 @@ class BumperComponent extends PositionComponent
   // Animation state
   double _wobbleTime = 0.0;
   bool _isWobbling = false;
+  bool isPassed = false;
 
   // Cached Paints
   late final Paint _basePaint;
@@ -79,7 +80,7 @@ class BumperComponent extends PositionComponent
   @override
   void update(double dt) {
     super.update(dt);
-    if (!game.isSpawningLevel && game.size.x > 0 && game.size.y > 0) {
+    if (!game.isSpawningLevel && !game.isInfinityMode && game.size.x > 0 && game.size.y > 0) {
       position = Vector2(
         fractionalPosition.x * game.size.x,
         120.0 + fractionalPosition.y * (game.levelHeight - 320.0),

@@ -29,4 +29,5 @@ class BallData {
 
   bool isSuckingToGate = false;
   bool isDead = false;
+  bool spendsLifeOnDeath = true;
 }

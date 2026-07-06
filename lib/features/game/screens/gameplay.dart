@@ -11,6 +11,8 @@ import 'package:balanco_game/features/game/components/game_area/game_painter.dar
 import 'package:balanco_game/features/game/screens/animated_game_overlays.dart';
 import 'package:balanco_game/features/game/screens/victory/victory_overlay.dart';
 import 'package:balanco_game/features/game/screens/game_controls_overlay.dart';
+import 'package:balanco_game/features/game/screens/infinity/infinity_bg.dart';
+import 'package:balanco_game/features/game/screens/infinity/infinity_gameplay.dart';
 import 'package:balanco_game/features/map/theme/biome_config.dart';
 
 import 'package:balanco_game/features/game/widgets/gameplay_header.dart';
@@ -141,8 +143,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                                     'LVL ${widget.game.currentLevel.value}',
                                     style: GoogleFonts.luckiestGuy(
                                       fontSize: 18,
-                                      color:
-                                          GameColors.brownDarkUi,
+                                      color: GameColors.brownDarkUi,
                                     ),
                                   ),
                                 ],
@@ -498,14 +499,21 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
         body: ValueListenableBuilder<int>(
           valueListenable: widget.game.currentLevel,
           builder: (context, level, child) {
-            final currentBiome = BiomeConfig.getBiomeForLevel(level);
+            final currentBiome = widget.game.isInfinityMode
+                ? widget.game.currentBiome
+                : BiomeConfig.getBiomeForLevel(level);
             return Stack(
               children: [
                 // Dynamic Background based on current level
                 Stack(
                   children: [
                     Positioned.fill(
-                      child: ParallaxBackgroundWidget(game: widget.game),
+                      child: widget.game.isInfinityMode
+                          ? InfinityScrollGradientBg(
+                              cameraOffsetY: widget.game.cameraOffsetYNotifier,
+                              currentScore: widget.game.currentScore,
+                            )
+                          : ParallaxBackgroundWidget(game: widget.game),
                     ),
                   ],
                 ),
@@ -587,13 +595,20 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                                       bottomRight: const Radius.circular(16),
                                     ),
                                     child: Stack(
-                                      children: [
-                                        GameWidget(game: widget.game),
-                                        TimeStopOverlay(
-                                          timeNotifier:
-                                              widget.game.timeStopNotifier,
-                                        ),
-                                      ],
+                                      children: widget.game.isInfinityMode
+                                          ? [
+                                              InfinityGameplay(
+                                                game: widget.game,
+                                              ),
+                                            ]
+                                          : [
+                                              GameWidget(game: widget.game),
+                                              TimeStopOverlay(
+                                                timeNotifier: widget
+                                                    .game
+                                                    .timeStopNotifier,
+                                              ),
+                                            ],
                                     ),
                                   ),
                                 ),
@@ -615,17 +630,19 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                                   left: 0,
                                   right: 0,
                                   child: Center(
-                                    child: GameplayHeader(
-                                      game: widget.game,
-                                      cardBaseGradient: [
-                                        currentBiome.primaryColor,
-                                        currentBiome.primaryColor,
-                                      ],
-                                      cardHighlightGradient: [
-                                        currentBiome.nodeUnlockedColor,
-                                        currentBiome.nodeUnlockedColor,
-                                      ],
-                                    ),
+                                    child: widget.game.isInfinityMode
+                                        ? InfinityScoreHeader(game: widget.game)
+                                        : GameplayHeader(
+                                            game: widget.game,
+                                            cardBaseGradient: [
+                                              currentBiome.primaryColor,
+                                              currentBiome.primaryColor,
+                                            ],
+                                            cardHighlightGradient: [
+                                              currentBiome.nodeUnlockedColor,
+                                              currentBiome.nodeUnlockedColor,
+                                            ],
+                                          ),
                                   ),
                                 ),
 

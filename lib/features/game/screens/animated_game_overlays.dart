@@ -118,16 +118,46 @@ class _AnimatedGameOverOverlayState extends State<AnimatedGameOverOverlay>
                         ],
                       ),
                       const SizedBox(height: 16),
-                      Text(
-                        'You lost all your lives\nor time ran out!',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.baloo2(
-                          color: GameColors.brownDarkUi,
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          height: 1.2,
+                      if (widget.game.isInfinityMode) ...[
+                        Text(
+                          'Score: ${widget.game.lastInfinityScore}',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.baloo2(
+                            color: GameColors.brownDarkUi,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
+                        Text(
+                          'High Score: ${widget.game.infinityHighScore}',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.baloo2(
+                            color: GameColors.orangeTextUi,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          'Coins: ${widget.game.lastInfinityCoins}',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.baloo2(
+                            color: GameColors.amber400,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ] else ...[
+                        Text(
+                          'You lost all your lives\nor time ran out!',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.baloo2(
+                            color: GameColors.brownDarkUi,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            height: 1.2,
+                          ),
+                        ),
+                      ],
                       const SizedBox(height: 36),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

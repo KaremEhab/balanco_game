@@ -77,7 +77,10 @@ class MultiBallItem extends PositionComponent
     super.update(dt);
     if (isCollected) return;
 
-    if (!game.isSpawningLevel && game.size.x > 0 && game.size.y > 0) {
+    if (!game.isSpawningLevel &&
+        !game.isInfinityMode &&
+        game.size.x > 0 &&
+        game.size.y > 0) {
       position = Vector2(
         fractionalPosition.x * game.size.x,
         120.0 + fractionalPosition.y * (game.levelHeight - 320.0),
@@ -118,7 +121,10 @@ class MultiBallItem extends PositionComponent
     for (int i = 0; i < spawnCount; i++) {
       BallData newBall = BallData();
       newBall.isFreeFalling = true;
-      newBall.pos2D = game.teleportingGateComponent.position.clone();
+      newBall.pos2D = game.isInfinityMode
+          ? position.clone()
+          : game.teleportingGateComponent.position.clone();
+      newBall.spendsLifeOnDeath = !game.isInfinityMode;
       // Give them a slight random horizontal velocity so they don't fall perfectly stacked
       newBall.freeFallVelocity = Vector2(
         (Random().nextDouble() - 0.5) * 150,

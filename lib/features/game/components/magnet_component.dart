@@ -46,6 +46,7 @@ class MagnetComponent extends PositionComponent
     super.update(dt);
 
     if (!game.isSpawningLevel &&
+        !game.isInfinityMode &&
         game.size.x > 0 &&
         game.size.y > 0 &&
         !isCollected) {

@@ -66,13 +66,13 @@ class GameplayHeader extends StatelessWidget {
                 right: 0,
                 child: Center(
                   child: ValueListenableBuilder<int>(
-                    valueListenable: game.currentLevel,
-                    builder: (context, level, child) {
+                    valueListenable: game.isInfinityMode ? game.currentScore : game.currentLevel,
+                    builder: (context, val, child) {
                       return Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            'LEVEL',
+                            game.isInfinityMode ? 'SCORE' : 'LEVEL',
                             style: GoogleFonts.luckiestGuy(
                               color: GameColors.white,
                               fontSize: 28, // Increased font size
@@ -88,7 +88,7 @@ class GameplayHeader extends StatelessWidget {
                           ),
                           const SizedBox(height: 2),
                           Text(
-                            '$level',
+                            '$val',
                             style: GoogleFonts.luckiestGuy(
                               color: GameColors.white,
                               fontSize: 48, // Increased font size
@@ -109,31 +109,67 @@ class GameplayHeader extends StatelessWidget {
                 ),
               ),
 
-              // Stars (Right)
+              // Stars or Coins (Right)
               Positioned(
                 right: 20,
-                top: 65, // Lowered position
-                child: ValueListenableBuilder<int>(
-                  valueListenable: game.currentPoints,
-                  builder: (context, stars, child) {
-                    return Row(
-                      children: List.generate(3, (index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(left: 6),
-                          child: AnimatedGameStatSlot(
-                            isActive: (2 - index) < stars,
-                            filledPainter: StarFilledPainter(),
-                            emptyPainter: EmptyStarPainter(),
-                            shadowOffset: const Offset(
-                              3,
-                              3,
-                            ), // Star shadow offset
-                          ),
-                        );
-                      }),
-                    );
-                  },
-                ),
+                top: game.isInfinityMode ? 45 : 65,
+                child: game.isInfinityMode
+                    ? ValueListenableBuilder<int>(
+                        valueListenable: game.collectedCoins,
+                        builder: (context, coins, child) {
+                          return Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                '$coins',
+                                style: GoogleFonts.luckiestGuy(
+                                  color: GameColors.amber300,
+                                  fontSize: 36,
+                                  shadows: const [
+                                    Shadow(
+                                      color: GameColors.brownDarkUi,
+                                      offset: Offset(0, 3),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              const Icon(
+                                Icons.monetization_on_rounded,
+                                color: GameColors.amber400,
+                                size: 36,
+                                shadows: [
+                                  Shadow(
+                                    color: GameColors.brownDarkUi,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          );
+                        },
+                      )
+                    : ValueListenableBuilder<int>(
+                        valueListenable: game.currentPoints,
+                        builder: (context, stars, child) {
+                          return Row(
+                            children: List.generate(3, (index) {
+                              return Padding(
+                                padding: const EdgeInsets.only(left: 6),
+                                child: AnimatedGameStatSlot(
+                                  isActive: (2 - index) < stars,
+                                  filledPainter: StarFilledPainter(),
+                                  emptyPainter: EmptyStarPainter(),
+                                  shadowOffset: const Offset(
+                                    3,
+                                    3,
+                                  ), // Star shadow offset
+                                ),
+                              );
+                            }),
+                          );
+                        },
+                      ),
               ),
 
               // LEAVE (Top Left)

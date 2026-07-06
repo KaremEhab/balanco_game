@@ -53,7 +53,7 @@ class BiomeBackgroundTransition extends StatelessWidget {
               ),
             ),
           ),
-          const IgnorePointer(child: CelestialCycleLayer()),
+          // Sun/Moon removed by user request
           IgnorePointer(
             child: CustomPaint(
               size: const Size(1000, 475),

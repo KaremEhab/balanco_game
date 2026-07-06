@@ -663,11 +663,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 context.read<AppBloc>().state.gameMode !=
                                     'infinityBalance' &&
                                 level > highestLevel,
-                            biome:
-                                context.read<AppBloc>().state.gameMode ==
-                                    'infinityBalance'
-                                ? BiomeConfig.getInfinityBiomeForLevel(level)
-                                : BiomeConfig.getBiomeForLevel(level),
+                            biome: BiomeConfig.getBiomeForLevel(level),
                           ),
                         ),
                       ),
@@ -812,8 +808,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     // Level Holes
                     ...List.generate(totalLevels, (index) {
                       final int level = index + 1;
-                      final bool isUnlocked =
-                          isInfinityMode || level <= highestLevel;
+                      final bool isUnlocked = level <= highestLevel;
                       final Offset pos = _nodePositions[index];
 
                       // Control the size of the levels here!
@@ -832,9 +827,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             lockedSize: lockedHoleSize,
                             unlockedSize: unlockedHoleSize,
                             pos: pos,
-                            biome: isInfinityMode
-                                ? BiomeConfig.getInfinityBiomeForLevel(level)
-                                : BiomeConfig.getBiomeForLevel(level),
+                            biome: BiomeConfig.getBiomeForLevel(level),
                             teethClosure: _animatingLevel == level
                                 ? _teethClosureAnimation.value
                                 : 0.0,
@@ -880,9 +873,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               animation: _biomeTransitionController,
               builder: (context, child) {
                 final screenHeight = MediaQuery.of(context).size.height;
-                final currentBiome = isInfinityMode
-                    ? BiomeConfig.getInfinityBiomeForLevel(_displayedLevel)
-                    : BiomeConfig.getBiomeForLevel(_displayedLevel);
+                final currentBiome = BiomeConfig.getBiomeForLevel(_displayedLevel);
                 final bool isTransitioning =
                     _isBiomeTransitioning &&
                     _previousBiome != null &&

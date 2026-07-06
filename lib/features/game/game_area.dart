@@ -23,6 +23,8 @@ import 'package:balanco_game/features/game/components/confetti_component.dart';
 import 'package:balanco_game/features/game/components/heart_component.dart';
 import 'package:balanco_game/features/game/components/items/multi_ball_item.dart';
 import 'package:balanco_game/features/game/components/magnet_component.dart';
+import 'package:balanco_game/features/game/components/coin_component.dart';
+import 'package:balanco_game/features/game/components/floating_text_component.dart';
 
 import 'package:balanco_game/features/game/models/ball_data.dart';
 import 'package:balanco_game/features/game/models/level_data.dart';
@@ -56,12 +58,16 @@ class BalancoGame extends FlameGame with KeyboardEvents {
 
   final ValueNotifier<int> currentLevel = ValueNotifier<int>(1);
   BiomeModel get currentBiome => isInfinityMode
-      ? BiomeConfig.getInfinityBiomeForLevel(currentLevel.value)
+      ? BiomeConfig.getDynamicScoreBiome(currentScore.value)
       : BiomeConfig.getBiomeForLevel(currentLevel.value);
   final ValueNotifier<int> currentPoints = ValueNotifier<int>(0);
   final ValueNotifier<int> currentScore = ValueNotifier<int>(0);
+  final ValueNotifier<int> collectedCoins = ValueNotifier<int>(0);
   final ValueNotifier<int> currentLives = ValueNotifier<int>(3);
   final ValueNotifier<int> earnedLevelPoints = ValueNotifier<int>(0);
+  int infinityHighScore = 0;
+  int lastInfinityScore = 0;
+  int lastInfinityCoins = 0;
 
   static const int regularHolePoints = 3;
   static const int suckingHolePoints = 10;
@@ -97,6 +103,10 @@ class BalancoGame extends FlameGame with KeyboardEvents {
   double timeStopTimer = 0.0;
   final ValueNotifier<double> timeStopNotifier = ValueNotifier<double>(0.0);
 
+  // Countdown
+  double countdownTimer = 0.0;
+  final ValueNotifier<int> countdownNotifier = ValueNotifier<int>(0);
+
   bool isBoardHidden = false;
   final ValueNotifier<bool> showVictoryOverlay = ValueNotifier<bool>(false);
   final ValueNotifier<bool> showGameOverOverlay = ValueNotifier<bool>(false);
@@ -111,6 +121,9 @@ class BalancoGame extends FlameGame with KeyboardEvents {
   double initialLeftY = 0.0;
   double initialRightY = 0.0;
 
+  double nextSpawnY = 0.0;
+  final Random _random = Random();
+
   final double barPadding = 20.0;
   final double ballRadius = 14.0;
 
@@ -123,6 +136,7 @@ class BalancoGame extends FlameGame with KeyboardEvents {
   final List<TeleporterComponent> teleporters = [];
   List<MultiBallItem> multiBallItems = [];
   List<MagnetComponent> magnets = [];
+  List<CoinComponent> coins = [];
   TeleporterComponent? activeExitTeleporter;
   TeleportingGateComponent teleportingGateComponent = TeleportingGateComponent()
     ..priority = 0;
@@ -132,7 +146,9 @@ class BalancoGame extends FlameGame with KeyboardEvents {
   final ValueNotifier<double> cameraOffsetYNotifier = ValueNotifier<double>(
     0.0,
   );
-  double get levelHeight => size.y * (currentLevel.value >= 10 ? 3.0 : 1.0);
+  double get levelHeight => isInfinityMode
+      ? 999999.0
+      : size.y * (currentLevel.value >= 10 ? 3.0 : 1.0);
 
   BalancoGame({
     required this.isMultiplayer,
@@ -155,6 +171,12 @@ class BalancoGame extends FlameGame with KeyboardEvents {
     isSpawningLevel = true;
     currentPoints.value = 0;
     earnedLevelPoints.value = 0;
+    if (isInfinityMode) {
+      currentScore.value = 0;
+      collectedCoins.value = 0;
+      lastInfinityScore = 0;
+      lastInfinityCoins = 0;
+    }
     currentLives.value = 3;
     showGameOverOverlay.value = false;
 
@@ -301,6 +323,19 @@ class BalancoGame extends FlameGame with KeyboardEvents {
     }
 
     if (loseLife) {
+      if (isInfinityMode) {
+        currentScore.value -= 20;
+        if (currentScore.value < 0) currentScore.value = 0;
+        // Float text
+        final centerPos = Vector2(size.x / 2.0, (leftY + rightY) / 2.0 - 50);
+        parent?.add(
+          FloatingTextComponent(
+            text: '-20',
+            position: centerPos,
+            color: GameColors.red300,
+          ),
+        );
+      }
       currentLives.value--;
       if (currentLives.value <= 0) {
         HapticFeedback.vibrate();
@@ -309,6 +344,7 @@ class BalancoGame extends FlameGame with KeyboardEvents {
         } catch (_) {}
         pauseEngine();
         showGameOverOverlay.value = true;
+        _saveInfinityScoreAndCoins();
         return; // Don't reset position yet
       }
     }
@@ -327,7 +363,37 @@ class BalancoGame extends FlameGame with KeyboardEvents {
     double currentSizeX = size.x > 0 ? size.x : 400.0;
     mainBall.p = (currentSizeX - 2 * barPadding) / 2.0;
 
-    if (isSpawningLevel) {
+    if (isInfinityMode) {
+      // In infinity mode: instantly spawn ball on the bar
+      double barCenterY = (leftY + rightY) / 2.0;
+      mainBall.pos2D = Vector2(
+        currentSizeX / 2.0,
+        barCenterY - (ballRadius + 6.0),
+      );
+      for (final hole in holes) {
+        if (!hole.isSuckingHole || hole.parent == null) continue;
+        if (mainBall.pos2D.distanceTo(hole.position) < hole.suckRadius) {
+          final lift = hole.suckRadius + ballRadius + 10.0;
+          leftY -= lift;
+          rightY -= lift;
+          barCenterY = (leftY + rightY) / 2.0;
+          mainBall.pos2D = Vector2(
+            currentSizeX / 2.0,
+            barCenterY - (ballRadius + 6.0),
+          );
+        }
+      }
+      mainBall.scale = 1.0;
+      mainBall.isFreeFalling = false;
+      mainBall.velocity = 0.0;
+      mainBall.freeFallVelocity.setZero();
+      shieldTimer = 2.0;
+      shieldTimerNotifier.value = 2.0;
+      isSpawningLevel = false;
+      isLevelTimerActive = true;
+      teleportingGateComponent.scale = Vector2.zero(); // hide the gate
+      countdownTimer = 3.99; // 3 seconds countdown + "GO"
+    } else if (isSpawningLevel) {
       teleportingGateComponent.startClosed();
       mainBall.pos2D = teleportingGateComponent.position.clone();
       mainBall.scale = 0.0;
@@ -337,11 +403,13 @@ class BalancoGame extends FlameGame with KeyboardEvents {
     } else if (respawnFromHole && prevHole != null) {
       mainBall.activeHole = prevHole;
       mainBall.isRespawningFromHole = true;
-      isLevelTimerActive = false; // Pause the timer during respawn
+      isLevelTimerActive = false;
       mainBall.respawnTimer = 1.6;
       mainBall.pos2D = mainBall.activeHole!.position.clone();
       mainBall.scale = 0.0;
       mainBall.p = (currentSizeX - 2 * barPadding) / 2.0;
+      shieldTimer = 1.5;
+      shieldTimerNotifier.value = 1.5;
     } else {
       mainBall.isRespawningFromEdge = true;
       isLevelTimerActive = false;
@@ -387,6 +455,10 @@ class BalancoGame extends FlameGame with KeyboardEvents {
         'light_switch_on.wav',
       ]);
     } catch (_) {}
+
+    if (isInfinityMode) {
+      await _loadInfinityHighScore();
+    }
 
     barComponent = BarComponent()..priority = 10;
 
@@ -462,12 +534,36 @@ class BalancoGame extends FlameGame with KeyboardEvents {
       if (mag.parent != null) mag.removeFromParent();
     }
     magnets.clear();
+    for (final coin in coins) {
+      if (coin.parent != null) coin.removeFromParent();
+    }
+    coins.clear();
 
     // Offload level generation to an Isolate
+    LevelData data;
     final int levelToGenerate = currentLevel.value;
-    final LevelData data = await Isolate.run(
-      () => generateLevelData(levelToGenerate),
-    );
+
+    if (isInfinityMode) {
+      data = LevelData(
+        holes: [],
+        teleporters: [],
+        bumpers: [],
+        stars: [],
+        hearts: [],
+        multiBalls: [],
+        magnets: [],
+      );
+      // Start spawning just above the bar
+      nextSpawnY = (size.y > 0 ? size.y : 800.0) - 250.0;
+      // Pre-spawn a wave of obstacles immediately
+      for (int i = 0; i < 8; i++) {
+        _spawnInfinityObstacle(nextSpawnY);
+        nextSpawnY -= 180.0 + _random.nextDouble() * 120.0;
+      }
+      isSpawningLevel = false;
+    } else {
+      data = await Isolate.run(() => generateLevelData(levelToGenerate));
+    }
 
     pendingSpawns.clear();
     targetPositions.clear();
@@ -660,21 +756,38 @@ class BalancoGame extends FlameGame with KeyboardEvents {
       if (magnetTimerNotifier.value != 0.0) magnetTimerNotifier.value = 0.0;
     }
 
+    if (countdownTimer > 0) {
+      countdownTimer -= dt;
+      if (countdownTimer < 0) countdownTimer = 0.0;
+      countdownNotifier.value = countdownTimer.ceil();
+      // Lock the camera to the bar while counting down
+      double targetCameraY = ((leftY + rightY) / 2) - size.y + 150.0;
+      cameraOffsetY += (targetCameraY - cameraOffsetY) * dt * 5.0;
+      levelContainer.position.y = -cameraOffsetY;
+      cameraOffsetYNotifier.value = cameraOffsetY;
+      return; // Skip updating ball physics and scrolling during countdown
+    } else if (countdownNotifier.value != 0) {
+      countdownNotifier.value = 0;
+    }
+
     double maxY = levelHeight - 70.0;
     double minY = 10.0;
 
     if (barResetTimer > 0) {
       barResetTimer -= dt;
+      double targetY = isInfinityMode
+          ? (initialLeftY + initialRightY) / 2.0
+          : maxY;
       if (barResetTimer <= 0) {
         barResetTimer = 0.0;
-        leftY = maxY;
-        rightY = maxY;
+        leftY = targetY;
+        rightY = targetY;
       } else {
         double duration = 0.8;
         double p = 1.0 - (barResetTimer / duration).clamp(0.0, 1.0);
         double curved = Curves.easeInOut.transform(p);
-        leftY = initialLeftY + (maxY - initialLeftY) * curved;
-        rightY = initialRightY + (maxY - initialRightY) * curved;
+        leftY = initialLeftY + (targetY - initialLeftY) * curved;
+        rightY = initialRightY + (targetY - initialRightY) * curved;
       }
     } else {
       bool anyBallOnBar = activeBalls.any(
@@ -696,7 +809,6 @@ class BalancoGame extends FlameGame with KeyboardEvents {
       );
 
       if (anyBallOnBar || anyPortalCatchWindow) {
-        // Base speed balanced so default (1.0) is not too high and not too low
         final double baseSpeed = timeStopNotifier.value > 0
             ? 150.0 * AppSettings.joystickSensitivity.value
             : 250.0 * AppSettings.joystickSensitivity.value;
@@ -704,13 +816,32 @@ class BalancoGame extends FlameGame with KeyboardEvents {
             baseSpeed * (!anyBallOnBar && anyPortalCatchWindow ? 0.60 : 1.0);
         double maxDiff = 120.0;
 
-        double newLeftY = leftY + leftJoystickValue * speed * dt;
-        newLeftY = newLeftY.clamp(rightY - maxDiff, rightY + maxDiff);
-        newLeftY = newLeftY.clamp(minY, maxY);
+        double infinityAutoScrollSpeed = 0.0;
+        if (isInfinityMode && anyBallOnBar) {
+          // Increase speed slightly based on score
+          infinityAutoScrollSpeed = -150.0 - (currentScore.value * 0.1);
+          if (infinityAutoScrollSpeed < -400.0)
+            infinityAutoScrollSpeed = -400.0;
+        }
 
-        double newRightY = rightY + rightJoystickValue * speed * dt;
+        double leftInput = leftJoystickValue;
+        double rightInput = rightJoystickValue;
+
+        if (isInfinityMode) {
+          double avg = (leftInput + rightInput) / 2.0;
+          leftInput -= avg;
+          rightInput -= avg;
+        }
+
+        double newLeftY =
+            leftY + (leftInput * speed + infinityAutoScrollSpeed) * dt;
+        newLeftY = newLeftY.clamp(rightY - maxDiff, rightY + maxDiff);
+        if (!isInfinityMode) newLeftY = newLeftY.clamp(minY, maxY);
+
+        double newRightY =
+            rightY + (rightInput * speed + infinityAutoScrollSpeed) * dt;
         newRightY = newRightY.clamp(leftY - maxDiff, leftY + maxDiff);
-        newRightY = newRightY.clamp(minY, maxY);
+        if (!isInfinityMode) newRightY = newRightY.clamp(minY, maxY);
 
         leftY = newLeftY;
         rightY = newRightY;
@@ -787,6 +918,9 @@ class BalancoGame extends FlameGame with KeyboardEvents {
       _checkBallToBallCollisions(direction);
 
       // Clean up dead balls
+      final deadBalls = activeBalls.where((b) => b.isDead).toList();
+      final shouldSpendLife =
+          !isInfinityMode || deadBalls.any((b) => b.spendsLifeOnDeath);
       activeBalls.removeWhere((b) => b.isDead);
       for (var bc in activeBallComponents.toList()) {
         if (!activeBalls.contains(bc.ballData)) {
@@ -797,11 +931,15 @@ class BalancoGame extends FlameGame with KeyboardEvents {
 
       if (activeBalls.isEmpty) {
         _resetPositions(
-          loseLife: true,
+          loseLife: shouldSpendLife,
           respawnFromHole: prevHole != null,
           prevHole: prevHole,
         );
       }
+    }
+
+    if (isInfinityMode) {
+      _updateInfinityMode(dt);
     }
 
     // --- Camera Logic ---
@@ -811,16 +949,21 @@ class BalancoGame extends FlameGame with KeyboardEvents {
         double mainBallY = activeBalls.isNotEmpty
             ? activeBalls.first.pos2D.y
             : size.y / 2;
-        targetCameraY = (mainBallY - size.y / 2).clamp(
-          0.0,
-          max(0.0, levelHeight - size.y),
-        );
+        targetCameraY = (mainBallY - size.y / 2);
+        if (!isInfinityMode) {
+          targetCameraY = targetCameraY.clamp(
+            0.0,
+            max(0.0, levelHeight - size.y),
+          );
+        }
       } else {
         targetCameraY = ((leftY + rightY) / 2) - size.y + 150.0;
-        targetCameraY = targetCameraY.clamp(
-          0.0,
-          max(0.0, levelHeight - size.y),
-        );
+        if (!isInfinityMode) {
+          targetCameraY = targetCameraY.clamp(
+            0.0,
+            max(0.0, levelHeight - size.y),
+          );
+        }
       }
       cameraOffsetY += (targetCameraY - cameraOffsetY) * dt * 5.0;
       levelContainer.position.y = -cameraOffsetY;
@@ -916,6 +1059,7 @@ class BalancoGame extends FlameGame with KeyboardEvents {
     if (!ball.isFreeFalling &&
         !ball.isFalling &&
         !isSpawningLevel &&
+        !isInfinityMode && // No gate sucking in infinity mode
         !ball.isRespawningFromHole &&
         !ball.isRespawningFromEdge &&
         !isLevelCompleteOverlayShown) {
@@ -1354,6 +1498,32 @@ class BalancoGame extends FlameGame with KeyboardEvents {
             }
           }
         }
+
+        // Check coin collisions & magnet logic
+        for (final coin in coins) {
+          if (!coin.isCollected) {
+            Vector2 coinPos = coin.position.clone();
+
+            if (magnetTimer > 0) {
+              double pullSpeed = 400.0;
+              Vector2 dir = (ball.pos2D - coinPos);
+              double dist = dir.length;
+              if (dist < 150.0 && dist > 5.0) {
+                dir.normalize();
+                coinPos += dir * pullSpeed * dt;
+                coin.position = coinPos;
+              }
+            }
+
+            if (ball.pos2D.distanceTo(coinPos) < ballRadius + coin.radius) {
+              coin.collect();
+              HapticFeedback.lightImpact();
+              try {
+                AppSettings.playSound('star.wav'); // Reuse star sound
+              } catch (_) {}
+            }
+          }
+        }
       }
     } else {
       ball.fallRotation += dt * 10.0;
@@ -1486,6 +1656,287 @@ class BalancoGame extends FlameGame with KeyboardEvents {
           AppSettings.playSound('light_switch_on.wav');
         } catch (_) {}
       }
+    }
+  }
+
+  void _updateInfinityMode(double dt) {
+    if (dt <= 0) return;
+
+    final int newScore = (cameraOffsetY / 40.0).floor();
+    if (newScore > currentScore.value) {
+      currentScore.value = newScore;
+    }
+
+    if (activeBalls.isEmpty) return;
+
+    final double barMid = (leftY + rightY) / 2.0;
+    final double barTop = barMid - 800.0;
+    while (nextSpawnY > barTop) {
+      _spawnInfinityObstacle(nextSpawnY);
+      nextSpawnY -= 150.0 + _random.nextDouble() * 130.0;
+    }
+
+    for (final hole in holes) {
+      if (!hole.isPassed && hole.position.y > barMid) {
+        hole.isPassed = true;
+        currentScore.value += 10;
+        parent?.add(
+          FloatingTextComponent(
+            text: '+10',
+            position: hole.position.clone(),
+            color: GameColors.lightBlue,
+          ),
+        );
+      }
+    }
+
+    for (final bumper in bumpers) {
+      if (!bumper.isPassed && bumper.position.y > barMid) {
+        bumper.isPassed = true;
+        currentScore.value += 10;
+        parent?.add(
+          FloatingTextComponent(
+            text: '+10',
+            position: bumper.position.clone(),
+            color: GameColors.lightBlue,
+          ),
+        );
+      }
+    }
+
+    _cullInfinityObstacles(barMid + 600.0);
+  }
+
+  /// Spawns a random obstacle/collector at position [y] in level-space.
+  /// Uses all available obstacle types for maximum variety.
+  void _spawnInfinityObstacle(double y) {
+    final double sizeX = size.x > 0 ? size.x : 400.0;
+    final double usableWidth = sizeX - barPadding * 2;
+
+    // Helper to get a random x position
+    double rx() => barPadding + _random.nextDouble() * usableWidth;
+
+    final double roll = _random.nextDouble();
+
+    if (roll < 0.10) {
+      // Coin cluster: 2-4 coins in an arc.
+      final int n = 2 + _random.nextInt(3);
+      final double cx = rx();
+      for (int i = 0; i < n; i++) {
+        final dx = (i - n / 2.0) * 45.0;
+        final dy = -(dx * dx) * 0.04; // parabolic arc
+        final coin = CoinComponent(position: Vector2(cx + dx, y + dy))
+          ..priority = 5;
+        coins.add(coin);
+        levelContainer.add(coin);
+      }
+    } else if (roll < 0.16) {
+      // Heart: rare extra life.
+      // In infinity mode position is absolute; HeartComponent.update() won't recalculate
+      final double absX = rx();
+      final heart = HeartComponent(Vector2(absX, y))
+        ..position = Vector2(absX, y)
+        ..priority = 5;
+      hearts.add(heart);
+      levelContainer.add(heart);
+    } else if (roll < 0.22) {
+      // Magnet power-up: rare.
+      final double absX = rx();
+      final mag = MagnetComponent(Vector2(absX, y))
+        ..position = Vector2(absX, y)
+        ..priority = 5;
+      magnets.add(mag);
+      levelContainer.add(mag);
+    } else if (roll < 0.30) {
+      final double absX = rx();
+      final mb =
+          MultiBallItem(Vector2(absX, y), ballCount: 1 + _random.nextInt(3))
+            ..position = Vector2(absX, y)
+            ..priority = 5;
+      multiBallItems.add(mb);
+      levelContainer.add(mb);
+    } else if (roll < 0.44) {
+      // Bumper.
+      final double r = 16 + _random.nextDouble() * 12;
+      final double absX = rx();
+      final bumper = BumperComponent(Vector2(absX, y), r)
+        ..position = Vector2(absX, y)
+        ..priority = 2;
+      bumpers.add(bumper);
+      levelContainer.add(bumper);
+    } else if (roll < 0.60) {
+      // Regular hole.
+      final double sz = 36 + _random.nextDouble() * 18;
+      final double absX = rx();
+      final hole =
+          HoleComponent(Vector2(absX, y), sz, _random.nextDouble() * pi)
+            ..position = Vector2(absX, y)
+            ..priority = 1;
+      holes.add(hole);
+      levelContainer.add(hole);
+    } else if (roll < 0.72) {
+      // Moving hole.
+      final double sz = 36 + _random.nextDouble() * 14;
+      final double moveRange = 60 + _random.nextDouble() * 100;
+      final double moveSpeed = 55 + _random.nextDouble() * 60;
+      final double absX = rx();
+      final hole =
+          HoleComponent(
+              Vector2(absX, y),
+              sz,
+              _random.nextDouble() * pi,
+              isMovingHole: true,
+              moveRange: moveRange,
+              moveSpeed: moveSpeed,
+            )
+            ..position = Vector2(absX, y)
+            ..priority = 1;
+      holes.add(hole);
+      levelContainer.add(hole);
+    } else if (roll < 0.82) {
+      // Sucking hole.
+      final double sz = 42 + _random.nextDouble() * 16;
+      final double absX = rx();
+      final hole =
+          HoleComponent(
+              Vector2(absX, y),
+              sz,
+              _random.nextDouble() * pi,
+              isSuckingHole: true,
+              suckRadius: 90 + _random.nextDouble() * 40,
+            )
+            ..position = Vector2(absX, y)
+            ..priority = 1;
+      holes.add(hole);
+      levelContainer.add(hole);
+    } else if (roll < 0.91) {
+      // Bumper gauntlet: 2-3 bumpers in a row.
+      final int n = 2 + _random.nextInt(2);
+      final double startX =
+          barPadding + _random.nextDouble() * (usableWidth * 0.3);
+      final double spacing = usableWidth / (n + 1);
+      for (int i = 0; i < n; i++) {
+        final double r = 14 + _random.nextDouble() * 10;
+        final double bx = startX + spacing * (i + 1);
+        final bumper = BumperComponent(Vector2(bx, y), r)
+          ..position = Vector2(bx, y)
+          ..priority = 2;
+        bumpers.add(bumper);
+        levelContainer.add(bumper);
+      }
+    } else {
+      // Coin trail: 5-8 coins in a straight line.
+      final int n = 5 + _random.nextInt(4);
+      final double startX =
+          barPadding + _random.nextDouble() * (usableWidth * 0.2);
+      final double step = usableWidth * 0.75 / n;
+      for (int i = 0; i < n; i++) {
+        final coin = CoinComponent(
+          position: Vector2(startX + step * i, y - i * 12.0),
+        )..priority = 5;
+        coins.add(coin);
+        levelContainer.add(coin);
+      }
+    }
+  }
+
+  void _cullInfinityObstacles(double cullY) {
+    // Holes reward points for each hole successfully passed.
+    holes.removeWhere((hole) {
+      if (hole.position.y > cullY) {
+        hole.removeFromParent();
+        return true;
+      }
+      return false;
+    });
+
+    // Bumpers
+    bumpers.removeWhere((bumper) {
+      if (bumper.position.y > cullY) {
+        bumper.removeFromParent();
+        return true;
+      }
+      return false;
+    });
+
+    // Coins
+    coins.removeWhere((coin) {
+      if (coin.position.y > cullY) {
+        coin.removeFromParent();
+        return true;
+      }
+      return false;
+    });
+
+    // Hearts
+    hearts.removeWhere((heart) {
+      if (heart.position.y > cullY) {
+        heart.removeFromParent();
+        return true;
+      }
+      return false;
+    });
+
+    multiBallItems.removeWhere((mb) {
+      if (mb.position.y > cullY) {
+        mb.removeFromParent();
+        return true;
+      }
+      return false;
+    });
+
+    // Magnets
+    magnets.removeWhere((mag) {
+      if (mag.position.y > cullY) {
+        mag.removeFromParent();
+        return true;
+      }
+      return false;
+    });
+  }
+
+  Future<void> _loadInfinityHighScore() async {
+    try {
+      final highScoreStr = await DatabaseHelper.instance.getConfig(
+        'infinity_high_score',
+      );
+      infinityHighScore = highScoreStr != null ? int.parse(highScoreStr) : 0;
+    } catch (_) {}
+  }
+
+  Future<void> _saveInfinityScoreAndCoins() async {
+    if (!isInfinityMode) return;
+    final int finalScore = currentScore.value;
+    final int finalCoins = collectedCoins.value;
+    lastInfinityScore = finalScore;
+    lastInfinityCoins = finalCoins;
+    if (finalScore > infinityHighScore) {
+      infinityHighScore = finalScore;
+    }
+
+    try {
+      final profile = await DatabaseHelper.instance.getPlayerProfile();
+      final newCoins = profile.coins + finalCoins;
+      await DatabaseHelper.instance.updatePlayerProfile(
+        profile.copyWith(coins: newCoins),
+      );
+
+      final highScoreStr = await DatabaseHelper.instance.getConfig(
+        'infinity_high_score',
+      );
+      infinityHighScore = highScoreStr != null ? int.parse(highScoreStr) : 0;
+      if (finalScore > infinityHighScore) {
+        infinityHighScore = finalScore;
+        await DatabaseHelper.instance.saveConfig(
+          'infinity_high_score',
+          infinityHighScore.toString(),
+        );
+      }
+    } catch (e) {
+      print("DEBUG: Failed to save coins or high score: $e");
+    } finally {
+      currentScore.value = 0;
+      collectedCoins.value = 0;
     }
   }
 }

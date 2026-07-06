@@ -121,23 +121,6 @@ class PyramidSkyPainter extends CustomPainter {
           const Color(0xFFFFE1C8),
         ).withValues(alpha: 0.48),
     );
-
-    final Rect sunRect = Rect.fromCircle(
-      center: Offset(size.width * 0.80, size.height * 0.18),
-      radius: size.width * 0.20,
-    );
-    canvas.drawCircle(
-      Offset(size.width * 0.80, size.height * 0.18),
-      size.width * 0.20,
-      Paint()
-        ..shader = RadialGradient(
-          colors: [
-            const Color(0xFFFFF4C7).withValues(alpha: 0.26),
-            const Color(0xFFFFB67E).withValues(alpha: 0.10),
-            Colors.transparent,
-          ],
-        ).createShader(sunRect),
-    );
   }
 
   @override

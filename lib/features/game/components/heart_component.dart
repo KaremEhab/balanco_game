@@ -46,6 +46,7 @@ class HeartComponent extends PositionComponent
     super.update(dt);
 
     if (!game.isSpawningLevel &&
+        !game.isInfinityMode && // In infinity mode, position is set absolutely
         game.size.x > 0 &&
         game.size.y > 0 &&
         !isCollected) {

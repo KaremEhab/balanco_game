@@ -10,6 +10,7 @@ class HoleComponent extends PositionComponent
   Vector2 fractionalPosition;
   double _rotation = 0.0;
   double _pulseTime = 0.0;
+  bool isPassed = false;
 
   final bool isSuckingHole;
   final double suckRadius;
@@ -181,6 +182,20 @@ class HoleComponent extends PositionComponent
   @override
   void update(double dt) {
     super.update(dt);
+
+    if (game.isInfinityMode) {
+      // In infinity mode: fractionalPosition stores the ABSOLUTE pixel center
+      // Moving holes oscillate around their spawn x
+      if (isMovingHole && !game.isSpawningLevel) {
+        _timeAccumulator += dt;
+        position.x = _originalFractionalX +
+            sin(_timeAccumulator * moveSpeed * 0.02) * moveRange;
+      } else {
+        position.x = fractionalPosition.x;
+      }
+      // position.y is already set at spawn and stays fixed
+      return;
+    }
 
     if (isMovingHole && !game.isSpawningLevel) {
       _timeAccumulator += dt;
