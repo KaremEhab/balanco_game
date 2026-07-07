@@ -330,7 +330,7 @@ class BalancoGame extends FlameGame with KeyboardEvents {
         if (currentScore.value < 0) currentScore.value = 0;
         // Float text
         final centerPos = Vector2(size.x / 2.0, (leftY + rightY) / 2.0 - 50);
-        parent?.add(
+        levelContainer.add(
           FloatingTextComponent(
             text: '-20',
             position: centerPos,
@@ -581,7 +581,6 @@ class BalancoGame extends FlameGame with KeyboardEvents {
         hData.size,
         hData.rotation,
         isSuckingHole: hData.isSuckingHole,
-        suckRadius: hData.suckRadius,
         isMovingHole: hData.isMovingHole,
         moveRange: hData.moveRange,
         moveSpeed: hData.moveSpeed,
@@ -1698,7 +1697,7 @@ class BalancoGame extends FlameGame with KeyboardEvents {
       if (!hole.isPassed && hole.position.y > barMid) {
         hole.isPassed = true;
         currentScore.value += 10;
-        parent?.add(
+        levelContainer.add(
           FloatingTextComponent(
             text: '+10',
             position: hole.position.clone(),
@@ -1712,7 +1711,7 @@ class BalancoGame extends FlameGame with KeyboardEvents {
       if (!bumper.isPassed && bumper.position.y > barMid) {
         bumper.isPassed = true;
         currentScore.value += 10;
-        parent?.add(
+        levelContainer.add(
           FloatingTextComponent(
             text: '+10',
             position: bumper.position.clone(),
@@ -1821,7 +1820,6 @@ class BalancoGame extends FlameGame with KeyboardEvents {
               sz,
               _random.nextDouble() * pi,
               isSuckingHole: true,
-              suckRadius: 90 + _random.nextDouble() * 40,
             )
             ..position = Vector2(absX, y)
             ..priority = 1;

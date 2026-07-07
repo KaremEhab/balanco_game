@@ -13,7 +13,7 @@ class HoleComponent extends PositionComponent
   bool isPassed = false;
 
   final bool isSuckingHole;
-  final double suckRadius;
+  double get suckRadius => size.x * 2.0;
   final bool isMovingHole;
   final double moveRange;
   final double moveSpeed;
@@ -48,7 +48,6 @@ class HoleComponent extends PositionComponent
     double holeSize,
     double rotation, {
     this.isSuckingHole = false,
-    this.suckRadius = 0.0,
     this.isMovingHole = false,
     this.moveRange = 0.0,
     this.moveSpeed = 0.0,
