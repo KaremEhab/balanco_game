@@ -85,7 +85,7 @@ LevelData generateLevelData(int currentLevel) {
       int attempts = 0;
       double x = 0;
       double y = 0;
-      double hSize = 35.0 + random.nextDouble() * 25.0; // 35 to 60 px
+      double hSize = 45.0 + random.nextDouble() * 25.0; // 45 to 70 px
 
       while (attempts < 50) {
         y = random.nextDouble();
@@ -183,7 +183,7 @@ LevelData generateLevelData(int currentLevel) {
   // ---------------------------------------------------------
   // 4. Generate Stars
   // ---------------------------------------------------------
-  int numStars = currentLevel >= 10 ? 9 : 3;
+  int numStars = 3;
   for (int i = 0; i < numStars; i++) {
     int attempts = 0;
     double x = 0, y = 0;

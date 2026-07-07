@@ -3,6 +3,7 @@ import 'package:flame/components.dart';
 import 'package:balanco_game/features/game/game_area.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
 import 'package:balanco_game/features/game/components/floating_text_component.dart';
+import 'package:balanco_game/features/game/components/game_area/collected_star_painter.dart';
 
 class CoinComponent extends PositionComponent
     with HasGameReference<BalancoGame> {
@@ -12,10 +13,13 @@ class CoinComponent extends PositionComponent
   double _time = 0.0;
   double _scale = 1.0;
 
+  late final CollectedStarPainter _painter;
+
   CoinComponent({required Vector2 position}) {
     this.position = position;
     size = Vector2(radius * 2, radius * 2);
     anchor = Anchor.center;
+    _painter = CollectedStarPainter();
   }
 
   @override
@@ -42,30 +46,12 @@ class CoinComponent extends PositionComponent
     canvas.translate(radius, radius);
     canvas.scale(_scale, _scale);
 
-    // Outer gold ring
-    final paintOuter = Paint()..color = GameColors.amber800;
-    canvas.drawCircle(Offset.zero, radius, paintOuter);
-
-    // Inner face
-    final paintInner = Paint()..color = GameColors.amber400;
-    canvas.drawCircle(Offset.zero, radius * 0.78, paintInner);
-
-    // Subtle inner gradient ring
-    final paintMid = Paint()..color = const Color(0xFFFFE066);
-    canvas.drawCircle(Offset.zero, radius * 0.58, paintMid);
-
-    // Coin shine highlight
-    final paintShine = Paint()
-      ..color = GameColors.white.withValues(alpha: 0.55)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 3;
-    canvas.drawArc(
-      Rect.fromCircle(center: Offset.zero, radius: radius * 0.48),
-      -1.4,
-      1.2,
-      false,
-      paintShine,
-    );
+    // Use the star painter instead of coin design
+    canvas.save();
+    canvas.scale(size.x / 48.0, size.y / 48.0);
+    canvas.translate(-24.0, -24.0); // Shift so the center of 48x48 box sits at (0,0)
+    _painter.paint(canvas, const Size(48, 48));
+    canvas.restore();
 
     canvas.restore();
   }
@@ -79,7 +65,7 @@ class CoinComponent extends PositionComponent
     // Spawn floating text
     parent?.add(
       FloatingTextComponent(
-        text: '+1🪙',
+        text: '+1⭐',
         position: position.clone(),
         color: GameColors.amber400,
       ),

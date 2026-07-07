@@ -122,7 +122,7 @@ class BalancoGame extends FlameGame with KeyboardEvents {
   double initialRightY = 0.0;
 
   double nextSpawnY = 0.0;
-  int nextInfinityCoinBreakScore = 100;
+  double nextInfinityChunkBoundaryY = 0.0;
   final Random _random = Random();
 
   final double barPadding = 20.0;
@@ -177,7 +177,7 @@ class BalancoGame extends FlameGame with KeyboardEvents {
       collectedCoins.value = 0;
       lastInfinityScore = 0;
       lastInfinityCoins = 0;
-      nextInfinityCoinBreakScore = 100;
+      nextInfinityChunkBoundaryY = 0.0;
     }
     currentLives.value = 3;
     showGameOverOverlay.value = false;
@@ -560,10 +560,11 @@ class BalancoGame extends FlameGame with KeyboardEvents {
       nextSpawnY = (size.y > 0 ? size.y : 800.0) - 250.0;
       // Pre-spawn a wave of obstacles immediately
       for (int i = 0; i < 8; i++) {
-        _spawnInfinityObstacle(nextSpawnY);
-        nextSpawnY -= 180.0 + _random.nextDouble() * 120.0;
+        _spawnInfinityObstaclePattern(nextSpawnY, 0.0);
+        nextSpawnY -= 220.0 + _random.nextDouble() * 100.0;
       }
-      nextInfinityCoinBreakScore = 100;
+      nextInfinityChunkBoundaryY = nextSpawnY - 4000.0;
+      _scatterStarsInChunk(nextSpawnY, nextInfinityChunkBoundaryY, 10);
       isSpawningLevel = false;
     } else {
       data = await Isolate.run(() => generateLevelData(levelToGenerate));
@@ -1393,6 +1394,8 @@ class BalancoGame extends FlameGame with KeyboardEvents {
           double dist = ball.pos2D.distanceTo(hole.position);
           double lethalDist = (hole.size.x / 2) - 2.0;
 
+
+
           if (dist < lethalDist) {
             if (isShieldActive) {
               double dot = (ball.pos2D - hole.position).dot(direction);
@@ -1672,34 +1675,45 @@ class BalancoGame extends FlameGame with KeyboardEvents {
 
   void _updateInfinityMode(double dt) {
     if (dt <= 0) return;
-
-    final int newScore = (cameraOffsetY / 40.0).floor();
-    if (newScore > currentScore.value) {
-      currentScore.value = newScore;
-    }
-
     if (activeBalls.isEmpty) return;
 
     final double barMid = (leftY + rightY) / 2.0;
     final double barTop = barMid - 800.0;
     while (nextSpawnY > barTop) {
-      if (currentScore.value >= nextInfinityCoinBreakScore) {
-        _spawnInfinityCoinZigZag(nextSpawnY);
+      if (nextSpawnY <= nextInfinityChunkBoundaryY) {
+        _spawnInfinityCoinSnake(nextSpawnY);
         nextSpawnY -= 620.0;
-        nextInfinityCoinBreakScore += 100;
+        final double currentChunkEnd = nextInfinityChunkBoundaryY;
+        nextInfinityChunkBoundaryY -= 4000.0;
+        _scatterStarsInChunk(currentChunkEnd, nextInfinityChunkBoundaryY, 10);
         continue;
       }
-      _spawnInfinityObstacle(nextSpawnY);
-      nextSpawnY -= 150.0 + _random.nextDouble() * 130.0;
+
+      final double estimatedScore = ((550 - nextSpawnY) / 40.0).clamp(0, 9999);
+      final double difficulty = (estimatedScore / 500.0).clamp(0.0, 1.0);
+
+      _spawnInfinityObstaclePattern(nextSpawnY, difficulty);
+
+      final double maxStep = 320.0 - (difficulty * 80.0);
+      final double minStep = 220.0 - (difficulty * 40.0);
+
+      nextSpawnY -= minStep + _random.nextDouble() * (maxStep - minStep);
     }
 
     for (final hole in holes) {
       if (!hole.isPassed && hole.position.y > barMid) {
         hole.isPassed = true;
-        currentScore.value += 10;
+        int points = 1;
+        if (hole.isSuckingHole) {
+          points = 10;
+        } else if (hole.isMovingHole) {
+          points = 5;
+        }
+
+        currentScore.value += points;
         levelContainer.add(
           FloatingTextComponent(
-            text: '+10',
+            text: '+$points',
             position: hole.position.clone(),
             color: GameColors.lightBlue,
           ),
@@ -1710,10 +1724,10 @@ class BalancoGame extends FlameGame with KeyboardEvents {
     for (final bumper in bumpers) {
       if (!bumper.isPassed && bumper.position.y > barMid) {
         bumper.isPassed = true;
-        currentScore.value += 10;
+        currentScore.value += 3;
         levelContainer.add(
           FloatingTextComponent(
-            text: '+10',
+            text: '+3',
             position: bumper.position.clone(),
             color: GameColors.lightBlue,
           ),
@@ -1724,153 +1738,178 @@ class BalancoGame extends FlameGame with KeyboardEvents {
     _cullInfinityObstacles(barMid + 600.0);
   }
 
-  /// Spawns a random obstacle/collector at position [y] in level-space.
-  /// Uses all available obstacle types for maximum variety.
-  void _spawnInfinityObstacle(double y) {
+  void _scatterStarsInChunk(double startY, double endY, int count) {
     final double sizeX = size.x > 0 ? size.x : 400.0;
-    final double usableWidth = sizeX - barPadding * 2;
-
-    // Helper to get a random x position
-    double rx() => barPadding + _random.nextDouble() * usableWidth;
-
-    final double roll = _random.nextDouble();
-
-    if (roll < 0.12) {
-      // Coin cluster: 2-4 coins in an arc.
-      final int n = 2 + _random.nextInt(3);
-      final double cx = rx();
-      for (int i = 0; i < n; i++) {
-        final dx = (i - n / 2.0) * 45.0;
-        final dy = -(dx * dx) * 0.04; // parabolic arc
-        final coin = CoinComponent(position: Vector2(cx + dx, y + dy))
-          ..priority = 5;
-        coins.add(coin);
-        levelContainer.add(coin);
-      }
-    } else if (roll < 0.15) {
-      // Heart: rare extra life.
-      // In infinity mode position is absolute; HeartComponent.update() won't recalculate
-      final double absX = rx();
-      final heart = HeartComponent(Vector2(absX, y))
-        ..position = Vector2(absX, y)
-        ..priority = 5;
-      hearts.add(heart);
-      levelContainer.add(heart);
-    } else if (roll < 0.24) {
-      // Magnet power-up: rare.
-      final double absX = rx();
-      final mag = MagnetComponent(Vector2(absX, y))
-        ..position = Vector2(absX, y)
-        ..priority = 5;
-      magnets.add(mag);
-      levelContainer.add(mag);
-    } else if (roll < 0.27) {
-      final double absX = rx();
-      final mb =
-          MultiBallItem(Vector2(absX, y), ballCount: 1 + _random.nextInt(3))
-            ..position = Vector2(absX, y)
-            ..priority = 5;
-      multiBallItems.add(mb);
-      levelContainer.add(mb);
-    } else if (roll < 0.43) {
-      // Bumper.
-      final double r = 16 + _random.nextDouble() * 12;
-      final double absX = rx();
-      final bumper = BumperComponent(Vector2(absX, y), r)
-        ..position = Vector2(absX, y)
-        ..priority = 2;
-      bumpers.add(bumper);
-      levelContainer.add(bumper);
-    } else if (roll < 0.59) {
-      // Regular hole.
-      final double sz = 36 + _random.nextDouble() * 18;
-      final double absX = rx();
-      final hole =
-          HoleComponent(Vector2(absX, y), sz, _random.nextDouble() * pi)
-            ..position = Vector2(absX, y)
-            ..priority = 1;
-      holes.add(hole);
-      levelContainer.add(hole);
-    } else if (roll < 0.72) {
-      // Moving hole.
-      final double sz = 36 + _random.nextDouble() * 14;
-      final double moveRange = 60 + _random.nextDouble() * 100;
-      final double moveSpeed = 55 + _random.nextDouble() * 60;
-      final double absX = rx();
-      final hole =
-          HoleComponent(
-              Vector2(absX, y),
-              sz,
-              _random.nextDouble() * pi,
-              isMovingHole: true,
-              moveRange: moveRange,
-              moveSpeed: moveSpeed,
-            )
-            ..position = Vector2(absX, y)
-            ..priority = 1;
-      holes.add(hole);
-      levelContainer.add(hole);
-    } else if (roll < 0.84) {
-      // Sucking hole.
-      final double sz = 42 + _random.nextDouble() * 16;
-      final double absX = rx();
-      final hole =
-          HoleComponent(
-              Vector2(absX, y),
-              sz,
-              _random.nextDouble() * pi,
-              isSuckingHole: true,
-            )
-            ..position = Vector2(absX, y)
-            ..priority = 1;
-      holes.add(hole);
-      levelContainer.add(hole);
-    } else if (roll < 0.92) {
-      // Bumper gauntlet: 2-3 bumpers in a row.
-      final int n = 2 + _random.nextInt(2);
-      final double startX =
-          barPadding + _random.nextDouble() * (usableWidth * 0.3);
-      final double spacing = usableWidth / (n + 1);
-      for (int i = 0; i < n; i++) {
-        final double r = 14 + _random.nextDouble() * 10;
-        final double bx = startX + spacing * (i + 1);
-        final bumper = BumperComponent(Vector2(bx, y), r)
-          ..position = Vector2(bx, y)
-          ..priority = 2;
-        bumpers.add(bumper);
-        levelContainer.add(bumper);
-      }
-    } else {
-      // Coin trail: 5-8 coins in a straight line.
-      final int n = 5 + _random.nextInt(4);
-      final double startX =
-          barPadding + _random.nextDouble() * (usableWidth * 0.2);
-      final double step = usableWidth * 0.75 / n;
-      for (int i = 0; i < n; i++) {
-        final coin = CoinComponent(
-          position: Vector2(startX + step * i, y - i * 12.0),
-        )..priority = 5;
-        coins.add(coin);
-        levelContainer.add(coin);
-      }
+    final double usableWidth = sizeX - barPadding * 2 - 40.0;
+    for (int i = 0; i < count; i++) {
+      final double x = barPadding + 20.0 + _random.nextDouble() * usableWidth;
+      final double y = endY + _random.nextDouble() * (startY - endY);
+      final coin = CoinComponent(position: Vector2(x, y))..priority = 5;
+      coins.add(coin);
+      levelContainer.add(coin);
     }
   }
 
-  void _spawnInfinityCoinZigZag(double startY) {
+  void _spawnInfinityCoinSnake(double startY) {
     final double sizeX = size.x > 0 ? size.x : 400.0;
-    final double leftX = barPadding + 52.0;
-    final double rightX = sizeX - barPadding - 52.0;
-    const int coinCount = 14;
-    const double stepY = 34.0;
+    final double centerX = sizeX / 2.0;
+    final double amplitude = (sizeX / 2.0) - barPadding - 30.0;
+    const int coinCount = 20;
+    const double stepY = 30.0;
 
     for (int i = 0; i < coinCount; i++) {
-      final double progress = coinCount == 1 ? 0.0 : i / (coinCount - 1);
-      final double wave = i.isEven ? progress : 1.0 - progress;
-      final double x = leftX + (rightX - leftX) * wave;
+      final double progress = i / (coinCount - 1);
+      final double wave = sin(progress * pi * 3.0); // 1.5 full cycles
+      final double x = centerX + wave * amplitude;
       final double y = startY - i * stepY;
       final coin = CoinComponent(position: Vector2(x, y))..priority = 5;
       coins.add(coin);
       levelContainer.add(coin);
+    }
+  }
+
+  void _spawnInfinityObstaclePattern(double y, double difficulty) {
+    final double sizeX = size.x > 0 ? size.x : 400.0;
+    final double usableWidth = sizeX - barPadding * 2;
+    double rx() =>
+        barPadding + 40.0 + _random.nextDouble() * (usableWidth - 80.0);
+
+    final double roll = _random.nextDouble();
+
+    // Spawn powerups independently of the pattern (small chance)
+    if (_random.nextDouble() < 0.05) {
+      final heart = HeartComponent(Vector2(rx(), y - 80))
+        ..position = Vector2(rx(), y - 80)
+        ..priority = 5;
+      hearts.add(heart);
+      levelContainer.add(heart);
+    } else if (_random.nextDouble() < 0.05) {
+      final mag = MagnetComponent(Vector2(rx(), y - 80))
+        ..position = Vector2(rx(), y - 80)
+        ..priority = 5;
+      magnets.add(mag);
+      levelContainer.add(mag);
+    } else if (_random.nextDouble() < 0.05) {
+      final mb =
+          MultiBallItem(
+              Vector2(rx(), y - 80),
+              ballCount: 1 + _random.nextInt(3),
+            )
+            ..position = Vector2(rx(), y - 80)
+            ..priority = 5;
+      multiBallItems.add(mb);
+      levelContainer.add(mb);
+    }
+
+    final double patternWidth = usableWidth * 0.6;
+    final double offsetRange = usableWidth - patternWidth;
+    final double startX = barPadding + _random.nextDouble() * offsetRange;
+
+    if (roll < 0.25) {
+      // The Blockade: Horizontal line of small holes
+      int count = 2 + (difficulty * 2).floor(); // 2 to 4 holes
+      double spacing = patternWidth / (count + 1);
+      for (int i = 0; i < count; i++) {
+        double px = startX + spacing * (i + 1);
+        final hole =
+            HoleComponent(
+                Vector2(px, y),
+                34 + difficulty * 10,
+                _random.nextDouble() * pi,
+              )
+              ..position = Vector2(px, y)
+              ..priority = 1;
+        holes.add(hole);
+        levelContainer.add(hole);
+      }
+    } else if (roll < 0.50) {
+      // The Gauntlet: 2 bumpers with a moving hole
+      final double bx1 = startX + patternWidth * 0.2;
+      final double bx2 = startX + patternWidth * 0.8;
+      final b1 = BumperComponent(Vector2(bx1, y), 20)
+        ..position = Vector2(bx1, y)
+        ..priority = 2;
+      final b2 = BumperComponent(Vector2(bx2, y), 20)
+        ..position = Vector2(bx2, y)
+        ..priority = 2;
+      bumpers.add(b1);
+      levelContainer.add(b1);
+      bumpers.add(b2);
+      levelContainer.add(b2);
+
+      final double hx = startX + patternWidth / 2;
+      final hole =
+          HoleComponent(
+              Vector2(hx, y),
+              45,
+              0,
+              isMovingHole: true,
+              moveRange: patternWidth * 0.4 + difficulty * 20,
+              moveSpeed: 60 + difficulty * 80,
+            )
+            ..position = Vector2(hx, y)
+            ..priority = 1;
+      holes.add(hole);
+      levelContainer.add(hole);
+    } else if (roll < 0.70) {
+      // The Vortex: Sucking hole with bumpers
+      final double vx = startX + patternWidth / 2;
+      final hole =
+          HoleComponent(
+              Vector2(vx, y),
+              50 + difficulty * 20,
+              0,
+              isSuckingHole: true,
+            )
+            ..position = Vector2(vx, y)
+            ..priority = 1;
+      holes.add(hole);
+      levelContainer.add(hole);
+
+      if (difficulty > 0.3) {
+        final b1 = BumperComponent(Vector2(vx - 60, y - 40), 15)
+          ..position = Vector2(vx - 60, y - 40)
+          ..priority = 2;
+        final b2 = BumperComponent(Vector2(vx + 60, y + 40), 15)
+          ..position = Vector2(vx + 60, y + 40)
+          ..priority = 2;
+        bumpers.add(b1);
+        levelContainer.add(b1);
+        bumpers.add(b2);
+        levelContainer.add(b2);
+      }
+    } else if (roll < 0.90) {
+      // Zig-Zag Path: Staggered holes
+      final int count = 3 + (difficulty * 2).floor();
+      for (int i = 0; i < count; i++) {
+        final double zx = i.isEven
+            ? startX + patternWidth * 0.2
+            : startX + patternWidth * 0.8;
+        final zy = y - i * 100.0;
+        final hole =
+            HoleComponent(
+                Vector2(zx, zy),
+                40 + difficulty * 15,
+                _random.nextDouble() * pi,
+              )
+              ..position = Vector2(zx, zy)
+              ..priority = 1;
+        holes.add(hole);
+        levelContainer.add(hole);
+      }
+    } else {
+      // Small random hole
+      final double nx = rx();
+      final hole =
+          HoleComponent(
+              Vector2(nx, y),
+              55 + difficulty * 15,
+              _random.nextDouble() * pi,
+            )
+            ..position = Vector2(nx, y)
+            ..priority = 1;
+      holes.add(hole);
+      levelContainer.add(hole);
     }
   }
 

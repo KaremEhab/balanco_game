@@ -268,21 +268,59 @@ class _ParallaxBackgroundWidgetState extends State<ParallaxBackgroundWidget> {
                 ),
               );
 
-              return ClipRect(
-                child: FittedBox(
-                  fit: BoxFit.cover,
-                  child: BiomeBackgroundTransition(
-                    tropical: tropicalScene,
-                    pyramids: pyramidScene,
-                    progress: progress,
-                    tropicalTint: widget.game.isInfinityMode
-                        ? currentBiome.secondaryColor.withValues(alpha: 0.16)
-                        : Colors.transparent,
-                    pyramidTint: widget.game.isInfinityMode
-                        ? currentBiome.primaryColor.withValues(alpha: 0.22)
-                        : const Color(0x336A2CA0),
+              return Stack(
+                fit: StackFit.expand,
+                children: [
+                  ClipRect(
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      child: BiomeBackgroundTransition(
+                        tropical: tropicalScene,
+                        pyramids: pyramidScene,
+                        progress: progress,
+                        tropicalTint: widget.game.isInfinityMode
+                            ? currentBiome.secondaryColor.withValues(alpha: 0.16)
+                            : Colors.transparent,
+                        pyramidTint: widget.game.isInfinityMode
+                            ? currentBiome.primaryColor.withValues(alpha: 0.22)
+                            : const Color(0x336A2CA0),
+                      ),
+                    ),
                   ),
-                ),
+                  if (widget.game.isInfinityMode)
+                    Positioned.fill(
+                      child: AnimatedBuilder(
+                        animation: widget.game.cameraOffsetYNotifier,
+                        builder: (context, _) {
+                          final double cameraY = widget.game.cameraOffsetYNotifier.value;
+                          final int score = (cameraY / 40.0).floor();
+                          final biome1 = BiomeConfig.getDynamicScoreBiome(score);
+                          final biome2 = BiomeConfig.getDynamicScoreBiome(score + 100);
+                          final biome3 = BiomeConfig.getDynamicScoreBiome(score + 200);
+
+                          final double scrollOffset = (cameraY % 2000) / 2000.0;
+
+                          return Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: const Alignment(0, -1),
+                                end: const Alignment(0, 1),
+                                colors: [
+                                  biome1.bgTopColor.withValues(alpha: 0.45),
+                                  biome2.secondaryColor.withValues(alpha: 0.35),
+                                  biome3.bgBottomColor.withValues(alpha: 0.45),
+                                  biome1.bgTopColor.withValues(alpha: 0.45),
+                                ],
+                                stops: const [0.0, 0.33, 0.66, 1.0],
+                                transform: _ScrollGradientTransform(scrollOffset),
+                                tileMode: TileMode.repeated,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                ],
               );
             },
           );
@@ -291,3 +329,14 @@ class _ParallaxBackgroundWidgetState extends State<ParallaxBackgroundWidget> {
     );
   }
 }
+
+class _ScrollGradientTransform extends GradientTransform {
+  final double scrollOffset;
+  const _ScrollGradientTransform(this.scrollOffset);
+
+  @override
+  Matrix4? transform(Rect bounds, {TextDirection? textDirection}) {
+    return Matrix4.translationValues(0, scrollOffset * bounds.height, 0);
+  }
+}
+

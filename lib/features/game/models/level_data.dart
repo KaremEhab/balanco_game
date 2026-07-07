@@ -10,6 +10,7 @@ class HoleData {
   final double moveRange;
   final double moveSpeed;
 
+
   HoleData(
     this.position,
     this.size,
@@ -19,6 +20,7 @@ class HoleData {
     this.isMovingHole = false,
     this.moveRange = 0.0,
     this.moveSpeed = 0.0,
+
   });
 }
 

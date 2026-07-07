@@ -50,8 +50,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       0; // Initialize to 0 so first load doesn't trigger unlock animation
   int currentLevel = 1;
   int _displayedLevel = 1; // Used by BouncingLevelButton
-  int? _justUnlockedLevel;
+  int _justUnlockedLevel = -1;
   bool _isFirstLoad = true;
+
+  Map<int, int> _levelStars = {};
+
+  // For dragging
+  bool _isDragging = false;
 
   late MapTheme theme;
 
@@ -388,6 +393,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   Future<void> _loadData() async {
     final profile = await DatabaseHelper.instance.getPlayerProfile();
+    final progresses = await DatabaseHelper.instance.getAllLevelProgress();
     if (!mounted) return;
 
     debugPrint(
@@ -410,6 +416,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       currentLevel =
           profile.highestLevel; // Always default to the highest unlocked level
       _displayedLevel = currentLevel;
+      _levelStars = {for (var p in progresses) p.levelId: p.stars};
     });
 
     if (widget.currentBiomeNotifier != null) {
@@ -773,7 +780,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           setState(() {
                             highestLevel = 1;
                             currentLevel = 1;
-                            _justUnlockedLevel = null;
+                            _justUnlockedLevel = -1;
                           });
                           HapticFeedback.heavyImpact();
                           if (!context.mounted) return;
@@ -815,6 +822,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             level: level,
                             isUnlocked: isUnlocked,
                             isJustUnlocked: level == _justUnlockedLevel,
+                            stars: _levelStars[level] ?? 0,
                             isCurrent: level == _displayedLevel,
                             lockedSize: lockedHoleSize,
                             unlockedSize: unlockedHoleSize,
@@ -842,7 +850,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               );
                               if (mounted && level == _justUnlockedLevel) {
                                 setState(() {
-                                  _justUnlockedLevel = null;
+                                  _justUnlockedLevel = -1;
                                   currentLevel =
                                       level; // Automatically update current level
                                 });
@@ -865,7 +873,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               animation: _biomeTransitionController,
               builder: (context, child) {
                 final screenHeight = MediaQuery.of(context).size.height;
-                final currentBiome = BiomeConfig.getBiomeForLevel(_displayedLevel);
+                final currentBiome = BiomeConfig.getBiomeForLevel(
+                  _displayedLevel,
+                );
                 final bool isTransitioning =
                     _isBiomeTransitioning &&
                     _previousBiome != null &&
@@ -1317,6 +1327,7 @@ class AnimatedLevelNode extends StatefulWidget {
   final int level;
   final bool isUnlocked;
   final bool isJustUnlocked;
+  final int stars;
   final bool isCurrent;
   final double lockedSize;
   final double unlockedSize;
@@ -1331,6 +1342,7 @@ class AnimatedLevelNode extends StatefulWidget {
     required this.level,
     required this.isUnlocked,
     required this.isJustUnlocked,
+    this.stars = 0,
     this.isCurrent = false,
     required this.lockedSize,
     required this.unlockedSize,
@@ -1508,6 +1520,7 @@ class _AnimatedLevelNodeState extends State<AnimatedLevelNode>
 
       Widget childPainter = RepaintBoundary(
         child: CustomPaint(
+          size: Size(currentSize, currentSize),
           painter: widget.isUnlocked
               ? MapHolePainter(
                   isUnlocked: true,
@@ -1548,7 +1561,35 @@ class _AnimatedLevelNodeState extends State<AnimatedLevelNode>
         top: widget.pos.dy - (currentSize / 2),
         width: currentSize,
         height: currentSize,
-        child: GestureDetector(onTap: widget.onTap, child: childPainter),
+        child: GestureDetector(
+          onTap: widget.onTap,
+          child: Stack(
+            clipBehavior: Clip.none,
+            alignment: Alignment.center,
+            children: [
+              childPainter,
+              if (widget.isUnlocked)
+                Positioned(
+                  top: -30,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: List.generate(3, (index) {
+                      bool collected = index < widget.stars;
+                      return Icon(
+                        collected
+                            ? Icons.star_rounded
+                            : Icons.star_border_rounded,
+                        color: collected
+                            ? Colors.yellow
+                            : GameColors.mapScreenColor3,
+                        size: 30,
+                      );
+                    }),
+                  ),
+                ),
+            ],
+          ),
+        ),
       );
     }
 
@@ -1655,18 +1696,43 @@ class _AnimatedLevelNodeState extends State<AnimatedLevelNode>
                 if (_controller.value >= 0.45)
                   Transform.scale(
                     scale: _scaleInUnlocked.value,
-                    child: Transform.rotate(
-                      angle: _spinUnlocked.value,
-                      child: SizedBox(
-                        width: widget.unlockedSize,
-                        height: widget.unlockedSize,
-                        child: CustomPaint(
-                          painter: MapHolePainter(
-                            isUnlocked: true,
-                            biome: widget.biome,
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      alignment: Alignment.center,
+                      children: [
+                        Transform.rotate(
+                          angle: _spinUnlocked.value,
+                          child: SizedBox(
+                            width: widget.unlockedSize,
+                            height: widget.unlockedSize,
+                            child: CustomPaint(
+                              painter: MapHolePainter(
+                                isUnlocked: true,
+                                biome: widget.biome,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                        if (widget.isUnlocked)
+                          Positioned(
+                            top: -15,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: List.generate(3, (index) {
+                                bool collected = index < widget.stars;
+                                return Icon(
+                                  collected
+                                      ? Icons.star_rounded
+                                      : Icons.star_border_rounded,
+                                  color: collected
+                                      ? Colors.yellow
+                                      : GameColors.mapScreenColor3,
+                                  size: 20,
+                                );
+                              }),
+                            ),
+                          ),
+                      ],
                     ),
                   ),
 

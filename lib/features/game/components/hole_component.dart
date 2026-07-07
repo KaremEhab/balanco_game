@@ -5,6 +5,7 @@ import 'package:balanco_game/features/game/game_area.dart';
 import 'package:balanco_game/features/game/models/ball_data.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
 
+
 class HoleComponent extends PositionComponent
     with HasGameReference<BalancoGame> {
   Vector2 fractionalPosition;
@@ -17,6 +18,8 @@ class HoleComponent extends PositionComponent
   final bool isMovingHole;
   final double moveRange;
   final double moveSpeed;
+
+
 
   double _originalFractionalX = 0.0;
   double _timeAccumulator = 0.0;
@@ -35,9 +38,14 @@ class HoleComponent extends PositionComponent
   late final Paint _innerEdgePaint;
   late final Paint _rivetBasePaint;
   late final Paint _rivetHighlightPaint;
+  late final int nailsCount;
+
+
+  late final Paint _holePaint;
+  late final Paint _glowPaint;
   late final Paint _splashPaint;
   late final Paint _dropPaint;
-  late final Paint _glowPaint;
+
 
   double get _radius => size.x / 2;
   double get _trapInnerRadius => _radius * 0.60;
@@ -61,7 +69,7 @@ class HoleComponent extends PositionComponent
     super.onLoad();
 
     final currentBiome = game.currentBiome;
-    
+
     _windAreaPaint = Paint()
       ..shader = RadialGradient(
         center: Alignment.center,
@@ -176,6 +184,7 @@ class HoleComponent extends PositionComponent
             ? const [GameColors.purpleAccent, Colors.transparent]
             : const [GameColors.cyanAccent, Colors.transparent],
       ).createShader(Rect.fromCircle(center: Offset.zero, radius: _radius));
+
   }
 
   @override
@@ -187,7 +196,8 @@ class HoleComponent extends PositionComponent
       // Moving holes oscillate around their spawn x
       if (isMovingHole && !game.isSpawningLevel) {
         _timeAccumulator += dt;
-        position.x = _originalFractionalX +
+        position.x =
+            _originalFractionalX +
             sin(_timeAccumulator * moveSpeed * 0.02) * moveRange;
       } else {
         position.x = fractionalPosition.x;
@@ -285,6 +295,8 @@ class HoleComponent extends PositionComponent
         _rivetHighlightPaint,
       );
     }
+
+
 
     canvas.restore(); // Restore mechanical rotation
 
