@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
 
 class ShieldIconPainter extends CustomPainter {
+  final Color? color;
+
+  ShieldIconPainter({this.color});
+
   @override
   void paint(Canvas canvas, Size size) {
     Path shieldPath = Path();
@@ -30,8 +34,11 @@ class ShieldIconPainter extends CustomPainter {
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 2.0);
     canvas.drawPath(shieldPath.shift(const Offset(0, 2)), iconShadow);
 
-    final Paint iconPaint = Paint()
-      ..shader = const RadialGradient(
+    final Paint iconPaint = Paint();
+    if (color != null) {
+      iconPaint.color = color!;
+    } else {
+      iconPaint.shader = const RadialGradient(
         center: Alignment.center,
         radius: 0.8,
         colors: [
@@ -40,6 +47,7 @@ class ShieldIconPainter extends CustomPainter {
           Color.fromARGB(255, 0, 85, 255),
         ],
       ).createShader(shieldPath.getBounds());
+    }
     canvas.drawPath(shieldPath, iconPaint);
 
     // Inner shield glow

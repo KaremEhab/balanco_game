@@ -3,6 +3,7 @@ import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:balanco_game/features/game/game_area.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
+import 'dart:ui' as ui;
 
 class BarComponent extends Component with HasGameReference<BalancoGame> {
   @override
@@ -21,13 +22,17 @@ class BarComponent extends Component with HasGameReference<BalancoGame> {
     canvas.translate(leftPoint.x, leftPoint.y);
     canvas.rotate(angle);
 
-    // --- HEAVY METAL BEAM ---
+    final bool isGlass = game.isInfinityMode;
+
+    // --- HEAVY METAL BEAM OR GLASS BEAM ---
     double barHeight = 20.0;
     Rect fullRect = Rect.fromLTRB(0, -barHeight / 2, barLength, barHeight / 2);
 
     // 1. Drop shadow
     final Paint shadowPaint = Paint()
-      ..color = GameColors.black.withValues(alpha: 0.5)
+      ..color = isGlass
+          ? GameColors.black.withValues(alpha: 0.2)
+          : GameColors.black.withValues(alpha: 0.5)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6.0);
 
     canvas.save();
@@ -40,143 +45,216 @@ class BarComponent extends Component with HasGameReference<BalancoGame> {
     );
     canvas.restore();
 
-    // 2. Main Metal Body (Brushed Steel)
-    RRect bodyRRect = RRect.fromRectAndRadius(
-      fullRect,
-      const Radius.circular(10),
-    );
-    final Paint metalPaint = Paint()
-      ..shader = LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [
-          GameColors.blueGray300, // Bright metallic highlight
-          GameColors.blueGray600, // Mid steel
-          GameColors.blueGray600, // Dark steel core
-          GameColors.blueGray900, // Deep shadow edge
-        ],
-      ).createShader(fullRect);
-    canvas.drawRRect(bodyRRect, metalPaint);
+    if (isGlass) {
+      // --- GLASSY BAR DESIGN ---
+      RRect bodyRRect = RRect.fromRectAndRadius(
+        fullRect,
+        const Radius.circular(10),
+      );
 
-    // 3. Dark Gunmetal End Caps
-    double capWidth = 20.0;
-    Rect leftCap = Rect.fromLTRB(0, -barHeight / 2, capWidth, barHeight / 2);
-    Rect rightCap = Rect.fromLTRB(
-      barLength - capWidth,
-      -barHeight / 2,
-      barLength,
-      barHeight / 2,
-    );
+      final Paint glassPaint = Paint()
+        ..shader = LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            GameColors.white.withValues(alpha: 0.5),
+            GameColors.white.withValues(alpha: 0.1),
+            GameColors.white.withValues(alpha: 0.2),
+          ],
+        ).createShader(fullRect);
 
-    RRect leftCapRRect = RRect.fromRectAndCorners(
-      leftCap,
-      topLeft: const Radius.circular(10),
-      bottomLeft: const Radius.circular(10),
-      topRight: const Radius.circular(4),
-      bottomRight: const Radius.circular(4),
-    );
-    RRect rightCapRRect = RRect.fromRectAndCorners(
-      rightCap,
-      topRight: const Radius.circular(10),
-      bottomRight: const Radius.circular(10),
-      topLeft: const Radius.circular(4),
-      bottomLeft: const Radius.circular(4),
-    );
+      canvas.drawRRect(bodyRRect, glassPaint);
 
-    final Paint gunmetalPaint = Paint()
-      ..shader = LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [
-          GameColors.blueGray300, // Bright rim
-          GameColors.blueGray600, // Base blue-grey metal
-          GameColors.blueGray900, // Dark shadow
-          GameColors.blackSolid, // Almost black edge
-        ],
-      ).createShader(leftCap);
+      final Paint glassBorder = Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.5
+        ..color = GameColors.white.withValues(alpha: 0.6);
 
-    canvas.drawRRect(leftCapRRect, gunmetalPaint);
+      canvas.drawRRect(bodyRRect, glassBorder);
 
-    final Paint gunmetalPaintRight = Paint()
-      ..shader = LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [
-          GameColors.blueGray300,
-          GameColors.blueGray600,
-          GameColors.blueGray900,
-          GameColors.blackSolid,
-        ],
-      ).createShader(rightCap);
-    canvas.drawRRect(rightCapRRect, gunmetalPaintRight);
+      // Specular Highlight
+      Rect specRect = Rect.fromLTRB(
+        5,
+        -barHeight / 2 + 1,
+        barLength - 5,
+        -barHeight / 4,
+      );
+      final Paint specPaint = Paint()
+        ..shader = const LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            GameColors.whiteAlpha46,
+            GameColors.whiteTransparent,
+          ],
+        ).createShader(specRect);
+      canvas.drawRect(specRect, specPaint);
 
-    // Add a dark separator line between metal caps and steel body
-    final Paint separatorPaint = Paint()
-      ..color = GameColors.black.withValues(alpha: 0.6)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.5;
-    canvas.drawLine(
-      Offset(capWidth, -barHeight / 2),
-      Offset(capWidth, barHeight / 2),
-      separatorPaint,
-    );
-    canvas.drawLine(
-      Offset(barLength - capWidth, -barHeight / 2),
-      Offset(barLength - capWidth, barHeight / 2),
-      separatorPaint,
-    );
+      // Glowing Core Line
+      Rect grooveRect = Rect.fromLTRB(
+        15,
+        -1.5,
+        barLength - 15,
+        1.5,
+      );
+      final Paint groovePaint = Paint()
+        ..shader = LinearGradient(
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+          colors: [
+            GameColors.whiteTransparent,
+            GameColors.white,
+            GameColors.whiteTransparent,
+          ],
+        ).createShader(grooveRect)
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 2.0);
 
-    // 4. Glowing Groove
-    Rect grooveRect = Rect.fromLTRB(
-      capWidth + 12,
-      -3.0,
-      barLength - capWidth - 12,
-      3.0,
-    );
-    final Paint groovePaint = Paint()
-      ..shader = LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [
-          game.currentBiome.primaryColor.withValues(
-            alpha: 0.6,
-          ), // Dark inner top
-          game.currentBiome.primaryColor, // Bright glow
-          GameColors.white.withValues(alpha: 0.7), // Pure white core at bottom
-        ],
-      ).createShader(grooveRect);
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(grooveRect, const Radius.circular(3.0)),
-      groovePaint,
-    );
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(grooveRect, const Radius.circular(1.5)),
+        groovePaint,
+      );
+    } else {
+      // --- METAL BAR DESIGN ---
+      // 2. Main Metal Body (Brushed Steel)
+      RRect bodyRRect = RRect.fromRectAndRadius(
+        fullRect,
+        const Radius.circular(10),
+      );
+      final Paint metalPaint = Paint()
+        ..shader = LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            GameColors.blueGray300, // Bright metallic highlight
+            GameColors.blueGray600, // Mid steel
+            GameColors.blueGray600, // Dark steel core
+            GameColors.blueGray900, // Deep shadow edge
+          ],
+        ).createShader(fullRect);
+      canvas.drawRRect(bodyRRect, metalPaint);
 
-    // Outer highlight rim for the groove
-    final Paint grooveRimPaint = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 0.5
-      ..color = GameColors.white.withValues(alpha: 0.3);
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(grooveRect, const Radius.circular(3.0)),
-      grooveRimPaint,
-    );
+      // 3. Dark Gunmetal End Caps
+      double capWidth = 20.0;
+      Rect leftCap = Rect.fromLTRB(0, -barHeight / 2, capWidth, barHeight / 2);
+      Rect rightCap = Rect.fromLTRB(
+        barLength - capWidth,
+        -barHeight / 2,
+        barLength,
+        barHeight / 2,
+      );
 
-    // 5. Glossy Specular Highlight (The polished metal finish reflection)
-    Rect specRect = Rect.fromLTRB(
-      capWidth,
-      -barHeight / 2 + 1,
-      barLength - capWidth,
-      -barHeight / 4,
-    );
-    final Paint specPaint = Paint()
-      ..shader = const LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [
-          GameColors.whiteAlpha46, // Strong white reflection
-          GameColors.whiteTransparent, // Fades into wood
-        ],
-      ).createShader(specRect);
-    canvas.drawRect(specRect, specPaint);
+      RRect leftCapRRect = RRect.fromRectAndCorners(
+        leftCap,
+        topLeft: const Radius.circular(10),
+        bottomLeft: const Radius.circular(10),
+        topRight: const Radius.circular(4),
+        bottomRight: const Radius.circular(4),
+      );
+      RRect rightCapRRect = RRect.fromRectAndCorners(
+        rightCap,
+        topRight: const Radius.circular(10),
+        bottomRight: const Radius.circular(10),
+        topLeft: const Radius.circular(4),
+        bottomLeft: const Radius.circular(4),
+      );
+
+      final Paint gunmetalPaint = Paint()
+        ..shader = LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            GameColors.blueGray300, // Bright rim
+            GameColors.blueGray600, // Base blue-grey metal
+            GameColors.blueGray900, // Dark shadow
+            GameColors.blackSolid, // Almost black edge
+          ],
+        ).createShader(leftCap);
+
+      canvas.drawRRect(leftCapRRect, gunmetalPaint);
+
+      final Paint gunmetalPaintRight = Paint()
+        ..shader = LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            GameColors.blueGray300,
+            GameColors.blueGray600,
+            GameColors.blueGray900,
+            GameColors.blackSolid,
+          ],
+        ).createShader(rightCap);
+      canvas.drawRRect(rightCapRRect, gunmetalPaintRight);
+
+      // Add a dark separator line between metal caps and steel body
+      final Paint separatorPaint = Paint()
+        ..color = GameColors.black.withValues(alpha: 0.6)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.5;
+      canvas.drawLine(
+        Offset(capWidth, -barHeight / 2),
+        Offset(capWidth, barHeight / 2),
+        separatorPaint,
+      );
+      canvas.drawLine(
+        Offset(barLength - capWidth, -barHeight / 2),
+        Offset(barLength - capWidth, barHeight / 2),
+        separatorPaint,
+      );
+
+      // 4. Glowing Groove
+      Rect grooveRect = Rect.fromLTRB(
+        capWidth + 12,
+        -3.0,
+        barLength - capWidth - 12,
+        3.0,
+      );
+      final Paint groovePaint = Paint()
+        ..shader = LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            game.currentBiome.primaryColor.withValues(
+              alpha: 0.6,
+            ), // Dark inner top
+            game.currentBiome.primaryColor, // Bright glow
+            GameColors.white.withValues(
+              alpha: 0.7,
+            ), // Pure white core at bottom
+          ],
+        ).createShader(grooveRect);
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(grooveRect, const Radius.circular(3.0)),
+        groovePaint,
+      );
+
+      // Outer highlight rim for the groove
+      final Paint grooveRimPaint = Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 0.5
+        ..color = GameColors.white.withValues(alpha: 0.3);
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(grooveRect, const Radius.circular(3.0)),
+        grooveRimPaint,
+      );
+
+      // 5. Glossy Specular Highlight (The polished metal finish reflection)
+      Rect specRect = Rect.fromLTRB(
+        capWidth,
+        -barHeight / 2 + 1,
+        barLength - capWidth,
+        -barHeight / 4,
+      );
+      final Paint specPaint = Paint()
+        ..shader = const LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            GameColors.whiteAlpha46, // Strong white reflection
+            GameColors.whiteTransparent, // Fades into wood
+          ],
+        ).createShader(specRect);
+      canvas.drawRect(specRect, specPaint);
+    }
 
     canvas.restore();
   }

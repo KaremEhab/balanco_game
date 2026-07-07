@@ -476,9 +476,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void _handleNodeTap(int level) {
     if (_animatingLevel != null) return; // Prevent multiple taps
 
-    final isInfinityMode =
-        context.read<AppBloc>().state.gameMode == 'infinityBalance';
-    if (isInfinityMode || level <= highestLevel) {
+    if (level <= highestLevel) {
       setState(() {
         _animatingLevel = level;
       });
@@ -659,10 +657,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             drawPlatform:
                                 false, // Don't draw the platform while flying
                             drawBall: true,
-                            isLocked:
-                                context.read<AppBloc>().state.gameMode !=
-                                    'infinityBalance' &&
-                                level > highestLevel,
+                            isLocked: level > highestLevel,
                             biome: BiomeConfig.getBiomeForLevel(level),
                           ),
                         ),
@@ -701,8 +696,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
     final game = BalancoGame(
       isMultiplayer: context.read<AppBloc>().state.isMultiplayer,
-      isInfinityMode:
-          context.read<AppBloc>().state.gameMode == 'infinityBalance',
+      isInfinityMode: false,
       playerRole: context.read<AppBloc>().state.playerRole,
       onLevelComplete: () {
         Navigator.pop(context); // Return to map
@@ -735,8 +729,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     double screenWidth = MediaQuery.of(context).size.width;
     _calculateNodes(screenWidth);
     final double totalHeight = _getVirtualHeight();
-    final bool isInfinityMode =
-        context.watch<AppBloc>().state.gameMode == 'infinityBalance';
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -942,9 +934,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                 0.2
                                         ? _previousBiome!
                                         : currentBiome,
-                                    isLocked:
-                                        !isInfinityMode &&
-                                        _displayedLevel > highestLevel,
+                                    isLocked: _displayedLevel > highestLevel,
                                     onTap: () {
                                       HapticFeedback.lightImpact();
                                       _handleNodeTap(_displayedLevel);
@@ -981,9 +971,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     drawBall:
                                         !isTransitioning &&
                                         _animatingLevel == null,
-                                    isLocked:
-                                        !isInfinityMode &&
-                                        _displayedLevel > highestLevel,
+                                    isLocked: _displayedLevel > highestLevel,
                                     biome: currentBiome,
                                     platformBiome: isTransitioning
                                         ? _previousBiome

@@ -1,5 +1,6 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:balanco_game/core/theme/game_colors.dart';
 import 'package:balanco_game/features/game/game_area.dart';
@@ -66,11 +67,11 @@ class _InfinityCountdownOverlay extends StatelessWidget {
         return Center(
           child: Text(
             text,
-            style: const TextStyle(
-              fontFamily: 'LuckiestGuy',
+            style: GoogleFonts.bungeeInline(
               fontSize: 100,
               color: GameColors.white,
-              shadows: [
+              height: 1.0,
+              shadows: const [
                 Shadow(
                   color: GameColors.brownDarkUi,
                   offset: Offset(0, 4),

@@ -125,6 +125,7 @@ class MultiBallItem extends PositionComponent
           ? position.clone()
           : game.teleportingGateComponent.position.clone();
       newBall.spendsLifeOnDeath = !game.isInfinityMode;
+      newBall.holeImmunityTimer = game.isInfinityMode ? 2.0 : 0.0;
       // Give them a slight random horizontal velocity so they don't fall perfectly stacked
       newBall.freeFallVelocity = Vector2(
         (Random().nextDouble() - 0.5) * 150,

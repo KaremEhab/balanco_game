@@ -23,6 +23,12 @@ class GameplayHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isInfinity = game.isInfinityMode;
+    const infinityTextColor = GameColors.black26;
+    const infinityShadowColor = GameColors.brownDarkUi;
+    const infinityAccentColor = GameColors.amber300;
+    const infinityTimerColor = Color(0xFFA8FFF2);
+
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.92,
       child: FittedBox(
@@ -35,38 +41,78 @@ class GameplayHeader extends StatelessWidget {
               // Hearts (Left)
               Positioned(
                 left: 20,
-                top: 65, // Lowered position
-                child: ValueListenableBuilder<int>(
-                  valueListenable: game.currentLives,
-                  builder: (context, lives, child) {
-                    return Row(
-                      children: List.generate(3, (index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 6),
-                          child: AnimatedGameStatSlot(
-                            isActive: index < lives,
-                            filledPainter: HeartFilledPainter(),
-                            emptyPainter: BrokenHeartPainter(),
-                            shadowOffset: const Offset(
-                              -3,
-                              3,
-                            ), // Heart shadow offset
-                          ),
-                        );
-                      }),
-                    );
-                  },
-                ),
+                top: 58,
+                child: game.isInfinityMode
+                    ? ValueListenableBuilder<int>(
+                        valueListenable: game.currentLives,
+                        builder: (context, lives, child) {
+                          return Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 4.0),
+                                child: CustomPaint(
+                                  painter: HeartFilledPainter(),
+                                  child: SizedBox(width: 40, height: 40),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                '$lives',
+                                style: GoogleFonts.luckiestGuy(
+                                  color: isInfinity
+                                      ? GameColors.amber300
+                                      : GameColors.white,
+                                  fontSize: 36, // Increased font size
+                                  height: 1.0,
+                                  shadows: [
+                                    Shadow(
+                                      color: isInfinity
+                                          ? infinityShadowColor
+                                          : GameColors.headerDarkBrown,
+                                      offset: const Offset(0, 4),
+                                      blurRadius: 0,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      )
+                    : ValueListenableBuilder<int>(
+                        valueListenable: game.currentLives,
+                        builder: (context, lives, child) {
+                          return Row(
+                            children: List.generate(3, (index) {
+                              return Padding(
+                                padding: const EdgeInsets.only(left: 6),
+                                child: AnimatedGameStatSlot(
+                                  isActive: index < lives,
+                                  filledPainter: HeartFilledPainter(),
+                                  emptyPainter: BrokenHeartPainter(),
+                                  shadowOffset: const Offset(
+                                    -3,
+                                    3,
+                                  ), // Star shadow offset
+                                ),
+                              );
+                            }),
+                          );
+                        },
+                      ),
               ),
 
               // Center Text
               Positioned(
-                top: 35, // Adjusted for the font size increase
+                top: 27,
                 left: 0,
                 right: 0,
                 child: Center(
                   child: ValueListenableBuilder<int>(
-                    valueListenable: game.isInfinityMode ? game.currentScore : game.currentLevel,
+                    valueListenable: game.isInfinityMode
+                        ? game.currentScore
+                        : game.currentLevel,
                     builder: (context, val, child) {
                       return Column(
                         mainAxisSize: MainAxisSize.min,
@@ -74,29 +120,36 @@ class GameplayHeader extends StatelessWidget {
                           Text(
                             game.isInfinityMode ? 'SCORE' : 'LEVEL',
                             style: GoogleFonts.luckiestGuy(
-                              color: GameColors.white,
+                              color: isInfinity
+                                  ? GameColors.amber300
+                                  : GameColors.white,
                               fontSize: 28, // Increased font size
                               height: 1.0,
-                              shadows: const [
+                              shadows: [
                                 Shadow(
-                                  color: GameColors.headerDarkBrown,
-                                  offset: Offset(0, 3),
+                                  color: isInfinity
+                                      ? infinityShadowColor
+                                      : GameColors.headerDarkBrown,
+                                  offset: const Offset(0, 4),
                                   blurRadius: 0,
                                 ),
                               ],
                             ),
                           ),
-                          const SizedBox(height: 2),
                           Text(
                             '$val',
                             style: GoogleFonts.luckiestGuy(
-                              color: GameColors.white,
+                              color: isInfinity
+                                  ? GameColors.amber300
+                                  : GameColors.white,
                               fontSize: 48, // Increased font size
                               height: 1.0,
-                              shadows: const [
+                              shadows: [
                                 Shadow(
-                                  color: GameColors.headerDarkBrown,
-                                  offset: Offset(0, 4),
+                                  color: isInfinity
+                                      ? infinityShadowColor
+                                      : GameColors.headerDarkBrown,
+                                  offset: const Offset(0, 4),
                                   blurRadius: 0,
                                 ),
                               ],
@@ -112,7 +165,7 @@ class GameplayHeader extends StatelessWidget {
               // Stars or Coins (Right)
               Positioned(
                 right: 20,
-                top: game.isInfinityMode ? 45 : 65,
+                top: 60,
                 child: game.isInfinityMode
                     ? ValueListenableBuilder<int>(
                         valueListenable: game.collectedCoins,
@@ -123,27 +176,26 @@ class GameplayHeader extends StatelessWidget {
                               Text(
                                 '$coins',
                                 style: GoogleFonts.luckiestGuy(
-                                  color: GameColors.amber300,
-                                  fontSize: 36,
-                                  shadows: const [
+                                  color: isInfinity
+                                      ? GameColors.amber300
+                                      : GameColors.white,
+                                  fontSize: 36, // Increased font size
+                                  height: 1.0,
+                                  shadows: [
                                     Shadow(
-                                      color: GameColors.brownDarkUi,
-                                      offset: Offset(0, 3),
+                                      color: isInfinity
+                                          ? infinityShadowColor
+                                          : GameColors.headerDarkBrown,
+                                      offset: const Offset(0, 4),
+                                      blurRadius: 0,
                                     ),
                                   ],
                                 ),
                               ),
                               const SizedBox(width: 8),
-                              const Icon(
-                                Icons.monetization_on_rounded,
-                                color: GameColors.amber400,
-                                size: 36,
-                                shadows: [
-                                  Shadow(
-                                    color: GameColors.brownDarkUi,
-                                    offset: Offset(0, 3),
-                                  ),
-                                ],
+                              CustomPaint(
+                                painter: StarFilledPainter(),
+                                child: SizedBox(width: 40, height: 40),
                               ),
                             ],
                           );
@@ -175,7 +227,7 @@ class GameplayHeader extends StatelessWidget {
               // LEAVE (Top Left)
               Positioned(
                 left: 20,
-                top: -5,
+                top: -15,
                 child: GestureDetector(
                   onTap: () {
                     game.pauseEngine();
@@ -242,8 +294,8 @@ class GameplayHeader extends StatelessWidget {
                                               vertical: 10,
                                             ),
                                             decoration: BoxDecoration(
-                                              color: GameColors
-                                                  .green300, // Green
+                                              color:
+                                                  GameColors.green300, // Green
                                               borderRadius:
                                                   BorderRadius.circular(16),
                                               border: Border.all(
@@ -333,12 +385,16 @@ class GameplayHeader extends StatelessWidget {
                     child: Text(
                       'LEAVE',
                       style: GoogleFonts.luckiestGuy(
-                        color: const Color.fromARGB(255, 255, 92, 81),
+                        color: isInfinity
+                            ? infinityAccentColor
+                            : const Color.fromARGB(255, 255, 92, 81),
                         fontSize: 28,
-                        shadows: const [
+                        shadows: [
                           Shadow(
-                            color: Color.fromARGB(255, 52, 18, 18),
-                            offset: Offset(0, 3),
+                            color: isInfinity
+                                ? infinityShadowColor
+                                : const Color.fromARGB(255, 52, 18, 18),
+                            offset: const Offset(0, 3),
                           ),
                         ],
                       ),
@@ -348,39 +404,47 @@ class GameplayHeader extends StatelessWidget {
               ),
 
               // TIMER (Top Right)
-              Positioned(
-                right: 20,
-                top: -5,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ValueListenableBuilder<double>(
-                    valueListenable: game.levelTimerNotifier,
-                    builder: (context, time, child) {
-                      int minutes = time.floor() ~/ 60;
-                      int seconds = (time.floor() % 60);
-                      String timeString =
-                          '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
-                      bool isCritical = time <= 10.0 && game.isLevelTimerActive;
+              if (!game.isInfinityMode)
+                Positioned(
+                  right: 20,
+                  top: -15,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ValueListenableBuilder<double>(
+                      valueListenable: game.levelTimerNotifier,
+                      builder: (context, time, child) {
+                        int minutes = time.floor() ~/ 60;
+                        int seconds = (time.floor() % 60);
+                        String timeString =
+                            '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
+                        bool isCritical =
+                            time <= 10.0 && game.isLevelTimerActive;
 
-                      return Text(
-                        timeString,
-                        style: GoogleFonts.luckiestGuy(
-                          color: isCritical ? GameColors.red : GameColors.green,
-                          fontSize: 28,
-                          shadows: [
-                            Shadow(
-                              color: isCritical
-                                  ? const Color.fromARGB(255, 64, 17, 14)
-                                  : const Color.fromARGB(255, 25, 57, 26),
-                              offset: Offset(0, 3),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
+                        return Text(
+                          timeString,
+                          style: GoogleFonts.luckiestGuy(
+                            color: isCritical
+                                ? GameColors.red300
+                                : isInfinity
+                                ? infinityTimerColor
+                                : GameColors.green,
+                            fontSize: 28,
+                            shadows: [
+                              Shadow(
+                                color: isCritical
+                                    ? const Color.fromARGB(255, 64, 17, 14)
+                                    : isInfinity
+                                    ? infinityShadowColor
+                                    : const Color.fromARGB(255, 25, 57, 26),
+                                offset: const Offset(0, 3),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
-              ),
             ],
           ),
         ),

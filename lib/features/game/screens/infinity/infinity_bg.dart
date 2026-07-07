@@ -70,16 +70,15 @@ class _InfinityScrollGradientPainter extends CustomPainter {
             end: Alignment.bottomCenter,
             colors: [from, to, from],
             stops: const [0.0, 0.55, 1.0],
+            tileMode: TileMode.repeated,
           ).createShader(
-            Rect.fromLTWH(0, 0, size.width, gradientHeight.toDouble()),
+            Rect.fromLTWH(0, -offset, size.width, gradientHeight.toDouble()),
           );
 
-    for (double y = -offset; y < size.height; y += gradientHeight) {
-      canvas.drawRect(
-        Rect.fromLTWH(0, y, size.width, gradientHeight.toDouble()),
-        paint,
-      );
-    }
+    canvas.drawRect(
+      Rect.fromLTWH(0, 0, size.width, size.height),
+      paint,
+    );
   }
 
   @override

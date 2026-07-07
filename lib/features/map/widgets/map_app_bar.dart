@@ -40,7 +40,7 @@ class _MapAppBarState extends State<MapAppBar> {
     final value = points >= 1000
         ? '${(points / 1000).toStringAsFixed(1)}K'
         : points.toString();
-    return '$value PTS';
+    return value;
   }
 
   String _formatFullPoints(int points) {
@@ -258,7 +258,7 @@ class _MapAppBarState extends State<MapAppBar> {
             children: [
               Container(
                 width: double.infinity,
-                margin: const EdgeInsets.only(left: 16),
+                margin: const EdgeInsets.only(left: 25),
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
                     begin: Alignment.topLeft,
@@ -364,7 +364,7 @@ class _MapAppBarState extends State<MapAppBar> {
                 ),
               ),
               Positioned(
-                left: 0,
+                left: 12,
                 child: SvgPicture.asset(
                   'assets/images/add-button.svg',
                   width: 30,

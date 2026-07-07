@@ -122,6 +122,7 @@ class BalancoGame extends FlameGame with KeyboardEvents {
   double initialRightY = 0.0;
 
   double nextSpawnY = 0.0;
+  int nextInfinityCoinBreakScore = 100;
   final Random _random = Random();
 
   final double barPadding = 20.0;
@@ -176,6 +177,7 @@ class BalancoGame extends FlameGame with KeyboardEvents {
       collectedCoins.value = 0;
       lastInfinityScore = 0;
       lastInfinityCoins = 0;
+      nextInfinityCoinBreakScore = 100;
     }
     currentLives.value = 3;
     showGameOverOverlay.value = false;
@@ -387,6 +389,7 @@ class BalancoGame extends FlameGame with KeyboardEvents {
       mainBall.isFreeFalling = false;
       mainBall.velocity = 0.0;
       mainBall.freeFallVelocity.setZero();
+      mainBall.holeImmunityTimer = 2.0;
       shieldTimer = 2.0;
       shieldTimerNotifier.value = 2.0;
       isSpawningLevel = false;
@@ -560,6 +563,7 @@ class BalancoGame extends FlameGame with KeyboardEvents {
         _spawnInfinityObstacle(nextSpawnY);
         nextSpawnY -= 180.0 + _random.nextDouble() * 120.0;
       }
+      nextInfinityCoinBreakScore = 100;
       isSpawningLevel = false;
     } else {
       data = await Isolate.run(() => generateLevelData(levelToGenerate));
@@ -824,8 +828,11 @@ class BalancoGame extends FlameGame with KeyboardEvents {
             infinityAutoScrollSpeed = -400.0;
         }
 
-        double leftInput = leftJoystickValue;
-        double rightInput = rightJoystickValue;
+        double leftInput = isSpawningLevel ? 0.0 : leftJoystickValue;
+        double rightInput = isSpawningLevel ? 0.0 : rightJoystickValue;
+        double currentScrollSpeed = isSpawningLevel
+            ? 0.0
+            : infinityAutoScrollSpeed;
 
         if (isInfinityMode) {
           double avg = (leftInput + rightInput) / 2.0;
@@ -833,13 +840,12 @@ class BalancoGame extends FlameGame with KeyboardEvents {
           rightInput -= avg;
         }
 
-        double newLeftY =
-            leftY + (leftInput * speed + infinityAutoScrollSpeed) * dt;
+        double newLeftY = leftY + (leftInput * speed + currentScrollSpeed) * dt;
         newLeftY = newLeftY.clamp(rightY - maxDiff, rightY + maxDiff);
         if (!isInfinityMode) newLeftY = newLeftY.clamp(minY, maxY);
 
         double newRightY =
-            rightY + (rightInput * speed + infinityAutoScrollSpeed) * dt;
+            rightY + (rightInput * speed + currentScrollSpeed) * dt;
         newRightY = newRightY.clamp(leftY - maxDiff, leftY + maxDiff);
         if (!isInfinityMode) newRightY = newRightY.clamp(minY, maxY);
 
@@ -1012,6 +1018,10 @@ class BalancoGame extends FlameGame with KeyboardEvents {
     double barLength,
     Vector2 normal,
   ) {
+    if (ball.holeImmunityTimer > 0) {
+      ball.holeImmunityTimer = max(0.0, ball.holeImmunityTimer - dt);
+    }
+
     if (ball.isFallingInHole) {
       if (ball.activeHole != null) {
         ball.fallTarget = ball.activeHole!.position.clone();
@@ -1379,6 +1389,8 @@ class BalancoGame extends FlameGame with KeyboardEvents {
 
         // Check hole collisions
         for (final hole in holes) {
+          if (ball.holeImmunityTimer > 0) continue;
+
           double dist = ball.pos2D.distanceTo(hole.position);
           double lethalDist = (hole.size.x / 2) - 2.0;
 
@@ -1672,6 +1684,12 @@ class BalancoGame extends FlameGame with KeyboardEvents {
     final double barMid = (leftY + rightY) / 2.0;
     final double barTop = barMid - 800.0;
     while (nextSpawnY > barTop) {
+      if (currentScore.value >= nextInfinityCoinBreakScore) {
+        _spawnInfinityCoinZigZag(nextSpawnY);
+        nextSpawnY -= 620.0;
+        nextInfinityCoinBreakScore += 100;
+        continue;
+      }
       _spawnInfinityObstacle(nextSpawnY);
       nextSpawnY -= 150.0 + _random.nextDouble() * 130.0;
     }
@@ -1718,7 +1736,7 @@ class BalancoGame extends FlameGame with KeyboardEvents {
 
     final double roll = _random.nextDouble();
 
-    if (roll < 0.10) {
+    if (roll < 0.12) {
       // Coin cluster: 2-4 coins in an arc.
       final int n = 2 + _random.nextInt(3);
       final double cx = rx();
@@ -1730,7 +1748,7 @@ class BalancoGame extends FlameGame with KeyboardEvents {
         coins.add(coin);
         levelContainer.add(coin);
       }
-    } else if (roll < 0.16) {
+    } else if (roll < 0.15) {
       // Heart: rare extra life.
       // In infinity mode position is absolute; HeartComponent.update() won't recalculate
       final double absX = rx();
@@ -1739,7 +1757,7 @@ class BalancoGame extends FlameGame with KeyboardEvents {
         ..priority = 5;
       hearts.add(heart);
       levelContainer.add(heart);
-    } else if (roll < 0.22) {
+    } else if (roll < 0.24) {
       // Magnet power-up: rare.
       final double absX = rx();
       final mag = MagnetComponent(Vector2(absX, y))
@@ -1747,7 +1765,7 @@ class BalancoGame extends FlameGame with KeyboardEvents {
         ..priority = 5;
       magnets.add(mag);
       levelContainer.add(mag);
-    } else if (roll < 0.30) {
+    } else if (roll < 0.27) {
       final double absX = rx();
       final mb =
           MultiBallItem(Vector2(absX, y), ballCount: 1 + _random.nextInt(3))
@@ -1755,7 +1773,7 @@ class BalancoGame extends FlameGame with KeyboardEvents {
             ..priority = 5;
       multiBallItems.add(mb);
       levelContainer.add(mb);
-    } else if (roll < 0.44) {
+    } else if (roll < 0.43) {
       // Bumper.
       final double r = 16 + _random.nextDouble() * 12;
       final double absX = rx();
@@ -1764,7 +1782,7 @@ class BalancoGame extends FlameGame with KeyboardEvents {
         ..priority = 2;
       bumpers.add(bumper);
       levelContainer.add(bumper);
-    } else if (roll < 0.60) {
+    } else if (roll < 0.59) {
       // Regular hole.
       final double sz = 36 + _random.nextDouble() * 18;
       final double absX = rx();
@@ -1793,7 +1811,7 @@ class BalancoGame extends FlameGame with KeyboardEvents {
             ..priority = 1;
       holes.add(hole);
       levelContainer.add(hole);
-    } else if (roll < 0.82) {
+    } else if (roll < 0.84) {
       // Sucking hole.
       final double sz = 42 + _random.nextDouble() * 16;
       final double absX = rx();
@@ -1809,7 +1827,7 @@ class BalancoGame extends FlameGame with KeyboardEvents {
             ..priority = 1;
       holes.add(hole);
       levelContainer.add(hole);
-    } else if (roll < 0.91) {
+    } else if (roll < 0.92) {
       // Bumper gauntlet: 2-3 bumpers in a row.
       final int n = 2 + _random.nextInt(2);
       final double startX =
@@ -1837,6 +1855,24 @@ class BalancoGame extends FlameGame with KeyboardEvents {
         coins.add(coin);
         levelContainer.add(coin);
       }
+    }
+  }
+
+  void _spawnInfinityCoinZigZag(double startY) {
+    final double sizeX = size.x > 0 ? size.x : 400.0;
+    final double leftX = barPadding + 52.0;
+    final double rightX = sizeX - barPadding - 52.0;
+    const int coinCount = 14;
+    const double stepY = 34.0;
+
+    for (int i = 0; i < coinCount; i++) {
+      final double progress = coinCount == 1 ? 0.0 : i / (coinCount - 1);
+      final double wave = i.isEven ? progress : 1.0 - progress;
+      final double x = leftX + (rightX - leftX) * wave;
+      final double y = startY - i * stepY;
+      final coin = CoinComponent(position: Vector2(x, y))..priority = 5;
+      coins.add(coin);
+      levelContainer.add(coin);
     }
   }
 

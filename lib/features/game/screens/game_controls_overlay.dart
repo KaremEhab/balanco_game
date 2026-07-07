@@ -1,5 +1,6 @@
 import 'package:balanco_game/features/map/theme/biome_config.dart';
 import 'package:flutter/material.dart';
+import 'dart:ui';
 import 'package:balanco_game/features/game/game_area.dart';
 import 'package:balanco_game/features/game/components/game_area/shield_icon_painter.dart';
 import 'package:balanco_game/core/data/app_settings.dart';
@@ -17,7 +18,19 @@ class GameControlsOverlay extends StatelessWidget {
     return ValueListenableBuilder<int>(
       valueListenable: game.currentLevel,
       builder: (context, level, child) {
-        final currentBiome = BiomeConfig.getBiomeForLevel(level);
+        final currentBiome = game.isInfinityMode
+            ? game.currentBiome
+            : BiomeConfig.getBiomeForLevel(level);
+        final powerUpColors = game.isInfinityMode
+            ? [
+                GameColors.white.withValues(alpha: 0.2),
+                GameColors.white.withValues(alpha: 0.2),
+              ]
+            : [
+                currentBiome.nodeUnlockedColor,
+                currentBiome.secondaryColor,
+                currentBiome.nodeUnlockedBorderColor,
+              ];
         return SizedBox(
           height: 200,
           width: double.infinity,
@@ -32,6 +45,7 @@ class GameControlsOverlay extends StatelessWidget {
                   child: VerticalJoystick(
                     isLeft: true,
                     biome: currentBiome,
+                    isInfinityMode: game.isInfinityMode,
                     onChanged: (val) => game.leftJoystickValue = val,
                   ),
                 ),
@@ -44,6 +58,7 @@ class GameControlsOverlay extends StatelessWidget {
                   child: VerticalJoystick(
                     isLeft: false,
                     biome: currentBiome,
+                    isInfinityMode: game.isInfinityMode,
                     onChanged: (val) => game.rightJoystickValue = val,
                   ),
                 ),
@@ -79,16 +94,11 @@ class GameControlsOverlay extends StatelessWidget {
                                         onTap: () {
                                           game.useLightCharge();
                                         },
-                                        colors: [
-                                          currentBiome
-                                              .nodeUnlockedColor, // Highlight
-                                          currentBiome.secondaryColor, // Base
-                                          currentBiome
-                                              .nodeUnlockedBorderColor, // Shadow
-                                        ],
+                                        colors: powerUpColors,
+                                        isInfinityMode: game.isInfinityMode,
                                         child: const Icon(
                                           Icons.lightbulb,
-                                          color: GameColors.white,
+                                          color: Color(0xFF46356D),
                                           size: 36,
                                         ),
                                       ),
@@ -116,18 +126,17 @@ class GameControlsOverlay extends StatelessWidget {
                                         game.remainingShields.value -= 1;
                                         game.shieldTimer = 5.0;
                                       },
-                                      colors: [
-                                        currentBiome
-                                            .nodeUnlockedColor, // Highlight
-                                        currentBiome.secondaryColor, // Base
-                                        currentBiome
-                                            .nodeUnlockedBorderColor, // Shadow
-                                      ],
+                                      colors: powerUpColors,
+                                      isInfinityMode: game.isInfinityMode,
                                       child: SizedBox(
                                         width: 36,
                                         height: 36,
                                         child: CustomPaint(
-                                          painter: ShieldIconPainter(),
+                                          painter: ShieldIconPainter(
+                                            color: game.isInfinityMode
+                                                ? GameColors.beachMapThemeColor1
+                                                : GameColors.white,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -157,6 +166,7 @@ class SquarePowerUpButton extends StatefulWidget {
   final VoidCallback onTap;
   final List<Color> colors;
   final Widget child;
+  final bool isInfinityMode;
 
   const SquarePowerUpButton({
     super.key,
@@ -166,6 +176,7 @@ class SquarePowerUpButton extends StatefulWidget {
     required this.onTap,
     required this.colors,
     required this.child,
+    this.isInfinityMode = false,
   });
 
   @override
@@ -200,85 +211,100 @@ class _SquarePowerUpButtonState extends State<SquarePowerUpButton> {
         curve: Curves.easeInOutCubic,
         child: Opacity(
           opacity: canClick || isActive ? 1.0 : 0.5,
-          child: Container(
-            width: 64, // Square button
-            height: 64,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  color: GameColors.black.withValues(alpha: 0.4),
-                  blurRadius: 4.0,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: widget.colors,
-              ),
-            ),
-            child: Stack(
-              clipBehavior: canClick ? Clip.none : Clip.hardEdge,
-              alignment: Alignment.center,
-              children: [
-                // Inner Gloss / Specular Layer
-                Positioned.fill(
-                  child: Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        gradient: const LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            GameColors.magnetPainterColor1,
-                            GameColors.whiteTransparent,
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                if (isActive)
-                  Positioned.fill(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(16),
-                      child: CustomPaint(
-                        painter: ActiveTimePainter(
-                          progress: (widget.activeTime / widget.maxTime).clamp(
-                            0.0,
-                            1.0,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                // Main Icon
-                Center(child: widget.child),
-
-                if (canClick)
-                  // Charges Badge
-                  Positioned(
-                    top: -10,
-                    child: Text(
-                      '${widget.charges}',
-                      style: GoogleFonts.luckiestGuy(
-                        color: GameColors.white,
-                        fontSize: 22,
-                        fontWeight: FontWeight.w900,
-                        shadows: const [
-                          Shadow(
-                            blurRadius: 6.0,
-                            color: GameColors.black,
-                            offset: Offset(0, 0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: BackdropFilter(
+              filter: widget.isInfinityMode
+                  ? ImageFilter.blur(sigmaX: 8, sigmaY: 8)
+                  : ImageFilter.blur(sigmaX: 0, sigmaY: 0),
+              child: Container(
+                width: 64, // Square button
+                height: 64,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  border: widget.isInfinityMode
+                      ? Border.all(
+                          color: GameColors.white.withValues(alpha: 0.5),
+                          width: 1.5,
+                        )
+                      : null,
+                  boxShadow: widget.isInfinityMode
+                      ? null
+                      : [
+                          BoxShadow(
+                            color: GameColors.black.withValues(alpha: 0.4),
+                            blurRadius: 4.0,
+                            offset: const Offset(0, 4),
                           ),
                         ],
-                      ),
-                    ),
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: widget.colors,
                   ),
-              ],
+                ),
+                child: Stack(
+                  clipBehavior: canClick ? Clip.none : Clip.hardEdge,
+                  alignment: Alignment.center,
+                  children: [
+                    if (!widget.isInfinityMode)
+                      // Inner Gloss / Specular Layer
+                      Positioned.fill(
+                        child: Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16),
+                              gradient: const LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [
+                                  GameColors.magnetPainterColor1,
+                                  GameColors.whiteTransparent,
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    if (isActive)
+                      Positioned.fill(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: CustomPaint(
+                            painter: ActiveTimePainter(
+                              progress: (widget.activeTime / widget.maxTime)
+                                  .clamp(0.0, 1.0),
+                            ),
+                          ),
+                        ),
+                      ),
+                    // Main Icon
+                    Center(child: widget.child),
+
+                    if (canClick)
+                      // Charges Badge
+                      Positioned(
+                        top: -10,
+                        child: Text(
+                          '${widget.charges}',
+                          style: GoogleFonts.luckiestGuy(
+                            color: GameColors.white,
+                            fontSize: 22,
+                            fontWeight: FontWeight.w900,
+                            shadows: const [
+                              Shadow(
+                                blurRadius: 6.0,
+                                color: GameColors.black,
+                                offset: Offset(0, 0),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
             ),
           ),
         ),
@@ -291,12 +317,14 @@ class VerticalJoystick extends StatefulWidget {
   final ValueChanged<double> onChanged;
   final bool isLeft;
   final BiomeModel biome;
+  final bool isInfinityMode;
 
   const VerticalJoystick({
     super.key,
     required this.onChanged,
     required this.isLeft,
     required this.biome,
+    this.isInfinityMode = false,
   });
 
   @override
@@ -345,6 +373,28 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
 
   @override
   Widget build(BuildContext context) {
+    final baseTop = widget.isInfinityMode
+        ? const Color(0xFFFFF8E6)
+        : widget.biome.primaryColor;
+    final baseMid = widget.isInfinityMode
+        ? const Color(0xFFD5C28D)
+        : GameColors.blueGray900;
+    final knobLight = widget.isInfinityMode
+        ? const Color(0xFFFFFBF0)
+        : widget.biome.nodeUnlockedColor;
+    final knobMid = widget.isInfinityMode
+        ? const Color(0xFFEEDCA8)
+        : widget.biome.secondaryColor;
+    final knobEdge = widget.isInfinityMode
+        ? const Color(0xFFC7AE73)
+        : widget.biome.primaryColor;
+    final shadowColor = widget.isInfinityMode
+        ? const Color(0xFF4D3C75)
+        : widget.biome.nodeUnlockedBorderColor;
+    final trackColors = widget.isInfinityMode
+        ? const [Color(0xFF211A32), Color(0xFF665989)]
+        : const [GameColors.blackSolid, GameColors.blueGray900];
+
     return Listener(
       onPointerDown: _onPointerDown,
       onPointerMove: _onPointerMove,
@@ -359,52 +409,82 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
           alignment: Alignment.center,
           children: [
             // 2.5D Glossy Surfboard Base (Beach Yellow)
-            Container(
-              width: 60,
-              height: 160,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                gradient: LinearGradient(
-                  colors: [
-                    widget.biome.primaryColor, // Top highlight
-                    GameColors.blueGray900, // Mid shadow
-                    GameColors.blueGray900, // Mid shadow
-                    widget.biome.primaryColor, // Bottom shadow
-                  ],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: GameColors.blackSolid, // 3D thickness
-                    offset: const Offset(0, 4),
-                  ),
-                  BoxShadow(
-                    color: GameColors.black38,
-                    offset: Offset(0, 6),
-                    blurRadius: 4,
-                  ),
-                ],
-              ),
-              child: Center(
-                // Recessed track indent (Crimson red matching surfboard groove)
+            ClipRRect(
+              borderRadius: BorderRadius.circular(100),
+              child: BackdropFilter(
+                filter: widget.isInfinityMode
+                    ? ImageFilter.blur(sigmaX: 8, sigmaY: 8)
+                    : ImageFilter.blur(sigmaX: 0, sigmaY: 0),
                 child: Container(
-                  width: 30,
-                  height: 110,
+                  width: 60,
+                  height: 160,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
-                    gradient: const LinearGradient(
-                      colors: [GameColors.blackSolid, GameColors.blueGray900],
+                    border: widget.isInfinityMode
+                        ? Border.all(
+                            color: GameColors.white.withValues(alpha: 0.4),
+                            width: 1.5,
+                          )
+                        : null,
+                    gradient: LinearGradient(
+                      colors: widget.isInfinityMode
+                          ? [
+                              GameColors.white.withValues(alpha: 0.3),
+                              GameColors.white.withValues(alpha: 0.1),
+                            ]
+                          : [baseTop, baseMid, baseMid, baseTop],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                     ),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: GameColors.black54, // Inner shadow simulation
-                        offset: Offset(0, 2),
-                        blurRadius: 2,
+                    boxShadow: widget.isInfinityMode
+                        ? null
+                        : [
+                            BoxShadow(
+                              color: GameColors.blackSolid, // 3D thickness
+                              offset: const Offset(0, 4),
+                            ),
+                            BoxShadow(
+                              color: GameColors.black38,
+                              offset: Offset(0, 6),
+                              blurRadius: 4,
+                            ),
+                          ],
+                  ),
+                  child: Center(
+                    // Recessed track indent (Crimson red matching surfboard groove)
+                    child: Container(
+                      width: 30,
+                      height: 110,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        border: widget.isInfinityMode
+                            ? Border.all(
+                                color: GameColors.white.withValues(alpha: 0.2),
+                                width: 1,
+                              )
+                            : null,
+                        gradient: LinearGradient(
+                          colors: widget.isInfinityMode
+                              ? [
+                                  GameColors.white.withValues(alpha: 0.1),
+                                  GameColors.white.withValues(alpha: 0.0),
+                                ]
+                              : trackColors,
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
+                        boxShadow: widget.isInfinityMode
+                            ? null
+                            : const [
+                                BoxShadow(
+                                  color: GameColors
+                                      .black54, // Inner shadow simulation
+                                  offset: Offset(0, 2),
+                                  blurRadius: 2,
+                                ),
+                              ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ),
@@ -413,78 +493,96 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
             // 2.5D Glossy Orange Knob
             Align(
               alignment: Alignment(0, _dy / _maxDrag),
-              child: Container(
-                width: 65,
-                height: 65,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: RadialGradient(
-                    colors: [
-                      widget.biome.nodeUnlockedColor, // Bright highlight
-                      widget.biome.secondaryColor, // Main orange
-                      widget.biome.primaryColor, // Shadow edge
-                    ],
-                    center: const Alignment(
-                      -0.3,
-                      -0.3,
-                    ), // Top-left specular highlight
-                    radius: 0.8,
+              child: ClipOval(
+                child: BackdropFilter(
+                  filter: widget.isInfinityMode
+                      ? ImageFilter.blur(sigmaX: 8, sigmaY: 8)
+                      : ImageFilter.blur(sigmaX: 0, sigmaY: 0),
+                  child: Container(
+                    width: 65,
+                    height: 65,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: widget.isInfinityMode
+                          ? Border.all(
+                              color: GameColors.white.withValues(alpha: 0.6),
+                              width: 1.5,
+                            )
+                          : null,
+                      gradient: widget.isInfinityMode
+                          ? LinearGradient(
+                              colors: [
+                                GameColors.white.withValues(alpha: 0.4),
+                                GameColors.white.withValues(alpha: 0.1),
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            )
+                          : RadialGradient(
+                              colors: [knobLight, knobMid, knobEdge],
+                              center: const Alignment(
+                                -0.3,
+                                -0.3,
+                              ), // Top-left specular highlight
+                              radius: 0.8,
+                            ),
+                      boxShadow: widget.isInfinityMode
+                          ? null
+                          : [
+                              BoxShadow(
+                                color: shadowColor,
+                                offset: const Offset(0, 5),
+                              ),
+                              BoxShadow(
+                                color: GameColors.black45,
+                                offset: Offset(0, 8),
+                                blurRadius: 6,
+                              ),
+                            ],
+                    ),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        // Concentric circle detailing
+                        Container(
+                          width: 36,
+                          height: 36,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: GameColors.gameControlsOverlayColor1,
+                              width: 1.5,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 16,
+                          height: 16,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: GameColors.gameControlsOverlayColor1,
+                              width: 1.5,
+                            ),
+                          ),
+                        ),
+                        // Specular reflection dot (stronger white for glossy feel)
+                        Positioned(
+                          top: 10,
+                          left: 14,
+                          child: Container(
+                            width: 12,
+                            height: 6,
+                            decoration: BoxDecoration(
+                              color: GameColors
+                                  .gameControlsOverlayColor2, // 85% opacity white
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: widget
-                          .biome
-                          .nodeUnlockedBorderColor, // Knob 3D thickness
-                      offset: const Offset(0, 5),
-                    ),
-                    BoxShadow(
-                      color: GameColors.black45,
-                      offset: Offset(0, 8),
-                      blurRadius: 6,
-                    ),
-                  ],
-                ),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    // Concentric circle detailing
-                    Container(
-                      width: 36,
-                      height: 36,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: GameColors.gameControlsOverlayColor1,
-                          width: 1.5,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: 16,
-                      height: 16,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: GameColors.gameControlsOverlayColor1,
-                          width: 1.5,
-                        ),
-                      ),
-                    ),
-                    // Specular reflection dot (stronger white for glossy feel)
-                    Positioned(
-                      top: 10,
-                      left: 14,
-                      child: Container(
-                        width: 12,
-                        height: 6,
-                        decoration: BoxDecoration(
-                          color: GameColors
-                              .gameControlsOverlayColor2, // 85% opacity white
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                      ),
-                    ),
-                  ],
                 ),
               ),
             ),

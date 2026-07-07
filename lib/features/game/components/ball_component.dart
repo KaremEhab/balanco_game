@@ -189,34 +189,74 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
       );
     }
 
+    final bool isGlass = game.isInfinityMode;
+
     // 2. Drop shadow (cast on the bar)
     canvas.save();
     canvas.translate(6.0, 10.0);
     canvas.scale(1.0, 0.5);
+    if (isGlass) {
+      _dropShadowPaint.color = GameColors.black.withValues(alpha: 0.2);
+    } else {
+      _dropShadowPaint.color = GameColors.black.withValues(alpha: 0.5);
+    }
     canvas.drawCircle(Offset.zero, game.ballRadius, _dropShadowPaint);
     canvas.restore();
 
-    // Draw rotating BallPainter graphic
-    canvas.save();
-    double angle = (ballData.isFalling || ballData.isFallingInHole)
-        ? ballData.fallRotation
-        : (ballData.p / game.ballRadius);
-    canvas.rotate(angle);
+    if (isGlass) {
+      // Glassy Base Fill
+      final Paint glassFill = Paint()
+        ..color = GameColors.white.withValues(alpha: 0.15)
+        ..style = PaintingStyle.fill;
+      canvas.drawCircle(Offset.zero, game.ballRadius, glassFill);
+    } else {
+      // Draw rotating BallPainter graphic
+      canvas.save();
+      double angle = (ballData.isFalling || ballData.isFallingInHole)
+          ? ballData.fallRotation
+          : (ballData.p / game.ballRadius);
+      canvas.rotate(angle);
 
-    // Scale BallPainter (41.46x42.056) to fit within game.ballRadius * 2
-    double scale = (game.ballRadius * 2) / 42.0;
-    canvas.scale(scale, scale);
-    canvas.translate(-20.73, -21.028);
+      // Scale BallPainter (41.46x42.056) to fit within game.ballRadius * 2
+      double scale = (game.ballRadius * 2) / 42.0;
+      canvas.scale(scale, scale);
+      canvas.translate(-20.73, -21.028);
 
-    canvas.drawPicture(_ballPicture);
+      canvas.drawPicture(_ballPicture);
 
-    canvas.restore();
+      canvas.restore();
+    }
 
     // 3. 3D shading overlay (stationary highlight)
-    canvas.drawCircle(Offset.zero, game.ballRadius, _highlightPaint);
+    if (isGlass) {
+      final Paint glassHighlight = Paint()
+        ..shader = RadialGradient(
+          center: const Alignment(-0.3, -0.3),
+          radius: 0.8,
+          colors: [
+            GameColors.white.withValues(alpha: 0.8), // Bright spot
+            Colors.transparent,
+            GameColors.white.withValues(alpha: 0.3), // Rim light
+          ],
+          stops: const [0.0, 0.4, 1.0],
+        ).createShader(
+          Rect.fromCircle(center: Offset.zero, radius: game.ballRadius),
+        );
+      canvas.drawCircle(Offset.zero, game.ballRadius, glassHighlight);
+    } else {
+      canvas.drawCircle(Offset.zero, game.ballRadius, _highlightPaint);
+    }
 
     // 4. Outer border
-    canvas.drawCircle(Offset.zero, game.ballRadius, _borderPaint);
+    if (isGlass) {
+      final Paint glassBorder = Paint()
+        ..color = GameColors.white.withValues(alpha: 0.7)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.5;
+      canvas.drawCircle(Offset.zero, game.ballRadius, glassBorder);
+    } else {
+      canvas.drawCircle(Offset.zero, game.ballRadius, _borderPaint);
+    }
 
     // 5. Shield Effect
     if (game.isShieldActive) {

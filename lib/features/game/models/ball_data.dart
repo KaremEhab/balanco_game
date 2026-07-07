@@ -20,6 +20,7 @@ class BallData {
   bool isRespawningFromHole = false;
   double respawnTimer = 0.0;
   double spawnTimer = 0.0;
+  double holeImmunityTimer = 0.0;
 
   double squashX = 1.0;
   double squashY = 1.0;

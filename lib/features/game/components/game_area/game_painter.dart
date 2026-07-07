@@ -5,8 +5,13 @@ import 'package:balanco_game/features/map/models/biome_model.dart';
 class GamePainter extends CustomPainter {
   final double innerCornerRadius;
   final BiomeModel biome;
+  final bool isInfinityMode;
 
-  GamePainter({this.innerCornerRadius = 75.0, required this.biome});
+  GamePainter({
+    this.innerCornerRadius = 75.0,
+    required this.biome,
+    this.isInfinityMode = false,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -441,15 +446,25 @@ class GamePainter extends CustomPainter {
     // Smooth, borderless premium gradient (Golden Sand)
     Rect bounds = path_0.getBounds();
     final Paint basePaint = Paint()
-      ..shader = LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [
-          biome.pathColor, // Soft bright
-          biome.primaryColor, // Base
-          biome.nodeUnlockedColor, // Shadow
-        ],
-      ).createShader(bounds);
+      ..shader = isInfinityMode
+          ? const LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                const Color(0xFFFF87),
+                GameColors.white,
+                const Color(0xFFFF87),
+              ],
+            ).createShader(bounds)
+          : LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                biome.pathColor, // Soft bright
+                biome.primaryColor, // Base
+                biome.nodeUnlockedColor, // Shadow
+              ],
+            ).createShader(bounds);
     canvas.drawPath(path_0, basePaint);
 
     // Add a subtle 45-degree diagonal stripe pattern for a premium texture
@@ -457,7 +472,11 @@ class GamePainter extends CustomPainter {
     canvas.clipPath(path_0);
 
     final Paint patternPaint = Paint()
-      ..color = GameColors.white.withValues(alpha: 0.1)
+      ..color =
+          (isInfinityMode
+                  ? const Color.fromARGB(255, 255, 255, 255)
+                  : GameColors.white)
+              .withValues(alpha: isInfinityMode ? 0.01 : 0.1)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 4.0;
 
@@ -475,8 +494,12 @@ class GamePainter extends CustomPainter {
     }
 
     // Add a very soft inner highlight stroke to give the frame a tiny bit of depth without being cartoonish
-    final Paint paint0Fill = Paint()..style = PaintingStyle.stroke..strokeWidth = 2.0;
-    paint0Fill.color = biome.secondaryColor.withValues(alpha: 0.5);
+    final Paint paint0Fill = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2.0;
+    paint0Fill.color = isInfinityMode
+        ? const Color(0xFFFFFBF0).withValues(alpha: 0.82)
+        : biome.secondaryColor.withValues(alpha: 0.5);
     canvas.drawPath(path_0, paint0Fill);
 
     canvas.restore();
@@ -541,7 +564,10 @@ class PauseBtnPainter extends CustomPainter {
       ..shader = LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
-        colors: [biome.nodeUnlockedBorderColor.withValues(alpha: 0.5), GameColors.whiteTransparent],
+        colors: [
+          biome.nodeUnlockedBorderColor.withValues(alpha: 0.5),
+          GameColors.whiteTransparent,
+        ],
       ).createShader(innerLeft);
 
     canvas.drawRRect(

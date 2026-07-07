@@ -536,8 +536,8 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                               children: [
                                 // Blurry Background (Placed behind GamePainter)
                                 Positioned(
-                                  top: 99,
-                                  bottom: 41,
+                                  top: 122,
+                                  bottom: 36,
                                   left: 6,
                                   right: 6,
                                   child: ClipRRect(
@@ -548,8 +548,12 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                                       topRight: Radius.circular(
                                         innerCornerRadius,
                                       ),
-                                      bottomLeft: const Radius.circular(41),
-                                      bottomRight: const Radius.circular(41),
+                                      bottomLeft: const Radius.circular(
+                                        innerCornerRadius,
+                                      ),
+                                      bottomRight: const Radius.circular(
+                                        innerCornerRadius,
+                                      ),
                                     ),
                                     child: BackdropFilter(
                                       filter: ImageFilter.blur(
@@ -557,8 +561,22 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                                         sigmaY: 3.5,
                                       ),
                                       child: Container(
-                                        color: GameColors.white.withValues(
-                                          alpha: 0.2,
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight,
+                                            colors: [
+                                              GameColors.white.withValues(
+                                                alpha: 0.1,
+                                              ),
+                                              GameColors.white.withValues(
+                                                alpha: 0.4,
+                                              ),
+                                              GameColors.white.withValues(
+                                                alpha: 0.1,
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -572,6 +590,8 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                                       painter: GamePainter(
                                         innerCornerRadius: innerCornerRadius,
                                         biome: currentBiome,
+                                        isInfinityMode:
+                                            widget.game.isInfinityMode,
                                       ),
                                     ),
                                   ),
@@ -626,7 +646,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
 
                                 // TOP HEADER (Hearts, Score, etc.)
                                 Positioned(
-                                  top: 24, // Push down slightly
+                                  top: 10,
                                   left: 0,
                                   right: 0,
                                   child: Center(
@@ -657,39 +677,34 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
 
                                 // Pause Button Overlay
                                 Positioned(
-                                  bottom: -15,
+                                  bottom: -5,
                                   left: 0,
                                   right: 0,
                                   child: Center(
                                     child: AnimatedPressButton(
                                       onTap: _showPauseMenu,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(16.0),
-                                        child: Container(
-                                          padding: const EdgeInsets.all(8.0),
-                                          decoration: BoxDecoration(
-                                            color: currentBiome
-                                                .nodeUnlockedColor, // Bright contrasting base
-                                            shape: BoxShape.circle,
-                                            border: Border.all(
-                                              color: currentBiome
-                                                  .primaryColor, // Dark outline
-                                              width: 3.5,
-                                            ),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: currentBiome
-                                                    .nodeUnlockedBorderColor,
-                                                offset: const Offset(0, 4),
-                                              ),
-                                            ],
+                                      child: Container(
+                                        padding: const EdgeInsets.all(6.0),
+                                        decoration: BoxDecoration(
+                                          color: widget.game.isInfinityMode
+                                              ? Colors.white.withValues(
+                                                  alpha: 0.4,
+                                                )
+                                              : currentBiome.nodeUnlockedColor,
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            color: widget.game.isInfinityMode
+                                                ? GameColors.white
+                                                : currentBiome.primaryColor,
+                                            width: 3,
                                           ),
-                                          child: Icon(
-                                            Icons.pause_rounded,
-                                            color: GameColors
-                                                .white, // Dark contrasting icon
-                                            size: 30,
-                                          ),
+                                        ),
+                                        child: Icon(
+                                          Icons.pause_rounded,
+                                          color: widget.game.isInfinityMode
+                                              ? const Color(0xFF46356D)
+                                              : GameColors.white,
+                                          size: 28,
                                         ),
                                       ),
                                     ),

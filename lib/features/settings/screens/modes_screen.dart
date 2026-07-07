@@ -5,11 +5,40 @@ import 'package:balanco_game/core/bloc/app_bloc.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
 import 'package:balanco_game/features/game/screens/gameplay.dart';
 import 'package:balanco_game/features/game/game_area.dart';
+import 'package:balanco_game/core/data/database_helper.dart';
 
-class ModesScreen extends StatelessWidget {
+class ModesScreen extends StatefulWidget {
   final ScrollController scrollController;
 
   const ModesScreen({super.key, required this.scrollController});
+
+  @override
+  State<ModesScreen> createState() => _ModesScreenState();
+}
+
+class _ModesScreenState extends State<ModesScreen> {
+  int _infinityHighScore = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadHighScore();
+  }
+
+  Future<void> _loadHighScore() async {
+    try {
+      final scoreStr = await DatabaseHelper.instance.getConfig(
+        'infinity_high_score',
+      );
+      if (scoreStr != null && mounted) {
+        setState(() {
+          _infinityHighScore = int.parse(scoreStr);
+        });
+      }
+    } catch (e) {
+      debugPrint("Error loading high score: $e");
+    }
+  }
 
   Widget _buildCartoonCard({required Widget child, bool disabled = false}) {
     return Container(
@@ -202,7 +231,7 @@ class ModesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      controller: scrollController,
+      controller: widget.scrollController,
       physics: const BouncingScrollPhysics(),
       padding: EdgeInsets.only(
         left: 24.0,
@@ -309,109 +338,126 @@ class ModesScreen extends StatelessWidget {
 
           const SizedBox(height: 32),
 
-          _buildSectionHeader('GAME TYPE'),
+          _buildSectionHeader('BALANCE MODES'),
 
-          BlocBuilder<AppBloc, AppState>(
-            builder: (context, state) {
-              final isInfinity = state.gameMode == 'infinityBalance';
-              return _buildCartoonCard(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+          _buildCartoonCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
                   children: [
-                    Row(
-                      children: [
-                        _buildModeButton(
-                          label: 'CLASSIC',
-                          icon: Icons.map_rounded,
-                          isSelected: !isInfinity,
-                          activeColor: GameColors.orangeTextUi,
-                          onTap: () {
-                            context.read<AppBloc>().add(
-                              const ChangeGameMode('classic'),
-                            );
-                          },
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: GameColors.deepPurple,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: GameColors.brownDarkUi,
+                          width: 2.5,
                         ),
-                        const SizedBox(width: 16),
-                        _buildModeButton(
-                          label: 'INFINITY',
-                          icon: Icons.all_inclusive_rounded,
-                          isSelected: isInfinity,
-                          activeColor: GameColors.deepPurple,
-                          onTap: () {
-                            context.read<AppBloc>().add(
-                              const ChangeGameMode('infinityBalance'),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 18),
-                    Text(
-                      isInfinity
-                          ? 'INFINITY BALANCE: endless levels, shifting colors, bigger score climbs.'
-                          : 'CLASSIC MAP: clear levels, unlock the route, collect PTS.',
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        color: GameColors.brownDarkUi,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w800,
+                        boxShadow: const [
+                          BoxShadow(
+                            color: GameColors.brownDarkUi,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: const Icon(
+                        Icons.all_inclusive_rounded,
+                        size: 40,
+                        color: GameColors.white,
                       ),
                     ),
-                    if (isInfinity) ...[
-                      const SizedBox(height: 16),
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          final game = BalancoGame(
-                            isMultiplayer: context.read<AppBloc>().state.isMultiplayer,
-                            isInfinityMode: true,
-                            playerRole: context.read<AppBloc>().state.playerRole,
-                            onLevelComplete: () {
-                              Navigator.pop(context);
-                            },
-                          );
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => GamePlayOverlay(game: game),
-                            ),
-                          );
-                        },
-                        icon: const Icon(
-                          Icons.play_arrow_rounded,
-                          size: 32,
-                          color: GameColors.white,
-                        ),
-                        label: Text(
-                          'PLAY INFINITY',
-                          style: GoogleFonts.luckiestGuy(
-                            fontSize: 24,
-                            letterSpacing: 1.5,
-                            color: GameColors.white,
-                          ),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: GameColors.deepPurple,
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            side: const BorderSide(
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'INFINITY BALANCE',
+                            style: GoogleFonts.luckiestGuy(
                               color: GameColors.brownDarkUi,
-                              width: 3.5,
+                              fontSize: 22,
+                              letterSpacing: 1,
                             ),
                           ),
-                          elevation: 6,
-                          shadowColor: GameColors.brownDarkUi,
-                        ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'HIGH SCORE: $_infinityHighScore',
+                            style: GoogleFonts.luckiestGuy(
+                              color: GameColors.orangeTextUi,
+                              fontSize: 18,
+                              letterSpacing: 1,
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ],
                 ),
-              );
-            },
+                // const SizedBox(height: 16),
+                // const Text(
+                //   'Endless levels, shifting colors, and bigger score climbs. How far can you go?',
+                //   textAlign: TextAlign.center,
+                //   style: TextStyle(
+                //     color: GameColors.brownDarkUi,
+                //     fontSize: 14,
+                //     fontWeight: FontWeight.w800,
+                //   ),
+                // ),
+                const SizedBox(height: 16),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    final game = BalancoGame(
+                      isMultiplayer: context
+                          .read<AppBloc>()
+                          .state
+                          .isMultiplayer,
+                      isInfinityMode: true,
+                      playerRole: context.read<AppBloc>().state.playerRole,
+                      onLevelComplete: () {
+                        Navigator.pop(context);
+                        _loadHighScore(); // Refresh score after returning
+                      },
+                    );
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => GamePlayOverlay(game: game),
+                      ),
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.play_arrow_rounded,
+                    size: 32,
+                    color: GameColors.white,
+                  ),
+                  label: Text(
+                    'PLAY INFINITY',
+                    style: GoogleFonts.luckiestGuy(
+                      fontSize: 24,
+                      letterSpacing: 1.5,
+                      color: GameColors.white,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: GameColors.deepPurple,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      side: const BorderSide(
+                        color: GameColors.brownDarkUi,
+                        width: 3.5,
+                      ),
+                    ),
+                    elevation: 6,
+                    shadowColor: GameColors.brownDarkUi,
+                  ),
+                ),
+              ],
+            ),
           ),
 
-          const SizedBox(height: 32),
-
-          _buildSectionHeader('UPCOMING MODES'),
+          const SizedBox(height: 16),
 
           _buildCartoonCard(
             disabled: true,
