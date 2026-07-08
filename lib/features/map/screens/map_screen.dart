@@ -43,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final int totalLevels = 50;
   final double nodeSpacingY = 160.0; // Increased spacing between level holes
   final double bottomPadding =
-      160.0; // Ample padding at the bottom so lowest hole clears the UI
+      360.0; // Ample padding at the bottom so lowest hole clears the UI
   final double topPadding = 180.0;
 
   int highestLevel =
@@ -430,21 +430,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     });
   }
 
-  void _scrollToCurrentLevel({bool animate = false}) {
+  Future<void> _scrollToLevel(int level, {bool animate = false}) async {
     if (widget.scrollController.hasClients && _nodePositions.isNotEmpty) {
-      int index = currentLevel - 1;
+      int index = level - 1;
       if (index >= 0 && index < _nodePositions.length) {
         double yPos = _nodePositions[index].dy;
         // Scroll so the node is roughly in the middle/lower third of the screen
-        double screenHeight = MediaQuery.of(context).size.height;
-        double targetScroll = yPos - (screenHeight * 0.6);
+        double viewportHeight = MediaQuery.of(context).size.height; // Visible area
+        double targetScroll = yPos - (viewportHeight / 2) + 50;
         targetScroll = targetScroll.clamp(
           0.0,
           widget.scrollController.position.maxScrollExtent,
         );
 
         if (animate) {
-          widget.scrollController.animateTo(
+          await widget.scrollController.animateTo(
             targetScroll,
             duration: const Duration(milliseconds: 1000),
             curve: Curves.easeInOutBack,
@@ -454,6 +454,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         }
       }
     }
+  }
+
+  Future<void> _scrollToCurrentLevel({bool animate = false}) {
+    return _scrollToLevel(currentLevel, animate: animate);
   }
 
   void _calculateNodes(double screenWidth) {
@@ -746,7 +750,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             top: 0,
             left: 0,
             right: 0,
-            bottom: 200, // Approx 50px above the floating navbar
+            bottom: 0, // Fill the screen
             child: SingleChildScrollView(
               controller: widget.scrollController,
               // Apply our custom SnapScrollPhysics on top of BouncingScrollPhysics
@@ -831,16 +835,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             teethClosure: _animatingLevel == level
                                 ? _teethClosureAnimation.value
                                 : 0.0,
-                            onTap: () {
+                            onTap: () async {
                               HapticFeedback.lightImpact();
-                              setState(() {
-                                _displayedLevel = level;
-                              });
-                              _scrollToCurrentLevel();
-
                               if (!isUnlocked) {
                                 _triggerLockedFeedback();
                               } else {
+                                setState(() {
+                                  _displayedLevel = level;
+                                });
+                                await _scrollToLevel(level, animate: true);
                                 _handleNodeTap(level);
                               }
                             },
