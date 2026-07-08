@@ -96,6 +96,31 @@ class _EditorOverlayState extends State<EditorOverlay> {
                     ),
                     const SizedBox(height: 20),
                     const Text(
+                      'Level Timer (Seconds)',
+                      style: TextStyle(color: Colors.white70),
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          '${widget.game.levelTimer.toInt()}s',
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        Expanded(
+                          child: Slider(
+                            value: widget.game.levelTimer,
+                            min: 10.0,
+                            max: 300.0,
+                            divisions: 29,
+                            onChanged: (val) {
+                              setStateDialog(() {});
+                              widget.game.levelTimer = val;
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    const Text(
                       'Load Template',
                       style: TextStyle(color: Colors.white70),
                     ),
@@ -180,7 +205,9 @@ class _EditorOverlayState extends State<EditorOverlay> {
                         widget.game.currentLevel.value--;
                         _levelIdController.text = widget.game.currentLevel.value
                             .toString();
-                        AppSettings.setLastEditedLevel(widget.game.currentLevel.value);
+                        AppSettings.setLastEditedLevel(
+                          widget.game.currentLevel.value,
+                        );
                       });
                       widget.game.restartCurrentLevel();
                     }
@@ -200,7 +227,9 @@ class _EditorOverlayState extends State<EditorOverlay> {
                       widget.game.currentLevel.value++;
                       _levelIdController.text = widget.game.currentLevel.value
                           .toString();
-                      AppSettings.setLastEditedLevel(widget.game.currentLevel.value);
+                      AppSettings.setLastEditedLevel(
+                        widget.game.currentLevel.value,
+                      );
                     });
                     widget.game.restartCurrentLevel();
                   },
@@ -347,7 +376,8 @@ class _EditorOverlayState extends State<EditorOverlay> {
                                 },
                               ),
                             ),
-                            if (selected is HoleComponent && selected.isSuckingHole) ...[
+                            if (selected is HoleComponent &&
+                                selected.isSuckingHole) ...[
                               const SizedBox(width: 10),
                               const Text(
                                 'Wind:',

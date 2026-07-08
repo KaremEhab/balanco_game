@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flame/components.dart' hide PositionComponent;
@@ -35,6 +36,7 @@ class EditorItem {
   double suckRadius;
   double moveRange;
   double moveSpeed;
+  String moveAxis; // 'horizontal' or 'vertical'
 
   // Teleporter
   int pairId;
@@ -47,6 +49,7 @@ class EditorItem {
     this.suckRadius = 0.0,
     this.moveRange = 0.0,
     this.moveSpeed = 0.0,
+    this.moveAxis = 'horizontal',
     this.pairId = 0,
   });
 
@@ -59,6 +62,7 @@ class EditorItem {
       suckRadius: suckRadius,
       moveRange: moveRange,
       moveSpeed: moveSpeed,
+      moveAxis: moveAxis,
       pairId: pairId,
     );
   }
@@ -73,13 +77,26 @@ class LevelEditorScreen extends StatefulWidget {
 
 class _LevelEditorScreenState extends State<LevelEditorScreen> {
   int _currentLevel = 1;
+  int _timeLimitSeconds = 60;
+  double _timerSeconds = 120.0;
   List<EditorItem> _items = [];
   EditorItem? _selectedItem;
 
   @override
   void initState() {
     super.initState();
-    _loadLevel(_currentLevel);
+    _initEditor();
+  }
+
+  Future<void> _initEditor() async {
+    final lastLevelStr = await DatabaseHelper.instance.getConfig(
+      'last_edited_level',
+    );
+    final lastLevel = lastLevelStr != null
+        ? int.tryParse(lastLevelStr) ?? 1
+        : 1;
+    setState(() => _currentLevel = lastLevel);
+    await _loadLevel(lastLevel);
   }
 
   Future<void> _loadLevel(int levelId) async {
@@ -87,6 +104,9 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
     if (jsonStr != null) {
       final data = LevelData.fromJson(jsonDecode(jsonStr));
       _items.clear();
+
+      _timeLimitSeconds = data.timeLimitSeconds;
+      _timerSeconds = data.timerSeconds;
 
       for (var h in data.holes) {
         _items.add(
@@ -102,6 +122,7 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
             suckRadius: h.suckRadius,
             moveRange: h.moveRange,
             moveSpeed: h.moveSpeed,
+            moveAxis: h.moveAxis,
           ),
         );
       }
@@ -156,6 +177,8 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
       setState(() {
         _items.clear();
         _selectedItem = null;
+        _timeLimitSeconds = 60;
+        _timerSeconds = 120.0;
       });
     }
   }
@@ -189,6 +212,7 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
               isMovingHole: true,
               moveRange: item.moveRange,
               moveSpeed: item.moveSpeed,
+              moveAxis: item.moveAxis,
             ),
           );
           break;
@@ -221,6 +245,8 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
       teleporters: teleporters,
       magnets: magnets,
       multiBalls: multiBalls,
+      timeLimitSeconds: _timeLimitSeconds,
+      timerSeconds: _timerSeconds,
     );
   }
 
@@ -228,9 +254,11 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
     final data = _generateLevelData();
     final jsonStr = jsonEncode(data.toJson());
     await DatabaseHelper.instance.saveCustomLevel(_currentLevel, jsonStr);
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text('Saved locally!')));
+    if (mounted) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Saved locally!')));
+    }
   }
 
   void _copyToClipboard() {
@@ -239,11 +267,10 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
     Clipboard.setData(ClipboardData(text: '$_currentLevel: \'$jsonStr\','));
     ScaffoldMessenger.of(
       context,
-    ).showSnackBar(SnackBar(content: Text('Copied JSON to clipboard!')));
+    ).showSnackBar(const SnackBar(content: Text('Copied JSON to clipboard!')));
   }
 
   void _testLevel() {
-    // Save to DB first to ensure it's loaded
     _saveLevel().then((_) {
       final game = BalancoGame(
         isMultiplayer: false,
@@ -260,6 +287,59 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
         MaterialPageRoute(builder: (context) => GamePlayOverlay(game: game)),
       );
     });
+  }
+
+  void _showTimerDialog() {
+    double tempTimer = _timerSeconds;
+    showDialog(
+      context: context,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setDialogState) {
+          return AlertDialog(
+            title: const Text("Level Timer"),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "${tempTimer.toInt()} Seconds",
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Slider(
+                  value: tempTimer,
+                  min: 10,
+                  max: 300,
+                  divisions: 29,
+                  label: "${tempTimer.toInt()}",
+                  onChanged: (val) {
+                    setDialogState(() => tempTimer = val);
+                  },
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text("Cancel"),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    _timerSeconds = tempTimer;
+                    _timeLimitSeconds = tempTimer.toInt();
+                  });
+                  _saveLevel();
+                  Navigator.pop(context);
+                },
+                child: const Text("Save"),
+              ),
+            ],
+          );
+        },
+      ),
+    );
   }
 
   Widget _buildCanvas(BuildContext context) {
@@ -292,6 +372,7 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
                     moveSpeed: details.data == EditorItemType.movingHole
                         ? 2.0
                         : 0.0,
+                    moveAxis: 'horizontal',
                   ),
                 );
               });
@@ -302,10 +383,16 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
                 child: Stack(
                   clipBehavior: Clip.none,
                   children: [
-                    // Grid lines (optional)
+                    // Grid lines
                     CustomPaint(
                       size: Size(width, height),
                       painter: GridPainter(),
+                    ),
+
+                    // Visualizer for moving holes paths
+                    CustomPaint(
+                      size: Size(width, height),
+                      painter: PathVisualizerPainter(_items),
                     ),
 
                     // Static Finish Gate
@@ -570,21 +657,57 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
                 ),
               ],
             ),
-          if (_selectedItem!.type == EditorItemType.movingHole)
+          if (_selectedItem!.type == EditorItemType.movingHole) ...[
+            Row(
+              children: [
+                const Text('Axis:'),
+                const SizedBox(width: 16),
+                DropdownButton<String>(
+                  value: _selectedItem!.moveAxis,
+                  items: const [
+                    DropdownMenuItem(
+                      value: 'horizontal',
+                      child: Text('Horizontal'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'vertical',
+                      child: Text('Vertical'),
+                    ),
+                  ],
+                  onChanged: (v) =>
+                      setState(() => _selectedItem!.moveAxis = v!),
+                ),
+              ],
+            ),
             Row(
               children: [
                 const Text('Range:'),
                 Expanded(
                   child: Slider(
                     value: _selectedItem!.moveRange,
-                    min: 0,
-                    max: 0.5,
+                    min: 0.0,
+                    max: 1.0,
                     onChanged: (v) =>
                         setState(() => _selectedItem!.moveRange = v),
                   ),
                 ),
               ],
             ),
+            Row(
+              children: [
+                const Text('Speed:'),
+                Expanded(
+                  child: Slider(
+                    value: _selectedItem!.moveSpeed,
+                    min: 0.0,
+                    max: 10.0,
+                    onChanged: (v) =>
+                        setState(() => _selectedItem!.moveSpeed = v),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ],
       ),
     );
@@ -597,6 +720,23 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
         title: const Text('Level Editor'),
         backgroundColor: Colors.blueGrey,
         actions: [
+          IconButton(
+            icon: const Icon(Icons.timer),
+            tooltip: "Set Global Timer",
+            onPressed: _showTimerDialog,
+          ),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: Text(
+                "${_timeLimitSeconds}s",
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+          ),
           DropdownButton<int>(
             value: _currentLevel,
             dropdownColor: Colors.blueGrey,
@@ -604,8 +744,12 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
             items: List.generate(50, (i) => i + 1).map((l) {
               return DropdownMenuItem(value: l, child: Text('Level $l'));
             }).toList(),
-            onChanged: (v) {
+            onChanged: (v) async {
               if (v != null) {
+                await DatabaseHelper.instance.saveConfig(
+                  'last_edited_level',
+                  v.toString(),
+                );
                 setState(() => _currentLevel = v);
                 _loadLevel(v);
               }
@@ -651,4 +795,54 @@ class GridPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
+
+class PathVisualizerPainter extends CustomPainter {
+  final List<EditorItem> items;
+
+  PathVisualizerPainter(this.items);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.redAccent.withOpacity(0.8)
+      ..strokeWidth = 3
+      ..style = PaintingStyle.stroke;
+
+    for (var item in items) {
+      if (item.type == EditorItemType.movingHole) {
+        double cx = item.x * size.width;
+        double cy = item.y * size.height;
+
+        Path path = Path();
+        if (item.moveAxis == 'horizontal') {
+          double halfRange = (item.moveRange * size.width) / 2;
+          path.moveTo(cx - halfRange, cy);
+          path.lineTo(cx + halfRange, cy);
+        } else {
+          double halfRange = (item.moveRange * size.height) / 2;
+          path.moveTo(cx, cy - halfRange);
+          path.lineTo(cx, cy + halfRange);
+        }
+
+        // Draw dashed path
+        const double dashWidth = 8;
+        const double dashSpace = 6;
+        double distance = 0;
+
+        for (ui.PathMetric measurePath in path.computeMetrics()) {
+          while (distance < measurePath.length) {
+            canvas.drawPath(
+              measurePath.extractPath(distance, distance + dashWidth),
+              paint,
+            );
+            distance += dashWidth + dashSpace;
+          }
+        }
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant PathVisualizerPainter oldDelegate) => true;
 }

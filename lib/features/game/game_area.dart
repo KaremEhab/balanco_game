@@ -85,7 +85,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   bool get isShieldActive => shieldTimer > 0;
 
   // Level timer
-  double get maxLevelTimer => currentLevel.value >= 10 ? 360.0 : 120.0;
+  double maxLevelTimer = 120.0; // Changed from a getter to a mutable variable
   final ValueNotifier<double> levelTimerNotifier = ValueNotifier<double>(120.0);
   double levelTimer = 120.0;
   bool isLevelTimerActive = false;
@@ -151,9 +151,10 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   final ValueNotifier<double> cameraOffsetYNotifier = ValueNotifier<double>(
     0.0,
   );
-  
+
   // Track the height multiplier for the current level (used for tall scrolling levels)
-  final ValueNotifier<double> currentHeightMultiplierNotifier = ValueNotifier<double>(1.0);
+  final ValueNotifier<double> currentHeightMultiplierNotifier =
+      ValueNotifier<double>(1.0);
   double get currentHeightMultiplier => currentHeightMultiplierNotifier.value;
   set currentHeightMultiplier(double val) {
     currentHeightMultiplierNotifier.value = val;
@@ -168,11 +169,12 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     }
   }
 
-  double get levelHeight => isInfinityMode
-      ? 999999.0
-      : size.y * currentHeightMultiplier;
+  double get levelHeight =>
+      isInfinityMode ? 999999.0 : size.y * currentHeightMultiplier;
 
-  final ValueNotifier<PositionComponent?> selectedEditComponent = ValueNotifier(null);
+  final ValueNotifier<PositionComponent?> selectedEditComponent = ValueNotifier(
+    null,
+  );
 
   BalancoGame({
     required this.isMultiplayer,
@@ -198,25 +200,72 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
 
   void spawnEditComponent(EditorItemType type) {
     if (!isEditMode) return;
-    
+
     // Spawn in middle of screen (relative to camera)
     Vector2 spawnPos = Vector2(size.x / 2.0, cameraOffsetY + size.y / 2.0);
-    
+
     PositionComponent newComp;
     switch (type) {
       case EditorItemType.hole:
-        final hData = HoleData(Vector2.zero(), 80.0, 0.0, false, 0.0, isMovingHole: false);
-        newComp = HoleComponent(hData.position, hData.size, hData.rotation, isSuckingHole: hData.isSuckingHole, isMovingHole: hData.isMovingHole, moveRange: hData.moveRange, moveSpeed: hData.moveSpeed)..priority = 1;
+        final hData = HoleData(
+          Vector2.zero(),
+          80.0,
+          0.0,
+          false,
+          0.0,
+          isMovingHole: false,
+        );
+        newComp = HoleComponent(
+          hData.position,
+          hData.size,
+          hData.rotation,
+          isSuckingHole: hData.isSuckingHole,
+          isMovingHole: hData.isMovingHole,
+          moveRange: hData.moveRange,
+          moveSpeed: hData.moveSpeed,
+        )..priority = 1;
         holes.add(newComp as HoleComponent);
         break;
       case EditorItemType.suckingHole:
-        final hData = HoleData(Vector2.zero(), 80.0, 0.0, true, 40.0, isMovingHole: false);
-        newComp = HoleComponent(hData.position, hData.size, hData.rotation, isSuckingHole: hData.isSuckingHole, isMovingHole: hData.isMovingHole, moveRange: hData.moveRange, moveSpeed: hData.moveSpeed)..priority = 1;
+        final hData = HoleData(
+          Vector2.zero(),
+          80.0,
+          0.0,
+          true,
+          40.0,
+          isMovingHole: false,
+        );
+        newComp = HoleComponent(
+          hData.position,
+          hData.size,
+          hData.rotation,
+          isSuckingHole: hData.isSuckingHole,
+          isMovingHole: hData.isMovingHole,
+          moveRange: hData.moveRange,
+          moveSpeed: hData.moveSpeed,
+        )..priority = 1;
         holes.add(newComp as HoleComponent);
         break;
       case EditorItemType.movingHole:
-        final hData = HoleData(Vector2.zero(), 80.0, 0.0, false, 0.0, isMovingHole: true, moveRange: 0.2, moveSpeed: 2.0);
-        newComp = HoleComponent(hData.position, hData.size, hData.rotation, isSuckingHole: hData.isSuckingHole, isMovingHole: hData.isMovingHole, moveRange: hData.moveRange, moveSpeed: hData.moveSpeed)..priority = 1;
+        final hData = HoleData(
+          Vector2.zero(),
+          80.0,
+          0.0,
+          false,
+          0.0,
+          isMovingHole: true,
+          moveRange: 0.2,
+          moveSpeed: 2.0,
+        );
+        newComp = HoleComponent(
+          hData.position,
+          hData.size,
+          hData.rotation,
+          isSuckingHole: hData.isSuckingHole,
+          isMovingHole: hData.isMovingHole,
+          moveRange: hData.moveRange,
+          moveSpeed: hData.moveSpeed,
+        )..priority = 1;
         holes.add(newComp as HoleComponent);
         break;
       case EditorItemType.star:
@@ -244,7 +293,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
         multiBallItems.add(newComp as MultiBallItem);
         break;
     }
-    
+
     newComp.position = spawnPos;
     newComp.scale = Vector2.all(1.0);
     levelContainer.add(newComp);
@@ -261,7 +310,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       if (comp is TeleporterComponent) teleporters.remove(comp);
       if (comp is MagnetComponent) magnets.remove(comp);
       if (comp is MultiBallItem) multiBallItems.remove(comp);
-      
+
       comp.removeFromParent();
       selectedEditComponent.value = null;
     }
@@ -269,23 +318,37 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
 
   Future<void> loadEditorTemplate(int templateLevelId) async {
     if (!isEditMode) return;
-    
+
     // Clear everything
-    for (final hole in holes) { if (hole.parent != null) hole.removeFromParent(); }
+    for (final hole in holes) {
+      if (hole.parent != null) hole.removeFromParent();
+    }
     holes.clear();
-    for (final star in stars) { if (star.parent != null) star.removeFromParent(); }
+    for (final star in stars) {
+      if (star.parent != null) star.removeFromParent();
+    }
     stars.clear();
-    for (final heart in hearts) { if (heart.parent != null) heart.removeFromParent(); }
+    for (final heart in hearts) {
+      if (heart.parent != null) heart.removeFromParent();
+    }
     hearts.clear();
-    for (final bumper in bumpers) { if (bumper.parent != null) bumper.removeFromParent(); }
+    for (final bumper in bumpers) {
+      if (bumper.parent != null) bumper.removeFromParent();
+    }
     bumpers.clear();
-    for (final t in teleporters) { if (t.parent != null) t.removeFromParent(); }
+    for (final t in teleporters) {
+      if (t.parent != null) t.removeFromParent();
+    }
     teleporters.clear();
-    for (final mb in multiBallItems) { if (mb.parent != null) mb.removeFromParent(); }
+    for (final mb in multiBallItems) {
+      if (mb.parent != null) mb.removeFromParent();
+    }
     multiBallItems.clear();
-    for (final mag in magnets) { if (mag.parent != null) mag.removeFromParent(); }
+    for (final mag in magnets) {
+      if (mag.parent != null) mag.removeFromParent();
+    }
     magnets.clear();
-    
+
     if (templateLevelId == -1) {
       // Blank Canvas
       currentHeightMultiplier = 1.0;
@@ -294,58 +357,86 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
         final jsonStr = PremadeLevels.levelsJson[templateLevelId]!;
         final data = LevelData.fromJson(jsonDecode(jsonStr));
         currentHeightMultiplier = data.heightMultiplier;
-        
+
         // Populate
         for (final hData in data.holes) {
           final hole = HoleComponent(
-            hData.position.clone(), hData.size, hData.rotation,
+            hData.position.clone(),
+            hData.size,
+            hData.rotation,
             isSuckingHole: hData.isSuckingHole,
             isMovingHole: hData.isMovingHole,
-            moveRange: hData.moveRange, moveSpeed: hData.moveSpeed,
+            moveRange: hData.moveRange,
+            moveSpeed: hData.moveSpeed,
           )..priority = 1;
-          hole.position = Vector2(hData.position.x * size.x, 120.0 + hData.position.y * (levelHeight - 320.0));
+          hole.position = Vector2(
+            hData.position.x * size.x,
+            120.0 + hData.position.y * (levelHeight - 320.0),
+          );
           hole.scale = Vector2.all(1.0);
           holes.add(hole);
           levelContainer.add(hole);
         }
         for (final sPos in data.stars) {
           final s = StarComponent(sPos)..priority = 10;
-          s.position = Vector2(sPos.x * size.x, 120.0 + sPos.y * (levelHeight - 320.0));
+          s.position = Vector2(
+            sPos.x * size.x,
+            120.0 + sPos.y * (levelHeight - 320.0),
+          );
           s.scale = Vector2.all(1.0);
           stars.add(s);
           levelContainer.add(s);
         }
         for (final hPos in data.hearts) {
           final h = HeartComponent(hPos)..priority = 10;
-          h.position = Vector2(hPos.x * size.x, 120.0 + hPos.y * (levelHeight - 320.0));
+          h.position = Vector2(
+            hPos.x * size.x,
+            120.0 + hPos.y * (levelHeight - 320.0),
+          );
           h.scale = Vector2.all(1.0);
           hearts.add(h);
           levelContainer.add(h);
         }
         for (final bData in data.bumpers) {
           final b = BumperComponent(bData.position, bData.size)..priority = 2;
-          b.position = Vector2(bData.position.x * size.x, 120.0 + bData.position.y * (levelHeight - 320.0));
+          b.position = Vector2(
+            bData.position.x * size.x,
+            120.0 + bData.position.y * (levelHeight - 320.0),
+          );
           b.scale = Vector2.all(1.0);
           bumpers.add(b);
           levelContainer.add(b);
         }
         for (final tData in data.teleporters) {
-          final t = TeleporterComponent(tData.position, tData.size, tData.pairId)..priority = 1;
-          t.position = Vector2(tData.position.x * size.x, 120.0 + tData.position.y * (levelHeight - 320.0));
+          final t = TeleporterComponent(
+            tData.position,
+            tData.size,
+            tData.pairId,
+          )..priority = 1;
+          t.position = Vector2(
+            tData.position.x * size.x,
+            120.0 + tData.position.y * (levelHeight - 320.0),
+          );
           t.scale = Vector2.all(1.0);
           teleporters.add(t);
           levelContainer.add(t);
         }
         for (final magPos in data.magnets) {
           final mag = MagnetComponent(magPos)..priority = 5;
-          mag.position = Vector2(magPos.x * size.x, 120.0 + magPos.y * (levelHeight - 320.0));
+          mag.position = Vector2(
+            magPos.x * size.x,
+            120.0 + magPos.y * (levelHeight - 320.0),
+          );
           mag.scale = Vector2.all(1.0);
           magnets.add(mag);
           levelContainer.add(mag);
         }
         for (final mbPos in data.multiBalls) {
           final mb = MultiBallItem(mbPos)..priority = 5;
-          mb.position = Vector2(mbPos.x * size.x, 120.0 + mbPos.y * (levelHeight - 320.0));
+          mb.position = Vector2(
+            mbPos.x * size.x,
+            120.0 + mbPos.y * (levelHeight - 320.0),
+          );
           mb.scale = Vector2.all(1.0);
           multiBallItems.add(mb);
           levelContainer.add(mb);
@@ -357,41 +448,78 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   String exportLevelData() {
     final Map<String, dynamic> data = {
       'levelNumber': currentLevel.value,
-      'holes': holes.map((h) => {
-        'x': h.position.x / size.x, 'y': (h.position.y - 120.0) / (levelHeight - 320.0),
-        'size': h.size.x * h.scale.x,
-        'rotation': 0.0,
-        'isSuckingHole': h.isSuckingHole,
-        'suckRadius': h.suckRadius * h.scale.x,
-        'isMovingHole': h.isMovingHole,
-        'moveRange': h.moveRange,
-        'moveSpeed': h.moveSpeed,
-      }).toList(),
-      'stars': stars.map((s) => {
-        'x': s.position.x / size.x, 'y': (s.position.y - 120.0) / (levelHeight - 320.0),
-      }).toList(),
-      'hearts': hearts.map((h) => {
-        'x': h.position.x / size.x, 'y': (h.position.y - 120.0) / (levelHeight - 320.0),
-      }).toList(),
-      'bumpers': bumpers.map((b) => {
-        'x': b.position.x / size.x, 'y': (b.position.y - 120.0) / (levelHeight - 320.0),
-        'radius': b.radius * b.scale.x,
-      }).toList(),
-      'teleporters': teleporters.map((t) => {
-        'x': t.position.x / size.x, 'y': (t.position.y - 120.0) / (levelHeight - 320.0),
-        'radius': t.radius * t.scale.x,
-        'pairId': t.index,
-      }).toList(),
-      'magnets': magnets.map((m) => {
-        'x': m.position.x / size.x, 'y': (m.position.y - 120.0) / (levelHeight - 320.0),
-      }).toList(),
-      'multiBalls': multiBallItems.map((m) => {
-        'x': m.position.x / size.x, 'y': (m.position.y - 120.0) / (levelHeight - 320.0),
-        'ballCount': m.ballCount,
-      }).toList(),
+      'holes': holes
+          .map(
+            (h) => {
+              'x': h.position.x / size.x,
+              'y': (h.position.y - 120.0) / (levelHeight - 320.0),
+              'size': h.size.x * h.scale.x,
+              'rotation': 0.0,
+              'isSuckingHole': h.isSuckingHole,
+              'suckRadius': h.suckRadius * h.scale.x,
+              'isMovingHole': h.isMovingHole,
+              'moveRange': h.moveRange,
+              'moveSpeed': h.moveSpeed,
+            },
+          )
+          .toList(),
+      'stars': stars
+          .map(
+            (s) => {
+              'x': s.position.x / size.x,
+              'y': (s.position.y - 120.0) / (levelHeight - 320.0),
+            },
+          )
+          .toList(),
+      'hearts': hearts
+          .map(
+            (h) => {
+              'x': h.position.x / size.x,
+              'y': (h.position.y - 120.0) / (levelHeight - 320.0),
+            },
+          )
+          .toList(),
+      'bumpers': bumpers
+          .map(
+            (b) => {
+              'x': b.position.x / size.x,
+              'y': (b.position.y - 120.0) / (levelHeight - 320.0),
+              'radius': b.radius * b.scale.x,
+            },
+          )
+          .toList(),
+      'teleporters': teleporters
+          .map(
+            (t) => {
+              'x': t.position.x / size.x,
+              'y': (t.position.y - 120.0) / (levelHeight - 320.0),
+              'radius': t.radius * t.scale.x,
+              'pairId': t.index,
+            },
+          )
+          .toList(),
+      'magnets': magnets
+          .map(
+            (m) => {
+              'x': m.position.x / size.x,
+              'y': (m.position.y - 120.0) / (levelHeight - 320.0),
+            },
+          )
+          .toList(),
+      'multiBalls': multiBallItems
+          .map(
+            (m) => {
+              'x': m.position.x / size.x,
+              'y': (m.position.y - 120.0) / (levelHeight - 320.0),
+              'ballCount': m.ballCount,
+            },
+          )
+          .toList(),
       'heightMultiplier': currentHeightMultiplier,
+      'timeLimitSeconds': levelTimer.toInt(), // Add this!
+      'timerSeconds': levelTimer, // Add this!
     };
-    
+
     // We should encode to JSON, import dart:convert at the top.
     return jsonEncode(data);
   }
@@ -793,7 +921,9 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     final int levelToGenerate = currentLevel.value;
 
     if (isEditMode) {
-      final customJsonStr = await DatabaseHelper.instance.getCustomLevel(levelToGenerate);
+      final customJsonStr = await DatabaseHelper.instance.getCustomLevel(
+        levelToGenerate,
+      );
       if (customJsonStr != null) {
         data = LevelData.fromJson(jsonDecode(customJsonStr));
       } else if (PremadeLevels.levelsJson.containsKey(levelToGenerate)) {
@@ -801,8 +931,13 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
         data = LevelData.fromJson(jsonDecode(jsonStr));
       } else {
         data = LevelData(
-          holes: [], teleporters: [], bumpers: [], stars: [],
-          hearts: [], multiBalls: [], magnets: [],
+          holes: [],
+          teleporters: [],
+          bumpers: [],
+          stars: [],
+          hearts: [],
+          multiBalls: [],
+          magnets: [],
         );
       }
       isSpawningLevel = false;
@@ -833,7 +968,9 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
         final jsonStr = PremadeLevels.levelsJson[levelToGenerate]!;
         data = LevelData.fromJson(jsonDecode(jsonStr));
       } else {
-        final customJsonStr = await DatabaseHelper.instance.getCustomLevel(levelToGenerate);
+        final customJsonStr = await DatabaseHelper.instance.getCustomLevel(
+          levelToGenerate,
+        );
         if (customJsonStr != null) {
           data = LevelData.fromJson(jsonDecode(customJsonStr));
         } else {
@@ -857,7 +994,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
 
     if (!isEditMode && !isInfinityMode) {
       currentHeightMultiplierNotifier.value = data.heightMultiplier;
-      
+
       // Now that we have the real height multiplier, fix the bar position if it was reset to the bottom
       if (barResetTimer == 0.0) {
         leftY = levelHeight - 70.0;
@@ -867,6 +1004,16 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
 
     pendingSpawns.clear();
     targetPositions.clear();
+    // Check for time-related obstacles
+    if (data.timeLimitSeconds != null && data.timeLimitSeconds! > 0) {
+      maxLevelTimer = data.timeLimitSeconds!.toDouble();
+      levelTimer = maxLevelTimer;
+      levelTimerNotifier.value = levelTimer;
+    } else if (data.timerSeconds != null) {
+      maxLevelTimer = data.timerSeconds!;
+      levelTimer = maxLevelTimer;
+      levelTimerNotifier.value = levelTimer;
+    }
 
     isDarknessLevel = levelToGenerate >= 11;
 
@@ -1137,8 +1284,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
         newLeftY = newLeftY.clamp(rightY - maxDiff, rightY + maxDiff);
         if (!isInfinityMode) newLeftY = newLeftY.clamp(minY, maxY);
 
-        double newRightY =
-            rightY + (rightInput * speed) * dt;
+        double newRightY = rightY + (rightInput * speed) * dt;
         newRightY = newRightY.clamp(leftY - maxDiff, leftY + maxDiff);
         if (!isInfinityMode) newRightY = newRightY.clamp(minY, maxY);
 
@@ -1685,9 +1831,8 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
           if (ball.holeImmunityTimer > 0) continue;
 
           double dist = ball.pos2D.distanceTo(hole.position);
-          double lethalDist = (hole.size.x / 2 * hole.scale.x) - 2.0 * hole.scale.x;
-
-
+          double lethalDist =
+              (hole.size.x / 2 * hole.scale.x) - 2.0 * hole.scale.x;
 
           if (dist < lethalDist) {
             if (isShieldActive) {
@@ -1706,7 +1851,8 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
             } catch (_) {}
             ball.fallTarget = hole.position.clone();
             break;
-          } else if (hole.isSuckingHole && dist < hole.suckRadius * hole.scale.x) {
+          } else if (hole.isSuckingHole &&
+              dist < hole.suckRadius * hole.scale.x) {
             if (isShieldActive) {
               continue;
             }
@@ -2281,17 +2427,14 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     try {
       final profile = await DatabaseHelper.instance.getPlayerProfile();
       final newCoins = profile.coins + finalCoins;
-      final newHighScore = finalScore > profile.infinityHighScore 
-          ? finalScore 
+      final newHighScore = finalScore > profile.infinityHighScore
+          ? finalScore
           : profile.infinityHighScore;
 
       await DatabaseHelper.instance.updatePlayerProfile(
-        profile.copyWith(
-          coins: newCoins,
-          infinityHighScore: newHighScore,
-        ),
+        profile.copyWith(coins: newCoins, infinityHighScore: newHighScore),
       );
-      
+
       infinityHighScore = newHighScore;
     } catch (e) {
       print("DEBUG: Failed to save coins or high score: $e");
