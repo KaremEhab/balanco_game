@@ -820,32 +820,15 @@ class BalancoGame extends FlameGame with KeyboardEvents {
             baseSpeed * (!anyBallOnBar && anyPortalCatchWindow ? 0.60 : 1.0);
         double maxDiff = 120.0;
 
-        double infinityAutoScrollSpeed = 0.0;
-        if (isInfinityMode && anyBallOnBar) {
-          // Increase speed slightly based on score
-          infinityAutoScrollSpeed = -150.0 - (currentScore.value * 0.1);
-          if (infinityAutoScrollSpeed < -400.0)
-            infinityAutoScrollSpeed = -400.0;
-        }
-
         double leftInput = isSpawningLevel ? 0.0 : leftJoystickValue;
         double rightInput = isSpawningLevel ? 0.0 : rightJoystickValue;
-        double currentScrollSpeed = isSpawningLevel
-            ? 0.0
-            : infinityAutoScrollSpeed;
 
-        if (isInfinityMode) {
-          double avg = (leftInput + rightInput) / 2.0;
-          leftInput -= avg;
-          rightInput -= avg;
-        }
-
-        double newLeftY = leftY + (leftInput * speed + currentScrollSpeed) * dt;
+        double newLeftY = leftY + (leftInput * speed) * dt;
         newLeftY = newLeftY.clamp(rightY - maxDiff, rightY + maxDiff);
         if (!isInfinityMode) newLeftY = newLeftY.clamp(minY, maxY);
 
         double newRightY =
-            rightY + (rightInput * speed + currentScrollSpeed) * dt;
+            rightY + (rightInput * speed) * dt;
         newRightY = newRightY.clamp(leftY - maxDiff, leftY + maxDiff);
         if (!isInfinityMode) newRightY = newRightY.clamp(minY, maxY);
 
@@ -1970,10 +1953,8 @@ class BalancoGame extends FlameGame with KeyboardEvents {
 
   Future<void> _loadInfinityHighScore() async {
     try {
-      final highScoreStr = await DatabaseHelper.instance.getConfig(
-        'infinity_high_score',
-      );
-      infinityHighScore = highScoreStr != null ? int.parse(highScoreStr) : 0;
+      final profile = await DatabaseHelper.instance.getPlayerProfile();
+      infinityHighScore = profile.infinityHighScore;
     } catch (_) {}
   }
 
@@ -1990,21 +1971,18 @@ class BalancoGame extends FlameGame with KeyboardEvents {
     try {
       final profile = await DatabaseHelper.instance.getPlayerProfile();
       final newCoins = profile.coins + finalCoins;
-      await DatabaseHelper.instance.updatePlayerProfile(
-        profile.copyWith(coins: newCoins),
-      );
+      final newHighScore = finalScore > profile.infinityHighScore 
+          ? finalScore 
+          : profile.infinityHighScore;
 
-      final highScoreStr = await DatabaseHelper.instance.getConfig(
-        'infinity_high_score',
+      await DatabaseHelper.instance.updatePlayerProfile(
+        profile.copyWith(
+          coins: newCoins,
+          infinityHighScore: newHighScore,
+        ),
       );
-      infinityHighScore = highScoreStr != null ? int.parse(highScoreStr) : 0;
-      if (finalScore > infinityHighScore) {
-        infinityHighScore = finalScore;
-        await DatabaseHelper.instance.saveConfig(
-          'infinity_high_score',
-          infinityHighScore.toString(),
-        );
-      }
+      
+      infinityHighScore = newHighScore;
     } catch (e) {
       print("DEBUG: Failed to save coins or high score: $e");
     } finally {

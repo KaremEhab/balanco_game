@@ -27,12 +27,10 @@ class _ModesScreenState extends State<ModesScreen> {
 
   Future<void> _loadHighScore() async {
     try {
-      final scoreStr = await DatabaseHelper.instance.getConfig(
-        'infinity_high_score',
-      );
-      if (scoreStr != null && mounted) {
+      final profile = await DatabaseHelper.instance.getPlayerProfile();
+      if (mounted) {
         setState(() {
-          _infinityHighScore = int.parse(scoreStr);
+          _infinityHighScore = profile.infinityHighScore;
         });
       }
     } catch (e) {
@@ -424,7 +422,9 @@ class _ModesScreenState extends State<ModesScreen> {
                       MaterialPageRoute(
                         builder: (_) => GamePlayOverlay(game: game),
                       ),
-                    );
+                    ).then((_) {
+                      _loadHighScore();
+                    });
                   },
                   icon: const Icon(
                     Icons.play_arrow_rounded,

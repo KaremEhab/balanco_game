@@ -26,7 +26,12 @@ class DatabaseHelper {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
 
-    return await openDatabase(path, version: 1, onCreate: _createDB);
+    return await openDatabase(
+      path,
+      version: 2,
+      onCreate: _createDB,
+      onUpgrade: _upgradeDB,
+    );
   }
 
   Future _createDB(Database db, int version) async {
@@ -37,7 +42,8 @@ CREATE TABLE player_profile (
   highestLevel INTEGER NOT NULL,
   lastPlayedLevel INTEGER NOT NULL,
   coins INTEGER NOT NULL,
-  streak INTEGER NOT NULL
+  streak INTEGER NOT NULL,
+  infinity_high_score INTEGER DEFAULT 0
 )
 ''');
 
@@ -64,7 +70,16 @@ CREATE TABLE app_config (
       'lastPlayedLevel': 1,
       'coins': 1200, // starting coins (from UI placeholder)
       'streak': 5, // starting streak (from UI placeholder)
+      'infinity_high_score': 0,
     });
+  }
+
+  Future _upgradeDB(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < 2) {
+      await db.execute(
+        'ALTER TABLE player_profile ADD COLUMN infinity_high_score INTEGER DEFAULT 0',
+      );
+    }
   }
 
   // --- Player Profile ---

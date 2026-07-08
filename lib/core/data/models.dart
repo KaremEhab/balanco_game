@@ -5,6 +5,7 @@ class PlayerProfile {
   final int lastPlayedLevel;
   final int coins;
   final int streak;
+  final int infinityHighScore;
 
   PlayerProfile({
     this.id = 1,
@@ -13,6 +14,7 @@ class PlayerProfile {
     required this.lastPlayedLevel,
     required this.coins,
     required this.streak,
+    this.infinityHighScore = 0,
   });
 
   Map<String, dynamic> toMap() {
@@ -23,6 +25,7 @@ class PlayerProfile {
       'lastPlayedLevel': lastPlayedLevel,
       'coins': coins,
       'streak': streak,
+      'infinity_high_score': infinityHighScore,
     };
   }
 
@@ -33,7 +36,8 @@ class PlayerProfile {
       highestLevel: map['highestLevel'],
       lastPlayedLevel: map['lastPlayedLevel'],
       coins: map['coins'],
-      streak: map['streak'],
+      streak: map['streak'] ?? 0,
+      infinityHighScore: map['infinity_high_score'] ?? 0,
     );
   }
 
@@ -43,6 +47,7 @@ class PlayerProfile {
     int? lastPlayedLevel,
     int? coins,
     int? streak,
+    int? infinityHighScore,
   }) {
     return PlayerProfile(
       id: id,
@@ -51,6 +56,7 @@ class PlayerProfile {
       lastPlayedLevel: lastPlayedLevel ?? this.lastPlayedLevel,
       coins: coins ?? this.coins,
       streak: streak ?? this.streak,
+      infinityHighScore: infinityHighScore ?? this.infinityHighScore,
     );
   }
 }

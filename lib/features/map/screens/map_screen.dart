@@ -20,6 +20,7 @@ import 'package:balanco_game/features/map/theme/map_theme.dart';
 import 'package:balanco_game/features/map/theme/themes/beach_map_theme.dart';
 import 'package:balanco_game/core/data/app_settings.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
+import 'package:balanco_game/core/widgets/cartoon_star.dart';
 
 class HomeScreen extends StatefulWidget {
   final ScrollController scrollController;
@@ -41,10 +42,10 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final int totalLevels = 50;
-  final double nodeSpacingY = 160.0; // Increased spacing between level holes
+  final double nodeSpacingY = 180.0; // Increased spacing between level holes
   final double bottomPadding =
-      360.0; // Ample padding at the bottom so lowest hole clears the UI
-  final double topPadding = 180.0;
+      310.0; // Ample padding at the bottom so lowest hole clears the UI
+  final double topPadding = 140.0;
 
   int highestLevel =
       0; // Initialize to 0 so first load doesn't trigger unlock animation
@@ -327,9 +328,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     double screenHeight = MediaQuery.of(context).size.height;
     double totalHeight = _getVirtualHeight();
 
+    double safeBottom = MediaQuery.of(context).padding.bottom;
+    double focalOffsetFromTop = screenHeight - (208 + safeBottom + 30);
+
     double rawLevel =
         1 +
-        (totalHeight - bottomPadding - scrollOffset - (screenHeight * 0.6)) /
+        (totalHeight - bottomPadding - scrollOffset - focalOffsetFromTop) /
             nodeSpacingY;
     int calculatedLevel = rawLevel.round().clamp(1, totalLevels);
 
@@ -371,10 +375,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
       // We want to transition fully over the space of one nodeSpacingY
       // So transition starts at gapY + nodeSpacingY/2 and ends at gapY - nodeSpacingY/2
+      // The visual focal point on screen is at focalOffsetFromTop.
       double transitionStartOffset =
-          gapY + (nodeSpacingY / 2) - (screenHeight * 0.6);
+          gapY + (nodeSpacingY / 2) - focalOffsetFromTop;
       double transitionEndOffset =
-          gapY - (nodeSpacingY / 2) - (screenHeight * 0.6);
+          gapY - (nodeSpacingY / 2) - focalOffsetFromTop;
 
       double progress = 0.0;
       if (scrollOffset >= transitionStartOffset) {
@@ -436,8 +441,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       if (index >= 0 && index < _nodePositions.length) {
         double yPos = _nodePositions[index].dy;
         // Scroll so the node is roughly in the middle/lower third of the screen
-        double viewportHeight = MediaQuery.of(context).size.height; // Visible area
-        double targetScroll = yPos - (viewportHeight / 2) + 50;
+        double viewportHeight = MediaQuery.of(
+          context,
+        ).size.height; // Visible area
+        double safeBottom = MediaQuery.of(context).padding.bottom;
+        double focalOffsetFromTop = viewportHeight - (208 + safeBottom + 30);
+
+        double targetScroll = yPos - focalOffsetFromTop;
         targetScroll = targetScroll.clamp(
           0.0,
           widget.scrollController.position.maxScrollExtent,
@@ -484,10 +494,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return bottomPadding + topPadding + (totalLevels * nodeSpacingY);
   }
 
-  void _handleNodeTap(int level) {
+  void _handleNodeTap(int level) async {
     if (_animatingLevel != null) return; // Prevent multiple taps
 
     if (level <= highestLevel) {
+      // If the tapped level is not the currently centered level, scroll to it first.
+      if (level != currentLevel && level != _displayedLevel) {
+        await _scrollToLevel(level, animate: true);
+        // Wait a tiny bit for scroll to settle before flying
+        await Future.delayed(const Duration(milliseconds: 100));
+        if (!mounted) return;
+      }
+
       setState(() {
         _animatingLevel = level;
       });
@@ -549,10 +567,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
-    // Start position: the idle ball position at the bottom
-    // Bottom: 208, Left: Center. Ball size is 60.
+    // Start position: the idle ball position which is anchored to the bottom
+    final double safeBottom = MediaQuery.of(context).padding.bottom;
+    final double platformBottom = 50 + safeBottom;
+    final double focalOffsetFromTop = screenHeight - (platformBottom - 20);
+
     final double startX = (screenWidth - 60) / 2;
-    final double startY = screenHeight - 208 - 60;
+    final double startY = focalOffsetFromTop - 10;
 
     // End position: the target hole
     final Offset nodePos = _nodePositions[level - 1];
@@ -884,10 +905,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     _previousBiome != null &&
                     _targetBiome != null;
 
-                // The falling ball's top position on screen:
-                // Platform sits at bottom: 208, widget height ~60
-                // Ball landing position from top = screenHeight - 208 - 60 + ball center offset
-                final double ballLandingTopFromTop = screenHeight - 268 - 16;
+                double safeBottom = MediaQuery.of(context).padding.bottom;
+                double playButtonBottom = 110 + safeBottom;
+                double platformBottom = 190 + safeBottom;
+
+                // The visual focal point from top is:
+                double focalOffsetFromTop =
+                    screenHeight - (platformBottom + 30);
+
+                final double ballLandingTopFromTop = focalOffsetFromTop - 30;
                 final double ballStartTopFromTop =
                     -60.0; // above the status bar
                 // _newBallDropAnimation goes 0.0 (start, top) → 1.0 (landed)
@@ -904,7 +930,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       children: [
                         // ─── Play Button ───────────────────────────────────────────
                         Positioned(
-                          bottom: 130,
+                          bottom: playButtonBottom,
                           left:
                               (screenWidth - 200) / 2 + _buzzerAnimation.value,
                           child: Stack(
@@ -961,7 +987,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
                         // ─── Platform + Normal (idle) ball ────────────────────────
                         Positioned(
-                          bottom: 208,
+                          bottom: platformBottom,
                           left: (screenWidth - 60) / 2 + _buzzerAnimation.value,
                           child: AnimatedBuilder(
                             animation: _idleJumpController,
@@ -1007,8 +1033,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           Positioned(
                             // Centre the 120x120 shatter canvas over where the ball was
                             bottom:
-                                208 -
-                                30, // -30 to vertically center the larger canvas
+                                platformBottom -
+                                30, // -30 to vertically center the 120px canvas over the 60px platform
                             left:
                                 (screenWidth - 120) / 2 +
                                 _buzzerAnimation.value,
@@ -1572,20 +1598,22 @@ class _AnimatedLevelNodeState extends State<AnimatedLevelNode>
             children: [
               childPainter,
               if (widget.isUnlocked)
-                Positioned(
-                  top: -30,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
+                Positioned.fill(
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    alignment: Alignment.center,
                     children: List.generate(3, (index) {
                       bool collected = index < widget.stars;
-                      return Icon(
-                        collected
-                            ? Icons.star_rounded
-                            : Icons.star_border_rounded,
-                        color: collected
-                            ? Colors.yellow
-                            : GameColors.mapScreenColor3,
-                        size: 30,
+                      double angle = (index - 1) * (pi / 5.5);
+                      double radius = (currentSize / 2) + 25;
+                      double dx = sin(angle) * radius;
+                      double dy = -cos(angle) * radius;
+                      return Transform.translate(
+                        offset: Offset(dx, dy),
+                        child: Transform.rotate(
+                          angle: angle,
+                          child: CartoonStar(isCollected: collected, size: 35),
+                        ),
                       );
                     }),
                   ),
@@ -1717,20 +1745,25 @@ class _AnimatedLevelNodeState extends State<AnimatedLevelNode>
                           ),
                         ),
                         if (widget.isUnlocked)
-                          Positioned(
-                            top: -15,
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
+                          Positioned.fill(
+                            child: Stack(
+                              clipBehavior: Clip.none,
+                              alignment: Alignment.center,
                               children: List.generate(3, (index) {
                                 bool collected = index < widget.stars;
-                                return Icon(
-                                  collected
-                                      ? Icons.star_rounded
-                                      : Icons.star_border_rounded,
-                                  color: collected
-                                      ? Colors.yellow
-                                      : GameColors.mapScreenColor3,
-                                  size: 20,
+                                double angle = (index - 1) * (pi / 5.5);
+                                double radius = (widget.unlockedSize / 2) + 16;
+                                double dx = sin(angle) * radius;
+                                double dy = -cos(angle) * radius;
+                                return Transform.translate(
+                                  offset: Offset(dx, dy),
+                                  child: Transform.rotate(
+                                    angle: angle,
+                                    child: CartoonStar(
+                                      isCollected: collected,
+                                      size: 28,
+                                    ),
+                                  ),
                                 );
                               }),
                             ),
