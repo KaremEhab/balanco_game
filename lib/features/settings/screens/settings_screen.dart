@@ -1,7 +1,11 @@
+import 'package:balanco_game/features/game/components/game_background/bg_config_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:balanco_game/core/data/app_settings.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
+import 'package:balanco_game/features/editor/screens/level_editor_screen.dart';
+import 'package:balanco_game/features/game/screens/gameplay.dart';
+import 'package:balanco_game/features/game/game_area.dart';
 
 class SettingsScreen extends StatelessWidget {
   final ScrollController scrollController;
@@ -368,6 +372,55 @@ class SettingsScreen extends StatelessWidget {
                   icon: Icons.description_outlined,
                   title: 'Terms of Service',
                   onTap: () {},
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 32),
+
+          _buildSectionHeader('DEVELOPER TOOLS'),
+          _buildCartoonCard(
+            child: Column(
+              children: [
+                _buildLinkRow(
+                  icon: Icons.code,
+                  title: 'Level Editor',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          final game = BalancoGame(
+                            isMultiplayer: false,
+                            playerRole: 'host',
+                            isEditMode: true,
+                          );
+                          game.currentLevel.value =
+                              AppSettings.lastEditedLevel.value;
+                          return GamePlayOverlay(game: game);
+                        },
+                      ),
+                    );
+                  },
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 12.0),
+                  child: Divider(
+                    height: 2,
+                    color: GameColors.brownDarkUi,
+                    thickness: 2,
+                  ),
+                ),
+                _buildLinkRow(
+                  icon: Icons.code,
+                  title: 'Background Editor',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const BgConfigScreen()),
+                    );
+                  },
                 ),
               ],
             ),

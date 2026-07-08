@@ -4,24 +4,28 @@ import 'package:flutter/material.dart';
 import 'package:balanco_game/features/game/game_area.dart';
 import 'package:balanco_game/features/game/models/ball_data.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
+import 'package:flame/events.dart';
+import 'package:balanco_game/features/editor/mixins/editor_draggable.dart';
 
 
 class HoleComponent extends PositionComponent
-    with HasGameReference<BalancoGame> {
+    with HasGameReference<BalancoGame>, TapCallbacks, DragCallbacks, EditorDraggable {
   Vector2 fractionalPosition;
   double _rotation = 0.0;
   double _pulseTime = 0.0;
   bool isPassed = false;
 
   final bool isSuckingHole;
-  double get suckRadius => size.x * 2.0;
+  double suckRadius;
   final bool isMovingHole;
-  final double moveRange;
-  final double moveSpeed;
+  double moveRange;
+  double moveSpeed;
+  String moveAxis;
 
 
 
   double _originalFractionalX = 0.0;
+  double _originalFractionalY = 0.0;
   double _timeAccumulator = 0.0;
 
   // Cached Paints
@@ -56,20 +60,25 @@ class HoleComponent extends PositionComponent
     double holeSize,
     double rotation, {
     this.isSuckingHole = false,
+    double suckRadius = 0.0,
     this.isMovingHole = false,
     this.moveRange = 0.0,
     this.moveSpeed = 0.0,
-  }) : super(size: Vector2.all(holeSize), anchor: Anchor.center, angle: 0) {
+    this.moveAxis = 'horizontal',
+  }) : suckRadius = suckRadius > 0.0 ? suckRadius : holeSize * 2.0,
+       super(size: Vector2.all(holeSize), anchor: Anchor.center, angle: 0) {
     _rotation = rotation;
     _originalFractionalX = fractionalPosition.x;
+    _originalFractionalY = fractionalPosition.y;
   }
 
-  @override
-  Future<void> onLoad() async {
-    super.onLoad();
+  void updateSuckRadius(double newRadius) {
+    suckRadius = newRadius;
+    _createWindShader();
+  }
 
+  void _createWindShader() {
     final currentBiome = game.currentBiome;
-
     _windAreaPaint = Paint()
       ..shader = RadialGradient(
         center: Alignment.center,
@@ -79,6 +88,15 @@ class HoleComponent extends PositionComponent
           Colors.transparent,
         ],
       ).createShader(Rect.fromCircle(center: Offset.zero, radius: suckRadius));
+  }
+
+  @override
+  Future<void> onLoad() async {
+    super.onLoad();
+
+    final currentBiome = game.currentBiome;
+
+    _createWindShader();
 
     _suckParticlePaint = Paint()
       ..color = currentBiome.primaryColor.withValues(alpha: 0.5);
@@ -196,9 +214,12 @@ class HoleComponent extends PositionComponent
       // Moving holes oscillate around their spawn x
       if (isMovingHole && !game.isSpawningLevel) {
         _timeAccumulator += dt;
-        position.x =
-            _originalFractionalX +
-            sin(_timeAccumulator * moveSpeed * 0.02) * moveRange;
+        final offset = sin(_timeAccumulator * moveSpeed * 0.02) * moveRange;
+        if (moveAxis == 'vertical') {
+          position.y = _originalFractionalY + offset;
+        } else {
+          position.x = _originalFractionalX + offset;
+        }
       } else {
         position.x = fractionalPosition.x;
       }
@@ -208,11 +229,15 @@ class HoleComponent extends PositionComponent
 
     if (isMovingHole && !game.isSpawningLevel) {
       _timeAccumulator += dt;
-      fractionalPosition.x =
-          _originalFractionalX + sin(_timeAccumulator * moveSpeed) * moveRange;
+      final offset = sin(_timeAccumulator * moveSpeed) * moveRange;
+      if (moveAxis == 'vertical') {
+        fractionalPosition.y = _originalFractionalY + offset;
+      } else {
+        fractionalPosition.x = _originalFractionalX + offset;
+      }
     }
 
-    if (!game.isSpawningLevel && game.size.x > 0 && game.size.y > 0) {
+    if (!game.isEditMode && !game.isSpawningLevel && game.size.x > 0 && game.size.y > 0) {
       position = Vector2(
         fractionalPosition.x * game.size.x,
         120.0 + fractionalPosition.y * (game.levelHeight - 320.0),
@@ -354,6 +379,7 @@ class HoleComponent extends PositionComponent
       canvas.restore();
     }
 
-    canvas.restore(); // restore main translation
+    canvas.restore();
+    renderEditorHighlight(canvas);
   }
 }

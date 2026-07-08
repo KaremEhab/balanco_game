@@ -6,8 +6,12 @@ import 'package:balanco_game/features/game/game_area.dart';
 import 'package:balanco_game/features/game/components/game_area/collected_heart_painter.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
 
+import 'package:balanco_game/features/game/models/ball_data.dart';
+import 'package:balanco_game/features/editor/mixins/editor_draggable.dart';
+import 'package:flame/events.dart';
+
 class HeartComponent extends PositionComponent
-    with HasGameReference<BalancoGame> {
+    with HasGameReference<BalancoGame>, TapCallbacks, DragCallbacks, EditorDraggable {
   Vector2 fractionalPosition;
   double _time = 0.0;
   bool isCollected = false;
@@ -45,7 +49,7 @@ class HeartComponent extends PositionComponent
   void update(double dt) {
     super.update(dt);
 
-    if (!game.isSpawningLevel &&
+    if (!game.isEditMode && !game.isSpawningLevel &&
         !game.isInfinityMode && // In infinity mode, position is set absolutely
         game.size.x > 0 &&
         game.size.y > 0 &&
@@ -115,5 +119,6 @@ class HeartComponent extends PositionComponent
     }
 
     canvas.restore();
+    renderEditorHighlight(canvas);
   }
 }

@@ -19,6 +19,7 @@ import 'package:balanco_game/features/game/widgets/gameplay_header.dart';
 import 'package:balanco_game/core/widgets/parallax_background_widget.dart';
 import 'package:balanco_game/features/game/screens/overlays/time_stop_overlay.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
+import 'package:balanco_game/features/editor/screens/editor_overlay.dart';
 
 class GamePlayOverlay extends StatefulWidget {
   final BalancoGame game;
@@ -645,6 +646,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                                 ),
 
                                 // TOP HEADER (Hearts, Score, etc.)
+                                if (!widget.game.isEditMode)
                                 Positioned(
                                   top: 10,
                                   left: 0,
@@ -666,7 +668,14 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                                   ),
                                 ),
 
+                                // Editor Overlay
+                                if (widget.game.isEditMode)
+                                  Positioned.fill(
+                                    child: EditorOverlay(game: widget.game),
+                                  ),
+
                                 // Joysticks & Controls Overlay
+                                if (!widget.game.isEditMode)
                                 Positioned(
                                   bottom: 10,
                                   left: 0,
@@ -676,6 +685,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                                 ),
 
                                 // Pause Button Overlay
+                                if (!widget.game.isEditMode)
                                 Positioned(
                                   bottom: -5,
                                   left: 0,

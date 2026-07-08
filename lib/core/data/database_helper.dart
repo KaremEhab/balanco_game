@@ -28,7 +28,7 @@ class DatabaseHelper {
 
     return await openDatabase(
       path,
-      version: 2,
+      version: 3,
       onCreate: _createDB,
       onUpgrade: _upgradeDB,
     );
@@ -62,6 +62,14 @@ CREATE TABLE app_config (
 )
 ''');
 
+    await db.execute('''
+CREATE TABLE custom_levels (
+  level_id INTEGER PRIMARY KEY,
+  is_infinity INTEGER NOT NULL DEFAULT 0,
+  level_json TEXT NOT NULL
+)
+''');
+
     // Insert default player profile
     await db.insert('player_profile', {
       'id': 1,
@@ -79,6 +87,15 @@ CREATE TABLE app_config (
       await db.execute(
         'ALTER TABLE player_profile ADD COLUMN infinity_high_score INTEGER DEFAULT 0',
       );
+    }
+    if (oldVersion < 3) {
+      await db.execute('''
+CREATE TABLE custom_levels (
+  level_id INTEGER PRIMARY KEY,
+  is_infinity INTEGER NOT NULL DEFAULT 0,
+  level_json TEXT NOT NULL
+)
+''');
     }
   }
 
@@ -168,5 +185,35 @@ CREATE TABLE app_config (
   Future<void> deleteConfig(String key) async {
     final db = await instance.database;
     await db.delete('app_config', where: 'key = ?', whereArgs: [key]);
+  }
+
+  // --- Custom Levels (Editor) ---
+
+  Future<void> saveCustomLevel(int levelId, String jsonStr, {bool isInfinity = false}) async {
+    final db = await instance.database;
+    await db.insert(
+      'custom_levels',
+      {
+        'level_id': levelId,
+        'is_infinity': isInfinity ? 1 : 0,
+        'level_json': jsonStr,
+      },
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  Future<String?> getCustomLevel(int levelId) async {
+    final db = await instance.database;
+    final maps = await db.query(
+      'custom_levels',
+      columns: ['level_json'],
+      where: 'level_id = ?',
+      whereArgs: [levelId],
+    );
+
+    if (maps.isNotEmpty) {
+      return maps.first['level_json'] as String;
+    }
+    return null;
   }
 }

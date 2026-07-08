@@ -7,6 +7,7 @@ class AppSettings {
   static final ValueNotifier<bool> hapticsEnabled = ValueNotifier(true);
   static final ValueNotifier<bool> parallaxEnabled = ValueNotifier(true);
   static final ValueNotifier<double> joystickSensitivity = ValueNotifier(1.0);
+  static final ValueNotifier<int> lastEditedLevel = ValueNotifier(1);
 
   static Future<void> init() async {
     final db = DatabaseHelper.instance;
@@ -28,6 +29,11 @@ class AppSettings {
     final parallaxConfig = await db.getConfig('parallax_enabled');
     if (parallaxConfig != null) {
       parallaxEnabled.value = parallaxConfig == 'true';
+    }
+
+    final lastEditedLevelConfig = await db.getConfig('last_edited_level');
+    if (lastEditedLevelConfig != null) {
+      lastEditedLevel.value = int.tryParse(lastEditedLevelConfig) ?? 1;
     }
   }
 
@@ -52,6 +58,11 @@ class AppSettings {
   static void setParallaxEnabled(bool value) {
     parallaxEnabled.value = value;
     DatabaseHelper.instance.saveConfig('parallax_enabled', value.toString());
+  }
+
+  static void setLastEditedLevel(int value) {
+    lastEditedLevel.value = value;
+    DatabaseHelper.instance.saveConfig('last_edited_level', value.toString());
   }
 
   static Future<AudioPlayer?> playSound(

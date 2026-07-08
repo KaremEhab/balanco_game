@@ -187,17 +187,6 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       extendBody: true,
       backgroundColor: Colors.transparent,
-      // ── DEV TOOL: open background config editor ──────────────────────────
-      floatingActionButton: FloatingActionButton.small(
-        heroTag: 'bg_config_fab',
-        backgroundColor: const Color(0xFF5B3AA8),
-        tooltip: 'BG Config Editor',
-        onPressed: () => Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => const BgConfigScreen()),
-        ),
-        child: const Text('🎨', style: TextStyle(fontSize: 16)),
-      ),
       body: Stack(
         children: [
           // Parallax Background
@@ -251,6 +240,82 @@ class _MainScreenState extends State<MainScreen> {
               );
             },
             children: _screens,
+          ),
+
+          // ─── Top & Bottom Blur & Gradient Overlays (Global) ───────────────
+          AnimatedBuilder(
+            animation: Listenable.merge([
+              currentBiomeNotifier,
+              previousBiomeNotifier,
+              biomeTransitionProgress,
+            ]),
+            builder: (context, child) {
+              final currentBiome = currentBiomeNotifier.value;
+              final previousBiome = previousBiomeNotifier.value ?? currentBiome;
+              final progress = biomeTransitionProgress.value;
+
+              final Color interpolatedColor = currentBiome == null
+                  ? GameColors.mainScreenColor1
+                  : Color.lerp(
+                          previousBiome?.primaryColor ??
+                              currentBiome.primaryColor,
+                          currentBiome.primaryColor,
+                          progress,
+                        ) ??
+                        currentBiome.primaryColor;
+
+              final double topHeight = MediaQuery.of(context).padding.top + 80;
+              final double bottomHeight =
+                  MediaQuery.of(context).padding.bottom + 60;
+              const int steps = 5;
+
+              return Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  // Top Color Gradient
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: topHeight,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            interpolatedColor.withValues(alpha: 0.4),
+                            interpolatedColor.withValues(alpha: 0.0),
+                          ],
+                          stops: const [0.3, 1.0],
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  // Bottom Color Gradient
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    height: bottomHeight,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                          colors: [
+                            interpolatedColor.withValues(alpha: 0.4),
+                            interpolatedColor.withValues(alpha: 0.0),
+                          ],
+                          stops: const [0.3, 1.0],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
 
           // Floating Top App Bar (Profile, Stats) - Always Fixed
