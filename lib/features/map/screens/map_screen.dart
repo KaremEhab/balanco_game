@@ -322,6 +322,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     super.dispose();
   }
 
+  double _getPlayButtonBottom(BuildContext context) {
+    return 110.0 + MediaQuery.of(context).padding.bottom;
+  }
+
+  double _getPlatformBottom(BuildContext context) {
+    return 190.0 + MediaQuery.of(context).padding.bottom;
+  }
+
+  double _getFocalOffsetFromTop(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    return screenHeight - (_getPlatformBottom(context) + 30.0);
+  }
+
   void _onScroll() {
     if (!widget.scrollController.hasClients) return;
 
@@ -329,8 +342,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     double screenHeight = MediaQuery.of(context).size.height;
     double totalHeight = _getVirtualHeight();
 
-    double safeBottom = MediaQuery.of(context).padding.bottom;
-    double focalOffsetFromTop = screenHeight - (208 + safeBottom + 30);
+    double focalOffsetFromTop = _getFocalOffsetFromTop(context);
 
     double rawLevel =
         1 +
@@ -442,11 +454,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       if (index >= 0 && index < _nodePositions.length) {
         double yPos = _nodePositions[index].dy;
         // Scroll so the node is roughly in the middle/lower third of the screen
-        double viewportHeight = MediaQuery.of(
-          context,
-        ).size.height; // Visible area
-        double safeBottom = MediaQuery.of(context).padding.bottom;
-        double focalOffsetFromTop = viewportHeight - (208 + safeBottom + 30);
+        double focalOffsetFromTop = _getFocalOffsetFromTop(context);
 
         double targetScroll = yPos - focalOffsetFromTop;
         targetScroll = targetScroll.clamp(
@@ -569,12 +577,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     double screenHeight = MediaQuery.of(context).size.height;
 
     // Start position: the idle ball position which is anchored to the bottom
-    final double safeBottom = MediaQuery.of(context).padding.bottom;
-    final double platformBottom = 50 + safeBottom;
-    final double focalOffsetFromTop = screenHeight - (platformBottom - 20);
+    final double focalOffsetFromTop = _getFocalOffsetFromTop(context);
 
     final double startX = (screenWidth - 60) / 2;
-    final double startY = focalOffsetFromTop - 10;
+    final double startY = focalOffsetFromTop - 30;
 
     // End position: the target hole
     final Offset nodePos = _nodePositions[level - 1];
@@ -906,13 +912,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     _previousBiome != null &&
                     _targetBiome != null;
 
-                double safeBottom = MediaQuery.of(context).padding.bottom;
-                double playButtonBottom = 110 + safeBottom;
-                double platformBottom = 190 + safeBottom;
+                double playButtonBottom = _getPlayButtonBottom(context);
+                double platformBottom = _getPlatformBottom(context);
 
                 // The visual focal point from top is:
-                double focalOffsetFromTop =
-                    screenHeight - (platformBottom + 30);
+                double focalOffsetFromTop = _getFocalOffsetFromTop(context);
 
                 final double ballLandingTopFromTop = focalOffsetFromTop - 30;
                 final double ballStartTopFromTop =

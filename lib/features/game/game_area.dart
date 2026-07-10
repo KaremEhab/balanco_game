@@ -67,7 +67,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   final ValueNotifier<int> currentPoints = ValueNotifier<int>(0);
   final ValueNotifier<int> currentScore = ValueNotifier<int>(0);
   final ValueNotifier<int> collectedCoins = ValueNotifier<int>(0);
-  final ValueNotifier<int> currentLives = ValueNotifier<int>(3);
+  late final ValueNotifier<int> currentLives = ValueNotifier<int>(isInfinityMode ? 1 : 3);
   final ValueNotifier<int> earnedLevelPoints = ValueNotifier<int>(0);
   int infinityHighScore = 0;
   int lastInfinityScore = 0;
@@ -541,7 +541,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       lastInfinityCoins = 0;
       nextInfinityChunkBoundaryY = 0.0;
     }
-    currentLives.value = 3;
+    currentLives.value = isInfinityMode ? 1 : 3;
     showGameOverOverlay.value = false;
 
     children.whereType<ConfettiComponent>().forEach(
@@ -1164,7 +1164,8 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       return;
     }
 
-    if (isLevelTimerActive &&
+    if (!isInfinityMode &&
+        isLevelTimerActive &&
         activeBalls.any((b) => !b.isFalling) &&
         !isBoardHidden) {
       double previousTimer = levelTimer;

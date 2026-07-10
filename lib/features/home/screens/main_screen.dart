@@ -328,7 +328,7 @@ class _MainScreenState extends State<MainScreen> {
 
           // Collapsible Center Navbar
           Positioned(
-            bottom: 20,
+            bottom: 20 + MediaQuery.of(context).padding.bottom,
             left: 0,
             right: 0,
             child: GestureDetector(
