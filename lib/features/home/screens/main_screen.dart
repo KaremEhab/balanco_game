@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:balanco_game/core/data/database_helper.dart';
+import 'package:balanco_game/core/data/models.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
@@ -70,8 +71,12 @@ class _MainScreenState extends State<MainScreen> {
         biomeTransitionProgress: biomeTransitionProgress,
         currentBiomeNotifier: currentBiomeNotifier,
         previousBiomeNotifier: previousBiomeNotifier,
+        onReturnFromGame: _loadData,
       ),
-      ModesScreen(scrollController: _modesScrollController),
+      ModesScreen(
+        scrollController: _modesScrollController,
+        onReturnFromGame: _loadData,
+      ),
       LeaderboardScreen(scrollController: _leaderboardScrollController),
       SettingsScreen(scrollController: _settingsScrollController),
     ];
@@ -678,15 +683,20 @@ class _MainScreenState extends State<MainScreen> {
             return ValueListenableBuilder<double>(
               valueListenable: _expandProgressNotifier,
               builder: (context, expandProgress, child) {
-                return MapAppBar(
-                  highestLevel: _highestLevel,
-                  coins: _coins,
-                  sparks: 2, // Defaulting to 2 as per the previous mockup
-                  maxSparks: 5,
-                  expandProgress: expandProgress,
-                  biomeTransitionProgress: biomeTransitionProgress,
-                  currentBiome: currentBiome,
-                  previousBiome: previousBiome,
+                return ValueListenableBuilder<PlayerProfile?>(
+                  valueListenable: DatabaseHelper.instance.profileNotifier,
+                  builder: (context, profile, _) {
+                    return MapAppBar(
+                      highestLevel: profile?.highestLevel ?? _highestLevel,
+                      coins: profile?.coins ?? _coins,
+                      sparks: 2, // Defaulting to 2 as per the previous mockup
+                      maxSparks: 5,
+                      expandProgress: expandProgress,
+                      biomeTransitionProgress: biomeTransitionProgress,
+                      currentBiome: currentBiome,
+                      previousBiome: previousBiome,
+                    );
+                  },
                 );
               },
             );

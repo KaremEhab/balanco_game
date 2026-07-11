@@ -99,6 +99,7 @@ class LevelData {
   final List<Vector2> magnets;
   final double heightMultiplier;
   final double timerSeconds;
+  final bool hasBomb;
 
   LevelData({
     required this.holes,
@@ -111,6 +112,7 @@ class LevelData {
     this.magnets = const [],
     this.heightMultiplier = 1.0,
     this.timerSeconds = 120.0,
+    this.hasBomb = false,
   });
 
   Map<String, dynamic> toJson() => {
@@ -125,6 +127,7 @@ class LevelData {
     'magnets': magnets.map((e) => {'x': e.x, 'y': e.y}).toList(),
     'heightMultiplier': heightMultiplier,
     'timerSeconds': timerSeconds,
+    'hasBomb': hasBomb,
   };
 
   factory LevelData.fromJson(Map<String, dynamic> json) => LevelData(
@@ -164,5 +167,6 @@ class LevelData {
         [],
     heightMultiplier: (json['heightMultiplier'] ?? 1.0).toDouble(),
     timerSeconds: (json['timerSeconds'] ?? 120.0).toDouble(),
+    hasBomb: json['hasBomb'] ?? false,
   );
 }

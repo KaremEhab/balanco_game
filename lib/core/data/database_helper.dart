@@ -13,6 +13,8 @@ List<LevelProgress> _parseLevelProgressList(
 class DatabaseHelper {
   static final DatabaseHelper instance = DatabaseHelper._init();
   static Database? _database;
+  
+  final ValueNotifier<PlayerProfile?> profileNotifier = ValueNotifier(null);
 
   DatabaseHelper._init();
 
@@ -110,7 +112,9 @@ CREATE TABLE custom_levels (
     );
 
     if (maps.isNotEmpty) {
-      return PlayerProfile.fromMap(maps.first);
+      final profile = PlayerProfile.fromMap(maps.first);
+      profileNotifier.value = profile;
+      return profile;
     } else {
       throw Exception('Player profile not found');
     }
@@ -124,6 +128,7 @@ CREATE TABLE custom_levels (
       where: 'id = ?',
       whereArgs: [1],
     );
+    profileNotifier.value = profile;
   }
 
   // --- Level Progress ---

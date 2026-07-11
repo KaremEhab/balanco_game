@@ -9,8 +9,13 @@ import 'package:balanco_game/core/data/database_helper.dart';
 
 class ModesScreen extends StatefulWidget {
   final ScrollController scrollController;
+  final VoidCallback? onReturnFromGame;
 
-  const ModesScreen({super.key, required this.scrollController});
+  const ModesScreen({
+    super.key,
+    required this.scrollController,
+    this.onReturnFromGame,
+  });
 
   @override
   State<ModesScreen> createState() => _ModesScreenState();
@@ -424,6 +429,7 @@ class _ModesScreenState extends State<ModesScreen> {
                       ),
                     ).then((_) {
                       _loadHighScore();
+                      widget.onReturnFromGame?.call();
                     });
                   },
                   icon: const Icon(

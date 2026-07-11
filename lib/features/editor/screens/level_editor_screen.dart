@@ -79,6 +79,7 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
   int _currentLevel = 1;
   int _timeLimitSeconds = 60;
   double _timerSeconds = 120.0;
+  bool _hasBomb = false;
   List<EditorItem> _items = [];
   EditorItem? _selectedItem;
 
@@ -107,6 +108,7 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
 
       _timeLimitSeconds = data.timeLimitSeconds;
       _timerSeconds = data.timerSeconds;
+      _hasBomb = data.hasBomb;
 
       for (var h in data.holes) {
         _items.add(
@@ -179,6 +181,7 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
         _selectedItem = null;
         _timeLimitSeconds = 60;
         _timerSeconds = 120.0;
+        _hasBomb = false;
       });
     }
   }
@@ -247,6 +250,7 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
       multiBalls: multiBalls,
       timeLimitSeconds: _timeLimitSeconds,
       timerSeconds: _timerSeconds,
+      hasBomb: _hasBomb,
     );
   }
 
@@ -720,6 +724,18 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
         title: const Text('Level Editor'),
         backgroundColor: Colors.blueGrey,
         actions: [
+          IconButton(
+            icon: Icon(
+              Icons.warning_amber_rounded,
+              color: _hasBomb ? Colors.red : Colors.white70,
+            ),
+            tooltip: "Toggle Bomb Obstacle",
+            onPressed: () {
+              setState(() {
+                _hasBomb = !_hasBomb;
+              });
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.timer),
             tooltip: "Set Global Timer",

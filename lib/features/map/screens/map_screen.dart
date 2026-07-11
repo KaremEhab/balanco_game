@@ -28,6 +28,7 @@ class HomeScreen extends StatefulWidget {
   final ValueNotifier<double>? biomeTransitionProgress;
   final ValueNotifier<BiomeModel?>? currentBiomeNotifier;
   final ValueNotifier<BiomeModel?>? previousBiomeNotifier;
+  final VoidCallback? onReturnFromGame;
 
   const HomeScreen({
     super.key,
@@ -35,6 +36,7 @@ class HomeScreen extends StatefulWidget {
     this.biomeTransitionProgress,
     this.currentBiomeNotifier,
     this.previousBiomeNotifier,
+    this.onReturnFromGame,
   });
 
   @override
@@ -44,8 +46,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final int totalLevels = 50;
   final double nodeSpacingY = 180.0; // Increased spacing between level holes
-  final double bottomPadding =
-      310.0; // Ample padding at the bottom so lowest hole clears the UI
+  double get bottomPadding =>
+      310.0 + MediaQuery.of(context).padding.bottom; // Ample padding at the bottom so lowest hole clears the UI
   final double topPadding = 140.0;
 
   int highestLevel =
@@ -518,7 +520,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       setState(() {
         _animatingLevel = level;
       });
-      _runFlyToHoleAnimation(level);
+      _startGameplay(level);
     } else {
       HapticFeedback.vibrate();
       _triggerLockedFeedback();
@@ -758,6 +760,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     }
 
     _loadData();
+    widget.onReturnFromGame?.call();
     if (mounted) {
       _idleJumpController.repeat(reverse: true);
     }

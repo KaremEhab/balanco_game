@@ -22,6 +22,9 @@ class BallData {
   double spawnTimer = 0.0;
   double holeImmunityTimer = 0.0;
 
+  bool isShattering = false;
+  double shatterTimer = 0.0;
+
   double squashX = 1.0;
   double squashY = 1.0;
   double bounceTimer = 0.0;

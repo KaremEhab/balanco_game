@@ -26,6 +26,8 @@ import 'package:balanco_game/features/game/components/items/multi_ball_item.dart
 import 'package:balanco_game/features/game/components/magnet_component.dart';
 import 'package:balanco_game/features/game/components/coin_component.dart';
 import 'package:balanco_game/features/game/components/floating_text_component.dart';
+import 'package:balanco_game/features/game/components/bomb_warning_component.dart';
+import 'package:balanco_game/features/game/components/bomb_component.dart';
 
 import 'package:balanco_game/features/game/models/ball_data.dart';
 import 'package:balanco_game/features/game/models/level_data.dart';
@@ -108,6 +110,12 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   List<BallComponent> activeBallComponents = [];
   double timeStopTimer = 0.0;
   final ValueNotifier<double> timeStopNotifier = ValueNotifier<double>(0.0);
+
+  // Bomb state
+  double bombSpawnTimer = 0.0;
+  double nextBombSpawnThreshold = 8.0; // Dynamic for infinity mode
+  bool levelHasBomb = false;
+  bool hasSpawnedBombInClassic = false;
 
   // Countdown
   double countdownTimer = 0.0;
@@ -567,37 +575,6 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     showGameOverOverlay.value = false;
     isLevelCompleteOverlayShown = false;
 
-    if (isInfinityMode) {
-      currentLevel.value++;
-      restartCurrentLevel();
-      return;
-    }
-
-    final profile = await DatabaseHelper.instance.getPlayerProfile();
-    int completedLevel = currentLevel.value;
-    int starsEarned = currentPoints.value;
-
-    final existingProgress = await DatabaseHelper.instance.getLevelProgress(
-      completedLevel,
-    );
-    int previousStars = existingProgress?.stars ?? 0;
-
-    if (starsEarned > previousStars) {
-      await DatabaseHelper.instance.saveLevelProgress(
-        LevelProgress(
-          levelId: completedLevel,
-          stars: starsEarned,
-          isUnlocked: true,
-        ),
-      );
-    }
-
-    if (completedLevel + 1 > profile.highestLevel) {
-      await DatabaseHelper.instance.updatePlayerProfile(
-        profile.copyWith(highestLevel: completedLevel + 1),
-      );
-    }
-
     currentLevel.value++;
     restartCurrentLevel();
   }
@@ -754,6 +731,8 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
           final lift = hole.suckRadius + ballRadius + 10.0;
           leftY -= lift;
           rightY -= lift;
+          initialLeftY -= lift;
+          initialRightY -= lift;
           barCenterY = (leftY + rightY) / 2.0;
           mainBall.pos2D = Vector2(
             currentSizeX / 2.0,
@@ -769,7 +748,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       shieldTimer = 2.0;
       shieldTimerNotifier.value = 2.0;
       isSpawningLevel = false;
-      isLevelTimerActive = true;
+      isLevelTimerActive = false;
       teleportingGateComponent.scale = Vector2.zero(); // hide the gate
       countdownTimer = 3.99; // 3 seconds countdown + "GO"
     } else if (isSpawningLevel) {
@@ -1017,6 +996,12 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       levelTimerNotifier.value = levelTimer;
     }
 
+    // Reset bomb states
+    levelHasBomb = data.hasBomb || (currentLevel.value >= 2);
+    hasSpawnedBombInClassic = false;
+    bombSpawnTimer = 0.0;
+    nextBombSpawnThreshold = 15.0 + _random.nextDouble() * 10.0;
+
     isDarknessLevel = levelToGenerate >= 11;
 
     // Quickly spawn components back on the main thread using the pre-calculated data
@@ -1218,6 +1203,35 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       magnetTimerNotifier.value = magnetTimer;
     } else {
       if (magnetTimerNotifier.value != 0.0) magnetTimerNotifier.value = 0.0;
+    }
+
+    // Bomb Spawning
+    if (!isSpawningLevel && !isLevelCompleteOverlayShown && countdownNotifier.value == 0 && activeBalls.isNotEmpty && !isBoardHidden) {
+      bool isActivelyPlaying = activeBalls.any((b) => !b.isDead && !b.isRespawningFromHole && !b.isRespawningFromEdge && !b.isShattering && !b.isFreeFalling && !b.isFalling && !b.isFallingInHole);
+      
+      if (isActivelyPlaying) {
+        bombSpawnTimer += dt;
+        if (isInfinityMode) {
+          if (bombSpawnTimer >= nextBombSpawnThreshold) {
+            _spawnBombWarning();
+            bombSpawnTimer = 0.0;
+            // Decrease threshold slightly but randomize heavily for professional feel
+            double newBase = max(10.0, nextBombSpawnThreshold - 1.0);
+            nextBombSpawnThreshold = newBase + _random.nextDouble() * 5.0;
+          }
+        } else {
+          if (levelHasBomb && !hasSpawnedBombInClassic) {
+            // Spawn quickly but randomly (between 5 and 10 seconds)
+            double spawnTime = 5.0 + _random.nextDouble() * 5.0;
+            if (bombSpawnTimer >= spawnTime) {
+              _spawnBombWarning();
+              hasSpawnedBombInClassic = true;
+            }
+          }
+        }
+      } else {
+        _clearBombs();
+      }
     }
 
     if (countdownTimer > 0) {
@@ -1464,6 +1478,14 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     if (ball.holeImmunityTimer > 0) {
       ball.holeImmunityTimer = max(0.0, ball.holeImmunityTimer - dt);
     }
+    
+    if (ball.isShattering) {
+      ball.shatterTimer += dt;
+      if (ball.shatterTimer >= 1.0) {
+        ball.isDead = true;
+      }
+      return;
+    }
 
     if (ball.isFallingInHole) {
       if (ball.activeHole != null) {
@@ -1521,11 +1543,8 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
         print(
           "DEBUG: isSuckingToGate = true triggered. pos2D: ${ball.pos2D}, gateCenter: $gateCenter",
         );
-        
-        for (var b in activeBalls) {
-          b.isSuckingToGate = true;
-          b.isFalling = false;
-        }
+        ball.isSuckingToGate = true;
+        ball.isFalling = false;
 
         HapticFeedback.heavyImpact();
         try {
@@ -2212,6 +2231,24 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       final coin = CoinComponent(position: Vector2(x, y))..priority = 5;
       coins.add(coin);
       levelContainer.add(coin);
+    }
+  }
+
+  void _spawnBombWarning() {
+    final warning = BombWarningComponent()..priority = 100;
+    levelContainer.add(warning);
+    try {
+      AppSettings.playSound('tick.wav'); // Optional warning sound
+    } catch (_) {}
+  }
+
+  void _clearBombs() {
+    bombSpawnTimer = 0.0;
+    for (var c in levelContainer.children.whereType<BombWarningComponent>()) {
+      c.removeFromParent();
+    }
+    for (var c in levelContainer.children.whereType<BombComponent>()) {
+      c.removeFromParent();
     }
   }
 

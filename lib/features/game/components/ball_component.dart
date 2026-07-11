@@ -9,6 +9,7 @@ import 'package:balanco_game/features/game/game_area.dart';
 
 import 'package:balanco_game/features/game/models/ball_data.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
+import 'package:balanco_game/features/map/components/ball_shatter_painter.dart';
 
 class BallComponent extends Component with HasGameReference<BalancoGame> {
   final BallData ballData;
@@ -169,6 +170,17 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
       ballData.scale * ballData.squashX,
       ballData.scale * ballData.squashY,
     );
+
+    if (ballData.isShattering) {
+      final shatterPainter = BallShatterPainter(
+        progress: ballData.shatterTimer.clamp(0.0, 1.0),
+        biome: game.currentBiome,
+        radius: game.ballRadius,
+      );
+      shatterPainter.paint(canvas, Size(game.ballRadius * 2, game.ballRadius * 2));
+      canvas.restore();
+      return;
+    }
 
     // 1. Fade out if falling into a hole
     double fallFade = 1.0;

@@ -38,6 +38,7 @@ class _AnimatedLevelCompleteOverlayState
   int _targetCoins = 0;
 
   final List<bool> _showStars = [false, false, false];
+  Future<void>? _saveFuture;
 
   @override
   void initState() {
@@ -50,7 +51,7 @@ class _AnimatedLevelCompleteOverlayState
     widget.game.earnedLevelPoints.value = _targetCoins;
     widget.game.currentScore.value += _targetCoins;
 
-    _saveProgress();
+    _saveFuture = _saveProgress();
 
     _mainController = AnimationController(
       vsync: this,
@@ -148,20 +149,25 @@ class _AnimatedLevelCompleteOverlayState
     super.dispose();
   }
 
-  void _nextLevel() {
+  void _nextLevel() async {
+    await _saveFuture;
     _mainController.reverse().then((_) {
       widget.game.advanceToNextLevel();
     });
   }
 
-  void _restartLevel() {
+  void _restartLevel() async {
+    await _saveFuture;
     _mainController.reverse().then((_) {
       widget.game.restartLevelAfterWin();
     });
   }
 
-  void _returnToLobby() {
-    Navigator.pop(context); // Close GamePlayOverlay
+  void _returnToLobby() async {
+    await _saveFuture;
+    if (mounted) {
+      Navigator.pop(context); // Close GamePlayOverlay
+    }
   }
 
   Widget _buildStar(int index, double size) {

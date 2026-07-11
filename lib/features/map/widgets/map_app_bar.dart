@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:balanco_game/core/data/models.dart';
 import 'package:balanco_game/features/map/components/gem_painter.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,6 +9,8 @@ import 'package:balanco_game/features/settings/screens/profile_dialog.dart';
 import 'package:balanco_game/features/game/components/game_area/collected_star_painter.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
 import 'package:balanco_game/features/map/models/biome_model.dart';
+import 'package:balanco_game/core/data/database_helper.dart';
+import 'package:balanco_game/core/data/models.dart';
 
 class MapAppBar extends StatefulWidget {
   final int highestLevel;
@@ -37,10 +40,12 @@ class MapAppBar extends StatefulWidget {
 
 class _MapAppBarState extends State<MapAppBar> {
   String _formatCompactPoints(int points) {
-    final value = points >= 1000
-        ? '${(points / 1000).toStringAsFixed(1)}K'
-        : points.toString();
-    return value;
+    if (points >= 1000000) {
+      return '${(points / 1000000).toStringAsFixed(1).replaceAll(RegExp(r'\.0$'), '')}M';
+    } else if (points >= 1000) {
+      return '${(points / 1000).toStringAsFixed(1).replaceAll(RegExp(r'\.0$'), '')}K';
+    }
+    return points.toString();
   }
 
   String _formatFullPoints(int points) {
@@ -211,12 +216,18 @@ class _MapAppBarState extends State<MapAppBar> {
                     ),
                   ],
                 ),
-                child: _buildStrokedText(
-                  _formatCompactPoints(widget.coins),
-                  fontSize: 12,
-                  textColor: GameColors.mapAppBarWhiteHint,
-                  strokeColor: const Color.fromARGB(255, 104, 77, 30),
-                  shadowColor: GameColors.mapAppBarBrownText,
+                child: ValueListenableBuilder<PlayerProfile?>(
+                  valueListenable: DatabaseHelper.instance.profileNotifier,
+                  builder: (context, profile, _) {
+                    final displayCoins = profile?.coins ?? widget.coins;
+                    return _buildStrokedText(
+                      _formatCompactPoints(displayCoins),
+                      fontSize: 12,
+                      textColor: GameColors.mapAppBarWhiteHint,
+                      strokeColor: const Color.fromARGB(255, 104, 77, 30),
+                      shadowColor: GameColors.mapAppBarBrownText,
+                    );
+                  },
                 ),
               ),
               Positioned(
