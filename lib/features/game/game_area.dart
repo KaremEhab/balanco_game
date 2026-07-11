@@ -67,7 +67,9 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   final ValueNotifier<int> currentPoints = ValueNotifier<int>(0);
   final ValueNotifier<int> currentScore = ValueNotifier<int>(0);
   final ValueNotifier<int> collectedCoins = ValueNotifier<int>(0);
-  late final ValueNotifier<int> currentLives = ValueNotifier<int>(isInfinityMode ? 1 : 3);
+  late final ValueNotifier<int> currentLives = ValueNotifier<int>(
+    isInfinityMode ? 1 : 3,
+  );
   final ValueNotifier<int> earnedLevelPoints = ValueNotifier<int>(0);
   int infinityHighScore = 0;
   int lastInfinityScore = 0;
@@ -1223,7 +1225,8 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       if (countdownTimer < 0) countdownTimer = 0.0;
       countdownNotifier.value = countdownTimer.ceil();
       // Lock the camera to the bar while counting down
-      double targetCameraY = ((leftY + rightY) / 2) - size.y + 150.0;
+      double targetCameraY =
+          ((leftY + rightY) / 2) - size.y + (isInfinityMode ? 75.0 : 150.0);
       cameraOffsetY += (targetCameraY - cameraOffsetY) * dt * 5.0;
       levelContainer.position.y = -cameraOffsetY;
       cameraOffsetYNotifier.value = cameraOffsetY;
@@ -1403,7 +1406,8 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
           );
         }
       } else {
-        targetCameraY = ((leftY + rightY) / 2) - size.y + 150.0;
+        targetCameraY =
+            ((leftY + rightY) / 2) - size.y + (isInfinityMode ? 75.0 : 150.0);
         if (!isInfinityMode) {
           targetCameraY = targetCameraY.clamp(
             0.0,

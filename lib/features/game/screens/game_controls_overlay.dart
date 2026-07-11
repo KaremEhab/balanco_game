@@ -133,9 +133,8 @@ class GameControlsOverlay extends StatelessWidget {
                                         height: 36,
                                         child: CustomPaint(
                                           painter: ShieldIconPainter(
-                                            color: game.isInfinityMode
-                                                ? GameColors.beachMapThemeColor1
-                                                : GameColors.white,
+                                            color:
+                                                GameColors.beachMapThemeColor1,
                                           ),
                                         ),
                                       ),
@@ -285,7 +284,7 @@ class _SquarePowerUpButtonState extends State<SquarePowerUpButton> {
                     if (canClick)
                       // Charges Badge
                       Positioned(
-                        top: -10,
+                        bottom: 17,
                         child: Text(
                           '${widget.charges}',
                           style: GoogleFonts.luckiestGuy(
