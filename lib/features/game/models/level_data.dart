@@ -100,12 +100,16 @@ class LevelData {
   final double heightMultiplier;
   final double timerSeconds;
   final bool hasBomb;
+  final int bombCount;
   final bool isDarkLevel;
   final String? themeId;
   final int? generationSeed;
   final double? difficulty;
   final List<Vector2> safePath;
   final double safeCorridorWidth;
+  final double darknessLightRadius;
+  final double darknessStartLitSeconds;
+  final bool isNightmare;
 
   LevelData({
     required this.holes,
@@ -119,12 +123,16 @@ class LevelData {
     this.heightMultiplier = 1.0,
     this.timerSeconds = 120.0,
     this.hasBomb = false,
+    this.bombCount = 0,
     this.isDarkLevel = false,
     this.themeId,
     this.generationSeed,
     this.difficulty,
     this.safePath = const [],
     this.safeCorridorWidth = 0.3,
+    this.darknessLightRadius = 65.0,
+    this.darknessStartLitSeconds = 0.0,
+    this.isNightmare = false,
   });
 
   Map<String, dynamic> toJson() => {
@@ -140,12 +148,16 @@ class LevelData {
     'heightMultiplier': heightMultiplier,
     'timerSeconds': timerSeconds,
     'hasBomb': hasBomb,
+    'bombCount': bombCount,
     'isDarkLevel': isDarkLevel,
     if (themeId != null) 'themeId': themeId,
     if (generationSeed != null) 'generationSeed': generationSeed,
     if (difficulty != null) 'difficulty': difficulty,
     'safePath': safePath.map((e) => {'x': e.x, 'y': e.y}).toList(),
     'safeCorridorWidth': safeCorridorWidth,
+    'darknessLightRadius': darknessLightRadius,
+    'darknessStartLitSeconds': darknessStartLitSeconds,
+    'isNightmare': isNightmare,
   };
 
   factory LevelData.fromJson(Map<String, dynamic> json) => LevelData(
@@ -186,6 +198,7 @@ class LevelData {
     heightMultiplier: (json['heightMultiplier'] ?? 1.0).toDouble(),
     timerSeconds: (json['timerSeconds'] ?? 120.0).toDouble(),
     hasBomb: json['hasBomb'] ?? false,
+    bombCount: json['bombCount'] as int? ?? (json['hasBomb'] == true ? 1 : 0),
     isDarkLevel: json['isDarkLevel'] ?? false,
     themeId: json['themeId'] as String?,
     generationSeed: json['generationSeed'] as int?,
@@ -196,5 +209,9 @@ class LevelData {
             .toList() ??
         [],
     safeCorridorWidth: (json['safeCorridorWidth'] ?? 0.3).toDouble(),
+    darknessLightRadius: (json['darknessLightRadius'] ?? 65.0).toDouble(),
+    darknessStartLitSeconds: (json['darknessStartLitSeconds'] ?? 0.0)
+        .toDouble(),
+    isNightmare: json['isNightmare'] ?? false,
   );
 }

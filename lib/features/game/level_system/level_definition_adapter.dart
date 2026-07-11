@@ -92,12 +92,16 @@ extension LevelDefinitionAdapter on LevelDefinition {
       heightMultiplier: worldHeight,
       timerSeconds: timeLimitSeconds.toDouble(),
       hasBomb: bombWaves.isNotEmpty,
+      bombCount: bombWaves.length,
       isDarkLevel: isDark,
       themeId: themeId,
       generationSeed: seed,
       difficulty: difficulty,
       safePath: safePath.map((p) => _toLegacyPosition(p.x, p.y)).toList(),
       safeCorridorWidth: safeCorridorWidth,
+      darknessLightRadius: (nightMode?.lightRadius ?? 0.16) * 400.0,
+      darknessStartLitSeconds: nightMode?.startLitSeconds ?? 0.0,
+      isNightmare: isNightmare,
     );
   }
 

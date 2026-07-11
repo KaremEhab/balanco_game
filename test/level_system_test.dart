@@ -38,6 +38,59 @@ void main() {
       expect(CampaignLevelGenerator.themeIdForLevel(500), 'final_nightmare');
     });
 
+    test('marks every theme finale as a nightmare', () {
+      final generator = CampaignLevelGenerator();
+
+      for (final theme in CampaignLevelGenerator.themes) {
+        expect(
+          generator.generateLevel(theme.endLevel).isNightmare,
+          isTrue,
+          reason: 'level ${theme.endLevel}',
+        );
+      }
+      expect(generator.generateLevel(44).isNightmare, isFalse);
+    });
+
+    test('adds early center pressure so the middle is not empty', () {
+      final generator = CampaignLevelGenerator();
+
+      for (var id = 1; id <= 19; id++) {
+        final level = generator.generateLevel(id);
+        expect(
+          level.obstacles.any((obstacle) => (obstacle.x - 0.5).abs() < 0.08),
+          isTrue,
+          reason: 'level $id',
+        );
+      }
+    });
+
+    test('schedules dark levels 30 through 60 with shrinking light radius', () {
+      final generator = CampaignLevelGenerator();
+
+      expect(generator.generateLevel(29).isDark, isFalse);
+      expect(generator.generateLevel(30).isDark, isTrue);
+      expect(generator.generateLevel(60).isDark, isTrue);
+      expect(generator.generateLevel(61).isDark, isFalse);
+      expect(
+        generator.generateLevel(30).nightMode!.lightRadius,
+        greaterThan(generator.generateLevel(60).nightMode!.lightRadius),
+      );
+      expect(
+        generator.generateLevel(30).nightMode!.startLitSeconds,
+        greaterThan(0),
+      );
+    });
+
+    test('varies hole sizes within the campaign', () {
+      final level = CampaignLevelGenerator().generateLevel(20);
+      final radii = level.obstacles
+          .where((obstacle) => obstacle.type.endsWith('Hole'))
+          .map((obstacle) => obstacle.radius.toStringAsFixed(3))
+          .toSet();
+
+      expect(radii.length, greaterThan(1));
+    });
+
     test('contains at least 35 reusable pattern templates', () {
       expect(
         CampaignLevelGenerator.patternTemplateIds.length,

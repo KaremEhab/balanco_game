@@ -3,14 +3,13 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flame/components.dart' hide PositionComponent;
-import 'package:google_fonts/google_fonts.dart';
 
 import 'package:balanco_game/core/theme/game_colors.dart';
 import 'package:balanco_game/core/data/database_helper.dart';
+import 'package:balanco_game/features/game/level_system/campaign_level_repository.dart';
+import 'package:balanco_game/features/game/level_system/level_definition_adapter.dart';
 import 'package:balanco_game/features/game/models/level_data.dart';
 import 'package:balanco_game/features/game/screens/gameplay.dart';
-import 'package:balanco_game/core/bloc/app_bloc.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:balanco_game/features/game/game_area.dart';
 
 enum EditorItemType {
@@ -79,9 +78,14 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
   int _currentLevel = 1;
   int _timeLimitSeconds = 60;
   double _timerSeconds = 120.0;
+  double _heightMultiplier = 1.0;
   bool _hasBomb = false;
+  int _bombCount = 0;
+  bool _isDarkLevel = false;
   List<EditorItem> _items = [];
   EditorItem? _selectedItem;
+
+  bool get _isInfinityTemplate => _currentLevel == 0;
 
   @override
   void initState() {
@@ -102,13 +106,25 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
 
   Future<void> _loadLevel(int levelId) async {
     final jsonStr = await DatabaseHelper.instance.getCustomLevel(levelId);
+    LevelData? data;
     if (jsonStr != null) {
-      final data = LevelData.fromJson(jsonDecode(jsonStr));
+      data = LevelData.fromJson(jsonDecode(jsonStr));
+    } else if (levelId > 0) {
+      final bakedLevel = await CampaignLevelRepository.instance.loadLevel(
+        levelId,
+      );
+      data = bakedLevel?.toLevelData();
+    }
+
+    if (data != null) {
       _items.clear();
 
       _timeLimitSeconds = data.timeLimitSeconds;
       _timerSeconds = data.timerSeconds;
+      _heightMultiplier = data.heightMultiplier;
       _hasBomb = data.hasBomb;
+      _bombCount = data.bombCount;
+      _isDarkLevel = data.isDarkLevel;
 
       for (var h in data.holes) {
         _items.add(
@@ -181,7 +197,10 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
         _selectedItem = null;
         _timeLimitSeconds = 60;
         _timerSeconds = 120.0;
+        _heightMultiplier = 1.0;
         _hasBomb = false;
+        _bombCount = 0;
+        _isDarkLevel = false;
       });
     }
   }
@@ -250,14 +269,21 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
       multiBalls: multiBalls,
       timeLimitSeconds: _timeLimitSeconds,
       timerSeconds: _timerSeconds,
+      heightMultiplier: _heightMultiplier,
       hasBomb: _hasBomb,
+      bombCount: _hasBomb ? _bombCount : 0,
+      isDarkLevel: _isDarkLevel,
     );
   }
 
   Future<void> _saveLevel() async {
     final data = _generateLevelData();
     final jsonStr = jsonEncode(data.toJson());
-    await DatabaseHelper.instance.saveCustomLevel(_currentLevel, jsonStr);
+    await DatabaseHelper.instance.saveCustomLevel(
+      _currentLevel,
+      jsonStr,
+      isInfinity: _isInfinityTemplate,
+    );
     if (mounted) {
       ScaffoldMessenger.of(
         context,
@@ -274,27 +300,30 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
     ).showSnackBar(const SnackBar(content: Text('Copied JSON to clipboard!')));
   }
 
-  void _testLevel() {
-    _saveLevel().then((_) {
-      final game = BalancoGame(
-        isMultiplayer: false,
-        isInfinityMode: false,
-        playerRole: '',
-        onLevelComplete: () {
-          Navigator.pop(context);
-        },
-      );
+  Future<void> _testLevel() async {
+    await _saveLevel();
+    if (!mounted) return;
+    final game = BalancoGame(
+      isMultiplayer: false,
+      isInfinityMode: _isInfinityTemplate,
+      playerRole: '',
+      onLevelComplete: () {
+        Navigator.pop(context);
+      },
+    );
+    if (!_isInfinityTemplate) {
       game.currentLevel.value = _currentLevel;
+    }
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => GamePlayOverlay(game: game)),
-      );
-    });
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => GamePlayOverlay(game: game)),
+    );
   }
 
   void _showTimerDialog() {
     double tempTimer = _timerSeconds;
+    double tempHeight = _heightMultiplier;
     showDialog(
       context: context,
       builder: (context) => StatefulBuilder(
@@ -321,6 +350,21 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
                     setDialogState(() => tempTimer = val);
                   },
                 ),
+                const SizedBox(height: 16),
+                Text(
+                  "Height ${tempHeight.toStringAsFixed(1)}x",
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Slider(
+                  value: tempHeight,
+                  min: 1.0,
+                  max: 6.0,
+                  divisions: 20,
+                  label: tempHeight.toStringAsFixed(1),
+                  onChanged: (val) {
+                    setDialogState(() => tempHeight = val);
+                  },
+                ),
               ],
             ),
             actions: [
@@ -333,6 +377,7 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
                   setState(() {
                     _timerSeconds = tempTimer;
                     _timeLimitSeconds = tempTimer.toInt();
+                    _heightMultiplier = tempHeight;
                   });
                   _saveLevel();
                   Navigator.pop(context);
@@ -729,10 +774,54 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
               Icons.warning_amber_rounded,
               color: _hasBomb ? Colors.red : Colors.white70,
             ),
-            tooltip: "Toggle Bomb Obstacle",
+            tooltip: "Toggle Random Bomb Drops",
             onPressed: () {
               setState(() {
                 _hasBomb = !_hasBomb;
+                if (_hasBomb && _bombCount == 0) _bombCount = 1;
+              });
+            },
+          ),
+          if (_hasBomb)
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.remove_circle_outline),
+                  tooltip: "Fewer Bombs",
+                  onPressed: () {
+                    setState(() {
+                      _bombCount = (_bombCount - 1).clamp(1, 9);
+                    });
+                  },
+                ),
+                Text(
+                  '$_bombCount',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.add_circle_outline),
+                  tooltip: "More Bombs",
+                  onPressed: () {
+                    setState(() {
+                      _bombCount = (_bombCount + 1).clamp(1, 9);
+                    });
+                  },
+                ),
+              ],
+            ),
+          IconButton(
+            icon: Icon(
+              Icons.dark_mode,
+              color: _isDarkLevel ? Colors.indigoAccent : Colors.white70,
+            ),
+            tooltip: "Toggle Dark Level",
+            onPressed: () {
+              setState(() {
+                _isDarkLevel = !_isDarkLevel;
               });
             },
           ),
@@ -757,9 +846,15 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
             value: _currentLevel,
             dropdownColor: Colors.blueGrey,
             style: const TextStyle(color: Colors.white),
-            items: List.generate(50, (i) => i + 1).map((l) {
-              return DropdownMenuItem(value: l, child: Text('Level $l'));
-            }).toList(),
+            items: [
+              const DropdownMenuItem(
+                value: 0,
+                child: Text('Infinity Template'),
+              ),
+              ...List.generate(500, (i) => i + 1).map((l) {
+                return DropdownMenuItem(value: l, child: Text('Level $l'));
+              }),
+            ],
             onChanged: (v) async {
               if (v != null) {
                 await DatabaseHelper.instance.saveConfig(
@@ -821,7 +916,7 @@ class PathVisualizerPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.redAccent.withOpacity(0.8)
+      ..color = Colors.redAccent.withValues(alpha: 0.8)
       ..strokeWidth = 3
       ..style = PaintingStyle.stroke;
 

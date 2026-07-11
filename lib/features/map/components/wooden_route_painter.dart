@@ -7,10 +7,12 @@ import 'package:balanco_game/features/map/models/biome_model.dart';
 class WoodenRoutePainter extends CustomPainter {
   final double transitionY;
   final double transitionRange;
+  final int totalLevels;
 
   WoodenRoutePainter({
     this.transitionY = -1.0,
     this.transitionRange = 200.0,
+    this.totalLevels = 500,
   });
 
   @override
@@ -26,50 +28,38 @@ class WoodenRoutePainter extends CustomPainter {
       ..strokeCap = StrokeCap.round;
 
     canvas.drawLine(Offset(6, 0), Offset(6, size.height), ropeShadowPaint);
-    canvas.drawLine(Offset(size.width - 6, 0), Offset(size.width - 6, size.height), ropeShadowPaint);
+    canvas.drawLine(
+      Offset(size.width - 6, 0),
+      Offset(size.width - 6, size.height),
+      ropeShadowPaint,
+    );
 
-    // If transitionY is set, draw ropes with a gradient!
     Paint ropePaint = Paint()
       ..strokeWidth = 4.0
       ..strokeCap = StrokeCap.round;
-      
-    if (transitionY > 0) {
-      ropePaint.shader = ui.Gradient.linear(
-        Offset(0, transitionY - transitionRange),
-        Offset(0, transitionY + transitionRange),
-        [
-          BiomeConfig.crystalCave.pathColor, // Crystal Cave top
-          BiomeConfig.tropicalBeach.pathColor, // Beach bottom
-        ],
-      );
-    } else {
-      ropePaint.color = BiomeConfig.tropicalBeach.pathColor;
-    }
+
+    ropePaint.shader = ui.Gradient.linear(
+      Offset.zero,
+      Offset(0, size.height),
+      _routeGradientColors(),
+      _routeGradientStops(),
+    );
 
     canvas.drawLine(Offset(4, 0), Offset(4, size.height), ropePaint);
-    canvas.drawLine(Offset(size.width - 4, 0), Offset(size.width - 4, size.height), ropePaint);
+    canvas.drawLine(
+      Offset(size.width - 4, 0),
+      Offset(size.width - 4, size.height),
+      ropePaint,
+    );
 
     // Draw repeating wooden planks
     for (double y = 0; y < size.height; y += step) {
-      // Calculate Biome mix for this specific plank
-      double p = 0.0;
-      if (transitionY > 0) {
-        if (y < transitionY - transitionRange) {
-          p = 1.0; // Fully Crystal Cave
-        } else if (y > transitionY + transitionRange) {
-          p = 0.0; // Fully Beach
-        } else {
-          // Inside transition range
-          p = 1.0 - ((y - (transitionY - transitionRange)) / (transitionRange * 2));
-        }
-      }
-
-      // Base biome colors
-      BiomeModel currentBiome = BiomeModel.lerp(
-        BiomeConfig.tropicalBeach,
-        BiomeConfig.crystalCave,
-        p,
+      final levelProgress = 1.0 - (y / size.height).clamp(0.0, 1.0);
+      final level = (1 + levelProgress * (totalLevels - 1)).round().clamp(
+        1,
+        totalLevels,
       );
+      final BiomeModel currentBiome = BiomeConfig.getBiomeForLevel(level);
 
       Color woodBaseColor = currentBiome.pathColor;
       Color woodHighlightColor = currentBiome.nodeUnlockedColor;
@@ -119,4 +109,24 @@ class WoodenRoutePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+
+  List<Color> _routeGradientColors() {
+    final colors = <Color>[];
+    for (final biome in BiomeConfig.biomes.reversed) {
+      colors.add(biome.pathColor);
+    }
+    return colors;
+  }
+
+  List<double> _routeGradientStops() {
+    if (BiomeConfig.biomes.length == 1) return const [0.0];
+    final stops = <double>[];
+    for (final biome in BiomeConfig.biomes.reversed) {
+      final level = biome.endLevel;
+      final progressFromBottom = (level - 1) / (totalLevels - 1);
+      stops.add((1.0 - progressFromBottom).clamp(0.0, 1.0));
+    }
+    stops.sort();
+    return stops;
+  }
 }

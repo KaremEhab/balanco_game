@@ -39,6 +39,7 @@ class _AnimatedLevelCompleteOverlayState
 
   final List<bool> _showStars = [false, false, false];
   Future<void>? _saveFuture;
+  bool _disposed = false;
 
   @override
   void initState() {
@@ -79,13 +80,16 @@ class _AnimatedLevelCompleteOverlayState
 
   void _startSequence() async {
     // 1. Enter main modal
+    if (!mounted || _disposed) return;
     _mainController.forward();
     AppSettings.playSound('win.wav', volume: 0.5);
 
     await Future.delayed(const Duration(milliseconds: 500));
+    if (!mounted || _disposed) return;
 
     // 2. Pop stars sequentially
     for (int i = 0; i < 3; i++) {
+      if (!mounted || _disposed) return;
       if (i < _earnedStars) {
         setState(() => _showStars[i] = true);
         AppSettings.playSound('star.wav', volume: 0.5);
@@ -97,6 +101,7 @@ class _AnimatedLevelCompleteOverlayState
     }
 
     // 3. Roll points
+    if (!mounted || _disposed) return;
     _coinsController.forward();
   }
 
@@ -108,7 +113,7 @@ class _AnimatedLevelCompleteOverlayState
 
       int newHighest = currentHighest;
       if (!widget.game.isInfinityMode && nextLevel > currentHighest) {
-        newHighest = nextLevel > 50 ? 50 : nextLevel;
+        newHighest = nextLevel > 500 ? 500 : nextLevel;
       }
 
       // Update highest level and add points
@@ -144,6 +149,7 @@ class _AnimatedLevelCompleteOverlayState
 
   @override
   void dispose() {
+    _disposed = true;
     _mainController.dispose();
     _coinsController.dispose();
     super.dispose();
@@ -151,14 +157,18 @@ class _AnimatedLevelCompleteOverlayState
 
   void _nextLevel() async {
     await _saveFuture;
+    if (!mounted || _disposed) return;
     _mainController.reverse().then((_) {
+      if (_disposed) return;
       widget.game.advanceToNextLevel();
     });
   }
 
   void _restartLevel() async {
     await _saveFuture;
+    if (!mounted || _disposed) return;
     _mainController.reverse().then((_) {
+      if (_disposed) return;
       widget.game.restartLevelAfterWin();
     });
   }

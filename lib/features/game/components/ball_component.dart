@@ -6,7 +6,6 @@ import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:balanco_game/features/game/game_area.dart';
 
-
 import 'package:balanco_game/features/game/models/ball_data.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
 import 'package:balanco_game/features/map/components/ball_shatter_painter.dart';
@@ -177,7 +176,10 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
         biome: game.currentBiome,
         radius: game.ballRadius,
       );
-      shatterPainter.paint(canvas, Size(game.ballRadius * 2, game.ballRadius * 2));
+      shatterPainter.paint(
+        canvas,
+        Size(game.ballRadius * 2, game.ballRadius * 2),
+      );
       canvas.restore();
       return;
     }
@@ -218,9 +220,16 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
     if (isGlass) {
       // Glassy Base Fill
       final Paint glassFill = Paint()
-        ..color = GameColors.white.withValues(alpha: 0.15)
+        ..color = game.currentBiome.secondaryColor.withValues(alpha: 0.34)
         ..style = PaintingStyle.fill;
       canvas.drawCircle(Offset.zero, game.ballRadius, glassFill);
+      canvas.drawCircle(
+        Offset.zero,
+        game.ballRadius * 0.74,
+        Paint()
+          ..color = game.currentBiome.primaryColor.withValues(alpha: 0.22)
+          ..style = PaintingStyle.fill,
+      );
     } else {
       // Draw rotating BallPainter graphic
       canvas.save();
@@ -242,18 +251,19 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
     // 3. 3D shading overlay (stationary highlight)
     if (isGlass) {
       final Paint glassHighlight = Paint()
-        ..shader = RadialGradient(
-          center: const Alignment(-0.3, -0.3),
-          radius: 0.8,
-          colors: [
-            GameColors.white.withValues(alpha: 0.8), // Bright spot
-            Colors.transparent,
-            GameColors.white.withValues(alpha: 0.3), // Rim light
-          ],
-          stops: const [0.0, 0.4, 1.0],
-        ).createShader(
-          Rect.fromCircle(center: Offset.zero, radius: game.ballRadius),
-        );
+        ..shader =
+            RadialGradient(
+              center: const Alignment(-0.3, -0.3),
+              radius: 0.8,
+              colors: [
+                GameColors.white.withValues(alpha: 0.8), // Bright spot
+                Colors.transparent,
+                GameColors.white.withValues(alpha: 0.3), // Rim light
+              ],
+              stops: const [0.0, 0.4, 1.0],
+            ).createShader(
+              Rect.fromCircle(center: Offset.zero, radius: game.ballRadius),
+            );
       canvas.drawCircle(Offset.zero, game.ballRadius, glassHighlight);
     } else {
       canvas.drawCircle(Offset.zero, game.ballRadius, _highlightPaint);

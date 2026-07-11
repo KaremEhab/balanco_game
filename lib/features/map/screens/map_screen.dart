@@ -44,10 +44,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  final int totalLevels = 50;
+  final int totalLevels = 500;
   final double nodeSpacingY = 180.0; // Increased spacing between level holes
   double get bottomPadding =>
-      310.0 + MediaQuery.of(context).padding.bottom; // Ample padding at the bottom so lowest hole clears the UI
+      310.0 +
+      MediaQuery.of(context)
+          .padding
+          .bottom; // Ample padding at the bottom so lowest hole clears the UI
   final double topPadding = 140.0;
 
   int highestLevel =
@@ -834,6 +837,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   totalHeight -
                                   bottomPadding -
                                   (9.5 * nodeSpacingY),
+                              totalLevels: totalLevels,
                             ),
                           ),
                         ),

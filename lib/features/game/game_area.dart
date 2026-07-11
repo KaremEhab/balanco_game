@@ -11,7 +11,6 @@ import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:balanco_game/core/data/database_helper.dart';
-import 'package:balanco_game/core/data/models.dart';
 
 import 'package:balanco_game/features/game/components/hole_component.dart';
 import 'package:balanco_game/features/game/components/bar_component.dart';
@@ -67,7 +66,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
 
   final ValueNotifier<int> currentLevel = ValueNotifier<int>(1);
   BiomeModel get currentBiome => isInfinityMode
-      ? BiomeConfig.getDynamicScoreBiome(currentScore.value)
+      ? BiomeConfig.getDynamicScoreBiome((currentScore.value ~/ 100) * 100)
       : BiomeConfig.getBiomeForLevel(currentLevel.value);
   final ValueNotifier<int> currentPoints = ValueNotifier<int>(0);
   final ValueNotifier<int> currentScore = ValueNotifier<int>(0);
@@ -118,7 +117,10 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   double bombSpawnTimer = 0.0;
   double nextBombSpawnThreshold = 8.0; // Dynamic for infinity mode
   bool levelHasBomb = false;
+  int levelBombCount = 0;
+  int spawnedClassicBombs = 0;
   bool hasSpawnedBombInClassic = false;
+  double praiseCooldown = 0.0;
 
   // Countdown
   double countdownTimer = 0.0;
@@ -215,6 +217,11 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
 
   void spawnEditComponent(EditorItemType type) {
     if (!isEditMode) return;
+    
+    if (type == EditorItemType.teleporter && teleporters.length >= 2) {
+      _showPraiseText('Max 1 Teleporter Pair!', color: GameColors.red300, force: true);
+      return;
+    }
 
     // Spawn in middle of screen (relative to camera)
     Vector2 spawnPos = Vector2(size.x / 2.0, cameraOffsetY + size.y / 2.0);
@@ -456,6 +463,98 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
           multiBallItems.add(mb);
           levelContainer.add(mb);
         }
+      } else {
+        final campaignLevel = await CampaignLevelRepository.instance.loadLevel(
+          templateLevelId,
+        );
+        if (campaignLevel != null) {
+          final data = campaignLevel.toLevelData();
+          currentHeightMultiplier = data.heightMultiplier;
+
+          for (final hData in data.holes) {
+            final hole = HoleComponent(
+              hData.position.clone(),
+              hData.size,
+              hData.rotation,
+              isSuckingHole: hData.isSuckingHole,
+              isMovingHole: hData.isMovingHole,
+              moveRange: hData.moveRange,
+              moveSpeed: hData.moveSpeed,
+              moveAxis: hData.moveAxis,
+            )..priority = 1;
+            hole.position = Vector2(
+              hData.position.x * size.x,
+              120.0 + hData.position.y * (levelHeight - 320.0),
+            );
+            hole.scale = Vector2.all(1.0);
+            holes.add(hole);
+            levelContainer.add(hole);
+          }
+          for (final sPos in data.stars) {
+            final s = StarComponent(sPos)..priority = 10;
+            s.position = Vector2(
+              sPos.x * size.x,
+              120.0 + sPos.y * (levelHeight - 320.0),
+            );
+            s.scale = Vector2.all(1.0);
+            stars.add(s);
+            levelContainer.add(s);
+          }
+          for (final hPos in data.hearts) {
+            final h = HeartComponent(hPos)..priority = 10;
+            h.position = Vector2(
+              hPos.x * size.x,
+              120.0 + hPos.y * (levelHeight - 320.0),
+            );
+            h.scale = Vector2.all(1.0);
+            hearts.add(h);
+            levelContainer.add(h);
+          }
+          for (final bData in data.bumpers) {
+            final b = BumperComponent(bData.position, bData.size)..priority = 2;
+            b.position = Vector2(
+              bData.position.x * size.x,
+              120.0 + bData.position.y * (levelHeight - 320.0),
+            );
+            b.scale = Vector2.all(1.0);
+            bumpers.add(b);
+            levelContainer.add(b);
+          }
+          for (final tData in data.teleporters) {
+            final t = TeleporterComponent(
+              tData.position,
+              tData.size,
+              tData.pairId,
+            )..priority = 1;
+            t.position = Vector2(
+              tData.position.x * size.x,
+              120.0 + tData.position.y * (levelHeight - 320.0),
+            );
+            t.scale = Vector2.all(1.0);
+            teleporters.add(t);
+            levelContainer.add(t);
+          }
+          for (final magPos in data.magnets) {
+            final mag = MagnetComponent(magPos)..priority = 5;
+            mag.position = Vector2(
+              magPos.x * size.x,
+              120.0 + magPos.y * (levelHeight - 320.0),
+            );
+            mag.scale = Vector2.all(1.0);
+            magnets.add(mag);
+            levelContainer.add(mag);
+          }
+          for (final mbPos in data.multiBalls) {
+            final mb = MultiBallItem(mbPos)..priority = 5;
+            mb.position = Vector2(
+              mbPos.x * size.x,
+              120.0 + mbPos.y * (levelHeight - 320.0),
+            );
+            mb.scale = Vector2.all(1.0);
+            multiBallItems.add(mb);
+            levelContainer.add(mb);
+          }
+        }
       }
     }
   }
@@ -533,6 +632,9 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       'heightMultiplier': currentHeightMultiplier,
       'timeLimitSeconds': levelTimer.toInt(), // Add this!
       'timerSeconds': levelTimer, // Add this!
+      'hasBomb': levelHasBomb,
+      'bombCount': levelBombCount,
+      'isDarkLevel': isDarknessLevel,
     };
 
     // We should encode to JSON, import dart:convert at the top.
@@ -672,17 +774,8 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
 
     if (loseLife) {
       if (isInfinityMode) {
-        currentScore.value -= 20;
-        if (currentScore.value < 0) currentScore.value = 0;
-        // Float text
-        final centerPos = Vector2(size.x / 2.0, (leftY + rightY) / 2.0 - 50);
-        levelContainer.add(
-          FloatingTextComponent(
-            text: '-20',
-            position: centerPos,
-            color: GameColors.red300,
-          ),
-        );
+        // Infinity score is a pure survival/progress record; falling should
+        // end or reset the run state without subtracting points already earned.
       }
       currentLives.value--;
       if (currentLives.value <= 0) {
@@ -916,10 +1009,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       );
       if (customJsonStr != null) {
         data = LevelData.fromJson(jsonDecode(customJsonStr));
-      } else if (PremadeLevels.levelsJson.containsKey(levelToGenerate)) {
-        final jsonStr = PremadeLevels.levelsJson[levelToGenerate]!;
-        data = LevelData.fromJson(jsonDecode(jsonStr));
-      } else {
+      } else if (levelToGenerate == 0) {
         data = LevelData(
           holes: [],
           teleporters: [],
@@ -929,11 +1019,34 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
           multiBalls: [],
           magnets: [],
         );
+      } else if (PremadeLevels.levelsJson.containsKey(levelToGenerate)) {
+        final jsonStr = PremadeLevels.levelsJson[levelToGenerate]!;
+        data = LevelData.fromJson(jsonDecode(jsonStr));
+      } else {
+        final campaignLevel = await CampaignLevelRepository.instance.loadLevel(
+          levelToGenerate,
+        );
+        data =
+            campaignLevel?.toLevelData() ??
+            LevelData(
+              holes: [],
+              teleporters: [],
+              bumpers: [],
+              stars: [],
+              hearts: [],
+              multiBalls: [],
+              magnets: [],
+            );
       }
       isSpawningLevel = false;
       // Trigger setter to adjust camera and bar for the loaded height
       currentHeightMultiplier = data.heightMultiplier;
     } else if (isInfinityMode) {
+      LevelData? infinityTemplate;
+      final infinityJsonStr = await DatabaseHelper.instance.getCustomLevel(0);
+      if (infinityJsonStr != null) {
+        infinityTemplate = LevelData.fromJson(jsonDecode(infinityJsonStr));
+      }
       data = LevelData(
         holes: [],
         teleporters: [],
@@ -942,9 +1055,18 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
         hearts: [],
         multiBalls: [],
         magnets: [],
+        hasBomb: infinityTemplate?.hasBomb ?? true,
+        bombCount: infinityTemplate?.bombCount ?? 0,
+        isDarkLevel: infinityTemplate?.isDarkLevel ?? false,
+        darknessLightRadius: infinityTemplate?.darknessLightRadius ?? 65.0,
+        darknessStartLitSeconds:
+            infinityTemplate?.darknessStartLitSeconds ?? 0.0,
       );
       // Start spawning just above the bar
       nextSpawnY = (size.y > 0 ? size.y : 800.0) - 250.0;
+      if (infinityTemplate != null) {
+        _spawnInfinityStarterTemplate(infinityTemplate);
+      }
       // Pre-spawn a wave of obstacles immediately
       for (int i = 0; i < 8; i++) {
         _spawnInfinityObstaclePattern(nextSpawnY, 0.0);
@@ -1014,15 +1136,36 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     }
 
     // Reset bomb states
-    levelHasBomb =
-        data.hasBomb || (!loadedBakedCampaignLevel && currentLevel.value >= 2);
+    levelHasBomb = data.hasBomb;
+    levelBombCount = data.bombCount > 0
+        ? data.bombCount
+        : (levelHasBomb ? 1 : 0);
     hasSpawnedBombInClassic = false;
+    spawnedClassicBombs = 0;
     bombSpawnTimer = 0.0;
     nextBombSpawnThreshold = 15.0 + _random.nextDouble() * 10.0;
 
     isDarknessLevel =
         data.isDarkLevel ||
         (!loadedBakedCampaignLevel && levelToGenerate >= 11);
+    lightRadiusNotifier.value = data.darknessLightRadius;
+    if (isDarknessLevel && data.darknessStartLitSeconds > 0) {
+      lightChargeTimer = data.darknessStartLitSeconds;
+      lightChargeTimerNotifier.value = lightChargeTimer;
+      isIlluminated = true;
+      darknessOpacityNotifier.value = 0.0;
+    } else {
+      lightChargeTimer = 0.0;
+      lightChargeTimerNotifier.value = 0.0;
+      isIlluminated = false;
+    }
+    if (data.isNightmare) {
+      _showPraiseText(
+        'NIGHTMARE LEVEL',
+        color: GameColors.orangeAccent,
+        force: true,
+      );
+    }
 
     // Quickly spawn components back on the main thread using the pre-calculated data
     for (final hData in data.holes) {
@@ -1166,6 +1309,9 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     super.update(dt);
 
     if (size.x == 0 || size.y == 0) return;
+    if (praiseCooldown > 0) {
+      praiseCooldown = max(0.0, praiseCooldown - dt);
+    }
 
     if (isEditMode) {
       levelContainer.position.y = -cameraOffsetY;
@@ -1246,7 +1392,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       if (isActivelyPlaying) {
         bombSpawnTimer += dt;
         if (isInfinityMode) {
-          if (bombSpawnTimer >= nextBombSpawnThreshold) {
+          if (levelHasBomb && bombSpawnTimer >= nextBombSpawnThreshold) {
             _spawnBombWarning();
             bombSpawnTimer = 0.0;
             // Decrease threshold slightly but randomize heavily for professional feel
@@ -1254,12 +1400,14 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
             nextBombSpawnThreshold = newBase + _random.nextDouble() * 5.0;
           }
         } else {
-          if (levelHasBomb && !hasSpawnedBombInClassic) {
+          if (levelHasBomb && spawnedClassicBombs < levelBombCount) {
             // Spawn quickly but randomly (between 5 and 10 seconds)
             double spawnTime = 5.0 + _random.nextDouble() * 5.0;
             if (bombSpawnTimer >= spawnTime) {
               _spawnBombWarning();
-              hasSpawnedBombInClassic = true;
+              spawnedClassicBombs++;
+              hasSpawnedBombInClassic = spawnedClassicBombs >= levelBombCount;
+              bombSpawnTimer = 0.0;
             }
           }
         }
@@ -1753,6 +1901,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
         double barSurface = barYAtX - (ballRadius + 6.0);
 
         if (newY >= barSurface - 5.0) {
+          final wasFastSave = ball.freeFallVelocity.y > 560.0;
           ball.isFreeFalling = false;
           timeStopTimer = 0.0;
           timeStopNotifier.value = 0.0;
@@ -1766,6 +1915,12 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
           try {
             AppSettings.playSound('tick.wav');
           } catch (_) {}
+          if (wasFastSave) {
+            _showPraiseText(
+              'Great Save!',
+              color: GameColors.mapAppBarGreenAccent,
+            );
+          }
 
           if (ball.activeExitTeleporter != null) {
             ball.activeExitTeleporter!.isClosed = true;
@@ -1868,6 +2023,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
             if (other != null) {
               ball.activeExitTeleporter = other;
               ball.pos2D = other.position.clone();
+              other.isClosed = true;
 
               ball.isFreeFalling = true;
               timeStopTimer = 4.0;
@@ -2173,6 +2329,96 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     }
   }
 
+  void _spawnInfinityStarterTemplate(LevelData template) {
+    final sizeX = size.x > 0 ? size.x : 400.0;
+    final sizeY = size.y > 0 ? size.y : 800.0;
+    final startY = sizeY - 250.0;
+    final spanY = max(520.0, sizeY * 1.15);
+
+    double safeX(double value) => (value * sizeX)
+        .clamp(barPadding + 24.0, sizeX - barPadding - 24.0)
+        .toDouble();
+
+    Vector2 mapPoint(Vector2 normalized) {
+      return Vector2(safeX(normalized.x), startY - normalized.y * spanY);
+    }
+
+    for (final hData in template.holes) {
+      final pos = mapPoint(hData.position);
+      final hole =
+          HoleComponent(
+              pos,
+              hData.size,
+              hData.rotation,
+              isSuckingHole: hData.isSuckingHole,
+              isMovingHole: hData.isMovingHole,
+              moveRange: hData.moveRange <= 1.0
+                  ? hData.moveRange * sizeX
+                  : hData.moveRange,
+              moveSpeed: hData.moveSpeed,
+              moveAxis: hData.moveAxis,
+            )
+            ..position = pos
+            ..priority = 1;
+      holes.add(hole);
+      levelContainer.add(hole);
+    }
+
+    for (final bData in template.bumpers) {
+      final pos = mapPoint(bData.position);
+      final bumper = BumperComponent(pos, bData.size)
+        ..position = pos
+        ..priority = 2;
+      bumpers.add(bumper);
+      levelContainer.add(bumper);
+    }
+
+    for (final tData in template.teleporters) {
+      final pos = mapPoint(tData.position);
+      final teleporter = TeleporterComponent(pos, tData.size, tData.pairId)
+        ..position = pos
+        ..priority = 1;
+      teleporters.add(teleporter);
+      levelContainer.add(teleporter);
+    }
+
+    for (final starPos in template.stars) {
+      final pos = mapPoint(starPos);
+      final star = StarComponent(pos)
+        ..position = pos
+        ..priority = 5;
+      stars.add(star);
+      levelContainer.add(star);
+    }
+
+    for (final heartPos in template.hearts) {
+      final pos = mapPoint(heartPos);
+      final heart = HeartComponent(pos)
+        ..position = pos
+        ..priority = 5;
+      hearts.add(heart);
+      levelContainer.add(heart);
+    }
+
+    for (final magnetPos in template.magnets) {
+      final pos = mapPoint(magnetPos);
+      final magnet = MagnetComponent(pos)
+        ..position = pos
+        ..priority = 5;
+      magnets.add(magnet);
+      levelContainer.add(magnet);
+    }
+
+    for (final multiBallPos in template.multiBalls) {
+      final pos = mapPoint(multiBallPos);
+      final multiBall = MultiBallItem(pos)
+        ..position = pos
+        ..priority = 5;
+      multiBallItems.add(multiBall);
+      levelContainer.add(multiBall);
+    }
+  }
+
   void _updateInfinityMode(double dt) {
     if (dt <= 0) return;
     if (activeBalls.isEmpty) return;
@@ -2218,6 +2464,12 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
             color: GameColors.lightBlue,
           ),
         );
+        if (points >= 5) {
+          _showPraiseText(
+            points >= 10 ? 'Fantastic!' : 'Great Move!',
+            color: GameColors.amber300,
+          );
+        }
       }
     }
 
@@ -2232,6 +2484,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
             color: GameColors.lightBlue,
           ),
         );
+        _showPraiseText('Nice Dodge!', color: GameColors.amber300);
       }
     }
 
@@ -2521,5 +2774,22 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       currentScore.value = 0;
       collectedCoins.value = 0;
     }
+  }
+
+  void _showPraiseText(
+    String text, {
+    Color color = GameColors.white,
+    bool force = false,
+  }) {
+    if (!force && praiseCooldown > 0) return;
+    if (size.x <= 0 || size.y <= 0) return;
+    praiseCooldown = 1.4;
+    levelContainer.add(
+      FloatingTextComponent(
+        text: text,
+        position: Vector2(size.x / 2, cameraOffsetY + size.y * 0.32),
+        color: color,
+      )..priority = 250,
+    );
   }
 }

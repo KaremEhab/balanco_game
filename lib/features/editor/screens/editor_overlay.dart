@@ -7,6 +7,7 @@ import 'package:balanco_game/features/editor/screens/level_editor_screen.dart'; 
 import 'package:balanco_game/core/data/database_helper.dart';
 import 'package:balanco_game/features/game/screens/gameplay.dart';
 import 'package:balanco_game/features/game/data/premade_levels.dart';
+import 'package:balanco_game/features/game/level_system/campaign_level_generator.dart';
 import 'package:balanco_game/core/data/app_settings.dart';
 import 'package:balanco_game/features/game/components/hole_component.dart';
 
@@ -120,8 +121,70 @@ class _EditorOverlayState extends State<EditorOverlay> {
                       ],
                     ),
                     const SizedBox(height: 20),
+                    SwitchListTile(
+                      contentPadding: EdgeInsets.zero,
+                      title: const Text(
+                        'Random Bomb Drops',
+                        style: TextStyle(color: Colors.white70),
+                      ),
+                      value: widget.game.levelHasBomb,
+                      activeThumbColor: GameColors.redAccent,
+                      onChanged: (val) {
+                        setStateDialog(() {
+                          widget.game.levelHasBomb = val;
+                          if (val && widget.game.levelBombCount == 0) {
+                            widget.game.levelBombCount = 1;
+                          }
+                          if (!val) widget.game.levelBombCount = 0;
+                        });
+                      },
+                    ),
+                    if (widget.game.levelHasBomb)
+                      Row(
+                        children: [
+                          const Text(
+                            'Bomb Count',
+                            style: TextStyle(color: Colors.white70),
+                          ),
+                          IconButton(
+                            icon: const Icon(
+                              Icons.remove_circle_outline,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              setStateDialog(() {
+                                widget.game.levelBombCount =
+                                    (widget.game.levelBombCount - 1).clamp(
+                                      1,
+                                      9,
+                                    );
+                              });
+                            },
+                          ),
+                          Text(
+                            '${widget.game.levelBombCount}',
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                          IconButton(
+                            icon: const Icon(
+                              Icons.add_circle_outline,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              setStateDialog(() {
+                                widget.game.levelBombCount =
+                                    (widget.game.levelBombCount + 1).clamp(
+                                      1,
+                                      9,
+                                    );
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    const SizedBox(height: 20),
                     const Text(
-                      'Load Template',
+                      'Load Campaign Template',
                       style: TextStyle(color: Colors.white70),
                     ),
                     DropdownButton<int>(
@@ -139,19 +202,54 @@ class _EditorOverlayState extends State<EditorOverlay> {
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
+                        const DropdownMenuItem(
+                          value: 0,
+                          child: Text(
+                            'Saved Infinity Template',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        ...List.generate(
+                          CampaignLevelGenerator.lastCampaignLevel,
+                          (index) => index + 1,
+                        ).map(
+                          (id) => DropdownMenuItem(
+                            value: id,
+                            child: Text(
+                              'Campaign Level $id',
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
                         ...PremadeLevels.levelsJson.keys.map(
                           (id) => DropdownMenuItem(
                             value: id,
                             child: Text(
-                              'Classic Level $id',
+                              'Legacy Premade $id',
                               style: const TextStyle(color: Colors.white),
                             ),
                           ),
                         ),
                       ],
-                      onChanged: (val) {
+                      onChanged: (val) async {
                         if (val != null) {
-                          widget.game.loadEditorTemplate(val);
+                          if (val == 0) {
+                            widget.game.currentLevel.value = 0;
+                            _levelIdController.text = '0';
+                            AppSettings.setLastEditedLevel(0);
+                            widget.game.restartCurrentLevel();
+                            if (!context.mounted) return;
+                            setStateDialog(() {});
+                            Navigator.pop(context);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Infinity Template Loaded!'),
+                              ),
+                            );
+                            return;
+                          }
+                          await widget.game.loadEditorTemplate(val);
+                          if (!context.mounted) return;
                           setStateDialog(() {});
                           Navigator.pop(context);
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -200,7 +298,7 @@ class _EditorOverlayState extends State<EditorOverlay> {
                 IconButton(
                   icon: const Icon(Icons.chevron_left, color: Colors.white),
                   onPressed: () {
-                    if (widget.game.currentLevel.value > 1) {
+                    if (widget.game.currentLevel.value > 0) {
                       setState(() {
                         widget.game.currentLevel.value--;
                         _levelIdController.text = widget.game.currentLevel.value
@@ -214,7 +312,9 @@ class _EditorOverlayState extends State<EditorOverlay> {
                   },
                 ),
                 Text(
-                  'LVL ${widget.game.currentLevel.value}',
+                  widget.game.currentLevel.value == 0
+                      ? 'INFINITY'
+                      : 'LVL ${widget.game.currentLevel.value}',
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -274,6 +374,7 @@ class _EditorOverlayState extends State<EditorOverlay> {
                       await DatabaseHelper.instance.saveCustomLevel(
                         widget.game.currentLevel.value,
                         jsonString,
+                        isInfinity: widget.game.currentLevel.value == 0,
                       );
                       if (context.mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -295,17 +396,21 @@ class _EditorOverlayState extends State<EditorOverlay> {
                       await DatabaseHelper.instance.saveCustomLevel(
                         widget.game.currentLevel.value,
                         jsonString,
+                        isInfinity: widget.game.currentLevel.value == 0,
                       );
                       if (context.mounted) {
                         final testGame = BalancoGame(
                           isMultiplayer: false,
                           playerRole: 'host',
+                          isInfinityMode: widget.game.currentLevel.value == 0,
                           isEditMode: false,
                         );
-                        testGame.currentLevel.value = widget
-                            .game
-                            .currentLevel
-                            .value; // Play the exact level assigned
+                        if (widget.game.currentLevel.value > 0) {
+                          testGame.currentLevel.value = widget
+                              .game
+                              .currentLevel
+                              .value; // Play the exact level assigned
+                        }
                         Navigator.push(
                           context,
                           MaterialPageRoute(

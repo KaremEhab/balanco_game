@@ -205,12 +205,14 @@ class NightModeDefinition {
   final bool enabled;
   final double opacity;
   final double lightRadius;
+  final double startLitSeconds;
   final List<LevelPoint> lightPickups;
 
   const NightModeDefinition({
     required this.enabled,
     this.opacity = 0.72,
     this.lightRadius = 0.22,
+    this.startLitSeconds = 0.0,
     this.lightPickups = const [],
   });
 
@@ -218,6 +220,7 @@ class NightModeDefinition {
     'enabled': enabled,
     'opacity': opacity,
     'lightRadius': lightRadius,
+    'startLitSeconds': startLitSeconds,
     'lightPickups': lightPickups.map((e) => e.toJson()).toList(),
   };
 
@@ -226,6 +229,7 @@ class NightModeDefinition {
         enabled: json['enabled'] as bool? ?? false,
         opacity: (json['opacity'] as num? ?? 0.72).toDouble(),
         lightRadius: (json['lightRadius'] as num? ?? 0.22).toDouble(),
+        startLitSeconds: (json['startLitSeconds'] as num? ?? 0.0).toDouble(),
         lightPickups:
             (json['lightPickups'] as List?)
                 ?.map(
@@ -273,6 +277,7 @@ class LevelDefinition {
   final List<BombWaveDefinition> bombWaves;
   final List<TeleportPairDefinition> teleportPairs;
   final NightModeDefinition? nightMode;
+  final bool isNightmare;
   final int validationAttempts;
   final List<String> patternIds;
 
@@ -291,6 +296,7 @@ class LevelDefinition {
     this.bombWaves = const [],
     this.teleportPairs = const [],
     this.nightMode,
+    this.isNightmare = false,
     this.validationAttempts = 1,
     this.patternIds = const [],
   });
@@ -312,6 +318,7 @@ class LevelDefinition {
     'bombWaves': bombWaves.map((e) => e.toJson()).toList(),
     'teleportPairs': teleportPairs.map((e) => e.toJson()).toList(),
     if (nightMode != null) 'nightMode': nightMode!.toJson(),
+    'isNightmare': isNightmare,
     'validationAttempts': validationAttempts,
     'patternIds': patternIds,
   };
@@ -367,6 +374,7 @@ class LevelDefinition {
         : NightModeDefinition.fromJson(
             (json['nightMode'] as Map).cast<String, dynamic>(),
           ),
+    isNightmare: json['isNightmare'] as bool? ?? false,
     validationAttempts: json['validationAttempts'] as int? ?? 1,
     patternIds:
         (json['patternIds'] as List?)?.map((e) => e.toString()).toList() ??
