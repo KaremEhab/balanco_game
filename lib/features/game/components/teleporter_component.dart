@@ -27,6 +27,10 @@ class TeleporterComponent extends PositionComponent
   Future<void> onLoad() async {
     super.onLoad();
 
+    if (!game.isEditMode) {
+      game.queueTutorial('teleporter');
+    }
+
     // Outer swirling blue vortex
     _vortexPaint = Paint()
       ..shader = SweepGradient(

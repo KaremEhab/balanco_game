@@ -1,6 +1,5 @@
 import 'dart:math' as math;
 
-import 'package:balanco_game/features/game/components/game_background/celestial_cycle_painter.dart';
 import 'package:flutter/material.dart';
 
 class BiomeBackgroundTransition extends StatelessWidget {

@@ -1,6 +1,7 @@
 import 'dart:isolate';
 import 'dart:math';
 import 'dart:io';
+import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flame/components.dart';
@@ -27,6 +28,7 @@ import 'package:balanco_game/features/game/components/coin_component.dart';
 import 'package:balanco_game/features/game/components/floating_text_component.dart';
 import 'package:balanco_game/features/game/components/bomb_warning_component.dart';
 import 'package:balanco_game/features/game/components/bomb_component.dart';
+import 'package:balanco_game/features/game/components/game_background/darkness_component.dart';
 
 import 'package:balanco_game/features/game/models/ball_data.dart';
 import 'package:balanco_game/features/game/models/level_data.dart';
@@ -51,6 +53,8 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   VoidCallback? onLevelComplete;
 
   bool isDarknessLevel = false;
+  final ValueNotifier<bool> isDarknessLevelNotifier = ValueNotifier<bool>(false);
+  bool isWinningDarkLevel = false;
   bool isIlluminated = false;
   final ValueNotifier<int> lightChargesNotifier = ValueNotifier<int>(5);
   double lightChargeTimer = 0.0;
@@ -192,6 +196,39 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   final ValueNotifier<PositionComponent?> selectedEditComponent = ValueNotifier(
     null,
   );
+
+  // --- Tutorials ---
+  final Queue<String> _tutorialQueue = Queue<String>();
+  final Set<String> _queuedTutorials = {};
+  final ValueNotifier<String?> currentTutorial = ValueNotifier<String?>(null);
+
+  void queueTutorial(String itemId) async {
+    if (_queuedTutorials.contains(itemId) || _tutorialQueue.contains(itemId)) return;
+    _queuedTutorials.add(itemId);
+    
+    if (!await DatabaseHelper.instance.hasSeenTutorial(itemId)) {
+      await DatabaseHelper.instance.markTutorialSeen(itemId);
+      _tutorialQueue.add(itemId);
+      _checkTutorialQueue();
+    }
+  }
+
+  void _checkTutorialQueue() {
+    if (currentTutorial.value != null) return;
+    if (_tutorialQueue.isNotEmpty) {
+      pauseEngine();
+      currentTutorial.value = _tutorialQueue.removeFirst();
+    }
+  }
+
+  void closeTutorial() {
+    currentTutorial.value = null;
+    if (_tutorialQueue.isNotEmpty) {
+      _checkTutorialQueue();
+    } else {
+      resumeEngine();
+    }
+  }
 
   BalancoGame({
     required this.isMultiplayer,
@@ -647,7 +684,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   }
 
   void restartCurrentLevel() async {
-    print("DEBUG: restartCurrentLevel called. Level: ${currentLevel.value}");
+    debugPrint("DEBUG: restartCurrentLevel called. Level: ${currentLevel.value}");
     isSpawningLevel = true;
     currentPoints.value = 0;
     earnedLevelPoints.value = 0;
@@ -665,9 +702,9 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       (c) => c.removeFromParent(),
     );
     _resetPositions();
-    print("DEBUG: generateLevel starts");
+    debugPrint("DEBUG: generateLevel starts");
     await generateLevel();
-    print("DEBUG: generateLevel finishes, resuming engine");
+    debugPrint("DEBUG: generateLevel finishes, resuming engine");
     resumeEngine();
   }
 
@@ -677,7 +714,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   }
 
   Future<void> advanceToNextLevel() async {
-    print("DEBUG: advanceToNextLevel called");
+    debugPrint("DEBUG: advanceToNextLevel called");
     showVictoryOverlay.value = false;
     showGameOverOverlay.value = false;
     isLevelCompleteOverlayShown = false;
@@ -718,7 +755,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     bool respawnFromHole = false,
     HoleComponent? prevHole,
   }) {
-    print(
+    debugPrint(
       "DEBUG: _resetPositions called. size: ${size.x}x${size.y}, isSpawningLevel: $isSpawningLevel, loseLife: $loseLife",
     );
 
@@ -923,6 +960,8 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       add(LevelDebugOverlay());
     }
 
+    camera.viewport.add(DarknessComponent());
+
     levelContainer.add(teleportingGateComponent);
     levelContainer.add(barComponent);
 
@@ -1075,6 +1114,8 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       nextInfinityChunkBoundaryY = nextSpawnY - 4000.0;
       _scatterStarsInChunk(nextSpawnY, nextInfinityChunkBoundaryY, 10);
       isSpawningLevel = false;
+
+      queueTutorial('infinity_mode');
     } else {
       if (PremadeLevels.levelsJson.containsKey(levelToGenerate)) {
         final jsonStr = PremadeLevels.levelsJson[levelToGenerate]!;
@@ -1112,6 +1153,15 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     }
     currentLevelData = data;
 
+    if (levelToGenerate == 1 && !isInfinityMode && !isEditMode) {
+      queueTutorial('joysticks');
+      queueTutorial('shield');
+    }
+
+    if (levelToGenerate >= 15 && !isInfinityMode && !isEditMode) {
+      queueTutorial('scrolling_level');
+    }
+
     if (!isEditMode && !isInfinityMode) {
       currentHeightMultiplierNotifier.value = data.heightMultiplier;
 
@@ -1148,6 +1198,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     isDarknessLevel =
         data.isDarkLevel ||
         (!loadedBakedCampaignLevel && levelToGenerate >= 11);
+    isDarknessLevelNotifier.value = isDarknessLevel;
     lightRadiusNotifier.value = data.darknessLightRadius;
     if (isDarknessLevel && data.darknessStartLitSeconds > 0) {
       lightChargeTimer = data.darknessStartLitSeconds;
@@ -1163,6 +1214,12 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       _showPraiseText(
         'NIGHTMARE LEVEL',
         color: GameColors.orangeAccent,
+        force: true,
+      );
+    } else if (isDarknessLevel) {
+      _showPraiseText(
+        'Night Time!',
+        color: GameColors.purple300,
         force: true,
       );
     }
@@ -1617,6 +1674,10 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
 
     // Light Dude Mechanic State Machine
     if (isDarknessLevel && !isSpawningLevel && activeBalls.isNotEmpty) {
+      if (isWinningDarkLevel) {
+        lightRadiusNotifier.value += dt * 1500.0; // Rapidly light up the screen
+      }
+      
       if (lightChargeTimer > 0) {
         lightChargeTimer -= dt;
         if (lightChargeTimer <= 0) {
@@ -1703,7 +1764,8 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
         if (teleportingGateComponent.isClosed) {
           isBoardHidden = true;
           if (!isLevelCompleteOverlayShown) {
-            print("DEBUG: showVictoryOverlay triggered from isSuckingToGate");
+            debugPrint(
+                "DEBUG: showVictoryOverlay triggered from handleLevelCompletion logic");
             isLevelCompleteOverlayShown = true;
             showVictoryOverlay.value = true;
             pauseEngine();
@@ -1722,11 +1784,15 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
         !isLevelCompleteOverlayShown) {
       Vector2 gateCenter = teleportingGateComponent.position;
       if (ball.pos2D.distanceTo(gateCenter) < 40) {
-        print(
+        debugPrint(
           "DEBUG: isSuckingToGate = true triggered. pos2D: ${ball.pos2D}, gateCenter: $gateCenter",
         );
         ball.isSuckingToGate = true;
         ball.isFalling = false;
+        
+        if (isDarknessLevel) {
+          isWinningDarkLevel = true;
+        }
 
         HapticFeedback.heavyImpact();
         try {
@@ -2769,7 +2835,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
 
       infinityHighScore = newHighScore;
     } catch (e) {
-      print("DEBUG: Failed to save coins or high score: $e");
+      debugPrint("DEBUG: Failed to save coins or high score: $e");
     } finally {
       currentScore.value = 0;
       collectedCoins.value = 0;

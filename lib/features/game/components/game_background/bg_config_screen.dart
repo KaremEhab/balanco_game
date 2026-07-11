@@ -1,3 +1,4 @@
+// ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -35,12 +36,11 @@ class _PyramidState {
 class _LayerEntry {
   final String name;
   double depthMultiplier;
-  bool visible;
+  bool visible = true;
 
   _LayerEntry({
     required this.name,
     required this.depthMultiplier,
-    this.visible = true,
   });
 }
 
@@ -277,8 +277,9 @@ ${_layers.mapIndexed((i, l) => '// [${i + 1}] ${l.name}  depth: ${l.depthMultipl
         _draggingPyramid = i;
       }
     }
-    if (_draggingPyramid != null)
+    if (_draggingPyramid != null) {
       setState(() => _selectedPyramid = _draggingPyramid!);
+    }
   }
 
   void _onPanUpdate(DragUpdateDetails d, double sx, double sy) {
@@ -1586,6 +1587,8 @@ class _ColorPickerSheetState extends State<_ColorPickerSheet> {
 // ── Extension helpers ─────────────────────────────────────────────────────────
 extension _IndexedMap<T> on List<T> {
   Iterable<R> mapIndexed<R>(R Function(int i, T e) fn) sync* {
-    for (int i = 0; i < length; i++) yield fn(i, this[i]);
+    for (int i = 0; i < length; i++) {
+      yield fn(i, this[i]);
+    }
   }
 }

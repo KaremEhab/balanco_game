@@ -451,9 +451,9 @@ class GamePainter extends CustomPainter {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                const Color(0xFFFF87),
+                Color.fromARGB(0, 255, 255, 255),
                 GameColors.white,
-                const Color(0xFFFF87),
+                Color.fromARGB(0, 255, 255, 255),
               ],
             ).createShader(bounds)
           : LinearGradient(

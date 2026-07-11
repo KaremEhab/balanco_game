@@ -45,7 +45,7 @@ class HoleComponent extends PositionComponent
   late final int nailsCount;
 
 
-  late final Paint _holePaint;
+
   late final Paint _glowPaint;
   late final Paint _splashPaint;
   late final Paint _dropPaint;
@@ -93,6 +93,16 @@ class HoleComponent extends PositionComponent
   @override
   Future<void> onLoad() async {
     super.onLoad();
+
+    if (!game.isEditMode) {
+      if (isSuckingHole) {
+        game.queueTutorial('sucking_hole');
+      } else if (isMovingHole) {
+        game.queueTutorial('moving_hole');
+      } else {
+        game.queueTutorial('hole');
+      }
+    }
 
     final currentBiome = game.currentBiome;
 

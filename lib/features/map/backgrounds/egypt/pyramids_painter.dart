@@ -1,3 +1,4 @@
+// ignore_for_file: non_constant_identifier_names
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class SmallPyramidPainter extends CustomPainter {
     paint_0_fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3112414, size.height * 0.9774034),
       Offset(size.width * 0.3112414, size.height * 0.0008403361),
-      [Color(0xff8B1757).withOpacity(1), Color(0xffD65C9A).withOpacity(1)],
+      [Color(0xff8B1757).withValues(alpha: 1), Color(0xffD65C9A).withValues(alpha: 1)],
       [0.028, 1],
     );
     canvas.drawPath(path_0, paint_0_fill);
@@ -37,7 +38,7 @@ class SmallPyramidPainter extends CustomPainter {
     paint_1_fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6881724, size.height * 0.9979496),
       Offset(size.width * 0.6881724, size.height * 0.0008403361),
-      [Color(0xff52003B).withOpacity(1), Color(0xff6A1B72).withOpacity(1)],
+      [Color(0xff52003B).withValues(alpha: 1), Color(0xff6A1B72).withValues(alpha: 1)],
       [0.028, 1],
     );
     canvas.drawPath(path_1, paint_1_fill);
@@ -52,7 +53,7 @@ class SmallPyramidPainter extends CustomPainter {
     path_2.close();
 
     Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.color = Color(0xffB3407A).withOpacity(1.0);
+    paint_2_fill.color = Color(0xffB3407A).withValues(alpha: 1.0);
     canvas.drawPath(path_2, paint_2_fill);
   }
 
@@ -79,7 +80,7 @@ class MediumPyramidPainter extends CustomPainter {
     paint_0_fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6956978, size.height * 0.9970545),
       Offset(size.width * 0.6956978, size.height * 0.002424242),
-      [Color(0xff52003B).withOpacity(1), Color(0xff6A1B72).withOpacity(1)],
+      [Color(0xff52003B).withValues(alpha: 1), Color(0xff6A1B72).withValues(alpha: 1)],
       [0.028, 1],
     );
     canvas.drawPath(path_0, paint_0_fill);
@@ -99,7 +100,7 @@ class MediumPyramidPainter extends CustomPainter {
     paint_1_fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4215971, size.height * 0.9970545),
       Offset(size.width * 0.4215971, size.height * 0.002424242),
-      [Color(0xff8B1757).withOpacity(1), Color(0xffD65C9A).withOpacity(1)],
+      [Color(0xff8B1757).withValues(alpha: 1), Color(0xffD65C9A).withValues(alpha: 1)],
       [0.028, 1],
     );
     canvas.drawPath(path_1, paint_1_fill);
@@ -113,7 +114,7 @@ class MediumPyramidPainter extends CustomPainter {
     path_2.close();
 
     Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.color = Color(0xffB166D9).withOpacity(1.0);
+    paint_2_fill.color = Color(0xffB166D9).withValues(alpha: 1.0);
     canvas.drawPath(path_2, paint_2_fill);
 
     Path path_3 = Path();
@@ -134,7 +135,7 @@ class MediumPyramidPainter extends CustomPainter {
     paint_3_fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4427554, size.height * 0.3296667),
       Offset(size.width * 0.4427554, size.height * 0.2485636),
-      [Color(0xff52003B).withOpacity(1), Color(0xff6A1B72).withOpacity(1)],
+      [Color(0xff52003B).withValues(alpha: 1), Color(0xff6A1B72).withValues(alpha: 1)],
       [0.028, 1],
     );
     canvas.drawPath(path_3, paint_3_fill);
@@ -163,7 +164,7 @@ class LargePyramidPainter extends CustomPainter {
     paint_0_fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4076015, size.height * 0.9973273),
       Offset(size.width * 0.4076015, size.height * 0.005909091),
-      [Color(0xff8B1757).withOpacity(1), Color(0xffD65C9A).withOpacity(1)],
+      [Color(0xff8B1757).withValues(alpha: 1), Color(0xffD65C9A).withValues(alpha: 1)],
       [0.028, 1],
     );
     canvas.drawPath(path_0, paint_0_fill);
@@ -194,7 +195,7 @@ class LargePyramidPainter extends CustomPainter {
     paint_1_fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.7090401, size.height * 0.9997136),
       Offset(size.width * 0.7090401, size.height * 0.003636364),
-      [Color(0xff52003B).withOpacity(1), Color(0xff6A1B72).withOpacity(1)],
+      [Color(0xff52003B).withValues(alpha: 1), Color(0xff6A1B72).withValues(alpha: 1)],
       [0.028, 1],
     );
     canvas.drawPath(path_1, paint_1_fill);
@@ -208,7 +209,7 @@ class LargePyramidPainter extends CustomPainter {
     path_2.close();
 
     Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.color = Color(0xffB3407A).withOpacity(1.0);
+    paint_2_fill.color = Color(0xffB3407A).withValues(alpha: 1.0);
     canvas.drawPath(path_2, paint_2_fill);
 
     Path path_3 = Path();
@@ -219,7 +220,7 @@ class LargePyramidPainter extends CustomPainter {
     path_3.close();
 
     Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.color = Color(0xffFB86BD).withOpacity(1.0);
+    paint_3_fill.color = Color(0xffFB86BD).withValues(alpha: 1.0);
     canvas.drawPath(path_3, paint_3_fill);
   }
 
@@ -249,7 +250,7 @@ class ZoserPyramidPainter extends CustomPainter {
     paint_0_fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6892162, size.height * 0.9799565),
       Offset(size.width * 0.6892162, size.height * 0.006521739),
-      [Color(0xff52003B).withOpacity(1), Color(0xff6A1B72).withOpacity(1)],
+      [Color(0xff52003B).withValues(alpha: 1), Color(0xff6A1B72).withValues(alpha: 1)],
       [0.028, 1],
     );
     canvas.drawPath(path_0, paint_0_fill);
@@ -274,7 +275,7 @@ class ZoserPyramidPainter extends CustomPainter {
     paint_1_fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4118468, size.height * 0.9799565),
       Offset(size.width * 0.4118468, size.height * 0.006521739),
-      [Color(0xff8B1757).withOpacity(1), Color(0xffD65C9A).withOpacity(1)],
+      [Color(0xff8B1757).withValues(alpha: 1), Color(0xffD65C9A).withValues(alpha: 1)],
       [0.028, 1],
     );
     canvas.drawPath(path_1, paint_1_fill);
@@ -295,7 +296,7 @@ class ZoserPyramidPainter extends CustomPainter {
     path_2.close();
 
     Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.color = Color(0xffFB86BD).withOpacity(1.0);
+    paint_2_fill.color = Color(0xffFB86BD).withValues(alpha: 1.0);
     canvas.drawPath(path_2, paint_2_fill);
   }
 

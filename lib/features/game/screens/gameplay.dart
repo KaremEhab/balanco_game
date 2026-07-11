@@ -20,6 +20,7 @@ import 'package:balanco_game/core/widgets/parallax_background_widget.dart';
 import 'package:balanco_game/features/game/screens/overlays/time_stop_overlay.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
 import 'package:balanco_game/features/editor/screens/editor_overlay.dart';
+import 'package:balanco_game/features/game/screens/overlays/instruction_overlay.dart';
 
 class GamePlayOverlay extends StatefulWidget {
   final BalancoGame game;
@@ -634,39 +635,30 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                                   ),
                                 ),
 
-                                // Fullscreen Darkness Overlay
-                                Positioned(
-                                  top: -4000,
-                                  bottom: -4000,
-                                  left: -4000,
-                                  right: -4000,
-                                  child: FullScreenDarknessOverlay(
-                                    game: widget.game,
-                                  ),
-                                ),
-
                                 // TOP HEADER (Hearts, Score, etc.)
                                 if (!widget.game.isEditMode)
-                                Positioned(
-                                  top: 10,
-                                  left: 0,
-                                  right: 0,
-                                  child: Center(
-                                    child: widget.game.isInfinityMode
-                                        ? InfinityScoreHeader(game: widget.game)
-                                        : GameplayHeader(
-                                            game: widget.game,
-                                            cardBaseGradient: [
-                                              currentBiome.primaryColor,
-                                              currentBiome.primaryColor,
-                                            ],
-                                            cardHighlightGradient: [
-                                              currentBiome.nodeUnlockedColor,
-                                              currentBiome.nodeUnlockedColor,
-                                            ],
-                                          ),
+                                  Positioned(
+                                    top: 10,
+                                    left: 0,
+                                    right: 0,
+                                    child: Center(
+                                      child: widget.game.isInfinityMode
+                                          ? InfinityScoreHeader(
+                                              game: widget.game,
+                                            )
+                                          : GameplayHeader(
+                                              game: widget.game,
+                                              cardBaseGradient: [
+                                                currentBiome.primaryColor,
+                                                currentBiome.primaryColor,
+                                              ],
+                                              cardHighlightGradient: [
+                                                currentBiome.nodeUnlockedColor,
+                                                currentBiome.nodeUnlockedColor,
+                                              ],
+                                            ),
+                                    ),
                                   ),
-                                ),
 
                                 // Editor Overlay
                                 if (widget.game.isEditMode)
@@ -676,50 +668,53 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
 
                                 // Joysticks & Controls Overlay
                                 if (!widget.game.isEditMode)
-                                Positioned(
-                                  bottom: 10,
-                                  left: 0,
-                                  right: 0,
-                                  height: 150,
-                                  child: GameControlsOverlay(game: widget.game),
-                                ),
+                                  Positioned(
+                                    bottom: 10,
+                                    left: 0,
+                                    right: 0,
+                                    height: 150,
+                                    child: GameControlsOverlay(
+                                      game: widget.game,
+                                    ),
+                                  ),
 
                                 // Pause Button Overlay
                                 if (!widget.game.isEditMode)
-                                Positioned(
-                                  bottom: -5,
-                                  left: 0,
-                                  right: 0,
-                                  child: Center(
-                                    child: AnimatedPressButton(
-                                      onTap: _showPauseMenu,
-                                      child: Container(
-                                        padding: const EdgeInsets.all(6.0),
-                                        decoration: BoxDecoration(
-                                          color: widget.game.isInfinityMode
-                                              ? Colors.white.withValues(
-                                                  alpha: 0.4,
-                                                )
-                                              : currentBiome.nodeUnlockedColor,
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
+                                  Positioned(
+                                    bottom: -5,
+                                    left: 0,
+                                    right: 0,
+                                    child: Center(
+                                      child: AnimatedPressButton(
+                                        onTap: _showPauseMenu,
+                                        child: Container(
+                                          padding: const EdgeInsets.all(6.0),
+                                          decoration: BoxDecoration(
                                             color: widget.game.isInfinityMode
-                                                ? GameColors.white
-                                                : currentBiome.primaryColor,
-                                            width: 3,
+                                                ? Colors.white.withValues(
+                                                    alpha: 0.4,
+                                                  )
+                                                : currentBiome
+                                                      .nodeUnlockedColor,
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                              color: widget.game.isInfinityMode
+                                                  ? GameColors.white
+                                                  : currentBiome.primaryColor,
+                                              width: 3,
+                                            ),
                                           ),
-                                        ),
-                                        child: Icon(
-                                          Icons.pause_rounded,
-                                          color: widget.game.isInfinityMode
-                                              ? const Color(0xFF46356D)
-                                              : GameColors.white,
-                                          size: 28,
+                                          child: Icon(
+                                            Icons.pause_rounded,
+                                            color: widget.game.isInfinityMode
+                                                ? const Color(0xFF46356D)
+                                                : GameColors.white,
+                                            size: 28,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
                               ],
                             ),
                           ),
@@ -746,6 +741,23 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                   builder: (context, showGameOver, child) {
                     if (showGameOver) {
                       return AnimatedGameOverOverlay(game: widget.game);
+                    }
+                    return const SizedBox.shrink();
+                  },
+                ),
+
+                // Instruction Overlay (Fullscreen)
+                ValueListenableBuilder<String?>(
+                  valueListenable: widget.game.currentTutorial,
+                  builder: (context, tutorialId, child) {
+                    if (tutorialId != null && tutorialId.isNotEmpty) {
+                      return Positioned.fill(
+                        child: InstructionOverlay(
+                          key: ValueKey(tutorialId),
+                          game: widget.game,
+                          tutorialId: tutorialId,
+                        ),
+                      );
                     }
                     return const SizedBox.shrink();
                   },
@@ -793,94 +805,5 @@ class _AnimatedPressButtonState extends State<AnimatedPressButton> {
         child: widget.child,
       ),
     );
-  }
-}
-
-class FullScreenDarknessOverlay extends StatelessWidget {
-  final BalancoGame game;
-  const FullScreenDarknessOverlay({super.key, required this.game});
-
-  @override
-  Widget build(BuildContext context) {
-    return IgnorePointer(
-      child: ValueListenableBuilder<double>(
-        valueListenable: game.darknessOpacityNotifier,
-        builder: (context, opacity, child) {
-          if (opacity <= 0.0) return const SizedBox.shrink();
-          return ValueListenableBuilder<List<Offset>>(
-            valueListenable: game.lightSpotNotifier,
-            builder: (context, spots, child) {
-              if (spots.isEmpty) return const SizedBox.shrink();
-
-              // Map from Flame coordinates to FittedBox coordinates
-              // The Flame game has left padding of 6, right 6, top 124.
-              // The Positioned expands by 4000 in all directions.
-              final mappedSpots = spots
-                  .map((s) => Offset(s.dx + 6 + 4000, s.dy + 124 + 4000))
-                  .toList();
-
-              return ValueListenableBuilder<double>(
-                valueListenable: game.lightRadiusNotifier,
-                builder: (context, radius, child) {
-                  return CustomPaint(
-                    painter: DarknessPainter(
-                      opacity: opacity,
-                      spots: mappedSpots,
-                      radius: radius,
-                    ),
-                  );
-                },
-              );
-            },
-          );
-        },
-      ),
-    );
-  }
-}
-
-class DarknessPainter extends CustomPainter {
-  final double opacity;
-  final List<Offset> spots;
-  final double radius;
-  DarknessPainter({
-    required this.opacity,
-    required this.spots,
-    required this.radius,
-  });
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    canvas.saveLayer(Rect.fromLTWH(0, 0, size.width, size.height), Paint());
-
-    final bgPaint = Paint()
-      ..color = GameColors.darknessOverlayBg.withValues(alpha: opacity);
-    canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), bgPaint);
-
-    for (final spot in spots) {
-      final holePaint = Paint()
-        ..blendMode = BlendMode.dstOut
-        ..shader = RadialGradient(
-          colors: [
-            GameColors.black,
-            GameColors.black,
-            GameColors.black.withValues(alpha: 0.6),
-            GameColors.black.withValues(alpha: 0.2),
-            Colors.transparent,
-          ],
-          stops: const [0.0, 0.25, 0.45, 0.75, 1.0],
-        ).createShader(Rect.fromCircle(center: spot, radius: radius));
-
-      canvas.drawCircle(spot, radius, holePaint);
-    }
-
-    canvas.restore();
-  }
-
-  @override
-  bool shouldRepaint(DarknessPainter oldDelegate) {
-    return oldDelegate.opacity != opacity ||
-        oldDelegate.spots != spots ||
-        oldDelegate.radius != radius;
   }
 }

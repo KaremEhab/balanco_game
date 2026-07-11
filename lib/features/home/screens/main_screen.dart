@@ -19,7 +19,7 @@ import 'package:balanco_game/features/map/backgrounds/beach/mountains_painter.da
 import 'package:balanco_game/features/map/backgrounds/beach/sea_painter.dart';
 import 'package:balanco_game/features/game/components/game_background/biome_background_transition.dart';
 import 'package:balanco_game/features/game/components/game_background/pyramids_painter.dart';
-import 'package:balanco_game/features/game/components/game_background/bg_config_screen.dart';
+
 import 'package:balanco_game/features/map/theme/biome_config.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
 
@@ -272,7 +272,6 @@ class _MainScreenState extends State<MainScreen> {
               final double topHeight = MediaQuery.of(context).padding.top + 80;
               final double bottomHeight =
                   MediaQuery.of(context).padding.bottom + 60;
-              const int steps = 5;
 
               return Stack(
                 clipBehavior: Clip.none,

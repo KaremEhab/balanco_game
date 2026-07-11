@@ -6,7 +6,7 @@ import 'package:balanco_game/features/game/game_area.dart';
 import 'package:balanco_game/features/game/components/game_area/collected_heart_painter.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
 
-import 'package:balanco_game/features/game/models/ball_data.dart';
+
 import 'package:balanco_game/features/editor/mixins/editor_draggable.dart';
 import 'package:flame/events.dart';
 
@@ -32,6 +32,10 @@ class HeartComponent extends PositionComponent
   @override
   Future<void> onLoad() async {
     super.onLoad();
+
+    if (!game.isEditMode) {
+      game.queueTutorial('heart');
+    }
 
     _dropShadowPaint = Paint()
       ..color = GameColors.black.withValues(alpha: 0.5)

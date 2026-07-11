@@ -1,3 +1,4 @@
+import 'package:balanco_game/features/game/screens/overlays/instruction_overlay.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,6 +20,23 @@ class InfinityGameplay extends StatelessWidget {
         GameWidget(game: game),
         TimeStopOverlay(timeNotifier: game.timeStopNotifier),
         _InfinityCountdownOverlay(countdownNotifier: game.countdownNotifier),
+
+        // Instruction Overlay (Fullscreen)
+        ValueListenableBuilder<String?>(
+          valueListenable: game.currentTutorial,
+          builder: (context, tutorialId, child) {
+            if (tutorialId != null && tutorialId.isNotEmpty) {
+              return Positioned.fill(
+                child: InstructionOverlay(
+                  key: ValueKey(tutorialId),
+                  game: game,
+                  tutorialId: tutorialId,
+                ),
+              );
+            }
+            return const SizedBox.shrink();
+          },
+        ),
       ],
     );
   }

@@ -1,3 +1,4 @@
+// ignore_for_file: non_constant_identifier_names
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
@@ -17,12 +18,12 @@ class SandPainter extends CustomPainter {
       Offset(size.width * 0.5000000, size.height * 1.000010),
       Offset(size.width * 0.5000000, size.height * 0.0005063291),
       [
-        Color(0xff160052).withOpacity(1),
-        Color(0xff200255).withOpacity(1),
-        Color(0xff3C065E).withOpacity(1),
-        Color(0xff690D6C).withOpacity(1),
-        Color(0xff7F1173).withOpacity(1),
-        Color(0xffED5492).withOpacity(1),
+        Color(0xff160052).withValues(alpha: 1),
+        Color(0xff200255).withValues(alpha: 1),
+        Color(0xff3C065E).withValues(alpha: 1),
+        Color(0xff690D6C).withValues(alpha: 1),
+        Color(0xff7F1173).withValues(alpha: 1),
+        Color(0xffED5492).withValues(alpha: 1),
       ],
       [0, 0.138, 0.376, 0.684, 0.818, 1],
     );
@@ -74,7 +75,7 @@ class SandPainter extends CustomPainter {
     path_1.close();
 
     Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.color = Color(0xff6B2D86).withOpacity(1.0);
+    paint_1_fill.color = Color(0xff6B2D86).withValues(alpha: 1.0);
     canvas.drawPath(path_1, paint_1_fill);
 
     Path path_2 = Path();
@@ -187,7 +188,7 @@ class SandPainter extends CustomPainter {
     path_2.close();
 
     Paint paint_2_fill = Paint()..style = PaintingStyle.fill;
-    paint_2_fill.color = Color(0xffAB9FFF).withOpacity(1.0);
+    paint_2_fill.color = Color(0xffAB9FFF).withValues(alpha: 1.0);
     canvas.drawPath(path_2, paint_2_fill);
 
     Path path_3 = Path();
@@ -199,7 +200,7 @@ class SandPainter extends CustomPainter {
     path_3.close();
 
     Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.color = Color(0xff6B2D86).withOpacity(1.0);
+    paint_3_fill.color = Color(0xff6B2D86).withValues(alpha: 1.0);
     canvas.drawPath(path_3, paint_3_fill);
 
     Path path_4 = Path();
@@ -230,10 +231,10 @@ class SandPainter extends CustomPainter {
       Offset(size.width * 0.1179455, size.height * 0.3862962),
       Offset(size.width * 0.1179455, size.height * 0.2447722),
       [
-        Color(0xff161342).withOpacity(1),
-        Color(0xff20164B).withOpacity(1),
-        Color(0xff3C1D64).withOpacity(1),
-        Color(0xff632787).withOpacity(1),
+        Color(0xff161342).withValues(alpha: 1),
+        Color(0xff20164B).withValues(alpha: 1),
+        Color(0xff3C1D64).withValues(alpha: 1),
+        Color(0xff632787).withValues(alpha: 1),
       ],
       [0, 0.214, 0.583, 1],
     );
@@ -258,10 +259,10 @@ class SandPainter extends CustomPainter {
       Offset(size.width * 0.06897955, size.height * 0.3857266),
       Offset(size.width * 0.06897955, size.height * 0.2637215),
       [
-        Color(0xff161342).withOpacity(1),
-        Color(0xff20164B).withOpacity(1),
-        Color(0xff3C1D64).withOpacity(1),
-        Color(0xff632787).withOpacity(1),
+        Color(0xff161342).withValues(alpha: 1),
+        Color(0xff20164B).withValues(alpha: 1),
+        Color(0xff3C1D64).withValues(alpha: 1),
+        Color(0xff632787).withValues(alpha: 1),
       ],
       [0, 0.214, 0.583, 1],
     );
@@ -329,10 +330,10 @@ class SandPainter extends CustomPainter {
       Offset(size.width * 0.09661136, size.height * 0.3857266),
       Offset(size.width * 0.09661136, size.height * 0.1964405),
       [
-        Color(0xff5B0068).withOpacity(1),
-        Color(0xff5C0A72).withOpacity(1),
-        Color(0xff60268C).withOpacity(1),
-        Color(0xff633EA3).withOpacity(1),
+        Color(0xff5B0068).withValues(alpha: 1),
+        Color(0xff5C0A72).withValues(alpha: 1),
+        Color(0xff60268C).withValues(alpha: 1),
+        Color(0xff633EA3).withValues(alpha: 1),
       ],
       [0, 0.253, 0.688, 1],
     );
@@ -364,10 +365,10 @@ class SandPainter extends CustomPainter {
       Offset(size.width * 0.1631659, size.height * 0.3887873),
       Offset(size.width * 0.1631659, size.height * 0.2701367),
       [
-        Color(0xff321D54).withOpacity(1),
-        Color(0xff311E5E).withOpacity(1),
-        Color(0xff2E1F7A).withOpacity(1),
-        Color(0xff2C2087).withOpacity(1),
+        Color(0xff321D54).withValues(alpha: 1),
+        Color(0xff311E5E).withValues(alpha: 1),
+        Color(0xff2E1F7A).withValues(alpha: 1),
+        Color(0xff2C2087).withValues(alpha: 1),
       ],
       [0, 0.294, 0.799, 1],
     );
@@ -385,10 +386,10 @@ class SandPainter extends CustomPainter {
       Offset(size.width * 0.02125455, size.height * 0.3834000),
       Offset(size.width * 0.02125455, size.height * 0.3247241),
       [
-        Color(0xff321D54).withOpacity(1),
-        Color(0xff311E5E).withOpacity(1),
-        Color(0xff2E1F7A).withOpacity(1),
-        Color(0xff2C2087).withOpacity(1),
+        Color(0xff321D54).withValues(alpha: 1),
+        Color(0xff311E5E).withValues(alpha: 1),
+        Color(0xff2E1F7A).withValues(alpha: 1),
+        Color(0xff2C2087).withValues(alpha: 1),
       ],
       [0, 0.294, 0.799, 1],
     );
@@ -438,10 +439,10 @@ class SandPainter extends CustomPainter {
       Offset(size.width * 0.8804909, size.height * 0.7674557),
       Offset(size.width * 0.8804909, size.height * 0.4734127),
       [
-        Color(0xff161342).withOpacity(1),
-        Color(0xff20164B).withOpacity(1),
-        Color(0xff3C1D64).withOpacity(1),
-        Color(0xff632787).withOpacity(1),
+        Color(0xff161342).withValues(alpha: 1),
+        Color(0xff20164B).withValues(alpha: 1),
+        Color(0xff3C1D64).withValues(alpha: 1),
+        Color(0xff632787).withValues(alpha: 1),
       ],
       [0, 0.214, 0.583, 1],
     );
@@ -532,10 +533,10 @@ class SandPainter extends CustomPainter {
       Offset(size.width * 0.8546500, size.height * 0.7764405),
       Offset(size.width * 0.8546500, size.height * 0.5088228),
       [
-        Color(0xff5B0068).withOpacity(1),
-        Color(0xff5C0A72).withOpacity(1),
-        Color(0xff60268C).withOpacity(1),
-        Color(0xff633EA3).withOpacity(1),
+        Color(0xff5B0068).withValues(alpha: 1),
+        Color(0xff5C0A72).withValues(alpha: 1),
+        Color(0xff60268C).withValues(alpha: 1),
+        Color(0xff633EA3).withValues(alpha: 1),
       ],
       [0, 0.253, 0.688, 1],
     );
@@ -562,10 +563,10 @@ class SandPainter extends CustomPainter {
       Offset(size.width * 0.7928386, size.height * 0.7757139),
       Offset(size.width * 0.7928386, size.height * 0.5088203),
       [
-        Color(0xff321D54).withOpacity(1),
-        Color(0xff311E5E).withOpacity(1),
-        Color(0xff2E1F7A).withOpacity(1),
-        Color(0xff2C2087).withOpacity(1),
+        Color(0xff321D54).withValues(alpha: 1),
+        Color(0xff311E5E).withValues(alpha: 1),
+        Color(0xff2E1F7A).withValues(alpha: 1),
+        Color(0xff2C2087).withValues(alpha: 1),
       ],
       [0, 0.294, 0.799, 1],
     );
@@ -583,10 +584,10 @@ class SandPainter extends CustomPainter {
       Offset(size.width * 0.9560909, size.height * 0.7550481),
       Offset(size.width * 0.9560909, size.height * 0.6319975),
       [
-        Color(0xff5B0068).withOpacity(1),
-        Color(0xff5C0A72).withOpacity(1),
-        Color(0xff60268C).withOpacity(1),
-        Color(0xff633EA3).withOpacity(1),
+        Color(0xff5B0068).withValues(alpha: 1),
+        Color(0xff5C0A72).withValues(alpha: 1),
+        Color(0xff60268C).withValues(alpha: 1),
+        Color(0xff633EA3).withValues(alpha: 1),
       ],
       [0, 0.253, 0.688, 1],
     );
@@ -620,10 +621,10 @@ class SandPainter extends CustomPainter {
       Offset(size.width * 0.8101136, size.height * 0.2241114),
       Offset(size.width * 0.8101136, size.height * 0.1427544),
       [
-        Color(0xff5B0068).withOpacity(1),
-        Color(0xff5C0A72).withOpacity(1),
-        Color(0xff60268C).withOpacity(1),
-        Color(0xff633EA3).withOpacity(1),
+        Color(0xff5B0068).withValues(alpha: 1),
+        Color(0xff5C0A72).withValues(alpha: 1),
+        Color(0xff60268C).withValues(alpha: 1),
+        Color(0xff633EA3).withValues(alpha: 1),
       ],
       [0, 0.253, 0.688, 1],
     );
@@ -655,10 +656,10 @@ class SandPainter extends CustomPainter {
       Offset(size.width * 0.8963636, size.height * 0.2268709),
       Offset(size.width * 0.8963636, size.height * 0.1614759),
       [
-        Color(0xff5B0068).withOpacity(1),
-        Color(0xff5C0A72).withOpacity(1),
-        Color(0xff60268C).withOpacity(1),
-        Color(0xff633EA3).withOpacity(1),
+        Color(0xff5B0068).withValues(alpha: 1),
+        Color(0xff5C0A72).withValues(alpha: 1),
+        Color(0xff60268C).withValues(alpha: 1),
+        Color(0xff633EA3).withValues(alpha: 1),
       ],
       [0, 0.253, 0.688, 1],
     );
@@ -690,10 +691,10 @@ class SandPainter extends CustomPainter {
       Offset(size.width * 0.1908545, size.height * 0.7525646),
       Offset(size.width * 0.1908545, size.height * 0.6172962),
       [
-        Color(0xff5B0068).withOpacity(1),
-        Color(0xff5C0A72).withOpacity(1),
-        Color(0xff60268C).withOpacity(1),
-        Color(0xff633EA3).withOpacity(1),
+        Color(0xff5B0068).withValues(alpha: 1),
+        Color(0xff5C0A72).withValues(alpha: 1),
+        Color(0xff60268C).withValues(alpha: 1),
+        Color(0xff633EA3).withValues(alpha: 1),
       ],
       [0, 0.253, 0.688, 1],
     );
@@ -725,10 +726,10 @@ class SandPainter extends CustomPainter {
       Offset(size.width * 0.06816818, size.height * 0.9999747),
       Offset(size.width * 0.06816818, size.height * 0.8330608),
       [
-        Color(0xff5B0068).withOpacity(1),
-        Color(0xff5C0A72).withOpacity(1),
-        Color(0xff60268C).withOpacity(1),
-        Color(0xff633EA3).withOpacity(1),
+        Color(0xff5B0068).withValues(alpha: 1),
+        Color(0xff5C0A72).withValues(alpha: 1),
+        Color(0xff60268C).withValues(alpha: 1),
+        Color(0xff633EA3).withValues(alpha: 1),
       ],
       [0, 0.253, 0.688, 1],
     );
@@ -760,10 +761,10 @@ class SandPainter extends CustomPainter {
       Offset(size.width * 0.09020909, size.height * 0.9999772),
       Offset(size.width * 0.09020909, size.height * 0.8849063),
       [
-        Color(0xff5B0068).withOpacity(1),
-        Color(0xff5C0A72).withOpacity(1),
-        Color(0xff60268C).withOpacity(1),
-        Color(0xff633EA3).withOpacity(1),
+        Color(0xff5B0068).withValues(alpha: 1),
+        Color(0xff5C0A72).withValues(alpha: 1),
+        Color(0xff60268C).withValues(alpha: 1),
+        Color(0xff633EA3).withValues(alpha: 1),
       ],
       [0, 0.253, 0.688, 1],
     );

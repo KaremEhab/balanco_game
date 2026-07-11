@@ -1,8 +1,8 @@
 import 'dart:math';
-import 'dart:ui';
 import 'package:balanco_game/features/game/screens/gameplay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -22,6 +22,22 @@ import 'package:balanco_game/features/map/theme/themes/beach_map_theme.dart';
 import 'package:balanco_game/core/data/app_settings.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
 import 'package:balanco_game/core/widgets/cartoon_star.dart';
+
+Future<List<Offset>> _computeNodePositionsAsync(Map<String, dynamic> data) async {
+  final int totalLevels = data['totalLevels'] as int;
+  final double totalHeight = data['totalHeight'] as double;
+  final double bottomPadding = data['bottomPadding'] as double;
+  final double nodeSpacingY = data['nodeSpacingY'] as double;
+  final double centerX = data['centerX'] as double;
+
+  List<Offset> positions = [];
+  for (int i = 0; i < totalLevels; i++) {
+    double rawY = totalHeight - bottomPadding - (i * nodeSpacingY);
+    double y = (rawY ~/ 20) * 20 + 8.0;
+    positions.add(Offset(centerX, y));
+  }
+  return positions;
+}
 
 class HomeScreen extends StatefulWidget {
   final ScrollController scrollController;
@@ -62,8 +78,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   Map<int, int> _levelStars = {};
 
-  // For dragging
-  bool _isDragging = false;
 
   late MapTheme theme;
 
@@ -344,7 +358,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     if (!widget.scrollController.hasClients) return;
 
     double scrollOffset = widget.scrollController.offset;
-    double screenHeight = MediaQuery.of(context).size.height;
     double totalHeight = _getVirtualHeight();
 
     double focalOffsetFromTop = _getFocalOffsetFromTop(context);
@@ -484,24 +497,35 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return _scrollToLevel(currentLevel, animate: animate);
   }
 
-  void _calculateNodes(double screenWidth) {
-    _nodePositions.clear();
-    double totalHeight = _getVirtualHeight();
+  bool _isCalculatingNodes = false;
+  double _lastScreenWidth = 0;
 
+  void _calculateNodes(double screenWidth) {
+    if (_nodePositions.isNotEmpty && _lastScreenWidth == screenWidth) return;
+    if (_isCalculatingNodes) return;
+    _isCalculatingNodes = true;
+    _lastScreenWidth = screenWidth;
+    
+    double totalHeight = _getVirtualHeight();
     double centerX = screenWidth / 2;
 
-    for (int i = 0; i < totalLevels; i++) {
-      // Y goes from bottom to top
-      double rawY = totalHeight - bottomPadding - (i * nodeSpacingY);
+    final localData = {
+      'totalLevels': totalLevels,
+      'totalHeight': totalHeight,
+      'bottomPadding': bottomPadding,
+      'nodeSpacingY': nodeSpacingY,
+      'centerX': centerX,
+    };
 
-      // Align perfectly to the center of the wooden plank (plank height 16, gap 4 -> step 20)
-      double y = (rawY ~/ 20) * 20 + 8.0;
-
-      // Purely vertical path (x is locked to the center)
-      double x = centerX;
-
-      _nodePositions.add(Offset(x, y));
-    }
+    compute(_computeNodePositionsAsync, localData).then((positions) {
+      if (mounted) {
+        setState(() {
+          _nodePositions.clear();
+          _nodePositions.addAll(positions);
+        });
+      }
+      _isCalculatingNodes = false;
+    });
   }
 
   double _getVirtualHeight() {
@@ -523,7 +547,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       setState(() {
         _animatingLevel = level;
       });
-      _startGameplay(level);
+      _runFlyToHoleAnimation(level);
     } else {
       HapticFeedback.vibrate();
       _triggerLockedFeedback();
@@ -579,7 +603,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     final overlayState = Overlay.of(context);
 
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
 
     // Start position: the idle ball position which is anchored to the bottom
     final double focalOffsetFromTop = _getFocalOffsetFromTop(context);
@@ -773,6 +796,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     _calculateNodes(screenWidth);
+    if (_nodePositions.isEmpty) return const SizedBox.shrink();
+
     final double totalHeight = _getVirtualHeight();
 
     return Scaffold(
@@ -913,7 +938,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             child: AnimatedBuilder(
               animation: _biomeTransitionController,
               builder: (context, child) {
-                final screenHeight = MediaQuery.of(context).size.height;
+
                 final currentBiome = BiomeConfig.getBiomeForLevel(
                   _displayedLevel,
                 );

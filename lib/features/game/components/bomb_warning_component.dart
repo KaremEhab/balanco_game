@@ -20,6 +20,11 @@ class BombWarningComponent extends PositionComponent with HasGameReference<Balan
   @override
   Future<void> onLoad() async {
     super.onLoad();
+
+    if (!game.isEditMode) {
+      game.queueTutorial('bomb');
+    }
+
     _circlePaint = Paint()..color = GameColors.redAccent.withValues(alpha: 0.8);
     _outlinePaint = Paint()
       ..color = GameColors.whiteSolid

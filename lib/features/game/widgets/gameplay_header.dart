@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -24,7 +26,7 @@ class GameplayHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isInfinity = game.isInfinityMode;
-    const infinityTextColor = GameColors.black26;
+
     const infinityShadowColor = GameColors.brownDarkUi;
     const infinityAccentColor = GameColors.amber300;
     const infinityTimerColor = Color(0xFFA8FFF2);
@@ -95,6 +97,7 @@ class GameplayHeader extends StatelessWidget {
                                     -3,
                                     3,
                                   ), // Star shadow offset
+                                  isInfinityMode: isInfinity,
                                 ),
                               );
                             }),
@@ -212,10 +215,8 @@ class GameplayHeader extends StatelessWidget {
                                   isActive: (2 - index) < stars,
                                   filledPainter: StarFilledPainter(),
                                   emptyPainter: EmptyStarPainter(),
-                                  shadowOffset: const Offset(
-                                    3,
-                                    3,
-                                  ), // Star shadow offset
+                                  shadowOffset: const Offset(0, 3),
+                                  isInfinityMode: isInfinity,
                                 ),
                               );
                             }),
@@ -458,6 +459,7 @@ class AnimatedGameStatSlot extends StatefulWidget {
   final CustomPainter filledPainter;
   final CustomPainter emptyPainter;
   final Offset shadowOffset;
+  final bool isInfinityMode;
 
   const AnimatedGameStatSlot({
     super.key,
@@ -465,6 +467,7 @@ class AnimatedGameStatSlot extends StatefulWidget {
     required this.filledPainter,
     required this.emptyPainter,
     required this.shadowOffset,
+    this.isInfinityMode = false,
   });
 
   @override
@@ -549,28 +552,49 @@ class _AnimatedGameStatSlotState extends State<AnimatedGameStatSlot>
                     key: ValueKey<bool>(widget.isActive),
                     children: [
                       // Hard shadow using silhouette of the exact painter shape
-                      Transform.translate(
-                        offset: widget.shadowOffset,
-                        child: ColorFiltered(
-                          colorFilter: const ColorFilter.mode(
-                            GameColors.headerDarkBrown,
-                            BlendMode.srcIn,
-                          ),
-                          child: CustomPaint(
-                            size: const Size(45, 45),
-                            painter: widget.isActive
-                                ? widget.filledPainter
-                                : widget.emptyPainter,
+                      if (!widget.isInfinityMode)
+                        Transform.translate(
+                          offset: widget.shadowOffset,
+                          child: ColorFiltered(
+                            colorFilter: const ColorFilter.mode(
+                              GameColors.headerDarkBrown,
+                              BlendMode.srcIn,
+                            ),
+                            child: CustomPaint(
+                              size: const Size(45, 45),
+                              painter: widget.isActive
+                                  ? widget.filledPainter
+                                  : widget.emptyPainter,
+                            ),
                           ),
                         ),
-                      ),
                       // Actual painter
-                      CustomPaint(
-                        size: const Size(45, 45),
-                        painter: widget.isActive
-                            ? widget.filledPainter
-                            : widget.emptyPainter,
-                      ),
+                      if (widget.isInfinityMode)
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(22),
+                          child: BackdropFilter(
+                            filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+                            child: ColorFiltered(
+                              colorFilter: ColorFilter.mode(
+                                GameColors.white.withValues(alpha: widget.isActive ? 0.9 : 0.4),
+                                BlendMode.srcATop,
+                              ),
+                              child: CustomPaint(
+                                size: const Size(45, 45),
+                                painter: widget.isActive
+                                    ? widget.filledPainter
+                                    : widget.emptyPainter,
+                              ),
+                            ),
+                          ),
+                        )
+                      else
+                        CustomPaint(
+                          size: const Size(45, 45),
+                          painter: widget.isActive
+                              ? widget.filledPainter
+                              : widget.emptyPainter,
+                        ),
                     ],
                   ),
                 ),

@@ -1,3 +1,4 @@
+// ignore_for_file: non_constant_identifier_names
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class SphinxPainter extends CustomPainter {
     path_0.close();
 
     Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
-    paint_0_fill.color = Color(0xff8B3654).withOpacity(1.0);
+    paint_0_fill.color = Color(0xff8B3654).withValues(alpha: 1.0);
     canvas.drawPath(path_0, paint_0_fill);
 
     Path path_1 = Path();
@@ -51,7 +52,7 @@ class SphinxPainter extends CustomPainter {
     path_1.close();
 
     Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
-    paint_1_fill.color = Color(0xff681B44).withOpacity(1.0);
+    paint_1_fill.color = Color(0xff681B44).withValues(alpha: 1.0);
     canvas.drawPath(path_1, paint_1_fill);
 
     Path path_2 = Path();
@@ -113,7 +114,7 @@ class SphinxPainter extends CustomPainter {
     paint_2_fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6250670, size.height * 0.9976510),
       Offset(size.width * 0.6250670, size.height * 0.3116846),
-      [Color(0xff983957).withOpacity(1), Color(0xffCE527A).withOpacity(1)],
+      [Color(0xff983957).withValues(alpha: 1), Color(0xffCE527A).withValues(alpha: 1)],
       [0.028, 1],
     );
     canvas.drawPath(path_2, paint_2_fill);
@@ -129,7 +130,7 @@ class SphinxPainter extends CustomPainter {
     path_3.close();
 
     Paint paint_3_fill = Paint()..style = PaintingStyle.fill;
-    paint_3_fill.color = Color(0xff8B3654).withOpacity(1.0);
+    paint_3_fill.color = Color(0xff8B3654).withValues(alpha: 1.0);
     canvas.drawPath(path_3, paint_3_fill);
 
     Path path_4 = Path();
@@ -162,7 +163,7 @@ class SphinxPainter extends CustomPainter {
     paint_4_fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.1892775, size.height * 0.6977181),
       Offset(size.width * 0.5688708, size.height * 0.6977181),
-      [Color(0xffFF827D).withOpacity(1), Color(0xffAE4072).withOpacity(1)],
+      [Color(0xffFF827D).withValues(alpha: 1), Color(0xffAE4072).withValues(alpha: 1)],
       [0, 0.961],
     );
     canvas.drawPath(path_4, paint_4_fill);
@@ -199,7 +200,7 @@ class SphinxPainter extends CustomPainter {
     path_5.close();
 
     Paint paint_5_fill = Paint()..style = PaintingStyle.fill;
-    paint_5_fill.color = Color(0xff8B3654).withOpacity(1.0);
+    paint_5_fill.color = Color(0xff8B3654).withValues(alpha: 1.0);
     canvas.drawPath(path_5, paint_5_fill);
 
     Path path_6 = Path();
@@ -255,7 +256,7 @@ class SphinxPainter extends CustomPainter {
     paint_6_fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2449904, size.height * 0.7369732),
       Offset(size.width * 0.2449904, size.height * 0.5122282),
-      [Color(0xffAE4072).withOpacity(1), Color(0xffFF827D).withOpacity(1)],
+      [Color(0xffAE4072).withValues(alpha: 1), Color(0xffFF827D).withValues(alpha: 1)],
       [0.039, 1],
     );
     canvas.drawPath(path_6, paint_6_fill);
@@ -397,7 +398,7 @@ class SphinxPainter extends CustomPainter {
     paint_7_fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4506124, size.height * 0.7579329),
       Offset(size.width * 0.4506124, size.height * 0.002013423),
-      [Color(0xffAE4072).withOpacity(1), Color(0xffFF827D).withOpacity(1)],
+      [Color(0xffAE4072).withValues(alpha: 1), Color(0xffFF827D).withValues(alpha: 1)],
       [0.039, 1],
     );
     canvas.drawPath(path_7, paint_7_fill);
@@ -514,7 +515,7 @@ class SphinxPainter extends CustomPainter {
     path_8.close();
 
     Paint paint_8_fill = Paint()..style = PaintingStyle.fill;
-    paint_8_fill.color = Color(0xff871A72).withOpacity(1.0);
+    paint_8_fill.color = Color(0xff871A72).withValues(alpha: 1.0);
     canvas.drawPath(path_8, paint_8_fill);
 
     Path path_9 = Path();
@@ -626,7 +627,7 @@ class SphinxPainter extends CustomPainter {
     paint_9_fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3963780, size.height * 0.6836376),
       Offset(size.width * 0.3963780, size.height * 0.1267181),
-      [Color(0xff9F4F72).withOpacity(1), Color(0xffE75D7A).withOpacity(1)],
+      [Color(0xff9F4F72).withValues(alpha: 1), Color(0xffE75D7A).withValues(alpha: 1)],
       [0.028, 1],
     );
     canvas.drawPath(path_9, paint_9_fill);
@@ -712,7 +713,7 @@ class SphinxPainter extends CustomPainter {
     path_10.close();
 
     Paint paint_10_fill = Paint()..style = PaintingStyle.fill;
-    paint_10_fill.color = Color(0xff8B3654).withOpacity(1.0);
+    paint_10_fill.color = Color(0xff8B3654).withValues(alpha: 1.0);
     canvas.drawPath(path_10, paint_10_fill);
 
     Path path_11 = Path();
@@ -866,7 +867,7 @@ class SphinxPainter extends CustomPainter {
     path_11.close();
 
     Paint paint_11_fill = Paint()..style = PaintingStyle.fill;
-    paint_11_fill.color = Color(0xff8B3654).withOpacity(1.0);
+    paint_11_fill.color = Color(0xff8B3654).withValues(alpha: 1.0);
     canvas.drawPath(path_11, paint_11_fill);
 
     Path path_12 = Path();
@@ -888,7 +889,7 @@ class SphinxPainter extends CustomPainter {
     path_12.close();
 
     Paint paint_12_fill = Paint()..style = PaintingStyle.fill;
-    paint_12_fill.color = Color(0xff681B44).withOpacity(1.0);
+    paint_12_fill.color = Color(0xff681B44).withValues(alpha: 1.0);
     canvas.drawPath(path_12, paint_12_fill);
 
     Path path_13 = Path();
@@ -932,7 +933,7 @@ class SphinxPainter extends CustomPainter {
     paint_13_fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.8224258, size.height * 0.9056577),
       Offset(size.width * 0.8224258, size.height * 0.6648792),
-      [Color(0xffAE4072).withOpacity(1), Color(0xffFF827D).withOpacity(1)],
+      [Color(0xffAE4072).withValues(alpha: 1), Color(0xffFF827D).withValues(alpha: 1)],
       [0.039, 1],
     );
     canvas.drawPath(path_13, paint_13_fill);
@@ -952,7 +953,7 @@ class SphinxPainter extends CustomPainter {
     path_14.close();
 
     Paint paint_14_fill = Paint()..style = PaintingStyle.fill;
-    paint_14_fill.color = Color(0xff681B44).withOpacity(1.0);
+    paint_14_fill.color = Color(0xff681B44).withValues(alpha: 1.0);
     canvas.drawPath(path_14, paint_14_fill);
 
     Path path_15 = Path();
@@ -1020,7 +1021,7 @@ class SphinxPainter extends CustomPainter {
     path_15.close();
 
     Paint paint_15_fill = Paint()..style = PaintingStyle.fill;
-    paint_15_fill.color = Color(0xffB04866).withOpacity(1.0);
+    paint_15_fill.color = Color(0xffB04866).withValues(alpha: 1.0);
     canvas.drawPath(path_15, paint_15_fill);
 
     Path path_16 = Path();
@@ -1035,7 +1036,7 @@ class SphinxPainter extends CustomPainter {
     paint_16_fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4027081, size.height * 0.06885235),
       Offset(size.width * 0.4455550, size.height * 0.06885235),
-      [Color(0xff8E255E).withOpacity(1), Color(0xff82164C).withOpacity(1)],
+      [Color(0xff8E255E).withValues(alpha: 1), Color(0xff82164C).withValues(alpha: 1)],
       [0.028, 1],
     );
     canvas.drawPath(path_16, paint_16_fill);
@@ -1049,7 +1050,7 @@ class SphinxPainter extends CustomPainter {
     path_17.close();
 
     Paint paint_17_fill = Paint()..style = PaintingStyle.fill;
-    paint_17_fill.color = Color(0xffFFD172).withOpacity(1.0);
+    paint_17_fill.color = Color(0xffFFD172).withValues(alpha: 1.0);
     canvas.drawPath(path_17, paint_17_fill);
 
     Path path_18 = Path();
@@ -1108,7 +1109,7 @@ class SphinxPainter extends CustomPainter {
     path_18.close();
 
     Paint paint_18_fill = Paint()..style = PaintingStyle.fill;
-    paint_18_fill.color = Color(0xff871A72).withOpacity(1.0);
+    paint_18_fill.color = Color(0xff871A72).withValues(alpha: 1.0);
     canvas.drawPath(path_18, paint_18_fill);
 
     Path path_19 = Path();
@@ -1143,7 +1144,7 @@ class SphinxPainter extends CustomPainter {
     path_19.close();
 
     Paint paint_19_fill = Paint()..style = PaintingStyle.fill;
-    paint_19_fill.color = Color(0xff8B3654).withOpacity(1.0);
+    paint_19_fill.color = Color(0xff8B3654).withValues(alpha: 1.0);
     canvas.drawPath(path_19, paint_19_fill);
 
     Path path_20 = Path();
@@ -1202,7 +1203,7 @@ class SphinxPainter extends CustomPainter {
     path_20.close();
 
     Paint paint_20_fill = Paint()..style = PaintingStyle.fill;
-    paint_20_fill.color = Color(0xffB04866).withOpacity(1.0);
+    paint_20_fill.color = Color(0xffB04866).withValues(alpha: 1.0);
     canvas.drawPath(path_20, paint_20_fill);
 
     Path path_21 = Path();
@@ -1233,7 +1234,7 @@ class SphinxPainter extends CustomPainter {
     path_21.close();
 
     Paint paint_21_fill = Paint()..style = PaintingStyle.fill;
-    paint_21_fill.color = Color(0xff681B44).withOpacity(1.0);
+    paint_21_fill.color = Color(0xff681B44).withValues(alpha: 1.0);
     canvas.drawPath(path_21, paint_21_fill);
 
     Path path_22 = Path();
@@ -1254,7 +1255,7 @@ class SphinxPainter extends CustomPainter {
     path_22.close();
 
     Paint paint_22_fill = Paint()..style = PaintingStyle.fill;
-    paint_22_fill.color = Color(0xff8B3654).withOpacity(1.0);
+    paint_22_fill.color = Color(0xff8B3654).withValues(alpha: 1.0);
     canvas.drawPath(path_22, paint_22_fill);
 
     Path path_23 = Path();
@@ -1312,7 +1313,7 @@ class SphinxPainter extends CustomPainter {
     path_23.close();
 
     Paint paint_23_fill = Paint()..style = PaintingStyle.fill;
-    paint_23_fill.color = Color(0xff871A72).withOpacity(1.0);
+    paint_23_fill.color = Color(0xff871A72).withValues(alpha: 1.0);
     canvas.drawPath(path_23, paint_23_fill);
   }
 

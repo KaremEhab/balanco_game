@@ -75,8 +75,11 @@ class GameControlsOverlay extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           // Light Charges Button
-                          if (level >= 11)
-                            ValueListenableBuilder<int>(
+                          ValueListenableBuilder<bool>(
+                            valueListenable: game.isDarknessLevelNotifier,
+                            builder: (context, isDark, child) {
+                              if (!isDark) return const SizedBox.shrink();
+                              return ValueListenableBuilder<int>(
                               valueListenable: game.lightChargesNotifier,
                               builder: (context, charges, child) {
                                 return ValueListenableBuilder<double>(
@@ -106,7 +109,9 @@ class GameControlsOverlay extends StatelessWidget {
                                   },
                                 );
                               },
-                            ),
+                            );
+                          },
+                        ),
                           // Shield Button
                           ValueListenableBuilder<int>(
                             valueListenable: game.remainingShields,

@@ -34,6 +34,11 @@ class MultiBallItem extends PositionComponent
   @override
   Future<void> onLoad() async {
     super.onLoad();
+
+    if (!game.isEditMode) {
+      game.queueTutorial('multi_ball');
+    }
+
     final double r = size.x / 2;
 
     _glowPaint = Paint()..style = PaintingStyle.fill;

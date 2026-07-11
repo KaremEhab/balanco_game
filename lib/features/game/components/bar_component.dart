@@ -3,7 +3,6 @@ import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:balanco_game/features/game/game_area.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
-import 'dart:ui' as ui;
 
 class BarComponent extends Component with HasGameReference<BalancoGame> {
   @override

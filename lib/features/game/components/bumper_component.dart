@@ -30,6 +30,10 @@ class BumperComponent extends PositionComponent
   Future<void> onLoad() async {
     super.onLoad();
 
+    if (!game.isEditMode) {
+      game.queueTutorial('bumper');
+    }
+
     // Metallic base ring
     _basePaint = Paint()
       ..shader = RadialGradient(

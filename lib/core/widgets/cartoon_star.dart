@@ -70,7 +70,7 @@ class CartoonStarPainter extends CustomPainter {
     final Paint outlinePaint = Paint()
       ..color = isCollected
           ? const Color(0xFF7A4A1B)
-          : GameColors.mapScreenColor3.withOpacity(0.5)
+          : GameColors.mapScreenColor3.withValues(alpha: 0.5)
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth
       ..strokeJoin = StrokeJoin.round;
@@ -89,7 +89,7 @@ class CartoonStarPainter extends CustomPainter {
     // 4. Highlight (Inner reflection)
     if (isCollected) {
       final Paint highlightPaint = Paint()
-        ..color = Colors.white.withOpacity(0.6)
+        ..color = Colors.white.withValues(alpha: 0.6)
         ..style = PaintingStyle.fill;
 
       // Draw a small bright circle/oval at the top-left of the center

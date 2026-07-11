@@ -30,7 +30,7 @@ class DatabaseHelper {
 
     return await openDatabase(
       path,
-      version: 3,
+      version: 4,
       onCreate: _createDB,
       onUpgrade: _upgradeDB,
     );
@@ -72,6 +72,13 @@ CREATE TABLE custom_levels (
 )
 ''');
 
+    await db.execute('''
+CREATE TABLE tutorials (
+  item_id TEXT PRIMARY KEY,
+  is_shown INTEGER NOT NULL
+)
+''');
+
     // Insert default player profile
     await db.insert('player_profile', {
       'id': 1,
@@ -96,6 +103,14 @@ CREATE TABLE custom_levels (
   level_id INTEGER PRIMARY KEY,
   is_infinity INTEGER NOT NULL DEFAULT 0,
   level_json TEXT NOT NULL
+)
+''');
+    }
+    if (oldVersion < 4) {
+      await db.execute('''
+CREATE TABLE tutorials (
+  item_id TEXT PRIMARY KEY,
+  is_shown INTEGER NOT NULL
 )
 ''');
     }
@@ -220,5 +235,32 @@ CREATE TABLE custom_levels (
       return maps.first['level_json'] as String;
     }
     return null;
+  }
+
+  // --- Tutorials ---
+
+  Future<bool> hasSeenTutorial(String itemId) async {
+    final db = await instance.database;
+    final maps = await db.query(
+      'tutorials',
+      where: 'item_id = ?',
+      whereArgs: [itemId],
+    );
+    if (maps.isNotEmpty) {
+      return (maps.first['is_shown'] as int) == 1;
+    }
+    return false;
+  }
+
+  Future<void> markTutorialSeen(String itemId) async {
+    final db = await instance.database;
+    await db.insert(
+      'tutorials',
+      {
+        'item_id': itemId,
+        'is_shown': 1,
+      },
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 }

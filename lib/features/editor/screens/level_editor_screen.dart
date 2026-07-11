@@ -82,7 +82,7 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
   bool _hasBomb = false;
   int _bombCount = 0;
   bool _isDarkLevel = false;
-  List<EditorItem> _items = [];
+  final List<EditorItem> _items = [];
   EditorItem? _selectedItem;
 
   bool get _isInfinityTemplate => _currentLevel == 0;

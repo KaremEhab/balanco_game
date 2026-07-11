@@ -10,7 +10,7 @@ import 'package:balanco_game/features/game/components/game_area/collected_star_p
 import 'package:balanco_game/core/theme/game_colors.dart';
 import 'package:balanco_game/features/map/models/biome_model.dart';
 import 'package:balanco_game/core/data/database_helper.dart';
-import 'package:balanco_game/core/data/models.dart';
+
 
 class MapAppBar extends StatefulWidget {
   final int highestLevel;

@@ -52,24 +52,38 @@ class WoodenRoutePainter extends CustomPainter {
       ropePaint,
     );
 
+    final ui.Gradient baseShader = ui.Gradient.linear(
+      Offset.zero,
+      Offset(0, size.height),
+      _gradientColors((b) => b.pathColor),
+      _routeGradientStops(),
+    );
+    final ui.Gradient highlightShader = ui.Gradient.linear(
+      Offset.zero,
+      Offset(0, size.height),
+      _gradientColors((b) => b.nodeUnlockedColor),
+      _routeGradientStops(),
+    );
+    final ui.Gradient shadowShader = ui.Gradient.linear(
+      Offset.zero,
+      Offset(0, size.height),
+      _gradientColors((b) => b.primaryColor),
+      _routeGradientStops(),
+    );
+    final ui.Gradient nailShader = ui.Gradient.linear(
+      Offset.zero,
+      Offset(0, size.height),
+      _gradientColors((b) => b.nodeUnlockedBorderColor),
+      _routeGradientStops(),
+    );
+
+    final Paint woodBase = Paint()..shader = baseShader;
+    final Paint woodHighlight = Paint()..shader = highlightShader;
+    final Paint woodShadow = Paint()..shader = shadowShader;
+    final Paint nailPaint = Paint()..shader = nailShader;
+
     // Draw repeating wooden planks
     for (double y = 0; y < size.height; y += step) {
-      final levelProgress = 1.0 - (y / size.height).clamp(0.0, 1.0);
-      final level = (1 + levelProgress * (totalLevels - 1)).round().clamp(
-        1,
-        totalLevels,
-      );
-      final BiomeModel currentBiome = BiomeConfig.getBiomeForLevel(level);
-
-      Color woodBaseColor = currentBiome.pathColor;
-      Color woodHighlightColor = currentBiome.nodeUnlockedColor;
-      Color woodShadowColor = currentBiome.primaryColor;
-      Color nailColor = currentBiome.nodeUnlockedBorderColor;
-
-      final Paint woodBase = Paint()..color = woodBaseColor;
-      final Paint woodHighlight = Paint()..color = woodHighlightColor;
-      final Paint woodShadow = Paint()..color = woodShadowColor;
-      final Paint nailPaint = Paint()..color = nailColor;
       // The plank rectangle (slightly overlapping the ropes)
       final Rect plankRect = Rect.fromLTWH(2, y, size.width - 4, plankHeight);
 
@@ -110,22 +124,31 @@ class WoodenRoutePainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 
-  List<Color> _routeGradientColors() {
+  List<Color> _gradientColors(Color Function(BiomeModel) selector) {
     final colors = <Color>[];
     for (final biome in BiomeConfig.biomes.reversed) {
-      colors.add(biome.pathColor);
+      colors.add(selector(biome));
+      colors.add(selector(biome));
     }
     return colors;
   }
 
+  List<Color> _routeGradientColors() {
+    return _gradientColors((b) => b.pathColor);
+  }
+
   List<double> _routeGradientStops() {
-    if (BiomeConfig.biomes.length == 1) return const [0.0];
+    if (BiomeConfig.biomes.length == 1) return const [0.0, 1.0];
     final stops = <double>[];
     for (final biome in BiomeConfig.biomes.reversed) {
-      final level = biome.endLevel;
-      final progressFromBottom = (level - 1) / (totalLevels - 1);
-      stops.add((1.0 - progressFromBottom).clamp(0.0, 1.0));
+      final double progressStart = (biome.startLevel - 1) / (totalLevels - 1);
+      final double progressEnd = (biome.endLevel - 1) / (totalLevels - 1);
+      
+      stops.add((1.0 - progressEnd).clamp(0.0, 1.0));
+      stops.add((1.0 - progressStart).clamp(0.0, 1.0));
     }
+    
+    // Sort just in case, though they should be generally ordered
     stops.sort();
     return stops;
   }
