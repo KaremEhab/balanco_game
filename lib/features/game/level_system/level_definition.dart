@@ -53,6 +53,10 @@ class ObstacleDefinition {
   final double? suctionRadius;
   final double? strength;
   final double? bumperForce;
+  final String? behavior;
+  final double? warningDuration;
+  final double? activeDuration;
+  final double? recoveryDuration;
 
   const ObstacleDefinition({
     required this.id,
@@ -64,6 +68,10 @@ class ObstacleDefinition {
     this.suctionRadius,
     this.strength,
     this.bumperForce,
+    this.behavior,
+    this.warningDuration,
+    this.activeDuration,
+    this.recoveryDuration,
   });
 
   Map<String, dynamic> toJson() => {
@@ -76,6 +84,10 @@ class ObstacleDefinition {
     if (suctionRadius != null) 'suctionRadius': suctionRadius,
     if (strength != null) 'strength': strength,
     if (bumperForce != null) 'bumperForce': bumperForce,
+    if (behavior != null) 'behavior': behavior,
+    if (warningDuration != null) 'warningDuration': warningDuration,
+    if (activeDuration != null) 'activeDuration': activeDuration,
+    if (recoveryDuration != null) 'recoveryDuration': recoveryDuration,
   };
 
   factory ObstacleDefinition.fromJson(Map<String, dynamic> json) =>
@@ -93,6 +105,10 @@ class ObstacleDefinition {
         suctionRadius: (json['suctionRadius'] as num?)?.toDouble(),
         strength: (json['strength'] as num?)?.toDouble(),
         bumperForce: (json['bumperForce'] as num?)?.toDouble(),
+        behavior: json['behavior'] as String?,
+        warningDuration: (json['warningDuration'] as num?)?.toDouble(),
+        activeDuration: (json['activeDuration'] as num?)?.toDouble(),
+        recoveryDuration: (json['recoveryDuration'] as num?)?.toDouble(),
       );
 }
 

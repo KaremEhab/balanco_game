@@ -84,6 +84,86 @@ class _InstructionOverlayState extends State<InstructionOverlay>
           'points': '+20 pts if avoided',
           'color': GameColors.purpleAccent,
         };
+      case 'hole_pulse':
+        return {
+          'title': 'PULSE HOLE',
+          'desc':
+              'The glowing ring is your warning. Cross while the hole is closed, then clear the area before it opens!',
+          'points': 'WATCH THE RHYTHM',
+          'color': GameColors.orangeAccent,
+        };
+      case 'hole_orbit':
+        return {
+          'title': 'ORBITING HOLE',
+          'desc':
+              'It circles a fixed point. Read the orbit and move through the space it leaves behind.',
+          'points': 'FOLLOW THE GAP',
+          'color': GameColors.indigo,
+        };
+      case 'hole_chase':
+        return {
+          'title': 'CHASING HOLE',
+          'desc':
+              'It follows with a delay and limited speed. Change direction calmly to make it overshoot.',
+          'points': 'BAIT, THEN DODGE',
+          'color': GameColors.redAccent,
+        };
+      case 'hole_split':
+        return {
+          'title': 'SPLITTING HOLE',
+          'desc':
+              'One opening becomes two after a warning. Aim for the center only after the split is complete.',
+          'points': 'READ BOTH PATHS',
+          'color': GameColors.purpleAccent,
+        };
+      case 'hole_teleport':
+        return {
+          'title': 'BLINK HOLE',
+          'desc':
+              'The warning ring shows when it will relocate. It never appears without giving you time to react.',
+          'points': 'WAIT FOR THE BLINK',
+          'color': GameColors.cyanAccent,
+        };
+      case 'hole_wave':
+        return {
+          'title': 'WAVE HOLE',
+          'desc':
+              'It combines side-to-side motion with a gentle vertical wave. Watch the full curve, not just its current position.',
+          'points': 'TRACE THE WAVE',
+          'color': GameColors.blueAccent,
+        };
+      case 'hole_nailLauncher':
+        return {
+          'title': 'NAIL CANNON',
+          'desc':
+              'This armed hole warns, then fires nails toward your current position. Change direction after it shoots or use a shield.',
+          'points': 'DODGE AFTER THE SHOT',
+          'color': GameColors.redAccent,
+        };
+      case 'hole_fake':
+        return {
+          'title': 'FAKE HOLE',
+          'desc':
+              'This rare trick becomes safe when you approach. Its faded center tells you when you can cross.',
+          'points': 'CHECK ITS GLOW',
+          'color': GameColors.green,
+        };
+      case 'hole_spiralSuction':
+        return {
+          'title': 'SPIRAL VORTEX',
+          'desc':
+              'Its curved current bends your movement instead of swallowing you instantly. Keep distance and steer against the spin.',
+          'points': 'COUNTER THE SPIN',
+          'color': GameColors.cyanAccent,
+        };
+      case 'hole_breathingVortex':
+        return {
+          'title': 'BREATHING VORTEX',
+          'desc':
+              'The rings show its changing pull radius. Move during the small, weak breath and retreat as it expands.',
+          'points': 'MOVE ON THE EXHALE',
+          'color': GameColors.purpleAccent,
+        };
       case 'bumper':
         return {
           'title': 'BUMPER',
@@ -146,6 +226,22 @@ class _InstructionOverlayState extends State<InstructionOverlay>
               'Press the shield button at the bottom to become invincible for 5 seconds!',
           'points': 'BLOCKS 1 HIT',
           'color': GameColors.mapAppBarCyanLight,
+        };
+      case 'shooter_helper':
+        return {
+          'title': 'AUTO SHOOTER',
+          'desc':
+              'Collect this helper during a gatekeeper level. It locks onto the villain and fires while you keep balancing.',
+          'points': 'COLLECT, DODGE, FIRE',
+          'color': GameColors.cyanAccent,
+        };
+      case 'gatekeeper_villain':
+        return {
+          'title': 'GATEKEEPER!',
+          'desc':
+              'The finish gate is blocked until its health bar reaches zero. Find the shooter helper, survive, then enter the gate.',
+          'points': 'BOSS BATTLE',
+          'color': GameColors.redAccent,
         };
       case 'scrolling_level':
         return {
@@ -240,6 +336,108 @@ class _InstructionOverlayState extends State<InstructionOverlay>
                 painter: MapHolePainter(
                   isUnlocked: true,
                   biome: widget.game.currentBiome,
+                ),
+              ),
+            );
+            break;
+          case 'hole_pulse':
+            final open = (math.sin(t * math.pi * 2) + 1) / 2;
+            graphic = Transform.scale(
+              scale: 0.2 + open * 0.8,
+              child: CustomPaint(
+                size: const Size(70, 70),
+                painter: MapHolePainter(
+                  isUnlocked: true,
+                  biome: widget.game.currentBiome,
+                ),
+              ),
+            );
+            break;
+          case 'hole_orbit':
+          case 'hole_wave':
+          case 'hole_chase':
+          case 'hole_teleport':
+            final wave = widget.tutorialId == 'hole_wave';
+            final chase = widget.tutorialId == 'hole_chase';
+            final blink = widget.tutorialId == 'hole_teleport';
+            final dx = chase
+                ? (t * 2 - 1) * 34
+                : math.sin(t * math.pi * 2) * 32;
+            final dy = wave
+                ? math.cos(t * math.pi) * 16
+                : math.cos(t * math.pi * 2) * 12;
+            graphic = Opacity(
+              opacity: blink && t > 0.7 ? 0.25 : 1,
+              child: Transform.translate(
+                offset: Offset(dx, dy),
+                child: CustomPaint(
+                  size: const Size(58, 58),
+                  painter: MapHolePainter(
+                    isUnlocked: true,
+                    biome: widget.game.currentBiome,
+                  ),
+                ),
+              ),
+            );
+            break;
+          case 'hole_split':
+            final split = math.sin(t * math.pi).abs() * 28;
+            graphic = Stack(
+              alignment: Alignment.center,
+              children: [-split, split]
+                  .map(
+                    (dx) => Transform.translate(
+                      offset: Offset(dx, 0),
+                      child: CustomPaint(
+                        size: const Size(44, 44),
+                        painter: MapHolePainter(
+                          isUnlocked: true,
+                          biome: widget.game.currentBiome,
+                        ),
+                      ),
+                    ),
+                  )
+                  .toList(),
+            );
+            break;
+          case 'hole_nailLauncher':
+            graphic = Transform.translate(
+              offset: Offset((t * 2 - 1) * 48, 0),
+              child: Transform.rotate(
+                angle: math.pi / 2,
+                child: const Icon(
+                  Icons.push_pin_rounded,
+                  size: 54,
+                  color: GameColors.redAccent,
+                ),
+              ),
+            );
+            break;
+          case 'hole_fake':
+            graphic = Opacity(
+              opacity: 0.3 + (math.sin(t * math.pi * 2) + 1) * 0.35,
+              child: CustomPaint(
+                size: const Size(70, 70),
+                painter: MapHolePainter(
+                  isUnlocked: true,
+                  biome: widget.game.currentBiome,
+                ),
+              ),
+            );
+            break;
+          case 'hole_spiralSuction':
+          case 'hole_breathingVortex':
+            final breathing = widget.tutorialId == 'hole_breathingVortex';
+            graphic = Transform.rotate(
+              angle: t * math.pi * 4,
+              child: Transform.scale(
+                scale: breathing
+                    ? 0.72 + math.sin(t * math.pi * 2).abs() * 0.28
+                    : 1,
+                child: const Icon(
+                  Icons.blur_circular_rounded,
+                  size: 74,
+                  color: GameColors.purpleAccent,
                 ),
               ),
             );
@@ -394,6 +592,26 @@ class _InstructionOverlayState extends State<InstructionOverlay>
                 Icons.security_rounded,
                 size: 64,
                 color: GameColors.mapAppBarCyanLight,
+              ),
+            );
+            break;
+          case 'shooter_helper':
+            graphic = Transform.rotate(
+              angle: -math.pi / 2 + math.sin(t * math.pi * 2) * 0.25,
+              child: const Icon(
+                Icons.rocket_launch_rounded,
+                size: 68,
+                color: GameColors.cyanAccent,
+              ),
+            );
+            break;
+          case 'gatekeeper_villain':
+            graphic = Transform.translate(
+              offset: Offset(0, math.sin(t * math.pi * 2) * 8),
+              child: const Icon(
+                Icons.adb_rounded,
+                size: 76,
+                color: GameColors.redAccent,
               ),
             );
             break;

@@ -189,6 +189,58 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildVolumeRow({
+    required IconData icon,
+    required String label,
+    required ValueNotifier<double> notifier,
+    required ValueChanged<double> onChanged,
+  }) {
+    return ValueListenableBuilder<double>(
+      valueListenable: notifier,
+      builder: (context, value, child) => Row(
+        children: [
+          Icon(icon, color: GameColors.brownDarkUi, size: 22),
+          const SizedBox(width: 10),
+          SizedBox(
+            width: 72,
+            child: Text(
+              label,
+              style: GoogleFonts.lato(
+                color: GameColors.brownDarkUi,
+                fontWeight: FontWeight.w900,
+                fontSize: 13,
+              ),
+            ),
+          ),
+          Expanded(
+            child: Slider(
+              value: value,
+              min: 0,
+              max: 1,
+              divisions: 10,
+              label: '${(value * 100).round()}%',
+              activeColor: GameColors.settingsScreenColor1,
+              inactiveColor: GameColors.settingsScreenColor2,
+              onChanged: onChanged,
+            ),
+          ),
+          SizedBox(
+            width: 38,
+            child: Text(
+              '${(value * 100).round()}%',
+              textAlign: TextAlign.end,
+              style: const TextStyle(
+                color: GameColors.brownDarkUi,
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -210,13 +262,55 @@ class SettingsScreen extends StatelessWidget {
                 _buildToggleRow(
                   icon: Icons.volume_up_rounded,
                   iconColor: GameColors.blueAccent,
-                  title: 'Sound Effects',
-                  subtitle: 'Game sounds & menu clicks',
+                  title: 'All Sound',
+                  subtitle: 'Master audio control',
                   notifier: AppSettings.soundEnabled,
                   onChanged: AppSettings.setSoundEnabled,
                 ),
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 16.0),
+                  child: Divider(
+                    height: 2,
+                    color: GameColors.brownDarkUi,
+                    thickness: 2,
+                  ),
+                ),
+                _buildVolumeRow(
+                  icon: Icons.music_note_rounded,
+                  label: 'Music',
+                  notifier: AppSettings.musicVolume,
+                  onChanged: AppSettings.setMusicVolume,
+                ),
+                _buildVolumeRow(
+                  icon: Icons.sports_martial_arts_rounded,
+                  label: 'Impacts',
+                  notifier: AppSettings.impactsVolume,
+                  onChanged: (value) =>
+                      AppSettings.setChannelVolume(SoundChannel.impacts, value),
+                ),
+                _buildVolumeRow(
+                  icon: Icons.warning_amber_rounded,
+                  label: 'Hazards',
+                  notifier: AppSettings.hazardsVolume,
+                  onChanged: (value) =>
+                      AppSettings.setChannelVolume(SoundChannel.hazards, value),
+                ),
+                _buildVolumeRow(
+                  icon: Icons.auto_awesome_rounded,
+                  label: 'Rewards',
+                  notifier: AppSettings.rewardsVolume,
+                  onChanged: (value) =>
+                      AppSettings.setChannelVolume(SoundChannel.rewards, value),
+                ),
+                _buildVolumeRow(
+                  icon: Icons.touch_app_rounded,
+                  label: 'UI',
+                  notifier: AppSettings.uiVolume,
+                  onChanged: (value) =>
+                      AppSettings.setChannelVolume(SoundChannel.ui, value),
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 12.0),
                   child: Divider(
                     height: 2,
                     color: GameColors.brownDarkUi,

@@ -29,15 +29,22 @@ class EndlessChunkGenerator {
     final seed = runSeed + chunkIndex * 104729;
     final random = Random(seed);
     final recovery = chunkIndex % (difficulty > 0.8 ? 5 : 4) == 3;
-    final pattern = recovery
-        ? 'recovery_chunk'
-        : CampaignLevelGenerator.patternTemplateIds[random.nextInt(
-            CampaignLevelGenerator.patternTemplateIds.length,
-          )];
+    final pattern = recovery ? 'recovery_chunk' : _patternFor(chunkIndex);
     final safeX = 0.35 + random.nextDouble() * 0.3;
     final obstacles = <ObstacleDefinition>[];
 
     if (!recovery) {
+      final behaviors = <String>[
+        'pulse',
+        if (difficulty > 0.18) 'wave',
+        if (difficulty > 0.24) 'nailLauncher',
+        if (difficulty > 0.32) 'orbit',
+        if (difficulty > 0.48) 'teleport',
+        if (difficulty > 0.62) 'split',
+        if (difficulty > 0.74) 'chase',
+      ];
+      final primaryBehavior =
+          behaviors[(chunkIndex + runSeed.abs()) % behaviors.length];
       obstacles.add(
         ObstacleDefinition(
           id: 'chunk_${chunkIndex}_hole_1',
@@ -45,6 +52,24 @@ class EndlessChunkGenerator {
           x: safeX < 0.5 ? 0.78 : 0.22,
           y: 0.5,
           radius: 0.046 + difficulty * 0.01,
+          behavior: primaryBehavior,
+          warningDuration: (1.25 - difficulty * 0.6)
+              .clamp(0.65, 1.25)
+              .toDouble(),
+          activeDuration: 1.8,
+          recoveryDuration: 0.8,
+          movement: switch (primaryBehavior) {
+            'wave' ||
+            'orbit' ||
+            'teleport' ||
+            'chase' => MovementDefinition(
+              axis: 'compound',
+              amplitude: min(0.1, 0.045 + difficulty * 0.04),
+              periodSeconds: max(2.2, 3.8 - difficulty),
+              phase: random.nextDouble(),
+            ),
+            _ => null,
+          },
         ),
       );
       if (difficulty > 0.25) {
@@ -64,7 +89,7 @@ class EndlessChunkGenerator {
           ),
         );
       }
-      if (difficulty > 0.5 && random.nextBool()) {
+      if (difficulty > 0.5 && chunkIndex % 3 != 2 && random.nextBool()) {
         obstacles.add(
           ObstacleDefinition(
             id: 'chunk_${chunkIndex}_suction_1',
@@ -74,6 +99,7 @@ class EndlessChunkGenerator {
             radius: 0.048,
             suctionRadius: min(0.24, 0.15 + difficulty * 0.07),
             strength: min(0.82, 0.48 + difficulty * 0.28),
+            behavior: chunkIndex.isEven ? 'spiralSuction' : 'breathingVortex',
           ),
         );
       }
@@ -116,5 +142,21 @@ class EndlessChunkGenerator {
       ],
       patternIds: [pattern],
     );
+  }
+
+  String _patternFor(int chunkIndex) {
+    final patterns = CampaignLevelGenerator.patternTemplateIds;
+    final recent = <String>{};
+    for (var offset = 1; offset <= 2; offset++) {
+      if (chunkIndex - offset < 0) continue;
+      final previousSeed = runSeed + (chunkIndex - offset) * 104729;
+      recent.add(patterns[Random(previousSeed).nextInt(patterns.length)]);
+    }
+    final random = Random(runSeed + chunkIndex * 104729);
+    for (var attempt = 0; attempt < patterns.length; attempt++) {
+      final candidate = patterns[random.nextInt(patterns.length)];
+      if (!recent.contains(candidate)) return candidate;
+    }
+    return patterns[chunkIndex % patterns.length];
   }
 }

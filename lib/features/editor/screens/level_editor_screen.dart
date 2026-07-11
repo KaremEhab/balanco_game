@@ -16,12 +16,15 @@ enum EditorItemType {
   hole,
   suckingHole,
   movingHole,
+  nailHole,
   bumper,
   teleporter,
   star,
   heart,
   magnet,
   multiBall,
+  shooterHelper,
+  villain,
 }
 
 class EditorItem {
@@ -39,6 +42,8 @@ class EditorItem {
 
   // Teleporter
   int pairId;
+  int variant;
+  int health;
 
   EditorItem({
     required this.type,
@@ -50,6 +55,8 @@ class EditorItem {
     this.moveSpeed = 0.0,
     this.moveAxis = 'horizontal',
     this.pairId = 0,
+    this.variant = 0,
+    this.health = 8,
   });
 
   EditorItem clone() {
@@ -63,6 +70,8 @@ class EditorItem {
       moveSpeed: moveSpeed,
       moveAxis: moveAxis,
       pairId: pairId,
+      variant: variant,
+      health: health,
     );
   }
 }
@@ -129,7 +138,9 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
       for (var h in data.holes) {
         _items.add(
           EditorItem(
-            type: h.isSuckingHole
+            type: h.behavior == HoleBehavior.nailLauncher
+                ? EditorItemType.nailHole
+                : h.isSuckingHole
                 ? EditorItemType.suckingHole
                 : (h.isMovingHole
                       ? EditorItemType.movingHole
@@ -190,6 +201,28 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
           ),
         );
       }
+      for (var helper in data.shooterHelpers) {
+        _items.add(
+          EditorItem(
+            type: EditorItemType.shooterHelper,
+            x: helper.x,
+            y: helper.y,
+            size: 38,
+          ),
+        );
+      }
+      for (var villain in data.villains) {
+        _items.add(
+          EditorItem(
+            type: EditorItemType.villain,
+            x: villain.position.x,
+            y: villain.position.y,
+            size: villain.size,
+            variant: villain.variant,
+            health: villain.health,
+          ),
+        );
+      }
       setState(() {});
     } else {
       setState(() {
@@ -213,6 +246,8 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
     final hearts = <Vector2>[];
     final magnets = <Vector2>[];
     final multiBalls = <Vector2>[];
+    final shooterHelpers = <Vector2>[];
+    final villains = <VillainData>[];
 
     for (var item in _items) {
       final pos = Vector2(item.x, item.y);
@@ -238,6 +273,20 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
             ),
           );
           break;
+        case EditorItemType.nailHole:
+          holes.add(
+            HoleData(
+              pos,
+              item.size,
+              0,
+              false,
+              0,
+              behavior: HoleBehavior.nailLauncher,
+              warningDuration: 0.8,
+              activeDuration: 2.2,
+            ),
+          );
+          break;
         case EditorItemType.bumper:
           bumpers.add(BumperData(pos, item.size));
           break;
@@ -256,6 +305,19 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
         case EditorItemType.multiBall:
           multiBalls.add(pos);
           break;
+        case EditorItemType.shooterHelper:
+          shooterHelpers.add(pos);
+          break;
+        case EditorItemType.villain:
+          villains.add(
+            VillainData(
+              position: pos,
+              size: item.size,
+              variant: item.variant,
+              health: item.health,
+            ),
+          );
+          break;
       }
     }
 
@@ -267,6 +329,8 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
       teleporters: teleporters,
       magnets: magnets,
       multiBalls: multiBalls,
+      shooterHelpers: shooterHelpers,
+      villains: villains,
       timeLimitSeconds: _timeLimitSeconds,
       timerSeconds: _timerSeconds,
       heightMultiplier: _heightMultiplier,
@@ -563,6 +627,7 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
       case EditorItemType.hole:
       case EditorItemType.suckingHole:
       case EditorItemType.movingHole:
+      case EditorItemType.nailHole:
         return Container(
           decoration: const BoxDecoration(
             color: Colors.black,
@@ -570,6 +635,8 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
           ),
           child: type == EditorItemType.suckingHole
               ? const Icon(Icons.cyclone, color: Colors.blue)
+              : type == EditorItemType.nailHole
+              ? const Icon(Icons.push_pin, color: Colors.red)
               : type == EditorItemType.movingHole
               ? const Icon(Icons.compare_arrows, color: Colors.white)
               : null,
@@ -602,6 +669,14 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
           color: Colors.green,
           size: 30,
         );
+      case EditorItemType.shooterHelper:
+        return const Icon(
+          Icons.rocket_launch_rounded,
+          color: Colors.cyanAccent,
+          size: 30,
+        );
+      case EditorItemType.villain:
+        return const Icon(Icons.adb_rounded, color: Colors.redAccent, size: 34);
     }
   }
 

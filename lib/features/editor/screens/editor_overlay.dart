@@ -544,6 +544,11 @@ class _EditorOverlayState extends State<EditorOverlay> {
                         EditorItemType.movingHole,
                       ),
                       _buildPaletteButton(
+                        Icons.push_pin_rounded,
+                        Colors.redAccent,
+                        EditorItemType.nailHole,
+                      ),
+                      _buildPaletteButton(
                         Icons.star,
                         Colors.yellow,
                         EditorItemType.star,
@@ -572,6 +577,16 @@ class _EditorOverlayState extends State<EditorOverlay> {
                         Icons.control_point_duplicate,
                         Colors.green,
                         EditorItemType.multiBall,
+                      ),
+                      _buildPaletteButton(
+                        Icons.rocket_launch_rounded,
+                        Colors.cyanAccent,
+                        EditorItemType.shooterHelper,
+                      ),
+                      _buildPaletteButton(
+                        Icons.adb_rounded,
+                        Colors.deepOrange,
+                        EditorItemType.villain,
                       ),
                     ],
                   ),

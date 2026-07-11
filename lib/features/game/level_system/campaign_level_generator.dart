@@ -249,7 +249,7 @@ class CampaignLevelGenerator {
   ) {
     final difficulty = campaignDifficulty(levelId);
     final worldHeight = _worldHeightFor(levelId, difficulty);
-    final budget = 3.0 + worldHeight * (2.0 + difficulty * 6.0);
+    final budget = 5.0 + worldHeight * (3.4 + difficulty * 7.0);
     final isRecovery = levelId % 5 == 1;
     final isThemeFinale = isThemeFinaleLevel(levelId);
     var remaining = budget;
@@ -412,7 +412,53 @@ class CampaignLevelGenerator {
     final teleports = <TeleportPairDefinition>[];
     var obstacleIndex = 0;
 
+    String? behaviorFor(String type) {
+      if (type == 'movingHole') return 'pingPong';
+      if (type == 'suckingHole') {
+        return levelId >= 196 && (seed + obstacleIndex).isEven
+            ? 'breathingVortex'
+            : 'spiralSuction';
+      }
+      if (type != 'regularHole' || levelId < 16) {
+        return null;
+      }
+      const rollout = <String>[
+        'pulse',
+        'wave',
+        'orbit',
+        'teleport',
+        'split',
+        'nailLauncher',
+        'fake',
+        'chase',
+      ];
+      final unlockedCount = min(rollout.length, 1 + (levelId - 16) ~/ 7);
+      if (obstacleIndex == 0 && (levelId - 16) % 7 == 0) {
+        return rollout[unlockedCount - 1];
+      }
+      final behaviorRoll = ((seed + obstacleIndex * 37) & 0x7fffffff) % 100;
+      if (behaviorRoll >= 48) return null;
+      return rollout[((seed + obstacleIndex * 17) & 0x7fffffff) %
+          unlockedCount];
+    }
+
     void addHazard(String type, {MovementDefinition? movement}) {
+      final behavior = behaviorFor(type);
+      final needsMotion =
+          behavior == 'orbit' ||
+          behavior == 'wave' ||
+          behavior == 'teleport' ||
+          behavior == 'chase';
+      final effectiveMovement =
+          movement ??
+          (needsMotion
+              ? MovementDefinition(
+                  axis: 'compound',
+                  amplitude: 0.045 + ((seed + obstacleIndex * 11) % 35) / 1000,
+                  periodSeconds: 3.2 + ((seed + obstacleIndex * 13) % 18) / 10,
+                  phase: ((seed + obstacleIndex * 19) % 100) / 100,
+                )
+              : null);
       final shouldPressureCenter =
           type == 'regularHole' && levelId <= 19 && obstacleIndex == 0;
       final holeScaleRoll = random.nextDouble();
@@ -454,12 +500,18 @@ class CampaignLevelGenerator {
           x: position.x,
           y: position.y,
           radius: radius,
-          movement: movement,
+          movement: effectiveMovement,
           suctionRadius: type == 'suckingHole'
               ? 0.14 + difficulty * 0.08
               : null,
           strength: type == 'suckingHole' ? 0.45 + difficulty * 0.32 : null,
           bumperForce: type == 'bumper' ? 320.0 + difficulty * 120.0 : null,
+          behavior: behavior,
+          warningDuration: behavior == null
+              ? null
+              : (1.3 - difficulty * 0.68).clamp(0.62, 1.3).toDouble(),
+          activeDuration: behavior == null ? null : 1.65 + difficulty * 0.35,
+          recoveryDuration: behavior == null ? null : 0.75 + difficulty * 0.2,
         ),
       );
     }
@@ -564,7 +616,7 @@ class CampaignLevelGenerator {
         enabled: true,
         opacity: 0.68 + difficulty * 0.12,
         lightRadius: lightRadius,
-        startLitSeconds: levelId >= 30 && levelId <= 60 ? 3.5 : 1.5,
+        startLitSeconds: 0.0,
         lightPickups: lights,
       );
     }
@@ -631,17 +683,39 @@ class CampaignLevelGenerator {
     required List<ObstacleDefinition> existing,
     required double candidateRadius,
   }) {
+    if (corridor >= 0.30) {
+      for (var attempt = 0; attempt < 120; attempt++) {
+        final y = 0.22 + random.nextDouble() * (worldHeight - 0.44);
+        final safeX = _safeXAt(safePath, y);
+        final side = random.nextBool() ? 1.0 : -1.0;
+        final minOffset = corridor * 0.78 + 0.08;
+        var x = (safeX + side * (minOffset + random.nextDouble() * 0.22)).clamp(
+          0.08,
+          0.92,
+        );
+        if ((x - safeX).abs() < minOffset) {
+          x = safeX < 0.5 ? 0.92 : 0.08;
+        }
+        final clear = existing.every((obstacle) {
+          final dy = (obstacle.y - y) * 0.5;
+          final dx = obstacle.x - x;
+          return sqrt(dx * dx + dy * dy) >=
+              obstacle.radius + candidateRadius + 0.03;
+        });
+        if (clear) return LevelPoint(x: x, y: y);
+      }
+    }
     for (var attempt = 0; attempt < 120; attempt++) {
       final y = 0.22 + random.nextDouble() * (worldHeight - 0.44);
       final safeX = _safeXAt(safePath, y);
       final side = random.nextBool() ? 1.0 : -1.0;
-      final minOffset = corridor * 0.78 + 0.08;
-      var x = (safeX + side * (minOffset + random.nextDouble() * 0.22)).clamp(
-        0.08,
-        0.92,
-      );
+      final minOffset = candidateRadius + corridor * 0.18 + 0.06;
+      var x = attempt < 85
+          ? safeX + side * (minOffset + random.nextDouble() * 0.085)
+          : 0.18 + random.nextDouble() * 0.64;
+      x = x.clamp(0.12, 0.88);
       if ((x - safeX).abs() < minOffset) {
-        x = safeX < 0.5 ? 0.92 : 0.08;
+        x = (safeX + (safeX < 0.5 ? minOffset : -minOffset)).clamp(0.12, 0.88);
       }
       var clear = true;
       for (final obstacle in existing) {
@@ -659,7 +733,13 @@ class CampaignLevelGenerator {
     for (var attempt = 0; attempt < 160; attempt++) {
       final slot = existing.length + attempt;
       final y = 0.24 + ((slot * 0.173) % (worldHeight - 0.48));
-      final x = slot.isEven ? 0.08 : 0.92;
+      final lanes = <double>[0.5, 0.28, 0.72, 0.4, 0.6, 0.18, 0.82];
+      var x = lanes[slot % lanes.length];
+      final safeX = _safeXAt(safePath, y);
+      final minOffset = candidateRadius + corridor * 0.18 + 0.06;
+      if ((x - safeX).abs() < minOffset) {
+        x = (safeX + (slot.isEven ? minOffset : -minOffset)).clamp(0.12, 0.88);
+      }
       var clear = true;
       for (final obstacle in existing) {
         final dy = (obstacle.y - y) * 0.5;
@@ -674,7 +754,7 @@ class CampaignLevelGenerator {
     }
 
     final y = 0.24 + ((existing.length * 0.211) % (worldHeight - 0.48));
-    return LevelPoint(x: existing.length.isEven ? 0.08 : 0.92, y: y);
+    return LevelPoint(x: existing.length.isEven ? 0.38 : 0.62, y: y);
   }
 
   double _safeXAt(List<LevelPoint> path, double y) {
@@ -701,10 +781,10 @@ class CampaignLevelGenerator {
 
   double _corridorWidth(int levelId, double difficulty) {
     if (levelId <= 15) return 0.38 - difficulty * 0.04;
-    if (levelId <= 75) return 0.34 - difficulty * 0.05;
-    if (levelId <= 195) return 0.30 - difficulty * 0.06;
-    if (levelId <= 345) return 0.26 - difficulty * 0.05;
-    return 0.23 - difficulty * 0.045;
+    if (levelId <= 75) return 0.22 - difficulty * 0.035;
+    if (levelId <= 195) return 0.20 - difficulty * 0.04;
+    if (levelId <= 345) return 0.18 - difficulty * 0.035;
+    return 0.16 - difficulty * 0.025;
   }
 }
 

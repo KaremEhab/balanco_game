@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:balanco_game/features/game/game_area.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
 import 'package:balanco_game/features/game/models/ball_data.dart';
+import 'package:balanco_game/core/data/app_settings.dart';
 
 class BombComponent extends PositionComponent with HasGameReference<BalancoGame> {
   final Vector2 startPosition;
@@ -71,9 +72,18 @@ class BombComponent extends PositionComponent with HasGameReference<BalancoGame>
   void _explode(BallData ball) {
     _exploded = true;
     
-    // Shatter the ball
-    ball.isShattering = true;
-    ball.shatterTimer = 0.0;
+    if (game.isShieldActive) {
+      // Shield absorbs the bomb
+      game.shieldTimer = 0.0;
+      game.shieldTimerNotifier.value = 0.0;
+      try {
+        AppSettings.playSound('bump.wav', volume: 0.8);
+      } catch (_) {}
+    } else {
+      // Shatter the ball
+      ball.isShattering = true;
+      ball.shatterTimer = 0.0;
+    }
     
     // We could add a blast particle effect component here
     
