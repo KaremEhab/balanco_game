@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:balanco_game/features/game/game_area.dart';
 import 'package:balanco_game/core/data/app_settings.dart';
 import 'package:balanco_game/core/data/database_helper.dart';
+import 'package:balanco_game/core/data/models.dart';
 
 import 'dart:async';
 import 'package:google_fonts/google_fonts.dart';
@@ -116,6 +117,25 @@ class _AnimatedLevelCompleteOverlayState
           coins: profile.coins + _targetCoins,
         ),
       );
+
+      // Save level stars immediately!
+      if (!widget.game.isInfinityMode) {
+        final int completedLevel = widget.game.currentLevel.value;
+        final existingProgress = await DatabaseHelper.instance.getLevelProgress(
+          completedLevel,
+        );
+        int previousStars = existingProgress?.stars ?? 0;
+
+        if (_earnedStars > previousStars) {
+          await DatabaseHelper.instance.saveLevelProgress(
+            LevelProgress(
+              levelId: completedLevel,
+              stars: _earnedStars,
+              isUnlocked: true,
+            ),
+          );
+        }
+      }
     } catch (e) {
       debugPrint('Failed to save progress: $e');
     }

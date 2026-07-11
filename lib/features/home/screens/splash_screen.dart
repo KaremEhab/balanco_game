@@ -3,7 +3,7 @@ import 'package:balanco_game/core/data/app_settings.dart';
 import 'dart:math' as math;
 import 'package:balanco_game/features/home/screens/main_screen.dart';
 import 'package:balanco_game/core/widgets/logo_painter.dart';
-import 'package:balanco_game/features/game/components/game_background/sky_painter.dart';
+import 'package:balanco_game/features/map/backgrounds/beach/sky_painter.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
 
 class SplashScreen extends StatefulWidget {

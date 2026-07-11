@@ -4,9 +4,9 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
-import 'package:balanco_game/features/game/components/game_background/mountains_painter.dart';
-import 'package:balanco_game/features/game/components/game_background/sea_painter.dart';
-import 'package:balanco_game/features/game/components/game_background/sky_painter.dart';
+import 'package:balanco_game/features/map/backgrounds/beach/mountains_painter.dart';
+import 'package:balanco_game/features/map/backgrounds/beach/sea_painter.dart';
+import 'package:balanco_game/features/map/backgrounds/beach/sky_painter.dart';
 import 'package:balanco_game/features/game/components/game_background/biome_background_transition.dart';
 import 'package:balanco_game/features/game/components/game_background/pyramids_painter.dart';
 

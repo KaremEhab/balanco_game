@@ -1269,7 +1269,6 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
         (b) =>
             !b.isDead &&
             (b.spawnTimer > 0 ||
-                b.isRespawningFromEdge ||
                 (b.isFreeFalling && b.activeExitTeleporter != null)),
       );
 
@@ -1520,10 +1519,14 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       Vector2 gateCenter = teleportingGateComponent.position;
       if (ball.pos2D.distanceTo(gateCenter) < 40) {
         print(
-          "DEBUG: isSuckingToGate = true triggered. pos2D: ${ball.pos2D}, gateCenter: $gateCenter, isSpawningLevel: $isSpawningLevel",
+          "DEBUG: isSuckingToGate = true triggered. pos2D: ${ball.pos2D}, gateCenter: $gateCenter",
         );
-        ball.isSuckingToGate = true;
-        ball.isFalling = false;
+        
+        for (var b in activeBalls) {
+          b.isSuckingToGate = true;
+          b.isFalling = false;
+        }
+
         HapticFeedback.heavyImpact();
         try {
           AppSettings.playSound('win.wav', volume: 1.0);

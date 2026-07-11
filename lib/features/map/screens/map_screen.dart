@@ -868,11 +868,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               if (!isUnlocked) {
                                 _triggerLockedFeedback();
                               } else {
-                                setState(() {
-                                  _displayedLevel = level;
-                                });
-                                await _scrollToLevel(level, animate: true);
-                                _handleNodeTap(level);
+                                if (_displayedLevel == level) {
+                                  _handleNodeTap(level);
+                                } else {
+                                  await _scrollToLevel(level, animate: true);
+                                  if (mounted) {
+                                    _handleNodeTap(level);
+                                  }
+                                }
                               }
                             },
                             onAnimationComplete: () {
