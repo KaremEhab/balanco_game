@@ -419,7 +419,9 @@ class _MainScreenState extends State<MainScreen> {
       offset: Offset(dx, dy + verticalParallax),
       child: Transform.scale(
         scale: scale,
-        child: CustomPaint(size: const Size(1000, 475), painter: painter),
+        child: RepaintBoundary(
+          child: CustomPaint(size: const Size(1000, 475), painter: painter),
+        ),
       ),
     );
   }

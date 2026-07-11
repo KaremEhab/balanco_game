@@ -23,7 +23,9 @@ import 'package:balanco_game/core/data/app_settings.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
 import 'package:balanco_game/core/widgets/cartoon_star.dart';
 
-Future<List<Offset>> _computeNodePositionsAsync(Map<String, dynamic> data) async {
+Future<List<Offset>> _computeNodePositionsAsync(
+  Map<String, dynamic> data,
+) async {
   final int totalLevels = data['totalLevels'] as int;
   final double totalHeight = data['totalHeight'] as double;
   final double bottomPadding = data['bottomPadding'] as double;
@@ -77,7 +79,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   bool _isFirstLoad = true;
 
   Map<int, int> _levelStars = {};
-
 
   late MapTheme theme;
 
@@ -505,7 +506,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     if (_isCalculatingNodes) return;
     _isCalculatingNodes = true;
     _lastScreenWidth = screenWidth;
-    
+
     double totalHeight = _getVirtualHeight();
     double centerX = screenWidth / 2;
 
@@ -816,120 +817,146 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               physics: SnapScrollPhysics(
                 itemSize: nodeSpacingY,
               ).applyTo(const BouncingScrollPhysics()),
-              child: SizedBox(
-                width: screenWidth,
-                height: totalHeight,
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    // Center Route Painter (Vertical Wooden Bridge)
-                    Positioned(
-                      left: screenWidth / 2 - 25, // Centered horizontally
-                      top: 0,
-                      bottom: 0,
-                      width: 50,
-                      child: GestureDetector(
-                        onLongPress: () async {
-                          // SECRET DEBUG RESET BUTTON!
-                          // Long press the wooden bridge to reset progress to level 1 for testing.
-                          final profile = await DatabaseHelper.instance
-                              .getPlayerProfile();
-                          await DatabaseHelper.instance.updatePlayerProfile(
-                            profile.copyWith(
-                              highestLevel: 1,
-                              lastPlayedLevel: 1,
-                            ),
-                          );
-                          setState(() {
-                            highestLevel = 1;
-                            currentLevel = 1;
-                            _justUnlockedLevel = -1;
-                          });
-                          HapticFeedback.heavyImpact();
-                          if (!context.mounted) return;
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                'DEBUG: Progress reset to Level 1!',
+              child: AnimatedBuilder(
+                animation: widget.scrollController,
+                builder: (context, child) {
+                  final double scrollOffset = widget.scrollController.hasClients
+                      ? widget.scrollController.offset
+                      : 0.0;
+                  final double screenHeight = MediaQuery.of(
+                    context,
+                  ).size.height;
+                  // Render items up to 400 pixels above and below the visible screen to ensure smooth scrolling
+                  final double minVisibleY = scrollOffset - 400;
+                  final double maxVisibleY = scrollOffset + screenHeight + 400;
+
+                  return SizedBox(
+                    width: screenWidth,
+                    height: totalHeight,
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        // Center Route Painter (Vertical Wooden Bridge)
+                        Positioned(
+                          left: screenWidth / 2 - 25, // Centered horizontally
+                          top: 0,
+                          bottom: 0,
+                          width: 50,
+                          child: GestureDetector(
+                            onLongPress: () async {
+                              // SECRET DEBUG RESET BUTTON!
+                              // Long press the wooden bridge to reset progress to level 1 for testing.
+                              final profile = await DatabaseHelper.instance
+                                  .getPlayerProfile();
+                              await DatabaseHelper.instance.updatePlayerProfile(
+                                profile.copyWith(
+                                  highestLevel: 1,
+                                  lastPlayedLevel: 1,
+                                ),
+                              );
+                              setState(() {
+                                highestLevel = 1;
+                                currentLevel = 1;
+                                _justUnlockedLevel = -1;
+                              });
+                              HapticFeedback.heavyImpact();
+                              if (!context.mounted) return;
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'DEBUG: Progress reset to Level 1!',
+                                  ),
+                                ),
+                              );
+                            },
+                            child: RepaintBoundary(
+                              child: CustomPaint(
+                                painter: WoodenRoutePainter(
+                                  transitionY:
+                                      totalHeight -
+                                      bottomPadding -
+                                      (9.5 * nodeSpacingY),
+                                  totalLevels: totalLevels,
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                        child: RepaintBoundary(
-                          child: CustomPaint(
-                            painter: WoodenRoutePainter(
-                              transitionY:
-                                  totalHeight -
-                                  bottomPadding -
-                                  (9.5 * nodeSpacingY),
-                              totalLevels: totalLevels,
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                    // Level Holes
-                    ...List.generate(totalLevels, (index) {
-                      final int level = index + 1;
-                      final bool isUnlocked = level <= highestLevel;
-                      final Offset pos = _nodePositions[index];
+                        // Level Holes
+                        ...List.generate(totalLevels, (index) {
+                          final int level = index + 1;
+                          final bool isUnlocked = level <= highestLevel;
+                          if (index >= _nodePositions.length) {
+                            return const SizedBox.shrink();
+                          }
+                          final Offset pos = _nodePositions[index];
 
-                      // Control the size of the levels here!
-                      final double unlockedHoleSize = 100.0;
-                      final double lockedHoleSize =
-                          90.0; // Decrease this to make locked levels smaller
+                          // Visibility culling check based on scroll position
+                          final bool isVisible =
+                              pos.dy >= minVisibleY && pos.dy <= maxVisibleY;
 
-                      return AnimatedBuilder(
-                        animation: _playLevelController,
-                        builder: (context, child) {
-                          return AnimatedLevelNode(
-                            level: level,
-                            isUnlocked: isUnlocked,
-                            isJustUnlocked: level == _justUnlockedLevel,
-                            stars: _levelStars[level] ?? 0,
-                            isCurrent: level == _displayedLevel,
-                            lockedSize: lockedHoleSize,
-                            unlockedSize: unlockedHoleSize,
-                            pos: pos,
-                            biome: BiomeConfig.getBiomeForLevel(level),
-                            teethClosure: _animatingLevel == level
-                                ? _teethClosureAnimation.value
-                                : 0.0,
-                            onTap: () async {
-                              HapticFeedback.lightImpact();
-                              if (!isUnlocked) {
-                                _triggerLockedFeedback();
-                              } else {
-                                if (_displayedLevel == level) {
-                                  _handleNodeTap(level);
-                                } else {
-                                  await _scrollToLevel(level, animate: true);
-                                  if (mounted) {
-                                    _handleNodeTap(level);
+                          // Control the size of the levels here!
+                          final double unlockedHoleSize = 100.0;
+                          final double lockedHoleSize =
+                              90.0; // Decrease this to make locked levels smaller
+
+                          return AnimatedBuilder(
+                            animation: _playLevelController,
+                            builder: (context, child) {
+                              return AnimatedLevelNode(
+                                level: level,
+                                isVisible: isVisible,
+                                isUnlocked: isUnlocked,
+                                isJustUnlocked: level == _justUnlockedLevel,
+                                stars: _levelStars[level] ?? 0,
+                                isCurrent: level == _displayedLevel,
+                                lockedSize: lockedHoleSize,
+                                unlockedSize: unlockedHoleSize,
+                                pos: pos,
+                                biome: BiomeConfig.getBiomeForLevel(level),
+                                teethClosure: _animatingLevel == level
+                                    ? _teethClosureAnimation.value
+                                    : 0.0,
+                                onTap: () async {
+                                  HapticFeedback.lightImpact();
+                                  if (!isUnlocked) {
+                                    _triggerLockedFeedback();
+                                  } else {
+                                    if (_displayedLevel == level) {
+                                      _handleNodeTap(level);
+                                    } else {
+                                      await _scrollToLevel(
+                                        level,
+                                        animate: true,
+                                      );
+                                      if (mounted) {
+                                        _handleNodeTap(level);
+                                      }
+                                    }
                                   }
-                                }
-                              }
-                            },
-                            onAnimationComplete: () {
-                              debugPrint(
-                                'HOME_SCREEN: Animation complete for level $level',
+                                },
+                                onAnimationComplete: () {
+                                  debugPrint(
+                                    'HOME_SCREEN: Animation complete for level $level',
+                                  );
+                                  if (mounted && level == _justUnlockedLevel) {
+                                    setState(() {
+                                      _justUnlockedLevel = -1;
+                                      currentLevel =
+                                          level; // Automatically update current level
+                                    });
+                                    // Smoothly navigate to the new unlocked level!
+                                    _scrollToCurrentLevel(animate: true);
+                                  }
+                                },
                               );
-                              if (mounted && level == _justUnlockedLevel) {
-                                setState(() {
-                                  _justUnlockedLevel = -1;
-                                  currentLevel =
-                                      level; // Automatically update current level
-                                });
-                                // Smoothly navigate to the new unlocked level!
-                                _scrollToCurrentLevel(animate: true);
-                              }
                             },
                           );
-                        },
-                      );
-                    }),
-                  ],
-                ),
+                        }),
+                      ],
+                    ),
+                  );
+                },
               ),
             ),
           ),
@@ -938,7 +965,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             child: AnimatedBuilder(
               animation: _biomeTransitionController,
               builder: (context, child) {
-
                 final currentBiome = BiomeConfig.getBiomeForLevel(
                   _displayedLevel,
                 );
@@ -1405,6 +1431,7 @@ class AnimatedLevelNode extends StatefulWidget {
   final VoidCallback onAnimationComplete;
   final double teethClosure; // Support teeth closing animation
   final BiomeModel biome;
+  final bool isVisible;
 
   const AnimatedLevelNode({
     super.key,
@@ -1420,6 +1447,7 @@ class AnimatedLevelNode extends StatefulWidget {
     required this.onAnimationComplete,
     required this.biome,
     this.teethClosure = 0.0,
+    this.isVisible = true,
   });
 
   @override
@@ -1630,35 +1658,45 @@ class _AnimatedLevelNodeState extends State<AnimatedLevelNode>
         top: widget.pos.dy - (currentSize / 2),
         width: currentSize,
         height: currentSize,
-        child: GestureDetector(
-          onTap: widget.onTap,
-          child: Stack(
-            clipBehavior: Clip.none,
-            alignment: Alignment.center,
-            children: [
-              childPainter,
-              if (widget.isUnlocked)
-                Positioned.fill(
-                  child: Stack(
-                    clipBehavior: Clip.none,
-                    alignment: Alignment.center,
-                    children: List.generate(3, (index) {
-                      bool collected = index < widget.stars;
-                      double angle = (index - 1) * (pi / 5.5);
-                      double radius = (currentSize / 2) + 25;
-                      double dx = sin(angle) * radius;
-                      double dy = -cos(angle) * radius;
-                      return Transform.translate(
-                        offset: Offset(dx, dy),
-                        child: Transform.rotate(
-                          angle: angle,
-                          child: CartoonStar(isCollected: collected, size: 35),
-                        ),
-                      );
-                    }),
+        child: Visibility(
+          visible: widget.isVisible,
+          maintainState: true,
+          maintainAnimation: false,
+          maintainSize: false,
+          maintainInteractivity: false,
+          child: GestureDetector(
+            onTap: widget.onTap,
+            child: Stack(
+              clipBehavior: Clip.none,
+              alignment: Alignment.center,
+              children: [
+                childPainter,
+                if (widget.isUnlocked)
+                  Positioned.fill(
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      alignment: Alignment.center,
+                      children: List.generate(3, (index) {
+                        bool collected = index < widget.stars;
+                        double angle = (index - 1) * (pi / 5.5);
+                        double radius = (currentSize / 2) + 25;
+                        double dx = sin(angle) * radius;
+                        double dy = -cos(angle) * radius;
+                        return Transform.translate(
+                          offset: Offset(dx, dy),
+                          child: Transform.rotate(
+                            angle: angle,
+                            child: CartoonStar(
+                              isCollected: collected,
+                              size: 35,
+                            ),
+                          ),
+                        );
+                      }),
+                    ),
                   ),
-                ),
-            ],
+              ],
+            ),
           ),
         ),
       );
@@ -1672,176 +1710,184 @@ class _AnimatedLevelNodeState extends State<AnimatedLevelNode>
       top: widget.pos.dy - (maxSize / 2),
       width: maxSize,
       height: maxSize,
-      child: GestureDetector(
-        onTap: widget.onTap,
-        child: AnimatedBuilder(
-          animation: _controller,
-          builder: (context, child) {
-            double shakeOffset = _shakeAnimation.value > 0
-                ? sin(_shakeAnimation.value * pi * 8) *
-                      4.0 *
-                      _shakeAnimation.value
-                : 0.0;
+      child: Visibility(
+        visible: widget.isVisible,
+        maintainState: true,
+        maintainAnimation: false,
+        maintainSize: false,
+        maintainInteractivity: false,
+        child: GestureDetector(
+          onTap: widget.onTap,
+          child: AnimatedBuilder(
+            animation: _controller,
+            builder: (context, child) {
+              double shakeOffset = _shakeAnimation.value > 0
+                  ? sin(_shakeAnimation.value * pi * 8) *
+                        4.0 *
+                        _shakeAnimation.value
+                  : 0.0;
 
-            return Stack(
-              alignment: Alignment.center,
-              children: [
-                // 1. Shattering Lock (visible until 0.6)
-                if (_controller.value < 0.6)
-                  Transform.translate(
-                    offset: Offset(shakeOffset, 0),
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        // Left Half
-                        Transform.translate(
-                          offset: Offset(
-                            -_splitTranslate.value,
-                            _splitTranslate.value * 0.5,
-                          ),
-                          child: Transform.rotate(
-                            angle: -_splitRotate.value * (pi / 4),
-                            child: ClipRect(
-                              clipper: _HalfClipper(left: true),
-                              child: SizedBox(
-                                width: widget.lockedSize,
-                                height: widget.lockedSize,
-                                child: RepaintBoundary(
-                                  child: widget.biome.startLevel >= 11
-                                      ? ColorFiltered(
-                                          colorFilter: ColorFilter.mode(
-                                            widget.biome.nodeLockedColor
-                                                .withValues(alpha: 0.25),
-                                            BlendMode.srcATop,
-                                          ),
-                                          child: CustomPaint(
+              return Stack(
+                alignment: Alignment.center,
+                children: [
+                  // 1. Shattering Lock (visible until 0.6)
+                  if (_controller.value < 0.6)
+                    Transform.translate(
+                      offset: Offset(shakeOffset, 0),
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          // Left Half
+                          Transform.translate(
+                            offset: Offset(
+                              -_splitTranslate.value,
+                              _splitTranslate.value * 0.5,
+                            ),
+                            child: Transform.rotate(
+                              angle: -_splitRotate.value * (pi / 4),
+                              child: ClipRect(
+                                clipper: _HalfClipper(left: true),
+                                child: SizedBox(
+                                  width: widget.lockedSize,
+                                  height: widget.lockedSize,
+                                  child: RepaintBoundary(
+                                    child: widget.biome.startLevel >= 11
+                                        ? ColorFiltered(
+                                            colorFilter: ColorFilter.mode(
+                                              widget.biome.nodeLockedColor
+                                                  .withValues(alpha: 0.25),
+                                              BlendMode.srcATop,
+                                            ),
+                                            child: CustomPaint(
+                                              painter: LockedLevelPainter(),
+                                            ),
+                                          )
+                                        : CustomPaint(
                                             painter: LockedLevelPainter(),
                                           ),
-                                        )
-                                      : CustomPaint(
-                                          painter: LockedLevelPainter(),
-                                        ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        // Right Half
-                        Transform.translate(
-                          offset: Offset(
-                            _splitTranslate.value,
-                            _splitTranslate.value * 0.5,
-                          ),
-                          child: Transform.rotate(
-                            angle: _splitRotate.value * (pi / 4),
-                            child: ClipRect(
-                              clipper: _HalfClipper(left: false),
-                              child: SizedBox(
-                                width: widget.lockedSize,
-                                height: widget.lockedSize,
-                                child: RepaintBoundary(
-                                  child: widget.biome.startLevel >= 11
-                                      ? ColorFiltered(
-                                          colorFilter: ColorFilter.mode(
-                                            widget.biome.nodeLockedColor
-                                                .withValues(alpha: 0.25),
-                                            BlendMode.srcATop,
-                                          ),
-                                          child: CustomPaint(
-                                            painter: LockedLevelPainter(),
-                                          ),
-                                        )
-                                      : CustomPaint(
-                                          painter: LockedLevelPainter(),
-                                        ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                // 2. The Unlocked Node spinning in
-                if (_controller.value >= 0.45)
-                  Transform.scale(
-                    scale: _scaleInUnlocked.value,
-                    child: Stack(
-                      clipBehavior: Clip.none,
-                      alignment: Alignment.center,
-                      children: [
-                        Transform.rotate(
-                          angle: _spinUnlocked.value,
-                          child: SizedBox(
-                            width: widget.unlockedSize,
-                            height: widget.unlockedSize,
-                            child: CustomPaint(
-                              painter: MapHolePainter(
-                                isUnlocked: true,
-                                biome: widget.biome,
-                              ),
-                            ),
-                          ),
-                        ),
-                        if (widget.isUnlocked)
-                          Positioned.fill(
-                            child: Stack(
-                              clipBehavior: Clip.none,
-                              alignment: Alignment.center,
-                              children: List.generate(3, (index) {
-                                bool collected = index < widget.stars;
-                                double angle = (index - 1) * (pi / 5.5);
-                                double radius = (widget.unlockedSize / 2) + 16;
-                                double dx = sin(angle) * radius;
-                                double dy = -cos(angle) * radius;
-                                return Transform.translate(
-                                  offset: Offset(dx, dy),
-                                  child: Transform.rotate(
-                                    angle: angle,
-                                    child: CartoonStar(
-                                      isCollected: collected,
-                                      size: 28,
-                                    ),
                                   ),
-                                );
-                              }),
+                                ),
+                              ),
                             ),
                           ),
-                      ],
-                    ),
-                  ),
-
-                // 3. The Glow Flash
-                if (_glowOpacity.value > 0)
-                  Opacity(
-                    opacity: _glowOpacity.value,
-                    child: Container(
-                      width: widget.unlockedSize * 1.5,
-                      height: widget.unlockedSize * 1.5,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: GameColors.white.withValues(alpha: 0.5),
-                        boxShadow: [
-                          BoxShadow(
-                            color: GameColors.white.withValues(alpha: 0.8),
-                            blurRadius: 40.0,
-                            spreadRadius: 20.0,
-                          ),
-                          BoxShadow(
-                            color: const Color(
-                              0xFFFFD54F,
-                            ).withValues(alpha: 0.5),
-                            blurRadius: 60.0,
-                            spreadRadius: 40.0,
+                          // Right Half
+                          Transform.translate(
+                            offset: Offset(
+                              _splitTranslate.value,
+                              _splitTranslate.value * 0.5,
+                            ),
+                            child: Transform.rotate(
+                              angle: _splitRotate.value * (pi / 4),
+                              child: ClipRect(
+                                clipper: _HalfClipper(left: false),
+                                child: SizedBox(
+                                  width: widget.lockedSize,
+                                  height: widget.lockedSize,
+                                  child: RepaintBoundary(
+                                    child: widget.biome.startLevel >= 11
+                                        ? ColorFiltered(
+                                            colorFilter: ColorFilter.mode(
+                                              widget.biome.nodeLockedColor
+                                                  .withValues(alpha: 0.25),
+                                              BlendMode.srcATop,
+                                            ),
+                                            child: CustomPaint(
+                                              painter: LockedLevelPainter(),
+                                            ),
+                                          )
+                                        : CustomPaint(
+                                            painter: LockedLevelPainter(),
+                                          ),
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
                         ],
                       ),
                     ),
-                  ),
-              ],
-            );
-          },
+
+                  // 2. The Unlocked Node spinning in
+                  if (_controller.value >= 0.45)
+                    Transform.scale(
+                      scale: _scaleInUnlocked.value,
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        alignment: Alignment.center,
+                        children: [
+                          Transform.rotate(
+                            angle: _spinUnlocked.value,
+                            child: SizedBox(
+                              width: widget.unlockedSize,
+                              height: widget.unlockedSize,
+                              child: CustomPaint(
+                                painter: MapHolePainter(
+                                  isUnlocked: true,
+                                  biome: widget.biome,
+                                ),
+                              ),
+                            ),
+                          ),
+                          if (widget.isUnlocked)
+                            Positioned.fill(
+                              child: Stack(
+                                clipBehavior: Clip.none,
+                                alignment: Alignment.center,
+                                children: List.generate(3, (index) {
+                                  bool collected = index < widget.stars;
+                                  double angle = (index - 1) * (pi / 5.5);
+                                  double radius =
+                                      (widget.unlockedSize / 2) + 16;
+                                  double dx = sin(angle) * radius;
+                                  double dy = -cos(angle) * radius;
+                                  return Transform.translate(
+                                    offset: Offset(dx, dy),
+                                    child: Transform.rotate(
+                                      angle: angle,
+                                      child: CartoonStar(
+                                        isCollected: collected,
+                                        size: 28,
+                                      ),
+                                    ),
+                                  );
+                                }),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+
+                  // 3. The Glow Flash
+                  if (_glowOpacity.value > 0)
+                    Opacity(
+                      opacity: _glowOpacity.value,
+                      child: Container(
+                        width: widget.unlockedSize * 1.5,
+                        height: widget.unlockedSize * 1.5,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: GameColors.white.withValues(alpha: 0.5),
+                          boxShadow: [
+                            BoxShadow(
+                              color: GameColors.white.withValues(alpha: 0.8),
+                              blurRadius: 40.0,
+                              spreadRadius: 20.0,
+                            ),
+                            BoxShadow(
+                              color: const Color(
+                                0xFFFFD54F,
+                              ).withValues(alpha: 0.5),
+                              blurRadius: 60.0,
+                              spreadRadius: 40.0,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
