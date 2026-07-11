@@ -35,10 +35,20 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
   @override
   void initState() {
     super.initState();
+    AppSettings.playGameBgm();
+  }
+
+  @override
+  void dispose() {
+    AppSettings.playMenuBgm();
+    super.dispose();
   }
 
   void _showPauseMenu() {
     widget.game.pauseEngine();
+    try {
+      AppSettings.playSound('pause.wav');
+    } catch (_) {}
 
     final currentBiome = widget.game.currentBiome;
 
@@ -353,6 +363,44 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                             onChanged: (val) {
                               setDialogState(() {
                                 AppSettings.setSoundEnabled(val);
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Game Music Toggle
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Stack(
+                            children: [
+                              Text(
+                                'GAME MUSIC',
+                                style: GoogleFonts.luckiestGuy(
+                                  fontSize: 20,
+                                  foreground: Paint()
+                                    ..style = PaintingStyle.stroke
+                                    ..strokeWidth = 3
+                                    ..color = GameColors.brownDarkUi,
+                                ),
+                              ),
+                              Text(
+                                'GAME MUSIC',
+                                style: GoogleFonts.luckiestGuy(
+                                  fontSize: 20,
+                                  color: GameColors.orangeTextUi,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Switch(
+                            value: AppSettings.inGameMusicEnabled.value,
+                            activeThumbColor: GameColors.amber400,
+                            onChanged: (val) {
+                              setDialogState(() {
+                                AppSettings.setInGameMusicEnabled(val);
                               });
                             },
                           ),

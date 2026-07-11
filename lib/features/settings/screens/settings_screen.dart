@@ -275,6 +275,22 @@ class SettingsScreen extends StatelessWidget {
                     thickness: 2,
                   ),
                 ),
+                _buildToggleRow(
+                  icon: Icons.music_note_rounded,
+                  iconColor: GameColors.orange,
+                  title: 'Game Music',
+                  subtitle: 'Ambient gameplay sound',
+                  notifier: AppSettings.inGameMusicEnabled,
+                  onChanged: AppSettings.setInGameMusicEnabled,
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16.0),
+                  child: Divider(
+                    height: 2,
+                    color: GameColors.brownDarkUi,
+                    thickness: 2,
+                  ),
+                ),
                 _buildVolumeRow(
                   icon: Icons.music_note_rounded,
                   label: 'Music',

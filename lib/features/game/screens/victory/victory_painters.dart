@@ -168,11 +168,11 @@ class VictoryRibbonPainter extends CustomPainter {
 
     final textStyle = GoogleFonts.luckiestGuy(
       color: GameColors.white,
-      fontSize: 27,
+      fontSize: 37,
     );
     final shadowStyle = GoogleFonts.luckiestGuy(
       color: GameColors.victoryPainterColor2,
-      fontSize: 27,
+      fontSize: 40,
     );
 
     final textPainter = TextPainter(textDirection: TextDirection.ltr);

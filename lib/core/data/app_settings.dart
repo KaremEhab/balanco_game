@@ -6,6 +6,7 @@ enum SoundChannel { impacts, hazards, rewards, ui }
 
 class AppSettings {
   static final ValueNotifier<bool> soundEnabled = ValueNotifier(true);
+  static final ValueNotifier<bool> inGameMusicEnabled = ValueNotifier(true);
   static final ValueNotifier<double> musicVolume = ValueNotifier(0.75);
   static final ValueNotifier<double> impactsVolume = ValueNotifier(0.9);
   static final ValueNotifier<double> hazardsVolume = ValueNotifier(0.9);
@@ -24,6 +25,11 @@ class AppSettings {
     final soundConfig = await db.getConfig('sound_enabled');
     if (soundConfig != null) {
       soundEnabled.value = soundConfig == 'true';
+    }
+
+    final inGameMusicConfig = await db.getConfig('in_game_music_enabled');
+    if (inGameMusicConfig != null) {
+      inGameMusicEnabled.value = inGameMusicConfig == 'true';
     }
 
     await _loadVolume(db, 'music_volume', musicVolume);
@@ -71,6 +77,19 @@ class AppSettings {
     DatabaseHelper.instance.saveConfig('sound_enabled', value.toString());
   }
 
+  static void setInGameMusicEnabled(bool value) {
+    inGameMusicEnabled.value = value;
+    DatabaseHelper.instance.saveConfig(
+      'in_game_music_enabled',
+      value.toString(),
+    );
+    if (value) {
+      playGameBgm();
+    } else {
+      stopBgm();
+    }
+  }
+
   static Future<void> _loadVolume(
     DatabaseHelper db,
     String key,
@@ -105,8 +124,13 @@ class AppSettings {
     if (musicVolume.value == 0) {
       stopBgm();
     } else if (soundEnabled.value) {
+      // Just restart whatever BGM was playing if applicable, but we don't know which one.
+      // Easiest is to let the current screen handle it, but for now just stop and playMenuBgm
+      // Actually, if we are in game, playMenuBgm might play the wrong thing.
+      // Better to check if we should play menu or game bgm, but we don't have screen state here.
+      // Let's just adjust volume if it's already playing.
+      // FlameAudio doesn't support changing volume of currently playing BGM directly easily without restarting.
       stopBgm();
-      playMenuBgm();
     }
   }
 
@@ -187,6 +211,7 @@ class AppSettings {
       try {
         await FlameAudio.audioCache.loadAll([
           'gameplay-main-sound.wav',
+          'in-game-sound.wav',
           'bounce.wav',
           'bump.wav',
         ]);
@@ -205,6 +230,19 @@ class AppSettings {
           'gameplay-main-sound.wav',
           volume: musicVolume.value,
         );
+      } catch (e) {
+        debugPrint('BGM Error: $e');
+      }
+    }
+  }
+
+  static Future<void> playGameBgm() async {
+    if (soundEnabled.value &&
+        inGameMusicEnabled.value &&
+        musicVolume.value > 0) {
+      await initBgm();
+      try {
+        FlameAudio.bgm.play('in-game-sound.wav', volume: musicVolume.value);
       } catch (e) {
         debugPrint('BGM Error: $e');
       }

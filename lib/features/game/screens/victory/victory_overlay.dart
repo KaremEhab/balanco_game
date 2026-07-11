@@ -12,6 +12,7 @@ import 'package:balanco_game/features/game/screens/victory/victory_painters.dart
 import 'package:balanco_game/features/game/components/game_area/star_filled_painter.dart';
 import 'package:balanco_game/features/game/components/game_area/empty_star_painter.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
+import 'package:confetti/confetti.dart';
 
 class AnimatedLevelCompleteOverlay extends StatefulWidget {
   final BalancoGame game;
@@ -40,12 +41,13 @@ class _AnimatedLevelCompleteOverlayState
   final List<bool> _showStars = [false, false, false];
   Future<void>? _saveFuture;
   bool _disposed = false;
+  late ConfettiController _confettiController;
 
   @override
   void initState() {
     super.initState();
     _isVictory =
-        !widget.game.isInfinityMode && widget.game.currentLevel.value >= 50;
+        !widget.game.isInfinityMode && widget.game.currentLevel.value >= 500;
 
     _earnedStars = widget.game.currentPoints.value;
     _targetCoins = widget.game.calculateLevelRewardPoints();
@@ -75,6 +77,10 @@ class _AnimatedLevelCompleteOverlayState
       end: _targetCoins,
     ).animate(CurvedAnimation(parent: _coinsController, curve: Curves.easeOut));
 
+    _confettiController = ConfettiController(
+      duration: const Duration(seconds: 3),
+    );
+
     _startSequence();
   }
 
@@ -82,7 +88,7 @@ class _AnimatedLevelCompleteOverlayState
     // 1. Enter main modal
     if (!mounted || _disposed) return;
     _mainController.forward();
-    AppSettings.playSound('win.wav', volume: 0.5);
+    AppSettings.playSound('winner.wav', volume: 0.5);
 
     await Future.delayed(const Duration(milliseconds: 500));
     if (!mounted || _disposed) return;
@@ -99,6 +105,9 @@ class _AnimatedLevelCompleteOverlayState
         await Future.delayed(const Duration(milliseconds: 200));
       }
     }
+
+    if (!mounted || _disposed) return;
+    _confettiController.play();
 
     // 3. Roll points
     if (!mounted || _disposed) return;
@@ -150,6 +159,7 @@ class _AnimatedLevelCompleteOverlayState
   @override
   void dispose() {
     _disposed = true;
+    _confettiController.dispose();
     _mainController.dispose();
     _coinsController.dispose();
     super.dispose();
@@ -278,186 +288,231 @@ class _AnimatedLevelCompleteOverlayState
     return Positioned.fill(
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-        child: Container(
-          color: GameColors.black.withValues(alpha: 0.5),
-          child: Center(
-            child: FadeTransition(
-              opacity: _fadeAnimation,
-              child: ScaleTransition(
-                scale: _scaleAnimation,
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  alignment: Alignment.center,
-                  children: [
-                    // Main Card Background
-                    Container(
-                      width: 320,
-                      height: 440,
-                      decoration: BoxDecoration(
-                        color: GameColors.sandLightUi, // Light sand color
-                        borderRadius: BorderRadius.circular(24),
-                        border: Border.all(
-                          color: GameColors.brownDarkUi, // Dark brown outline
-                          width: 3.5,
-                        ),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: GameColors.brownDarkUi,
-                            offset: Offset(0, 6),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    // Top Ribbon
-                    Positioned(
-                      top: -30,
-                      child: SizedBox(
-                        width: 380,
-                        height: 90,
-                        child: CustomPaint(
-                          painter: VictoryRibbonPainter(
-                            text: _isVictory ? 'VICTORY' : 'LEVEL CLEARED',
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    // Content
-                    Positioned(
-                      top: 70,
-                      left: 0,
-                      right: 0,
-                      bottom: 20,
-                      child: Column(
-                        children: [
-                          // Stars
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Transform.rotate(
-                                angle: -0.2,
-                                child: _buildStar(0, 70),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  bottom: 20.0,
-                                  left: 10,
-                                  right: 10,
-                                ),
-                                child: _buildStar(1, 90),
-                              ),
-                              Transform.rotate(
-                                angle: 0.2,
-                                child: _buildStar(2, 70),
+        child: Stack(
+          children: [
+            Container(
+              color: GameColors.black.withValues(alpha: 0.5),
+              child: Center(
+                child: FadeTransition(
+                  opacity: _fadeAnimation,
+                  child: ScaleTransition(
+                    scale: _scaleAnimation,
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      alignment: Alignment.center,
+                      children: [
+                        // Main Card Background
+                        Container(
+                          width: 320,
+                          height: 440,
+                          decoration: BoxDecoration(
+                            color: GameColors.sandLightUi, // Light sand color
+                            borderRadius: BorderRadius.circular(24),
+                            border: Border.all(
+                              color:
+                                  GameColors.brownDarkUi, // Dark brown outline
+                              width: 3.5,
+                            ),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: GameColors.brownDarkUi,
+                                offset: Offset(0, 6),
                               ),
                             ],
                           ),
-
-                          const SizedBox(height: 15),
-
-                          // Divider line
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            clipBehavior: Clip.none,
                             children: [
-                              Container(
-                                width: 40,
-                                height: 3,
-                                color: GameColors.brownDarkUi,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 10,
+                              // Top Ribbon
+                              Positioned(
+                                top: -40,
+                                child: SizedBox(
+                                  width: 470,
+                                  height: 120,
+                                  child: CustomPaint(
+                                    painter: VictoryRibbonPainter(
+                                      text: _isVictory
+                                          ? 'VICTORY'
+                                          : 'LEVEL CLEARED',
+                                    ),
+                                  ),
                                 ),
-                                child: Stack(
+                              ),
+
+                              // Content
+                              Positioned(
+                                top: 70,
+                                left: 0,
+                                right: 0,
+                                bottom: 20,
+                                child: Column(
                                   children: [
-                                    Text(
-                                      'REWARDS',
-                                      style: GoogleFonts.luckiestGuy(
-                                        fontSize: 20,
-                                        foreground: Paint()
-                                          ..style = PaintingStyle.stroke
-                                          ..strokeWidth = 3
-                                          ..color = GameColors.brownDarkUi,
-                                      ),
+                                    // Stars
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Transform.rotate(
+                                          angle: -0.2,
+                                          child: _buildStar(0, 70),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                            bottom: 20.0,
+                                            left: 10,
+                                            right: 10,
+                                          ),
+                                          child: _buildStar(1, 90),
+                                        ),
+                                        Transform.rotate(
+                                          angle: 0.2,
+                                          child: _buildStar(2, 70),
+                                        ),
+                                      ],
                                     ),
-                                    Text(
-                                      'REWARDS',
-                                      style: GoogleFonts.luckiestGuy(
-                                        fontSize: 20,
-                                        color: GameColors.orangeTextUi,
-                                      ),
+
+                                    const SizedBox(height: 15),
+
+                                    // Divider line
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          width: 40,
+                                          height: 3,
+                                          color: GameColors.brownDarkUi,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 10,
+                                          ),
+                                          child: Stack(
+                                            children: [
+                                              Text(
+                                                'REWARDS',
+                                                style: GoogleFonts.luckiestGuy(
+                                                  fontSize: 20,
+                                                  foreground: Paint()
+                                                    ..style =
+                                                        PaintingStyle.stroke
+                                                    ..strokeWidth = 3
+                                                    ..color =
+                                                        GameColors.brownDarkUi,
+                                                ),
+                                              ),
+                                              Text(
+                                                'REWARDS',
+                                                style: GoogleFonts.luckiestGuy(
+                                                  fontSize: 20,
+                                                  color:
+                                                      GameColors.orangeTextUi,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                          width: 40,
+                                          height: 3,
+                                          color: GameColors.brownDarkUi,
+                                        ),
+                                      ],
                                     ),
+
+                                    const SizedBox(height: 15),
+
+                                    // Points Pill
+                                    AnimatedBuilder(
+                                      animation: _coinsAnimation,
+                                      builder: (context, child) {
+                                        return _buildPill(
+                                          SizedBox(
+                                            width: 30,
+                                            height: 30,
+                                            child: CustomPaint(
+                                              painter: StarFilledPainter(),
+                                            ),
+                                          ),
+                                          '${_coinsAnimation.value} PTS',
+                                        );
+                                      },
+                                    ),
+
+                                    const Spacer(),
+
+                                    // Bottom Buttons
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        _buildRoundButton(
+                                          Icons.refresh,
+                                          'RETRY',
+                                          _restartLevel,
+                                          GameColors.victoryPainterColor6,
+                                          GameColors.victoryPainterColor3,
+                                        ),
+                                        _buildRoundButton(
+                                          Icons.list,
+                                          'LOBBY',
+                                          _returnToLobby,
+                                          GameColors.victoryPainterColor13,
+                                          GameColors.victoryPainterColor9,
+                                        ),
+                                        if (!_isVictory)
+                                          _buildRoundButton(
+                                            Icons.play_arrow,
+                                            'NEXT',
+                                            _nextLevel,
+                                            GameColors.victoryPainterColor8,
+                                            GameColors.victoryPainterColor4,
+                                          ),
+                                      ],
+                                    ),
+                                    const Spacer(),
                                   ],
                                 ),
                               ),
-                              Container(
-                                width: 40,
-                                height: 3,
-                                color: GameColors.brownDarkUi,
-                              ),
                             ],
                           ),
+                        ),
 
-                          const SizedBox(height: 15),
-
-                          // Points Pill
-                          AnimatedBuilder(
-                            animation: _coinsAnimation,
-                            builder: (context, child) {
-                              return _buildPill(
-                                SizedBox(
-                                  width: 30,
-                                  height: 30,
-                                  child: CustomPaint(
-                                    painter: StarFilledPainter(),
-                                  ),
-                                ),
-                                '${_coinsAnimation.value} PTS',
-                              );
-                            },
-                          ),
-
-                          const Spacer(),
-
-                          // Bottom Buttons
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              _buildRoundButton(
-                                Icons.refresh,
-                                'RETRY',
-                                _restartLevel,
-                                GameColors.victoryPainterColor6,
-                                GameColors.victoryPainterColor3,
-                              ),
-                              _buildRoundButton(
-                                Icons.list,
-                                'LOBBY',
-                                _returnToLobby,
-                                GameColors.victoryPainterColor13,
-                                GameColors.victoryPainterColor9,
-                              ),
-                              if (!_isVictory)
-                                _buildRoundButton(
-                                  Icons.play_arrow,
-                                  'NEXT',
-                                  _nextLevel,
-                                  GameColors.victoryPainterColor8,
-                                  GameColors.victoryPainterColor4,
-                                ),
+                        Align(
+                          alignment: Alignment.topCenter,
+                          child: ConfettiWidget(
+                            confettiController: _confettiController,
+                            blastDirectionality: BlastDirectionality.explosive,
+                            shouldLoop: false,
+                            colors: const [
+                              Colors.red,
+                              Colors.green,
+                              Colors.blue,
+                              Colors.yellow,
+                              Colors.pink,
+                              Colors.purple,
+                              Colors.orange,
+                              Colors.cyan,
+                              Colors.teal,
+                              Colors.indigo,
+                              Colors.amber,
+                              Colors.lime,
+                              Colors.lightBlue,
+                              Colors.deepOrange,
+                              Colors.deepPurple,
                             ],
                           ),
-                          const Spacer(),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),
-          ),
+          ],
         ),
       ),
     );

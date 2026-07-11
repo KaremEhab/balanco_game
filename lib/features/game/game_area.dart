@@ -30,7 +30,7 @@ import 'package:balanco_game/features/game/components/bomb_warning_component.dar
 import 'package:balanco_game/features/game/components/bomb_component.dart';
 import 'package:balanco_game/features/game/components/shooter_helper_component.dart';
 import 'package:balanco_game/features/game/components/shooter_projectile_component.dart';
-import 'package:balanco_game/features/game/components/villain_component.dart';
+import 'package:balanco_game/features/game/components/villains/villain_component.dart';
 import 'package:balanco_game/features/game/components/game_background/darkness_component.dart';
 
 import 'package:balanco_game/features/game/models/ball_data.dart';
@@ -1043,6 +1043,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
         'hole.wav',
         'fall.wav',
         'win.wav',
+        'winner.wav',
         'gameover.wav',
         'tick.wav',
         'power_down.wav',
@@ -1474,10 +1475,12 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     }
 
     for (final villainData in data.villains) {
-      final targetPos = Vector2(
-        villainData.position.x * size.x,
-        120.0 + villainData.position.y * (levelHeight - 320.0),
-      );
+      final targetPos = isEditMode
+          ? Vector2(
+              villainData.position.x * size.x,
+              120.0 + villainData.position.y * (levelHeight - 320.0),
+            )
+          : teleportingGateComponent.position.clone();
       final villain = VillainComponent(
         position: teleportingGateComponent.position.clone(),
         size: villainData.size,
@@ -1601,6 +1604,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
               direction: direction,
             )..priority = 85,
           );
+          AppSettings.playSound('shooting-sound.wav', volume: 0.35);
         }
       }
     }
@@ -1997,7 +2001,13 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
         if (ball.spawnTimer - dt <= 1.0 && !isBarAtBottom) {
           ball.spawnTimer = 1.0001;
         } else {
+          double oldTimer = ball.spawnTimer;
           ball.spawnTimer -= dt;
+          if (oldTimer > 1.0 && ball.spawnTimer <= 1.0) {
+            try {
+              AppSettings.playSound('swoosh.wav');
+            } catch (_) {}
+          }
         }
 
         if (ball.spawnTimer > 1.0 &&
@@ -2037,7 +2047,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
                 leftPoint + direction * ball.p + normal * (ballRadius + 6.0);
             HapticFeedback.heavyImpact();
             try {
-              AppSettings.playSound('tick.wav');
+              AppSettings.playSound('bounce.wav');
             } catch (_) {}
           }
         }
@@ -2095,7 +2105,13 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
         if (ball.respawnTimer - dt <= 0.8 && !isBarAtBottom) {
           ball.respawnTimer = 0.8001;
         } else {
+          double oldTimer = ball.respawnTimer;
           ball.respawnTimer -= dt;
+          if (oldTimer > 0.8 && ball.respawnTimer <= 0.8) {
+            try {
+              AppSettings.playSound('swoosh.wav');
+            } catch (_) {}
+          }
         }
 
         if (ball.respawnTimer <= 0) {
@@ -2108,7 +2124,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
               leftPoint + direction * ball.p + normal * (ballRadius + 6.0);
           HapticFeedback.heavyImpact();
           try {
-            AppSettings.playSound('tick.wav');
+            AppSettings.playSound('bounce.wav');
           } catch (_) {}
 
           ball.squashX = 1.0;
@@ -2166,7 +2182,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
               leftPoint + direction * ball.p + normal * (ballRadius + 6.0);
           HapticFeedback.heavyImpact();
           try {
-            AppSettings.playSound('tick.wav');
+            AppSettings.playSound('bounce.wav');
           } catch (_) {}
           if (wasFastSave) {
             _showPraiseText(
