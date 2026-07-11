@@ -47,6 +47,8 @@ class AppSettings {
     soundEnabled.addListener(() {
       if (!soundEnabled.value) {
         stopBgm();
+      } else {
+        playMenuBgm();
       }
     });
   }
@@ -100,7 +102,11 @@ class AppSettings {
     if (!_bgmInitialized) {
       FlameAudio.bgm.initialize();
       try {
-        await FlameAudio.audioCache.load('gameplay-main-sound.mp3');
+        await FlameAudio.audioCache.loadAll([
+          'gameplay-main-sound.wav',
+          'bounce.wav',
+          'bump.wav',
+        ]);
       } catch (e) {
         debugPrint('BGM Cache Error: $e');
       }
@@ -112,7 +118,7 @@ class AppSettings {
     if (soundEnabled.value) {
       await initBgm();
       try {
-        FlameAudio.bgm.play('gameplay-main-sound.mp3', volume: 1.0);
+        FlameAudio.bgm.play('gameplay-main-sound.wav', volume: 1.0);
       } catch (e) {
         debugPrint('BGM Error: $e');
       }

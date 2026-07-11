@@ -108,6 +108,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       duration: const Duration(milliseconds: 450),
     )..repeat(reverse: true);
 
+    _idleJumpController.addStatusListener((status) {
+      if (status == AnimationStatus.forward && _animatingLevel == null) {
+        AppSettings.playSound('bounce.wav', volume: 0.15);
+      }
+    });
+
     _idleJumpAnimation = TweenSequence<double>([
       TweenSequenceItem(tween: ConstantTween<double>(0.0), weight: 15),
       TweenSequenceItem(
@@ -302,14 +308,22 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     });
 
     bool hasTriggeredImpact = false;
+    bool hasTriggeredBreak = false;
     _biomeTransitionController.addListener(() {
+      if (_biomeTransitionController.value > 0.05 && !hasTriggeredBreak) {
+        hasTriggeredBreak = true;
+        try {
+          AppSettings.playSound('bump.wav', volume: 0.6);
+        } catch (_) {}
+      } else if (_biomeTransitionController.value == 0.0) {
+        hasTriggeredBreak = false;
+      }
+
       if (_biomeTransitionController.value >= 0.8 && !hasTriggeredImpact) {
         hasTriggeredImpact = true;
         HapticFeedback.heavyImpact();
         try {
-          AppSettings.playSound(
-            'heavy_thud.wav',
-          ); // Assuming a sound exists or it will just fail gracefully
+          AppSettings.playSound('heavy_thud.wav');
         } catch (_) {}
       } else if (_biomeTransitionController.value < 0.8) {
         hasTriggeredImpact = false;
