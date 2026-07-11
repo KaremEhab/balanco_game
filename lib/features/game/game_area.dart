@@ -33,6 +33,9 @@ import 'package:balanco_game/features/game/models/ball_data.dart';
 import 'package:balanco_game/features/game/models/level_data.dart';
 import 'package:balanco_game/features/game/level_generator.dart';
 import 'package:balanco_game/features/game/data/premade_levels.dart';
+import 'package:balanco_game/features/game/level_system/campaign_level_repository.dart';
+import 'package:balanco_game/features/game/level_system/level_debug_overlay.dart';
+import 'package:balanco_game/features/game/level_system/level_definition_adapter.dart';
 import 'package:balanco_game/features/map/theme/biome_config.dart';
 import 'package:balanco_game/features/map/models/biome_model.dart';
 import 'package:balanco_game/core/data/app_settings.dart';
@@ -138,6 +141,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   double nextSpawnY = 0.0;
   double nextInfinityChunkBoundaryY = 0.0;
   final Random _random = Random();
+  static const bool showLevelDebugOverlay = false;
 
   final double barPadding = 20.0;
   final double ballRadius = 14.0;
@@ -157,6 +161,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     ..priority = 0;
 
   final PositionComponent levelContainer = PositionComponent();
+  LevelData? currentLevelData;
   double cameraOffsetY = 0.0;
   final ValueNotifier<double> cameraOffsetYNotifier = ValueNotifier<double>(
     0.0,
@@ -821,6 +826,9 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     barComponent = BarComponent()..priority = 10;
 
     add(levelContainer);
+    if (showLevelDebugOverlay) {
+      add(LevelDebugOverlay());
+    }
 
     levelContainer.add(teleportingGateComponent);
     levelContainer.add(barComponent);
@@ -900,6 +908,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     // Offload level generation to an Isolate
     LevelData data;
     final int levelToGenerate = currentLevel.value;
+    var loadedBakedCampaignLevel = false;
 
     if (isEditMode) {
       final customJsonStr = await DatabaseHelper.instance.getCustomLevel(
@@ -955,23 +964,31 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
         if (customJsonStr != null) {
           data = LevelData.fromJson(jsonDecode(customJsonStr));
         } else {
-          data = await Isolate.run(() => generateLevelData(levelToGenerate));
-          // fallback generated levels don't specify height, so infer it if >= 10
-          if (levelToGenerate >= 10) {
-            data = LevelData(
-              holes: data.holes,
-              stars: data.stars,
-              hearts: data.hearts,
-              bumpers: data.bumpers,
-              teleporters: data.teleporters,
-              multiBalls: data.multiBalls,
-              magnets: data.magnets,
-              heightMultiplier: 3.0,
-            );
+          final campaignLevel = await CampaignLevelRepository.instance
+              .loadLevel(levelToGenerate);
+          if (campaignLevel != null) {
+            data = campaignLevel.toLevelData();
+            loadedBakedCampaignLevel = true;
+          } else {
+            data = await Isolate.run(() => generateLevelData(levelToGenerate));
+            // fallback generated levels don't specify height, so infer it if >= 10
+            if (levelToGenerate >= 10) {
+              data = LevelData(
+                holes: data.holes,
+                stars: data.stars,
+                hearts: data.hearts,
+                bumpers: data.bumpers,
+                teleporters: data.teleporters,
+                multiBalls: data.multiBalls,
+                magnets: data.magnets,
+                heightMultiplier: 3.0,
+              );
+            }
           }
         }
       }
     }
+    currentLevelData = data;
 
     if (!isEditMode && !isInfinityMode) {
       currentHeightMultiplierNotifier.value = data.heightMultiplier;
@@ -986,23 +1003,26 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     pendingSpawns.clear();
     targetPositions.clear();
     // Check for time-related obstacles
-    if (data.timeLimitSeconds != null && data.timeLimitSeconds! > 0) {
-      maxLevelTimer = data.timeLimitSeconds!.toDouble();
+    if (data.timeLimitSeconds > 0) {
+      maxLevelTimer = data.timeLimitSeconds.toDouble();
       levelTimer = maxLevelTimer;
       levelTimerNotifier.value = levelTimer;
-    } else if (data.timerSeconds != null) {
-      maxLevelTimer = data.timerSeconds!;
+    } else {
+      maxLevelTimer = data.timerSeconds;
       levelTimer = maxLevelTimer;
       levelTimerNotifier.value = levelTimer;
     }
 
     // Reset bomb states
-    levelHasBomb = data.hasBomb || (currentLevel.value >= 2);
+    levelHasBomb =
+        data.hasBomb || (!loadedBakedCampaignLevel && currentLevel.value >= 2);
     hasSpawnedBombInClassic = false;
     bombSpawnTimer = 0.0;
     nextBombSpawnThreshold = 15.0 + _random.nextDouble() * 10.0;
 
-    isDarknessLevel = levelToGenerate >= 11;
+    isDarknessLevel =
+        data.isDarkLevel ||
+        (!loadedBakedCampaignLevel && levelToGenerate >= 11);
 
     // Quickly spawn components back on the main thread using the pre-calculated data
     for (final hData in data.holes) {
@@ -1014,6 +1034,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
         isMovingHole: hData.isMovingHole,
         moveRange: hData.moveRange,
         moveSpeed: hData.moveSpeed,
+        moveAxis: hData.moveAxis,
       )..priority = 1;
 
       final targetPos = Vector2(
@@ -1206,9 +1227,22 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     }
 
     // Bomb Spawning
-    if (!isSpawningLevel && !isLevelCompleteOverlayShown && countdownNotifier.value == 0 && activeBalls.isNotEmpty && !isBoardHidden) {
-      bool isActivelyPlaying = activeBalls.any((b) => !b.isDead && !b.isRespawningFromHole && !b.isRespawningFromEdge && !b.isShattering && !b.isFreeFalling && !b.isFalling && !b.isFallingInHole);
-      
+    if (!isSpawningLevel &&
+        !isLevelCompleteOverlayShown &&
+        countdownNotifier.value == 0 &&
+        activeBalls.isNotEmpty &&
+        !isBoardHidden) {
+      bool isActivelyPlaying = activeBalls.any(
+        (b) =>
+            !b.isDead &&
+            !b.isRespawningFromHole &&
+            !b.isRespawningFromEdge &&
+            !b.isShattering &&
+            !b.isFreeFalling &&
+            !b.isFalling &&
+            !b.isFallingInHole,
+      );
+
       if (isActivelyPlaying) {
         bombSpawnTimer += dt;
         if (isInfinityMode) {
@@ -1478,7 +1512,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     if (ball.holeImmunityTimer > 0) {
       ball.holeImmunityTimer = max(0.0, ball.holeImmunityTimer - dt);
     }
-    
+
     if (ball.isShattering) {
       ball.shatterTimer += dt;
       if (ball.shatterTimer >= 1.0) {

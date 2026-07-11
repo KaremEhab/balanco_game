@@ -1,0 +1,7241 @@
+{
+  "schemaVersion": 1,
+  "levels": [
+    {
+      "id": 1,
+      "seed": 3122274031,
+      "themeId": "beach",
+      "difficulty": 0.04,
+      "worldHeight": 1.2,
+      "timeLimitSeconds": 63,
+      "scrollSpeedMultiplier": 1.0128,
+      "safeCorridorWidth": 0.3784,
+      "safePath": [
+        {
+          "x": 0.4467565634576872,
+          "y": 0.08
+        },
+        {
+          "x": 0.57002610476581,
+          "y": 0.39999999999999997
+        },
+        {
+          "x": 0.3913448252458668,
+          "y": 0.7999999999999999
+        },
+        {
+          "x": 0.5198153599479018,
+          "y": 1.1199999999999999
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 0.27998206478630466,
+          "radius": 0.04744
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.5221551488334337,
+          "y": 0.264
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.4054684737951417,
+          "y": 0.588
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.3442933983981652,
+          "y": 0.9119999999999999
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "open_tutorial"
+      ]
+    },
+    {
+      "id": 2,
+      "seed": 3122281950,
+      "themeId": "beach",
+      "difficulty": 0.05175905184683642,
+      "worldHeight": 1.4,
+      "timeLimitSeconds": 67,
+      "scrollSpeedMultiplier": 1.0165628965909876,
+      "safeCorridorWidth": 0.37792963792612655,
+      "safePath": [
+        {
+          "x": 0.5551860719581758,
+          "y": 0.08
+        },
+        {
+          "x": 0.6942615955992538,
+          "y": 0.4666666666666666
+        },
+        {
+          "x": 0.5550860954945026,
+          "y": 0.9333333333333332
+        },
+        {
+          "x": 0.25,
+          "y": 1.3199999999999998
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.7533033912541538,
+          "radius": 0.0475693495703152
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.0384496893161896,
+          "radius": 0.0475693495703152
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.0964921506124037,
+          "radius": 0.0475693495703152
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.6432266435365295,
+          "y": 0.308
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.7140737479183342,
+          "y": 0.6859999999999999
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.39096853056503655,
+          "y": 1.0639999999999998
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "left_slalom"
+      ]
+    },
+    {
+      "id": 3,
+      "seed": 3122289869,
+      "themeId": "beach",
+      "difficulty": 0.0636694940381384,
+      "worldHeight": 1.6,
+      "timeLimitSeconds": 70,
+      "scrollSpeedMultiplier": 1.0203742380922043,
+      "safeCorridorWidth": 0.3774532202384745,
+      "safePath": [
+        {
+          "x": 0.539604181012406,
+          "y": 0.08
+        },
+        {
+          "x": 0.5425003156187462,
+          "y": 0.5333333333333333
+        },
+        {
+          "x": 0.25533858615476696,
+          "y": 1.0666666666666667
+        },
+        {
+          "x": 0.49654415586629447,
+          "y": 1.52
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.08538752797762589,
+          "y": 0.6267885420910598,
+          "radius": 0.04770036443441952
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 0.8992858570341388,
+          "radius": 0.04770036443441952
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.6626942745131439,
+          "y": 1.1084311783672607,
+          "radius": 0.04770036443441952
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.2758419014968338,
+          "radius": 0.04770036443441952
+        },
+        {
+          "id": "bumper_5",
+          "type": "bumper",
+          "x": 0.8654124846317399,
+          "y": 1.326334111574723,
+          "radius": 0.03438201696422883,
+          "bumperForce": 327.6403392845766
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.5414808762373144,
+          "y": 0.35200000000000004
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.3287865135267802,
+          "y": 0.784
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.39965560486835694,
+          "y": 1.2160000000000002
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "bumper_triangle"
+      ]
+    },
+    {
+      "id": 4,
+      "seed": 3122297788,
+      "themeId": "beach",
+      "difficulty": 0.07565242490641766,
+      "worldHeight": 1.8,
+      "timeLimitSeconds": 74,
+      "scrollSpeedMultiplier": 1.0242087759700536,
+      "safeCorridorWidth": 0.3769739030037433,
+      "safePath": [
+        {
+          "x": 0.3952408396362827,
+          "y": 0.08
+        },
+        {
+          "x": 0.6371713583796071,
+          "y": 0.6
+        },
+        {
+          "x": 0.42604896566015676,
+          "y": 1.2
+        },
+        {
+          "x": 0.3891430923261115,
+          "y": 1.72
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 0.8959754644231767,
+          "radius": 0.04783217667397059
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.792975200903811,
+          "radius": 0.04783217667397059
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.8728896301825371,
+          "y": 1.1482820666188873,
+          "radius": 0.04783217667397059
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.5706178095201824,
+          "radius": 0.04783217667397059
+        },
+        {
+          "id": "movingHole_5",
+          "type": "movingHole",
+          "x": 0.92,
+          "y": 0.3737576526340882,
+          "radius": 0.04368087182415775,
+          "movement": {
+            "axis": "horizontal",
+            "amplitude": 0.08555415155375506,
+            "periodSeconds": 3.162157308140691,
+            "phase": 0.2605133945302812
+          }
+        },
+        {
+          "id": "bumper_6",
+          "type": "bumper",
+          "x": 0.24771486878775456,
+          "y": 0.6400541287632565,
+          "radius": 0.03445391454943851,
+          "bumperForce": 329.0782909887701
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.5546828520416921,
+          "y": 0.396
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.6240335277438739,
+          "y": 0.882
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.49991576873074617,
+          "y": 1.368
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "moving_horizontal_sweep"
+      ]
+    },
+    {
+      "id": 5,
+      "seed": 3122305707,
+      "themeId": "beach",
+      "difficulty": 0.08768679175557687,
+      "worldHeight": 2.0,
+      "timeLimitSeconds": 78,
+      "scrollSpeedMultiplier": 1.0280597733617847,
+      "safeCorridorWidth": 0.3764925283297769,
+      "safePath": [
+        {
+          "x": 0.39855536194762,
+          "y": 0.08
+        },
+        {
+          "x": 0.5753209743940093,
+          "y": 0.6666666666666666
+        },
+        {
+          "x": 0.3285152393011978,
+          "y": 1.3333333333333333
+        },
+        {
+          "x": 0.5862448493590073,
+          "y": 1.92
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.11599872976190284,
+          "y": 0.4410702921636095,
+          "radius": 0.047964554709311345
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.2415925774207113,
+          "radius": 0.047964554709311345
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.17419121253843056,
+          "y": 0.6899962808435592,
+          "radius": 0.047964554709311345
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 0.8262915897930699,
+          "radius": 0.047964554709311345
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.7418751481494125,
+          "y": 1.4204962623561987,
+          "radius": 0.047964554709311345
+        },
+        {
+          "id": "movingHole_6",
+          "type": "movingHole",
+          "x": 0.92,
+          "y": 0.29328964020507775,
+          "radius": 0.043789181125800186,
+          "movement": {
+            "axis": "horizontal",
+            "amplitude": 0.17715068109986465,
+            "periodSeconds": 2.5959025995436984,
+            "phase": 0.27971621319497864
+          }
+        },
+        {
+          "id": "bumper_7",
+          "type": "bumper",
+          "x": 0.92,
+          "y": 1.4967412492474437,
+          "radius": 0.03452612075053346,
+          "bumperForce": 330.52241501066925
+        },
+        {
+          "id": "bumper_8",
+          "type": "bumper",
+          "x": 0.08,
+          "y": 0.8961893255980783,
+          "radius": 0.03452612075053346,
+          "bumperForce": 330.52241501066925
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.516549894429384,
+          "y": 0.44
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.38018268118453413,
+          "y": 0.98
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.47301668404119607,
+          "y": 1.52
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "alternating_slalom"
+      ]
+    },
+    {
+      "id": 6,
+      "seed": 3122313626,
+      "themeId": "beach",
+      "difficulty": 0.04351176966150914,
+      "worldHeight": 2.0,
+      "timeLimitSeconds": 77,
+      "scrollSpeedMultiplier": 1.013923766291683,
+      "safeCorridorWidth": 0.3782595292135396,
+      "safePath": [
+        {
+          "x": 0.44870420343381795,
+          "y": 0.08
+        },
+        {
+          "x": 0.7369753084828418,
+          "y": 0.6666666666666666
+        },
+        {
+          "x": 0.5264802515671831,
+          "y": 1.3333333333333333
+        },
+        {
+          "x": 0.2669825302199782,
+          "y": 1.92
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.8070843388724067,
+          "radius": 0.0474786294662766
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.2102200992029581,
+          "radius": 0.0474786294662766
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.6319739935235518,
+          "radius": 0.0474786294662766
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.4407259035091596,
+          "radius": 0.0474786294662766
+        },
+        {
+          "id": "suckingHole_5",
+          "type": "suckingHole",
+          "x": 0.30000741039685797,
+          "y": 0.8700205824975469,
+          "radius": 0.0444786294662766,
+          "suctionRadius": 0.14348094157292074,
+          "strength": 0.4639237662916829
+        },
+        {
+          "id": "bumper_6",
+          "type": "bumper",
+          "x": 0.08,
+          "y": 1.4553390858427693,
+          "radius": 0.034261070617969056,
+          "bumperForce": 325.2214123593811
+        },
+        {
+          "id": "bumper_7",
+          "type": "bumper",
+          "x": 0.3100198204012564,
+          "y": 0.5689737932668412,
+          "radius": 0.034261070617969056,
+          "bumperForce": 325.2214123593811
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.6411308513406736,
+          "y": 0.44
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.7244057872801224,
+          "y": 0.98
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.3811669686269927,
+          "y": 1.52
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "suction_left"
+      ]
+    },
+    {
+      "id": 7,
+      "seed": 3122321545,
+      "themeId": "beach",
+      "difficulty": 0.055620624721014714,
+      "worldHeight": 2.2,
+      "timeLimitSeconds": 80,
+      "scrollSpeedMultiplier": 1.0177985999107246,
+      "safeCorridorWidth": 0.3777751750111594,
+      "safePath": [
+        {
+          "x": 0.5459823602745806,
+          "y": 0.08
+        },
+        {
+          "x": 0.6333157089593715,
+          "y": 0.55
+        },
+        {
+          "x": 0.40039310583985765,
+          "y": 1.1
+        },
+        {
+          "x": 0.42046702147639137,
+          "y": 1.6500000000000001
+        },
+        {
+          "x": 0.498420246853791,
+          "y": 2.12
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.5633587374799784,
+          "radius": 0.04761182687193116
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.3436218838292592,
+          "radius": 0.04761182687193116
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 0.9728034381310886,
+          "radius": 0.04761182687193116
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.8278772169641505,
+          "radius": 0.04761182687193116
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.22440925942286,
+          "radius": 0.04761182687193116
+        },
+        {
+          "id": "movingHole_6",
+          "type": "movingHole",
+          "x": 0.92,
+          "y": 1.9137335798453528,
+          "radius": 0.04350058562248913,
+          "movement": {
+            "axis": "horizontal",
+            "amplitude": 0.1740188435436432,
+            "periodSeconds": 3.6354491060707375,
+            "phase": 0.4388563457076451
+          }
+        },
+        {
+          "id": "suckingHole_7",
+          "type": "suckingHole",
+          "x": 0.17879934983846701,
+          "y": 0.6076911795999475,
+          "radius": 0.04461182687193116,
+          "suctionRadius": 0.1444496499776812,
+          "strength": 0.4677985999107247
+        },
+        {
+          "id": "bumper_8",
+          "type": "bumper",
+          "x": 0.8006242085272894,
+          "y": 1.3777104582133157,
+          "radius": 0.03433372374832609,
+          "bumperForce": 326.67447496652176
+        },
+        {
+          "id": "bumper_9",
+          "type": "bumper",
+          "x": 0.8125016536311416,
+          "y": 1.6928017946998344,
+          "radius": 0.03433372374832609,
+          "bumperForce": 326.67447496652176
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.6286329126862811,
+          "y": 0.48400000000000004
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.31837078173917693,
+          "y": 1.078
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.3378528884644241,
+          "y": 1.6720000000000002
+        },
+        {
+          "id": "heart_1",
+          "type": "heart",
+          "x": 0.44124945577963604,
+          "y": 0.9533333333333335
+        }
+      ],
+      "bombWaves": [
+        {
+          "id": "bomb_1",
+          "x": 0.5098704560676791,
+          "y": 0.8360000000000001,
+          "dropTimeSeconds": 8.0,
+          "warningDuration": 4.149941437751087,
+          "impactRadius": 0.08
+        },
+        {
+          "id": "bomb_2",
+          "x": 0.4007579693304673,
+          "y": 1.1440000000000001,
+          "dropTimeSeconds": 14.0,
+          "warningDuration": 4.149941437751087,
+          "impactRadius": 0.08
+        }
+      ],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "bomb_lane"
+      ]
+    },
+    {
+      "id": 8,
+      "seed": 3122329464,
+      "themeId": "beach",
+      "difficulty": 0.06775871537394937,
+      "worldHeight": 2.5,
+      "timeLimitSeconds": 86,
+      "scrollSpeedMultiplier": 1.0216827889196638,
+      "safeCorridorWidth": 0.377289651385042,
+      "safePath": [
+        {
+          "x": 0.5980752545938098,
+          "y": 0.08
+        },
+        {
+          "x": 0.6205187210319376,
+          "y": 0.625
+        },
+        {
+          "x": 0.577379237527674,
+          "y": 1.25
+        },
+        {
+          "x": 0.4104243817485478,
+          "y": 1.875
+        },
+        {
+          "x": 0.25,
+          "y": 2.42
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.7459700472093567,
+          "radius": 0.04774534586911344
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.4735433495598236,
+          "radius": 0.04774534586911344
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.1431674512650522,
+          "y": 0.8240814693740842,
+          "radius": 0.04774534586911344
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.30455250450243615,
+          "radius": 0.04774534586911344
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.4652810878568387,
+          "radius": 0.04774534586911344
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.176248590826399,
+          "y": 0.4994632964636243,
+          "radius": 0.04774534586911344
+        },
+        {
+          "id": "movingHole_7",
+          "type": "movingHole",
+          "x": 0.08,
+          "y": 1.1394185206415417,
+          "radius": 0.04360982843836554,
+          "movement": {
+            "axis": "horizontal",
+            "amplitude": 0.11734113026722198,
+            "periodSeconds": 3.9412776699584366,
+            "phase": 0.6240742606112719
+          }
+        },
+        {
+          "id": "suckingHole_8",
+          "type": "suckingHole",
+          "x": 0.92,
+          "y": 2.157271130817702,
+          "radius": 0.04474534586911344,
+          "suctionRadius": 0.14542069722991596,
+          "strength": 0.4716827889196638
+        },
+        {
+          "id": "suckingHole_9",
+          "type": "suckingHole",
+          "x": 0.8235658114081758,
+          "y": 1.935467808941242,
+          "radius": 0.04474534586911344,
+          "suctionRadius": 0.14542069722991596,
+          "strength": 0.4716827889196638
+        },
+        {
+          "id": "bumper_10",
+          "type": "bumper",
+          "x": 0.17390678765226536,
+          "y": 1.2935011875321143,
+          "radius": 0.0344065522922437,
+          "bumperForce": 328.13104584487394
+        },
+        {
+          "id": "bumper_11",
+          "type": "bumper",
+          "x": 0.7161653688947869,
+          "y": 2.124135313597712,
+          "radius": 0.0344065522922437,
+          "bumperForce": 328.13104584487394
+        },
+        {
+          "id": "bumper_12",
+          "type": "bumper",
+          "x": 0.92,
+          "y": 0.46899999999999964,
+          "radius": 0.0344065522922437,
+          "bumperForce": 328.13104584487394
+        },
+        {
+          "id": "bumper_13",
+          "type": "bumper",
+          "x": 0.92,
+          "y": 0.8149999999999997,
+          "radius": 0.0344065522922437,
+          "bumperForce": 328.13104584487394
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.6193606121056295,
+          "y": 0.55
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.49457706188989664,
+          "y": 1.225
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.492446379373479,
+          "y": 1.9
+        },
+        {
+          "id": "magnet_1",
+          "type": "magnet",
+          "x": 0.5849462224860514,
+          "y": 1.0833333333333335
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "suction_bumper_combo"
+      ]
+    },
+    {
+      "id": 9,
+      "seed": 3122337383,
+      "themeId": "beach",
+      "difficulty": 0.07992262653970147,
+      "worldHeight": 2.7,
+      "timeLimitSeconds": 89,
+      "scrollSpeedMultiplier": 1.0255752404927045,
+      "safeCorridorWidth": 0.37680309493841196,
+      "safePath": [
+        {
+          "x": 0.5481320144937203,
+          "y": 0.08
+        },
+        {
+          "x": 0.6979044501061006,
+          "y": 0.675
+        },
+        {
+          "x": 0.45775904485890756,
+          "y": 1.35
+        },
+        {
+          "x": 0.3415013191095694,
+          "y": 2.0250000000000004
+        },
+        {
+          "x": 0.6001480445257669,
+          "y": 2.62
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.7984484697335332,
+          "y": 2.0689096315063256,
+          "radius": 0.047879148891936715
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.5838249301708651,
+          "radius": 0.047879148891936715
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.1412713355478776,
+          "radius": 0.047879148891936715
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.24071230833660995,
+          "y": 0.6337463364901855,
+          "radius": 0.047879148891936715
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.17851994928393156,
+          "y": 0.2342497726130221,
+          "radius": 0.047879148891936715
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 2.468868029171961,
+          "radius": 0.047879148891936715
+        },
+        {
+          "id": "regularHole_7",
+          "type": "regularHole",
+          "x": 0.8820939882295064,
+          "y": 1.8240719903242617,
+          "radius": 0.047879148891936715
+        },
+        {
+          "id": "movingHole_8",
+          "type": "movingHole",
+          "x": 0.12265976268070405,
+          "y": 1.1221664712940187,
+          "radius": 0.04371930363885731,
+          "movement": {
+            "axis": "horizontal",
+            "amplitude": 0.08023718362877776,
+            "periodSeconds": 4.120878506662961,
+            "phase": 0.512310041420647
+          }
+        },
+        {
+          "id": "movingHole_9",
+          "type": "movingHole",
+          "x": 0.92,
+          "y": 1.4738112305773272,
+          "radius": 0.04371930363885731,
+          "movement": {
+            "axis": "vertical",
+            "amplitude": 0.10421997699261995,
+            "periodSeconds": 4.154442591657824,
+            "phase": 0.26801061042620655
+          }
+        },
+        {
+          "id": "suckingHole_10",
+          "type": "suckingHole",
+          "x": 0.92,
+          "y": 1.1812216878240596,
+          "radius": 0.04487914889193671,
+          "suctionRadius": 0.14639381012317612,
+          "strength": 0.4755752404927045
+        },
+        {
+          "id": "bumper_11",
+          "type": "bumper",
+          "x": 0.92,
+          "y": 2.4382549550696244,
+          "radius": 0.03447953575923821,
+          "bumperForce": 329.5907151847642
+        },
+        {
+          "id": "bumper_12",
+          "type": "bumper",
+          "x": 0.10606727440883357,
+          "y": 0.8347491061871779,
+          "radius": 0.03447953575923821,
+          "bumperForce": 329.5907151847642
+        },
+        {
+          "id": "bumper_13",
+          "type": "bumper",
+          "x": 0.8192973202709988,
+          "y": 1.601667293432005,
+          "radius": 0.03447953575923821,
+          "bumperForce": 329.5907151847642
+        },
+        {
+          "id": "bumper_14",
+          "type": "bumper",
+          "x": 0.08,
+          "y": 1.3987109469390429,
+          "radius": 0.03447953575923821,
+          "bumperForce": 329.5907151847642
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.6903331658299665,
+          "y": 0.5940000000000001
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.3759843233057718,
+          "y": 1.323
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.4259474611170464,
+          "y": 2.052
+        },
+        {
+          "id": "extraBall_1",
+          "type": "extraBall",
+          "x": 0.4998823277941189,
+          "y": 1.1700000000000002
+        },
+        {
+          "id": "heart_1",
+          "type": "heart",
+          "x": 0.4998823277941189,
+          "y": 1.1700000000000002
+        }
+      ],
+      "bombWaves": [
+        {
+          "id": "bomb_1",
+          "x": 0.5706312276515723,
+          "y": 1.026,
+          "dropTimeSeconds": 8.0,
+          "warningDuration": 4.128069636114269,
+          "impactRadius": 0.08
+        },
+        {
+          "id": "bomb_2",
+          "x": 0.45564594443568757,
+          "y": 1.4040000000000001,
+          "dropTimeSeconds": 14.0,
+          "warningDuration": 4.128069636114269,
+          "impactRadius": 0.08
+        }
+      ],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "bumper_pinball"
+      ]
+    },
+    {
+      "id": 10,
+      "seed": 3122345302,
+      "themeId": "beach",
+      "difficulty": 0.09210972869865891,
+      "worldHeight": 3.2,
+      "timeLimitSeconds": 98,
+      "scrollSpeedMultiplier": 1.0294751131835709,
+      "safeCorridorWidth": 0.3763156108520537,
+      "safePath": [
+        {
+          "x": 0.5274432617948469,
+          "y": 0.08
+        },
+        {
+          "x": 0.5518033485231497,
+          "y": 0.6400000000000001
+        },
+        {
+          "x": 0.736155178824012,
+          "y": 1.2800000000000002
+        },
+        {
+          "x": 0.545057467286025,
+          "y": 1.92
+        },
+        {
+          "x": 0.30483177969557246,
+          "y": 2.5600000000000005
+        },
+        {
+          "x": 0.3260378122649594,
+          "y": 3.12
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.1465356213130613,
+          "y": 1.097344661210009,
+          "radius": 0.04801320701568525
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.3866039014673903,
+          "radius": 0.04801320701568525
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.821470886651607,
+          "y": 2.7654928777899506,
+          "radius": 0.04801320701568525
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 2.144699924686736,
+          "radius": 0.04801320701568525
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.8663725246723646,
+          "radius": 0.04801320701568525
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.11294809767783714,
+          "y": 0.6718850962531957,
+          "radius": 0.04801320701568525
+        },
+        {
+          "id": "movingHole_7",
+          "type": "movingHole",
+          "x": 0.92,
+          "y": 2.4931321722019444,
+          "radius": 0.04382898755828793,
+          "movement": {
+            "axis": "horizontal",
+            "amplitude": 0.14934096385564027,
+            "periodSeconds": 3.2185621801663027,
+            "phase": 0.1619055473410077
+          }
+        },
+        {
+          "id": "suckingHole_8",
+          "type": "suckingHole",
+          "x": 0.92,
+          "y": 2.9428421607543327,
+          "radius": 0.045013207015685244,
+          "suctionRadius": 0.14736877829589273,
+          "strength": 0.47947511318357083
+        },
+        {
+          "id": "suckingHole_9",
+          "type": "suckingHole",
+          "x": 0.9113744600337241,
+          "y": 2.0452557379600638,
+          "radius": 0.045013207015685244,
+          "suctionRadius": 0.14736877829589273,
+          "strength": 0.47947511318357083
+        },
+        {
+          "id": "bumper_10",
+          "type": "bumper",
+          "x": 0.08,
+          "y": 0.24521216956738734,
+          "radius": 0.03455265837219196,
+          "bumperForce": 331.0531674438391
+        },
+        {
+          "id": "bumper_11",
+          "type": "bumper",
+          "x": 0.8504691034685741,
+          "y": 2.253374952707952,
+          "radius": 0.03455265837219196,
+          "bumperForce": 331.0531674438391
+        },
+        {
+          "id": "bumper_12",
+          "type": "bumper",
+          "x": 0.2667773737298085,
+          "y": 1.354086520816257,
+          "radius": 0.03455265837219196,
+          "bumperForce": 331.0531674438391
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.5569651997715739,
+          "y": 0.7040000000000001
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.5721014426050313,
+          "y": 1.568
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.24702581681752767,
+          "y": 2.4320000000000004
+        }
+      ],
+      "bombWaves": [
+        {
+          "id": "bomb_1",
+          "x": 0.7309933275755879,
+          "y": 1.2160000000000002,
+          "dropTimeSeconds": 8.0,
+          "warningDuration": 4.117101244171208,
+          "impactRadius": 0.08
+        },
+        {
+          "id": "bomb_2",
+          "x": 0.6123238617473964,
+          "y": 1.6640000000000001,
+          "dropTimeSeconds": 14.0,
+          "warningDuration": 4.117101244171208,
+          "impactRadius": 0.08
+        }
+      ],
+      "teleportPairs": [
+        {
+          "id": "teleport_1",
+          "pairId": 0,
+          "entry": {
+            "x": 0.6166951927890533,
+            "y": 0.8960000000000001
+          },
+          "exit": {
+            "x": 0.6406063230550185,
+            "y": 1.6
+          },
+          "radius": 0.05
+        }
+      ],
+      "validationAttempts": 1,
+      "patternIds": [
+        "teleport_split"
+      ]
+    },
+    {
+      "id": 11,
+      "seed": 3122353221,
+      "themeId": "beach",
+      "difficulty": 0.04806792806660808,
+      "worldHeight": 2.8,
+      "timeLimitSeconds": 90,
+      "scrollSpeedMultiplier": 1.0153817369813145,
+      "safeCorridorWidth": 0.37807728287733566,
+      "safePath": [
+        {
+          "x": 0.4882467847694234,
+          "y": 0.08
+        },
+        {
+          "x": 0.5735635814585438,
+          "y": 0.7
+        },
+        {
+          "x": 0.46995005543061497,
+          "y": 1.4
+        },
+        {
+          "x": 0.3819638517958545,
+          "y": 2.0999999999999996
+        },
+        {
+          "x": 0.5082447289453353,
+          "y": 2.7199999999999998
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 0.25578001015334584,
+          "radius": 0.04752874720873269
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.3033852146373329,
+          "radius": 0.04752874720873269
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.7874626973218126,
+          "radius": 0.04752874720873269
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.3747637923639235,
+          "radius": 0.04752874720873269
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.536821863590226,
+          "radius": 0.04752874720873269
+        },
+        {
+          "id": "movingHole_6",
+          "type": "movingHole",
+          "x": 0.09320835057589266,
+          "y": 0.7412899571645086,
+          "radius": 0.043432611352599466,
+          "movement": {
+            "axis": "horizontal",
+            "amplitude": 0.12483098681045598,
+            "periodSeconds": 3.1648749982185485,
+            "phase": 0.6309682036702532
+          }
+        },
+        {
+          "id": "suckingHole_7",
+          "type": "suckingHole",
+          "x": 0.8969926311325584,
+          "y": 1.1842839666013978,
+          "radius": 0.044528747208732684,
+          "suctionRadius": 0.14384543424532867,
+          "strength": 0.4653817369813146
+        },
+        {
+          "id": "suckingHole_8",
+          "type": "suckingHole",
+          "x": 0.84684768060975,
+          "y": 1.516854434989938,
+          "radius": 0.044528747208732684,
+          "suctionRadius": 0.14384543424532867,
+          "strength": 0.4653817369813146
+        },
+        {
+          "id": "bumper_9",
+          "type": "bumper",
+          "x": 0.92,
+          "y": 2.0734092051279256,
+          "radius": 0.034288407568399654,
+          "bumperForce": 325.76815136799297
+        },
+        {
+          "id": "bumper_10",
+          "type": "bumper",
+          "x": 0.08,
+          "y": 1.0502372446444805,
+          "radius": 0.034288407568399654,
+          "bumperForce": 325.76815136799297
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.5692897400420681,
+          "y": 0.616
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.5536111400572313,
+          "y": 1.3719999999999999
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.4658902564938078,
+          "y": 2.1279999999999997
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [],
+      "nightMode": {
+        "enabled": true,
+        "opacity": 0.6857681513679931,
+        "lightRadius": 0.23,
+        "lightPickups": [
+          {
+            "x": 0.5198716945592043,
+            "y": 0.33599999999999997
+          },
+          {
+            "x": 0.48072586213751956,
+            "y": 1.26
+          }
+        ]
+      },
+      "validationAttempts": 1,
+      "patternIds": [
+        "dark_light_trail"
+      ]
+    },
+    {
+      "id": 12,
+      "seed": 3122361140,
+      "themeId": "beach",
+      "difficulty": 0.060295513780371096,
+      "worldHeight": 3.2,
+      "timeLimitSeconds": 97,
+      "scrollSpeedMultiplier": 1.0192945644097187,
+      "safeCorridorWidth": 0.37758817944878514,
+      "safePath": [
+        {
+          "x": 0.5100708116177054,
+          "y": 0.08
+        },
+        {
+          "x": 0.7477854097321509,
+          "y": 0.6400000000000001
+        },
+        {
+          "x": 0.5819977637492151,
+          "y": 1.2800000000000002
+        },
+        {
+          "x": 0.5923869224853154,
+          "y": 1.92
+        },
+        {
+          "x": 0.42322107769501094,
+          "y": 2.5600000000000005
+        },
+        {
+          "x": 0.32153842758259077,
+          "y": 3.12
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.8792458708706969,
+          "y": 2.3262691064828784,
+          "radius": 0.04766325065158408
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.11117657873215875,
+          "y": 1.807077554020295,
+          "radius": 0.04766325065158408
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.5974397691206312,
+          "radius": 0.04766325065158408
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.29310422013892334,
+          "y": 0.8583223665521309,
+          "radius": 0.04766325065158408
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.562806590785205,
+          "radius": 0.04766325065158408
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 2.238240637161909,
+          "radius": 0.04766325065158408
+        },
+        {
+          "id": "movingHole_7",
+          "type": "movingHole",
+          "x": 0.10188248277016976,
+          "y": 1.0778936824726897,
+          "radius": 0.04354265962402334,
+          "movement": {
+            "axis": "horizontal",
+            "amplitude": 0.18900062754006175,
+            "periodSeconds": 3.314178233274949,
+            "phase": 0.6946855796995828
+          }
+        },
+        {
+          "id": "movingHole_8",
+          "type": "movingHole",
+          "x": 0.08,
+          "y": 0.36392114648334345,
+          "radius": 0.04354265962402334,
+          "movement": {
+            "axis": "vertical",
+            "amplitude": 0.12473640612872172,
+            "periodSeconds": 3.45599311048462,
+            "phase": 0.20496082600980603
+          }
+        },
+        {
+          "id": "suckingHole_9",
+          "type": "suckingHole",
+          "x": 0.24219682954074806,
+          "y": 0.3958644472734456,
+          "radius": 0.04466325065158408,
+          "suctionRadius": 0.1448236411024297,
+          "strength": 0.4692945644097188
+        },
+        {
+          "id": "suckingHole_10",
+          "type": "suckingHole",
+          "x": 0.92,
+          "y": 2.931451101178662,
+          "radius": 0.04466325065158408,
+          "suctionRadius": 0.1448236411024297,
+          "strength": 0.4692945644097188
+        },
+        {
+          "id": "bumper_11",
+          "type": "bumper",
+          "x": 0.20176244714235092,
+          "y": 1.6372513512176134,
+          "radius": 0.03436177308268223,
+          "bumperForce": 327.2354616536445
+        },
+        {
+          "id": "bumper_12",
+          "type": "bumper",
+          "x": 0.7769230664631339,
+          "y": 2.9078417499019333,
+          "radius": 0.03436177308268223,
+          "bumperForce": 327.2354616536445
+        },
+        {
+          "id": "bumper_13",
+          "type": "bumper",
+          "x": 0.15064104739184625,
+          "y": 0.7244433838802352,
+          "radius": 0.03436177308268223,
+          "bumperForce": 327.2354616536445
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.7431433556446287,
+          "y": 0.7040000000000001
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.5033463540230091,
+          "y": 1.568
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.5238837250319353,
+          "y": 2.4320000000000004
+        },
+        {
+          "id": "shield_1",
+          "type": "shield",
+          "x": 0.5827673310630003,
+          "y": 1.3866666666666667
+        }
+      ],
+      "bombWaves": [
+        {
+          "id": "bomb_1",
+          "x": 0.6060621721389302,
+          "y": 1.1264,
+          "dropTimeSeconds": 8.0,
+          "warningDuration": 4.145734037597666,
+          "impactRadius": 0.08
+        },
+        {
+          "id": "bomb_2",
+          "x": 0.584508449406016,
+          "y": 1.4848000000000001,
+          "dropTimeSeconds": 14.0,
+          "warningDuration": 4.145734037597666,
+          "impactRadius": 0.08
+        },
+        {
+          "id": "bomb_3",
+          "x": 0.5919740157605079,
+          "y": 1.8432000000000004,
+          "dropTimeSeconds": 20.0,
+          "warningDuration": 4.145734037597666,
+          "impactRadius": 0.08
+        }
+      ],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "moving_static_combo"
+      ]
+    },
+    {
+      "id": 13,
+      "seed": 3122369059,
+      "themeId": "beach",
+      "difficulty": 0.07254105885467796,
+      "worldHeight": 3.5,
+      "timeLimitSeconds": 103,
+      "scrollSpeedMultiplier": 1.0232131388334968,
+      "safeCorridorWidth": 0.3770983576458129,
+      "safePath": [
+        {
+          "x": 0.4919248197217918,
+          "y": 0.08
+        },
+        {
+          "x": 0.7428606006029617,
+          "y": 0.7000000000000001
+        },
+        {
+          "x": 0.5270044195772998,
+          "y": 1.4000000000000001
+        },
+        {
+          "x": 0.3358368304580603,
+          "y": 2.1
+        },
+        {
+          "x": 0.2868385748558172,
+          "y": 2.8000000000000003
+        },
+        {
+          "x": 0.5550011418305733,
+          "y": 3.42
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.8582509245184947,
+          "y": 1.688963412164166,
+          "radius": 0.04779795164740146
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 0.23827522764671932,
+          "radius": 0.04779795164740146
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.8649943486502885,
+          "y": 2.593474104240506,
+          "radius": 0.04779795164740146
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.0725556754368335,
+          "radius": 0.04779795164740146
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.7434151234582076,
+          "y": 2.510619349985762,
+          "radius": 0.04779795164740146
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.4279097139706216,
+          "radius": 0.04779795164740146
+        },
+        {
+          "id": "regularHole_7",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.2443053371299653,
+          "radius": 0.04779795164740146
+        },
+        {
+          "id": "movingHole_8",
+          "type": "movingHole",
+          "x": 0.92,
+          "y": 2.955710755663214,
+          "radius": 0.0436528695296921,
+          "movement": {
+            "axis": "horizontal",
+            "amplitude": 0.11607385586070604,
+            "periodSeconds": 2.4212103044877287,
+            "phase": 0.9375224460201762
+          }
+        },
+        {
+          "id": "movingHole_9",
+          "type": "movingHole",
+          "x": 0.08,
+          "y": 0.8410112023838614,
+          "radius": 0.0436528695296921,
+          "movement": {
+            "axis": "vertical",
+            "amplitude": 0.09254342665392558,
+            "periodSeconds": 3.8669189177329013,
+            "phase": 0.3672108931829259
+          }
+        },
+        {
+          "id": "suckingHole_10",
+          "type": "suckingHole",
+          "x": 0.92,
+          "y": 3.235717163575164,
+          "radius": 0.044797951647401454,
+          "suctionRadius": 0.14580328470837425,
+          "strength": 0.47321313883349697
+        },
+        {
+          "id": "suckingHole_11",
+          "type": "suckingHole",
+          "x": 0.08,
+          "y": 3.1633561082594537,
+          "radius": 0.044797951647401454,
+          "suctionRadius": 0.14580328470837425,
+          "strength": 0.47321313883349697
+        },
+        {
+          "id": "bumper_12",
+          "type": "bumper",
+          "x": 0.08,
+          "y": 0.35401926427894376,
+          "radius": 0.03443524635312807,
+          "bumperForce": 328.70492706256135
+        },
+        {
+          "id": "bumper_13",
+          "type": "bumper",
+          "x": 0.7302550888699075,
+          "y": 2.235893783603002,
+          "radius": 0.03443524635312807,
+          "bumperForce": 328.70492706256135
+        },
+        {
+          "id": "bumper_14",
+          "type": "bumper",
+          "x": 0.09190143418661167,
+          "y": 1.5646562659973533,
+          "radius": 0.03443524635312807,
+          "bumperForce": 328.70492706256135
+        },
+        {
+          "id": "bumper_15",
+          "type": "bumper",
+          "x": 0.18622021550754964,
+          "y": 0.9931327229389705,
+          "radius": 0.03443524635312807,
+          "bumperForce": 328.70492706256135
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.7368166275342432,
+          "y": 0.77
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.5286720409864222,
+          "y": 1.7149999999999999
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.37489603212052935,
+          "y": 2.66
+        },
+        {
+          "id": "magnet_1",
+          "type": "magnet",
+          "x": 0.5128438574203191,
+          "y": 1.5166666666666666
+        }
+      ],
+      "bombWaves": [
+        {
+          "id": "bomb_1",
+          "x": 0.5583363759655368,
+          "y": 1.232,
+          "dropTimeSeconds": 8.0,
+          "warningDuration": 4.13471304703079,
+          "impactRadius": 0.08
+        },
+        {
+          "id": "bomb_2",
+          "x": 0.4808060953203879,
+          "y": 1.624,
+          "dropTimeSeconds": 14.0,
+          "warningDuration": 4.13471304703079,
+          "impactRadius": 0.08
+        },
+        {
+          "id": "bomb_3",
+          "x": 0.34343459512001534,
+          "y": 2.016,
+          "dropTimeSeconds": 20.0,
+          "warningDuration": 4.13471304703079,
+          "impactRadius": 0.08
+        }
+      ],
+      "teleportPairs": [
+        {
+          "id": "teleport_1",
+          "pairId": 0,
+          "entry": {
+            "x": 0.6668792248819286,
+            "y": 0.9800000000000001
+          },
+          "exit": {
+            "x": 0.4314206250176801,
+            "y": 1.75
+          },
+          "radius": 0.05
+        },
+        {
+          "id": "teleport_2",
+          "pairId": 1,
+          "entry": {
+            "x": 0.4857122203275441,
+            "y": 1.61
+          },
+          "exit": {
+            "x": 0.31858944448607074,
+            "y": 2.38
+          },
+          "radius": 0.05
+        }
+      ],
+      "validationAttempts": 1,
+      "patternIds": [
+        "teleport_recovery_lane"
+      ]
+    },
+    {
+      "id": 14,
+      "seed": 3122376978,
+      "themeId": "beach",
+      "difficulty": 0.08480335300745838,
+      "worldHeight": 3.8,
+      "timeLimitSeconds": 108,
+      "scrollSpeedMultiplier": 1.0271370729623868,
+      "safeCorridorWidth": 0.3766078658797017,
+      "safePath": [
+        {
+          "x": 0.4405137555199742,
+          "y": 0.08
+        },
+        {
+          "x": 0.6860974953045518,
+          "y": 0.76
+        },
+        {
+          "x": 0.7011157291145826,
+          "y": 1.52
+        },
+        {
+          "x": 0.48234923199719204,
+          "y": 2.28
+        },
+        {
+          "x": 0.4334295518728638,
+          "y": 3.04
+        },
+        {
+          "x": 0.25,
+          "y": 3.7199999999999998
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.17429394749360028,
+          "y": 1.7529897390905036,
+          "radius": 0.047932836883082044
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.15150318754112946,
+          "y": 0.9730297500310572,
+          "radius": 0.047932836883082044
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 2.146650718427296,
+          "radius": 0.047932836883082044
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.501355540888303,
+          "radius": 0.047932836883082044
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.7169030535506553,
+          "radius": 0.047932836883082044
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.376787683406499,
+          "radius": 0.047932836883082044
+        },
+        {
+          "id": "regularHole_7",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.038238428605662,
+          "radius": 0.047932836883082044
+        },
+        {
+          "id": "regularHole_8",
+          "type": "regularHole",
+          "x": 0.30850715931265554,
+          "y": 1.2551939737359905,
+          "radius": 0.047932836883082044
+        },
+        {
+          "id": "movingHole_9",
+          "type": "movingHole",
+          "x": 0.2670734123776582,
+          "y": 1.5650759212024425,
+          "radius": 0.043763230177067125,
+          "movement": {
+            "axis": "horizontal",
+            "amplitude": 0.13402995907893311,
+            "periodSeconds": 2.5423204369520884,
+            "phase": 0.2674463850700016
+          }
+        },
+        {
+          "id": "movingHole_10",
+          "type": "movingHole",
+          "x": 0.92,
+          "y": 3.1728500336363217,
+          "radius": 0.043763230177067125,
+          "movement": {
+            "axis": "vertical",
+            "amplitude": 0.1249251200814282,
+            "periodSeconds": 3.2017322920654054,
+            "phase": 0.7376114553074923
+          }
+        },
+        {
+          "id": "movingHole_11",
+          "type": "movingHole",
+          "x": 0.08,
+          "y": 2.6862480092353853,
+          "radius": 0.043763230177067125,
+          "movement": {
+            "axis": "horizontal",
+            "amplitude": 0.18825798986632014,
+            "periodSeconds": 2.5241475572758456,
+            "phase": 0.6705478338366738
+          }
+        },
+        {
+          "id": "suckingHole_12",
+          "type": "suckingHole",
+          "x": 0.2796854988958661,
+          "y": 0.702058323395968,
+          "radius": 0.04493283688308204,
+          "suctionRadius": 0.14678426824059668,
+          "strength": 0.4771370729623867
+        },
+        {
+          "id": "suckingHole_13",
+          "type": "suckingHole",
+          "x": 0.7772656843199861,
+          "y": 3.33102921818808,
+          "radius": 0.04493283688308204,
+          "suctionRadius": 0.14678426824059668,
+          "strength": 0.4771370729623867
+        },
+        {
+          "id": "suckingHole_14",
+          "type": "suckingHole",
+          "x": 0.16202432858389038,
+          "y": 1.2718552328775594,
+          "radius": 0.04493283688308204,
+          "suctionRadius": 0.14678426824059668,
+          "strength": 0.4771370729623867
+        },
+        {
+          "id": "bumper_15",
+          "type": "bumper",
+          "x": 0.92,
+          "y": 0.24759914711741784,
+          "radius": 0.03450882011804475,
+          "bumperForce": 330.176402360895
+        },
+        {
+          "id": "bumper_16",
+          "type": "bumper",
+          "x": 0.08,
+          "y": 0.2249215725798378,
+          "radius": 0.03450882011804475,
+          "bumperForce": 330.176402360895
+        },
+        {
+          "id": "bumper_17",
+          "type": "bumper",
+          "x": 0.92,
+          "y": 3.566943956835579,
+          "radius": 0.03450882011804475,
+          "bumperForce": 330.176402360895
+        },
+        {
+          "id": "bumper_18",
+          "type": "bumper",
+          "x": 0.8328791301767275,
+          "y": 2.9557195010706523,
+          "radius": 0.03450882011804475,
+          "bumperForce": 330.176402360895
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.6865180058512327,
+          "y": 0.836
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.5252315457218779,
+          "y": 1.8619999999999999
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.3556634681122596,
+          "y": 2.888
+        },
+        {
+          "id": "shield_1",
+          "type": "shield",
+          "x": 0.6849108034021834,
+          "y": 1.6466666666666667
+        }
+      ],
+      "bombWaves": [
+        {
+          "id": "bomb_1",
+          "x": 0.6972221129416116,
+          "y": 1.2666666666666666,
+          "dropTimeSeconds": 8.0,
+          "warningDuration": 4.123676982293287,
+          "impactRadius": 0.08
+        },
+        {
+          "id": "bomb_2",
+          "x": 0.6904852978472488,
+          "y": 1.621333333333333,
+          "dropTimeSeconds": 14.0,
+          "warningDuration": 4.123676982293287,
+          "impactRadius": 0.08
+        },
+        {
+          "id": "bomb_3",
+          "x": 0.5593550389825135,
+          "y": 1.976,
+          "dropTimeSeconds": 20.0,
+          "warningDuration": 4.123676982293287,
+          "impactRadius": 0.08
+        },
+        {
+          "id": "bomb_4",
+          "x": 0.481725959035608,
+          "y": 2.330666666666666,
+          "dropTimeSeconds": 26.0,
+          "warningDuration": 4.123676982293287,
+          "impactRadius": 0.08
+        }
+      ],
+      "teleportPairs": [],
+      "nightMode": {
+        "enabled": true,
+        "opacity": 0.6901764023608951,
+        "lightRadius": 0.23,
+        "lightPickups": [
+          {
+            "x": 0.5827349832352524,
+            "y": 0.45599999999999996
+          },
+          {
+            "x": 0.697871790611616,
+            "y": 1.2919999999999998
+          },
+          {
+            "x": 0.5051009476974005,
+            "y": 2.128
+          }
+        ]
+      },
+      "validationAttempts": 1,
+      "patternIds": [
+        "dark_hazard_gate"
+      ]
+    },
+    {
+      "id": 15,
+      "seed": 3122384897,
+      "themeId": "beach",
+      "difficulty": 0.14208135539890648,
+      "worldHeight": 4.2,
+      "timeLimitSeconds": 116,
+      "scrollSpeedMultiplier": 1.04546603372765,
+      "safeCorridorWidth": 0.3743167457840437,
+      "safePath": [
+        {
+          "x": 0.5951333624847094,
+          "y": 0.08
+        },
+        {
+          "x": 0.7328668356392489,
+          "y": 0.7
+        },
+        {
+          "x": 0.7348355401798462,
+          "y": 1.4
+        },
+        {
+          "x": 0.424887140832893,
+          "y": 2.1
+        },
+        {
+          "x": 0.4230831307320193,
+          "y": 2.8
+        },
+        {
+          "x": 0.46330681422741543,
+          "y": 3.5000000000000004
+        },
+        {
+          "x": 0.45911056152340596,
+          "y": 4.12
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.8209824107366774,
+          "y": 2.982011528538027,
+          "radius": 0.04856289490938797
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.13901023216345543,
+          "y": 0.4877659415803023,
+          "radius": 0.04856289490938797
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.22815853864635932,
+          "y": 1.4994092162016084,
+          "radius": 0.04856289490938797
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.773261488471619,
+          "radius": 0.04856289490938797
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.816548457956609,
+          "y": 2.053739712803956,
+          "radius": 0.04856289490938797
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.9012985053825503,
+          "y": 1.8668585663419375,
+          "radius": 0.04856289490938797
+        },
+        {
+          "id": "regularHole_7",
+          "type": "regularHole",
+          "x": 0.8061101883609364,
+          "y": 2.489570754646506,
+          "radius": 0.04856289490938797
+        },
+        {
+          "id": "regularHole_8",
+          "type": "regularHole",
+          "x": 0.3110556640282515,
+          "y": 0.6592078302792672,
+          "radius": 0.04856289490938797
+        },
+        {
+          "id": "regularHole_9",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 3.584198336423008,
+          "radius": 0.04856289490938797
+        },
+        {
+          "id": "regularHole_10",
+          "type": "regularHole",
+          "x": 0.2667501644916537,
+          "y": 1.2271090486987546,
+          "radius": 0.04856289490938797
+        },
+        {
+          "id": "movingHole_11",
+          "type": "movingHole",
+          "x": 0.08,
+          "y": 1.22726538326127,
+          "radius": 0.04427873219859015,
+          "movement": {
+            "axis": "horizontal",
+            "amplitude": 0.1000057404387997,
+            "periodSeconds": 3.918394545940598,
+            "phase": 0.4170982193308934
+          }
+        },
+        {
+          "id": "movingHole_12",
+          "type": "movingHole",
+          "x": 0.08,
+          "y": 0.7973262313959117,
+          "radius": 0.04427873219859015,
+          "movement": {
+            "axis": "vertical",
+            "amplitude": 0.20815505098694242,
+            "periodSeconds": 2.811661734938614,
+            "phase": 0.6739498075060467
+          }
+        },
+        {
+          "id": "movingHole_13",
+          "type": "movingHole",
+          "x": 0.92,
+          "y": 3.243832431985317,
+          "radius": 0.04427873219859015,
+          "movement": {
+            "axis": "horizontal",
+            "amplitude": 0.15230036535155156,
+            "periodSeconds": 3.0783941002445774,
+            "phase": 0.5612062698593988
+          }
+        },
+        {
+          "id": "suckingHole_14",
+          "type": "suckingHole",
+          "x": 0.08,
+          "y": 1.9004285960953902,
+          "radius": 0.04556289490938797,
+          "suctionRadius": 0.15136650843191254,
+          "strength": 0.4954660337276501
+        },
+        {
+          "id": "suckingHole_15",
+          "type": "suckingHole",
+          "x": 0.08,
+          "y": 3.425840665147862,
+          "radius": 0.04556289490938797,
+          "suctionRadius": 0.15136650843191254,
+          "strength": 0.4954660337276501
+        },
+        {
+          "id": "suckingHole_16",
+          "type": "suckingHole",
+          "x": 0.08,
+          "y": 3.7456250464438576,
+          "radius": 0.04556289490938797,
+          "suctionRadius": 0.15136650843191254,
+          "strength": 0.4954660337276501
+        },
+        {
+          "id": "bumper_17",
+          "type": "bumper",
+          "x": 0.21293558887830333,
+          "y": 0.8659633889476622,
+          "radius": 0.034852488132393444,
+          "bumperForce": 337.04976264786876
+        },
+        {
+          "id": "bumper_18",
+          "type": "bumper",
+          "x": 0.92,
+          "y": 2.2029808557330477,
+          "radius": 0.034852488132393444,
+          "bumperForce": 337.04976264786876
+        },
+        {
+          "id": "bumper_19",
+          "type": "bumper",
+          "x": 0.09982171200565837,
+          "y": 1.625309109683149,
+          "radius": 0.034852488132393444,
+          "bumperForce": 337.04976264786876
+        },
+        {
+          "id": "bumper_20",
+          "type": "bumper",
+          "x": 0.92,
+          "y": 3.9425803508550334,
+          "radius": 0.034852488132393444,
+          "bumperForce": 337.04976264786876
+        },
+        {
+          "id": "bumper_21",
+          "type": "bumper",
+          "x": 0.24817185519560553,
+          "y": 0.3466717219827947,
+          "radius": 0.034852488132393444,
+          "bumperForce": 337.04976264786876
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.7333426006533478,
+          "y": 0.924
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.5104503699098119,
+          "y": 2.058
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.5291474114355227,
+          "y": 3.192
+        },
+        {
+          "id": "extraBall_1",
+          "type": "extraBall",
+          "x": 0.5339889774030204,
+          "y": 1.82
+        },
+        {
+          "id": "shield_1",
+          "type": "shield",
+          "x": 0.5339889774030204,
+          "y": 1.82
+        }
+      ],
+      "bombWaves": [
+        {
+          "id": "bomb_1",
+          "x": 0.7347997570061163,
+          "y": 1.344,
+          "dropTimeSeconds": 8.0,
+          "warningDuration": 4.072126780140985,
+          "impactRadius": 0.08
+        },
+        {
+          "id": "bomb_2",
+          "x": 0.6257337036097186,
+          "y": 1.6800000000000002,
+          "dropTimeSeconds": 14.0,
+          "warningDuration": 4.072126780140985,
+          "impactRadius": 0.08
+        },
+        {
+          "id": "bomb_3",
+          "x": 0.4372057300165383,
+          "y": 2.016,
+          "dropTimeSeconds": 20.0,
+          "warningDuration": 4.072126780140985,
+          "impactRadius": 0.08
+        },
+        {
+          "id": "bomb_4",
+          "x": 0.424354077496206,
+          "y": 2.3520000000000003,
+          "dropTimeSeconds": 26.0,
+          "warningDuration": 4.072126780140985,
+          "impactRadius": 0.08
+        },
+        {
+          "id": "bomb_5",
+          "x": 0.42320690025702007,
+          "y": 2.688,
+          "dropTimeSeconds": 32.0,
+          "warningDuration": 4.072126780140985,
+          "impactRadius": 0.08
+        }
+      ],
+      "teleportPairs": [
+        {
+          "id": "teleport_1",
+          "pairId": 0,
+          "entry": {
+            "x": 0.7343597751657474,
+            "y": 1.1760000000000002
+          },
+          "exit": {
+            "x": 0.424887140832893,
+            "y": 2.1
+          },
+          "radius": 0.05
+        },
+        {
+          "id": "teleport_2",
+          "pairId": 1,
+          "entry": {
+            "x": 0.4698767708949019,
+            "y": 1.9320000000000002
+          },
+          "exit": {
+            "x": 0.4238142364032316,
+            "y": 2.8560000000000003
+          },
+          "radius": 0.05
+        }
+      ],
+      "validationAttempts": 1,
+      "patternIds": [
+        "theme_finale_mix"
+      ]
+    },
+    {
+      "id": 16,
+      "seed": 3122392816,
+      "themeId": "egypt",
+      "difficulty": 0.018124160360435133,
+      "worldHeight": 2.648935232973175,
+      "timeLimitSeconds": 87,
+      "scrollSpeedMultiplier": 1.0057997313153393,
+      "safeCorridorWidth": 0.33909379198197825,
+      "safePath": [
+        {
+          "x": 0.42397525261902436,
+          "y": 0.08
+        },
+        {
+          "x": 0.6634341957387505,
+          "y": 0.6622338082432937
+        },
+        {
+          "x": 0.5705129451733947,
+          "y": 1.3244676164865874
+        },
+        {
+          "x": 0.451635844610083,
+          "y": 1.986701424729881
+        },
+        {
+          "x": 0.30562746435314525,
+          "y": 2.5689352329731747
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.162148824840155,
+          "radius": 0.04719936576396479
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.9112532651820757,
+          "radius": 0.04719936576396479
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.10052808771318222,
+          "y": 0.8922986842272079,
+          "radius": 0.04719936576396479
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.1519043797963906,
+          "radius": 0.04719936576396479
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.6998769065482955,
+          "radius": 0.04719936576396479
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.10440581655199088,
+          "y": 1.4908952750164672,
+          "radius": 0.04719936576396479
+        },
+        {
+          "id": "regularHole_7",
+          "type": "regularHole",
+          "x": 0.9161163154802774,
+          "y": 1.4085085413416312,
+          "radius": 0.04719936576396479
+        },
+        {
+          "id": "regularHole_8",
+          "type": "regularHole",
+          "x": 0.22999656953024444,
+          "y": 1.240315598676971,
+          "radius": 0.04719936576396479
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.6512692465165265,
+          "y": 0.5827657512540985
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.49634643902000075,
+          "y": 1.2979782641568556
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.3761560451178706,
+          "y": 2.013190777059613
+        },
+        {
+          "id": "heart_1",
+          "type": "heart",
+          "x": 0.5868120208281178,
+          "y": 1.1478719342883759
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "recovery_chunk",
+        "recovery_chunk",
+        "recovery_chunk"
+      ]
+    },
+    {
+      "id": 17,
+      "seed": 3122400735,
+      "themeId": "egypt",
+      "difficulty": 0.06543097190433224,
+      "worldHeight": 2.776663624141697,
+      "timeLimitSeconds": 90,
+      "scrollSpeedMultiplier": 1.0209379110093864,
+      "safeCorridorWidth": 0.3367284514047834,
+      "safePath": [
+        {
+          "x": 0.5616531685651932,
+          "y": 0.08
+        },
+        {
+          "x": 0.603602779307447,
+          "y": 0.6941659060354243
+        },
+        {
+          "x": 0.49326308676454694,
+          "y": 1.3883318120708485
+        },
+        {
+          "x": 0.25,
+          "y": 2.0824977181062727
+        },
+        {
+          "x": 0.5503052998893889,
+          "y": 2.696663624141697
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.5020433105478295,
+          "radius": 0.04771974069094766
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 0.9564644404792426,
+          "radius": 0.04771974069094766
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.8024718109206763,
+          "y": 1.9569460657992857,
+          "radius": 0.04771974069094766
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.7051688071714934,
+          "y": 2.1855650383329377,
+          "radius": 0.04771974069094766
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.5365217940994434,
+          "radius": 0.04771974069094766
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.8727469090485809,
+          "y": 1.2265064149500318,
+          "radius": 0.04771974069094766
+        },
+        {
+          "id": "regularHole_7",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.525837270312761,
+          "radius": 0.04771974069094766
+        },
+        {
+          "id": "regularHole_8",
+          "type": "regularHole",
+          "x": 0.1389181065109153,
+          "y": 0.8167506337407505,
+          "radius": 0.04771974069094766
+        },
+        {
+          "id": "regularHole_9",
+          "type": "regularHole",
+          "x": 0.2566593136987743,
+          "y": 0.6680895513477543,
+          "radius": 0.04771974069094766
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.6014970262911897,
+          "y": 0.6108659973111734
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.5678588531171598,
+          "y": 1.3605651758294315
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.17770568675210627,
+          "y": 2.1102643543476898
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "bumper_pinball",
+        "dark_light_trail",
+        "suction_bumper_combo"
+      ]
+    },
+    {
+      "id": 18,
+      "seed": 3122408654,
+      "themeId": "egypt",
+      "difficulty": 0.07775108434991262,
+      "worldHeight": 2.809927927744764,
+      "timeLimitSeconds": 91,
+      "scrollSpeedMultiplier": 1.024880346991972,
+      "safeCorridorWidth": 0.3361124457825044,
+      "safePath": [
+        {
+          "x": 0.4477939574549046,
+          "y": 0.08
+        },
+        {
+          "x": 0.6963074042997838,
+          "y": 0.702481981936191
+        },
+        {
+          "x": 0.6567557503016532,
+          "y": 1.404963963872382
+        },
+        {
+          "x": 0.46582382383326787,
+          "y": 2.107445945808573
+        },
+        {
+          "x": 0.4241523118565106,
+          "y": 2.729927927744764
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.24879208503766256,
+          "radius": 0.04785526192784904
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.9744826154325055,
+          "radius": 0.04785526192784904
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.9168813845340009,
+          "y": 2.5803090306140923,
+          "radius": 0.04785526192784904
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.346213239874585,
+          "radius": 0.04785526192784904
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.21863188007989498,
+          "y": 1.3595294974669276,
+          "radius": 0.04785526192784904
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.5750219850401314,
+          "radius": 0.04785526192784904
+        },
+        {
+          "id": "regularHole_7",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 2.5838393950524576,
+          "radius": 0.04785526192784904
+        },
+        {
+          "id": "regularHole_8",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 2.169215189765641,
+          "radius": 0.04785526192784904
+        },
+        {
+          "id": "regularHole_9",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.242176910722229,
+          "radius": 0.04785526192784904
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.6838692049709445,
+          "y": 0.6181841441038481
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.5829957975569815,
+          "y": 1.3768646845949344
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.5395214879108923,
+          "y": 2.135545225086021
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "recovery_chunk",
+        "suction_left",
+        "suction_right"
+      ]
+    },
+    {
+      "id": 19,
+      "seed": 3122416573,
+      "themeId": "egypt",
+      "difficulty": 0.09008386732124943,
+      "worldHeight": 2.8432264417673734,
+      "timeLimitSeconds": 92,
+      "scrollSpeedMultiplier": 1.0288268375427998,
+      "safeCorridorWidth": 0.3354958066339376,
+      "safePath": [
+        {
+          "x": 0.45139109326253124,
+          "y": 0.08
+        },
+        {
+          "x": 0.6424482303924659,
+          "y": 0.7108066104418433
+        },
+        {
+          "x": 0.49404967623869117,
+          "y": 1.4216132208836867
+        },
+        {
+          "x": 0.31336691956045715,
+          "y": 2.13241983132553
+        },
+        {
+          "x": 0.5921462875506012,
+          "y": 2.7632264417673733
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.7945590008862095,
+          "radius": 0.04799092254053374
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.7984249057392876,
+          "radius": 0.04799092254053374
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 0.2889652406406705,
+          "radius": 0.04799092254053374
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.7206632212881463,
+          "y": 2.1288737196371277,
+          "radius": 0.04799092254053374
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 2.422949953557269,
+          "radius": 0.04799092254053374
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.2480223708787503,
+          "radius": 0.04799092254053374
+        },
+        {
+          "id": "regularHole_7",
+          "type": "regularHole",
+          "x": 0.22188027264597354,
+          "y": 0.9935277454014315,
+          "radius": 0.04799092254053374
+        },
+        {
+          "id": "regularHole_8",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.5880417204152675,
+          "radius": 0.04799092254053374
+        },
+        {
+          "id": "regularHole_9",
+          "type": "regularHole",
+          "x": 0.16553430246681922,
+          "y": 0.5529624659022276,
+          "radius": 0.04799092254053374
+        },
+        {
+          "id": "regularHole_10",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.182294937371339,
+          "radius": 0.04799092254053374
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.6329130417414577,
+          "y": 0.6255098171888221
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.4209339168242313,
+          "y": 1.393180956466013
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.3888240163228871,
+          "y": 2.160852095743204
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "early_helper_lane",
+        "alternating_bomb_rhythm",
+        "dark_light_trail"
+      ]
+    },
+    {
+      "id": 20,
+      "seed": 3122424492,
+      "themeId": "egypt",
+      "difficulty": 0.10242875393964851,
+      "worldHeight": 2.876557635637051,
+      "timeLimitSeconds": 93,
+      "scrollSpeedMultiplier": 1.0327772012606875,
+      "safeCorridorWidth": 0.3348785623030176,
+      "safePath": [
+        {
+          "x": 0.3950476402611463,
+          "y": 0.08
+        },
+        {
+          "x": 0.5913404644813983,
+          "y": 0.7191394089092628
+        },
+        {
+          "x": 0.6650492403230129,
+          "y": 1.4382788178185255
+        },
+        {
+          "x": 0.45784325936313985,
+          "y": 2.1574182267277884
+        },
+        {
+          "x": 0.3134552508249005,
+          "y": 2.796557635637051
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.9123449683355814,
+          "radius": 0.04812671629333613
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.09578753242655608,
+          "y": 1.9512364337718127,
+          "radius": 0.04812671629333613
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.16814757633184163,
+          "y": 1.5999593815638595,
+          "radius": 0.04812671629333613
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.8312612128295915,
+          "radius": 0.04812671629333613
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.7777965331827865,
+          "y": 2.3682454611347628,
+          "radius": 0.04812671629333613
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.4605989717515104,
+          "radius": 0.04812671629333613
+        },
+        {
+          "id": "regularHole_7",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.41771118807948276,
+          "radius": 0.04812671629333613
+        },
+        {
+          "id": "regularHole_8",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.2528948376860016,
+          "radius": 0.04812671629333613
+        },
+        {
+          "id": "regularHole_9",
+          "type": "regularHole",
+          "x": 0.20084439100886858,
+          "y": 0.7888995421058911,
+          "radius": 0.04812671629333613
+        },
+        {
+          "id": "regularHole_10",
+          "type": "regularHole",
+          "x": 0.29825044590001965,
+          "y": 1.2518642788791017,
+          "radius": 0.04812671629333613
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.5815712842752279,
+          "y": 0.6328426798401512
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.591031589215617,
+          "y": 1.409513241462155
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.3833188825502533,
+          "y": 2.186183803084159
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "theme_finale_mix",
+        "triple_gate",
+        "narrow_center_route"
+      ]
+    },
+    {
+      "id": 21,
+      "seed": 3122432411,
+      "themeId": "egypt",
+      "difficulty": 0.023535231396694223,
+      "worldHeight": 2.6635451247710744,
+      "timeLimitSeconds": 88,
+      "scrollSpeedMultiplier": 1.0075312740469422,
+      "safeCorridorWidth": 0.3388232384301653,
+      "safePath": [
+        {
+          "x": 0.461576076648795,
+          "y": 0.08
+        },
+        {
+          "x": 0.5962227322795658,
+          "y": 0.6658862811927686
+        },
+        {
+          "x": 0.5364922173873228,
+          "y": 1.3317725623855372
+        },
+        {
+          "x": 0.35469341607233723,
+          "y": 1.9976588435783058
+        },
+        {
+          "x": 0.5697826091296967,
+          "y": 2.5835451247710743
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.357574146248658,
+          "radius": 0.047258887545363636
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.12364833642844486,
+          "y": 0.5578005926133839,
+          "radius": 0.047258887545363636
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 2.382476517900187,
+          "radius": 0.047258887545363636
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 0.38381769770877383,
+          "radius": 0.047258887545363636
+        },
+        {
+          "id": "movingHole_5",
+          "type": "movingHole",
+          "x": 0.92,
+          "y": 2.006076590620647,
+          "radius": 0.04321181708257024,
+          "movement": {
+            "axis": "horizontal",
+            "amplitude": 0.16574414935420595,
+            "periodSeconds": 2.4751248961877796,
+            "phase": 0.07941901224540004
+          }
+        },
+        {
+          "id": "suckingHole_6",
+          "type": "suckingHole",
+          "x": 0.08,
+          "y": 0.8089870389829965,
+          "radius": 0.04425888754536363,
+          "suctionRadius": 0.14188281851173556,
+          "strength": 0.45753127404694216
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.5893922217055505,
+          "y": 0.5859799274496363
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.6113123908075356,
+          "y": 1.3051371111378265
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.2814455080188797,
+          "y": 2.0242942948260167
+        },
+        {
+          "id": "heart_1",
+          "type": "heart",
+          "x": 0.5469693921476807,
+          "y": 1.154202887400799
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "recovery_chunk",
+        "recovery_chunk",
+        "recovery_chunk"
+      ]
+    },
+    {
+      "id": 22,
+      "seed": 3122440330,
+      "themeId": "egypt",
+      "difficulty": 0.0709028333318815,
+      "worldHeight": 2.7914376499960802,
+      "timeLimitSeconds": 91,
+      "scrollSpeedMultiplier": 1.0226889066662022,
+      "safeCorridorWidth": 0.33645485833340594,
+      "safePath": [
+        {
+          "x": 0.4448992982570191,
+          "y": 0.08
+        },
+        {
+          "x": 0.5756411167294657,
+          "y": 0.6978594124990201
+        },
+        {
+          "x": 0.630600544909569,
+          "y": 1.3957188249980401
+        },
+        {
+          "x": 0.46526262525434914,
+          "y": 2.09357823749706
+        },
+        {
+          "x": 0.253662653796408,
+          "y": 2.71143764999608
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.4687332837916396,
+          "radius": 0.0477799311666507
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.18600578707987026,
+          "y": 1.7405390052041299,
+          "radius": 0.0477799311666507
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.9988584902696134,
+          "radius": 0.0477799311666507
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.9484961815098283,
+          "radius": 0.0477799311666507
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.8407727391866838,
+          "y": 2.543969491967591,
+          "radius": 0.0477799311666507
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.11508399854232165,
+          "y": 0.9261298924460775,
+          "radius": 0.0477799311666507
+        },
+        {
+          "id": "regularHole_7",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 0.6858733281501257,
+          "radius": 0.0477799311666507
+        },
+        {
+          "id": "regularHole_8",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.256036589404356,
+          "radius": 0.0477799311666507
+        },
+        {
+          "id": "regularHole_9",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.61596577240332,
+          "radius": 0.0477799311666507
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.5690868342451524,
+          "y": 0.6141162829991377
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.7043638432944609,
+          "y": 1.3678044484980794
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.5380259940157486,
+          "y": 2.121492613997021
+        },
+        {
+          "id": "magnet_1",
+          "type": "magnet",
+          "x": 0.6209602540999034,
+          "y": 1.2096229816649682
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "double_hole_gate",
+        "right_slalom",
+        "moving_horizontal_sweep"
+      ]
+    },
+    {
+      "id": 23,
+      "seed": 3122448249,
+      "themeId": "egypt",
+      "difficulty": 0.08328113359923059,
+      "worldHeight": 2.8248590607179227,
+      "timeLimitSeconds": 92,
+      "scrollSpeedMultiplier": 1.0266499627517538,
+      "safeCorridorWidth": 0.3358359433200385,
+      "safePath": [
+        {
+          "x": 0.5180193131415992,
+          "y": 0.08
+        },
+        {
+          "x": 0.6623159458325445,
+          "y": 0.7062147651794807
+        },
+        {
+          "x": 0.5080457563293607,
+          "y": 1.4124295303589613
+        },
+        {
+          "x": 0.2897609430074933,
+          "y": 2.118644295538442
+        },
+        {
+          "x": 0.45026491759743525,
+          "y": 2.7448590607179226
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.3063976264844026,
+          "radius": 0.04791609246959154
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.470919804561391,
+          "radius": 0.04791609246959154
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.5589801017579881,
+          "radius": 0.04791609246959154
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 0.3368530637811254,
+          "radius": 0.04791609246959154
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.8766678109154434,
+          "radius": 0.04791609246959154
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.3097349445202426,
+          "y": 0.7800951397242054,
+          "radius": 0.04791609246959154
+        },
+        {
+          "id": "regularHole_7",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.045507119968506,
+          "radius": 0.04791609246959154
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.6551031565672472,
+          "y": 0.621468993357943
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.5826504141851281,
+          "y": 1.3841809397517821
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.21682740584797022,
+          "y": 2.146892886145621
+        }
+      ],
+      "bombWaves": [
+        {
+          "id": "bomb_1",
+          "x": 0.5400805668330333,
+          "y": 1.205273199239647,
+          "dropTimeSeconds": 8.0,
+          "warningDuration": 4.125046979760692,
+          "impactRadius": 0.08
+        }
+      ],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "star_risk_branch",
+        "finale_portal_approach",
+        "theme_finale_mix"
+      ]
+    },
+    {
+      "id": 24,
+      "seed": 3122456168,
+      "themeId": "egypt",
+      "difficulty": 0.0956697411176834,
+      "worldHeight": 2.858308301017745,
+      "timeLimitSeconds": 92,
+      "scrollSpeedMultiplier": 1.0306143171576587,
+      "safeCorridorWidth": 0.33521651294411586,
+      "safePath": [
+        {
+          "x": 0.4399206100671331,
+          "y": 0.08
+        },
+        {
+          "x": 0.648479057634958,
+          "y": 0.7145770752544363
+        },
+        {
+          "x": 0.5859382605279952,
+          "y": 1.4291541505088725
+        },
+        {
+          "x": 0.36031939444127964,
+          "y": 2.1437312257633088
+        },
+        {
+          "x": 0.3526123691913686,
+          "y": 2.778308301017745
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.6361527654146313,
+          "radius": 0.048052367152294516
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.21251468076544672,
+          "y": 1.0251887901429675,
+          "radius": 0.048052367152294516
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.4758728035930868,
+          "radius": 0.048052367152294516
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.18949252189513144,
+          "y": 0.7297890543081716,
+          "radius": 0.048052367152294516
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.3585773487652928,
+          "radius": 0.048052367152294516
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.196758444229934,
+          "y": 1.4536502000700946,
+          "radius": 0.048052367152294516
+        },
+        {
+          "id": "regularHole_7",
+          "type": "regularHole",
+          "x": 0.7768321484016041,
+          "y": 1.9638520696638186,
+          "radius": 0.048052367152294516
+        },
+        {
+          "id": "regularHole_8",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.0021950896500624,
+          "radius": 0.048052367152294516
+        },
+        {
+          "id": "regularHole_9",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.524986413349494,
+          "radius": 0.048052367152294516
+        },
+        {
+          "id": "bumper_10",
+          "type": "bumper",
+          "x": 0.92,
+          "y": 0.4177869466617133,
+          "radius": 0.0345740184467061,
+          "bumperForce": 331.480368934122
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.6380836496283466,
+          "y": 0.6288278262239039
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.6599780839797844,
+          "y": 1.400571067498695
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.2865262610693281,
+          "y": 2.1723143087734864
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "dark_light_trail",
+        "open_tutorial",
+        "offset_gate"
+      ]
+    },
+    {
+      "id": 25,
+      "seed": 3122464087,
+      "themeId": "egypt",
+      "difficulty": 0.10806829557759398,
+      "worldHeight": 2.891784398059504,
+      "timeLimitSeconds": 93,
+      "scrollSpeedMultiplier": 1.03458185458483,
+      "safeCorridorWidth": 0.33459658522112035,
+      "safePath": [
+        {
+          "x": 0.533680537768173,
+          "y": 0.08
+        },
+        {
+          "x": 0.7254259257217996,
+          "y": 0.722946099514876
+        },
+        {
+          "x": 0.4199138583822082,
+          "y": 1.445892199029752
+        },
+        {
+          "x": 0.36111749806873916,
+          "y": 2.168838298544628
+        },
+        {
+          "x": 0.474276677511446,
+          "y": 2.811784398059504
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.8767101980750182,
+          "radius": 0.04818875125135354
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.2281186702642165,
+          "y": 0.5009543021009565,
+          "radius": 0.04818875125135354
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.09878909147349052,
+          "y": 1.3271092371925328,
+          "radius": 0.04818875125135354
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.6067132720023019,
+          "radius": 0.04818875125135354
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.3382888619586866,
+          "radius": 0.04818875125135354
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.588850994257318,
+          "radius": 0.04818875125135354
+        },
+        {
+          "id": "regularHole_7",
+          "type": "regularHole",
+          "x": 0.7627289513255385,
+          "y": 1.8937911137190757,
+          "radius": 0.04818875125135354
+        },
+        {
+          "id": "regularHole_8",
+          "type": "regularHole",
+          "x": 0.8079092026087958,
+          "y": 2.5198494997932874,
+          "radius": 0.04818875125135354
+        },
+        {
+          "id": "regularHole_9",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 2.6217013597669685,
+          "radius": 0.04818875125135354
+        },
+        {
+          "id": "bumper_10",
+          "type": "bumper",
+          "x": 0.17621449896712926,
+          "y": 0.26452720557133524,
+          "radius": 0.03464840977346557,
+          "bumperForce": 332.9681954693113
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.7158950097754194,
+          "y": 0.6361925675730908
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.49495245950946526,
+          "y": 1.416974355049157
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.28817239973943154,
+          "y": 2.197756142525223
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "narrow_center_route",
+        "star_risk_branch",
+        "suction_right"
+      ]
+    },
+    {
+      "id": 26,
+      "seed": 3122472006,
+      "themeId": "egypt",
+      "difficulty": 0.029226463831018845,
+      "worldHeight": 2.678911452343751,
+      "timeLimitSeconds": 88,
+      "scrollSpeedMultiplier": 1.009352468425926,
+      "safeCorridorWidth": 0.33853867680844907,
+      "safePath": [
+        {
+          "x": 0.48892925871448717,
+          "y": 0.08
+        },
+        {
+          "x": 0.7075919865708882,
+          "y": 0.6697278630859378
+        },
+        {
+          "x": 0.5939489750738312,
+          "y": 1.3394557261718756
+        },
+        {
+          "x": 0.41535941192382003,
+          "y": 2.0091835892578134
+        },
+        {
+          "x": 0.35071757988542035,
+          "y": 2.598911452343751
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.44024707853325584,
+          "radius": 0.047321491102141205
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.8014087570869826,
+          "y": 1.8863685900919611,
+          "radius": 0.047321491102141205
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.2843958478613726,
+          "y": 0.46844973908001064,
+          "radius": 0.047321491102141205
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.3394465987187125,
+          "radius": 0.047321491102141205
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.2280160367561851,
+          "y": 1.4534261645388755,
+          "radius": 0.047321491102141205
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.085070026014572,
+          "radius": 0.047321491102141205
+        },
+        {
+          "id": "regularHole_7",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.871609035600637,
+          "radius": 0.047321491102141205
+        },
+        {
+          "id": "movingHole_8",
+          "type": "movingHole",
+          "x": 0.20762073833210704,
+          "y": 0.9073832776462396,
+          "radius": 0.043263038174479164,
+          "movement": {
+            "axis": "horizontal",
+            "amplitude": 0.12685666186802355,
+            "periodSeconds": 3.692396107608672,
+            "phase": 0.10635887178666881
+          }
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.6965159006804833,
+          "y": 0.5893605195156253
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.5200014063256866,
+          "y": 1.312666611648438
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.3404928484348124,
+          "y": 2.0359727037812507
+        },
+        {
+          "id": "magnet_1",
+          "type": "magnet",
+          "x": 0.6138828010905001,
+          "y": 1.1608616293489589
+        },
+        {
+          "id": "heart_1",
+          "type": "heart",
+          "x": 0.6138828010905001,
+          "y": 1.1608616293489589
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "recovery_chunk",
+        "recovery_chunk",
+        "recovery_chunk"
+      ]
+    },
+    {
+      "id": 27,
+      "seed": 3122479925,
+      "themeId": "egypt",
+      "difficulty": 0.07664393683373792,
+      "worldHeight": 2.8069386294510923,
+      "timeLimitSeconds": 91,
+      "scrollSpeedMultiplier": 1.0245260597867962,
+      "safeCorridorWidth": 0.3361678031583131,
+      "safePath": [
+        {
+          "x": 0.5522555899861842,
+          "y": 0.08
+        },
+        {
+          "x": 0.6372107405163111,
+          "y": 0.7017346573627731
+        },
+        {
+          "x": 0.4333631009215953,
+          "y": 1.4034693147255461
+        },
+        {
+          "x": 0.33692045025924494,
+          "y": 2.105203972088319
+        },
+        {
+          "x": 0.6281828649876915,
+          "y": 2.726938629451092
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.7550434679221856,
+          "radius": 0.04784308330517112
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.2463429298789186,
+          "radius": 0.04784308330517112
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.4225700571269977,
+          "radius": 0.04784308330517112
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.15233340726042788,
+          "y": 0.8175146988000171,
+          "radius": 0.04784308330517112
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.1591330852629912,
+          "y": 0.23078260556652566,
+          "radius": 0.04784308330517112
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 2.476383050160044,
+          "radius": 0.04784308330517112
+        },
+        {
+          "id": "regularHole_7",
+          "type": "regularHole",
+          "x": 0.7735370847824716,
+          "y": 2.0530509716166288,
+          "radius": 0.04784308330517112
+        },
+        {
+          "id": "regularHole_8",
+          "type": "regularHole",
+          "x": 0.872789912552667,
+          "y": 1.1984241302614236,
+          "radius": 0.04784308330517112
+        },
+        {
+          "id": "movingHole_9",
+          "type": "movingHole",
+          "x": 0.7834237179495502,
+          "y": 2.342334472553823,
+          "radius": 0.043689795431503635,
+          "movement": {
+            "axis": "horizontal",
+            "amplitude": 0.11467295398276747,
+            "periodSeconds": 3.7974139973882166,
+            "phase": 0.9672689149123931
+          }
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.6329575942071852,
+          "y": 0.6175264984792403
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.5082723937886107,
+          "y": 1.3753999284310352
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.26469091906160896,
+          "y": 2.13327335838283
+        },
+        {
+          "id": "magnet_1",
+          "type": "magnet",
+          "x": 0.46911948688902394,
+          "y": 1.21634007276214
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "suction_bumper_combo",
+        "right_slalom",
+        "moving_static_combo"
+      ]
+    },
+    {
+      "id": 28,
+      "seed": 3122487844,
+      "themeId": "egypt",
+      "difficulty": 0.08907042703657536,
+      "worldHeight": 2.8404901529987536,
+      "timeLimitSeconds": 92,
+      "scrollSpeedMultiplier": 1.0285025366517042,
+      "safeCorridorWidth": 0.3355464786481713,
+      "safePath": [
+        {
+          "x": 0.40796824761078887,
+          "y": 0.08
+        },
+        {
+          "x": 0.7043807662194073,
+          "y": 0.7101225382496884
+        },
+        {
+          "x": 0.6389350527656918,
+          "y": 1.4202450764993768
+        },
+        {
+          "x": 0.4808060341688058,
+          "y": 2.130367614749065
+        },
+        {
+          "x": 0.3393353812905062,
+          "y": 2.7604901529987536
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.9323924530644991,
+          "radius": 0.047979774697402326
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.7406401859898606,
+          "radius": 0.047979774697402326
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.8034429143345917,
+          "radius": 0.047979774697402326
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.488773777512054,
+          "radius": 0.047979774697402326
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.3236953214502415,
+          "radius": 0.047979774697402326
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.7313666810213431,
+          "y": 2.568099575828162,
+          "radius": 0.047979774697402326
+        },
+        {
+          "id": "regularHole_7",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.2476228149314201,
+          "radius": 0.047979774697402326
+        },
+        {
+          "id": "regularHole_8",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 2.184984874334109,
+          "radius": 0.047979774697402326
+        },
+        {
+          "id": "suckingHole_9",
+          "type": "suckingHole",
+          "x": 0.22102735715797012,
+          "y": 1.5006049701660324,
+          "radius": 0.044979774697402324,
+          "suctionRadius": 0.14712563416292604,
+          "strength": 0.4785025366517041
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.6895841152489478,
+          "y": 0.6249078336597258
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.7130610404415453,
+          "y": 1.3918401749693892
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.40614929624031665,
+          "y": 2.1587725162790528
+        },
+        {
+          "id": "heart_1",
+          "type": "heart",
+          "x": 0.6504147156885361,
+          "y": 1.23087906629946
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "narrow_center_route",
+        "moving_vertical_timing",
+        "side_pockets"
+      ]
+    },
+    {
+      "id": 29,
+      "seed": 3122495763,
+      "themeId": "egypt",
+      "difficulty": 0.10150566614571689,
+      "worldHeight": 2.8740652985934356,
+      "timeLimitSeconds": 93,
+      "scrollSpeedMultiplier": 1.0324818131666293,
+      "safeCorridorWidth": 0.3349247166927142,
+      "safePath": [
+        {
+          "x": 0.5053469072821327,
+          "y": 0.08
+        },
+        {
+          "x": 0.6092211885799392,
+          "y": 0.7185163246483589
+        },
+        {
+          "x": 0.556282457856526,
+          "y": 1.4370326492967178
+        },
+        {
+          "x": 0.4105953496888405,
+          "y": 2.1555489739450766
+        },
+        {
+          "x": 0.4671188277528021,
+          "y": 2.7940652985934356
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.7749883629004135,
+          "y": 2.211165376511567,
+          "radius": 0.048116562327602884
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.11773546942037105,
+          "y": 1.863204700110509,
+          "radius": 0.048116562327602884
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.6412804461424749,
+          "radius": 0.048116562327602884
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 2.337219442541094,
+          "radius": 0.048116562327602884
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.399156819578288,
+          "radius": 0.048116562327602884
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.077409040697637,
+          "radius": 0.048116562327602884
+        },
+        {
+          "id": "regularHole_7",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.2842733565352529,
+          "radius": 0.048116562327602884
+        },
+        {
+          "id": "regularHole_8",
+          "type": "regularHole",
+          "x": 0.1365851768128496,
+          "y": 0.36239491910081567,
+          "radius": 0.048116562327602884
+        },
+        {
+          "id": "regularHole_9",
+          "type": "regularHole",
+          "x": 0.8854232933081376,
+          "y": 2.427612364210304,
+          "radius": 0.048116562327602884
+        },
+        {
+          "id": "bumper_10",
+          "type": "bumper",
+          "x": 0.08,
+          "y": 0.9646850508025074,
+          "radius": 0.0346090339968743,
+          "bumperForce": 332.18067993748605
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.6040504646539319,
+          "y": 0.6322943656905559
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.48284634993406866,
+          "y": 1.4082919963107834
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.33724516009223804,
+          "y": 2.1842896269310113
+        },
+        {
+          "id": "heart_1",
+          "type": "heart",
+          "x": 0.5655683033641588,
+          "y": 1.2454282960571554
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "right_slalom",
+        "wide_zigzag",
+        "suction_bumper_combo"
+      ]
+    },
+    {
+      "id": 30,
+      "seed": 3122503682,
+      "themeId": "egypt",
+      "difficulty": 0.18394940318844566,
+      "worldHeight": 3.5466633886088035,
+      "timeLimitSeconds": 106,
+      "scrollSpeedMultiplier": 1.0588638090203026,
+      "safeCorridorWidth": 0.33080252984057773,
+      "safePath": [
+        {
+          "x": 0.5084250383309323,
+          "y": 0.08
+        },
+        {
+          "x": 0.6743988850714543,
+          "y": 0.7093326777217608
+        },
+        {
+          "x": 0.6444879688514251,
+          "y": 1.4186653554435216
+        },
+        {
+          "x": 0.5343311969835617,
+          "y": 2.127998033165282
+        },
+        {
+          "x": 0.28215563667516935,
+          "y": 2.837330710887043
+        },
+        {
+          "x": 0.35443199324542,
+          "y": 3.4666633886088034
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.0991655974272333,
+          "y": 1.5630719571713165,
+          "radius": 0.0490234434350729
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.7438272357283903,
+          "y": 2.923302654183002,
+          "radius": 0.0490234434350729
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.7212652959664604,
+          "y": 3.2305530976841164,
+          "radius": 0.0490234434350729
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.207600868052783,
+          "radius": 0.0490234434350729
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 2.4488062313210945,
+          "radius": 0.0490234434350729
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.21168877743746134,
+          "y": 1.2755564921802116,
+          "radius": 0.0490234434350729
+        },
+        {
+          "id": "regularHole_7",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.9083071951247504,
+          "radius": 0.0490234434350729
+        },
+        {
+          "id": "regularHole_8",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.2699728588335797,
+          "radius": 0.0490234434350729
+        },
+        {
+          "id": "regularHole_9",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.5880830739042239,
+          "radius": 0.0490234434350729
+        },
+        {
+          "id": "regularHole_10",
+          "type": "regularHole",
+          "x": 0.3192540394212355,
+          "y": 1.0092730810911739,
+          "radius": 0.0490234434350729
+        },
+        {
+          "id": "regularHole_11",
+          "type": "regularHole",
+          "x": 0.2017230769298155,
+          "y": 0.7219377902666949,
+          "radius": 0.0490234434350729
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.6735613794172934,
+          "y": 0.7802659454939368
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.5248672450496891,
+          "y": 1.7378650604183137
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.3811584515121692,
+          "y": 2.695464175342691
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [
+        {
+          "id": "teleport_1",
+          "pairId": 0,
+          "entry": {
+            "x": 0.663870242562004,
+            "y": 0.993065748810465
+          },
+          "exit": {
+            "x": 0.5894095829174935,
+            "y": 1.7733316943044017
+          },
+          "radius": 0.05
+        },
+        {
+          "id": "teleport_2",
+          "pairId": 1,
+          "entry": {
+            "x": 0.6206941061279666,
+            "y": 1.6314651587600497
+          },
+          "exit": {
+            "x": 0.44556539975500753,
+            "y": 2.4117311042539864
+          },
+          "radius": 0.05
+        }
+      ],
+      "validationAttempts": 1,
+      "patternIds": [
+        "early_helper_lane",
+        "side_pockets",
+        "theme_finale_mix",
+        "side_pockets"
+      ]
+    },
+    {
+      "id": 31,
+      "seed": 3122511601,
+      "themeId": "egypt",
+      "difficulty": 0.03515140283349827,
+      "worldHeight": 2.6949087876504456,
+      "timeLimitSeconds": 88,
+      "scrollSpeedMultiplier": 1.0112484489067195,
+      "safeCorridorWidth": 0.3382424298583251,
+      "safePath": [
+        {
+          "x": 0.4275444997170518,
+          "y": 0.08
+        },
+        {
+          "x": 0.5828868456962041,
+          "y": 0.6737271969126114
+        },
+        {
+          "x": 0.49483699895988514,
+          "y": 1.3474543938252228
+        },
+        {
+          "x": 0.2842862240729191,
+          "y": 2.021181590737834
+        },
+        {
+          "x": 0.643201242025534,
+          "y": 2.6149087876504455
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.8057817895335,
+          "y": 2.1299757594580084,
+          "radius": 0.047386665431168484
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.8841786014775193,
+          "y": 1.8028645938619376,
+          "radius": 0.047386665431168484
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.9609934369829931,
+          "radius": 0.047386665431168484
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.7575932032617932,
+          "y": 1.8956335433096836,
+          "radius": 0.047386665431168484
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.8578601715894082,
+          "y": 1.5584708546760964,
+          "radius": 0.047386665431168484
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.5582801125621513,
+          "radius": 0.047386665431168484
+        },
+        {
+          "id": "regularHole_7",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.3378912197914163,
+          "radius": 0.047386665431168484
+        },
+        {
+          "id": "regularHole_8",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.2905365410255891,
+          "radius": 0.047386665431168484
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.5750302000850823,
+          "y": 0.5928799332830981
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.42083503327500565,
+          "y": 1.3205053059487184
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.36085076734106375,
+          "y": 2.0481306786143385
+        },
+        {
+          "id": "heart_1",
+          "type": "heart",
+          "x": 0.5102815942985224,
+          "y": 1.1677938079818597
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "recovery_chunk",
+        "recovery_chunk",
+        "recovery_chunk"
+      ]
+    },
+    {
+      "id": 32,
+      "seed": 3122519520,
+      "themeId": "egypt",
+      "difficulty": 0.08261144392511237,
+      "worldHeight": 2.8230508985978036,
+      "timeLimitSeconds": 91,
+      "scrollSpeedMultiplier": 1.026435662056036,
+      "safeCorridorWidth": 0.3358694278037444,
+      "safePath": [
+        {
+          "x": 0.4997403824665658,
+          "y": 0.08
+        },
+        {
+          "x": 0.7214083840694471,
+          "y": 0.7057627246494509
+        },
+        {
+          "x": 0.5504443390437695,
+          "y": 1.4115254492989018
+        },
+        {
+          "x": 0.40925541590145914,
+          "y": 2.117288173948353
+        },
+        {
+          "x": 0.4039465176772942,
+          "y": 2.7430508985978035
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.09169208109231763,
+          "y": 1.7056349117790466,
+          "radius": 0.04790872588317623
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.5962479289089988,
+          "radius": 0.04790872588317623
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.2608376838674459,
+          "radius": 0.04790872588317623
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.4364399275505053,
+          "radius": 0.04790872588317623
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.8866765981828738,
+          "y": 1.9791584608452577,
+          "radius": 0.04790872588317623
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.8662998914873814,
+          "radius": 0.04790872588317623
+        },
+        {
+          "id": "regularHole_7",
+          "type": "regularHole",
+          "x": 0.23561171701526457,
+          "y": 0.5861687712514008,
+          "radius": 0.04790872588317623
+        },
+        {
+          "id": "regularHole_8",
+          "type": "regularHole",
+          "x": 0.3538613846597066,
+          "y": 0.8565762231561644,
+          "radius": 0.04790872588317623
+        },
+        {
+          "id": "regularHole_9",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.3195698016349007,
+          "radius": 0.04790872588317623
+        },
+        {
+          "id": "regularHole_10",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.399070687961607,
+          "radius": 0.04790872588317623
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.7103263978962685,
+          "y": 0.6210711976915168
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.6251343571789533,
+          "y": 1.3832949403129238
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.33533270186193836,
+          "y": 2.145518682934331
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "suction_right",
+        "late_star_branch",
+        "moving_vertical_timing"
+      ]
+    },
+    {
+      "id": 33,
+      "seed": 3122527439,
+      "themeId": "egypt",
+      "difficulty": 0.09507931819753121,
+      "worldHeight": 2.8567141591333343,
+      "timeLimitSeconds": 92,
+      "scrollSpeedMultiplier": 1.03042538182321,
+      "safeCorridorWidth": 0.3352460340901235,
+      "safePath": [
+        {
+          "x": 0.45770370343889144,
+          "y": 0.08
+        },
+        {
+          "x": 0.7053512358493984,
+          "y": 0.7141785397833336
+        },
+        {
+          "x": 0.5458233510588892,
+          "y": 1.4283570795666671
+        },
+        {
+          "x": 0.31650305669155365,
+          "y": 2.1425356193500007
+        },
+        {
+          "x": 0.572617176055884,
+          "y": 2.776714159133334
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.6753004393942974,
+          "radius": 0.048045872500172844
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.264662804574002,
+          "y": 1.0003045831310076,
+          "radius": 0.048045872500172844
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.6859697039227597,
+          "radius": 0.048045872500172844
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.6835833594814807,
+          "y": 2.122465451924541,
+          "radius": 0.048045872500172844
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.1675186293473191,
+          "y": 1.3231372246589361,
+          "radius": 0.048045872500172844
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.26157275642243366,
+          "y": 0.4478143672166317,
+          "radius": 0.048045872500172844
+        },
+        {
+          "id": "regularHole_7",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.620020526610772,
+          "radius": 0.048045872500172844
+        },
+        {
+          "id": "regularHole_8",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.2821480157761836,
+          "radius": 0.048045872500172844
+        },
+        {
+          "id": "regularHole_9",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.000717181230181,
+          "radius": 0.048045872500172844
+        },
+        {
+          "id": "bumper_10",
+          "type": "bumper",
+          "x": 0.08940188469789212,
+          "y": 2.62383201646565,
+          "radius": 0.03457047590918519,
+          "bumperForce": 331.40951818370377
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.6930058166435588,
+          "y": 0.6284771150093336
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.6203227928364576,
+          "y": 1.3997899379753338
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.3917694331768429,
+          "y": 2.1711027609413343
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "mirror_gate",
+        "slow_sweep_pair",
+        "fast_single_sweep"
+      ]
+    },
+    {
+      "id": 34,
+      "seed": 3122535358,
+      "themeId": "egypt",
+      "difficulty": 0.10755482914278042,
+      "worldHeight": 2.890398038685507,
+      "timeLimitSeconds": 93,
+      "scrollSpeedMultiplier": 1.0344175453256896,
+      "safeCorridorWidth": 0.334622258542861,
+      "safePath": [
+        {
+          "x": 0.48952640748036974,
+          "y": 0.08
+        },
+        {
+          "x": 0.6048133330075659,
+          "y": 0.7225995096713768
+        },
+        {
+          "x": 0.6993550816773753,
+          "y": 1.4451990193427535
+        },
+        {
+          "x": 0.4319657245432552,
+          "y": 2.16779852901413
+        },
+        {
+          "x": 0.3420853427737305,
+          "y": 2.810398038685507
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.26072495142101093,
+          "y": 1.7121236092883718,
+          "radius": 0.048183103120570586
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 2.0216503813442066,
+          "radius": 0.048183103120570586
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 0.3739930254037198,
+          "radius": 0.048183103120570586
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.14085664653524654,
+          "y": 0.7570518664737491,
+          "radius": 0.048183103120570586
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.7778263768234399,
+          "y": 2.1808635225430684,
+          "radius": 0.048183103120570586
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.2340286893976113,
+          "radius": 0.048183103120570586
+        },
+        {
+          "id": "regularHole_7",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.31870971531918085,
+          "radius": 0.048183103120570586
+        },
+        {
+          "id": "regularHole_8",
+          "type": "regularHole",
+          "x": 0.2603923722745564,
+          "y": 0.8229356493736978,
+          "radius": 0.048183103120570586
+        },
+        {
+          "id": "movingHole_9",
+          "type": "movingHole",
+          "x": 0.3053873509437892,
+          "y": 1.1040269218443974,
+          "radius": 0.04396799346228502,
+          "movement": {
+            "axis": "horizontal",
+            "amplitude": 0.11151304558110547,
+            "periodSeconds": 3.2500327434319,
+            "phase": 0.821550912768769
+          }
+        },
+        {
+          "id": "bumper_10",
+          "type": "bumper",
+          "x": 0.92,
+          "y": 2.6338871023060078,
+          "radius": 0.034645328974856685,
+          "bumperForce": 332.90657949713363
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.5990822190012186,
+          "y": 0.6358875685108115
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.7725302795070194,
+          "y": 1.4162950389558984
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.5050534474653786,
+          "y": 2.1967025094009855
+        },
+        {
+          "id": "magnet_1",
+          "type": "magnet",
+          "x": 0.6827717586514414,
+          "y": 1.2525058167637197
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "moving_vertical_timing",
+        "dark_hazard_gate",
+        "suction_bumper_combo"
+      ]
+    },
+    {
+      "id": 35,
+      "seed": 3122543277,
+      "themeId": "egypt",
+      "difficulty": 0.1200377910093313,
+      "worldHeight": 2.924102035725195,
+      "timeLimitSeconds": 94,
+      "scrollSpeedMultiplier": 1.038412093122986,
+      "safeCorridorWidth": 0.3339981104495335,
+      "safePath": [
+        {
+          "x": 0.4530010482713158,
+          "y": 0.08
+        },
+        {
+          "x": 0.6083565531769994,
+          "y": 0.7310255089312987
+        },
+        {
+          "x": 0.411660690253153,
+          "y": 1.4620510178625974
+        },
+        {
+          "x": 0.2649186924653341,
+          "y": 2.193076526793896
+        },
+        {
+          "x": 0.4604438184116632,
+          "y": 2.8441020357251947
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.9323034325323116,
+          "radius": 0.04832041570110265
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.8591127109087208,
+          "radius": 0.04832041570110265
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.7517212884986548,
+          "y": 1.80539163348359,
+          "radius": 0.04832041570110265
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.1954003844470542,
+          "y": 0.6915407890275515,
+          "radius": 0.04832041570110265
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.8785592816321153,
+          "y": 1.0374436229303912,
+          "radius": 0.04832041570110265
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.710475999371581,
+          "y": 2.4572295028938456,
+          "radius": 0.04832041570110265
+        },
+        {
+          "id": "regularHole_7",
+          "type": "regularHole",
+          "x": 0.1108384819334472,
+          "y": 1.232820160142754,
+          "radius": 0.04832041570110265
+        },
+        {
+          "id": "regularHole_8",
+          "type": "regularHole",
+          "x": 0.15356425906923948,
+          "y": 0.43221013776759404,
+          "radius": 0.04832041570110265
+        },
+        {
+          "id": "regularHole_9",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.5365164675026617,
+          "radius": 0.04832041570110265
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.6006545861480612,
+          "y": 0.6433024478595428
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.3391000690258359,
+          "y": 1.4328099975053454
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.33954619213823545,
+          "y": 2.2223175471511483
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [
+        {
+          "id": "teleport_1",
+          "pairId": 0,
+          "entry": {
+            "x": 0.6005390728009541,
+            "y": 0.8187485700030546
+          },
+          "exit": {
+            "x": 0.411660690253153,
+            "y": 1.4620510178625974
+          },
+          "radius": 0.05
+        }
+      ],
+      "validationAttempts": 1,
+      "patternIds": [
+        "staggered_bumpers",
+        "suction_bumper_combo",
+        "suction_right"
+      ]
+    },
+    {
+      "id": 36,
+      "seed": 3122551196,
+      "themeId": "egypt",
+      "difficulty": 0.04127802791310019,
+      "worldHeight": 2.7114506753653704,
+      "timeLimitSeconds": 89,
+      "scrollSpeedMultiplier": 1.0132089689321921,
+      "safeCorridorWidth": 0.33793609860434504,
+      "safePath": [
+        {
+          "x": 0.5992876646587313,
+          "y": 0.08
+        },
+        {
+          "x": 0.6341100319086023,
+          "y": 0.6778626688413426
+        },
+        {
+          "x": 0.4991539176536605,
+          "y": 1.3557253376826852
+        },
+        {
+          "x": 0.41253385225101735,
+          "y": 2.033588006524028
+        },
+        {
+          "x": 0.25104091039500237,
+          "y": 2.6314506753653704
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.13657503736759324,
+          "y": 0.7129576142211049,
+          "radius": 0.0474540583070441
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.088008060747371,
+          "radius": 0.0474540583070441
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.7077940370917792,
+          "radius": 0.0474540583070441
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.0810632671701366,
+          "radius": 0.0474540583070441
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.7847569747713443,
+          "y": 2.066211662100447,
+          "radius": 0.0474540583070441
+        },
+        {
+          "id": "movingHole_6",
+          "type": "movingHole",
+          "x": 0.08,
+          "y": 0.26115783536988835,
+          "radius": 0.0433715022512179,
+          "movement": {
+            "axis": "horizontal",
+            "amplitude": 0.11299237415074018,
+            "periodSeconds": 3.586809270650178,
+            "phase": 0.7736268227138832
+          }
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.6323515921348302,
+          "y": 0.5965191485803815
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.42543849092650365,
+          "y": 1.3286108309290314
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.3372215440264589,
+          "y": 2.0607025132776817
+        },
+        {
+          "id": "heart_1",
+          "type": "heart",
+          "x": 0.5228262197688978,
+          "y": 1.1749619593249938
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [
+        {
+          "id": "teleport_1",
+          "pairId": 0,
+          "entry": {
+            "x": 0.6287463361036538,
+            "y": 0.7592061891023038
+          },
+          "exit": {
+            "x": 0.4991539176536605,
+            "y": 1.3557253376826852
+          },
+          "radius": 0.05
+        }
+      ],
+      "validationAttempts": 1,
+      "patternIds": [
+        "recovery_chunk",
+        "recovery_chunk",
+        "recovery_chunk"
+      ]
+    },
+    {
+      "id": 37,
+      "seed": 3122559115,
+      "themeId": "egypt",
+      "difficulty": 0.08877537304531807,
+      "worldHeight": 2.839693507222359,
+      "timeLimitSeconds": 92,
+      "scrollSpeedMultiplier": 1.0284081193745018,
+      "safeCorridorWidth": 0.33556123134773413,
+      "safePath": [
+        {
+          "x": 0.453366380885106,
+          "y": 0.08
+        },
+        {
+          "x": 0.6763878220735338,
+          "y": 0.7099233768055897
+        },
+        {
+          "x": 0.5689558329241143,
+          "y": 1.4198467536111794
+        },
+        {
+          "x": 0.3156064935620185,
+          "y": 2.129770130416769
+        },
+        {
+          "x": 0.6115609616795555,
+          "y": 2.7596935072223587
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.18946429034871204,
+          "y": 0.9859404983517556,
+          "radius": 0.0479765291034985
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.8320194916509744,
+          "radius": 0.0479765291034985
+        },
+        {
+          "id": "movingHole_3",
+          "type": "movingHole",
+          "x": 0.92,
+          "y": 2.557943428965844,
+          "radius": 0.04379897835740786,
+          "movement": {
+            "axis": "horizontal",
+            "amplitude": 0.15557274922984593,
+            "periodSeconds": 2.8757961838554933,
+            "phase": 0.7547627595228705
+          }
+        },
+        {
+          "id": "suckingHole_4",
+          "type": "suckingHole",
+          "x": 0.08,
+          "y": 0.8438992063106366,
+          "radius": 0.044976529103498496,
+          "suctionRadius": 0.14710202984362547,
+          "strength": 0.4784081193745018
+        },
+        {
+          "id": "bumper_5",
+          "type": "bumper",
+          "x": 0.7106358507061765,
+          "y": 2.028288892242183,
+          "radius": 0.03453265223827191,
+          "bumperForce": 330.65304476543815
+        },
+        {
+          "id": "bumper_6",
+          "type": "bumper",
+          "x": 0.92,
+          "y": 2.266360679129004,
+          "radius": 0.03453265223827191,
+          "bumperForce": 330.65304476543815
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.6652540350282719,
+          "y": 0.6247325715889189
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.4956342842809188,
+          "y": 1.3914498185389559
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.39118005896488417,
+          "y": 2.1581670654889926
+        },
+        {
+          "id": "magnet_1",
+          "type": "magnet",
+          "x": 0.5878001996134348,
+          "y": 1.2305338531296888
+        },
+        {
+          "id": "heart_1",
+          "type": "heart",
+          "x": 0.5878001996134348,
+          "y": 1.2305338531296888
+        }
+      ],
+      "bombWaves": [
+        {
+          "id": "bomb_1",
+          "x": 0.5912645072410228,
+          "y": 1.2116025630815397,
+          "dropTimeSeconds": 8.0,
+          "warningDuration": 4.1201021642592135,
+          "impactRadius": 0.08
+        }
+      ],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "triple_gate",
+        "suction_left",
+        "left_slalom"
+      ]
+    },
+    {
+      "id": 38,
+      "seed": 3122567034,
+      "themeId": "egypt",
+      "difficulty": 0.10127966796430782,
+      "worldHeight": 2.8734551035036313,
+      "timeLimitSeconds": 93,
+      "scrollSpeedMultiplier": 1.0324094937485786,
+      "safeCorridorWidth": 0.3349360166017846,
+      "safePath": [
+        {
+          "x": 0.4372319100416384,
+          "y": 0.08
+        },
+        {
+          "x": 0.75,
+          "y": 0.7183637758759078
+        },
+        {
+          "x": 0.5559274864358744,
+          "y": 1.4367275517518157
+        },
+        {
+          "x": 0.30027503139784373,
+          "y": 2.1550913276277237
+        },
+        {
+          "x": 0.37889707299080877,
+          "y": 2.7934551035036312
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.3844750719671444,
+          "radius": 0.048114076347607386
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.11435734807904957,
+          "y": 1.2825128442722566,
+          "radius": 0.048114076347607386
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.7166355994302827,
+          "y": 2.207573503722123,
+          "radius": 0.048114076347607386
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.27318761306577655,
+          "y": 0.7761443841969357,
+          "radius": 0.048114076347607386
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.324014031147372,
+          "radius": 0.048114076347607386
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.2462589425175277,
+          "radius": 0.048114076347607386
+        },
+        {
+          "id": "regularHole_7",
+          "type": "regularHole",
+          "x": 0.6923739425169977,
+          "y": 2.5155457467264513,
+          "radius": 0.048114076347607386
+        },
+        {
+          "id": "regularHole_8",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.8860786782374459,
+          "radius": 0.048114076347607386
+        },
+        {
+          "id": "regularHole_9",
+          "type": "regularHole",
+          "x": 0.12269966564428758,
+          "y": 1.536233894310299,
+          "radius": 0.048114076347607386
+        },
+        {
+          "id": "regularHole_10",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.6304927460401197,
+          "radius": 0.048114076347607386
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.7344300318699972,
+          "y": 0.6321601227707989
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.6305201168716386,
+          "y": 1.4079930007167794
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.3744245149311762,
+          "y": 2.18382587866276
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "side_pockets",
+        "wide_zigzag",
+        "bumper_triangle"
+      ]
+    },
+    {
+      "id": 39,
+      "seed": 3122574953,
+      "themeId": "egypt",
+      "difficulty": 0.11379076196024468,
+      "worldHeight": 2.907235057292661,
+      "timeLimitSeconds": 93,
+      "scrollSpeedMultiplier": 1.0364130438272783,
+      "safeCorridorWidth": 0.33431046190198777,
+      "safePath": [
+        {
+          "x": 0.4885490130741368,
+          "y": 0.08
+        },
+        {
+          "x": 0.75,
+          "y": 0.7268087643231652
+        },
+        {
+          "x": 0.557978861975628,
+          "y": 1.4536175286463304
+        },
+        {
+          "x": 0.28382048545745964,
+          "y": 2.1804262929694955
+        },
+        {
+          "x": 0.5106150243466288,
+          "y": 2.827235057292661
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.4005881152237243,
+          "radius": 0.048251698381562694
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.6733635551038399,
+          "radius": 0.048251698381562694
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.1335765505025472,
+          "y": 1.683010881790364,
+          "radius": 0.048251698381562694
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.7754183098394793,
+          "y": 1.8194396416147436,
+          "radius": 0.048251698381562694
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.7337478269525346,
+          "y": 2.058592519048428,
+          "radius": 0.048251698381562694
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.853045557727141,
+          "radius": 0.048251698381562694
+        },
+        {
+          "id": "regularHole_7",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 0.25347643697334576,
+          "radius": 0.048251698381562694
+        },
+        {
+          "id": "regularHole_8",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.2976587030954632,
+          "radius": 0.048251698381562694
+        },
+        {
+          "id": "regularHole_9",
+          "type": "regularHole",
+          "x": 0.9112976481341694,
+          "y": 1.411140700045389,
+          "radius": 0.048251698381562694
+        },
+        {
+          "id": "movingHole_10",
+          "type": "movingHole",
+          "x": 0.7003020752457083,
+          "y": 2.4290299757223686,
+          "radius": 0.044024116857642195,
+          "movement": {
+            "axis": "horizontal",
+            "amplitude": 0.13543759824730373,
+            "periodSeconds": 4.176334174912997,
+            "phase": 0.9687523329787858
+          }
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.7370206130696797,
+          "y": 0.6395917126043854
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.4853276831140405,
+          "y": 1.4245451780734038
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.3587021543561263,
+          "y": 2.2094986435424224
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "early_helper_lane",
+        "teleport_recovery_lane",
+        "early_helper_lane"
+      ]
+    },
+    {
+      "id": 40,
+      "seed": 3122582872,
+      "themeId": "egypt",
+      "difficulty": 0.12630851148364935,
+      "worldHeight": 2.9410329810058533,
+      "timeLimitSeconds": 94,
+      "scrollSpeedMultiplier": 1.0404187236747677,
+      "safeCorridorWidth": 0.33368457442581756,
+      "safePath": [
+        {
+          "x": 0.41317740435382455,
+          "y": 0.08
+        },
+        {
+          "x": 0.75,
+          "y": 0.7352582452514633
+        },
+        {
+          "x": 0.6713468405096351,
+          "y": 1.4705164905029267
+        },
+        {
+          "x": 0.4805942270618553,
+          "y": 2.2057747357543898
+        },
+        {
+          "x": 0.2716752153129115,
+          "y": 2.8610329810058532
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.11234186498707277,
+          "y": 1.8303493320741075,
+          "radius": 0.048389393626320144
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.0247299482207137,
+          "radius": 0.048389393626320144
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.9372721723660956,
+          "radius": 0.048389393626320144
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.418245956707493,
+          "radius": 0.048389393626320144
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 2.417567597862821,
+          "radius": 0.048389393626320144
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.702741303622737,
+          "radius": 0.048389393626320144
+        },
+        {
+          "id": "regularHole_7",
+          "type": "regularHole",
+          "x": 0.25042364189412325,
+          "y": 1.1646667189662874,
+          "radius": 0.048389393626320144
+        },
+        {
+          "id": "regularHole_8",
+          "type": "regularHole",
+          "x": 0.1834150320109239,
+          "y": 0.6620565676138942,
+          "radius": 0.048389393626320144
+        },
+        {
+          "id": "regularHole_9",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.2924423346292575,
+          "radius": 0.048389393626320144
+        },
+        {
+          "id": "regularHole_10",
+          "type": "regularHole",
+          "x": 0.16918944960126364,
+          "y": 0.34711204532003714,
+          "radius": 0.048389393626320144
+        },
+        {
+          "id": "bumper_11",
+          "type": "bumper",
+          "x": 0.8945379707611169,
+          "y": 0.2922243290471226,
+          "radius": 0.0347578510689019,
+          "bumperForce": 335.15702137803794
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.7333239844242128,
+          "y": 0.6470272558212877
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.5983037016970942,
+          "y": 1.4411061606928681
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.5527799902134807,
+          "y": 2.2351850655644485
+        },
+        {
+          "id": "heart_1",
+          "type": "heart",
+          "x": 0.6851431873002414,
+          "y": 1.2744476251025365
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "suction_bumper_combo",
+        "fast_single_sweep",
+        "finale_portal_approach"
+      ]
+    },
+    {
+      "id": 41,
+      "seed": 3122590791,
+      "themeId": "egypt",
+      "difficulty": 0.047582779629744096,
+      "worldHeight": 2.7284735050003093,
+      "timeLimitSeconds": 89,
+      "scrollSpeedMultiplier": 1.0152264894815182,
+      "safeCorridorWidth": 0.3376208610185128,
+      "safePath": [
+        {
+          "x": 0.4002141664698776,
+          "y": 0.08
+        },
+        {
+          "x": 0.6853746556965841,
+          "y": 0.6821183762500773
+        },
+        {
+          "x": 0.44487107678131493,
+          "y": 1.3642367525001546
+        },
+        {
+          "x": 0.3255953879354042,
+          "y": 2.046355128750232
+        },
+        {
+          "x": 0.5856642075614337,
+          "y": 2.648473505000309
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.8658927151006641,
+          "y": 1.6755628019204227,
+          "radius": 0.04752341057592718
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.1658679903559116,
+          "y": 0.559325361780982,
+          "radius": 0.04752341057592718
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.8302034233917162,
+          "y": 1.3066792063413346,
+          "radius": 0.04752341057592718
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.17831187369495682,
+          "y": 0.9827315376746057,
+          "radius": 0.04752341057592718
+        },
+        {
+          "id": "movingHole_5",
+          "type": "movingHole",
+          "x": 0.8817629677331718,
+          "y": 2.3851214931580436,
+          "radius": 0.04342824501666769,
+          "movement": {
+            "axis": "horizontal",
+            "amplitude": 0.13635097612264363,
+            "periodSeconds": 2.719031128061343,
+            "phase": 0.345624591290251
+          }
+        },
+        {
+          "id": "suckingHole_6",
+          "type": "suckingHole",
+          "x": 0.12864783274539116,
+          "y": 2.508192841517382,
+          "radius": 0.04452341057592718,
+          "suctionRadius": 0.14380662237037953,
+          "strength": 0.4652264894815181
+        },
+        {
+          "id": "bumper_7",
+          "type": "bumper",
+          "x": 0.08,
+          "y": 1.1776114109335838,
+          "radius": 0.034285496677778464,
+          "bumperForce": 325.7099335555693
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.6709976029057267,
+          "y": 0.600264171100068
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.3717181200779342,
+          "y": 1.3369520174501515
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.252872483928771,
+          "y": 2.073639863800235
+        },
+        {
+          "id": "heart_1",
+          "type": "heart",
+          "x": 0.4870571860310451,
+          "y": 1.1823385188334674
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "recovery_chunk",
+        "recovery_chunk",
+        "recovery_chunk"
+      ]
+    },
+    {
+      "id": 42,
+      "seed": 3122598710,
+      "themeId": "egypt",
+      "difficulty": 0.09511343567194579,
+      "worldHeight": 2.856806276314254,
+      "timeLimitSeconds": 92,
+      "scrollSpeedMultiplier": 1.0304362994150227,
+      "safeCorridorWidth": 0.3352443282164027,
+      "safePath": [
+        {
+          "x": 0.4897608645449428,
+          "y": 0.08
+        },
+        {
+          "x": 0.7177237318071988,
+          "y": 0.7142015690785635
+        },
+        {
+          "x": 0.5016466105932045,
+          "y": 1.428403138157127
+        },
+        {
+          "x": 0.3503005667325165,
+          "y": 2.1426047072356904
+        },
+        {
+          "x": 0.4025574636764056,
+          "y": 2.776806276314254
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.288241957224812,
+          "radius": 0.0480462477923914
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.8759117727019317,
+          "y": 1.9723694065250668,
+          "radius": 0.0480462477923914
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.40144632058007634,
+          "radius": 0.0480462477923914
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.1482666081149535,
+          "y": 1.0951043183989528,
+          "radius": 0.0480462477923914
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.5324926559836598,
+          "radius": 0.0480462477923914
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.1910885521783291,
+          "y": 0.5113949894474815,
+          "radius": 0.0480462477923914
+        },
+        {
+          "id": "regularHole_7",
+          "type": "regularHole",
+          "x": 0.7751617096747119,
+          "y": 2.3345615778792905,
+          "radius": 0.0480462477923914
+        },
+        {
+          "id": "regularHole_8",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 0.27926714710298545,
+          "radius": 0.0480462477923914
+        },
+        {
+          "id": "regularHole_9",
+          "type": "regularHole",
+          "x": 0.18336488811486062,
+          "y": 0.7912890688828385,
+          "radius": 0.0480462477923914
+        },
+        {
+          "id": "regularHole_10",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.6692915860262958,
+          "radius": 0.0480462477923914
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.7063596961109392,
+          "y": 0.6284973807891359
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.5764098751111248,
+          "y": 1.3998350753939843
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.424362872043917,
+          "y": 2.171172769998833
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "alternating_bomb_rhythm",
+        "teleport_recovery_lane",
+        "wide_zigzag"
+      ]
+    },
+    {
+      "id": 43,
+      "seed": 3122606629,
+      "themeId": "egypt",
+      "difficulty": 0.10765035463872638,
+      "worldHeight": 2.890655957524561,
+      "timeLimitSeconds": 93,
+      "scrollSpeedMultiplier": 1.0344481134843924,
+      "safeCorridorWidth": 0.3346174822680637,
+      "safePath": [
+        {
+          "x": 0.607262639248876,
+          "y": 0.08
+        },
+        {
+          "x": 0.75,
+          "y": 0.7226639893811403
+        },
+        {
+          "x": 0.5400036549460924,
+          "y": 1.4453279787622806
+        },
+        {
+          "x": 0.3340565230460886,
+          "y": 2.1679919681434208
+        },
+        {
+          "x": 0.5094332309156647,
+          "y": 2.810655957524561
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.0696555447676452,
+          "radius": 0.04818415390102599
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.6800124314787681,
+          "y": 2.1509764703322842,
+          "radius": 0.04818415390102599
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.20365729002776228,
+          "y": 1.0002687908240007,
+          "radius": 0.04818415390102599
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.9001175108877635,
+          "y": 2.354711472370017,
+          "radius": 0.04818415390102599
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.19446889332741923,
+          "y": 0.6577814425698864,
+          "radius": 0.04818415390102599
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.6627945607855295,
+          "radius": 0.04818415390102599
+        },
+        {
+          "id": "regularHole_7",
+          "type": "regularHole",
+          "x": 0.9032168536603692,
+          "y": 1.7928120894687243,
+          "radius": 0.04818415390102599
+        },
+        {
+          "id": "movingHole_8",
+          "type": "movingHole",
+          "x": 0.08,
+          "y": 1.4384372142667279,
+          "radius": 0.043968853191748536,
+          "movement": {
+            "axis": "horizontal",
+            "amplitude": 0.08889318983220572,
+            "periodSeconds": 2.55118969261426,
+            "phase": 0.08805542078436623
+          }
+        },
+        {
+          "id": "bumper_9",
+          "type": "bumper",
+          "x": 0.08,
+          "y": 0.43764979477608035,
+          "radius": 0.03464590212783236,
+          "bumperForce": 332.91804255664715
+        },
+        {
+          "id": "bumper_10",
+          "type": "bumper",
+          "x": 0.33744128748340446,
+          "y": 0.46021373862256476,
+          "radius": 0.03464590212783236,
+          "bumperForce": 332.91804255664715
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.7429044268590468,
+          "y": 0.6359443106554035
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.6146006039691582,
+          "y": 1.416421419187035
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.26147319099349386,
+          "y": 2.1968985277186666
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "alternating_bomb_rhythm",
+        "dark_light_trail",
+        "teleport_split"
+      ]
+    },
+    {
+      "id": 44,
+      "seed": 3122614548,
+      "themeId": "egypt",
+      "difficulty": 0.12019341692886878,
+      "worldHeight": 2.9245222257079457,
+      "timeLimitSeconds": 94,
+      "scrollSpeedMultiplier": 1.038461893417238,
+      "safeCorridorWidth": 0.3339903291535566,
+      "safePath": [
+        {
+          "x": 0.593706268525145,
+          "y": 0.08
+        },
+        {
+          "x": 0.75,
+          "y": 0.7311305564269864
+        },
+        {
+          "x": 0.5143920678107308,
+          "y": 1.4622611128539729
+        },
+        {
+          "x": 0.41844906029016754,
+          "y": 2.193391669280959
+        },
+        {
+          "x": 0.34754743186842796,
+          "y": 2.8445222257079457
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.5488296054068932,
+          "radius": 0.04832212758621755
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.8179104569837863,
+          "y": 2.252488224433845,
+          "radius": 0.04832212758621755
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.3040008179401558,
+          "y": 0.8617948800134396,
+          "radius": 0.04832212758621755
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.2130773495751748,
+          "radius": 0.04832212758621755
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.7891333603926086,
+          "y": 2.6774876910380305,
+          "radius": 0.04832212758621755
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.422957061062996,
+          "radius": 0.04832212758621755
+        },
+        {
+          "id": "suckingHole_7",
+          "type": "suckingHole",
+          "x": 0.08165765748396614,
+          "y": 1.436022993982125,
+          "radius": 0.04532212758621755,
+          "suctionRadius": 0.14961547335430952,
+          "strength": 0.488461893417238
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.7422517791727987,
+          "y": 0.6433948896557481
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.5889707004837015,
+          "y": 1.4330158905968935
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.3445549434709877,
+          "y": 2.2226368915380386
+        }
+      ],
+      "bombWaves": [
+        {
+          "id": "bomb_1",
+          "x": 0.5633169799091219,
+          "y": 1.2477961496353902,
+          "dropTimeSeconds": 8.0,
+          "warningDuration": 4.091825924764018,
+          "impactRadius": 0.08
+        }
+      ],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "offset_gate",
+        "slow_sweep_pair",
+        "moving_horizontal_sweep"
+      ]
+    },
+    {
+      "id": 45,
+      "seed": 3122622467,
+      "themeId": "egypt",
+      "difficulty": 0.17774250796081958,
+      "worldHeight": 3.079904771494213,
+      "timeLimitSeconds": 98,
+      "scrollSpeedMultiplier": 1.0568776025474622,
+      "safeCorridorWidth": 0.33111287460195904,
+      "safePath": [
+        {
+          "x": 0.49604259490000846,
+          "y": 0.08
+        },
+        {
+          "x": 0.6167631498501535,
+          "y": 0.6159809542988426
+        },
+        {
+          "x": 0.611132042272909,
+          "y": 1.2319619085976852
+        },
+        {
+          "x": 0.4717112694406459,
+          "y": 1.8479428628965278
+        },
+        {
+          "x": 0.39790072764345585,
+          "y": 2.4639238171953703
+        },
+        {
+          "x": 0.4747390043177605,
+          "y": 2.999904771494213
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.15409202005440498,
+          "y": 1.2312503340844614,
+          "radius": 0.048955167587569015
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.19910560948283984,
+          "y": 0.552581806166766,
+          "radius": 0.048955167587569015
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.8268035907112115,
+          "y": 2.4423873689460995,
+          "radius": 0.048955167587569015
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.7989947904289203,
+          "y": 2.1957987087770503,
+          "radius": 0.048955167587569015
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 2.6598932578528687,
+          "radius": 0.048955167587569015
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 2.057865058745803,
+          "radius": 0.048955167587569015
+        },
+        {
+          "id": "regularHole_7",
+          "type": "regularHole",
+          "x": 0.1241575581675119,
+          "y": 1.5960262302234258,
+          "radius": 0.048955167587569015
+        },
+        {
+          "id": "regularHole_8",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 0.2955618057498565,
+          "radius": 0.048955167587569015
+        },
+        {
+          "id": "regularHole_9",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.4638359830643004,
+          "radius": 0.048955167587569015
+        },
+        {
+          "id": "movingHole_10",
+          "type": "movingHole",
+          "x": 0.08,
+          "y": 0.8874480334693549,
+          "radius": 0.04459968257164737,
+          "movement": {
+            "axis": "horizontal",
+            "amplitude": 0.1291153511058183,
+            "periodSeconds": 4.198531193975066,
+            "phase": 0.4499517112954954
+          }
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.6166054788379907,
+          "y": 0.6775790497287268
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.6246881910384201,
+          "y": 1.5091533380321642
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.3327321915779326,
+          "y": 2.340727626335602
+        },
+        {
+          "id": "magnet_1",
+          "type": "magnet",
+          "x": 0.6008045776186672,
+          "y": 1.3346254009808256
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [
+        {
+          "id": "teleport_1",
+          "pairId": 0,
+          "entry": {
+            "x": 0.6147809999829634,
+            "y": 0.8623733360183797
+          },
+          "exit": {
+            "x": 0.5414216558567774,
+            "y": 1.5399523857471067
+          },
+          "radius": 0.05
+        }
+      ],
+      "validationAttempts": 1,
+      "patternIds": [
+        "recovery_chunk",
+        "early_helper_lane",
+        "fast_single_sweep",
+        "suction_right"
+      ]
+    },
+    {
+      "id": 46,
+      "seed": 3122630386,
+      "themeId": "jungle",
+      "difficulty": 0.05404751785240877,
+      "worldHeight": 2.7459282982015036,
+      "timeLimitSeconds": 90,
+      "scrollSpeedMultiplier": 1.0172952057127709,
+      "safeCorridorWidth": 0.33729762410737957,
+      "safePath": [
+        {
+          "x": 0.4498292245403817,
+          "y": 0.08
+        },
+        {
+          "x": 0.6268284326102785,
+          "y": 0.6864820745503759
+        },
+        {
+          "x": 0.6498468826099897,
+          "y": 1.3729641491007518
+        },
+        {
+          "x": 0.3682295037019935,
+          "y": 2.0594462236511277
+        },
+        {
+          "x": 0.345366539920717,
+          "y": 2.6659282982015036
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.2613474799215862,
+          "radius": 0.0475945226963765
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.2061104128598443,
+          "radius": 0.0475945226963765
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.7794477078277274,
+          "radius": 0.0475945226963765
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.6296678487344574,
+          "radius": 0.0475945226963765
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.17698076011240604,
+          "y": 0.3627581557323764,
+          "radius": 0.0475945226963765
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.5558237379798128,
+          "radius": 0.0475945226963765
+        },
+        {
+          "id": "regularHole_7",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 0.3806330207244468,
+          "radius": 0.0475945226963765
+        },
+        {
+          "id": "regularHole_8",
+          "type": "regularHole",
+          "x": 0.25257489041561065,
+          "y": 1.0859338307073734,
+          "radius": 0.0475945226963765
+        },
+        {
+          "id": "bumper_9",
+          "type": "bumper",
+          "x": 0.92,
+          "y": 1.8869380544497132,
+          "radius": 0.03432428510711445,
+          "bumperForce": 326.485702142289
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.6179188965313169,
+          "y": 0.6041042256043309
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.7239448177152145,
+          "y": 1.3455048661187368
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.2938876668744652,
+          "y": 2.086905506633143
+        },
+        {
+          "id": "heart_1",
+          "type": "heart",
+          "x": 0.6458092759730033,
+          "y": 1.189902262553985
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "recovery_chunk",
+        "recovery_chunk",
+        "recovery_chunk"
+      ]
+    },
+    {
+      "id": 47,
+      "seed": 3122638305,
+      "themeId": "jungle",
+      "difficulty": 0.10160834112768756,
+      "worldHeight": 2.8743425210447566,
+      "timeLimitSeconds": 93,
+      "scrollSpeedMultiplier": 1.03251466916086,
+      "safeCorridorWidth": 0.3349195829436156,
+      "safePath": [
+        {
+          "x": 0.5998570485257911,
+          "y": 0.08
+        },
+        {
+          "x": 0.676398462109494,
+          "y": 0.7185856302611892
+        },
+        {
+          "x": 0.5207295438367529,
+          "y": 1.4371712605223783
+        },
+        {
+          "x": 0.271561668757305,
+          "y": 2.1557568907835676
+        },
+        {
+          "x": 0.5345654235686109,
+          "y": 2.7943425210447566
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.11570577590073428,
+          "y": 1.048382770822903,
+          "radius": 0.048117691752404566
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.097801693300047,
+          "radius": 0.048117691752404566
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.18345893447687178,
+          "y": 0.6880206964913228,
+          "radius": 0.048117691752404566
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.7864709809292992,
+          "y": 1.767848599325698,
+          "radius": 0.048117691752404566
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.7935665173526067,
+          "y": 2.5534853393176316,
+          "radius": 0.048117691752404566
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.6537660926332893,
+          "y": 2.2870267163447235,
+          "radius": 0.048117691752404566
+        },
+        {
+          "id": "regularHole_7",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.2333072142320423,
+          "radius": 0.048117691752404566
+        },
+        {
+          "id": "regularHole_8",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.3042590778701368,
+          "radius": 0.048117691752404566
+        },
+        {
+          "id": "regularHole_9",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.25951101176622393,
+          "radius": 0.048117691752404566
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.6725884196054882,
+          "y": 0.6323553546298465
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.4477745207753277,
+          "y": 1.4084278353119308
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.34679454347424765,
+          "y": 2.184500315994015
+        },
+        {
+          "id": "shield_1",
+          "type": "shield",
+          "x": 0.54803502520489,
+          "y": 1.2455484257860612
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [
+        {
+          "id": "teleport_1",
+          "pairId": 0,
+          "entry": {
+            "x": 0.6702115566216621,
+            "y": 0.8048159058925319
+          },
+          "exit": {
+            "x": 0.5207295438367529,
+            "y": 1.4371712605223785
+          },
+          "radius": 0.05
+        }
+      ],
+      "validationAttempts": 1,
+      "patternIds": [
+        "theme_finale_mix",
+        "bumper_pinball",
+        "double_hole_gate"
+      ]
+    },
+    {
+      "id": 48,
+      "seed": 3122646224,
+      "themeId": "jungle",
+      "difficulty": 0.11417487644804766,
+      "worldHeight": 2.908272166409729,
+      "timeLimitSeconds": 93,
+      "scrollSpeedMultiplier": 1.0365359604633753,
+      "safeCorridorWidth": 0.33429125617759764,
+      "safePath": [
+        {
+          "x": 0.5377518963854685,
+          "y": 0.08
+        },
+        {
+          "x": 0.6016082312258999,
+          "y": 0.7270680416024322
+        },
+        {
+          "x": 0.6316118458205094,
+          "y": 1.4541360832048644
+        },
+        {
+          "x": 0.32662969789869195,
+          "y": 2.1812041248072966
+        },
+        {
+          "x": 0.3881157383150237,
+          "y": 2.828272166409729
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.8604772234051743,
+          "radius": 0.048255923640928525
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 0.3447802883615422,
+          "radius": 0.048255923640928525
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.7660158317008516,
+          "radius": 0.048255923640928525
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.8607726675691896,
+          "y": 2.2404252922044257,
+          "radius": 0.048255923640928525
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.13578490168311924,
+          "y": 0.228573125920118,
+          "radius": 0.048255923640928525
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.4881974004607628,
+          "radius": 0.048255923640928525
+        },
+        {
+          "id": "regularHole_7",
+          "type": "regularHole",
+          "x": 0.21512080210910578,
+          "y": 0.785916409033874,
+          "radius": 0.048255923640928525
+        },
+        {
+          "id": "regularHole_8",
+          "type": "regularHole",
+          "x": 0.09272149015268005,
+          "y": 0.5035376426364083,
+          "radius": 0.048255923640928525
+        },
+        {
+          "id": "regularHole_9",
+          "type": "regularHole",
+          "x": 0.12169154293489748,
+          "y": 1.1956290133576482,
+          "radius": 0.048255923640928525
+        },
+        {
+          "id": "bumper_10",
+          "type": "bumper",
+          "x": 0.7388516359677606,
+          "y": 2.510084747455532,
+          "radius": 0.03468504925868829,
+          "bumperForce": 333.70098517376573
+        },
+        {
+          "id": "bumper_11",
+          "type": "bumper",
+          "x": 0.8217324558119362,
+          "y": 1.986846844257271,
+          "radius": 0.03468504925868829,
+          "bumperForce": 333.70098517376573
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.5984384341245295,
+          "y": 0.6398198766101404
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.557927592574052,
+          "y": 1.425053361540767
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.40053523073297015,
+          "y": 2.210286846471394
+        },
+        {
+          "id": "magnet_1",
+          "type": "magnet",
+          "x": 0.6263489895716179,
+          "y": 1.2602512721108825
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "triple_gate",
+        "recovery_chunk",
+        "wide_zigzag"
+      ]
+    },
+    {
+      "id": 49,
+      "seed": 3122654143,
+      "themeId": "jungle",
+      "difficulty": 0.12674702636513516,
+      "worldHeight": 2.9422169711858652,
+      "timeLimitSeconds": 94,
+      "scrollSpeedMultiplier": 1.0405590484368432,
+      "safeCorridorWidth": 0.3336626486817433,
+      "safePath": [
+        {
+          "x": 0.46408737016965335,
+          "y": 0.08
+        },
+        {
+          "x": 0.5837436753884708,
+          "y": 0.7355542427964663
+        },
+        {
+          "x": 0.5455219530948423,
+          "y": 1.4711084855929326
+        },
+        {
+          "x": 0.3035057899424277,
+          "y": 2.206662728389399
+        },
+        {
+          "x": 0.6164796321945925,
+          "y": 2.862216971185865
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.779629448749515,
+          "y": 2.376627641534415,
+          "radius": 0.048394217290016486
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.2572914228544515,
+          "radius": 0.048394217290016486
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.345132434052871,
+          "radius": 0.048394217290016486
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.7659524407846472,
+          "radius": 0.048394217290016486
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.6979186174314997,
+          "radius": 0.048394217290016486
+        },
+        {
+          "id": "movingHole_6",
+          "type": "movingHole",
+          "x": 0.92,
+          "y": 0.9657339990473791,
+          "radius": 0.04414072323728621,
+          "movement": {
+            "axis": "horizontal",
+            "amplitude": 0.11397762814468891,
+            "periodSeconds": 3.75764813678958,
+            "phase": 0.5220407891134546
+          }
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.5778200703583656,
+          "y": 0.6472877336608903
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.6191063076913816,
+          "y": 1.441686315881074
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.3787462874639179,
+          "y": 2.2360848981012578
+        },
+        {
+          "id": "extraBall_1",
+          "type": "extraBall",
+          "x": 0.5522263263090136,
+          "y": 1.274960687513875
+        },
+        {
+          "id": "shield_1",
+          "type": "shield",
+          "x": 0.5522263263090136,
+          "y": 1.274960687513875
+        }
+      ],
+      "bombWaves": [
+        {
+          "id": "bomb_1",
+          "x": 0.5634867741204044,
+          "y": 1.1180424490506289,
+          "dropTimeSeconds": 8.0,
+          "warningDuration": 4.085927676271378,
+          "impactRadius": 0.08
+        },
+        {
+          "id": "bomb_2",
+          "x": 0.541123067313384,
+          "y": 1.5299528250166499,
+          "dropTimeSeconds": 14.0,
+          "warningDuration": 4.085927676271378,
+          "impactRadius": 0.08
+        }
+      ],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "alternating_slalom",
+        "side_pockets",
+        "fast_single_sweep"
+      ]
+    },
+    {
+      "id": 50,
+      "seed": 3122662062,
+      "themeId": "jungle",
+      "difficulty": 0.13932469709337386,
+      "worldHeight": 2.9761766821521096,
+      "timeLimitSeconds": 95,
+      "scrollSpeedMultiplier": 1.0445839030698796,
+      "safeCorridorWidth": 0.33303376514533134,
+      "safePath": [
+        {
+          "x": 0.5258032140099047,
+          "y": 0.08
+        },
+        {
+          "x": 0.6233568464166646,
+          "y": 0.7440441705380274
+        },
+        {
+          "x": 0.5269847362166699,
+          "y": 1.4880883410760548
+        },
+        {
+          "x": 0.4767490903376957,
+          "y": 2.232132511614082
+        },
+        {
+          "x": 0.32596051675469845,
+          "y": 2.8961766821521095
+        }
+      ],
+      "obstacles": [
+        {
+          "id": "regularHole_1",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.9153351545342744,
+          "radius": 0.04853257166802711
+        },
+        {
+          "id": "regularHole_2",
+          "type": "regularHole",
+          "x": 0.8256538858883611,
+          "y": 2.4321564944009317,
+          "radius": 0.04853257166802711
+        },
+        {
+          "id": "regularHole_3",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.3588448612356745,
+          "radius": 0.04853257166802711
+        },
+        {
+          "id": "regularHole_4",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 2.402873860177599,
+          "radius": 0.04853257166802711
+        },
+        {
+          "id": "regularHole_5",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 1.637249302577522,
+          "radius": 0.04853257166802711
+        },
+        {
+          "id": "regularHole_6",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 0.6589155623903563,
+          "radius": 0.04853257166802711
+        },
+        {
+          "id": "regularHole_7",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.0066515804622465,
+          "radius": 0.04853257166802711
+        },
+        {
+          "id": "regularHole_8",
+          "type": "regularHole",
+          "x": 0.08,
+          "y": 1.6829527034785017,
+          "radius": 0.04853257166802711
+        },
+        {
+          "id": "regularHole_9",
+          "type": "regularHole",
+          "x": 0.9132283741039335,
+          "y": 1.3345608236238589,
+          "radius": 0.04853257166802711
+        },
+        {
+          "id": "regularHole_10",
+          "type": "regularHole",
+          "x": 0.92,
+          "y": 2.7512621725065323,
+          "radius": 0.04853257166802711
+        },
+        {
+          "id": "bumper_11",
+          "type": "bumper",
+          "x": 0.24263391711257154,
+          "y": 0.8802633422230611,
+          "radius": 0.03483594818256024,
+          "bumperForce": 336.7189636512049
+        },
+        {
+          "id": "bumper_12",
+          "type": "bumper",
+          "x": 0.22369548127894556,
+          "y": 0.5363017480189012,
+          "radius": 0.03483594818256024,
+          "bumperForce": 336.7189636512049
+        }
+      ],
+      "pickups": [
+        {
+          "id": "star_1",
+          "type": "star",
+          "x": 0.6185401990260693,
+          "y": 0.6547588700734641
+        },
+        {
+          "id": "star_2",
+          "type": "star",
+          "x": 0.4541675583835514,
+          "y": 1.4583265742545337
+        },
+        {
+          "id": "star_3",
+          "type": "star",
+          "x": 0.549134984928834,
+          "y": 2.2618942784356033
+        }
+      ],
+      "bombWaves": [],
+      "teleportPairs": [],
+      "validationAttempts": 1,
+      "patternIds": [
+        "slow_sweep_pair",
+        "alternating_bomb_rhythm",
+        "wide_zigzag"
+      ]
+    }
+  ]
+}

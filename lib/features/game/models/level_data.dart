@@ -100,6 +100,12 @@ class LevelData {
   final double heightMultiplier;
   final double timerSeconds;
   final bool hasBomb;
+  final bool isDarkLevel;
+  final String? themeId;
+  final int? generationSeed;
+  final double? difficulty;
+  final List<Vector2> safePath;
+  final double safeCorridorWidth;
 
   LevelData({
     required this.holes,
@@ -113,6 +119,12 @@ class LevelData {
     this.heightMultiplier = 1.0,
     this.timerSeconds = 120.0,
     this.hasBomb = false,
+    this.isDarkLevel = false,
+    this.themeId,
+    this.generationSeed,
+    this.difficulty,
+    this.safePath = const [],
+    this.safeCorridorWidth = 0.3,
   });
 
   Map<String, dynamic> toJson() => {
@@ -128,6 +140,12 @@ class LevelData {
     'heightMultiplier': heightMultiplier,
     'timerSeconds': timerSeconds,
     'hasBomb': hasBomb,
+    'isDarkLevel': isDarkLevel,
+    if (themeId != null) 'themeId': themeId,
+    if (generationSeed != null) 'generationSeed': generationSeed,
+    if (difficulty != null) 'difficulty': difficulty,
+    'safePath': safePath.map((e) => {'x': e.x, 'y': e.y}).toList(),
+    'safeCorridorWidth': safeCorridorWidth,
   };
 
   factory LevelData.fromJson(Map<String, dynamic> json) => LevelData(
@@ -168,5 +186,15 @@ class LevelData {
     heightMultiplier: (json['heightMultiplier'] ?? 1.0).toDouble(),
     timerSeconds: (json['timerSeconds'] ?? 120.0).toDouble(),
     hasBomb: json['hasBomb'] ?? false,
+    isDarkLevel: json['isDarkLevel'] ?? false,
+    themeId: json['themeId'] as String?,
+    generationSeed: json['generationSeed'] as int?,
+    difficulty: (json['difficulty'] as num?)?.toDouble(),
+    safePath:
+        (json['safePath'] as List?)
+            ?.map((e) => Vector2(e['x'].toDouble(), e['y'].toDouble()))
+            .toList() ??
+        [],
+    safeCorridorWidth: (json['safeCorridorWidth'] ?? 0.3).toDouble(),
   );
 }
