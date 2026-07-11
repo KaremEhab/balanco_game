@@ -137,6 +137,7 @@ class _MainScreenState extends State<MainScreen> {
       _highestLevel = profile.highestLevel;
       _coins = profile.coins;
     });
+    AppSettings.playMenuBgm();
   }
 
   void _scrollListener() {

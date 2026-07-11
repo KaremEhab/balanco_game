@@ -6,7 +6,6 @@ import 'package:balanco_game/core/theme/game_colors.dart';
 
 import 'package:balanco_game/features/game/screens/gameplay.dart';
 import 'package:balanco_game/features/game/game_area.dart';
-import 'package:balanco_game/features/settings/screens/edit_profile_sheet.dart';
 
 class SettingsScreen extends StatelessWidget {
   final ScrollController scrollController;
@@ -388,6 +387,7 @@ class SettingsScreen extends StatelessWidget {
                   icon: Icons.code,
                   title: 'Level Editor',
                   onTap: () {
+                    AppSettings.stopBgm();
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -402,7 +402,9 @@ class SettingsScreen extends StatelessWidget {
                           return GamePlayOverlay(game: game);
                         },
                       ),
-                    );
+                    ).then((_) {
+                      AppSettings.playMenuBgm();
+                    });
                   },
                 ),
                 const Padding(
@@ -417,10 +419,13 @@ class SettingsScreen extends StatelessWidget {
                   icon: Icons.code,
                   title: 'Background Editor',
                   onTap: () {
+                    AppSettings.stopBgm();
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (_) => const BgConfigScreen()),
-                    );
+                    ).then((_) {
+                      AppSettings.playMenuBgm();
+                    });
                   },
                 ),
               ],

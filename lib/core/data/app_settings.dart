@@ -10,6 +10,8 @@ class AppSettings {
   static final ValueNotifier<int> lastEditedLevel = ValueNotifier(1);
   static final ValueNotifier<String> playerName = ValueNotifier('KAREEM EHAB');
 
+  static bool _bgmInitialized = false;
+
   static Future<void> init() async {
     final db = DatabaseHelper.instance;
     final soundConfig = await db.getConfig('sound_enabled');
@@ -41,6 +43,12 @@ class AppSettings {
     if (nameConfig != null) {
       playerName.value = nameConfig;
     }
+
+    soundEnabled.addListener(() {
+      if (!soundEnabled.value) {
+        stopBgm();
+      }
+    });
   }
 
   static void setSoundEnabled(bool value) {
@@ -86,5 +94,36 @@ class AppSettings {
       } catch (_) {}
     }
     return null;
+  }
+
+  static Future<void> initBgm() async {
+    if (!_bgmInitialized) {
+      FlameAudio.bgm.initialize();
+      try {
+        await FlameAudio.audioCache.load('gameplay-main-sound.mp3');
+      } catch (e) {
+        debugPrint('BGM Cache Error: $e');
+      }
+      _bgmInitialized = true;
+    }
+  }
+
+  static Future<void> playMenuBgm() async {
+    if (soundEnabled.value) {
+      await initBgm();
+      try {
+        FlameAudio.bgm.play('gameplay-main-sound.mp3', volume: 1.0);
+      } catch (e) {
+        debugPrint('BGM Error: $e');
+      }
+    }
+  }
+
+  static void stopBgm() {
+    if (_bgmInitialized) {
+      try {
+        FlameAudio.bgm.stop();
+      } catch (_) {}
+    }
   }
 }

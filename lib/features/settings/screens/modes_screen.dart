@@ -1,3 +1,4 @@
+import 'package:balanco_game/core/data/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -423,14 +424,17 @@ class _ModesScreenState extends State<ModesScreen> {
                         _loadHighScore(); // Refresh score after returning
                       },
                     );
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => GamePlayOverlay(game: game),
-                      ),
-                    ).then((_) {
-                      _loadHighScore();
-                      widget.onReturnFromGame?.call();
-                    });
+                    AppSettings.stopBgm();
+                    Navigator.of(context)
+                        .push(
+                          MaterialPageRoute(
+                            builder: (_) => GamePlayOverlay(game: game),
+                          ),
+                        )
+                        .then((_) {
+                          _loadHighScore();
+                          widget.onReturnFromGame?.call();
+                        });
                   },
                   icon: const Icon(
                     Icons.play_arrow_rounded,

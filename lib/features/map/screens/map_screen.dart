@@ -773,6 +773,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
     game.currentLevel.value = level;
 
+    AppSettings.stopBgm();
+
     await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => GamePlayOverlay(game: game)),
