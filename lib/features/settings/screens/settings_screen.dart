@@ -6,6 +6,7 @@ import 'package:balanco_game/core/theme/game_colors.dart';
 
 import 'package:balanco_game/features/game/screens/gameplay.dart';
 import 'package:balanco_game/features/game/game_area.dart';
+import 'package:balanco_game/features/settings/screens/edit_profile_sheet.dart';
 
 class SettingsScreen extends StatelessWidget {
   final ScrollController scrollController;

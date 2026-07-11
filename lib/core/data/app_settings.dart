@@ -8,6 +8,7 @@ class AppSettings {
   static final ValueNotifier<bool> parallaxEnabled = ValueNotifier(true);
   static final ValueNotifier<double> joystickSensitivity = ValueNotifier(1.0);
   static final ValueNotifier<int> lastEditedLevel = ValueNotifier(1);
+  static final ValueNotifier<String> playerName = ValueNotifier('KAREEM EHAB');
 
   static Future<void> init() async {
     final db = DatabaseHelper.instance;
@@ -35,6 +36,11 @@ class AppSettings {
     if (lastEditedLevelConfig != null) {
       lastEditedLevel.value = int.tryParse(lastEditedLevelConfig) ?? 1;
     }
+
+    final nameConfig = await db.getConfig('player_name');
+    if (nameConfig != null) {
+      playerName.value = nameConfig;
+    }
   }
 
   static void setSoundEnabled(bool value) {
@@ -58,6 +64,11 @@ class AppSettings {
   static void setParallaxEnabled(bool value) {
     parallaxEnabled.value = value;
     DatabaseHelper.instance.saveConfig('parallax_enabled', value.toString());
+  }
+
+  static void setPlayerName(String name) {
+    playerName.value = name;
+    DatabaseHelper.instance.saveConfig('player_name', name);
   }
 
   static void setLastEditedLevel(int value) {

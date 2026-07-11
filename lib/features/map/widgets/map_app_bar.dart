@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:balanco_game/core/data/app_settings.dart';
 import 'package:balanco_game/core/data/models.dart';
 import 'package:balanco_game/features/map/components/gem_painter.dart';
 import 'package:flutter/material.dart';
@@ -6,11 +7,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:balanco_game/features/settings/widgets/avatar_shapes.dart';
 import 'package:balanco_game/features/settings/screens/profile_dialog.dart';
+import 'package:balanco_game/features/settings/screens/edit_profile_sheet.dart';
 import 'package:balanco_game/features/game/components/game_area/collected_star_painter.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
 import 'package:balanco_game/features/map/models/biome_model.dart';
 import 'package:balanco_game/core/data/database_helper.dart';
-
 
 class MapAppBar extends StatefulWidget {
   final int highestLevel;
@@ -453,20 +454,25 @@ class _MapAppBarState extends State<MapAppBar> {
         Positioned(
           right: 20,
           top: 25,
-          child: Container(
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: GameColors.mapAppBarBrownText,
-                  offset: Offset(1, 2),
-                ),
-              ],
-            ),
-            child: SvgPicture.asset(
-              'assets/images/edit-icon.svg',
-              width: 55,
-              height: 55,
+          child: GestureDetector(
+            onTap: () {
+              showEditProfileSheet(context);
+            },
+            child: Container(
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: GameColors.mapAppBarBrownText,
+                    offset: Offset(1, 2),
+                  ),
+                ],
+              ),
+              child: SvgPicture.asset(
+                'assets/images/edit-icon.svg',
+                width: 55,
+                height: 55,
+              ),
             ),
           ),
         ),
@@ -801,7 +807,7 @@ class _MapAppBarState extends State<MapAppBar> {
                                 onTap: () {
                                   showProfileDialog(
                                     context,
-                                    name: 'KAREEM EHAB',
+                                    name: AppSettings.playerName.value,
                                     level: widget.highestLevel,
                                     coins: widget.coins,
                                     sparks: widget.sparks,
@@ -857,17 +863,22 @@ class _MapAppBarState extends State<MapAppBar> {
                             Positioned(
                               left: nameLeft,
                               top: nameTop,
-                              child: _buildStrokedText(
-                                'KAREEM EHAB',
-                                fontSize: nameSize,
-                                textColor: GameColors.mapAppBarWhiteHint,
-                                strokeColor: const Color.fromARGB(
-                                  255,
-                                  71,
-                                  49,
-                                  11,
-                                ),
-                                shadowColor: GameColors.mapAppBarBrownText,
+                              child: ValueListenableBuilder<String>(
+                                valueListenable: AppSettings.playerName,
+                                builder: (context, name, _) {
+                                  return _buildStrokedText(
+                                    name,
+                                    fontSize: nameSize,
+                                    textColor: GameColors.mapAppBarWhiteHint,
+                                    strokeColor: const Color.fromARGB(
+                                      255,
+                                      71,
+                                      49,
+                                      11,
+                                    ),
+                                    shadowColor: GameColors.mapAppBarBrownText,
+                                  );
+                                },
                               ),
                             ),
                           ],
