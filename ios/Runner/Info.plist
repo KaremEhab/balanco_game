@@ -48,5 +48,7 @@
 	<string>This app requires access to the device motion sensors to provide a 3D parallax background effect.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Balanco uses the microphone so co-op partners can coordinate their moves during a match.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Balanco may use the camera for camera-enabled co-op communication features.</string>
 </dict>
 </plist>
