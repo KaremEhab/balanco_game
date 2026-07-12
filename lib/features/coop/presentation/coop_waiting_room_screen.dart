@@ -198,21 +198,24 @@ class _CoopWaitingRoomScreenState extends State<CoopWaitingRoomScreen> {
               ),
             ),
             const SizedBox(height: 22),
-            Row(
-              children: [
-                for (final side in CoopSide.values)
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
-                      child: _PlayerSlot(
-                        side: side,
-                        member: _room.members
-                            .where((m) => m.side == side)
-                            .firstOrNull,
+            IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  for (final side in CoopSide.values)
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: _PlayerSlot(
+                          side: side,
+                          member: _room.members
+                              .where((m) => m.side == side)
+                              .firstOrNull,
+                        ),
                       ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
             const SizedBox(height: 22),
             ValueListenableBuilder<bool>(
@@ -324,7 +327,6 @@ class _PlayerSlot extends StatelessWidget {
   final CoopMember? member;
   @override
   Widget build(BuildContext context) => Container(
-    height: 165,
     padding: const EdgeInsets.all(12),
     decoration: BoxDecoration(
       color: member == null ? Colors.white54 : GameColors.sandLightUi,

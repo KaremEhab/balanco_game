@@ -195,7 +195,7 @@ class _SplashScreenState extends State<SplashScreen>
                             _entranceController.value,
                           );
                           return Transform.translate(
-                            offset: Offset(0, (0.8 - entrance) * 30),
+                            offset: Offset(0, (0.7 - entrance) * 30),
                             child: Opacity(
                               opacity: entrance.clamp(0.0, 1.0),
                               child: child,
@@ -402,18 +402,18 @@ class _GameModeButton extends StatelessWidget {
                               ],
                             ),
                           ),
-                        Text(
-                          subtitle,
-                          style: const TextStyle(
-                            color: Color(0xE6FFFFFF),
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 0.8,
+                          Text(
+                            subtitle,
+                            style: const TextStyle(
+                              color: Color(0xE6FFFFFF),
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 0.8,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                    const Spacer(),
                     const Icon(
                       Icons.chevron_right_rounded,
                       color: Colors.white70,

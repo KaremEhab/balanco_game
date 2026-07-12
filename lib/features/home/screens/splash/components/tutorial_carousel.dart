@@ -247,7 +247,7 @@ class _TutorialCard extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: LayoutBuilder(
         builder: (context, constraints) {
-          final compact = constraints.maxHeight < 260;
+          final compact = constraints.maxHeight < 320;
           return Padding(
             padding: EdgeInsets.fromLTRB(12, compact ? 9 : 12, 12, 9),
             child: Column(
