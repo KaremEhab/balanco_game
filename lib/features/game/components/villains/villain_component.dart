@@ -112,7 +112,7 @@ class VillainComponent extends PositionComponent
       RRect.fromRectAndRadius(barRect, const Radius.circular(6)),
       Paint()..color = GameColors.black87,
     );
-    
+
     // Adaptive blood bar
     if (health > 0) {
       final healthPct = health / maxHealth;
@@ -122,7 +122,7 @@ class VillainComponent extends PositionComponent
         Paint()..color = GameColors.red,
       );
     }
-    
+
     renderEditorHighlight(canvas);
   }
 }

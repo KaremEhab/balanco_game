@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:balanco_game/features/settings/widgets/avatar_shapes.dart';
 import 'package:balanco_game/features/game/components/game_area/star_filled_painter.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
+import 'package:balanco_game/features/player/application/player_session.dart';
+import 'package:flutter/services.dart';
 
 void showProfileDialog(
   BuildContext context, {
@@ -67,6 +69,7 @@ class ProfileDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final account = PlayerSession.instance.player.value;
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
       child: Center(
@@ -124,6 +127,37 @@ class ProfileDialog extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const SizedBox(height: 10),
+                    if (account != null) ...[
+                      Text(
+                        '@${account.username}  •  AGE ${account.age}',
+                        style: GoogleFonts.luckiestGuy(
+                          fontSize: 13,
+                          color: GameColors.brownDarkUi.withValues(alpha: 0.7),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          await Clipboard.setData(
+                            ClipboardData(text: account.playerCode),
+                          );
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Player code copied!'),
+                              ),
+                            );
+                          }
+                        },
+                        child: Text(
+                          '${account.playerCode}  📋',
+                          style: GoogleFonts.luckiestGuy(
+                            fontSize: 12,
+                            color: GameColors.deepPurple,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                    ],
 
                     // Big Avatar
                     ValueListenableBuilder<AvatarShape>(
@@ -209,6 +243,19 @@ class ProfileDialog extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 25),
+                    if (account != null) ...[
+                      Text(
+                        '${account.totalPoints} TOTAL PTS  •  '
+                        '${account.unlockedBallShapes.length} SHAPES  •  '
+                        '${account.unlockedBallColors.length} COLORS',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.luckiestGuy(
+                          fontSize: 12,
+                          color: GameColors.brownDarkUi,
+                        ),
+                      ),
+                      const SizedBox(height: 18),
+                    ],
 
                     // Shape Selector Container
                     Container(

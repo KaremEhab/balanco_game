@@ -195,7 +195,9 @@ class _EditorOverlayState extends State<EditorOverlay> {
                         setStateDialog(() {
                           widget.game.isDarknessLevel = val;
                           widget.game.isDarknessLevelNotifier.value = val;
-                          widget.game.darknessOpacityNotifier.value = val ? 0.94 : 0.0;
+                          widget.game.darknessOpacityNotifier.value = val
+                              ? 0.94
+                              : 0.0;
                         });
                       },
                     ),
@@ -475,7 +477,9 @@ class _EditorOverlayState extends State<EditorOverlay> {
                       padding: const EdgeInsets.all(12.0),
                       margin: const EdgeInsets.only(bottom: 10),
                       decoration: BoxDecoration(
-                        color: GameColors.transparentBlack.withValues(alpha: 0.8),
+                        color: GameColors.transparentBlack.withValues(
+                          alpha: 0.8,
+                        ),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: StatefulBuilder(
@@ -496,45 +500,78 @@ class _EditorOverlayState extends State<EditorOverlay> {
                               Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  const Text('Night Mode', style: TextStyle(color: Colors.white70)),
+                                  const Text(
+                                    'Night Mode',
+                                    style: TextStyle(color: Colors.white70),
+                                  ),
                                   Switch(
                                     value: widget.game.isDarknessLevel,
                                     activeThumbColor: Colors.deepPurpleAccent,
                                     onChanged: (val) {
                                       setStatePanel(() {
                                         widget.game.isDarknessLevel = val;
-                                        widget.game.isDarknessLevelNotifier.value = val;
-                                        widget.game.darknessOpacityNotifier.value = val ? 0.94 : 0.0;
+                                        widget
+                                                .game
+                                                .isDarknessLevelNotifier
+                                                .value =
+                                            val;
+                                        widget
+                                            .game
+                                            .darknessOpacityNotifier
+                                            .value = val
+                                            ? 0.94
+                                            : 0.0;
                                       });
                                     },
                                   ),
                                   const SizedBox(width: 10),
-                                  const Text('Bombs', style: TextStyle(color: Colors.white70)),
+                                  const Text(
+                                    'Bombs',
+                                    style: TextStyle(color: Colors.white70),
+                                  ),
                                   Switch(
                                     value: widget.game.levelHasBomb,
                                     activeThumbColor: GameColors.redAccent,
                                     onChanged: (val) {
                                       setStatePanel(() {
                                         widget.game.levelHasBomb = val;
-                                        if (val && widget.game.levelBombCount == 0) {
+                                        if (val &&
+                                            widget.game.levelBombCount == 0) {
                                           widget.game.levelBombCount = 1;
                                         }
-                                        if (!val) widget.game.levelBombCount = 0;
+                                        if (!val) {
+                                          widget.game.levelBombCount = 0;
+                                        }
                                       });
                                     },
                                   ),
                                   if (widget.game.levelHasBomb) ...[
                                     IconButton(
-                                      icon: const Icon(Icons.remove_circle_outline, color: Colors.white),
+                                      icon: const Icon(
+                                        Icons.remove_circle_outline,
+                                        color: Colors.white,
+                                      ),
                                       onPressed: () => setStatePanel(() {
-                                        widget.game.levelBombCount = (widget.game.levelBombCount - 1).clamp(1, 9);
+                                        widget.game.levelBombCount =
+                                            (widget.game.levelBombCount - 1)
+                                                .clamp(1, 9);
                                       }),
                                     ),
-                                    Text('${widget.game.levelBombCount}', style: const TextStyle(color: Colors.white)),
+                                    Text(
+                                      '${widget.game.levelBombCount}',
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
                                     IconButton(
-                                      icon: const Icon(Icons.add_circle_outline, color: Colors.white),
+                                      icon: const Icon(
+                                        Icons.add_circle_outline,
+                                        color: Colors.white,
+                                      ),
                                       onPressed: () => setStatePanel(() {
-                                        widget.game.levelBombCount = (widget.game.levelBombCount + 1).clamp(1, 9);
+                                        widget.game.levelBombCount =
+                                            (widget.game.levelBombCount + 1)
+                                                .clamp(1, 9);
                                       }),
                                     ),
                                   ],

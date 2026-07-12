@@ -1,17 +1,25 @@
+import 'dart:async';
+import 'dart:ui';
+
 import 'package:balanco_game/features/map/theme/biome_config.dart';
 import 'package:flutter/material.dart';
-import 'dart:ui';
 import 'package:balanco_game/features/game/game_area.dart';
 import 'package:balanco_game/features/game/components/game_area/shield_icon_painter.dart';
 import 'package:balanco_game/core/data/app_settings.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
 import 'package:balanco_game/features/map/models/biome_model.dart';
+import 'package:balanco_game/features/coop/application/coop_game_coordinator.dart';
 
 class GameControlsOverlay extends StatelessWidget {
   final BalancoGame game;
+  final CoopGameCoordinator? coopCoordinator;
 
-  const GameControlsOverlay({super.key, required this.game});
+  const GameControlsOverlay({
+    super.key,
+    required this.game,
+    this.coopCoordinator,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +54,7 @@ class GameControlsOverlay extends StatelessWidget {
                     isLeft: true,
                     biome: currentBiome,
                     isInfinityMode: game.isInfinityMode,
-                    onChanged: (val) => game.leftJoystickValue = val,
+                    onChanged: (val) => _setJoystick(val, isLeft: true),
                   ),
                 ),
 
@@ -59,7 +67,7 @@ class GameControlsOverlay extends StatelessWidget {
                     isLeft: false,
                     biome: currentBiome,
                     isInfinityMode: game.isInfinityMode,
-                    onChanged: (val) => game.rightJoystickValue = val,
+                    onChanged: (val) => _setJoystick(val, isLeft: false),
                   ),
                 ),
 
@@ -80,38 +88,38 @@ class GameControlsOverlay extends StatelessWidget {
                             builder: (context, isDark, child) {
                               if (!isDark) return const SizedBox.shrink();
                               return ValueListenableBuilder<int>(
-                              valueListenable: game.lightChargesNotifier,
-                              builder: (context, charges, child) {
-                                return ValueListenableBuilder<double>(
-                                  valueListenable:
-                                      game.lightChargeTimerNotifier,
-                                  builder: (context, lightTime, child) {
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0,
-                                      ),
-                                      child: SquarePowerUpButton(
-                                        charges: charges,
-                                        activeTime: lightTime,
-                                        maxTime: 5.0,
-                                        onTap: () {
-                                          game.useLightCharge();
-                                        },
-                                        colors: powerUpColors,
-                                        isInfinityMode: game.isInfinityMode,
-                                        child: const Icon(
-                                          Icons.lightbulb,
-                                          color: Color(0xFF46356D),
-                                          size: 36,
+                                valueListenable: game.lightChargesNotifier,
+                                builder: (context, charges, child) {
+                                  return ValueListenableBuilder<double>(
+                                    valueListenable:
+                                        game.lightChargeTimerNotifier,
+                                    builder: (context, lightTime, child) {
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0,
                                         ),
-                                      ),
-                                    );
-                                  },
-                                );
-                              },
-                            );
-                          },
-                        ),
+                                        child: SquarePowerUpButton(
+                                          charges: charges,
+                                          activeTime: lightTime,
+                                          maxTime: 5.0,
+                                          onTap: () {
+                                            game.useLightCharge();
+                                          },
+                                          colors: powerUpColors,
+                                          isInfinityMode: game.isInfinityMode,
+                                          child: const Icon(
+                                            Icons.lightbulb,
+                                            color: Color(0xFF46356D),
+                                            size: 36,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                              );
+                            },
+                          ),
                           // Shield Button
                           ValueListenableBuilder<int>(
                             valueListenable: game.remainingShields,
@@ -128,8 +136,14 @@ class GameControlsOverlay extends StatelessWidget {
                                       activeTime: shieldTime,
                                       maxTime: 5.0,
                                       onTap: () {
-                                        game.remainingShields.value -= 1;
-                                        game.shieldTimer = 5.0;
+                                        final coordinator = coopCoordinator;
+                                        if (coordinator != null) {
+                                          unawaited(
+                                            coordinator.activateSharedShield(),
+                                          );
+                                        } else {
+                                          game.activateShield();
+                                        }
                                       },
                                       colors: powerUpColors,
                                       isInfinityMode: game.isInfinityMode,
@@ -160,6 +174,19 @@ class GameControlsOverlay extends StatelessWidget {
         );
       },
     );
+  }
+
+  void _setJoystick(double value, {required bool isLeft}) {
+    final coordinator = coopCoordinator;
+    if (coordinator != null) {
+      unawaited(coordinator.setLocalInput(value));
+      return;
+    }
+    if (isLeft) {
+      game.leftJoystickValue = value;
+    } else {
+      game.rightJoystickValue = value;
+    }
   }
 }
 
@@ -498,7 +525,12 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
 
             // 2.5D Glossy Orange Knob
             Align(
-              alignment: Alignment(0, widget.externalValue != null ? widget.externalValue! / _maxDrag : _dy / _maxDrag),
+              alignment: Alignment(
+                0,
+                widget.externalValue != null
+                    ? widget.externalValue! / _maxDrag
+                    : _dy / _maxDrag,
+              ),
               child: ClipOval(
                 child: BackdropFilter(
                   filter: widget.isInfinityMode

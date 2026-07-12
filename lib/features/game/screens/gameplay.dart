@@ -21,30 +21,61 @@ import 'package:balanco_game/features/game/screens/overlays/time_stop_overlay.da
 import 'package:balanco_game/core/theme/game_colors.dart';
 import 'package:balanco_game/features/editor/screens/editor_overlay.dart';
 import 'package:balanco_game/features/game/screens/overlays/instruction_overlay.dart';
+import 'package:balanco_game/features/coop/application/coop_game_coordinator.dart';
+import 'package:balanco_game/features/coop/application/voice_chat_controller.dart';
+import 'package:balanco_game/features/coop/presentation/coop_gameplay_header.dart';
+import 'package:balanco_game/features/coop/presentation/coop_status_overlay.dart';
 
 class GamePlayOverlay extends StatefulWidget {
   final BalancoGame game;
+  final CoopGameCoordinator? coopCoordinator;
+  final VoiceChatController? voice;
 
-  const GamePlayOverlay({super.key, required this.game});
+  const GamePlayOverlay({
+    super.key,
+    required this.game,
+    this.coopCoordinator,
+    this.voice,
+  });
 
   @override
   State<GamePlayOverlay> createState() => _GamePlayOverlayState();
 }
 
 class _GamePlayOverlayState extends State<GamePlayOverlay> {
+  bool _coopExitHandled = false;
+
   @override
   void initState() {
     super.initState();
     AppSettings.playGameBgm();
+    widget.coopCoordinator?.room.addListener(_handleCoopRoomChange);
+  }
+
+  void _handleCoopRoomChange() {
+    final coordinator = widget.coopCoordinator;
+    if (_coopExitHandled || coordinator == null) return;
+    if (!coordinator.room.value.endedByAgreement) return;
+    _coopExitHandled = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && Navigator.of(context).canPop()) {
+        Navigator.of(context).pop();
+      }
+    });
   }
 
   @override
   void dispose() {
+    widget.coopCoordinator?.room.removeListener(_handleCoopRoomChange);
     AppSettings.playMenuBgm();
     super.dispose();
   }
 
   void _showPauseMenu() {
+    if (widget.coopCoordinator != null) {
+      widget.coopCoordinator!.setPaused(true);
+      return;
+    }
     widget.game.pauseEngine();
     try {
       AppSettings.playSound('pause.wav');
@@ -695,9 +726,15 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                                     right: 0,
                                     child: Center(
                                       child: widget.game.isInfinityMode
-                                          ? InfinityScoreHeader(
-                                              game: widget.game,
-                                            )
+                                          ? widget.coopCoordinator != null
+                                                ? CoopGameplayHeader(
+                                                    coordinator:
+                                                        widget.coopCoordinator!,
+                                                    voice: widget.voice!,
+                                                  )
+                                                : InfinityScoreHeader(
+                                                    game: widget.game,
+                                                  )
                                           : GameplayHeader(
                                               game: widget.game,
                                               cardBaseGradient: [
@@ -727,6 +764,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                                     height: 150,
                                     child: GameControlsOverlay(
                                       game: widget.game,
+                                      coopCoordinator: widget.coopCoordinator,
                                     ),
                                   ),
 
@@ -780,7 +818,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                 ValueListenableBuilder<bool>(
                   valueListenable: widget.game.showVictoryOverlay,
                   builder: (context, showVictory, child) {
-                    if (showVictory) {
+                    if (showVictory && widget.coopCoordinator == null) {
                       return AnimatedLevelCompleteOverlay(game: widget.game);
                     }
                     return const SizedBox.shrink();
@@ -791,7 +829,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                 ValueListenableBuilder<bool>(
                   valueListenable: widget.game.showGameOverOverlay,
                   builder: (context, showGameOver, child) {
-                    if (showGameOver) {
+                    if (showGameOver && widget.coopCoordinator == null) {
                       return AnimatedGameOverOverlay(game: widget.game);
                     }
                     return const SizedBox.shrink();
@@ -814,6 +852,8 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                     return const SizedBox.shrink();
                   },
                 ),
+                if (widget.coopCoordinator != null)
+                  CoopStatusOverlay(coordinator: widget.coopCoordinator!),
               ],
             );
           },

@@ -4,6 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:balanco_game/features/game/game_area.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
+import 'package:balanco_game/features/player/application/player_session.dart';
+import 'package:uuid/uuid.dart';
+import 'package:balanco_game/core/data/database_helper.dart';
 
 class AnimatedGameOverOverlay extends StatefulWidget {
   final BalancoGame game;
@@ -19,6 +22,7 @@ class _AnimatedGameOverOverlayState extends State<AnimatedGameOverOverlay>
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
   late Animation<double> _fadeAnimation;
+  late final Future<void> _saveLoss;
 
   @override
   void initState() {
@@ -37,6 +41,10 @@ class _AnimatedGameOverOverlayState extends State<AnimatedGameOverOverlay>
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
 
     _controller.forward();
+    _saveLoss = PlayerSession.instance.recordGameOver(
+      attemptId: const Uuid().v4(),
+      levelId: widget.game.currentLevel.value,
+    );
   }
 
   @override
@@ -45,14 +53,32 @@ class _AnimatedGameOverOverlayState extends State<AnimatedGameOverOverlay>
     super.dispose();
   }
 
-  void _restartLevel() {
+  void _restartLevel() async {
+    await _saveLoss;
+    if (!mounted) return;
+    final profile = await DatabaseHelper.instance.getPlayerProfile();
+    if (profile.sparks <= 0) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Your sparks are empty. Come back after the daily refill!',
+          ),
+        ),
+      );
+      widget.game.showGameOverOverlay.value = false;
+      Navigator.pop(context);
+      return;
+    }
     _controller.reverse().then((_) {
       widget.game.showGameOverOverlay.value = false;
       widget.game.restartCurrentLevel();
     });
   }
 
-  void _returnToLobby() {
+  void _returnToLobby() async {
+    await _saveLoss;
+    if (!mounted) return;
     widget.game.showGameOverOverlay.value = false;
     Navigator.pop(context); // Close GamePlayOverlay
   }

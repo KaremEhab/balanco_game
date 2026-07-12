@@ -114,7 +114,10 @@ class SphinxPainter extends CustomPainter {
     paint_2_fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.6250670, size.height * 0.9976510),
       Offset(size.width * 0.6250670, size.height * 0.3116846),
-      [Color(0xff983957).withValues(alpha: 1), Color(0xffCE527A).withValues(alpha: 1)],
+      [
+        Color(0xff983957).withValues(alpha: 1),
+        Color(0xffCE527A).withValues(alpha: 1),
+      ],
       [0.028, 1],
     );
     canvas.drawPath(path_2, paint_2_fill);
@@ -163,7 +166,10 @@ class SphinxPainter extends CustomPainter {
     paint_4_fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.1892775, size.height * 0.6977181),
       Offset(size.width * 0.5688708, size.height * 0.6977181),
-      [Color(0xffFF827D).withValues(alpha: 1), Color(0xffAE4072).withValues(alpha: 1)],
+      [
+        Color(0xffFF827D).withValues(alpha: 1),
+        Color(0xffAE4072).withValues(alpha: 1),
+      ],
       [0, 0.961],
     );
     canvas.drawPath(path_4, paint_4_fill);
@@ -256,7 +262,10 @@ class SphinxPainter extends CustomPainter {
     paint_6_fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.2449904, size.height * 0.7369732),
       Offset(size.width * 0.2449904, size.height * 0.5122282),
-      [Color(0xffAE4072).withValues(alpha: 1), Color(0xffFF827D).withValues(alpha: 1)],
+      [
+        Color(0xffAE4072).withValues(alpha: 1),
+        Color(0xffFF827D).withValues(alpha: 1),
+      ],
       [0.039, 1],
     );
     canvas.drawPath(path_6, paint_6_fill);
@@ -398,7 +407,10 @@ class SphinxPainter extends CustomPainter {
     paint_7_fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4506124, size.height * 0.7579329),
       Offset(size.width * 0.4506124, size.height * 0.002013423),
-      [Color(0xffAE4072).withValues(alpha: 1), Color(0xffFF827D).withValues(alpha: 1)],
+      [
+        Color(0xffAE4072).withValues(alpha: 1),
+        Color(0xffFF827D).withValues(alpha: 1),
+      ],
       [0.039, 1],
     );
     canvas.drawPath(path_7, paint_7_fill);
@@ -627,7 +639,10 @@ class SphinxPainter extends CustomPainter {
     paint_9_fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.3963780, size.height * 0.6836376),
       Offset(size.width * 0.3963780, size.height * 0.1267181),
-      [Color(0xff9F4F72).withValues(alpha: 1), Color(0xffE75D7A).withValues(alpha: 1)],
+      [
+        Color(0xff9F4F72).withValues(alpha: 1),
+        Color(0xffE75D7A).withValues(alpha: 1),
+      ],
       [0.028, 1],
     );
     canvas.drawPath(path_9, paint_9_fill);
@@ -933,7 +948,10 @@ class SphinxPainter extends CustomPainter {
     paint_13_fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.8224258, size.height * 0.9056577),
       Offset(size.width * 0.8224258, size.height * 0.6648792),
-      [Color(0xffAE4072).withValues(alpha: 1), Color(0xffFF827D).withValues(alpha: 1)],
+      [
+        Color(0xffAE4072).withValues(alpha: 1),
+        Color(0xffFF827D).withValues(alpha: 1),
+      ],
       [0.039, 1],
     );
     canvas.drawPath(path_13, paint_13_fill);
@@ -1036,7 +1054,10 @@ class SphinxPainter extends CustomPainter {
     paint_16_fill.shader = ui.Gradient.linear(
       Offset(size.width * 0.4027081, size.height * 0.06885235),
       Offset(size.width * 0.4455550, size.height * 0.06885235),
-      [Color(0xff8E255E).withValues(alpha: 1), Color(0xff82164C).withValues(alpha: 1)],
+      [
+        Color(0xff8E255E).withValues(alpha: 1),
+        Color(0xff82164C).withValues(alpha: 1),
+      ],
       [0.028, 1],
     );
     canvas.drawPath(path_16, paint_16_fill);

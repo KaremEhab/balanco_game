@@ -143,11 +143,11 @@ class WoodenRoutePainter extends CustomPainter {
     for (final biome in BiomeConfig.biomes.reversed) {
       final double progressStart = (biome.startLevel - 1) / (totalLevels - 1);
       final double progressEnd = (biome.endLevel - 1) / (totalLevels - 1);
-      
+
       stops.add((1.0 - progressEnd).clamp(0.0, 1.0));
       stops.add((1.0 - progressStart).clamp(0.0, 1.0));
     }
-    
+
     // Sort just in case, though they should be generally ordered
     stops.sort();
     return stops;

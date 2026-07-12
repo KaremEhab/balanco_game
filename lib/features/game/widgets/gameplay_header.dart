@@ -576,7 +576,9 @@ class _AnimatedGameStatSlotState extends State<AnimatedGameStatSlot>
                             filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
                             child: ColorFiltered(
                               colorFilter: ColorFilter.mode(
-                                GameColors.white.withValues(alpha: widget.isActive ? 0.9 : 0.4),
+                                GameColors.white.withValues(
+                                  alpha: widget.isActive ? 0.9 : 0.4,
+                                ),
                                 BlendMode.srcATop,
                               ),
                               child: CustomPaint(

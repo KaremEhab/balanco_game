@@ -12,8 +12,26 @@ class BallShatterPainter extends CustomPainter {
   static const int _shardCount = 8;
 
   // Pre-baked per-shard multipliers so every run looks the same
-  static const List<double> _flyMultipliers  = [1.0, 1.3, 0.9, 1.4, 1.1, 0.8, 1.2, 1.0];
-  static const List<double> _spinMultipliers = [0.4, -0.6, 0.7, -0.5, 0.9, -0.4, 0.6, -0.8];
+  static const List<double> _flyMultipliers = [
+    1.0,
+    1.3,
+    0.9,
+    1.4,
+    1.1,
+    0.8,
+    1.2,
+    1.0,
+  ];
+  static const List<double> _spinMultipliers = [
+    0.4,
+    -0.6,
+    0.7,
+    -0.5,
+    0.9,
+    -0.4,
+    0.6,
+    -0.8,
+  ];
 
   const BallShatterPainter({
     required this.progress,
@@ -44,7 +62,7 @@ class BallShatterPainter extends CustomPainter {
 
     for (int i = 0; i < _shardCount; i++) {
       final startAngle = (2 * pi * i) / _shardCount;
-      final midAngle   = startAngle + sweepAngle / 2;
+      final midAngle = startAngle + sweepAngle / 2;
 
       final flyDist = maxFly * progress * _flyMultipliers[i];
       final spin = progress * _spinMultipliers[i] * pi;
@@ -60,7 +78,9 @@ class BallShatterPainter extends CustomPainter {
         ..moveTo(cos(startAngle) * innerR, sin(startAngle) * innerR)
         ..arcTo(
           Rect.fromCircle(center: Offset.zero, radius: outerR),
-          startAngle, sweepAngle, false,
+          startAngle,
+          sweepAngle,
+          false,
         )
         ..lineTo(
           cos(startAngle + sweepAngle) * innerR,
@@ -68,7 +88,9 @@ class BallShatterPainter extends CustomPainter {
         )
         ..arcTo(
           Rect.fromCircle(center: Offset.zero, radius: innerR),
-          startAngle + sweepAngle, -sweepAngle, false,
+          startAngle + sweepAngle,
+          -sweepAngle,
+          false,
         )
         ..close();
 

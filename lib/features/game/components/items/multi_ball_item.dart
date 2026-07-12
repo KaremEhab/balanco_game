@@ -82,7 +82,8 @@ class MultiBallItem extends PositionComponent
     super.update(dt);
     if (isCollected) return;
 
-    if (!game.isEditMode && !game.isSpawningLevel &&
+    if (!game.isEditMode &&
+        !game.isSpawningLevel &&
         !game.isInfinityMode &&
         game.size.x > 0 &&
         game.size.y > 0) {

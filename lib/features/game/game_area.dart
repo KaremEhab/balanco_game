@@ -12,6 +12,8 @@ import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:balanco_game/core/data/database_helper.dart';
+import 'package:balanco_game/features/player/application/player_session.dart';
+import 'package:uuid/uuid.dart';
 
 import 'package:balanco_game/features/game/components/hole_component.dart';
 import 'package:balanco_game/features/game/components/bar_component.dart';
@@ -51,6 +53,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   final bool isInfinityMode;
   final bool isEditMode;
   final String playerRole;
+  final int? randomSeed;
 
   VoidCallback? onGameOver;
   VoidCallback? onLevelComplete;
@@ -100,6 +103,14 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   final ValueNotifier<double> shieldTimerNotifier = ValueNotifier<double>(0.0);
   double shieldTimer = 0.0;
   bool get isShieldActive => shieldTimer > 0;
+
+  bool activateShield() {
+    if (remainingShields.value <= 0 || isShieldActive) return false;
+    remainingShields.value -= 1;
+    shieldTimer = 5.0;
+    shieldTimerNotifier.value = shieldTimer;
+    return true;
+  }
 
   // Level timer
   double maxLevelTimer = 120.0; // Changed from a getter to a mutable variable
@@ -155,7 +166,11 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   double nextSpawnY = 0.0;
   double nextInfinityChunkBoundaryY = 0.0;
   final Queue<HoleBehavior> _recentInfinityPrimaryBehaviors = Queue();
-  final Random _random = Random();
+  late Random _random;
+  late Random _worldRandom;
+  bool _isCoopReplica = false;
+  bool _hasCoopSnapshot = false;
+  Map<String, dynamic>? _coopSnapshot;
   static const bool showLevelDebugOverlay = false;
 
   final double barPadding = 20.0;
@@ -250,9 +265,13 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     this.isInfinityMode = false,
     this.isEditMode = false,
     required this.playerRole,
+    this.randomSeed,
     this.onGameOver,
     this.onLevelComplete,
-  });
+  }) {
+    _random = Random(randomSeed);
+    _worldRandom = Random((randomSeed ?? 0) ^ 0x5F3759DF);
+  }
 
   @override
   Color backgroundColor() => GameColors.transparentBlack;
@@ -832,6 +851,11 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       lastInfinityCoins = 0;
       nextInfinityChunkBoundaryY = 0.0;
       _recentInfinityPrimaryBehaviors.clear();
+      if (isMultiplayer) {
+        remainingShields.value = 3;
+        shieldTimer = 0.0;
+        shieldTimerNotifier.value = 0.0;
+      }
     }
     currentLives.value = isInfinityMode ? 1 : 3;
     showGameOverOverlay.value = false;
@@ -844,6 +868,215 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     await generateLevel();
     debugPrint("DEBUG: generateLevel finishes, resuming engine");
     resumeEngine();
+  }
+
+  void restartCoopRun(int seed) {
+    _random = Random(seed);
+    _worldRandom = Random(seed ^ 0x5F3759DF);
+    _hasCoopSnapshot = false;
+    _coopSnapshot = null;
+    restartCurrentLevel();
+  }
+
+  void enableCoopReplica() {
+    _isCoopReplica = true;
+  }
+
+  bool get isCoopReplica => _isCoopReplica;
+
+  Map<String, dynamic> createCoopSnapshot() => {
+    'world_width': size.x,
+    'world_height': size.y,
+    'left_y': leftY,
+    'right_y': rightY,
+    'camera_y': cameraOffsetY,
+    'score': currentScore.value,
+    'coins': collectedCoins.value,
+    'lives': currentLives.value,
+    'game_over': showGameOverOverlay.value,
+    'countdown': countdownTimer,
+    'shields': remainingShields.value,
+    'shield_time': shieldTimer,
+    'balls': activeBalls
+        .map(
+          (ball) => {
+            'x': ball.pos2D.x,
+            'y': ball.pos2D.y,
+            'velocity': ball.velocity,
+            'free_fall_x': ball.freeFallVelocity.x,
+            'free_fall_y': ball.freeFallVelocity.y,
+            'p': ball.p,
+            'scale': ball.scale,
+            'is_falling': ball.isFalling,
+            'is_free_falling': ball.isFreeFalling,
+            'is_dead': ball.isDead,
+            'fall_rotation': ball.fallRotation,
+          },
+        )
+        .toList(),
+    'holes': holes
+        .map((hole) => {'x': hole.position.x, 'y': hole.position.y})
+        .toList(),
+    'bombs': levelContainer.children
+        .whereType<BombComponent>()
+        .map((bomb) => {'x': bomb.position.x, 'y': bomb.position.y})
+        .toList(),
+    'bomb_warnings': levelContainer.children
+        .whereType<BombWarningComponent>()
+        .map((warning) => {'x': warning.position.x, 'y': warning.position.y})
+        .toList(),
+  };
+
+  void applyCoopSnapshot(Map<String, dynamic> snapshot) {
+    _coopSnapshot = Map<String, dynamic>.from(snapshot);
+  }
+
+  void _updateCoopReplica(double dt) {
+    final snapshot = _coopSnapshot;
+    if (snapshot == null) return;
+
+    final firstFrame = !_hasCoopSnapshot;
+    _hasCoopSnapshot = true;
+    final barBlend = firstFrame ? 1.0 : 1.0 - exp(-32.0 * dt);
+    final objectBlend = firstFrame ? 1.0 : 1.0 - exp(-38.0 * dt);
+    final cameraBlend = firstFrame ? 1.0 : 1.0 - exp(-24.0 * dt);
+
+    double blend(double current, dynamic target, double amount) =>
+        current + ((target as num).toDouble() - current) * amount;
+    final hostWidth = (snapshot['world_width'] as num?)?.toDouble() ?? size.x;
+    final hostHeight = (snapshot['world_height'] as num?)?.toDouble() ?? size.y;
+    final scaleX = hostWidth <= 0 ? 1.0 : size.x / hostWidth;
+    final scaleY = hostHeight <= 0 ? 1.0 : size.y / hostHeight;
+    double x(dynamic value) => (value as num).toDouble() * scaleX;
+    double y(dynamic value) => (value as num).toDouble() * scaleY;
+
+    leftY = blend(leftY, y(snapshot['left_y']), barBlend);
+    rightY = blend(rightY, y(snapshot['right_y']), barBlend);
+    cameraOffsetY = blend(cameraOffsetY, y(snapshot['camera_y']), cameraBlend);
+    cameraOffsetYNotifier.value = cameraOffsetY;
+    levelContainer.position.y = -cameraOffsetY;
+
+    currentScore.value = snapshot['score'] as int;
+    collectedCoins.value = snapshot['coins'] as int;
+    currentLives.value = snapshot['lives'] as int;
+    countdownTimer = (snapshot['countdown'] as num).toDouble();
+    countdownNotifier.value = countdownTimer.ceil();
+    remainingShields.value = snapshot['shields'] as int? ?? 3;
+    shieldTimer = (snapshot['shield_time'] as num?)?.toDouble() ?? 0.0;
+    shieldTimerNotifier.value = shieldTimer;
+
+    final remoteBalls = snapshot['balls'] as List? ?? const [];
+    _matchReplicaBallCount(remoteBalls.length);
+    for (var index = 0; index < remoteBalls.length; index++) {
+      final remote = Map<String, dynamic>.from(remoteBalls[index] as Map);
+      final ball = activeBalls[index];
+      ball.pos2D.x = blend(ball.pos2D.x, x(remote['x']), objectBlend);
+      ball.pos2D.y = blend(ball.pos2D.y, y(remote['y']), objectBlend);
+      ball.velocity = (remote['velocity'] as num).toDouble();
+      ball.freeFallVelocity.x = (remote['free_fall_x'] as num).toDouble();
+      ball.freeFallVelocity.y = (remote['free_fall_y'] as num).toDouble();
+      ball.p = (remote['p'] as num).toDouble();
+      ball.scale = (remote['scale'] as num).toDouble();
+      ball.isFalling = remote['is_falling'] as bool;
+      ball.isFreeFalling = remote['is_free_falling'] as bool;
+      ball.isDead = remote['is_dead'] as bool;
+      ball.fallRotation = (remote['fall_rotation'] as num).toDouble();
+    }
+
+    final worldReady =
+        isInfinityMode && currentLevelData != null && nextSpawnY != 0.0;
+    if (worldReady) {
+      _ensureInfinityWorldForBar((leftY + rightY) / 2.0);
+    }
+    final remoteHoles = snapshot['holes'] as List? ?? const [];
+    final holeCount = min(holes.length, remoteHoles.length);
+    for (var index = 0; index < holeCount; index++) {
+      final remote = Map<String, dynamic>.from(remoteHoles[index] as Map);
+      holes[index].position.x = blend(
+        holes[index].position.x,
+        x(remote['x']),
+        objectBlend,
+      );
+      holes[index].position.y = blend(
+        holes[index].position.y,
+        y(remote['y']),
+        objectBlend,
+      );
+    }
+    if (worldReady) {
+      _cullInfinityObstacles((leftY + rightY) / 2.0 + 600.0);
+    }
+
+    final remoteBombs = snapshot['bombs'] as List? ?? const [];
+    final localBombs = _matchReplicaBombCount(remoteBombs.length);
+    for (var index = 0; index < remoteBombs.length; index++) {
+      final remote = Map<String, dynamic>.from(remoteBombs[index] as Map);
+      localBombs[index].position.x = blend(
+        localBombs[index].position.x,
+        x(remote['x']),
+        objectBlend,
+      );
+      localBombs[index].position.y = blend(
+        localBombs[index].position.y,
+        y(remote['y']),
+        objectBlend,
+      );
+    }
+
+    final remoteWarnings = snapshot['bomb_warnings'] as List? ?? const [];
+    final localWarnings = _matchReplicaWarningCount(remoteWarnings.length);
+    for (var index = 0; index < remoteWarnings.length; index++) {
+      final remote = Map<String, dynamic>.from(remoteWarnings[index] as Map);
+      localWarnings[index].position.x = x(remote['x']);
+      localWarnings[index].position.y = y(remote['y']);
+    }
+  }
+
+  List<BombComponent> _matchReplicaBombCount(int count) {
+    final bombs = levelContainer.children.whereType<BombComponent>().toList();
+    while (bombs.length < count) {
+      final bomb = BombComponent(Vector2.zero(), replicaOnly: true)
+        ..priority = 100;
+      bombs.add(bomb);
+      levelContainer.add(bomb);
+    }
+    while (bombs.length > count) {
+      bombs.removeLast().removeFromParent();
+    }
+    return bombs;
+  }
+
+  List<BombWarningComponent> _matchReplicaWarningCount(int count) {
+    final warnings = levelContainer.children
+        .whereType<BombWarningComponent>()
+        .toList();
+    while (warnings.length < count) {
+      final warning = BombWarningComponent(replicaOnly: true)..priority = 100;
+      warnings.add(warning);
+      levelContainer.add(warning);
+    }
+    while (warnings.length > count) {
+      warnings.removeLast().removeFromParent();
+    }
+    return warnings;
+  }
+
+  void _matchReplicaBallCount(int count) {
+    while (activeBalls.length < count) {
+      final ball = BallData();
+      final component = BallComponent(ball)..priority = 20;
+      activeBalls.add(ball);
+      activeBallComponents.add(component);
+      levelContainer.add(component);
+    }
+    while (activeBalls.length > count) {
+      final ball = activeBalls.removeLast();
+      final component = activeBallComponents.firstWhere(
+        (value) => value.ballData == ball,
+      );
+      component.removeFromParent();
+      activeBallComponents.remove(component);
+    }
   }
 
   void startNextLevel() {
@@ -1020,8 +1253,8 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       mainBall.velocity = 0.0;
       mainBall.freeFallVelocity.setZero();
       mainBall.holeImmunityTimer = 2.0;
-      shieldTimer = 2.0;
-      shieldTimerNotifier.value = 2.0;
+      shieldTimer = isMultiplayer ? 0.0 : 2.0;
+      shieldTimerNotifier.value = shieldTimer;
       isSpawningLevel = false;
       isLevelTimerActive = false;
       teleportingGateComponent.scale = Vector2.zero(); // hide the gate
@@ -1041,8 +1274,8 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       mainBall.pos2D = mainBall.activeHole!.position.clone();
       mainBall.scale = 0.0;
       mainBall.p = (currentSizeX - 2 * barPadding) / 2.0;
-      shieldTimer = 1.5;
-      shieldTimerNotifier.value = 1.5;
+      shieldTimer = isMultiplayer ? 0.0 : 1.5;
+      shieldTimerNotifier.value = shieldTimer;
     } else {
       mainBall.isRespawningFromEdge = true;
       isLevelTimerActive = false;
@@ -1233,7 +1466,11 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       currentHeightMultiplier = data.heightMultiplier;
     } else if (isInfinityMode) {
       LevelData? infinityTemplate;
-      final infinityJsonStr = await DatabaseHelper.instance.getCustomLevel(0);
+      // Online co-op must never depend on device-local editor data, because
+      // two phones can have different level 0 templates.
+      final infinityJsonStr = isMultiplayer
+          ? null
+          : await DatabaseHelper.instance.getCustomLevel(0);
       if (infinityJsonStr != null) {
         infinityTemplate = LevelData.fromJson(jsonDecode(infinityJsonStr));
       }
@@ -1260,7 +1497,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       // Pre-spawn a wave of obstacles immediately
       for (int i = 0; i < 8; i++) {
         _spawnInfinityObstaclePattern(nextSpawnY, 0.0);
-        nextSpawnY -= 220.0 + _random.nextDouble() * 100.0;
+        nextSpawnY -= 220.0 + _worldRandom.nextDouble() * 100.0;
       }
       nextInfinityChunkBoundaryY = nextSpawnY - 4000.0;
       _scatterStarsInChunk(nextSpawnY, nextInfinityChunkBoundaryY, 10);
@@ -1548,6 +1785,10 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     super.update(dt);
 
     if (size.x == 0 || size.y == 0) return;
+    if (_isCoopReplica) {
+      _updateCoopReplica(dt);
+      return;
+    }
     if (praiseCooldown > 0) {
       praiseCooldown = max(0.0, praiseCooldown - dt);
     }
@@ -2796,27 +3037,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     if (activeBalls.isEmpty) return;
 
     final double barMid = (leftY + rightY) / 2.0;
-    final double barTop = barMid - 800.0;
-    while (nextSpawnY > barTop) {
-      if (nextSpawnY <= nextInfinityChunkBoundaryY) {
-        _spawnInfinityCoinSnake(nextSpawnY);
-        nextSpawnY -= 620.0;
-        final double currentChunkEnd = nextInfinityChunkBoundaryY;
-        nextInfinityChunkBoundaryY -= 4000.0;
-        _scatterStarsInChunk(currentChunkEnd, nextInfinityChunkBoundaryY, 10);
-        continue;
-      }
-
-      final double estimatedScore = ((550 - nextSpawnY) / 40.0).clamp(0, 9999);
-      final double difficulty = (estimatedScore / 500.0).clamp(0.0, 1.0);
-
-      _spawnInfinityObstaclePattern(nextSpawnY, difficulty);
-
-      final double maxStep = 320.0 - (difficulty * 80.0);
-      final double minStep = 220.0 - (difficulty * 40.0);
-
-      nextSpawnY -= minStep + _random.nextDouble() * (maxStep - minStep);
-    }
+    _ensureInfinityWorldForBar(barMid);
 
     for (final hole in holes) {
       if (!hole.isPassed && hole.position.y > barMid) {
@@ -2863,12 +3084,37 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     _cullInfinityObstacles(barMid + 600.0);
   }
 
+  void _ensureInfinityWorldForBar(double barMid) {
+    final double barTop = barMid - 800.0;
+    while (nextSpawnY > barTop) {
+      if (nextSpawnY <= nextInfinityChunkBoundaryY) {
+        _spawnInfinityCoinSnake(nextSpawnY);
+        nextSpawnY -= 620.0;
+        final double currentChunkEnd = nextInfinityChunkBoundaryY;
+        nextInfinityChunkBoundaryY -= 4000.0;
+        _scatterStarsInChunk(currentChunkEnd, nextInfinityChunkBoundaryY, 10);
+        continue;
+      }
+
+      final double estimatedScore = ((550 - nextSpawnY) / 40.0).clamp(0, 9999);
+      final double difficulty = (estimatedScore / 500.0).clamp(0.0, 1.0);
+
+      _spawnInfinityObstaclePattern(nextSpawnY, difficulty);
+
+      final double maxStep = 320.0 - (difficulty * 80.0);
+      final double minStep = 220.0 - (difficulty * 40.0);
+
+      nextSpawnY -= minStep + _worldRandom.nextDouble() * (maxStep - minStep);
+    }
+  }
+
   void _scatterStarsInChunk(double startY, double endY, int count) {
     final double sizeX = size.x > 0 ? size.x : 400.0;
     final double usableWidth = sizeX - barPadding * 2 - 40.0;
     for (int i = 0; i < count; i++) {
-      final double x = barPadding + 20.0 + _random.nextDouble() * usableWidth;
-      final double y = endY + _random.nextDouble() * (startY - endY);
+      final double x =
+          barPadding + 20.0 + _worldRandom.nextDouble() * usableWidth;
+      final double y = endY + _worldRandom.nextDouble() * (startY - endY);
       final coin = CoinComponent(position: Vector2(x, y))..priority = 5;
       coins.add(coin);
       levelContainer.add(coin);
@@ -2916,11 +3162,11 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     final double usableWidth = sizeX - barPadding * 2;
     double rx() {
       final centerWeighted =
-          (_random.nextDouble() + _random.nextDouble()) / 2.0;
+          (_worldRandom.nextDouble() + _worldRandom.nextDouble()) / 2.0;
       return barPadding + 28.0 + centerWeighted * (usableWidth - 56.0);
     }
 
-    final double roll = _random.nextDouble();
+    final double roll = _worldRandom.nextDouble();
     final behaviorCandidates = <HoleBehavior>[
       HoleBehavior.pulse,
       if (difficulty > 0.18) HoleBehavior.wave,
@@ -2938,10 +3184,10 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
         .toList();
     final pool = available.isEmpty ? behaviorCandidates : available;
     final primaryBehavior = roll >= 0.5 && roll < 0.7
-        ? (difficulty > 0.55 && _random.nextBool()
+        ? (difficulty > 0.55 && _worldRandom.nextBool()
               ? HoleBehavior.breathingVortex
               : HoleBehavior.spiralSuction)
-        : pool[_random.nextInt(pool.length)];
+        : pool[_worldRandom.nextInt(pool.length)];
     _recentInfinityPrimaryBehaviors.add(primaryBehavior);
     while (_recentInfinityPrimaryBehaviors.length > 2) {
       _recentInfinityPrimaryBehaviors.removeFirst();
@@ -2955,23 +3201,23 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     }.contains(primaryBehavior);
 
     // Spawn powerups independently of the pattern (small chance)
-    if (_random.nextDouble() < 0.05) {
+    if (_worldRandom.nextDouble() < 0.05) {
       final heart = HeartComponent(Vector2(rx(), y - 80))
         ..position = Vector2(rx(), y - 80)
         ..priority = 5;
       hearts.add(heart);
       levelContainer.add(heart);
-    } else if (_random.nextDouble() < 0.05) {
+    } else if (_worldRandom.nextDouble() < 0.05) {
       final mag = MagnetComponent(Vector2(rx(), y - 80))
         ..position = Vector2(rx(), y - 80)
         ..priority = 5;
       magnets.add(mag);
       levelContainer.add(mag);
-    } else if (_random.nextDouble() < 0.05) {
+    } else if (_worldRandom.nextDouble() < 0.05) {
       final mb =
           MultiBallItem(
               Vector2(rx(), y - 80),
-              ballCount: 1 + _random.nextInt(3),
+              ballCount: 1 + _worldRandom.nextInt(3),
             )
             ..position = Vector2(rx(), y - 80)
             ..priority = 5;
@@ -2982,7 +3228,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     final double patternWidth = usableWidth * 0.76;
     final double offsetRange = usableWidth - patternWidth;
     final double startX =
-        barPadding + offsetRange * (0.35 + _random.nextDouble() * 0.3);
+        barPadding + offsetRange * (0.35 + _worldRandom.nextDouble() * 0.3);
 
     if (roll < 0.25) {
       // The Blockade: Horizontal line of small holes
@@ -2994,7 +3240,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
             HoleComponent(
                 Vector2(px, y),
                 34 + difficulty * 10,
-                _random.nextDouble() * pi,
+                _worldRandom.nextDouble() * pi,
                 behavior: primaryBehavior,
                 isMovingHole: behaviorMoves,
                 moveRange: 28 + difficulty * 18,
@@ -3076,7 +3322,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
             HoleComponent(
                 Vector2(zx, zy),
                 40 + difficulty * 15,
-                _random.nextDouble() * pi,
+                _worldRandom.nextDouble() * pi,
                 behavior: primaryBehavior,
                 isMovingHole: behaviorMoves,
                 moveRange: 24 + difficulty * 14,
@@ -3094,7 +3340,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
           HoleComponent(
               Vector2(nx, y),
               55 + difficulty * 15,
-              _random.nextDouble() * pi,
+              _worldRandom.nextDouble() * pi,
               behavior: primaryBehavior,
               isMovingHole: behaviorMoves,
               moveRange: 32 + difficulty * 18,
@@ -3170,7 +3416,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   }
 
   Future<void> _saveInfinityScoreAndCoins() async {
-    if (!isInfinityMode) return;
+    if (!isInfinityMode || isMultiplayer) return;
     final int finalScore = currentScore.value;
     final int finalCoins = collectedCoins.value;
     lastInfinityScore = finalScore;
@@ -3180,17 +3426,14 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     }
 
     try {
-      final profile = await DatabaseHelper.instance.getPlayerProfile();
-      final newCoins = profile.coins + finalCoins;
-      final newHighScore = finalScore > profile.infinityHighScore
-          ? finalScore
-          : profile.infinityHighScore;
-
-      await DatabaseHelper.instance.updatePlayerProfile(
-        profile.copyWith(coins: newCoins, infinityHighScore: newHighScore),
+      await PlayerSession.instance.recordInfinityRun(
+        runId: const Uuid().v4(),
+        score: finalScore,
+        coins: finalCoins,
       );
-
-      infinityHighScore = newHighScore;
+      infinityHighScore = finalScore > infinityHighScore
+          ? finalScore
+          : infinityHighScore;
     } catch (e) {
       debugPrint("DEBUG: Failed to save coins or high score: $e");
     } finally {

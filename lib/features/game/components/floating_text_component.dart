@@ -83,7 +83,7 @@ class FloatingTextComponent extends PositionComponent
     add(_dropShadowComponent);
     add(_shadowComponent);
     add(_textComponent);
-    
+
     // Start small for pop effect
     scale = Vector2.all(0.1);
   }
@@ -115,9 +115,9 @@ class FloatingTextComponent extends PositionComponent
       final opacity =
           1.0 - ((_lifeTime - maxLifeTime * 0.5) / (maxLifeTime * 0.5));
       final clamped = opacity.clamp(0.0, 1.0);
-      
+
       final fontFamily = GoogleFonts.luckiestGuy().fontFamily;
-      
+
       _textComponent.textRenderer = TextPaint(
         style: TextStyle(
           fontFamily: fontFamily,

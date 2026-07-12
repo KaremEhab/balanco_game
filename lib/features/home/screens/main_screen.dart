@@ -690,8 +690,10 @@ class _MainScreenState extends State<MainScreen> {
                     return MapAppBar(
                       highestLevel: profile?.highestLevel ?? _highestLevel,
                       coins: profile?.coins ?? _coins,
-                      sparks: 2, // Defaulting to 2 as per the previous mockup
-                      maxSparks: 5,
+                      totalPoints: profile?.totalPoints ?? 0,
+                      moneyCents: profile?.moneyCents ?? 0,
+                      sparks: profile?.sparks ?? 5,
+                      maxSparks: profile?.maxSparks ?? 5,
                       expandProgress: expandProgress,
                       biomeTransitionProgress: biomeTransitionProgress,
                       currentBiome: currentBiome,

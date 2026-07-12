@@ -20,7 +20,10 @@ class SplashLoadingBarPainter extends CustomPainter {
       height: barHeight,
     );
 
-    final track = RRect.fromRectAndRadius(barRect, Radius.circular(barHeight / 2));
+    final track = RRect.fromRectAndRadius(
+      barRect,
+      Radius.circular(barHeight / 2),
+    );
 
     // Outer glow / shadow
     canvas.drawRRect(
@@ -44,8 +47,16 @@ class SplashLoadingBarPainter extends CustomPainter {
     final value = progress.clamp(0.0, 1.0);
     if (value > 0) {
       final fillWidth = barRect.width * value;
-      final fillRect = Rect.fromLTWH(barRect.left, barRect.top, fillWidth, barHeight);
-      final fillRRect = RRect.fromRectAndRadius(fillRect, Radius.circular(barHeight / 2));
+      final fillRect = Rect.fromLTWH(
+        barRect.left,
+        barRect.top,
+        fillWidth,
+        barHeight,
+      );
+      final fillRRect = RRect.fromRectAndRadius(
+        fillRect,
+        Radius.circular(barHeight / 2),
+      );
 
       // Fill Gradient
       canvas.drawRRect(
@@ -60,9 +71,17 @@ class SplashLoadingBarPainter extends CustomPainter {
       );
 
       // Inner Gloss
-      final glossRect = Rect.fromLTWH(fillRect.left + 2, fillRect.top + 2, fillWidth - 4, barHeight * 0.4);
+      final glossRect = Rect.fromLTWH(
+        fillRect.left + 2,
+        fillRect.top + 2,
+        fillWidth - 4,
+        barHeight * 0.4,
+      );
       canvas.drawRRect(
-        RRect.fromRectAndRadius(glossRect, Radius.circular(glossRect.height / 2)),
+        RRect.fromRectAndRadius(
+          glossRect,
+          Radius.circular(glossRect.height / 2),
+        ),
         Paint()..color = const Color(0x55FFFFFF),
       );
 
@@ -72,7 +91,11 @@ class SplashLoadingBarPainter extends CustomPainter {
         canvas.save();
         canvas.clipRRect(fillRRect);
         canvas.drawRect(
-          Rect.fromCenter(center: Offset(glintX, barRect.center.dy), width: 40, height: barHeight * 2),
+          Rect.fromCenter(
+            center: Offset(glintX, barRect.center.dy),
+            width: 40,
+            height: barHeight * 2,
+          ),
           Paint()
             ..shader = ui.Gradient.linear(
               Offset(glintX - 20, 0),

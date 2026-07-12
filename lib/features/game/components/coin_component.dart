@@ -33,9 +33,12 @@ class CoinComponent extends PositionComponent
     } else {
       _time += dt;
       // Gentle bobbing
-      _scale = 1.0 + 0.08 * ((_time * 2.5).remainder(1.0) < 0.5
-          ? (_time * 2.5).remainder(1.0)
-          : 1.0 - (_time * 2.5).remainder(1.0));
+      _scale =
+          1.0 +
+          0.08 *
+              ((_time * 2.5).remainder(1.0) < 0.5
+                  ? (_time * 2.5).remainder(1.0)
+                  : 1.0 - (_time * 2.5).remainder(1.0));
     }
   }
 
@@ -49,7 +52,10 @@ class CoinComponent extends PositionComponent
     // Use the star painter instead of coin design
     canvas.save();
     canvas.scale(size.x / 48.0, size.y / 48.0);
-    canvas.translate(-24.0, -24.0); // Shift so the center of 48x48 box sits at (0,0)
+    canvas.translate(
+      -24.0,
+      -24.0,
+    ); // Shift so the center of 48x48 box sits at (0,0)
     _painter.paint(canvas, const Size(48, 48));
     canvas.restore();
 

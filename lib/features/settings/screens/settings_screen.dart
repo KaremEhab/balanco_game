@@ -6,6 +6,8 @@ import 'package:balanco_game/core/theme/game_colors.dart';
 
 import 'package:balanco_game/features/game/screens/gameplay.dart';
 import 'package:balanco_game/features/game/game_area.dart';
+import 'package:balanco_game/features/player/application/player_session.dart';
+import 'package:balanco_game/features/home/screens/splash/splash_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
   final ScrollController scrollController;
@@ -447,6 +449,27 @@ class SettingsScreen extends StatelessWidget {
           ),
 
           const SizedBox(height: 32),
+
+          if (PlayerSession.instance.isAuthenticated) ...[
+            _buildSectionHeader('ACCOUNT'),
+            _buildCartoonCard(
+              child: _buildLinkRow(
+                icon: Icons.logout_rounded,
+                title: 'Log Out',
+                onTap: () async {
+                  await PlayerSession.instance.clear();
+                  if (!context.mounted) return;
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute<void>(
+                      builder: (_) => const SplashScreen(),
+                    ),
+                    (_) => false,
+                  );
+                },
+              ),
+            ),
+            const SizedBox(height: 32),
+          ],
 
           _buildSectionHeader('GENERAL'),
           _buildCartoonCard(

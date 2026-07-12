@@ -7,22 +7,25 @@ import 'package:balanco_game/features/game/components/bomb_component.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
 import 'package:balanco_game/features/game/models/ball_data.dart';
 
-class BombWarningComponent extends PositionComponent with HasGameReference<BalancoGame> {
+class BombWarningComponent extends PositionComponent
+    with HasGameReference<BalancoGame> {
   double _timer = 0.0;
   bool _locked = false;
   BallData? targetBall;
-  
+  final bool replicaOnly;
+
   late final Paint _circlePaint;
   late final Paint _exclamationPaint;
   late final Paint _outlinePaint;
-  
-  BombWarningComponent() : super(size: Vector2.all(60), anchor: Anchor.center);
+
+  BombWarningComponent({this.replicaOnly = false})
+    : super(size: Vector2.all(60), anchor: Anchor.center);
 
   @override
   Future<void> onLoad() async {
     super.onLoad();
 
-    if (!game.isEditMode) {
+    if (!game.isEditMode && !replicaOnly) {
       game.queueTutorial('bomb');
       AppSettings.playSound('bomb-warning.wav', volume: 0.65);
     }
@@ -37,7 +40,7 @@ class BombWarningComponent extends PositionComponent with HasGameReference<Balan
       ..strokeWidth = 6.0
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
-      
+
     if (game.activeBalls.isNotEmpty) {
       targetBall = game.activeBalls.first;
     }
@@ -46,7 +49,10 @@ class BombWarningComponent extends PositionComponent with HasGameReference<Balan
   @override
   void update(double dt) {
     super.update(dt);
-    if (game.isEditMode || game.isLevelCompleteOverlayShown || game.isSpawningLevel) {
+    if (replicaOnly || game.isCoopReplica) return;
+    if (game.isEditMode ||
+        game.isLevelCompleteOverlayShown ||
+        game.isSpawningLevel) {
       return;
     }
 
@@ -70,7 +76,10 @@ class BombWarningComponent extends PositionComponent with HasGameReference<Balan
 
     if (_timer >= 5.0) {
       // Spawn bomb and remove warning
-      game.levelContainer.add(BombComponent(Vector2(position.x, game.cameraOffsetY - 60.0))..priority = 100);
+      game.levelContainer.add(
+        BombComponent(Vector2(position.x, game.cameraOffsetY - 60.0))
+          ..priority = 100,
+      );
       removeFromParent();
     }
   }
@@ -85,13 +94,17 @@ class BombWarningComponent extends PositionComponent with HasGameReference<Balan
     if (_locked) {
       // Faster pulse when locked
       pulse = 1.0 + 0.25 * sin(_timer * 30.0);
-      
+
       // Flash white
       if (sin(_timer * 30.0) > 0.8) {
-        canvas.drawCircle(Offset.zero, 25.0, Paint()..color = GameColors.whiteSolid.withValues(alpha: 0.5));
+        canvas.drawCircle(
+          Offset.zero,
+          25.0,
+          Paint()..color = GameColors.whiteSolid.withValues(alpha: 0.5),
+        );
       }
     }
-    
+
     canvas.scale(pulse, pulse);
 
     // Draw warning circle
@@ -99,8 +112,16 @@ class BombWarningComponent extends PositionComponent with HasGameReference<Balan
     canvas.drawCircle(Offset.zero, 25.0, _outlinePaint);
 
     // Draw exclamation mark
-    canvas.drawLine(const Offset(0, -12), const Offset(0, 4), _exclamationPaint);
-    canvas.drawCircle(const Offset(0, 12), 3.0, Paint()..color = GameColors.whiteSolid);
+    canvas.drawLine(
+      const Offset(0, -12),
+      const Offset(0, 4),
+      _exclamationPaint,
+    );
+    canvas.drawCircle(
+      const Offset(0, 12),
+      3.0,
+      Paint()..color = GameColors.whiteSolid,
+    );
 
     canvas.restore();
   }

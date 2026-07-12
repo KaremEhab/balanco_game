@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 
 import 'package:balanco_game/features/game/game_area.dart';
 import 'package:balanco_game/core/data/app_settings.dart';
-import 'package:balanco_game/core/data/database_helper.dart';
-import 'package:balanco_game/core/data/models.dart';
 
 import 'dart:async';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,6 +11,8 @@ import 'package:balanco_game/features/game/components/game_area/star_filled_pain
 import 'package:balanco_game/features/game/components/game_area/empty_star_painter.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
 import 'package:confetti/confetti.dart';
+import 'package:balanco_game/features/player/application/player_session.dart';
+import 'package:uuid/uuid.dart';
 
 class AnimatedLevelCompleteOverlay extends StatefulWidget {
   final BalancoGame game;
@@ -42,6 +42,7 @@ class _AnimatedLevelCompleteOverlayState
   Future<void>? _saveFuture;
   bool _disposed = false;
   late ConfettiController _confettiController;
+  late final String _attemptId;
 
   @override
   void initState() {
@@ -51,6 +52,7 @@ class _AnimatedLevelCompleteOverlayState
 
     _earnedStars = widget.game.currentPoints.value;
     _targetCoins = widget.game.calculateLevelRewardPoints();
+    _attemptId = const Uuid().v4();
     widget.game.earnedLevelPoints.value = _targetCoins;
     widget.game.currentScore.value += _targetCoins;
 
@@ -116,41 +118,12 @@ class _AnimatedLevelCompleteOverlayState
 
   Future<void> _saveProgress() async {
     try {
-      final profile = await DatabaseHelper.instance.getPlayerProfile();
-      final int currentHighest = profile.highestLevel;
-      final int nextLevel = widget.game.currentLevel.value + 1;
-
-      int newHighest = currentHighest;
-      if (!widget.game.isInfinityMode && nextLevel > currentHighest) {
-        newHighest = nextLevel > 500 ? 500 : nextLevel;
-      }
-
-      // Update highest level and add points
-      await DatabaseHelper.instance.updatePlayerProfile(
-        profile.copyWith(
-          highestLevel: newHighest,
-          coins: profile.coins + _targetCoins,
-        ),
+      await PlayerSession.instance.recordVictory(
+        attemptId: _attemptId,
+        levelId: widget.game.currentLevel.value,
+        points: _targetCoins,
+        stars: _earnedStars,
       );
-
-      // Save level stars immediately!
-      if (!widget.game.isInfinityMode) {
-        final int completedLevel = widget.game.currentLevel.value;
-        final existingProgress = await DatabaseHelper.instance.getLevelProgress(
-          completedLevel,
-        );
-        int previousStars = existingProgress?.stars ?? 0;
-
-        if (_earnedStars > previousStars) {
-          await DatabaseHelper.instance.saveLevelProgress(
-            LevelProgress(
-              levelId: completedLevel,
-              stars: _earnedStars,
-              isUnlocked: true,
-            ),
-          );
-        }
-      }
     } catch (e) {
       debugPrint('Failed to save progress: $e');
     }

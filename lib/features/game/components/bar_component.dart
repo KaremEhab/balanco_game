@@ -82,20 +82,12 @@ class BarComponent extends Component with HasGameReference<BalancoGame> {
         ..shader = const LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [
-            GameColors.whiteAlpha46,
-            GameColors.whiteTransparent,
-          ],
+          colors: [GameColors.whiteAlpha46, GameColors.whiteTransparent],
         ).createShader(specRect);
       canvas.drawRect(specRect, specPaint);
 
       // Glowing Core Line
-      Rect grooveRect = Rect.fromLTRB(
-        15,
-        -1.5,
-        barLength - 15,
-        1.5,
-      );
+      Rect grooveRect = Rect.fromLTRB(15, -1.5, barLength - 15, 1.5);
       final Paint groovePaint = Paint()
         ..shader = LinearGradient(
           begin: Alignment.centerLeft,

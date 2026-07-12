@@ -57,6 +57,10 @@ class ProfileAvatarWidget extends StatelessWidget {
                 child: Image.network(
                   imageUrl,
                   fit: BoxFit.contain, // Prevents cropping!
+                  errorBuilder: (_, _, _) => const Icon(
+                    Icons.person_rounded,
+                    color: GameColors.brownDarkUi,
+                  ),
                 ),
               ),
             ),

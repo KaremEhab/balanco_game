@@ -75,10 +75,7 @@ class _InfinityScrollGradientPainter extends CustomPainter {
             Rect.fromLTWH(0, -offset, size.width, gradientHeight.toDouble()),
           );
 
-    canvas.drawRect(
-      Rect.fromLTWH(0, 0, size.width, size.height),
-      paint,
-    );
+    canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), paint);
   }
 
   @override

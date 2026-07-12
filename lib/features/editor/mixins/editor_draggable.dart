@@ -3,7 +3,12 @@ import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 import 'package:balanco_game/features/game/game_area.dart';
 
-mixin EditorDraggable on PositionComponent, HasGameReference<BalancoGame>, TapCallbacks, DragCallbacks {
+mixin EditorDraggable
+    on
+        PositionComponent,
+        HasGameReference<BalancoGame>,
+        TapCallbacks,
+        DragCallbacks {
   @override
   void onTapDown(TapDownEvent event) {
     if (game.isEditMode) {

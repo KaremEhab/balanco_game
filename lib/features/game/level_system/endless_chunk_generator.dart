@@ -59,10 +59,7 @@ class EndlessChunkGenerator {
           activeDuration: 1.8,
           recoveryDuration: 0.8,
           movement: switch (primaryBehavior) {
-            'wave' ||
-            'orbit' ||
-            'teleport' ||
-            'chase' => MovementDefinition(
+            'wave' || 'orbit' || 'teleport' || 'chase' => MovementDefinition(
               axis: 'compound',
               amplitude: min(0.1, 0.045 + difficulty * 0.04),
               periodSeconds: max(2.2, 3.8 - difficulty),

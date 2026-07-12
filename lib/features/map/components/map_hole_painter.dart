@@ -9,7 +9,7 @@ class MapHolePainter extends CustomPainter {
   final BiomeModel biome;
 
   MapHolePainter({
-    required this.isUnlocked, 
+    required this.isUnlocked,
     required this.biome,
     this.teethClosure = 0.0,
   });
@@ -96,10 +96,7 @@ class MapHolePainter extends CustomPainter {
       ringPaint.shader = LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
-        colors: [
-          biome.nodeUnlockedColor, 
-          biome.nodeUnlockedBorderColor,
-        ],
+        colors: [biome.nodeUnlockedColor, biome.nodeUnlockedBorderColor],
       ).createShader(Rect.fromCircle(center: Offset.zero, radius: radius));
     }
 
@@ -113,7 +110,9 @@ class MapHolePainter extends CustomPainter {
     Paint outerEdgePaint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2.0
-      ..color = !isUnlocked ? biome.nodeLockedOuterEdgeColor : biome.nodeUnlockedOuterEdgeColor;
+      ..color = !isUnlocked
+          ? biome.nodeLockedOuterEdgeColor
+          : biome.nodeUnlockedOuterEdgeColor;
     canvas.drawCircle(Offset.zero, radius - 1.0, outerEdgePaint);
 
     // Subtle inner dark edge

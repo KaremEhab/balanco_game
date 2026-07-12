@@ -6,7 +6,11 @@ import 'package:balanco_game/core/theme/game_colors.dart';
 import 'package:balanco_game/features/editor/mixins/editor_draggable.dart';
 
 class TeleporterComponent extends PositionComponent
-    with HasGameReference<BalancoGame>, TapCallbacks, DragCallbacks, EditorDraggable {
+    with
+        HasGameReference<BalancoGame>,
+        TapCallbacks,
+        DragCallbacks,
+        EditorDraggable {
   final Vector2 fractionalPosition;
   final double radius;
   final int index; // To pair teleporters (0 and 1)
@@ -60,7 +64,10 @@ class TeleporterComponent extends PositionComponent
   @override
   void update(double dt) {
     super.update(dt);
-    if (!game.isEditMode && !game.isSpawningLevel && game.size.x > 0 && game.size.y > 0) {
+    if (!game.isEditMode &&
+        !game.isSpawningLevel &&
+        game.size.x > 0 &&
+        game.size.y > 0) {
       position = Vector2(
         fractionalPosition.x * game.size.x,
         120.0 + fractionalPosition.y * (game.levelHeight - 320.0),

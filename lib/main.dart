@@ -9,6 +9,8 @@ import 'package:balanco_game/core/bloc/app_bloc.dart';
 
 import 'package:balanco_game/core/data/database_helper.dart';
 import 'package:balanco_game/core/data/app_settings.dart';
+import 'package:balanco_game/core/config/supabase_config.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,6 +23,12 @@ void main() async {
   // Ensure the database is initialized
   await DatabaseHelper.instance.database;
   await AppSettings.init();
+  if (SupabaseConfig.isConfigured) {
+    await Supabase.initialize(
+      url: SupabaseConfig.url,
+      publishableKey: SupabaseConfig.publishableKey,
+    );
+  }
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,

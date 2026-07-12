@@ -42,7 +42,7 @@ class RocketWarningComponent extends PositionComponent
 
     for (final ball in game.activeBalls) {
       if (ball.isDead || ball.isShattering || ball.spawnTimer > 0) continue;
-      
+
       if (position.distanceTo(ball.pos2D) <= blastRadius + game.ballRadius) {
         if (game.isShieldActive) {
           game.shieldTimer = 0;
@@ -62,7 +62,7 @@ class RocketWarningComponent extends PositionComponent
   void render(Canvas canvas) {
     final center = Offset(size.x / 2, size.y / 2);
     final progress = (_time / duration).clamp(0.0, 1.0);
-    
+
     // Draw the target zone
     canvas.drawCircle(
       center,
@@ -89,12 +89,20 @@ class RocketWarningComponent extends PositionComponent
         ..color = GameColors.redAccent.withValues(alpha: 0.8)
         ..style = PaintingStyle.fill,
     );
-    
+
     // Crosshair lines
     final crossPaint = Paint()
       ..color = GameColors.redAccent.withValues(alpha: 0.6)
       ..strokeWidth = 2;
-    canvas.drawLine(Offset(center.dx - blastRadius, center.dy), Offset(center.dx + blastRadius, center.dy), crossPaint);
-    canvas.drawLine(Offset(center.dx, center.dy - blastRadius), Offset(center.dx, center.dy + blastRadius), crossPaint);
+    canvas.drawLine(
+      Offset(center.dx - blastRadius, center.dy),
+      Offset(center.dx + blastRadius, center.dy),
+      crossPaint,
+    );
+    canvas.drawLine(
+      Offset(center.dx, center.dy - blastRadius),
+      Offset(center.dx, center.dy + blastRadius),
+      crossPaint,
+    );
   }
 }

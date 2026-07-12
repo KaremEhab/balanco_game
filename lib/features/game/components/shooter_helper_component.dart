@@ -35,48 +35,51 @@ class ShooterHelperComponent extends PositionComponent
   @override
   void render(Canvas canvas) {
     final center = Offset(size.x / 2, size.y / 2 + sin(_time * 4) * 2);
-    
+
     // Outer floating ring
     canvas.drawCircle(
-      center, 
-      18, 
+      center,
+      18,
       Paint()
         ..color = GameColors.cyanAccent.withValues(alpha: 0.3)
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 2
+        ..strokeWidth = 2,
     );
 
     // Inner glowing core
     canvas.drawCircle(
-      center, 
-      12, 
+      center,
+      12,
       Paint()
         ..color = GameColors.cyanAccent
-        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6)
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6),
     );
 
     canvas.save();
     canvas.translate(center.dx, center.dy);
-    
+
     // Rotate slowly for cool effect
     canvas.rotate(_time * 1.5);
-    
+
     // Turret base
     canvas.drawCircle(Offset.zero, 8, Paint()..color = GameColors.blueGrey);
     canvas.drawCircle(Offset.zero, 4, Paint()..color = GameColors.black87);
-    
+
     // Turret barrels (3 barrels for sci-fi look)
     final barrelPaint = Paint()..color = GameColors.white;
     for (int i = 0; i < 3; i++) {
       canvas.save();
       canvas.rotate(i * (2 * pi / 3));
       canvas.drawRRect(
-        RRect.fromRectAndRadius(const Rect.fromLTWH(4, -2, 10, 4), const Radius.circular(2)),
-        barrelPaint
+        RRect.fromRectAndRadius(
+          const Rect.fromLTWH(4, -2, 10, 4),
+          const Radius.circular(2),
+        ),
+        barrelPaint,
       );
       canvas.restore();
     }
-    
+
     canvas.restore();
     renderEditorHighlight(canvas);
   }

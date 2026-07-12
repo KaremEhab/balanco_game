@@ -394,11 +394,11 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
       canvas.save();
       // Translate slightly above the ball (local space)
       canvas.translate(0, -game.ballRadius - 4);
-      
+
       // Turret base
       canvas.drawCircle(Offset.zero, 8, Paint()..color = GameColors.blueGrey);
       canvas.drawCircle(Offset.zero, 4, Paint()..color = GameColors.black87);
-      
+
       // Look at nearest villain
       double turretAngle = -pi / 2; // default aim up
       final targets = game.villains.where((v) => !v.isDefeated);
@@ -408,22 +408,25 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
         turretAngle = atan2(delta.y, delta.x);
       }
       canvas.rotate(turretAngle);
-      
+
       // Draw barrels
       final barrelPaint = Paint()..color = GameColors.white;
       for (int i = 0; i < 3; i++) {
         canvas.save();
         canvas.rotate(i * (2 * pi / 3));
         canvas.drawRRect(
-          RRect.fromRectAndRadius(const Rect.fromLTWH(4, -2, 10, 4), const Radius.circular(2)),
-          barrelPaint
+          RRect.fromRectAndRadius(
+            const Rect.fromLTWH(4, -2, 10, 4),
+            const Radius.circular(2),
+          ),
+          barrelPaint,
         );
         canvas.restore();
       }
-      
+
       // Glowing core
       canvas.drawCircle(Offset.zero, 3, Paint()..color = GameColors.cyanAccent);
-      
+
       canvas.restore();
     }
 
@@ -432,7 +435,6 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
     }
 
     canvas.restore();
-
   }
 }
 

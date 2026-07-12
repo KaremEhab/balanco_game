@@ -4,6 +4,10 @@ class PlayerProfile {
   final int highestLevel;
   final int lastPlayedLevel;
   final int coins;
+  final int moneyCents;
+  final int sparks;
+  final int maxSparks;
+  final int totalPoints;
   final int streak;
   final int infinityHighScore;
 
@@ -13,6 +17,10 @@ class PlayerProfile {
     required this.highestLevel,
     required this.lastPlayedLevel,
     required this.coins,
+    this.moneyCents = 0,
+    this.sparks = 5,
+    this.maxSparks = 5,
+    this.totalPoints = 0,
     required this.streak,
     this.infinityHighScore = 0,
   });
@@ -24,6 +32,10 @@ class PlayerProfile {
       'highestLevel': highestLevel,
       'lastPlayedLevel': lastPlayedLevel,
       'coins': coins,
+      'money_cents': moneyCents,
+      'sparks': sparks,
+      'max_sparks': maxSparks,
+      'total_points': totalPoints,
       'streak': streak,
       'infinity_high_score': infinityHighScore,
     };
@@ -36,6 +48,10 @@ class PlayerProfile {
       highestLevel: map['highestLevel'],
       lastPlayedLevel: map['lastPlayedLevel'],
       coins: map['coins'],
+      moneyCents: map['money_cents'] ?? 0,
+      sparks: map['sparks'] ?? 5,
+      maxSparks: map['max_sparks'] ?? 5,
+      totalPoints: map['total_points'] ?? 0,
       streak: map['streak'] ?? 0,
       infinityHighScore: map['infinity_high_score'] ?? 0,
     );
@@ -46,6 +62,10 @@ class PlayerProfile {
     int? highestLevel,
     int? lastPlayedLevel,
     int? coins,
+    int? moneyCents,
+    int? sparks,
+    int? maxSparks,
+    int? totalPoints,
     int? streak,
     int? infinityHighScore,
   }) {
@@ -55,6 +75,10 @@ class PlayerProfile {
       highestLevel: highestLevel ?? this.highestLevel,
       lastPlayedLevel: lastPlayedLevel ?? this.lastPlayedLevel,
       coins: coins ?? this.coins,
+      moneyCents: moneyCents ?? this.moneyCents,
+      sparks: sparks ?? this.sparks,
+      maxSparks: maxSparks ?? this.maxSparks,
+      totalPoints: totalPoints ?? this.totalPoints,
       streak: streak ?? this.streak,
       infinityHighScore: infinityHighScore ?? this.infinityHighScore,
     );

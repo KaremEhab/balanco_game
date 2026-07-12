@@ -5,6 +5,8 @@ import 'package:balanco_game/features/home/screens/splash/components/splash_logo
 import 'package:balanco_game/features/home/screens/splash/components/tutorial_carousel.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:balanco_game/features/auth/presentation/auth_screen.dart';
+import 'package:balanco_game/features/player/application/player_session.dart';
 
 enum SplashState { loading, checking, ready }
 
@@ -86,10 +88,23 @@ class _SplashScreenState extends State<SplashScreen>
     await _pressController.forward();
     await _pressController.reverse();
     if (!mounted) return;
+    Widget destination = const MainScreen();
+    if (online) {
+      if (PlayerSession.instance.isAuthenticated) {
+        try {
+          await PlayerSession.instance.refresh();
+        } catch (_) {
+          destination = const AuthScreen();
+        }
+      } else {
+        destination = const AuthScreen();
+      }
+    }
+    if (!mounted) return;
     Navigator.of(context).pushReplacement(
       PageRouteBuilder<void>(
         transitionDuration: const Duration(milliseconds: 700),
-        pageBuilder: (_, animation, secondaryAnimation) => const MainScreen(),
+        pageBuilder: (_, animation, secondaryAnimation) => destination,
         transitionsBuilder: (_, animation, secondaryAnimation, child) {
           final curve = CurvedAnimation(
             parent: animation,
@@ -366,26 +381,27 @@ class _GameModeButton extends StatelessWidget {
                       child: Icon(icon, color: Colors.white, size: 24),
                     ),
                     const SizedBox(width: 16),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          title,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w900,
-                            letterSpacing: 1.2,
-                            shadows: [
-                              Shadow(
-                                color: Colors.black26,
-                                blurRadius: 4,
-                                offset: Offset(0, 2),
-                              ),
-                            ],
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            title,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w900,
+                              letterSpacing: 1.2,
+                              shadows: [
+                                Shadow(
+                                  color: Colors.black26,
+                                  blurRadius: 4,
+                                  offset: Offset(0, 2),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
                         Text(
                           subtitle,
                           style: const TextStyle(

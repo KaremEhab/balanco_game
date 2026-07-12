@@ -524,12 +524,12 @@ class HoleComponent extends PositionComponent
 
     if (behavior == HoleBehavior.split && _phase == HazardPhase.active) {
       final separation = _radius * (sin(_phaseProgress * pi) * 1.5);
-      
+
       canvas.save();
       canvas.translate(-separation, 0);
       _drawSingleHole(canvas, activeBall);
       canvas.restore();
-      
+
       canvas.save();
       canvas.translate(separation, 0);
       _drawSingleHole(canvas, activeBall);

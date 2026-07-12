@@ -304,18 +304,28 @@ class _TutorialCard extends StatelessWidget {
                 const Spacer(),
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 8,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: const Color(0xFF1B64AC), width: 2.5),
+                    border: Border.all(
+                      color: const Color(0xFF1B64AC),
+                      width: 2.5,
+                    ),
                     boxShadow: const [
                       BoxShadow(color: Color(0xFF1B64AC), offset: Offset(0, 3)),
                     ],
                   ),
                   child: Row(
                     children: [
-                      Icon(Icons.lightbulb_rounded, size: 20, color: data.accent),
+                      Icon(
+                        Icons.lightbulb_rounded,
+                        size: 20,
+                        color: data.accent,
+                      ),
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
@@ -460,7 +470,9 @@ class _TutorialPreview extends StatelessWidget {
             Expanded(
               child: Container(
                 decoration: const BoxDecoration(
-                  border: Border(right: BorderSide(color: Colors.white, width: 3)),
+                  border: Border(
+                    right: BorderSide(color: Colors.white, width: 3),
+                  ),
                 ),
                 child: Center(
                   child: SizedBox(
@@ -470,7 +482,8 @@ class _TutorialPreview extends StatelessWidget {
                       painter: MapHolePainter(
                         isUnlocked: true,
                         biome: BiomeConfig.tropicalBeach,
-                        teethClosure: (math.sin(t * math.pi * 2) + 1) / 2 * 0.25,
+                        teethClosure:
+                            (math.sin(t * math.pi * 2) + 1) / 2 * 0.25,
                       ),
                     ),
                   ),
@@ -481,7 +494,9 @@ class _TutorialPreview extends StatelessWidget {
             Expanded(
               child: Container(
                 decoration: const BoxDecoration(
-                  border: Border(right: BorderSide(color: Colors.white, width: 3)),
+                  border: Border(
+                    right: BorderSide(color: Colors.white, width: 3),
+                  ),
                 ),
                 child: Center(
                   child: Transform.translate(
@@ -499,7 +514,9 @@ class _TutorialPreview extends StatelessWidget {
             Expanded(
               child: Container(
                 decoration: const BoxDecoration(
-                  border: Border(right: BorderSide(color: Colors.white, width: 3)),
+                  border: Border(
+                    right: BorderSide(color: Colors.white, width: 3),
+                  ),
                 ),
                 child: Center(
                   child: SizedBox(
@@ -541,7 +558,9 @@ class _TutorialPreview extends StatelessWidget {
             Expanded(
               child: Container(
                 decoration: const BoxDecoration(
-                  border: Border(right: BorderSide(color: Colors.white, width: 3)),
+                  border: Border(
+                    right: BorderSide(color: Colors.white, width: 3),
+                  ),
                 ),
                 child: Center(
                   child: SizedBox(
@@ -595,13 +614,19 @@ class _TutorialPreview extends StatelessWidget {
                             return Transform.scale(
                               scale: 1.0 + (1.0 - fract) * 1.5,
                               child: Opacity(
-                                opacity: math.max(0.0, math.sin(fract * math.pi)),
+                                opacity: math.max(
+                                  0.0,
+                                  math.sin(fract * math.pi),
+                                ),
                                 child: Container(
                                   width: 32,
                                   height: 32,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    border: Border.all(color: GameColors.cyanAccent, width: 2),
+                                    border: Border.all(
+                                      color: GameColors.cyanAccent,
+                                      width: 2,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -627,7 +652,9 @@ class _TutorialPreview extends StatelessWidget {
             Expanded(
               child: Container(
                 decoration: const BoxDecoration(
-                  border: Border(right: BorderSide(color: Colors.white, width: 3)),
+                  border: Border(
+                    right: BorderSide(color: Colors.white, width: 3),
+                  ),
                 ),
                 child: Center(
                   child: SizedBox(
@@ -841,7 +868,10 @@ class _Badge extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.white, width: 2),
         boxShadow: [
-          BoxShadow(color: color.withValues(alpha: 0.8), offset: const Offset(0, 3)),
+          BoxShadow(
+            color: color.withValues(alpha: 0.8),
+            offset: const Offset(0, 3),
+          ),
         ],
       ),
       child: const Text(
@@ -907,12 +937,21 @@ class _ArrowButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: onTap == null ? const Color(0xFFE0EBF0) : const Color(0xFF177FC2),
+        color: onTap == null
+            ? const Color(0xFFE0EBF0)
+            : const Color(0xFF177FC2),
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: onTap == null ? const Color(0xFFB1C4CE) : const Color(0xFF1B64AC), width: 2.5),
+        border: Border.all(
+          color: onTap == null
+              ? const Color(0xFFB1C4CE)
+              : const Color(0xFF1B64AC),
+          width: 2.5,
+        ),
         boxShadow: [
           BoxShadow(
-            color: onTap == null ? const Color(0xFFB1C4CE) : const Color(0xFF1B64AC),
+            color: onTap == null
+                ? const Color(0xFFB1C4CE)
+                : const Color(0xFF1B64AC),
             offset: const Offset(0, 4),
           ),
         ],

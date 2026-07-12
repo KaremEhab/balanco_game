@@ -761,6 +761,15 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   Future<void> _startGameplay(int level) async {
     final profile = await DatabaseHelper.instance.getPlayerProfile();
+    if (profile.sparks <= 0) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('No sparks left today. Your 5 sparks refill tomorrow!'),
+        ),
+      );
+      return;
+    }
     await DatabaseHelper.instance.updatePlayerProfile(
       profile.copyWith(lastPlayedLevel: level),
     );

@@ -13,7 +13,7 @@ List<LevelProgress> _parseLevelProgressList(
 class DatabaseHelper {
   static final DatabaseHelper instance = DatabaseHelper._init();
   static Database? _database;
-  
+
   final ValueNotifier<PlayerProfile?> profileNotifier = ValueNotifier(null);
 
   DatabaseHelper._init();
@@ -30,7 +30,7 @@ class DatabaseHelper {
 
     return await openDatabase(
       path,
-      version: 4,
+      version: 7,
       onCreate: _createDB,
       onUpgrade: _upgradeDB,
     );
@@ -44,6 +44,10 @@ CREATE TABLE player_profile (
   highestLevel INTEGER NOT NULL,
   lastPlayedLevel INTEGER NOT NULL,
   coins INTEGER NOT NULL,
+  money_cents INTEGER NOT NULL DEFAULT 0,
+  sparks INTEGER NOT NULL DEFAULT 5,
+  max_sparks INTEGER NOT NULL DEFAULT 5,
+  total_points INTEGER NOT NULL DEFAULT 0,
   streak INTEGER NOT NULL,
   infinity_high_score INTEGER DEFAULT 0
 )
@@ -79,13 +83,39 @@ CREATE TABLE tutorials (
 )
 ''');
 
+    await db.execute('''
+CREATE TABLE pending_game_results (
+  attempt_id TEXT PRIMARY KEY,
+  user_id TEXT NOT NULL,
+  level_id INTEGER NOT NULL,
+  won INTEGER NOT NULL,
+  points INTEGER NOT NULL,
+  stars INTEGER NOT NULL,
+  created_at TEXT NOT NULL
+)
+''');
+
+    await db.execute('''
+CREATE TABLE pending_infinity_runs (
+  run_id TEXT PRIMARY KEY,
+  user_id TEXT NOT NULL,
+  score INTEGER NOT NULL,
+  coins INTEGER NOT NULL,
+  created_at TEXT NOT NULL
+)
+''');
+
     // Insert default player profile
     await db.insert('player_profile', {
       'id': 1,
       'isFirstOpen': 1,
       'highestLevel': 1,
       'lastPlayedLevel': 1,
-      'coins': 1200, // starting coins (from UI placeholder)
+      'coins': 5000,
+      'money_cents': 500,
+      'sparks': 5,
+      'max_sparks': 5,
+      'total_points': 0,
       'streak': 5, // starting streak (from UI placeholder)
       'infinity_high_score': 0,
     });
@@ -114,6 +144,44 @@ CREATE TABLE tutorials (
 )
 ''');
     }
+    if (oldVersion < 5) {
+      await db.execute(
+        'ALTER TABLE player_profile ADD COLUMN money_cents INTEGER NOT NULL DEFAULT 0',
+      );
+      await db.execute(
+        'ALTER TABLE player_profile ADD COLUMN sparks INTEGER NOT NULL DEFAULT 5',
+      );
+      await db.execute(
+        'ALTER TABLE player_profile ADD COLUMN max_sparks INTEGER NOT NULL DEFAULT 5',
+      );
+      await db.execute(
+        'ALTER TABLE player_profile ADD COLUMN total_points INTEGER NOT NULL DEFAULT 0',
+      );
+    }
+    if (oldVersion < 6) {
+      await db.execute('''
+CREATE TABLE pending_game_results (
+  attempt_id TEXT PRIMARY KEY,
+  user_id TEXT NOT NULL,
+  level_id INTEGER NOT NULL,
+  won INTEGER NOT NULL,
+  points INTEGER NOT NULL,
+  stars INTEGER NOT NULL,
+  created_at TEXT NOT NULL
+)
+''');
+    }
+    if (oldVersion < 7) {
+      await db.execute('''
+CREATE TABLE pending_infinity_runs (
+  run_id TEXT PRIMARY KEY,
+  user_id TEXT NOT NULL,
+  score INTEGER NOT NULL,
+  coins INTEGER NOT NULL,
+  created_at TEXT NOT NULL
+)
+''');
+    }
   }
 
   // --- Player Profile ---
@@ -127,7 +195,29 @@ CREATE TABLE tutorials (
     );
 
     if (maps.isNotEmpty) {
-      final profile = PlayerProfile.fromMap(maps.first);
+      var profile = PlayerProfile.fromMap(maps.first);
+      final today = DateTime.now().toIso8601String().substring(0, 10);
+      final refreshRows = await db.query(
+        'app_config',
+        where: 'key = ?',
+        whereArgs: ['sparks_refreshed_on'],
+      );
+      final lastRefresh = refreshRows.isEmpty
+          ? null
+          : refreshRows.first['value'] as String;
+      if (lastRefresh != today) {
+        profile = profile.copyWith(sparks: profile.maxSparks);
+        await db.update(
+          'player_profile',
+          profile.toMap(),
+          where: 'id = ?',
+          whereArgs: [1],
+        );
+        await db.insert('app_config', {
+          'key': 'sparks_refreshed_on',
+          'value': today,
+        }, conflictAlgorithm: ConflictAlgorithm.replace);
+      }
       profileNotifier.value = profile;
       return profile;
     } else {
@@ -209,17 +299,17 @@ CREATE TABLE tutorials (
 
   // --- Custom Levels (Editor) ---
 
-  Future<void> saveCustomLevel(int levelId, String jsonStr, {bool isInfinity = false}) async {
+  Future<void> saveCustomLevel(
+    int levelId,
+    String jsonStr, {
+    bool isInfinity = false,
+  }) async {
     final db = await instance.database;
-    await db.insert(
-      'custom_levels',
-      {
-        'level_id': levelId,
-        'is_infinity': isInfinity ? 1 : 0,
-        'level_json': jsonStr,
-      },
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+    await db.insert('custom_levels', {
+      'level_id': levelId,
+      'is_infinity': isInfinity ? 1 : 0,
+      'level_json': jsonStr,
+    }, conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   Future<String?> getCustomLevel(int levelId) async {
@@ -254,13 +344,89 @@ CREATE TABLE tutorials (
 
   Future<void> markTutorialSeen(String itemId) async {
     final db = await instance.database;
-    await db.insert(
-      'tutorials',
-      {
-        'item_id': itemId,
-        'is_shown': 1,
-      },
-      conflictAlgorithm: ConflictAlgorithm.replace,
+    await db.insert('tutorials', {
+      'item_id': itemId,
+      'is_shown': 1,
+    }, conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  // --- Offline-safe cloud synchronization outbox ---
+
+  Future<void> enqueueGameResult({
+    required String attemptId,
+    required String userId,
+    required int levelId,
+    required bool won,
+    required int points,
+    required int stars,
+  }) async {
+    final db = await instance.database;
+    await db.insert('pending_game_results', {
+      'attempt_id': attemptId,
+      'user_id': userId,
+      'level_id': levelId,
+      'won': won ? 1 : 0,
+      'points': points,
+      'stars': stars,
+      'created_at': DateTime.now().toUtc().toIso8601String(),
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+  }
+
+  Future<List<Map<String, Object?>>> getPendingGameResults(
+    String userId,
+  ) async {
+    final db = await instance.database;
+    return db.query(
+      'pending_game_results',
+      where: 'user_id = ?',
+      whereArgs: [userId],
+      orderBy: 'created_at ASC',
+    );
+  }
+
+  Future<void> removePendingGameResult(String attemptId) async {
+    final db = await instance.database;
+    await db.delete(
+      'pending_game_results',
+      where: 'attempt_id = ?',
+      whereArgs: [attemptId],
+    );
+  }
+
+  Future<void> enqueueInfinityRun({
+    required String runId,
+    required String userId,
+    required int score,
+    required int coins,
+  }) async {
+    final db = await instance.database;
+    await db.insert('pending_infinity_runs', {
+      'run_id': runId,
+      'user_id': userId,
+      'score': score,
+      'coins': coins,
+      'created_at': DateTime.now().toUtc().toIso8601String(),
+    }, conflictAlgorithm: ConflictAlgorithm.ignore);
+  }
+
+  Future<List<Map<String, Object?>>> getPendingInfinityRuns(
+    String userId,
+  ) async {
+    final db = await instance.database;
+    return db.query(
+      'pending_infinity_runs',
+      where: 'user_id = ?',
+      whereArgs: [userId],
+      orderBy: 'created_at ASC',
+    );
+  }
+
+  Future<void> removePendingInfinityRun(String runId) async {
+    final db = await instance.database;
+    await db.delete(
+      'pending_infinity_runs',
+      where: 'run_id = ?',
+      whereArgs: [runId],
     );
   }
 }

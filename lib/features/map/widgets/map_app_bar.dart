@@ -16,6 +16,8 @@ import 'package:balanco_game/core/data/database_helper.dart';
 class MapAppBar extends StatefulWidget {
   final int highestLevel;
   final int coins;
+  final int totalPoints;
+  final int moneyCents;
   final int sparks;
   final int maxSparks;
   final double expandProgress;
@@ -27,6 +29,8 @@ class MapAppBar extends StatefulWidget {
     super.key,
     required this.highestLevel,
     required this.coins,
+    required this.totalPoints,
+    required this.moneyCents,
     required this.sparks,
     this.maxSparks = 5,
     this.expandProgress = 0.0,
@@ -56,6 +60,8 @@ class _MapAppBarState extends State<MapAppBar> {
     );
     return '$formatted PTS';
   }
+
+  String _formatMoney(int cents) => '\$${(cents / 100).toStringAsFixed(2)}';
 
   Widget _buildStrokedText(
     String text, {
@@ -157,7 +163,7 @@ class _MapAppBarState extends State<MapAppBar> {
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        // --- LVL Pill ---
+        // --- Real-money wallet pill ---
         Positioned(
           left: 82,
           top: 38,
@@ -178,7 +184,7 @@ class _MapAppBarState extends State<MapAppBar> {
               ],
             ),
             child: _buildStrokedText(
-              'LVL ${widget.highestLevel}',
+              _formatMoney(widget.moneyCents),
               fontSize: 12,
               textColor: GameColors.mapAppBarWhiteHint,
               strokeColor: const Color.fromARGB(255, 104, 77, 30),
@@ -659,7 +665,7 @@ class _MapAppBarState extends State<MapAppBar> {
             ),
             alignment: Alignment.center,
             child: _buildStrokedText(
-              _formatFullPoints(widget.coins),
+              _formatFullPoints(widget.totalPoints),
               fontSize: 20,
               textColor: GameColors.white,
               strokeColor: borderColor,
@@ -904,7 +910,7 @@ class _MapAppBarState extends State<MapAppBar> {
                               border: Border.all(color: borderColor, width: 3),
                             ),
                             child: _buildStrokedText(
-                              _formatFullPoints(widget.coins),
+                              _formatFullPoints(widget.totalPoints),
                               fontSize: 20,
                               textColor: GameColors.white,
                               strokeColor: borderColor,

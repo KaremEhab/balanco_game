@@ -7,6 +7,8 @@ import 'package:balanco_game/core/theme/game_colors.dart';
 import 'package:balanco_game/features/game/screens/gameplay.dart';
 import 'package:balanco_game/features/game/game_area.dart';
 import 'package:balanco_game/core/data/database_helper.dart';
+import 'package:balanco_game/features/coop/presentation/coop_setup_screen.dart';
+import 'package:balanco_game/features/player/application/player_session.dart';
 
 class ModesScreen extends StatefulWidget {
   final ScrollController scrollController;
@@ -278,11 +280,26 @@ class _ModesScreenState extends State<ModesScreen> {
                           isSelected: isMultiplayer,
                           activeColor: GameColors.modesScreenColor2, // Green
                           onTap: () {
+                            if (!PlayerSession.instance.isAuthenticated) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Log in with an online account to play co-op.',
+                                  ),
+                                ),
+                              );
+                              return;
+                            }
                             context.read<AppBloc>().add(
                               const ToggleMultiplayer(true),
                             );
                             context.read<AppBloc>().add(
                               const ChangePlayerRole('LEFT'),
+                            );
+                            Navigator.of(context).push(
+                              MaterialPageRoute<void>(
+                                builder: (_) => const CoopSetupScreen(),
+                              ),
                             );
                           },
                         ),
