@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
+import 'package:balanco_game/core/data/app_settings.dart';
 import 'package:balanco_game/features/game/game_area.dart';
 import 'package:balanco_game/features/game/components/bomb_component.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
@@ -23,6 +24,7 @@ class BombWarningComponent extends PositionComponent with HasGameReference<Balan
 
     if (!game.isEditMode) {
       game.queueTutorial('bomb');
+      AppSettings.playSound('bomb-warning.wav', volume: 0.65);
     }
 
     _circlePaint = Paint()..color = GameColors.redAccent.withValues(alpha: 0.8);

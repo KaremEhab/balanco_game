@@ -358,11 +358,15 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   double _getPlayButtonBottom(BuildContext context) {
-    return 110.0 + MediaQuery.of(context).padding.bottom;
+    double base = 110.0 + MediaQuery.of(context).padding.bottom;
+    if (defaultTargetPlatform == TargetPlatform.iOS) base -= 20.0;
+    return base;
   }
 
   double _getPlatformBottom(BuildContext context) {
-    return 190.0 + MediaQuery.of(context).padding.bottom;
+    double base = 190.0 + MediaQuery.of(context).padding.bottom;
+    if (defaultTargetPlatform == TargetPlatform.iOS) base -= 20.0;
+    return base;
   }
 
   double _getFocalOffsetFromTop(BuildContext context) {

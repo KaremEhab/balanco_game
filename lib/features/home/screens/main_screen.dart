@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:balanco_game/core/data/database_helper.dart';
 import 'package:balanco_game/core/data/models.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:balanco_game/features/map/screens/map_screen.dart';
@@ -329,7 +330,9 @@ class _MainScreenState extends State<MainScreen> {
 
           // Floating Top App Bar (Profile, Stats) - Always Fixed
           Positioned(
-            top: MediaQuery.of(context).padding.top + 10,
+            top:
+                (defaultTargetPlatform == TargetPlatform.iOS ? 5 : 10) +
+                MediaQuery.of(context).padding.top,
             left: 15,
             right: 15,
             child: RepaintBoundary(child: _buildTopAppBar()),
@@ -337,7 +340,9 @@ class _MainScreenState extends State<MainScreen> {
 
           // Collapsible Center Navbar
           Positioned(
-            bottom: 20 + MediaQuery.of(context).padding.bottom,
+            bottom:
+                (defaultTargetPlatform == TargetPlatform.iOS ? 8 : 20) +
+                MediaQuery.of(context).padding.bottom,
             left: 0,
             right: 0,
             child: GestureDetector(

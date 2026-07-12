@@ -1623,29 +1623,35 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
           if (shooterFireTimer >= 0.48) {
             shooterFireTimer = 0;
             final target = targets.first;
-          
-          Vector2 direction = target.position - ball.pos2D;
-          direction.normalize();
-          
-          double currentBarLength = Vector2(size.x - 2 * barPadding, rightY - leftY).length;
-          double centerDist = (ball.p - (currentBarLength / 2)).abs() / (currentBarLength / 2);
-          double speed = ball.velocity.abs() / 800.0;
-          double inaccuracy = min(1.0, centerDist + speed) * (pi / 6); // Max +- 30 degrees
-          
-          if (inaccuracy > 0) {
-            double randomAngle = (_random.nextDouble() * 2 - 1) * inaccuracy;
-            double baseAngle = atan2(direction.y, direction.x);
-            double newAngle = baseAngle + randomAngle;
-            direction = Vector2(cos(newAngle), sin(newAngle));
-          }
-          
-          levelContainer.add(
-            ShooterProjectileComponent(
-              position: ball.pos2D.clone(),
-              direction: direction,
-            )..priority = 85,
-          );
-          AppSettings.playSound('shooting-sound.wav', volume: 0.35);
+
+            Vector2 direction = target.position - ball.pos2D;
+            direction.normalize();
+
+            double currentBarLength = Vector2(
+              size.x - 2 * barPadding,
+              rightY - leftY,
+            ).length;
+            double centerDist =
+                (ball.p - (currentBarLength / 2)).abs() /
+                (currentBarLength / 2);
+            double speed = ball.velocity.abs() / 800.0;
+            double inaccuracy =
+                min(1.0, centerDist + speed) * (pi / 6); // Max +- 30 degrees
+
+            if (inaccuracy > 0) {
+              double randomAngle = (_random.nextDouble() * 2 - 1) * inaccuracy;
+              double baseAngle = atan2(direction.y, direction.x);
+              double newAngle = baseAngle + randomAngle;
+              direction = Vector2(cos(newAngle), sin(newAngle));
+            }
+
+            levelContainer.add(
+              ShooterProjectileComponent(
+                position: ball.pos2D.clone(),
+                direction: direction,
+              )..priority = 85,
+            );
+            AppSettings.playSound('shooting-sound.wav', volume: 0.35);
           }
         }
       }
