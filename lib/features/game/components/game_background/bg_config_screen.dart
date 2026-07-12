@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:balanco_game/features/game/components/game_background/pyramids_painter.dart';
+import 'package:balanco_game/features/game/components/game_background/level_group_painters.dart';
+import 'package:balanco_game/features/map/models/biome_model.dart';
+import 'package:balanco_game/features/map/theme/biome_config.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // BgConfigScreen – interactive background designer (dev tool)
@@ -38,10 +41,7 @@ class _LayerEntry {
   double depthMultiplier;
   bool visible = true;
 
-  _LayerEntry({
-    required this.name,
-    required this.depthMultiplier,
-  });
+  _LayerEntry({required this.name, required this.depthMultiplier});
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -53,6 +53,10 @@ class _BgConfigScreenState extends State<BgConfigScreen>
 
   // ── View mode ───────────────────────────────────────────────────────────────
   bool _isMobileView = false;
+  int _selectedSceneIndex = 1;
+  Color _scenePrimary = BiomeConfig.pyramids.primaryColor;
+  Color _sceneSecondary = BiomeConfig.pyramids.secondaryColor;
+  Color _sceneDark = BiomeConfig.pyramids.bgTopColor;
 
   // ── Pyramid positions ───────────────────────────────────────────────────────
   final List<_PyramidState> _pyramids = [
@@ -122,7 +126,7 @@ class _BgConfigScreenState extends State<BgConfigScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 5, vsync: this);
   }
 
   @override
@@ -184,6 +188,47 @@ class _BgConfigScreenState extends State<BgConfigScreen>
       crestAlpha: _fgCrestAlpha,
     ),
   );
+
+  BiomeModel get _editorBiome {
+    final source = BiomeConfig.biomes[_selectedSceneIndex];
+    return BiomeModel(
+      startLevel: source.startLevel,
+      endLevel: source.endLevel,
+      primaryColor: _scenePrimary,
+      secondaryColor: _sceneSecondary,
+      nodeUnlockedColor: _sceneSecondary,
+      nodeUnlockedBorderColor: _scenePrimary,
+      nodeUnlockedTeethColor: _sceneSecondary,
+      nodeUnlockedOuterEdgeColor: source.nodeUnlockedOuterEdgeColor,
+      nodeUnlockedRivetColor: _sceneDark,
+      nodeUnlockedInnerColors: [
+        _sceneSecondary,
+        Color.lerp(_sceneSecondary, _scenePrimary, 0.45)!,
+        _scenePrimary,
+        _sceneDark,
+        Colors.black,
+      ],
+      nodeLockedColor: source.nodeLockedColor,
+      nodeLockedBorderColor: source.nodeLockedBorderColor,
+      nodeLockedTeethColor: source.nodeLockedTeethColor,
+      nodeLockedOuterEdgeColor: source.nodeLockedOuterEdgeColor,
+      nodeLockedRivetColor: source.nodeLockedRivetColor,
+      nodeLockedInnerColors: source.nodeLockedInnerColors,
+      pathColor: _sceneSecondary,
+      bgTopColor: _sceneDark,
+      bgBottomColor: _scenePrimary,
+    );
+  }
+
+  void _selectScene(int index) {
+    final biome = BiomeConfig.biomes[index];
+    setState(() {
+      _selectedSceneIndex = index;
+      _scenePrimary = biome.primaryColor;
+      _sceneSecondary = biome.secondaryColor;
+      _sceneDark = biome.bgTopColor;
+    });
+  }
 
   // ── Generated code ────────────────────────────────────────────────────────────
   String _generateCode() {
@@ -518,6 +563,20 @@ ${_layers.mapIndexed((i, l) => '// [${i + 1}] ${l.name}  depth: ${l.depthMultipl
 
   // ── Build all visible layer painters ─────────────────────────────────────────
   List<Widget> _buildVisibleLayers(double sx, double sy, bool mobile) {
+    if (_selectedSceneIndex != 1) {
+      return [
+        for (final layer in levelGroupLayers(_editorBiome))
+          Positioned.fill(
+            child: Transform.translate(
+              offset: Offset(layer.dx, layer.dy),
+              child: Transform.scale(
+                scale: layer.scale,
+                child: CustomPaint(painter: layer.painter),
+              ),
+            ),
+          ),
+      ];
+    }
     final widgets = <Widget>[];
     for (final layer in _layers) {
       if (!layer.visible) continue;
@@ -568,6 +627,7 @@ ${_layers.mapIndexed((i, l) => '// [${i + 1}] ${l.name}  depth: ${l.depthMultipl
 
   // ── Pyramid drag handles ──────────────────────────────────────────────────────
   List<Widget> _buildPyramidHandles(double sx, double sy) {
+    if (_selectedSceneIndex != 1) return const [];
     final handles = <Widget>[];
     for (int i = 0; i < _pyramids.length; i++) {
       final p = _pyramids[i];
@@ -688,6 +748,7 @@ ${_layers.mapIndexed((i, l) => '// [${i + 1}] ${l.name}  depth: ${l.depthMultipl
             fontWeight: FontWeight.w600,
           ),
           tabs: const [
+            Tab(text: 'World'),
             Tab(text: 'Pyramids'),
             Tab(text: 'Dunes'),
             Tab(text: 'Colors'),
@@ -698,12 +759,70 @@ ${_layers.mapIndexed((i, l) => '// [${i + 1}] ${l.name}  depth: ${l.depthMultipl
           child: TabBarView(
             controller: _tabController,
             children: [
+              _buildWorldTab(),
               _buildPyramidTab(),
               _buildDunesTab(),
               _buildColorsTab(),
               _buildLayersTab(),
             ],
           ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildWorldTab() {
+    return ListView(
+      padding: const EdgeInsets.all(14),
+      children: [
+        _sectionHeader('Level Group Scene'),
+        DropdownButtonFormField<int>(
+          initialValue: _selectedSceneIndex,
+          dropdownColor: _surface,
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: _surface,
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+          ),
+          style: GoogleFonts.inter(color: Colors.white, fontSize: 12),
+          items: [
+            for (var i = 0; i < BiomeConfig.biomes.length; i++)
+              DropdownMenuItem(
+                value: i,
+                child: Text(
+                  '${BiomeConfig.biomes[i].startLevel}-${BiomeConfig.biomes[i].endLevel}  ${BiomeConfig.sceneNames[i]}',
+                ),
+              ),
+          ],
+          onChanged: (value) {
+            if (value != null) _selectScene(value);
+          },
+        ),
+        const SizedBox(height: 18),
+        _sectionHeader('Scene Palette'),
+        _colorRow(
+          'Primary',
+          _scenePrimary,
+          (color) => setState(() => _scenePrimary = color),
+        ),
+        _colorRow(
+          'Highlight',
+          _sceneSecondary,
+          (color) => setState(() => _sceneSecondary = color),
+        ),
+        _colorRow(
+          'Sky / Shadow',
+          _sceneDark,
+          (color) => setState(() => _sceneDark = color),
+        ),
+        const SizedBox(height: 18),
+        Text(
+          _selectedSceneIndex == 1
+              ? 'Use the Pyramids, Dunes, Colors and Layers tabs for detailed editing of this scene.'
+              : _selectedSceneIndex == 0
+              ? 'The beach keeps its detailed legacy painter stack. Select Layers to inspect its parallax composition.'
+              : 'This level group uses the shared four-layer procedural scene. Palette changes update the live preview.',
+          style: GoogleFonts.inter(color: _accentL, fontSize: 11, height: 1.45),
         ),
       ],
     );

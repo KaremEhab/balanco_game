@@ -57,9 +57,9 @@ class DarknessOverlay extends PositionComponent
           Colors.transparent, // Edges are dark
         ],
         stops: const [0.0, 0.25, 0.45, 0.75, 1.0],
-      ).createShader(Rect.fromCircle(center: ballCenter, radius: 65.0));
+      ).createShader(Rect.fromCircle(center: ballCenter, radius: 160.0));
 
-    canvas.drawCircle(ballCenter, 65.0, holePaint);
+    canvas.drawCircle(ballCenter, 160.0, holePaint);
 
     canvas.restore();
   }

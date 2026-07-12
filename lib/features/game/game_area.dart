@@ -61,7 +61,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   );
   bool isWinningDarkLevel = false;
   double darknessRevealProgress = 0.0;
-  double darknessBaseLightRadius = 72.0;
+  double darknessBaseLightRadius = 160.0;
   bool isIlluminated = false;
   final ValueNotifier<int> lightChargesNotifier = ValueNotifier<int>(5);
   double lightChargeTimer = 0.0;
@@ -193,8 +193,8 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   set currentHeightMultiplier(double val) {
     currentHeightMultiplierNotifier.value = val;
     if (isEditMode) {
-      leftY = levelHeight - 70.0;
-      rightY = levelHeight - 70.0;
+      leftY = levelHeight - 160.0;
+      rightY = levelHeight - 160.0;
       if (activeBalls.isNotEmpty) {
         activeBalls.first.pos2D.y = leftY - (16.0 + 6.0); // ballRadius is 16
       }
@@ -372,6 +372,28 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
         )..priority = 1;
         holes.add(newComp as HoleComponent);
         break;
+      case EditorItemType.splittingHole:
+        newComp = HoleComponent(
+          Vector2.zero(),
+          80,
+          0,
+          behavior: HoleBehavior.split,
+          activeDuration: 1.5,
+          recoveryDuration: 1.0,
+        )..priority = 1;
+        holes.add(newComp as HoleComponent);
+        break;
+      case EditorItemType.orbitingHole:
+        newComp = HoleComponent(
+          Vector2.zero(),
+          80,
+          0,
+          behavior: HoleBehavior.orbit,
+          moveRange: 0.25,
+          moveSpeed: 1.5,
+        )..priority = 1;
+        holes.add(newComp as HoleComponent);
+        break;
       case EditorItemType.star:
         newComp = StarComponent(Vector2.zero())..priority = 10;
         stars.add(newComp as StarComponent);
@@ -482,6 +504,12 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
         final jsonStr = PremadeLevels.levelsJson[templateLevelId]!;
         final data = LevelData.fromJson(jsonDecode(jsonStr));
         currentHeightMultiplier = data.heightMultiplier;
+        isDarknessLevel = data.isDarkLevel;
+        isDarknessLevelNotifier.value = isDarknessLevel;
+        darknessOpacityNotifier.value = isDarknessLevel ? 0.94 : 0.0;
+        levelHasBomb = data.hasBomb;
+        levelBombCount = data.bombCount;
+        levelTimer = data.timerSeconds;
 
         // Populate
         for (final hData in data.holes) {
@@ -579,6 +607,12 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
         if (campaignLevel != null) {
           final data = campaignLevel.toLevelData();
           currentHeightMultiplier = data.heightMultiplier;
+          isDarknessLevel = data.isDarkLevel;
+          isDarknessLevelNotifier.value = isDarknessLevel;
+          darknessOpacityNotifier.value = isDarknessLevel ? 0.94 : 0.0;
+          levelHasBomb = data.hasBomb;
+          levelBombCount = data.bombCount;
+          levelTimer = data.timerSeconds;
 
           for (final hData in data.holes) {
             final hole = HoleComponent(
@@ -688,6 +722,11 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
               'isMovingHole': h.isMovingHole,
               'moveRange': h.moveRange,
               'moveSpeed': h.moveSpeed,
+              'behavior': h.behavior.name,
+              'warningDuration': h.warningDuration,
+              'activeDuration': h.activeDuration,
+              'recoveryDuration': h.recoveryDuration,
+              'forceStrength': h.forceStrength,
             },
           )
           .toList(),
@@ -868,8 +907,8 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       barResetTimer = 0.8; // Straighten bar consistently in 0.8s
     } else {
       barResetTimer = 0.0;
-      leftY = currentLevelHeight - 70.0;
-      rightY = currentLevelHeight - 70.0;
+      leftY = currentLevelHeight - 160.0;
+      rightY = currentLevelHeight - 160.0;
     }
 
     isBoardHidden = false;
@@ -1325,8 +1364,6 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
         color: GameColors.orangeAccent,
         force: true,
       );
-    } else if (isDarknessLevel) {
-      _showPraiseText('Night Time!', color: GameColors.purple300, force: true);
     }
 
     // Quickly spawn components back on the main thread using the pre-calculated data
@@ -1577,11 +1614,15 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     if (shooterActive && !isSpawningLevel && !isLevelCompleteOverlayShown) {
       final targets = villains.where((villain) => !villain.isDefeated).toList();
       if (targets.isNotEmpty && activeBalls.isNotEmpty) {
-        shooterFireTimer += dt;
-        if (shooterFireTimer >= 0.48) {
-          shooterFireTimer = 0;
-          final ball = activeBalls.first;
-          final target = targets.first;
+        final ball = activeBalls.first;
+        if (!ball.isDead &&
+            !ball.isRespawningFromHole &&
+            !ball.isRespawningFromEdge &&
+            !ball.isFallingInHole) {
+          shooterFireTimer += dt;
+          if (shooterFireTimer >= 0.48) {
+            shooterFireTimer = 0;
+            final target = targets.first;
           
           Vector2 direction = target.position - ball.pos2D;
           direction.normalize();
@@ -1605,6 +1646,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
             )..priority = 85,
           );
           AppSettings.playSound('shooting-sound.wav', volume: 0.35);
+          }
         }
       }
     }
@@ -1668,7 +1710,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       countdownNotifier.value = 0;
     }
 
-    double maxY = levelHeight - 70.0;
+    double maxY = levelHeight - 160.0;
     double minY = 10.0;
 
     if (barResetTimer > 0) {
@@ -1878,7 +1920,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
 
       if (!isWinningDarkLevel) {
         final targetRadius =
-            darknessBaseLightRadius * (isIlluminated ? 1.65 : 1.0);
+            darknessBaseLightRadius * (isIlluminated ? 3.0 : 1.0);
         lightRadiusNotifier.value +=
             (targetRadius - lightRadiusNotifier.value) * min(1.0, dt * 5.0);
         darknessOpacityNotifier.value +=
@@ -1921,9 +1963,24 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       if (ball.activeHole != null) {
         ball.fallTarget = ball.activeHole!.position.clone();
       }
-      ball.fallRotation += dt * 15.0; // Rapid spin
-      ball.scale -= dt * 1.0; // Slower fall (takes 1 second)
-      ball.pos2D.lerp(ball.fallTarget, dt * 5.0); // Slower pull to center
+      if (ball.activeHole != null && ball.activeHole!.hasForceField) {
+        ball.fallRotation += dt * 25.0; // Rapid spin
+        Vector2 delta = ball.fallTarget - ball.pos2D;
+        double dist = delta.length;
+        if (dist > 2.0) {
+          Vector2 radial = delta / dist;
+          Vector2 tangent = Vector2(-radial.y, radial.x);
+          // Swirl inwards towards the center
+          ball.pos2D += (radial * 160.0 + tangent * 200.0) * dt;
+        } else {
+          ball.pos2D.lerp(ball.fallTarget, dt * 15.0);
+        }
+        ball.scale -= dt * 0.65; // Slower fall (takes ~1.5 seconds)
+      } else {
+        ball.fallRotation += dt * 15.0; // Rapid spin
+        ball.scale -= dt * 1.0; // Slower fall (takes 1 second)
+        ball.pos2D.lerp(ball.fallTarget, dt * 5.0); // Slower pull to center
+      }
 
       if (ball.scale <= -0.5) {
         // Wait half a second after ball vanishes for teeth to close
@@ -1980,6 +2037,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
         );
         ball.isSuckingToGate = true;
         ball.isFalling = false;
+        _clearBombs();
 
         if (isDarknessLevel) {
           isWinningDarkLevel = true;
@@ -1996,7 +2054,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     if (isSpawningLevel) {
       if (ball.spawnTimer > 0) {
         bool isBarAtBottom =
-            leftY >= (levelHeight - 75.0) && rightY >= (levelHeight - 75.0);
+            leftY >= (levelHeight - 165.0) && rightY >= (levelHeight - 165.0);
 
         if (ball.spawnTimer - dt <= 1.0 && !isBarAtBottom) {
           ball.spawnTimer = 1.0001;
@@ -2100,7 +2158,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
         ball.isRespawningFromEdge) {
       if (ball.respawnTimer > 0) {
         bool isBarAtBottom =
-            leftY >= (levelHeight - 75.0) && rightY >= (levelHeight - 75.0);
+            leftY >= (levelHeight - 165.0) && rightY >= (levelHeight - 165.0);
 
         if (ball.respawnTimer - dt <= 0.8 && !isBarAtBottom) {
           ball.respawnTimer = 0.8001;
@@ -2334,6 +2392,10 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
           double lethalDist =
               (hole.size.x / 2 * hole.scale.x) - 2.0 * hole.scale.x;
           if (centers.length > 1) lethalDist *= 0.48;
+
+          if (hole.hasForceField) {
+            lethalDist = hole.currentSuckRadius * hole.scale.x * 0.95;
+          }
 
           if (dist < lethalDist) {
             if (isShieldActive) {

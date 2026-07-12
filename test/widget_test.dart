@@ -1,5 +1,5 @@
 import 'package:balanco_game/main.dart';
-import 'package:balanco_game/features/home/screens/splash_screen.dart';
+import 'package:balanco_game/features/home/screens/splash/splash_screen.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

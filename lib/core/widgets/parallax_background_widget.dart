@@ -9,6 +9,7 @@ import 'package:balanco_game/features/map/backgrounds/beach/sea_painter.dart';
 import 'package:balanco_game/features/map/backgrounds/beach/sky_painter.dart';
 import 'package:balanco_game/features/game/components/game_background/biome_background_transition.dart';
 import 'package:balanco_game/features/game/components/game_background/pyramids_painter.dart';
+import 'package:balanco_game/features/game/components/game_background/level_group_painters.dart';
 
 import 'package:balanco_game/features/game/game_area.dart';
 import 'package:balanco_game/core/data/app_settings.dart';
@@ -132,11 +133,8 @@ class _ParallaxBackgroundWidgetState extends State<ParallaxBackgroundWidget> {
       child: ValueListenableBuilder<int>(
         valueListenable: widget.game.currentLevel,
         builder: (context, level, child) {
-          final double targetProgress = widget.game.isInfinityMode
-              ? ((level - 1) % 20) / 19.0
-              : BiomeConfig.getBiomeForLevel(level) == BiomeConfig.crystalCave
-              ? 1.0
-              : 0.0;
+          final sceneIndex = BiomeConfig.getBiomeIndexForLevel(level);
+          final double targetProgress = sceneIndex == 0 ? 0.0 : 1.0;
           final currentBiome = widget.game.currentBiome;
 
           return TweenAnimationBuilder<double>(
@@ -268,6 +266,26 @@ class _ParallaxBackgroundWidgetState extends State<ParallaxBackgroundWidget> {
                 ),
               );
 
+              final Widget themedScene = sceneIndex <= 1
+                  ? pyramidScene
+                  : SizedBox(
+                      width: 1000,
+                      height: 475,
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          for (final layer in levelGroupLayers(currentBiome))
+                            _buildLayer(
+                              layer.painter,
+                              layer.depth,
+                              dx: layer.dx,
+                              dy: layer.dy,
+                              scale: layer.scale,
+                            ),
+                        ],
+                      ),
+                    );
+
               return Stack(
                 fit: StackFit.expand,
                 children: [
@@ -276,10 +294,12 @@ class _ParallaxBackgroundWidgetState extends State<ParallaxBackgroundWidget> {
                       fit: BoxFit.cover,
                       child: BiomeBackgroundTransition(
                         tropical: tropicalScene,
-                        pyramids: pyramidScene,
+                        pyramids: themedScene,
                         progress: progress,
                         tropicalTint: widget.game.isInfinityMode
-                            ? currentBiome.secondaryColor.withValues(alpha: 0.16)
+                            ? currentBiome.secondaryColor.withValues(
+                                alpha: 0.16,
+                              )
                             : Colors.transparent,
                         pyramidTint: widget.game.isInfinityMode
                             ? currentBiome.primaryColor.withValues(alpha: 0.22)
@@ -292,11 +312,18 @@ class _ParallaxBackgroundWidgetState extends State<ParallaxBackgroundWidget> {
                       child: AnimatedBuilder(
                         animation: widget.game.cameraOffsetYNotifier,
                         builder: (context, _) {
-                          final double cameraY = widget.game.cameraOffsetYNotifier.value;
+                          final double cameraY =
+                              widget.game.cameraOffsetYNotifier.value;
                           final int score = (cameraY / 40.0).floor();
-                          final biome1 = BiomeConfig.getDynamicScoreBiome(score);
-                          final biome2 = BiomeConfig.getDynamicScoreBiome(score + 100);
-                          final biome3 = BiomeConfig.getDynamicScoreBiome(score + 200);
+                          final biome1 = BiomeConfig.getDynamicScoreBiome(
+                            score,
+                          );
+                          final biome2 = BiomeConfig.getDynamicScoreBiome(
+                            score + 100,
+                          );
+                          final biome3 = BiomeConfig.getDynamicScoreBiome(
+                            score + 200,
+                          );
 
                           final double scrollOffset = (cameraY % 2000) / 2000.0;
 
@@ -312,7 +339,9 @@ class _ParallaxBackgroundWidgetState extends State<ParallaxBackgroundWidget> {
                                   biome1.bgTopColor.withValues(alpha: 0.45),
                                 ],
                                 stops: const [0.0, 0.33, 0.66, 1.0],
-                                transform: _ScrollGradientTransform(scrollOffset),
+                                transform: _ScrollGradientTransform(
+                                  scrollOffset,
+                                ),
                                 tileMode: TileMode.repeated,
                               ),
                             ),
@@ -339,4 +368,3 @@ class _ScrollGradientTransform extends GradientTransform {
     return Matrix4.translationValues(0, scrollOffset * bounds.height, 0);
   }
 }
-

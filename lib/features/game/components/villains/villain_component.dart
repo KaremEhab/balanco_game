@@ -62,7 +62,10 @@ class VillainComponent extends PositionComponent
         _attackTimer = 0;
 
         final targetBall = game.activeBalls.first;
-        if (!targetBall.isDead && !targetBall.isFallingInHole) {
+        if (!targetBall.isDead &&
+            !targetBall.isFallingInHole &&
+            !targetBall.isRespawningFromHole &&
+            !targetBall.isRespawningFromEdge) {
           Vector2 predictedPos = targetBall.pos2D.clone();
 
           game.levelContainer.add(

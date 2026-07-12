@@ -19,6 +19,7 @@ import 'package:balanco_game/features/map/backgrounds/beach/mountains_painter.da
 import 'package:balanco_game/features/map/backgrounds/beach/sea_painter.dart';
 import 'package:balanco_game/features/game/components/game_background/biome_background_transition.dart';
 import 'package:balanco_game/features/game/components/game_background/pyramids_painter.dart';
+import 'package:balanco_game/features/game/components/game_background/level_group_painters.dart';
 
 import 'package:balanco_game/features/map/theme/biome_config.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
@@ -60,6 +61,8 @@ class _MainScreenState extends State<MainScreen> {
   double _indicatorLeft = 0;
   double _indicatorWidth = 0;
 
+  final GlobalKey<HomeScreenState> _homeKey = GlobalKey<HomeScreenState>();
+
   @override
   void initState() {
     super.initState();
@@ -67,6 +70,7 @@ class _MainScreenState extends State<MainScreen> {
     _pageController = PageController(initialPage: _currentIndex);
     _screens = [
       HomeScreen(
+        key: _homeKey,
         scrollController: _mapScrollController,
         biomeTransitionProgress: biomeTransitionProgress,
         currentBiomeNotifier: currentBiomeNotifier,
@@ -602,50 +606,37 @@ class _MainScreenState extends State<MainScreen> {
                     return ValueListenableBuilder<double>(
                       valueListenable: biomeTransitionProgress,
                       builder: (context, progress, child) {
-                        double getOpacityForBiome(BiomeModel biome) {
-                          BiomeModel? effectivePrev =
-                              previousBiome ?? currentBiome;
-                          double prevWeight = effectivePrev == biome
-                              ? 1.0
-                              : 0.0;
-                          double currWeight = currentBiome == biome ? 1.0 : 0.0;
-                          if (effectivePrev == biome && currentBiome == biome) {
-                            return 1.0;
-                          }
-                          return prevWeight * (1.0 - progress) +
-                              currWeight * progress;
+                        final activeBiome =
+                            currentBiome ?? BiomeConfig.tropicalBeach;
+                        final outgoingBiome = previousBiome ?? activeBiome;
+
+                        Widget sceneFor(BiomeModel biome) {
+                          final index = BiomeConfig.getBiomeIndex(biome);
+                          if (index == 0) return beachParallax;
+                          if (index == 1) return pyramidParallax;
+                          return SizedBox(
+                            width: 1000,
+                            height: 475,
+                            child: Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                for (final layer in levelGroupLayers(biome))
+                                  _buildLayer(
+                                    layer.painter,
+                                    dx: layer.dx,
+                                    dy: layer.dy,
+                                    scale: layer.scale,
+                                    depthMultiplier: layer.depth,
+                                    parallaxEnabled: isParallax,
+                                  ),
+                              ],
+                            ),
+                          );
                         }
 
-                        final double beachOpacity = getOpacityForBiome(
-                          BiomeConfig.tropicalBeach,
-                        );
-                        final double pyramidOpacity = getOpacityForBiome(
-                          BiomeConfig.crystalCave,
-                        );
-
-                        // Original Tinting logic for beach
-                        final Color prevTint =
-                            previousBiome?.primaryColor.withValues(
-                              alpha: 0.15,
-                            ) ??
-                            Colors.transparent;
-                        final Color currTint =
-                            currentBiome?.primaryColor.withValues(
-                              alpha: 0.15,
-                            ) ??
-                            Colors.transparent;
-                        final Color tintColor = Color.lerp(
-                          prevTint,
-                          currTint,
-                          progress,
-                        )!;
-                        final double transitionProgress =
-                            (pyramidOpacity /
-                                    (beachOpacity + pyramidOpacity).clamp(
-                                      0.001,
-                                      2.0,
-                                    ))
-                                .clamp(0.0, 1.0);
+                        final transitionProgress = previousBiome == null
+                            ? 1.0
+                            : progress;
 
                         return Container(
                           width: double.infinity,
@@ -655,11 +646,14 @@ class _MainScreenState extends State<MainScreen> {
                           child: FittedBox(
                             fit: BoxFit.cover,
                             child: BiomeBackgroundTransition(
-                              tropical: beachParallax,
-                              pyramids: pyramidParallax,
+                              tropical: sceneFor(outgoingBiome),
+                              pyramids: sceneFor(activeBiome),
                               progress: transitionProgress,
-                              tropicalTint: tintColor,
-                              pyramidTint: const Color(0x336A2CA0),
+                              tropicalTint: outgoingBiome.primaryColor
+                                  .withValues(alpha: 0.08),
+                              pyramidTint: activeBiome.primaryColor.withValues(
+                                alpha: 0.10,
+                              ),
                             ),
                           ),
                         );
@@ -894,6 +888,9 @@ class _MainScreenState extends State<MainScreen> {
     return GestureDetector(
       key: _navKeys[index],
       onTap: () {
+        if (index == 0) {
+          _homeKey.currentState?.scrollToCurrentLevel(animate: true);
+        }
         _pageController.animateToPage(
           index,
           duration: const Duration(milliseconds: 400),

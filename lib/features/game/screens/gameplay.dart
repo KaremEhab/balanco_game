@@ -650,7 +650,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                                 // Middle Game Area
                                 Positioned(
                                   top: 124,
-                                  bottom: 110,
+                                  bottom: 45,
                                   left: 6,
                                   right: 6,
                                   child: ClipRRect(
@@ -661,8 +661,12 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                                       topRight: Radius.circular(
                                         innerCornerRadius,
                                       ),
-                                      bottomLeft: const Radius.circular(16),
-                                      bottomRight: const Radius.circular(16),
+                                      bottomLeft: const Radius.circular(
+                                        innerCornerRadius,
+                                      ),
+                                      bottomRight: const Radius.circular(
+                                        innerCornerRadius,
+                                      ),
                                     ),
                                     child: Stack(
                                       children: widget.game.isInfinityMode

@@ -22,6 +22,7 @@ import 'package:balanco_game/features/map/theme/themes/beach_map_theme.dart';
 import 'package:balanco_game/core/data/app_settings.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
 import 'package:balanco_game/core/widgets/cartoon_star.dart';
+import 'package:balanco_game/features/map/widgets/ball_theme_unlock_dialog.dart';
 
 Future<List<Offset>> _computeNodePositionsAsync(
   Map<String, dynamic> data,
@@ -58,14 +59,14 @@ class HomeScreen extends StatefulWidget {
   });
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<HomeScreen> createState() => HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final int totalLevels = 500;
   final double nodeSpacingY = 180.0; // Increased spacing between level holes
   double get bottomPadding =>
-      310.0 +
+      320.0 +
       MediaQuery.of(context)
           .padding
           .bottom; // Ample padding at the bottom so lowest hole clears the UI
@@ -391,16 +392,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         widget.currentBiomeNotifier!.value = newBiome;
       }
 
+      final transitionIsUnlocked =
+          oldBiome.startLevel <= highestLevel &&
+          newBiome.startLevel <= highestLevel;
       if (oldBiome != newBiome && !_isFirstLoad) {
-        // Biome change! Trigger the cinematic!
-        _previousBiome = oldBiome;
-        _targetBiome = newBiome;
-
+        // The background always transitions, including previews of locked
+        // worlds. The ball cinematic only runs for color themes the player
+        // has actually unlocked.
         if (widget.previousBiomeNotifier != null) {
           widget.previousBiomeNotifier!.value = oldBiome;
         }
-
-        _isBiomeTransitioning = true;
+        if (transitionIsUnlocked) {
+          _previousBiome = oldBiome;
+          _targetBiome = newBiome;
+          _isBiomeTransitioning = true;
+        }
         _biomeTransitionController.forward(from: 0.0);
       }
 
@@ -409,43 +415,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       });
       HapticFeedback.selectionClick();
     }
-
-    // Calculate Biome Transition Progress (Between Level 10 and Level 11)
-    if (widget.biomeTransitionProgress != null) {
-      // Level 10 is at i=9, Level 11 is at i=10
-      double level10Y = totalHeight - bottomPadding - (9 * nodeSpacingY);
-      double level11Y = totalHeight - bottomPadding - (10 * nodeSpacingY);
-
-      // Gap Y is directly in the middle
-      double gapY = (level10Y + level11Y) / 2;
-
-      // We want to transition fully over the space of one nodeSpacingY
-      // So transition starts at gapY + nodeSpacingY/2 and ends at gapY - nodeSpacingY/2
-      // The visual focal point on screen is at focalOffsetFromTop.
-      double transitionStartOffset =
-          gapY + (nodeSpacingY / 2) - focalOffsetFromTop;
-      double transitionEndOffset =
-          gapY - (nodeSpacingY / 2) - focalOffsetFromTop;
-
-      double progress = 0.0;
-      if (scrollOffset >= transitionStartOffset) {
-        progress = 0.0;
-      } else if (scrollOffset <= transitionEndOffset) {
-        progress = 1.0;
-      } else {
-        progress =
-            1.0 -
-            ((scrollOffset - transitionEndOffset) /
-                (transitionStartOffset - transitionEndOffset));
-      }
-      widget.biomeTransitionProgress!.value = progress;
-    }
   }
 
   Future<void> _loadData() async {
     final profile = await DatabaseHelper.instance.getPlayerProfile();
     final progresses = await DatabaseHelper.instance.getAllLevelProgress();
     if (!mounted) return;
+
+    final previousHighestLevel = highestLevel;
+    BiomeModel? newlyUnlockedBallTheme;
 
     debugPrint(
       'HOME_SCREEN: _loadData called. Current highestLevel: $highestLevel, DB profile.highestLevel: ${profile.highestLevel}',
@@ -456,6 +434,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         highestLevel > 0 &&
         profile.highestLevel > highestLevel) {
       _justUnlockedLevel = profile.highestLevel;
+      for (final biome in BiomeConfig.biomes) {
+        if (biome.startLevel > previousHighestLevel &&
+            biome.startLevel <= profile.highestLevel) {
+          newlyUnlockedBallTheme = biome;
+        }
+      }
       debugPrint(
         'HOME_SCREEN: Detected new level unlocked! _justUnlockedLevel set to $_justUnlockedLevel',
       );
@@ -477,7 +461,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     }
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _scrollToCurrentLevel();
+      scrollToCurrentLevel();
+      if (newlyUnlockedBallTheme != null && mounted) {
+        BallThemeUnlockDialog.show(context, newlyUnlockedBallTheme);
+      }
     });
   }
 
@@ -508,7 +495,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     }
   }
 
-  Future<void> _scrollToCurrentLevel({bool animate = false}) {
+  Future<void> scrollToCurrentLevel({bool animate = false}) {
     return _scrollToLevel(currentLevel, animate: animate);
   }
 
@@ -962,7 +949,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                           level; // Automatically update current level
                                     });
                                     // Smoothly navigate to the new unlocked level!
-                                    _scrollToCurrentLevel(animate: true);
+                                    scrollToCurrentLevel(animate: true);
                                   }
                                 },
                               );
@@ -983,6 +970,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               builder: (context, child) {
                 final currentBiome = BiomeConfig.getBiomeForLevel(
                   _displayedLevel,
+                );
+                final ballBiome = BiomeConfig.getBiomeForLevel(
+                  min(_displayedLevel, highestLevel),
                 );
                 final bool isTransitioning =
                     _isBiomeTransitioning &&
@@ -1092,8 +1082,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     drawBall:
                                         !isTransitioning &&
                                         _animatingLevel == null,
-                                    isLocked: _displayedLevel > highestLevel,
-                                    biome: currentBiome,
+                                    // Locked worlds may be previewed, but the ball
+                                    // keeps the latest color theme the player owns.
+                                    isLocked: false,
+                                    biome: ballBiome,
                                     platformBiome: isTransitioning
                                         ? _previousBiome
                                         : null,

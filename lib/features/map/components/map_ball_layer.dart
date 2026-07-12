@@ -20,7 +20,7 @@ class MapBallLayer extends CustomPainter {
   final double ballOpacity;
   final double ballScaleModifier;
   final double platformTransitionProgress; // 0→1: lava crack wipe of new color
-  final BiomeModel? platformNewBiome;      // the incoming biome color
+  final BiomeModel? platformNewBiome; // the incoming biome color
 
   // Paints
   final Paint _dropShadowPaint = Paint()
@@ -67,10 +67,26 @@ class MapBallLayer extends CustomPainter {
     if (isLocked) {
       final paint = Paint()
         ..colorFilter = const ColorFilter.matrix(<double>[
-          0.2126, 0.7152, 0.0722, 0, 0,
-          0.2126, 0.7152, 0.0722, 0, 0,
-          0.2126, 0.7152, 0.0722, 0, 0,
-          0, 0, 0, 1, 0,
+          0.2126,
+          0.7152,
+          0.0722,
+          0,
+          0,
+          0.2126,
+          0.7152,
+          0.0722,
+          0,
+          0,
+          0.2126,
+          0.7152,
+          0.0722,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
         ]);
       canvas.saveLayer(null, paint);
     }
@@ -168,7 +184,7 @@ class MapBallLayer extends CustomPainter {
         colors: [
           currentPlatformBiome.nodeUnlockedColor,
           currentPlatformBiome.nodeUnlockedBorderColor,
-        ], 
+        ],
       ).createShader(Rect.fromLTRB(-frontW, backY, frontW, frontY));
 
     canvas.drawPath(topFacePath, topFacePaint);
@@ -200,7 +216,7 @@ class MapBallLayer extends CustomPainter {
         colors: [
           currentPlatformBiome.nodeUnlockedBorderColor,
           currentPlatformBiome.nodeUnlockedRivetColor,
-        ], 
+        ],
       ).createShader(Rect.fromLTRB(-frontW, frontY, frontW, frontBottomY));
 
     canvas.drawPath(frontFacePath, frontFacePaint);
@@ -266,16 +282,28 @@ class MapBallLayer extends CustomPainter {
 
     // 1. New-color top + front face clipped to expanding centre strip
     canvas.save();
-    canvas.clipRect(Rect.fromLTRB(-sweepX, backY - 1, sweepX, frontBottomY + 1));
+    canvas.clipRect(
+      Rect.fromLTRB(-sweepX, backY - 1, sweepX, frontBottomY + 1),
+    );
 
     final topPath = Path()
       ..moveTo(-backW + cornerRadius, backY)
       ..lineTo(backW - cornerRadius, backY)
-      ..quadraticBezierTo(backW, backY, backW + (frontW - backW) * 0.1, backY + (frontY - backY) * 0.1)
+      ..quadraticBezierTo(
+        backW,
+        backY,
+        backW + (frontW - backW) * 0.1,
+        backY + (frontY - backY) * 0.1,
+      )
       ..lineTo(frontW - cornerRadius * 0.5, frontY - cornerRadius)
       ..quadraticBezierTo(frontW, frontY, frontW - cornerRadius, frontY)
       ..lineTo(-frontW + cornerRadius, frontY)
-      ..quadraticBezierTo(-frontW, frontY, -frontW + cornerRadius * 0.5, frontY - cornerRadius)
+      ..quadraticBezierTo(
+        -frontW,
+        frontY,
+        -frontW + cornerRadius * 0.5,
+        frontY - cornerRadius,
+      )
       ..lineTo(-backW - (frontW - backW) * 0.1, backY + (frontY - backY) * 0.1)
       ..quadraticBezierTo(-backW, backY, -backW + cornerRadius, backY)
       ..close();
@@ -286,7 +314,10 @@ class MapBallLayer extends CustomPainter {
         ..shader = LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [newBiome.nodeUnlockedColor, newBiome.nodeUnlockedBorderColor],
+          colors: [
+            newBiome.nodeUnlockedColor,
+            newBiome.nodeUnlockedBorderColor,
+          ],
         ).createShader(Rect.fromLTRB(-frontW, backY, frontW, frontY)),
     );
 
@@ -294,9 +325,19 @@ class MapBallLayer extends CustomPainter {
       ..moveTo(-frontW, frontY)
       ..lineTo(frontW, frontY)
       ..lineTo(frontW, frontBottomY - cornerRadius)
-      ..quadraticBezierTo(frontW, frontBottomY, frontW - cornerRadius, frontBottomY)
+      ..quadraticBezierTo(
+        frontW,
+        frontBottomY,
+        frontW - cornerRadius,
+        frontBottomY,
+      )
       ..lineTo(-frontW + cornerRadius, frontBottomY)
-      ..quadraticBezierTo(-frontW, frontBottomY, -frontW, frontBottomY - cornerRadius)
+      ..quadraticBezierTo(
+        -frontW,
+        frontBottomY,
+        -frontW,
+        frontBottomY - cornerRadius,
+      )
       ..close();
 
     canvas.drawPath(
@@ -305,7 +346,10 @@ class MapBallLayer extends CustomPainter {
         ..shader = LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [newBiome.nodeUnlockedBorderColor, newBiome.nodeUnlockedRivetColor],
+          colors: [
+            newBiome.nodeUnlockedBorderColor,
+            newBiome.nodeUnlockedRivetColor,
+          ],
         ).createShader(Rect.fromLTRB(-frontW, frontY, frontW, frontBottomY)),
     );
 
@@ -336,7 +380,15 @@ class MapBallLayer extends CustomPainter {
 
         // 3. Sparks flying upward from wavefront
         const List<double> sparkAngles = [-1.1, -0.7, -0.4, 0.0, 0.5, 0.9, 1.2];
-        const List<double> sparkLengths = [10.0, 7.0, 12.0, 8.0, 11.0, 6.0, 9.0];
+        const List<double> sparkLengths = [
+          10.0,
+          7.0,
+          12.0,
+          8.0,
+          11.0,
+          6.0,
+          9.0,
+        ];
         for (int i = 0; i < sparkAngles.length; i++) {
           final double delay = i * 0.06;
           final double sp = ((p - delay) / 0.4).clamp(0.0, 1.0);
@@ -344,7 +396,8 @@ class MapBallLayer extends CustomPainter {
 
           final double len = sparkLengths[i % sparkLengths.length];
           // bias sparks upward
-          final double angle = sparkAngles[i % sparkAngles.length] - math.pi / 2;
+          final double angle =
+              sparkAngles[i % sparkAngles.length] - math.pi / 2;
           final double sparkOpacity = (1.0 - sp) * 0.9;
 
           canvas.drawLine(
@@ -379,7 +432,11 @@ class MapBallLayer extends CustomPainter {
 
       // Lava crack wipe: new biome color floods from center outward
       if (platformTransitionProgress > 0.0 && platformNewBiome != null) {
-        _drawLavaCrackOverlay(canvas, platformNewBiome!, platformTransitionProgress);
+        _drawLavaCrackOverlay(
+          canvas,
+          platformNewBiome!,
+          platformTransitionProgress,
+        );
       }
 
       canvas.restore();
@@ -413,7 +470,8 @@ class MapBallLayer extends CustomPainter {
 
       // If opacity is less than 1.0, save a layer with opacity
       if (ballOpacity < 1.0) {
-        final opacityPaint = Paint()..color = Color.fromRGBO(0, 0, 0, ballOpacity);
+        final opacityPaint = Paint()
+          ..color = Color.fromRGBO(0, 0, 0, ballOpacity);
         canvas.saveLayer(null, opacityPaint);
       }
 
@@ -423,10 +481,26 @@ class MapBallLayer extends CustomPainter {
       if (isLocked) {
         final paint = Paint()
           ..colorFilter = const ColorFilter.matrix(<double>[
-            0.2126, 0.7152, 0.0722, 0, 0,
-            0.2126, 0.7152, 0.0722, 0, 0,
-            0.2126, 0.7152, 0.0722, 0, 0,
-            0, 0, 0, 1, 0,
+            0.2126,
+            0.7152,
+            0.0722,
+            0,
+            0,
+            0.2126,
+            0.7152,
+            0.0722,
+            0,
+            0,
+            0.2126,
+            0.7152,
+            0.0722,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
           ]);
         canvas.saveLayer(
           Rect.fromCircle(center: Offset.zero, radius: radius * 2),
@@ -475,6 +549,10 @@ class MapBallLayer extends CustomPainter {
         oldDelegate.squashScaleY != squashScaleY ||
         oldDelegate.rotation != rotation ||
         oldDelegate.ballOffsetY != ballOffsetY ||
-        oldDelegate.isLocked != isLocked;
+        oldDelegate.isLocked != isLocked ||
+        oldDelegate.biome != biome ||
+        oldDelegate.platformBiome != platformBiome ||
+        oldDelegate.platformNewBiome != platformNewBiome ||
+        oldDelegate.platformTransitionProgress != platformTransitionProgress;
   }
 }

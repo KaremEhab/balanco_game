@@ -5,7 +5,7 @@ import 'package:balanco_game/features/map/models/biome_model.dart';
 class BiomeConfig {
   static const BiomeModel tropicalBeach = BiomeModel(
     startLevel: 1,
-    endLevel: 10,
+    endLevel: 15,
     primaryColor: GameColors.beachMapThemeColor1, // Deep Teal
     secondaryColor: GameColors.beachMapThemeColor2, // Aquamarine
     nodeUnlockedColor: GameColors.beachMapThemeColor2,
@@ -37,6 +37,39 @@ class BiomeConfig {
         GameColors.beachMapThemeColor2, // Aquamarine to match button/ball
     bgTopColor: GameColors.beachMapThemeColor1,
     bgBottomColor: GameColors.beachMapThemeColor2,
+  );
+
+  static const BiomeModel pyramids = BiomeModel(
+    startLevel: 16,
+    endLevel: 45,
+    primaryColor: Color(0xFFD99A3D),
+    secondaryColor: Color(0xFFFFD36A),
+    nodeUnlockedColor: Color(0xFFFFD36A),
+    nodeUnlockedBorderColor: Color(0xFFD99A3D),
+    nodeUnlockedTeethColor: Color(0xFFFFD36A),
+    nodeUnlockedOuterEdgeColor: GameColors.white,
+    nodeUnlockedRivetColor: Color(0xFF6B3E16),
+    nodeUnlockedInnerColors: [
+      Color(0xFFFFD36A),
+      Color(0xFFF4BA54),
+      Color(0xFFD99A3D),
+      Color(0xFFA56B2D),
+      Color(0xFF6B3E16),
+      GameColors.blackSolid,
+    ],
+    nodeLockedColor: Color(0xFF6A513E),
+    nodeLockedBorderColor: Color(0xFF6B3E16),
+    nodeLockedTeethColor: Color(0xFF6B3E16),
+    nodeLockedOuterEdgeColor: GameColors.blueGray100,
+    nodeLockedRivetColor: Color(0xFF6B3E16),
+    nodeLockedInnerColors: [
+      Color(0xFFD99A3D),
+      Color(0xFF6B3E16),
+      GameColors.blackSolid,
+    ],
+    pathColor: Color(0xFFFFD36A),
+    bgTopColor: Color(0xFF6B3E16),
+    bgBottomColor: Color(0xFFD99A3D),
   );
 
   static const BiomeModel crystalCave = BiomeModel(
@@ -75,20 +108,8 @@ class BiomeConfig {
   );
 
   static final List<BiomeModel> biomes = [
-    _simpleBiome(
-      startLevel: 1,
-      endLevel: 15,
-      primary: GameColors.beachMapThemeColor1,
-      secondary: GameColors.beachMapThemeColor2,
-      dark: const Color(0xFF064E6C),
-    ),
-    _simpleBiome(
-      startLevel: 16,
-      endLevel: 45,
-      primary: const Color(0xFFD99A3D),
-      secondary: const Color(0xFFFFD36A),
-      dark: const Color(0xFF6B3E16),
-    ),
+    tropicalBeach,
+    pyramids,
     _simpleBiome(
       startLevel: 46,
       endLevel: 75,
@@ -202,6 +223,46 @@ class BiomeConfig {
       dark: const Color(0xFF120006),
     ),
   ];
+
+  static const List<String> sceneNames = [
+    'Tropical Beach',
+    'Mystic Pyramids',
+    'Jungle Ruins',
+    'Frozen Peaks',
+    'Volcanic Ridge',
+    'Neon Carnival',
+    'Star Station',
+    'Sunken Temple',
+    'Candy Coast',
+    'Enchanted Forest',
+    'Cloud Kingdom',
+    'Crystal Caverns',
+    'Autumn Canyon',
+    'Steel Factory',
+    'Cyber City',
+    'Ancient Swamp',
+    'Nightmare Realm',
+    'Final Eclipse',
+  ];
+
+  static int getBiomeIndex(BiomeModel biome) {
+    final index = biomes.indexOf(biome);
+    if (index >= 0) return index;
+    return biomes.indexWhere(
+      (item) =>
+          item.startLevel == biome.startLevel &&
+          item.endLevel == biome.endLevel,
+    );
+  }
+
+  static int getBiomeIndexForLevel(int level) =>
+      getBiomeIndex(getBiomeForLevel(level));
+
+  static String getSceneName(BiomeModel biome) {
+    final index = getBiomeIndex(biome);
+    if (index < 0 || index >= sceneNames.length) return 'New World';
+    return sceneNames[index];
+  }
 
   static BiomeModel _simpleBiome({
     required int startLevel,

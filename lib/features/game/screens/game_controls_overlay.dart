@@ -322,6 +322,7 @@ class VerticalJoystick extends StatefulWidget {
   final bool isLeft;
   final BiomeModel biome;
   final bool isInfinityMode;
+  final double? externalValue;
 
   const VerticalJoystick({
     super.key,
@@ -329,6 +330,7 @@ class VerticalJoystick extends StatefulWidget {
     required this.isLeft,
     required this.biome,
     this.isInfinityMode = false,
+    this.externalValue,
   });
 
   @override
@@ -496,7 +498,7 @@ class _VerticalJoystickState extends State<VerticalJoystick> {
 
             // 2.5D Glossy Orange Knob
             Align(
-              alignment: Alignment(0, _dy / _maxDrag),
+              alignment: Alignment(0, widget.externalValue != null ? widget.externalValue! / _maxDrag : _dy / _maxDrag),
               child: ClipOval(
                 child: BackdropFilter(
                   filter: widget.isInfinityMode

@@ -183,6 +183,23 @@ class _EditorOverlayState extends State<EditorOverlay> {
                         ],
                       ),
                     const SizedBox(height: 20),
+                    SwitchListTile(
+                      contentPadding: EdgeInsets.zero,
+                      title: const Text(
+                        'Night / Dark Mode',
+                        style: TextStyle(color: Colors.white70),
+                      ),
+                      value: widget.game.isDarknessLevel,
+                      activeThumbColor: Colors.deepPurpleAccent,
+                      onChanged: (val) {
+                        setStateDialog(() {
+                          widget.game.isDarknessLevel = val;
+                          widget.game.isDarknessLevelNotifier.value = val;
+                          widget.game.darknessOpacityNotifier.value = val ? 0.94 : 0.0;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 20),
                     const Text(
                       'Load Campaign Template',
                       style: TextStyle(color: Colors.white70),
@@ -249,6 +266,9 @@ class _EditorOverlayState extends State<EditorOverlay> {
                             return;
                           }
                           await widget.game.loadEditorTemplate(val);
+                          widget.game.currentLevel.value = val;
+                          _levelIdController.text = val.toString();
+                          AppSettings.setLastEditedLevel(val);
                           if (!context.mounted) return;
                           setStateDialog(() {});
                           Navigator.pop(context);
@@ -450,7 +470,82 @@ class _EditorOverlayState extends State<EditorOverlay> {
               ValueListenableBuilder<PositionComponent?>(
                 valueListenable: widget.game.selectedEditComponent,
                 builder: (context, selected, child) {
-                  if (selected == null) return const SizedBox.shrink();
+                  if (selected == null) {
+                    return Container(
+                      padding: const EdgeInsets.all(12.0),
+                      margin: const EdgeInsets.only(bottom: 10),
+                      decoration: BoxDecoration(
+                        color: GameColors.transparentBlack.withValues(alpha: 0.8),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: StatefulBuilder(
+                        builder: (context, setStatePanel) {
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Level Properties',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Text('Night Mode', style: TextStyle(color: Colors.white70)),
+                                  Switch(
+                                    value: widget.game.isDarknessLevel,
+                                    activeThumbColor: Colors.deepPurpleAccent,
+                                    onChanged: (val) {
+                                      setStatePanel(() {
+                                        widget.game.isDarknessLevel = val;
+                                        widget.game.isDarknessLevelNotifier.value = val;
+                                        widget.game.darknessOpacityNotifier.value = val ? 0.94 : 0.0;
+                                      });
+                                    },
+                                  ),
+                                  const SizedBox(width: 10),
+                                  const Text('Bombs', style: TextStyle(color: Colors.white70)),
+                                  Switch(
+                                    value: widget.game.levelHasBomb,
+                                    activeThumbColor: GameColors.redAccent,
+                                    onChanged: (val) {
+                                      setStatePanel(() {
+                                        widget.game.levelHasBomb = val;
+                                        if (val && widget.game.levelBombCount == 0) {
+                                          widget.game.levelBombCount = 1;
+                                        }
+                                        if (!val) widget.game.levelBombCount = 0;
+                                      });
+                                    },
+                                  ),
+                                  if (widget.game.levelHasBomb) ...[
+                                    IconButton(
+                                      icon: const Icon(Icons.remove_circle_outline, color: Colors.white),
+                                      onPressed: () => setStatePanel(() {
+                                        widget.game.levelBombCount = (widget.game.levelBombCount - 1).clamp(1, 9);
+                                      }),
+                                    ),
+                                    Text('${widget.game.levelBombCount}', style: const TextStyle(color: Colors.white)),
+                                    IconButton(
+                                      icon: const Icon(Icons.add_circle_outline, color: Colors.white),
+                                      onPressed: () => setStatePanel(() {
+                                        widget.game.levelBombCount = (widget.game.levelBombCount + 1).clamp(1, 9);
+                                      }),
+                                    ),
+                                  ],
+                                ],
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    );
+                  }
 
                   return Container(
                     padding: const EdgeInsets.all(8.0),
@@ -547,6 +642,16 @@ class _EditorOverlayState extends State<EditorOverlay> {
                         Icons.push_pin_rounded,
                         Colors.redAccent,
                         EditorItemType.nailHole,
+                      ),
+                      _buildPaletteButton(
+                        Icons.call_split_rounded,
+                        Colors.purpleAccent,
+                        EditorItemType.splittingHole,
+                      ),
+                      _buildPaletteButton(
+                        Icons.track_changes_rounded,
+                        Colors.tealAccent,
+                        EditorItemType.orbitingHole,
                       ),
                       _buildPaletteButton(
                         Icons.star,

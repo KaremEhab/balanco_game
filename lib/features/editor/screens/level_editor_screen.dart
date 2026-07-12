@@ -17,6 +17,8 @@ enum EditorItemType {
   suckingHole,
   movingHole,
   nailHole,
+  splittingHole,
+  orbitingHole,
   bumper,
   teleporter,
   star,
@@ -140,6 +142,10 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
           EditorItem(
             type: h.behavior == HoleBehavior.nailLauncher
                 ? EditorItemType.nailHole
+                : h.behavior == HoleBehavior.split
+                ? EditorItemType.splittingHole
+                : h.behavior == HoleBehavior.orbit
+                ? EditorItemType.orbitingHole
                 : h.isSuckingHole
                 ? EditorItemType.suckingHole
                 : (h.isMovingHole
@@ -287,6 +293,34 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
             ),
           );
           break;
+        case EditorItemType.splittingHole:
+          holes.add(
+            HoleData(
+              pos,
+              item.size,
+              0,
+              false,
+              0,
+              behavior: HoleBehavior.split,
+              activeDuration: 1.5,
+              recoveryDuration: 1.0,
+            ),
+          );
+          break;
+        case EditorItemType.orbitingHole:
+          holes.add(
+            HoleData(
+              pos,
+              item.size,
+              0,
+              false,
+              0,
+              behavior: HoleBehavior.orbit,
+              moveRange: item.moveRange,
+              moveSpeed: item.moveSpeed,
+            ),
+          );
+          break;
         case EditorItemType.bumper:
           bumpers.add(BumperData(pos, item.size));
           break;
@@ -388,12 +422,13 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
   void _showTimerDialog() {
     double tempTimer = _timerSeconds;
     double tempHeight = _heightMultiplier;
+    bool tempDark = _isDarkLevel;
     showDialog(
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) {
           return AlertDialog(
-            title: const Text("Level Timer"),
+            title: const Text("Level Settings"),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -429,6 +464,14 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
                     setDialogState(() => tempHeight = val);
                   },
                 ),
+                const SizedBox(height: 16),
+                SwitchListTile(
+                  title: const Text("Night Mode"),
+                  value: tempDark,
+                  onChanged: (val) {
+                    setDialogState(() => tempDark = val);
+                  },
+                ),
               ],
             ),
             actions: [
@@ -442,6 +485,7 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
                     _timerSeconds = tempTimer;
                     _timeLimitSeconds = tempTimer.toInt();
                     _heightMultiplier = tempHeight;
+                    _isDarkLevel = tempDark;
                   });
                   _saveLevel();
                   Navigator.pop(context);
@@ -628,6 +672,8 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
       case EditorItemType.suckingHole:
       case EditorItemType.movingHole:
       case EditorItemType.nailHole:
+      case EditorItemType.splittingHole:
+      case EditorItemType.orbitingHole:
         return Container(
           decoration: const BoxDecoration(
             color: Colors.black,
@@ -639,6 +685,10 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
               ? const Icon(Icons.push_pin, color: Colors.red)
               : type == EditorItemType.movingHole
               ? const Icon(Icons.compare_arrows, color: Colors.white)
+              : type == EditorItemType.splittingHole
+              ? const Icon(Icons.call_split, color: Colors.purpleAccent)
+              : type == EditorItemType.orbitingHole
+              ? const Icon(Icons.track_changes, color: Colors.tealAccent)
               : null,
         );
       case EditorItemType.bumper:
