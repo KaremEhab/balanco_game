@@ -291,6 +291,17 @@ class HoleComponent extends PositionComponent
   void update(double dt) {
     super.update(dt);
 
+    // Replica obstacles are positioned by authoritative snapshots. Running
+    // movement here as well makes them oscillate locally and then get pulled
+    // back to the sender's position, which appears as visible shaking.
+    if (game.isCoopReplica) {
+      _timeAccumulator += dt;
+      _updatePhase();
+      _rotation -= dt;
+      _pulseTime += dt * 1.5;
+      return;
+    }
+
     _timeAccumulator += dt;
     _updatePhase();
     _updateNailLauncher(dt);

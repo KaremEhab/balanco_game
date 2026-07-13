@@ -54,6 +54,21 @@ class TeleportingGateComponent extends PositionComponent
     // We could add a simple particle system if needed.
   }
 
+  void applyReplicaState({
+    required bool closing,
+    required bool opening,
+    required bool closed,
+  }) {
+    isClosing = closing;
+    isOpening = opening;
+    isClosed = closed;
+    if (closed) {
+      _doorProgress = 1.0;
+    } else if (!closing && !opening) {
+      _doorProgress = 0.0;
+    }
+  }
+
   @override
   void update(double dt) {
     _time += dt;

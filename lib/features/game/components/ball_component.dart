@@ -248,6 +248,26 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
       canvas.restore();
     }
 
+    final raceTint = game.raceBallTint;
+    if (raceTint != null) {
+      canvas.drawCircle(
+        Offset.zero,
+        game.ballRadius,
+        Paint()
+          ..color = raceTint.withValues(alpha: 0.48)
+          ..blendMode = BlendMode.color,
+      );
+      canvas.drawCircle(
+        Offset.zero,
+        game.ballRadius + 4,
+        Paint()
+          ..color = raceTint.withValues(alpha: 0.65)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 3
+          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 7),
+      );
+    }
+
     // 3. 3D shading overlay (stationary highlight)
     if (isGlass) {
       final Paint glassHighlight = Paint()

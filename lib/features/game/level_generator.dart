@@ -10,8 +10,8 @@ class _OccupiedSpace {
 
 /// Top-level function for Isolate computation.
 /// This generates random, non-overlapping coordinates for all level components.
-LevelData generateLevelData(int currentLevel) {
-  final random = Random();
+LevelData generateLevelData(int currentLevel, [int? seed]) {
+  final random = Random(seed);
 
   final List<HoleData> holes = [];
   final List<Vector2> stars = [];

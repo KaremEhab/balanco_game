@@ -6,6 +6,7 @@ import 'package:balanco_game/features/coop/application/voice_chat_controller.dar
 import 'package:balanco_game/features/coop/data/coop_repository.dart';
 import 'package:balanco_game/features/coop/domain/coop_room.dart';
 import 'package:balanco_game/features/coop/presentation/coop_match_screen.dart';
+import 'package:balanco_game/features/race/presentation/race_match_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -105,8 +106,9 @@ class _CoopWaitingRoomScreenState extends State<CoopWaitingRoomScreen> {
     _handoff = true;
     Navigator.of(context).pushReplacement(
       MaterialPageRoute<void>(
-        builder: (_) =>
-            CoopMatchScreen(room: _room, realtime: _realtime, voice: _voice),
+        builder: (_) => _room.isRace
+            ? RaceMatchScreen(room: _room, realtime: _realtime, voice: _voice)
+            : CoopMatchScreen(room: _room, realtime: _realtime, voice: _voice),
       ),
     );
   }
@@ -133,7 +135,7 @@ class _CoopWaitingRoomScreenState extends State<CoopWaitingRoomScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text(
-          'WAITING ROOM',
+          _room.isRace ? 'RACE LOBBY' : 'WAITING ROOM',
           style: GoogleFonts.luckiestGuy(color: GameColors.brownDarkUi),
         ),
       ),
@@ -304,7 +306,9 @@ class _CoopWaitingRoomScreenState extends State<CoopWaitingRoomScreen> {
                     : () => _mutate(() => _repository.startRoom(_room.id)),
                 icon: const Icon(Icons.rocket_launch_rounded),
                 label: Text(
-                  _room.canStart ? 'START CO-OP!' : 'WAITING FOR BOTH PLAYERS',
+                  _room.canStart
+                      ? (_room.isRace ? 'START RACE!' : 'START CO-OP!')
+                      : 'WAITING FOR BOTH PLAYERS',
                   style: GoogleFonts.luckiestGuy(fontSize: 18),
                 ),
                 style: ElevatedButton.styleFrom(

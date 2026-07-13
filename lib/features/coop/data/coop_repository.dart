@@ -8,8 +8,13 @@ class CoopRepository {
   Future<CoopRoom> createRoom(CoopSide side) =>
       _roomRpc('create_coop_room', {'p_side': side.value});
 
+  Future<CoopRoom> createRaceRoom() => _roomRpc('create_race_room', const {});
+
   Future<CoopRoom> joinRoom(String code) =>
       _roomRpc('join_coop_room', {'p_code': code.trim().toUpperCase()});
+
+  Future<CoopRoom> joinRaceRoom(String code) =>
+      _roomRpc('join_race_room', {'p_code': code.trim().toUpperCase()});
 
   Future<CoopRoom> getRoom(String roomId) =>
       _roomRpc('get_coop_room_state', {'p_room_id': roomId});
@@ -46,6 +51,24 @@ class CoopRepository {
 
   Future<CoopRoom> retryRoom(String roomId) =>
       _roomRpc('retry_coop_room', {'p_room_id': roomId});
+
+  Future<CoopRoom> finishRace(
+    String roomId, {
+    required double progress,
+    required int hearts,
+    required int stars,
+  }) => _roomRpc('finish_race', {
+    'p_room_id': roomId,
+    'p_progress': progress,
+    'p_hearts': hearts,
+    'p_stars': stars,
+  });
+
+  Future<CoopRoom> surrenderRace(String roomId) =>
+      _roomRpc('surrender_race', {'p_room_id': roomId});
+
+  Future<CoopRoom> voteRaceRestart(String roomId, String kind) =>
+      _roomRpc('vote_race_restart', {'p_room_id': roomId, 'p_kind': kind});
 
   Future<CoopRoom> inviteFriend({
     required String playerCode,

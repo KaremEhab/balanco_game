@@ -54,6 +54,9 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   final bool isEditMode;
   final String playerRole;
   final int? randomSeed;
+  final Color? raceBallTint;
+  final bool enableTutorials;
+  final bool isRaceMode;
 
   VoidCallback? onGameOver;
   VoidCallback? onLevelComplete;
@@ -98,17 +101,48 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   static const int movingHolePoints = 20;
   static const int bumperPoints = 5;
 
+  /// Race boards need enough vertical distance for the camera to reveal the
+  /// course progressively instead of showing the finish gate beside the first
+  /// obstacle group. Taller campaign levels keep their authored height.
+  static const double raceMinimumHeightMultiplier = 3.0;
+
   // Shield state
   final ValueNotifier<int> remainingShields = ValueNotifier<int>(3);
   final ValueNotifier<double> shieldTimerNotifier = ValueNotifier<double>(0.0);
   double shieldTimer = 0.0;
   bool get isShieldActive => shieldTimer > 0;
+  final ValueNotifier<int> remainingRaceBoosts = ValueNotifier<int>(2);
+  final ValueNotifier<double> raceBoostTimerNotifier = ValueNotifier<double>(
+    0.0,
+  );
+  double raceBoostTimer = 0.0;
+  bool get isRaceBoostActive => raceBoostTimer > 0;
+
+  bool _hasGameLayout = false;
+  bool get isLayoutReady => _hasGameLayout;
+
+  double get raceProgress {
+    if (!_hasGameLayout) return 0.0;
+    if (isInfinityMode || levelHeight <= 230) return 0.0;
+    final startY = _barBottomY;
+    final finishY = 70.0;
+    final barY = (leftY + rightY) / 2.0;
+    return ((startY - barY) / (startY - finishY)).clamp(0.0, 1.0);
+  }
 
   bool activateShield() {
     if (remainingShields.value <= 0 || isShieldActive) return false;
     remainingShields.value -= 1;
     shieldTimer = 5.0;
     shieldTimerNotifier.value = shieldTimer;
+    return true;
+  }
+
+  bool activateRaceBoost() {
+    if (remainingRaceBoosts.value <= 0 || isRaceBoostActive) return false;
+    remainingRaceBoosts.value -= 1;
+    raceBoostTimer = 4.0;
+    raceBoostTimerNotifier.value = raceBoostTimer;
     return true;
   }
 
@@ -221,6 +255,8 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   double get levelHeight =>
       isInfinityMode ? 999999.0 : size.y * currentHeightMultiplier;
 
+  double get _barBottomY => levelHeight - (isRaceMode ? 55.0 : 160.0);
+
   final ValueNotifier<PositionComponent?> selectedEditComponent = ValueNotifier(
     null,
   );
@@ -231,6 +267,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   final ValueNotifier<String?> currentTutorial = ValueNotifier<String?>(null);
 
   void queueTutorial(String itemId) async {
+    if (!enableTutorials) return;
     if (_queuedTutorials.contains(itemId) || _tutorialQueue.contains(itemId)) {
       return;
     }
@@ -266,6 +303,9 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     this.isEditMode = false,
     required this.playerRole,
     this.randomSeed,
+    this.raceBallTint,
+    this.enableTutorials = true,
+    this.isRaceMode = false,
     this.onGameOver,
     this.onLevelComplete,
   }) {
@@ -837,11 +877,15 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     restartCurrentLevel();
   }
 
-  void restartCurrentLevel() async {
+  Future<void> restartCurrentLevel() async {
     debugPrint(
       "DEBUG: restartCurrentLevel called. Level: ${currentLevel.value}",
     );
     isSpawningLevel = true;
+    isBoardHidden = false;
+    isLevelCompleteOverlayShown = false;
+    showVictoryOverlay.value = false;
+    showGameOverOverlay.value = false;
     currentPoints.value = 0;
     earnedLevelPoints.value = 0;
     if (isInfinityMode) {
@@ -858,8 +902,6 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       }
     }
     currentLives.value = isInfinityMode ? 1 : 3;
-    showGameOverOverlay.value = false;
-
     children.whereType<ConfettiComponent>().forEach(
       (c) => c.removeFromParent(),
     );
@@ -870,12 +912,22 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     resumeEngine();
   }
 
-  void restartCoopRun(int seed) {
+  Future<void> restartCoopRun(int seed) async {
     _random = Random(seed);
     _worldRandom = Random(seed ^ 0x5F3759DF);
     _hasCoopSnapshot = false;
     _coopSnapshot = null;
-    restartCurrentLevel();
+    await restartCurrentLevel();
+  }
+
+  Future<void> restartRaceRun(int seed) async {
+    remainingShields.value = 3;
+    shieldTimer = 0;
+    shieldTimerNotifier.value = 0;
+    remainingRaceBoosts.value = 2;
+    raceBoostTimer = 0;
+    raceBoostTimerNotifier.value = 0;
+    await restartCoopRun(seed);
   }
 
   void enableCoopReplica() {
@@ -891,12 +943,19 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     'right_y': rightY,
     'camera_y': cameraOffsetY,
     'score': currentScore.value,
+    'points': currentPoints.value,
     'coins': collectedCoins.value,
     'lives': currentLives.value,
     'game_over': showGameOverOverlay.value,
+    'board_hidden': isBoardHidden,
     'countdown': countdownTimer,
+    'gate_closing': teleportingGateComponent.isClosing,
+    'gate_opening': teleportingGateComponent.isOpening,
+    'gate_closed': teleportingGateComponent.isClosed,
     'shields': remainingShields.value,
     'shield_time': shieldTimer,
+    'boosts': remainingRaceBoosts.value,
+    'boost_time': raceBoostTimer,
     'balls': activeBalls
         .map(
           (ball) => {
@@ -908,8 +967,20 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
             'p': ball.p,
             'scale': ball.scale,
             'is_falling': ball.isFalling,
+            'is_falling_in_hole': ball.isFallingInHole,
             'is_free_falling': ball.isFreeFalling,
+            'is_respawning_from_hole': ball.isRespawningFromHole,
+            'is_respawning_from_edge': ball.isRespawningFromEdge,
+            'is_sucking_to_gate': ball.isSuckingToGate,
             'is_dead': ball.isDead,
+            'respawn_timer': ball.respawnTimer,
+            'hole_immunity_timer': ball.holeImmunityTimer,
+            'squash_x': ball.squashX,
+            'squash_y': ball.squashY,
+            'bounce_timer': ball.bounceTimer,
+            'active_hole_index': ball.activeHole == null
+                ? -1
+                : holes.indexOf(ball.activeHole!),
             'fall_rotation': ball.fallRotation,
           },
         )
@@ -917,6 +988,12 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     'holes': holes
         .map((hole) => {'x': hole.position.x, 'y': hole.position.y})
         .toList(),
+    'stars_collected': stars.map((star) => star.isCollected).toList(),
+    'hearts_collected': hearts.map((heart) => heart.isCollected).toList(),
+    'multi_balls_collected': multiBallItems
+        .map((item) => item.isCollected)
+        .toList(),
+    'magnets_collected': magnets.map((magnet) => magnet.isCollected).toList(),
     'bombs': levelContainer.children
         .whereType<BombComponent>()
         .map((bomb) => {'x': bomb.position.x, 'y': bomb.position.y})
@@ -957,13 +1034,23 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     levelContainer.position.y = -cameraOffsetY;
 
     currentScore.value = snapshot['score'] as int;
+    currentPoints.value = snapshot['points'] as int? ?? 0;
     collectedCoins.value = snapshot['coins'] as int;
     currentLives.value = snapshot['lives'] as int;
+    isBoardHidden = snapshot['board_hidden'] as bool? ?? false;
     countdownTimer = (snapshot['countdown'] as num).toDouble();
     countdownNotifier.value = countdownTimer.ceil();
     remainingShields.value = snapshot['shields'] as int? ?? 3;
     shieldTimer = (snapshot['shield_time'] as num?)?.toDouble() ?? 0.0;
     shieldTimerNotifier.value = shieldTimer;
+    remainingRaceBoosts.value = snapshot['boosts'] as int? ?? 2;
+    raceBoostTimer = (snapshot['boost_time'] as num?)?.toDouble() ?? 0.0;
+    raceBoostTimerNotifier.value = raceBoostTimer;
+    teleportingGateComponent.applyReplicaState(
+      closing: snapshot['gate_closing'] as bool? ?? false,
+      opening: snapshot['gate_opening'] as bool? ?? false,
+      closed: snapshot['gate_closed'] as bool? ?? false,
+    );
 
     final remoteBalls = snapshot['balls'] as List? ?? const [];
     _matchReplicaBallCount(remoteBalls.length);
@@ -978,8 +1065,24 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       ball.p = (remote['p'] as num).toDouble();
       ball.scale = (remote['scale'] as num).toDouble();
       ball.isFalling = remote['is_falling'] as bool;
+      ball.isFallingInHole = remote['is_falling_in_hole'] as bool? ?? false;
       ball.isFreeFalling = remote['is_free_falling'] as bool;
+      ball.isRespawningFromHole =
+          remote['is_respawning_from_hole'] as bool? ?? false;
+      ball.isRespawningFromEdge =
+          remote['is_respawning_from_edge'] as bool? ?? false;
+      ball.isSuckingToGate = remote['is_sucking_to_gate'] as bool? ?? false;
       ball.isDead = remote['is_dead'] as bool;
+      ball.respawnTimer = (remote['respawn_timer'] as num?)?.toDouble() ?? 0.0;
+      ball.holeImmunityTimer =
+          (remote['hole_immunity_timer'] as num?)?.toDouble() ?? 0.0;
+      ball.squashX = (remote['squash_x'] as num?)?.toDouble() ?? 1.0;
+      ball.squashY = (remote['squash_y'] as num?)?.toDouble() ?? 1.0;
+      ball.bounceTimer = (remote['bounce_timer'] as num?)?.toDouble() ?? 0.0;
+      final activeHoleIndex = remote['active_hole_index'] as int? ?? -1;
+      ball.activeHole = activeHoleIndex >= 0 && activeHoleIndex < holes.length
+          ? holes[activeHoleIndex]
+          : null;
       ball.fallRotation = (remote['fall_rotation'] as num).toDouble();
     }
 
@@ -987,6 +1090,40 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
         isInfinityMode && currentLevelData != null && nextSpawnY != 0.0;
     if (worldReady) {
       _ensureInfinityWorldForBar((leftY + rightY) / 2.0);
+    }
+
+    final remoteStars = snapshot['stars_collected'] as List? ?? const [];
+    for (
+      var index = 0;
+      index < min(stars.length, remoteStars.length);
+      index++
+    ) {
+      stars[index].isCollected = remoteStars[index] as bool;
+    }
+    final remoteHearts = snapshot['hearts_collected'] as List? ?? const [];
+    for (
+      var index = 0;
+      index < min(hearts.length, remoteHearts.length);
+      index++
+    ) {
+      hearts[index].isCollected = remoteHearts[index] as bool;
+    }
+    final remoteMultiBalls =
+        snapshot['multi_balls_collected'] as List? ?? const [];
+    for (
+      var index = 0;
+      index < min(multiBallItems.length, remoteMultiBalls.length);
+      index++
+    ) {
+      multiBallItems[index].isCollected = remoteMultiBalls[index] as bool;
+    }
+    final remoteMagnets = snapshot['magnets_collected'] as List? ?? const [];
+    for (
+      var index = 0;
+      index < min(magnets.length, remoteMagnets.length);
+      index++
+    ) {
+      magnets[index].isCollected = remoteMagnets[index] as bool;
     }
     final remoteHoles = snapshot['holes'] as List? ?? const [];
     final holeCount = min(holes.length, remoteHoles.length);
@@ -1091,7 +1228,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     isLevelCompleteOverlayShown = false;
 
     currentLevel.value++;
-    restartCurrentLevel();
+    await restartCurrentLevel();
   }
 
   void restartLevelAfterWin() {
@@ -1140,8 +1277,9 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       barResetTimer = 0.8; // Straighten bar consistently in 0.8s
     } else {
       barResetTimer = 0.0;
-      leftY = currentLevelHeight - 160.0;
-      rightY = currentLevelHeight - 160.0;
+      final bottomOffset = isRaceMode ? 55.0 : 160.0;
+      leftY = currentLevelHeight - bottomOffset;
+      rightY = currentLevelHeight - bottomOffset;
     }
 
     isBoardHidden = false;
@@ -1214,7 +1352,22 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     double currentSizeX = size.x > 0 ? size.x : 400.0;
     mainBall.p = (currentSizeX - 2 * barPadding) / 2.0;
 
-    if (isEditMode) {
+    if (isRaceMode && isSpawningLevel) {
+      teleportingGateComponent.reset();
+      final barCenterY = (leftY + rightY) / 2.0;
+      mainBall.pos2D = Vector2(
+        currentSizeX / 2.0,
+        barCenterY - (ballRadius + 6.0),
+      );
+      mainBall.scale = 1.0;
+      mainBall.spawnTimer = 0.0;
+      mainBall.isFreeFalling = false;
+      mainBall.velocity = 0.0;
+      mainBall.freeFallVelocity.setZero();
+      mainBall.holeImmunityTimer = 1.5;
+      cameraOffsetY = max(0.0, currentLevelHeight - size.y);
+      cameraOffsetYNotifier.value = cameraOffsetY;
+    } else if (isEditMode) {
       teleportingGateComponent.startClosed();
       mainBall.pos2D = Vector2(
         currentSizeX / 2.0,
@@ -1298,6 +1451,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   @override
   void onGameResize(Vector2 size) {
     super.onGameResize(size);
+    _hasGameLayout = size.x > 0 && size.y > 0;
     teleportingGateComponent.position = Vector2(size.x / 2.0, 70.0);
     if (leftY == 0.0 && rightY == 0.0) {
       Future.microtask(() => _resetPositions());
@@ -1509,9 +1663,11 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
         final jsonStr = PremadeLevels.levelsJson[levelToGenerate]!;
         data = LevelData.fromJson(jsonDecode(jsonStr));
       } else {
-        final customJsonStr = await DatabaseHelper.instance.getCustomLevel(
-          levelToGenerate,
-        );
+        // Race must be identical on every phone. Device-local editor levels
+        // are intentionally excluded from this authoritative mode.
+        final customJsonStr = isRaceMode
+            ? null
+            : await DatabaseHelper.instance.getCustomLevel(levelToGenerate);
         if (customJsonStr != null) {
           data = LevelData.fromJson(jsonDecode(customJsonStr));
         } else {
@@ -1521,7 +1677,10 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
             data = campaignLevel.toLevelData();
             loadedBakedCampaignLevel = true;
           } else {
-            data = await Isolate.run(() => generateLevelData(levelToGenerate));
+            final fallbackSeed = isRaceMode ? levelToGenerate * 104729 : null;
+            data = await Isolate.run(
+              () => generateLevelData(levelToGenerate, fallbackSeed),
+            );
             // fallback generated levels don't specify height, so infer it if >= 10
             if (levelToGenerate >= 10) {
               data = LevelData(
@@ -1551,12 +1710,14 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     }
 
     if (!isEditMode && !isInfinityMode) {
-      currentHeightMultiplierNotifier.value = data.heightMultiplier;
+      currentHeightMultiplierNotifier.value = isRaceMode
+          ? max(raceMinimumHeightMultiplier, data.heightMultiplier)
+          : data.heightMultiplier;
 
       // Now that we have the real height multiplier, fix the bar position if it was reset to the bottom
       if (barResetTimer == 0.0) {
-        leftY = levelHeight - 70.0;
-        rightY = levelHeight - 70.0;
+        leftY = isRaceMode ? _barBottomY : levelHeight - 70.0;
+        rightY = isRaceMode ? _barBottomY : levelHeight - 70.0;
       }
     }
 
@@ -1769,7 +1930,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       if (!isEditMode) queueTutorial('gatekeeper_villain');
     }
 
-    if (isEditMode) {
+    if (isEditMode || _isCoopReplica || isRaceMode) {
       for (final comp in pendingSpawns) {
         comp.position = targetPositions[comp]!;
         comp.scale = Vector2.all(1.0);
@@ -1778,6 +1939,35 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       targetPositions.clear();
       isSpawningLevel = false;
     }
+
+    if (isRaceMode) {
+      _placeRaceBallAtStart();
+    }
+  }
+
+  void _placeRaceBallAtStart() {
+    if (!_hasGameLayout) return;
+    leftY = _barBottomY;
+    rightY = _barBottomY;
+    initialLeftY = leftY;
+    initialRightY = rightY;
+    barResetTimer = 0.0;
+    cameraOffsetY = max(0.0, levelHeight - size.y);
+    cameraOffsetYNotifier.value = cameraOffsetY;
+    levelContainer.position.y = -cameraOffsetY;
+    teleportingGateComponent.reset();
+    if (activeBalls.isEmpty) return;
+    final ball = activeBalls.first;
+    ball.p = (size.x - 2 * barPadding) / 2.0;
+    ball.pos2D = Vector2(size.x / 2.0, _barBottomY - (ballRadius + 6.0));
+    ball.scale = 1.0;
+    ball.spawnTimer = 0.0;
+    ball.isFreeFalling = false;
+    ball.isFalling = false;
+    ball.velocity = 0.0;
+    ball.freeFallVelocity.setZero();
+    ball.holeImmunityTimer = 1.5;
+    isSpawningLevel = false;
   }
 
   @override
@@ -1841,6 +2031,12 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       shieldTimerNotifier.value = shieldTimer;
     } else {
       if (shieldTimerNotifier.value != 0.0) shieldTimerNotifier.value = 0.0;
+    }
+    if (raceBoostTimer > 0) {
+      raceBoostTimer = max(0.0, raceBoostTimer - dt);
+      raceBoostTimerNotifier.value = raceBoostTimer;
+    } else if (raceBoostTimerNotifier.value != 0.0) {
+      raceBoostTimerNotifier.value = 0.0;
     }
 
     // Magnet Timer
@@ -1949,6 +2145,12 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       // Lock the camera to the bar while counting down
       double targetCameraY =
           ((leftY + rightY) / 2) - size.y + (isInfinityMode ? 75.0 : 150.0);
+      if (!isInfinityMode) {
+        targetCameraY = targetCameraY.clamp(
+          0.0,
+          max(0.0, levelHeight - size.y),
+        );
+      }
       cameraOffsetY += (targetCameraY - cameraOffsetY) * dt * 5.0;
       levelContainer.position.y = -cameraOffsetY;
       cameraOffsetYNotifier.value = cameraOffsetY;
@@ -1957,7 +2159,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       countdownNotifier.value = 0;
     }
 
-    double maxY = levelHeight - 160.0;
+    double maxY = _barBottomY;
     double minY = 10.0;
 
     if (barResetTimer > 0) {
@@ -1999,7 +2201,9 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
             ? 150.0 * AppSettings.joystickSensitivity.value
             : 250.0 * AppSettings.joystickSensitivity.value;
         final double speed =
-            baseSpeed * (!anyBallOnBar && anyPortalCatchWindow ? 0.60 : 1.0);
+            baseSpeed *
+            (isRaceBoostActive ? 1.35 : 1.0) *
+            (!anyBallOnBar && anyPortalCatchWindow ? 0.60 : 1.0);
         double maxDiff = 120.0;
 
         double leftInput = isSpawningLevel ? 0.0 : leftJoystickValue;
@@ -2278,7 +2482,8 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       if (ball.pos2D.distanceTo(gateCenter) < 52 && hasActiveVillain) {
         ball.velocity = ball.pos2D.x < gateCenter.x ? -120 : 120;
         _showPraiseText('DEFEAT THE GATEKEEPER!', color: GameColors.redAccent);
-      } else if (ball.pos2D.distanceTo(gateCenter) < 40) {
+      } else if (ball.pos2D.distanceTo(gateCenter) < 40 &&
+          (!isRaceMode || raceProgress >= 0.94)) {
         debugPrint(
           "DEBUG: isSuckingToGate = true triggered. pos2D: ${ball.pos2D}, gateCenter: $gateCenter",
         );

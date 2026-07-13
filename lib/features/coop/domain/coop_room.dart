@@ -48,6 +48,17 @@ class CoopRoom {
     required this.score,
     required this.leaveRequestedBy,
     required this.endReason,
+    required this.mode,
+    required this.raceLevel,
+    required this.startedAt,
+    required this.winnerId,
+    required this.winnerFinishedAt,
+    required this.winnerElapsedMs,
+    required this.winnerHearts,
+    required this.winnerStars,
+    required this.raceEndKind,
+    required this.rematchRequestedBy,
+    required this.raceRestartKind,
     required this.members,
   });
 
@@ -61,6 +72,17 @@ class CoopRoom {
   final int score;
   final String? leaveRequestedBy;
   final String? endReason;
+  final String mode;
+  final int raceLevel;
+  final DateTime? startedAt;
+  final String? winnerId;
+  final DateTime? winnerFinishedAt;
+  final int? winnerElapsedMs;
+  final int? winnerHearts;
+  final int? winnerStars;
+  final String? raceEndKind;
+  final String? rematchRequestedBy;
+  final String? raceRestartKind;
   final List<CoopMember> members;
 
   bool get isWaiting => status == 'waiting';
@@ -72,6 +94,7 @@ class CoopRoom {
   bool get hasPostgameExitVote =>
       isEnded && endReason == 'completed' && leaveRequestedBy != null;
   bool get canStart => members.length == 2 && members.every((m) => m.ready);
+  bool get isRace => mode == 'race';
 
   CoopMember memberFor(String userId) =>
       members.firstWhere((member) => member.userId == userId);
@@ -89,6 +112,19 @@ class CoopRoom {
       score: room['score'] as int? ?? 0,
       leaveRequestedBy: room['leave_requested_by'] as String?,
       endReason: room['end_reason'] as String?,
+      mode: room['mode'] as String? ?? 'coop',
+      raceLevel: room['race_level'] as int? ?? 1,
+      startedAt: DateTime.tryParse(room['started_at'] as String? ?? ''),
+      winnerId: room['winner_id'] as String?,
+      winnerFinishedAt: DateTime.tryParse(
+        room['winner_finished_at'] as String? ?? '',
+      ),
+      winnerElapsedMs: room['winner_elapsed_ms'] as int?,
+      winnerHearts: room['winner_hearts'] as int?,
+      winnerStars: room['winner_stars'] as int?,
+      raceEndKind: room['race_end_kind'] as String?,
+      rematchRequestedBy: room['rematch_requested_by'] as String?,
+      raceRestartKind: room['race_restart_kind'] as String?,
       members: (json['members'] as List? ?? const [])
           .map(
             (value) =>

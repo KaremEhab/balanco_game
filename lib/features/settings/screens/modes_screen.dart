@@ -9,6 +9,7 @@ import 'package:balanco_game/features/game/game_area.dart';
 import 'package:balanco_game/core/data/database_helper.dart';
 import 'package:balanco_game/features/coop/presentation/coop_setup_screen.dart';
 import 'package:balanco_game/features/player/application/player_session.dart';
+import 'package:balanco_game/features/race/presentation/race_setup_screen.dart';
 
 class ModesScreen extends StatefulWidget {
   final ScrollController scrollController;
@@ -189,6 +190,7 @@ class _ModesScreenState extends State<ModesScreen> {
     required Color iconBgColor,
     required String title,
     required String subtitle,
+    bool locked = true,
   }) {
     return Row(
       children: [
@@ -229,7 +231,11 @@ class _ModesScreenState extends State<ModesScreen> {
             ],
           ),
         ),
-        const Icon(Icons.lock, size: 32, color: GameColors.brownDarkUi),
+        Icon(
+          locked ? Icons.lock : Icons.play_circle_fill_rounded,
+          size: 32,
+          color: GameColors.brownDarkUi,
+        ),
       ],
     );
   }
@@ -486,13 +492,30 @@ class _ModesScreenState extends State<ModesScreen> {
 
           const SizedBox(height: 16),
 
-          _buildCartoonCard(
-            disabled: true,
-            child: _buildLockedModeRow(
-              icon: Icons.sports_esports,
-              iconBgColor: GameColors.deepPurple,
-              title: 'ONLINE MATCH',
-              subtitle: 'Unlocks in v2.0 update',
+          GestureDetector(
+            onTap: () {
+              if (!PlayerSession.instance.isAuthenticated) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Log in to challenge a friend online.'),
+                  ),
+                );
+                return;
+              }
+              Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (_) => const RaceSetupScreen(),
+                ),
+              );
+            },
+            child: _buildCartoonCard(
+              child: _buildLockedModeRow(
+                icon: Icons.sports_score_rounded,
+                iconBgColor: GameColors.deepPurple,
+                title: 'ONLINE RACE',
+                subtitle: 'Live split-screen duel • First to finish wins',
+                locked: false,
+              ),
             ),
           ),
 
