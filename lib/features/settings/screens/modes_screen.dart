@@ -513,7 +513,7 @@ class _ModesScreenState extends State<ModesScreen> {
                 icon: Icons.sports_score_rounded,
                 iconBgColor: GameColors.deepPurple,
                 title: 'ONLINE RACE',
-                subtitle: 'Live split-screen duel • First to finish wins',
+                subtitle: 'Live Balance challenge • First to finish wins',
                 locked: false,
               ),
             ),

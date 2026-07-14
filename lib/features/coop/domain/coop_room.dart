@@ -15,6 +15,9 @@ class CoopMember {
     required this.ready,
     required this.isHost,
     required this.micMuted,
+    this.avatarUrl,
+    this.avatarShape = 'circle',
+    this.raceWins = 0,
   });
 
   final String userId;
@@ -24,6 +27,19 @@ class CoopMember {
   final bool ready;
   final bool isHost;
   final bool micMuted;
+  final String? avatarUrl;
+  final String avatarShape;
+  final int raceWins;
+
+  String get resolvedAvatarUrl {
+    final saved = avatarUrl?.trim();
+    if (saved != null && saved.isNotEmpty) return saved;
+    final seed = Uri.encodeQueryComponent(
+      playerCode.isNotEmpty ? playerCode : displayName,
+    );
+    return 'https://api.dicebear.com/9.x/adventurer-neutral/png?seed=$seed'
+        '&backgroundColor=transparent';
+  }
 
   factory CoopMember.fromJson(Map<String, dynamic> json) => CoopMember(
     userId: json['user_id'] as String,
@@ -33,6 +49,9 @@ class CoopMember {
     ready: json['ready'] as bool? ?? false,
     isHost: json['is_host'] as bool? ?? false,
     micMuted: json['mic_muted'] as bool? ?? false,
+    avatarUrl: json['avatar_url'] as String?,
+    avatarShape: json['avatar_shape'] as String? ?? 'circle',
+    raceWins: (json['race_wins'] as num?)?.toInt() ?? 0,
   );
 }
 

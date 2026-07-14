@@ -58,4 +58,43 @@ void main() {
     expect(game.activateShield(), isFalse);
     expect(game.remainingShields.value, 2);
   });
+
+  test('co-op replica predicts short movement between network frames', () {
+    final host = BalancoGame(
+      isMultiplayer: true,
+      isInfinityMode: true,
+      playerRole: 'RIGHT',
+      randomSeed: 42,
+    )..onGameResize(Vector2(400, 800));
+    host
+      ..leftY = 510
+      ..rightY = 510
+      ..cameraOffsetY = 175;
+
+    final guest = BalancoGame(
+      isMultiplayer: true,
+      isInfinityMode: true,
+      playerRole: 'LEFT',
+      randomSeed: 42,
+    )..onGameResize(Vector2(400, 800));
+    guest
+      ..enableCoopReplica()
+      ..applyCoopSnapshot({...host.createCoopSnapshot(), 'sent_at': 1000000})
+      ..update(1 / 60);
+
+    host
+      ..leftY = 495
+      ..rightY = 495
+      ..cameraOffsetY = 160;
+    guest.applyCoopSnapshot({...host.createCoopSnapshot(), 'sent_at': 1050000});
+    for (var frame = 0; frame < 12; frame++) {
+      guest.update(1 / 60);
+    }
+
+    // The visual target keeps travelling briefly at the measured velocity
+    // instead of freezing on the latest 20/30 Hz network coordinate.
+    expect(guest.leftY, lessThan(host.leftY));
+    expect(guest.leftY, greaterThan(450));
+    expect(guest.cameraOffsetY, lessThan(host.cameraOffsetY));
+  });
 }

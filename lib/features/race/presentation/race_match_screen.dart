@@ -5,10 +5,9 @@ import 'package:balanco_game/features/coop/application/coop_realtime_session.dar
 import 'package:balanco_game/features/coop/application/voice_chat_controller.dart';
 import 'package:balanco_game/features/coop/data/coop_repository.dart';
 import 'package:balanco_game/features/coop/domain/coop_room.dart';
-import 'package:balanco_game/features/game/components/game_area/shield_icon_painter.dart';
 import 'package:balanco_game/features/game/game_area.dart';
 import 'package:balanco_game/features/race/application/race_game_coordinator.dart';
-import 'package:flame/game.dart';
+import 'package:balanco_game/features/race/presentation/race_portrait_match_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -41,8 +40,8 @@ class _RaceMatchScreenState extends State<RaceMatchScreen> {
     super.initState();
     unawaited(
       SystemChrome.setPreferredOrientations(const [
-        DeviceOrientation.landscapeLeft,
-        DeviceOrientation.landscapeRight,
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
       ]),
     );
     _userId = Supabase.instance.client.auth.currentUser!.id;
@@ -58,7 +57,7 @@ class _RaceMatchScreenState extends State<RaceMatchScreen> {
       isMultiplayer: true,
       playerRole: 'BOTH',
       randomSeed: widget.room.seed,
-      raceBallTint: const Color(0xFFFF963F),
+      raceBallTint: const Color(0xFFAEB4C1),
       enableTutorials: false,
       isRaceMode: true,
     )..currentLevel.value = widget.room.raceLevel;
@@ -71,6 +70,12 @@ class _RaceMatchScreenState extends State<RaceMatchScreen> {
       realtime: widget.realtime,
     )..attach();
     _coordinator.room.addListener(_handleRoomChange);
+    _coordinator.actionError.addListener(_handleActionError);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Race mounts two Flame games. Restore iOS's voice-chat audio session
+      // after both games and their audio caches have initialized.
+      widget.voice.scheduleGameplayRecovery();
+    });
   }
 
   void _handleRoomChange() {
@@ -82,9 +87,22 @@ class _RaceMatchScreenState extends State<RaceMatchScreen> {
     });
   }
 
+  void _handleActionError() {
+    final message = _coordinator.actionError.value;
+    if (message == null || !mounted) return;
+    _coordinator.actionError.value = null;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(SnackBar(content: Text(message)));
+    });
+  }
+
   @override
   void dispose() {
     _coordinator.room.removeListener(_handleRoomChange);
+    _coordinator.actionError.removeListener(_handleActionError);
     _coordinator.dispose();
     widget.voice.dispose();
     widget.realtime.dispose();
@@ -98,63 +116,121 @@ class _RaceMatchScreenState extends State<RaceMatchScreen> {
   }
 
   Future<void> _confirmLeave() async {
-    final confirmed = await showDialog<bool>(
+    final confirmed = await showGeneralDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text('LEAVE TOGETHER?', style: GoogleFonts.luckiestGuy()),
-        content: const Text(
-          'Your partner must agree before this race closes for both players.',
+      barrierDismissible: true,
+      barrierLabel: 'Close leave dialog',
+      barrierColor: const Color(0xB3081238),
+      transitionDuration: const Duration(milliseconds: 220),
+      transitionBuilder: (_, animation, _, child) => FadeTransition(
+        opacity: animation,
+        child: ScaleTransition(
+          scale: CurvedAnimation(parent: animation, curve: Curves.easeOutBack),
+          child: child,
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('KEEP RACING'),
+      ),
+      pageBuilder: (dialogContext, _, _) => Center(
+        child: _RaceDialogShell(
+          icon: Icons.exit_to_app_rounded,
+          title: 'LEAVE TOGETHER?',
+          subtitle:
+              'Your opponent must agree before this race closes for both players.',
+          accent: GameColors.red300,
+          child: Row(
+            children: [
+              Expanded(
+                child: _RaceDialogButton(
+                  icon: Icons.sports_esports_rounded,
+                  label: 'KEEP RACING',
+                  color: GameColors.green300,
+                  onTap: () => Navigator.pop(dialogContext, false),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: _RaceDialogButton(
+                  icon: Icons.handshake_rounded,
+                  label: 'ASK TO LEAVE',
+                  color: GameColors.red300,
+                  onTap: () => Navigator.pop(dialogContext, true),
+                ),
+              ),
+            ],
           ),
-          FilledButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('ASK TO LEAVE'),
-          ),
-        ],
+        ),
       ),
     );
     if (confirmed == true) await _coordinator.requestLeave();
   }
 
-  void _openMatchMenu() {
-    showModalBottomSheet<void>(
+  Future<void> _openMatchMenu() async {
+    if (!mounted) return;
+    await showGeneralDialog<void>(
       context: context,
-      backgroundColor: const Color(0xFF16275D),
-      builder: (context) => SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(18),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+      useRootNavigator: true,
+      barrierDismissible: true,
+      barrierLabel: 'Close race menu',
+      barrierColor: const Color(0xB3081238),
+      transitionDuration: const Duration(milliseconds: 220),
+      transitionBuilder: (_, animation, _, child) => FadeTransition(
+        opacity: animation,
+        child: ScaleTransition(
+          scale: CurvedAnimation(parent: animation, curve: Curves.easeOutBack),
+          child: child,
+        ),
+      ),
+      pageBuilder: (dialogContext, _, _) => Center(
+        child: _RaceDialogShell(
+          icon: Icons.tune_rounded,
+          title: 'RACE CONTROLS',
+          subtitle: 'Audio and shared match actions',
+          accent: GameColors.purpleAccent,
+          child: Wrap(
+            alignment: WrapAlignment.center,
+            spacing: 14,
+            runSpacing: 12,
             children: [
-              ValueListenableBuilder<bool>(
-                valueListenable: widget.voice.muted,
-                builder: (_, muted, _) => _MenuButton(
-                  icon: muted ? Icons.mic_off_rounded : Icons.mic_rounded,
-                  label: muted ? 'UNMUTE' : 'MUTE',
-                  onTap: widget.voice.toggleMute,
-                ),
+              ListenableBuilder(
+                listenable: Listenable.merge([
+                  widget.voice.muted,
+                  widget.voice.connected,
+                  widget.voice.error,
+                ]),
+                builder: (_, _) {
+                  final muted = widget.voice.muted.value;
+                  final failed = widget.voice.error.value != null;
+                  return _MenuButton(
+                    icon: failed
+                        ? Icons.sync_rounded
+                        : muted
+                        ? Icons.mic_off_rounded
+                        : Icons.mic_rounded,
+                    label: failed
+                        ? 'RECONNECT MIC'
+                        : muted
+                        ? 'UNMUTE'
+                        : 'MUTE',
+                    onTap: failed
+                        ? widget.voice.scheduleGameplayRecovery
+                        : widget.voice.toggleMute,
+                  );
+                },
               ),
-              const SizedBox(width: 14),
               _MenuButton(
                 icon: Icons.pause_rounded,
                 label: 'PAUSE BOTH',
                 onTap: () {
-                  Navigator.pop(context);
-                  _coordinator.setPaused(true);
+                  Navigator.pop(dialogContext);
+                  unawaited(_coordinator.setPaused(true));
                 },
               ),
-              const SizedBox(width: 14),
               _MenuButton(
                 icon: Icons.exit_to_app_rounded,
                 label: 'LEAVE',
                 color: const Color(0xFFE84D4D),
                 onTap: () {
-                  Navigator.pop(context);
-                  _confirmLeave();
+                  Navigator.pop(dialogContext);
+                  unawaited(_confirmLeave());
                 },
               ),
             ],
@@ -178,77 +254,21 @@ class _RaceMatchScreenState extends State<RaceMatchScreen> {
           builder: (context, room, _) => Stack(
             children: [
               Positioned.fill(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(62, 4, 62, 4),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: ValueListenableBuilder<bool>(
-                          valueListenable: _coordinator.showBoardLabels,
-                          builder: (_, visible, _) => _RaceBoard(
-                            game: _localGame,
-                            label: 'YOU',
-                            showLabel: visible,
-                            accent: const Color(0xFF34C9FF),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: ValueListenableBuilder<bool>(
-                          valueListenable: _coordinator.showBoardLabels,
-                          builder: (_, visible, _) => _RaceBoard(
-                            game: _remoteGame,
-                            label: 'OPPONENT',
-                            showLabel: visible,
-                            accent: const Color(0xFFFF963F),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 7,
-                bottom: 24,
-                child: _VerticalRaceControl(
-                  accent: const Color(0xFF34C9FF),
-                  onChanged: (value) => _localGame.leftJoystickValue = value,
-                ),
-              ),
-              Positioned(
-                right: 7,
-                bottom: 24,
-                child: _VerticalRaceControl(
-                  accent: const Color(0xFF34C9FF),
-                  onChanged: (value) => _localGame.rightJoystickValue = value,
-                ),
-              ),
-              Positioned(
-                left: 72,
-                right: 72,
-                bottom: 8,
-                child: Center(
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 500),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: _RaceBottomNav(
-                        localGame: _localGame,
-                        coordinator: _coordinator,
-                        voice: widget.voice,
-                        level: room.raceLevel,
-                        onBack: _confirmLeave,
-                        onPause: () => _coordinator.setPaused(true),
-                        onSettings: _openMatchMenu,
-                      ),
-                    ),
-                  ),
+                child: RacePortraitMatchView(
+                  room: room,
+                  userId: _userId,
+                  localGame: _localGame,
+                  remoteGame: _remoteGame,
+                  coordinator: _coordinator,
+                  voice: widget.voice,
+                  onLeave: _confirmLeave,
+                  onPause: () => _coordinator.setPaused(true),
+                  onSettings: _openMatchMenu,
                 ),
               ),
               if (room.isEnded)
                 _RaceResultOverlay(
+                  userId: _userId,
                   won: room.winnerId == _userId,
                   room: room,
                   localGame: _localGame,
@@ -270,6 +290,7 @@ class _RaceMatchScreenState extends State<RaceMatchScreen> {
                   room: room,
                   userId: _userId,
                   coordinator: _coordinator,
+                  onSettings: _openMatchMenu,
                 ),
             ],
           ),
@@ -279,509 +300,152 @@ class _RaceMatchScreenState extends State<RaceMatchScreen> {
   );
 }
 
-class _RaceBottomNav extends StatefulWidget {
-  const _RaceBottomNav({
-    required this.localGame,
-    required this.coordinator,
-    required this.voice,
-    required this.level,
-    required this.onBack,
-    required this.onPause,
-    required this.onSettings,
-  });
-
-  final BalancoGame localGame;
-  final RaceGameCoordinator coordinator;
-  final VoiceChatController voice;
-  final int level;
-  final VoidCallback onBack;
-  final VoidCallback onPause;
-  final VoidCallback onSettings;
-
-  @override
-  State<_RaceBottomNav> createState() => _RaceBottomNavState();
-}
-
-class _RaceBottomNavState extends State<_RaceBottomNav> {
-  Timer? _idleTimer;
-  bool _revealed = false;
-
-  BalancoGame get localGame => widget.localGame;
-  RaceGameCoordinator get coordinator => widget.coordinator;
-  VoiceChatController get voice => widget.voice;
-  int get level => widget.level;
-  VoidCallback get onBack => widget.onBack;
-  VoidCallback get onPause => widget.onPause;
-  VoidCallback get onSettings => widget.onSettings;
-
-  void _reveal() {
-    if (!_revealed) setState(() => _revealed = true);
-    _scheduleCollapse();
-  }
-
-  void _scheduleCollapse() {
-    _idleTimer?.cancel();
-    _idleTimer = Timer(const Duration(seconds: 4), () {
-      if (mounted) setState(() => _revealed = false);
-    });
-  }
-
-  @override
-  void dispose() {
-    _idleTimer?.cancel();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) => Listener(
-    onPointerDown: (_) {
-      if (_revealed) _scheduleCollapse();
-    },
-    child: GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: _revealed ? null : _reveal,
-      child: AnimatedScale(
-        scale: _revealed ? 1.0 : 0.90,
-        duration: const Duration(milliseconds: 220),
-        curve: Curves.easeOutCubic,
-        child: AnimatedOpacity(
-          opacity: _revealed ? 1.0 : 0.40,
-          duration: const Duration(milliseconds: 220),
-          child: AbsorbPointer(absorbing: !_revealed, child: _buildNavbar()),
-        ),
-      ),
-    ),
-  );
-
-  Widget _buildNavbar() => Container(
-    height: 54,
-    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-    decoration: BoxDecoration(
-      color: const Color(0xE815285E),
-      borderRadius: BorderRadius.circular(18),
-      border: Border.all(color: Colors.white70, width: 1.5),
-      boxShadow: const [
-        BoxShadow(color: Colors.black54, blurRadius: 14, offset: Offset(0, 4)),
-      ],
-    ),
-    child: Row(
-      children: [
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _HudButton(icon: Icons.exit_to_app_rounded, onTap: onBack),
-            const SizedBox(width: 5),
-            ValueListenableBuilder<double>(
-              valueListenable: localGame.shieldTimerNotifier,
-              builder: (_, _, _) => ValueListenableBuilder<int>(
-                valueListenable: localGame.remainingShields,
-                builder: (_, count, _) => _PowerButton(
-                  count: count,
-                  active: localGame.isShieldActive,
-                  enabled: count > 0 && !localGame.isShieldActive,
-                  onTap: localGame.activateShield,
-                  child: CustomPaint(
-                    size: const Size.square(23),
-                    painter: ShieldIconPainter(color: const Color(0xFF2BD0FF)),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(width: 5),
-            ValueListenableBuilder<int>(
-              valueListenable: localGame.currentLives,
-              builder: (_, lives, _) => _LivesButton(lives: lives),
-            ),
-          ],
-        ),
-        Expanded(
-          child: Center(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _LevelBadge(level: level),
-                const SizedBox(width: 6),
-                ValueListenableBuilder<Duration>(
-                  valueListenable: coordinator.elapsed,
-                  builder: (_, elapsed, _) => _TimerPill(elapsed: elapsed),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ValueListenableBuilder<bool>(
-              valueListenable: voice.muted,
-              builder: (_, muted, _) => _HudButton(
-                icon: muted ? Icons.mic_off_rounded : Icons.mic_rounded,
-                onTap: voice.toggleMute,
-                active: !muted,
-              ),
-            ),
-            const SizedBox(width: 5),
-            _HudButton(icon: Icons.pause_rounded, onTap: onPause),
-            const SizedBox(width: 5),
-            _HudButton(icon: Icons.settings_rounded, onTap: onSettings),
-          ],
-        ),
-      ],
-    ),
-  );
-}
-
-class _RaceBoard extends StatelessWidget {
-  const _RaceBoard({
-    required this.game,
-    required this.label,
+class _RaceDialogShell extends StatelessWidget {
+  const _RaceDialogShell({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
     required this.accent,
-    required this.showLabel,
-  });
-
-  final BalancoGame game;
-  final String label;
-  final Color accent;
-  final bool showLabel;
-
-  @override
-  Widget build(BuildContext context) => Container(
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(26),
-      border: Border.all(color: accent.withValues(alpha: 0.9), width: 3),
-      boxShadow: [
-        BoxShadow(
-          color: accent.withValues(alpha: 0.35),
-          blurRadius: 16,
-          spreadRadius: 1,
-        ),
-      ],
-    ),
-    child: ClipRRect(
-      borderRadius: BorderRadius.circular(22),
-      child: Stack(
-        children: [
-          Positioned.fill(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    accent.withValues(alpha: 0.34),
-                    const Color(0xFF173F86),
-                  ],
-                ),
-              ),
-              child: GameWidget(game: game),
-            ),
-          ),
-          if (showLabel)
-            Positioned.fill(
-              child: IgnorePointer(
-                child: Center(
-                  child: AnimatedOpacity(
-                    opacity: showLabel ? 1 : 0,
-                    duration: const Duration(milliseconds: 250),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 18,
-                        vertical: 8,
-                      ),
-                      decoration: BoxDecoration(
-                        color: const Color(0xDD14204B),
-                        borderRadius: BorderRadius.circular(18),
-                        border: Border.all(color: accent, width: 2),
-                      ),
-                      child: Text(
-                        label,
-                        style: GoogleFonts.luckiestGuy(
-                          color: Colors.white,
-                          fontSize: 22,
-                          letterSpacing: 1.2,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          _CountdownLabel(game: game),
-        ],
-      ),
-    ),
-  );
-}
-
-class _CountdownLabel extends StatelessWidget {
-  const _CountdownLabel({required this.game});
-  final BalancoGame game;
-
-  @override
-  Widget build(BuildContext context) => Positioned.fill(
-    child: IgnorePointer(
-      child: Center(
-        child: ValueListenableBuilder<int>(
-          valueListenable: game.countdownNotifier,
-          builder: (_, value, _) {
-            if (value <= 0) return const SizedBox.shrink();
-            final text = switch (value) {
-              >= 4 => '3',
-              3 => '2',
-              2 => '1',
-              _ => 'GO!',
-            };
-            return Text(
-              text,
-              style: GoogleFonts.luckiestGuy(
-                color: Colors.white,
-                fontSize: 48,
-                shadows: const [
-                  Shadow(color: Color(0xFF6544CF), blurRadius: 14),
-                  Shadow(color: Colors.black, offset: Offset(2, 3)),
-                ],
-              ),
-            );
-          },
-        ),
-      ),
-    ),
-  );
-}
-
-class _VerticalRaceControl extends StatefulWidget {
-  const _VerticalRaceControl({required this.accent, required this.onChanged});
-  final Color accent;
-  final ValueChanged<double> onChanged;
-
-  @override
-  State<_VerticalRaceControl> createState() => _VerticalRaceControlState();
-}
-
-class _VerticalRaceControlState extends State<_VerticalRaceControl> {
-  double _value = 0;
-
-  void _update(Offset local, double height) {
-    final value = ((local.dy / height) * 2 - 1).clamp(-1.0, 1.0);
-    setState(() => _value = value);
-    widget.onChanged(value);
-  }
-
-  void _release() {
-    setState(() => _value = 0);
-    widget.onChanged(0);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    const height = 132.0;
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onPanStart: (details) => _update(details.localPosition, height),
-      onPanUpdate: (details) => _update(details.localPosition, height),
-      onPanEnd: (_) => _release(),
-      onPanCancel: _release,
-      child: Container(
-        width: 50,
-        height: height,
-        decoration: BoxDecoration(
-          color: const Color(0x66304F8F),
-          borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: Colors.white70, width: 2),
-        ),
-        child: Align(
-          alignment: Alignment(0, _value),
-          child: Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: widget.accent.withValues(alpha: 0.85),
-              border: Border.all(color: Colors.white, width: 2),
-              boxShadow: [BoxShadow(color: widget.accent, blurRadius: 9)],
-            ),
-            child: const Icon(
-              Icons.unfold_more_rounded,
-              color: Colors.white,
-              size: 21,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _PowerButton extends StatelessWidget {
-  const _PowerButton({
-    required this.count,
-    required this.onTap,
     required this.child,
-    this.active = false,
-    this.enabled = true,
   });
-  final int count;
-  final bool active;
-  final bool enabled;
-  final VoidCallback onTap;
+
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final Color accent;
   final Widget child;
 
   @override
-  Widget build(BuildContext context) => GestureDetector(
-    onTap: enabled ? onTap : null,
+  Widget build(BuildContext context) => Material(
+    color: Colors.transparent,
     child: Container(
-      width: 36,
-      height: 36,
+      width: 356,
+      margin: const EdgeInsets.symmetric(horizontal: 18),
+      padding: const EdgeInsets.fromLTRB(20, 18, 20, 20),
       decoration: BoxDecoration(
-        color: active ? const Color(0xFF6244B5) : const Color(0xFF273A76),
-        borderRadius: BorderRadius.circular(11),
-        border: Border.all(color: Colors.white70, width: 1.5),
+        color: GameColors.sandLightUi,
+        borderRadius: BorderRadius.circular(28),
+        border: Border.all(color: GameColors.brownDarkUi, width: 4),
+        boxShadow: const [
+          BoxShadow(color: GameColors.brownDarkUi, offset: Offset(0, 7)),
+        ],
       ),
-      child: Stack(
-        alignment: Alignment.center,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          child,
-          if (count > 0)
-            Positioned(
-              right: 2,
-              bottom: 1,
-              child: Container(
-                width: 14,
-                height: 14,
-                alignment: Alignment.center,
-                decoration: const BoxDecoration(
-                  color: Color(0xFFE74C4C),
-                  shape: BoxShape.circle,
+          Container(
+            width: 54,
+            height: 54,
+            decoration: BoxDecoration(
+              color: accent,
+              shape: BoxShape.circle,
+              border: Border.all(color: GameColors.brownDarkUi, width: 3),
+              boxShadow: const [
+                BoxShadow(color: GameColors.brownDarkUi, offset: Offset(0, 3)),
+              ],
+            ),
+            child: Icon(icon, color: Colors.white, size: 29),
+          ),
+          const SizedBox(height: 10),
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: GoogleFonts.luckiestGuy(
+                  fontSize: 27,
+                  letterSpacing: 1,
+                  foreground: Paint()
+                    ..style = PaintingStyle.stroke
+                    ..strokeWidth = 5
+                    ..color = GameColors.brownDarkUi,
                 ),
-                child: Text(
-                  '$count',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 8,
-                    fontWeight: FontWeight.w900,
-                  ),
+              ),
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: GoogleFonts.luckiestGuy(
+                  color: accent,
+                  fontSize: 27,
+                  letterSpacing: 1,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 5),
+          Text(
+            subtitle,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.baloo2(
+              color: GameColors.brownDarkUi,
+              fontSize: 15,
+              height: 1.15,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          const SizedBox(height: 17),
+          child,
+        ],
+      ),
+    ),
+  );
+}
+
+class _RaceDialogButton extends StatelessWidget {
+  const _RaceDialogButton({
+    required this.icon,
+    required this.label,
+    required this.color,
+    required this.onTap,
+    this.enabled = true,
+  });
+
+  final IconData icon;
+  final String label;
+  final Color color;
+  final VoidCallback onTap;
+  final bool enabled;
+
+  @override
+  Widget build(BuildContext context) => Opacity(
+    opacity: enabled ? 1 : 0.5,
+    child: GestureDetector(
+      onTap: enabled ? onTap : null,
+      child: Container(
+        constraints: const BoxConstraints(minHeight: 48),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(15),
+          border: Border.all(color: GameColors.brownDarkUi, width: 3),
+          boxShadow: const [
+            BoxShadow(color: GameColors.brownDarkUi, offset: Offset(0, 4)),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, color: Colors.white, size: 20),
+            const SizedBox(width: 6),
+            Flexible(
+              child: Text(
+                label,
+                textAlign: TextAlign.center,
+                style: GoogleFonts.luckiestGuy(
+                  color: Colors.white,
+                  fontSize: 13,
+                  shadows: const [
+                    Shadow(color: GameColors.brownDarkUi, offset: Offset(0, 2)),
+                  ],
                 ),
               ),
             ),
-        ],
-      ),
-    ),
-  );
-}
-
-class _LivesButton extends StatelessWidget {
-  const _LivesButton({required this.lives});
-  final int lives;
-
-  @override
-  Widget build(BuildContext context) => Container(
-    width: 36,
-    height: 36,
-    decoration: BoxDecoration(
-      color: const Color(0xFF273A76),
-      borderRadius: BorderRadius.circular(11),
-      border: Border.all(color: Colors.white70, width: 1.5),
-    ),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Icon(Icons.favorite_rounded, color: Color(0xFFFF5364), size: 16),
-        const SizedBox(width: 2),
-        Text(
-          '$lives',
-          style: GoogleFonts.luckiestGuy(color: Colors.white, fontSize: 11),
+          ],
         ),
-      ],
-    ),
-  );
-}
-
-class _TimerPill extends StatelessWidget {
-  const _TimerPill({required this.elapsed});
-  final Duration elapsed;
-
-  @override
-  Widget build(BuildContext context) {
-    final minutes = elapsed.inMinutes.toString().padLeft(2, '0');
-    final seconds = (elapsed.inSeconds % 60).toString().padLeft(2, '0');
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 1),
-      decoration: BoxDecoration(
-        color: const Color(0xFF2A235F),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFF8D70E8)),
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Icon(Icons.timer_outlined, color: Colors.white, size: 11),
-          const SizedBox(width: 2),
-          Text(
-            '$minutes:$seconds',
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w900,
-              fontSize: 10,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _LevelBadge extends StatelessWidget {
-  const _LevelBadge({required this.level});
-  final int level;
-
-  @override
-  Widget build(BuildContext context) => Container(
-    padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 1),
-    decoration: BoxDecoration(
-      gradient: const LinearGradient(
-        colors: [Color(0xFFFFC83D), Color(0xFFFF7A32)],
-      ),
-      borderRadius: BorderRadius.circular(12),
-      border: Border.all(color: Colors.white, width: 1.5),
-      boxShadow: const [BoxShadow(color: Colors.black38, offset: Offset(0, 2))],
     ),
-    child: Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        const Icon(Icons.map_rounded, color: Colors.white, size: 11),
-        const SizedBox(width: 2),
-        Text(
-          'LVL $level',
-          style: GoogleFonts.luckiestGuy(color: Colors.white, fontSize: 9),
-        ),
-      ],
-    ),
-  );
-}
-
-class _HudButton extends StatelessWidget {
-  const _HudButton({
-    required this.icon,
-    required this.onTap,
-    this.active = false,
-  });
-  final IconData icon;
-  final VoidCallback onTap;
-  final bool active;
-
-  @override
-  Widget build(BuildContext context) => IconButton.filled(
-    onPressed: onTap,
-    style: IconButton.styleFrom(
-      minimumSize: const Size.square(36),
-      maximumSize: const Size.square(36),
-      padding: const EdgeInsets.all(6),
-      backgroundColor: active
-          ? const Color(0xFF1CA96D)
-          : const Color(0xFF294A9B),
-      side: const BorderSide(color: Color(0xFF65D8FF), width: 1.5),
-    ),
-    icon: Icon(icon, color: Colors.white, size: 19),
   );
 }
 
@@ -798,19 +462,20 @@ class _MenuButton extends StatelessWidget {
   final Color color;
 
   @override
-  Widget build(BuildContext context) => ElevatedButton.icon(
-    onPressed: onTap,
-    icon: Icon(icon),
-    label: Text(label, style: GoogleFonts.luckiestGuy()),
-    style: ElevatedButton.styleFrom(
-      backgroundColor: color,
-      foregroundColor: Colors.white,
+  Widget build(BuildContext context) => SizedBox(
+    width: 142,
+    child: _RaceDialogButton(
+      icon: icon,
+      label: label,
+      color: color,
+      onTap: onTap,
     ),
   );
 }
 
 class _RaceResultOverlay extends StatelessWidget {
   const _RaceResultOverlay({
+    required this.userId,
     required this.won,
     required this.room,
     required this.localGame,
@@ -823,6 +488,8 @@ class _RaceResultOverlay extends StatelessWidget {
     required this.onAccept,
     required this.onExit,
   });
+
+  final String userId;
   final bool won;
   final CoopRoom room;
   final BalancoGame localGame;
@@ -837,120 +504,138 @@ class _RaceResultOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final local = room.memberFor(userId);
+    final opponent = room.members.firstWhere(
+      (member) => member.userId != userId,
+      orElse: () => local,
+    );
+    final winner = room.winnerId == local.userId ? local : opponent;
     final duration = Duration(milliseconds: room.winnerElapsedMs ?? 0);
     final time =
         '${duration.inMinutes.toString().padLeft(2, '0')}:'
         '${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
+    final accent = won ? GameColors.green300 : GameColors.orangeTextUi;
+    final endedBySurrender = room.raceEndKind == 'surrender';
+
     return Positioned.fill(
       child: ColoredBox(
         color: const Color(0xD9081238),
-        child: Center(
-          child: Container(
-            width: 330,
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: const Color(0xFFFDF5DF),
-              borderRadius: BorderRadius.circular(28),
-              border: Border.all(color: GameColors.brownDarkUi, width: 4),
-              boxShadow: const [
-                BoxShadow(color: Colors.black54, blurRadius: 24),
-              ],
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  won ? Icons.emoji_events_rounded : Icons.sports_score_rounded,
-                  color: won ? const Color(0xFFFFB300) : Colors.deepPurple,
-                  size: 42,
-                ),
-                Text(
-                  won ? 'YOU WIN!' : 'YOU LOSE',
-                  style: GoogleFonts.luckiestGuy(
-                    color: won ? Colors.green : Colors.redAccent,
-                    fontSize: 28,
-                  ),
-                ),
-                Text(
-                  room.raceEndKind == 'surrender'
-                      ? 'MATCH ENDED BY SURRENDER'
-                      : 'FINISH TIME  $time',
-                  style: const TextStyle(fontWeight: FontWeight.w900),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  'Your stars: ${localGame.currentPoints.value}   •   '
-                  'Opponent stars: $remoteStars',
-                  style: const TextStyle(fontWeight: FontWeight.w800),
-                ),
-                const SizedBox(height: 12),
-                if (rematchOffered)
-                  SizedBox(
-                    width: double.infinity,
-                    child: FilledButton.icon(
-                      onPressed: onAccept,
-                      icon: const Icon(Icons.handshake_rounded),
-                      label: Text(
-                        restartKind == 'retry'
-                            ? 'ACCEPT RETRY LEVEL ${room.raceLevel}'
-                            : 'ACCEPT LEVEL ${room.raceLevel + 1}',
-                        style: GoogleFonts.luckiestGuy(),
-                      ),
+        child: SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(vertical: 18),
+              child: _RaceDialogShell(
+                icon: won
+                    ? Icons.emoji_events_rounded
+                    : Icons.sports_score_rounded,
+                title: won ? 'VICTORY!' : 'RACE COMPLETE',
+                subtitle: endedBySurrender
+                    ? '${winner.displayName} wins by surrender'
+                    : '${winner.displayName} reached the finish gate first',
+                accent: accent,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _RaceWinScoreboard(
+                      localWins: local.raceWins,
+                      level: room.raceLevel,
+                      opponentWins: opponent.raceWins,
                     ),
-                  )
-                else if (rematchWaiting)
-                  SizedBox(
-                    width: double.infinity,
-                    child: FilledButton.icon(
-                      onPressed: null,
-                      icon: const Icon(Icons.hourglass_bottom_rounded),
-                      label: Text(
-                        restartKind == 'retry'
-                            ? 'RETRY REQUEST SENT'
-                            : 'CONTINUE REQUEST SENT',
-                        style: GoogleFonts.luckiestGuy(),
-                      ),
-                    ),
-                  )
-                else
-                  Row(
-                    children: [
-                      Expanded(
-                        child: FilledButton.icon(
-                          onPressed: onRetry,
-                          icon: const Icon(Icons.replay_rounded),
-                          label: Text(
-                            'RETRY',
-                            style: GoogleFonts.luckiestGuy(),
-                          ),
+                    const SizedBox(height: 12),
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: [
+                        _RaceResultStat(
+                          icon: Icons.timer_outlined,
+                          label: endedBySurrender ? '--:--' : time,
+                          caption: 'FINISH TIME',
                         ),
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: FilledButton.icon(
-                          onPressed: onContinue,
-                          icon: const Icon(Icons.arrow_forward_rounded),
-                          label: Text(
-                            'LEVEL ${room.raceLevel + 1}',
-                            style: GoogleFonts.luckiestGuy(),
-                          ),
+                        _RaceResultStat(
+                          icon: Icons.favorite_rounded,
+                          label: '${room.winnerHearts ?? 0}',
+                          caption: 'WINNER HEARTS',
                         ),
-                      ),
-                    ],
-                  ),
-                const SizedBox(height: 8),
-                SizedBox(
-                  width: double.infinity,
-                  child: FilledButton.icon(
-                    onPressed: onExit,
-                    icon: const Icon(Icons.home_rounded),
-                    label: Text(
-                      'RETURN TO MODES',
-                      style: GoogleFonts.luckiestGuy(),
+                        _RaceResultStat(
+                          icon: Icons.star_rounded,
+                          label: '${room.winnerStars ?? 0}',
+                          caption: 'WINNER STARS',
+                        ),
+                      ],
                     ),
-                  ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'YOU ${localGame.currentPoints.value} STARS   •   '
+                      'OPPONENT $remoteStars STARS',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.baloo2(
+                        color: GameColors.brownDarkUi,
+                        fontWeight: FontWeight.w900,
+                        fontSize: 13,
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+                    if (rematchOffered)
+                      SizedBox(
+                        width: double.infinity,
+                        child: _RaceDialogButton(
+                          icon: Icons.handshake_rounded,
+                          label: restartKind == 'retry'
+                              ? 'ACCEPT RETRY'
+                              : 'ACCEPT LEVEL ${room.raceLevel + 1}',
+                          color: GameColors.green300,
+                          onTap: onAccept,
+                        ),
+                      )
+                    else if (rematchWaiting)
+                      SizedBox(
+                        width: double.infinity,
+                        child: _RaceDialogButton(
+                          icon: Icons.hourglass_bottom_rounded,
+                          label: restartKind == 'retry'
+                              ? 'RETRY REQUEST SENT'
+                              : 'CONTINUE REQUEST SENT',
+                          color: GameColors.blueGray600,
+                          enabled: false,
+                          onTap: () {},
+                        ),
+                      )
+                    else
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _RaceDialogButton(
+                              icon: Icons.replay_rounded,
+                              label: 'RETRY',
+                              color: GameColors.purpleAccent,
+                              onTap: onRetry,
+                            ),
+                          ),
+                          const SizedBox(width: 9),
+                          Expanded(
+                            child: _RaceDialogButton(
+                              icon: Icons.arrow_forward_rounded,
+                              label: 'LEVEL ${room.raceLevel + 1}',
+                              color: GameColors.green300,
+                              onTap: onContinue,
+                            ),
+                          ),
+                        ],
+                      ),
+                    const SizedBox(height: 10),
+                    SizedBox(
+                      width: double.infinity,
+                      child: _RaceDialogButton(
+                        icon: Icons.home_rounded,
+                        label: 'RETURN TO MODES',
+                        color: GameColors.red300,
+                        onTap: onExit,
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),
@@ -959,27 +644,109 @@ class _RaceResultOverlay extends StatelessWidget {
   }
 }
 
+class _RaceWinScoreboard extends StatelessWidget {
+  const _RaceWinScoreboard({
+    required this.localWins,
+    required this.level,
+    required this.opponentWins,
+  });
+
+  final int localWins;
+  final int level;
+  final int opponentWins;
+
+  @override
+  Widget build(BuildContext context) => Container(
+    width: double.infinity,
+    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+    decoration: BoxDecoration(
+      color: const Color(0xFF203B80),
+      borderRadius: BorderRadius.circular(16),
+      border: Border.all(color: GameColors.brownDarkUi, width: 3),
+    ),
+    child: Text(
+      '$localWins  -  LVL $level  -  $opponentWins',
+      textAlign: TextAlign.center,
+      style: GoogleFonts.luckiestGuy(
+        color: Colors.white,
+        fontSize: 22,
+        letterSpacing: 1,
+      ),
+    ),
+  );
+}
+
+class _RaceResultStat extends StatelessWidget {
+  const _RaceResultStat({
+    required this.icon,
+    required this.label,
+    required this.caption,
+  });
+
+  final IconData icon;
+  final String label;
+  final String caption;
+
+  @override
+  Widget build(BuildContext context) => Container(
+    width: 92,
+    padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 8),
+    decoration: BoxDecoration(
+      color: GameColors.brownDarkUi.withValues(alpha: 0.08),
+      borderRadius: BorderRadius.circular(13),
+      border: Border.all(
+        color: GameColors.brownDarkUi.withValues(alpha: 0.25),
+        width: 1.5,
+      ),
+    ),
+    child: Column(
+      children: [
+        Icon(icon, color: GameColors.orangeTextUi, size: 20),
+        Text(
+          label,
+          style: GoogleFonts.luckiestGuy(
+            color: GameColors.brownDarkUi,
+            fontSize: 16,
+          ),
+        ),
+        Text(
+          caption,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            color: GameColors.brownDarkUi,
+            fontSize: 8,
+            fontWeight: FontWeight.w900,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
 class _RaceAgreementOverlay extends StatelessWidget {
   const _RaceAgreementOverlay({
     required this.room,
     required this.userId,
     required this.coordinator,
+    required this.onSettings,
   });
 
   final CoopRoom room;
   final String userId;
   final RaceGameCoordinator coordinator;
+  final VoidCallback onSettings;
 
   @override
   Widget build(BuildContext context) {
     final requestedByMe = room.leaveRequestedBy == userId;
     final postgame = room.hasPostgameExitVote;
+    final paused = room.isPaused;
     final title = postgame
         ? 'RETURN TO MODES?'
         : room.hasLeaveVote
         ? 'LEAVE TOGETHER?'
         : 'RACE PAUSED';
-    final message = postgame
+    final subtitle = postgame
         ? requestedByMe
               ? 'Waiting for your opponent to agree.'
               : 'Your opponent wants both players to return to Modes.'
@@ -987,79 +754,144 @@ class _RaceAgreementOverlay extends StatelessWidget {
         ? requestedByMe
               ? 'Waiting for your opponent to agree.'
               : 'Your opponent wants to leave this race together.'
-        : 'The race is paused for both players.';
+        : 'The timer and both boards are frozen for both players.';
 
     return Positioned.fill(
       child: ColoredBox(
-        color: const Color(0xB8081238),
+        color: const Color(0xC2081238),
         child: Center(
-          child: Container(
-            width: 350,
-            padding: const EdgeInsets.all(22),
-            decoration: BoxDecoration(
-              color: GameColors.sandLightUi,
-              borderRadius: BorderRadius.circular(26),
-              border: Border.all(color: GameColors.brownDarkUi, width: 4),
-              boxShadow: const [
-                BoxShadow(color: GameColors.brownDarkUi, offset: Offset(0, 7)),
-              ],
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  title,
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.luckiestGuy(
-                    color: GameColors.orangeTextUi,
-                    fontSize: 28,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  message,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w800,
-                    fontSize: 15,
-                  ),
-                ),
-                const SizedBox(height: 18),
-                if (room.isPaused)
-                  FilledButton.icon(
-                    onPressed: () => coordinator.setPaused(false),
-                    icon: const Icon(Icons.play_arrow_rounded),
-                    label: Text(
-                      'RESUME FOR BOTH',
-                      style: GoogleFonts.luckiestGuy(),
-                    ),
-                  )
-                else if (!requestedByMe)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+          child: _RaceDialogShell(
+            icon: paused
+                ? Icons.pause_rounded
+                : postgame
+                ? Icons.home_rounded
+                : Icons.handshake_rounded,
+            title: title,
+            subtitle: subtitle,
+            accent: paused ? GameColors.purpleAccent : GameColors.orangeTextUi,
+            child: paused
+                ? Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      OutlinedButton(
-                        onPressed: () => postgame
-                            ? coordinator.respondToPostgameExit(false)
-                            : coordinator.respondToLeave(false),
-                        child: const Text('STAY'),
-                      ),
-                      const SizedBox(width: 12),
-                      FilledButton(
-                        onPressed: () => postgame
-                            ? coordinator.respondToPostgameExit(true)
-                            : coordinator.respondToLeave(true),
-                        child: Text(postgame ? 'RETURN BOTH' : 'LEAVE BOTH'),
-                      ),
+                      if (room.rematchRequestedBy == null)
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _RaceDialogButton(
+                                icon: Icons.settings_rounded,
+                                label: 'SETTINGS',
+                                color: GameColors.blueGray600,
+                                onTap: onSettings,
+                              ),
+                            ),
+                            const SizedBox(width: 9),
+                            Expanded(
+                              child: _RaceDialogButton(
+                                icon: Icons.replay_rounded,
+                                label: 'RETRY',
+                                color: GameColors.purpleAccent,
+                                onTap: coordinator.requestRetry,
+                              ),
+                            ),
+                          ],
+                        )
+                      else if (room.rematchRequestedBy == userId)
+                        const _RaceWaitingMessage(
+                          text: 'WAITING FOR OPPONENT TO ACCEPT RETRY...',
+                        )
+                      else
+                        SizedBox(
+                          width: double.infinity,
+                          child: _RaceDialogButton(
+                            icon: Icons.check_rounded,
+                            label: 'ACCEPT RETRY',
+                            color: GameColors.green300,
+                            onTap: coordinator.acceptRestartOffer,
+                          ),
+                        ),
+                      if (room.rematchRequestedBy == null) ...[
+                        const SizedBox(height: 11),
+                        SizedBox(
+                          width: double.infinity,
+                          child: _RaceDialogButton(
+                            icon: Icons.play_arrow_rounded,
+                            label: 'RESUME FOR BOTH',
+                            color: GameColors.green300,
+                            onTap: () => coordinator.setPaused(false),
+                          ),
+                        ),
+                      ],
                     ],
                   )
-                else
-                  const CircularProgressIndicator(),
-              ],
-            ),
+                : requestedByMe
+                ? const _RaceWaitingMessage(
+                    text: 'WAITING FOR YOUR OPPONENT...',
+                  )
+                : Row(
+                    children: [
+                      Expanded(
+                        child: _RaceDialogButton(
+                          icon: Icons.close_rounded,
+                          label: 'STAY',
+                          color: GameColors.blueGray600,
+                          onTap: () => postgame
+                              ? coordinator.respondToPostgameExit(false)
+                              : coordinator.respondToLeave(false),
+                        ),
+                      ),
+                      const SizedBox(width: 9),
+                      Expanded(
+                        child: _RaceDialogButton(
+                          icon: Icons.check_rounded,
+                          label: postgame ? 'RETURN BOTH' : 'LEAVE BOTH',
+                          color: GameColors.red300,
+                          onTap: () => postgame
+                              ? coordinator.respondToPostgameExit(true)
+                              : coordinator.respondToLeave(true),
+                        ),
+                      ),
+                    ],
+                  ),
           ),
         ),
       ),
     );
   }
+}
+
+class _RaceWaitingMessage extends StatelessWidget {
+  const _RaceWaitingMessage({required this.text});
+  final String text;
+
+  @override
+  Widget build(BuildContext context) => Container(
+    width: double.infinity,
+    padding: const EdgeInsets.all(14),
+    decoration: BoxDecoration(
+      color: GameColors.brownDarkUi.withValues(alpha: 0.08),
+      borderRadius: BorderRadius.circular(14),
+      border: Border.all(color: GameColors.brownDarkUi.withValues(alpha: 0.2)),
+    ),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const SizedBox(
+          width: 20,
+          height: 20,
+          child: CircularProgressIndicator(strokeWidth: 3),
+        ),
+        const SizedBox(width: 10),
+        Flexible(
+          child: Text(
+            text,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.luckiestGuy(
+              color: GameColors.brownDarkUi,
+              fontSize: 13,
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
 }

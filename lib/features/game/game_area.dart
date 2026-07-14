@@ -101,11 +101,6 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   static const int movingHolePoints = 20;
   static const int bumperPoints = 5;
 
-  /// Race boards need enough vertical distance for the camera to reveal the
-  /// course progressively instead of showing the finish gate beside the first
-  /// obstacle group. Taller campaign levels keep their authored height.
-  static const double raceMinimumHeightMultiplier = 3.0;
-
   // Shield state
   final ValueNotifier<int> remainingShields = ValueNotifier<int>(3);
   final ValueNotifier<double> shieldTimerNotifier = ValueNotifier<double>(0.0);
@@ -120,6 +115,28 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
 
   bool _hasGameLayout = false;
   bool get isLayoutReady => _hasGameLayout;
+  double _raceBarBottomInset = 60.0;
+
+  void configureRaceBarBottomInset(double inset) {
+    if (!isRaceMode) return;
+    final nextInset = inset.clamp(60.0, 180.0);
+
+    // RacePortraitMatchView knows the HUD geometry before Flame receives its
+    // first onGameResize callback. Keep that configuration, but do not touch
+    // size-backed getters until the game has a canvas layout.
+    if (!_hasGameLayout) {
+      _raceBarBottomInset = nextInset;
+      return;
+    }
+
+    final oldBottomY = _barBottomY;
+    final wasAtStart =
+        (leftY - oldBottomY).abs() < 1.5 &&
+        (rightY - oldBottomY).abs() < 1.5 &&
+        countdownTimer > 0;
+    _raceBarBottomInset = nextInset;
+    if (wasAtStart) _placeRaceBallAtStart();
+  }
 
   double get raceProgress {
     if (!_hasGameLayout) return 0.0;
@@ -205,6 +222,9 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   bool _isCoopReplica = false;
   bool _hasCoopSnapshot = false;
   Map<String, dynamic>? _coopSnapshot;
+  Map<String, dynamic>? _previousCoopSnapshot;
+  double _coopSnapshotAgeSeconds = 0.0;
+  final ValueNotifier<int> coopReplicaFrameNotifier = ValueNotifier<int>(0);
   static const bool showLevelDebugOverlay = false;
 
   final double barPadding = 20.0;
@@ -255,7 +275,8 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   double get levelHeight =>
       isInfinityMode ? 999999.0 : size.y * currentHeightMultiplier;
 
-  double get _barBottomY => levelHeight - (isRaceMode ? 55.0 : 160.0);
+  double get _barBottomY =>
+      levelHeight - (isRaceMode ? _raceBarBottomInset : 160.0);
 
   final ValueNotifier<PositionComponent?> selectedEditComponent = ValueNotifier(
     null,
@@ -917,6 +938,8 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     _worldRandom = Random(seed ^ 0x5F3759DF);
     _hasCoopSnapshot = false;
     _coopSnapshot = null;
+    _previousCoopSnapshot = null;
+    _coopSnapshotAgeSeconds = 0.0;
     await restartCurrentLevel();
   }
 
@@ -1005,18 +1028,22 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   };
 
   void applyCoopSnapshot(Map<String, dynamic> snapshot) {
+    _previousCoopSnapshot = _coopSnapshot;
     _coopSnapshot = Map<String, dynamic>.from(snapshot);
+    _coopSnapshotAgeSeconds = 0.0;
   }
 
   void _updateCoopReplica(double dt) {
     final snapshot = _coopSnapshot;
     if (snapshot == null) return;
 
+    _coopSnapshotAgeSeconds += dt;
+
     final firstFrame = !_hasCoopSnapshot;
     _hasCoopSnapshot = true;
-    final barBlend = firstFrame ? 1.0 : 1.0 - exp(-32.0 * dt);
-    final objectBlend = firstFrame ? 1.0 : 1.0 - exp(-38.0 * dt);
-    final cameraBlend = firstFrame ? 1.0 : 1.0 - exp(-24.0 * dt);
+    final barBlend = firstFrame ? 1.0 : 1.0 - exp(-18.0 * dt);
+    final objectBlend = firstFrame ? 1.0 : 1.0 - exp(-20.0 * dt);
+    final cameraBlend = firstFrame ? 1.0 : 1.0 - exp(-14.0 * dt);
 
     double blend(double current, dynamic target, double amount) =>
         current + ((target as num).toDouble() - current) * amount;
@@ -1027,9 +1054,48 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     double x(dynamic value) => (value as num).toDouble() * scaleX;
     double y(dynamic value) => (value as num).toDouble() * scaleY;
 
-    leftY = blend(leftY, y(snapshot['left_y']), barBlend);
-    rightY = blend(rightY, y(snapshot['right_y']), barBlend);
-    cameraOffsetY = blend(cameraOffsetY, y(snapshot['camera_y']), cameraBlend);
+    final previous = _previousCoopSnapshot;
+    final sentAt = snapshot['sent_at'] as int?;
+    final previousSentAt = previous?['sent_at'] as int?;
+    final snapshotInterval = sentAt != null && previousSentAt != null
+        ? (sentAt - previousSentAt) / Duration.microsecondsPerSecond
+        : 0.0;
+    final predictionTime = min(_coopSnapshotAgeSeconds, 0.10);
+
+    double predict(dynamic current, dynamic previousValue) {
+      final currentValue = (current as num).toDouble();
+      if (previousValue is! num ||
+          snapshotInterval <= 0.005 ||
+          snapshotInterval > 0.5) {
+        return currentValue;
+      }
+      final velocity =
+          (currentValue - previousValue.toDouble()) / snapshotInterval;
+      final predictedDelta = (velocity * predictionTime).clamp(-48.0, 48.0);
+      return currentValue + predictedDelta;
+    }
+
+    dynamic previousValue(String key) => previous?[key];
+
+    final predictedLeftY = y(
+      predict(snapshot['left_y'], previousValue('left_y')),
+    ).clamp(10.0, _barBottomY);
+    final predictedRightY = y(
+      predict(snapshot['right_y'], previousValue('right_y')),
+    ).clamp(10.0, _barBottomY);
+    var predictedCameraY = y(
+      predict(snapshot['camera_y'], previousValue('camera_y')),
+    );
+    if (!isInfinityMode) {
+      predictedCameraY = predictedCameraY.clamp(
+        0.0,
+        max(0.0, levelHeight - size.y),
+      );
+    }
+
+    leftY = blend(leftY, predictedLeftY, barBlend);
+    rightY = blend(rightY, predictedRightY, barBlend);
+    cameraOffsetY = blend(cameraOffsetY, predictedCameraY, cameraBlend);
     cameraOffsetYNotifier.value = cameraOffsetY;
     levelContainer.position.y = -cameraOffsetY;
 
@@ -1053,17 +1119,29 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     );
 
     final remoteBalls = snapshot['balls'] as List? ?? const [];
+    final previousBalls = previous?['balls'] as List? ?? const [];
     _matchReplicaBallCount(remoteBalls.length);
     for (var index = 0; index < remoteBalls.length; index++) {
       final remote = Map<String, dynamic>.from(remoteBalls[index] as Map);
+      final previousBall = index < previousBalls.length
+          ? Map<String, dynamic>.from(previousBalls[index] as Map)
+          : const <String, dynamic>{};
       final ball = activeBalls[index];
-      ball.pos2D.x = blend(ball.pos2D.x, x(remote['x']), objectBlend);
-      ball.pos2D.y = blend(ball.pos2D.y, y(remote['y']), objectBlend);
+      ball.pos2D.x = blend(
+        ball.pos2D.x,
+        x(predict(remote['x'], previousBall['x'])),
+        objectBlend,
+      );
+      ball.pos2D.y = blend(
+        ball.pos2D.y,
+        y(predict(remote['y'], previousBall['y'])),
+        objectBlend,
+      );
       ball.velocity = (remote['velocity'] as num).toDouble();
       ball.freeFallVelocity.x = (remote['free_fall_x'] as num).toDouble();
       ball.freeFallVelocity.y = (remote['free_fall_y'] as num).toDouble();
       ball.p = (remote['p'] as num).toDouble();
-      ball.scale = (remote['scale'] as num).toDouble();
+      ball.scale = blend(ball.scale, remote['scale'], objectBlend);
       ball.isFalling = remote['is_falling'] as bool;
       ball.isFallingInHole = remote['is_falling_in_hole'] as bool? ?? false;
       ball.isFreeFalling = remote['is_free_falling'] as bool;
@@ -1076,8 +1154,16 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       ball.respawnTimer = (remote['respawn_timer'] as num?)?.toDouble() ?? 0.0;
       ball.holeImmunityTimer =
           (remote['hole_immunity_timer'] as num?)?.toDouble() ?? 0.0;
-      ball.squashX = (remote['squash_x'] as num?)?.toDouble() ?? 1.0;
-      ball.squashY = (remote['squash_y'] as num?)?.toDouble() ?? 1.0;
+      ball.squashX = blend(
+        ball.squashX,
+        remote['squash_x'] ?? 1.0,
+        objectBlend,
+      );
+      ball.squashY = blend(
+        ball.squashY,
+        remote['squash_y'] ?? 1.0,
+        objectBlend,
+      );
       ball.bounceTimer = (remote['bounce_timer'] as num?)?.toDouble() ?? 0.0;
       final activeHoleIndex = remote['active_hole_index'] as int? ?? -1;
       ball.activeHole = activeHoleIndex >= 0 && activeHoleIndex < holes.length
@@ -1126,17 +1212,21 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       magnets[index].isCollected = remoteMagnets[index] as bool;
     }
     final remoteHoles = snapshot['holes'] as List? ?? const [];
+    final previousHoles = previous?['holes'] as List? ?? const [];
     final holeCount = min(holes.length, remoteHoles.length);
     for (var index = 0; index < holeCount; index++) {
       final remote = Map<String, dynamic>.from(remoteHoles[index] as Map);
+      final previousHole = index < previousHoles.length
+          ? Map<String, dynamic>.from(previousHoles[index] as Map)
+          : const <String, dynamic>{};
       holes[index].position.x = blend(
         holes[index].position.x,
-        x(remote['x']),
+        x(predict(remote['x'], previousHole['x'])),
         objectBlend,
       );
       holes[index].position.y = blend(
         holes[index].position.y,
-        y(remote['y']),
+        y(predict(remote['y'], previousHole['y'])),
         objectBlend,
       );
     }
@@ -1145,17 +1235,21 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     }
 
     final remoteBombs = snapshot['bombs'] as List? ?? const [];
+    final previousBombs = previous?['bombs'] as List? ?? const [];
     final localBombs = _matchReplicaBombCount(remoteBombs.length);
     for (var index = 0; index < remoteBombs.length; index++) {
       final remote = Map<String, dynamic>.from(remoteBombs[index] as Map);
+      final previousBomb = index < previousBombs.length
+          ? Map<String, dynamic>.from(previousBombs[index] as Map)
+          : const <String, dynamic>{};
       localBombs[index].position.x = blend(
         localBombs[index].position.x,
-        x(remote['x']),
+        x(predict(remote['x'], previousBomb['x'])),
         objectBlend,
       );
       localBombs[index].position.y = blend(
         localBombs[index].position.y,
-        y(remote['y']),
+        y(predict(remote['y'], previousBomb['y'])),
         objectBlend,
       );
     }
@@ -1167,6 +1261,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       localWarnings[index].position.x = x(remote['x']);
       localWarnings[index].position.y = y(remote['y']);
     }
+    coopReplicaFrameNotifier.value++;
   }
 
   List<BombComponent> _matchReplicaBombCount(int count) {
@@ -1277,7 +1372,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       barResetTimer = 0.8; // Straighten bar consistently in 0.8s
     } else {
       barResetTimer = 0.0;
-      final bottomOffset = isRaceMode ? 55.0 : 160.0;
+      final bottomOffset = isRaceMode ? _raceBarBottomInset : 160.0;
       leftY = currentLevelHeight - bottomOffset;
       rightY = currentLevelHeight - bottomOffset;
     }
@@ -1710,9 +1805,10 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     }
 
     if (!isEditMode && !isInfinityMode) {
-      currentHeightMultiplierNotifier.value = isRaceMode
-          ? max(raceMinimumHeightMultiplier, data.heightMultiplier)
-          : data.heightMultiplier;
+      // Race uses the exact authored campaign geometry. Stretching short
+      // levels here used to move the finish gate and obstacles away from
+      // their regular single-player positions.
+      currentHeightMultiplierNotifier.value = data.heightMultiplier;
 
       // Now that we have the real height multiplier, fix the bar position if it was reset to the bottom
       if (barResetTimer == 0.0) {

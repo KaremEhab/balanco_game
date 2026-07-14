@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:balanco_game/features/coop/application/coop_realtime_session.dart';
 import 'package:flutter/foundation.dart';
@@ -21,9 +22,12 @@ class VoiceChatController {
   MediaStream? _localStream;
   StreamSubscription<Map<String, dynamic>>? _subscription;
   Timer? _signalRetryTimer;
+  Timer? _gameplayAudioRecoveryTimer;
   final List<RTCIceCandidate> _pendingCandidates = [];
   bool _remoteDescriptionReady = false;
   bool _negotiating = false;
+  bool _initializing = false;
+  bool _disposed = false;
   String? _lastOfferSdp;
 
   static const _turnUrl = String.fromEnvironment('BALANCO_TURN_URL');
@@ -33,6 +37,12 @@ class VoiceChatController {
   );
 
   Future<void> initialize() async {
+    if (_disposed || _initializing) return;
+    if (_peer != null && _localStream != null) {
+      await recoverForGameplay();
+      return;
+    }
+    _initializing = true;
     try {
       await _configureCallAudio();
       _localStream = await navigator.mediaDevices.getUserMedia({
@@ -45,9 +55,14 @@ class VoiceChatController {
       });
       await _configureCallAudio();
       _peer = await createPeerConnection({
+        'sdpSemantics': 'unified-plan',
         'iceServers': <Map<String, dynamic>>[
-          {'urls': 'stun:stun.l.google.com:19302'},
-          {'urls': 'stun:stun1.l.google.com:19302'},
+          {
+            'urls': <String>[
+              'stun:stun.l.google.com:19302',
+              'stun:stun1.l.google.com:19302',
+            ],
+          },
           if (_turnUrl.isNotEmpty)
             {
               'urls': _turnUrl,
@@ -107,25 +122,65 @@ class VoiceChatController {
       });
     } catch (exception) {
       error.value = 'Microphone unavailable: $exception';
+      await _releaseMedia();
+    } finally {
+      _initializing = false;
     }
   }
 
   Future<void> _configureCallAudio() async {
-    await Helper.setAndroidAudioConfiguration(
-      AndroidAudioConfiguration.communication,
+    if (Platform.isAndroid) {
+      await Helper.setAndroidAudioConfiguration(
+        AndroidAudioConfiguration.communication,
+      );
+      await Helper.setSpeakerphoneOnButPreferBluetooth();
+    } else if (Platform.isIOS) {
+      await Helper.setAppleAudioConfiguration(
+        AppleAudioConfiguration(
+          appleAudioCategory: AppleAudioCategory.playAndRecord,
+          appleAudioCategoryOptions: {
+            // HFP Bluetooth supports both the microphone and call audio.
+            // A2DP is output-only and can make iOS drop the mic input route.
+            AppleAudioCategoryOption.allowBluetooth,
+            AppleAudioCategoryOption.defaultToSpeaker,
+          },
+          appleAudioMode: AppleAudioMode.voiceChat,
+        ),
+      );
+      await Helper.setSpeakerphoneOnButPreferBluetooth();
+    }
+  }
+
+  /// Flame/audio-player setup can replace AVAudioSession while the two Race
+  /// boards mount. Restore WebRTC's call category after gameplay is visible,
+  /// and retry once after asynchronous asset loading has settled.
+  Future<void> recoverForGameplay() async {
+    if (_disposed) return;
+    if (_peer == null || _localStream == null) {
+      await initialize();
+      return;
+    }
+    try {
+      await _configureCallAudio();
+      for (final track in _localStream!.getAudioTracks()) {
+        track.enabled = !muted.value;
+      }
+      error.value = null;
+      await realtime.send('voice_ready', const {});
+      if (isHost && !connected.value) await _createOffer();
+    } catch (exception) {
+      error.value = 'Voice audio recovery failed: $exception';
+    }
+  }
+
+  void scheduleGameplayRecovery() {
+    if (_disposed) return;
+    unawaited(recoverForGameplay());
+    _gameplayAudioRecoveryTimer?.cancel();
+    _gameplayAudioRecoveryTimer = Timer(
+      const Duration(milliseconds: 800),
+      () => unawaited(recoverForGameplay()),
     );
-    await Helper.setAppleAudioConfiguration(
-      AppleAudioConfiguration(
-        appleAudioCategory: AppleAudioCategory.playAndRecord,
-        appleAudioCategoryOptions: {
-          AppleAudioCategoryOption.allowBluetooth,
-          AppleAudioCategoryOption.allowBluetoothA2DP,
-          AppleAudioCategoryOption.defaultToSpeaker,
-        },
-        appleAudioMode: AppleAudioMode.voiceChat,
-      ),
-    );
-    await Helper.setSpeakerphoneOnButPreferBluetooth();
   }
 
   Future<void> _handleSignalSafely(Map<String, dynamic> message) async {
@@ -204,15 +259,30 @@ class VoiceChatController {
     unawaited(realtime.send('mic_state', {'muted': muted.value}));
   }
 
-  Future<void> dispose() async {
+  Future<void> _releaseMedia() async {
     _signalRetryTimer?.cancel();
+    _signalRetryTimer = null;
     await _subscription?.cancel();
+    _subscription = null;
     for (final track
         in _localStream?.getTracks() ?? const <MediaStreamTrack>[]) {
       track.stop();
     }
     await _localStream?.dispose();
+    _localStream = null;
     await _peer?.close();
+    _peer = null;
+    _pendingCandidates.clear();
+    _remoteDescriptionReady = false;
+    _negotiating = false;
+    _lastOfferSdp = null;
+    connected.value = false;
+  }
+
+  Future<void> dispose() async {
+    _disposed = true;
+    _gameplayAudioRecoveryTimer?.cancel();
+    await _releaseMedia();
     muted.dispose();
     connected.dispose();
     error.dispose();

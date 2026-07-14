@@ -28,7 +28,10 @@ class CoopRealtimeSession {
     final completer = Completer<void>();
     final channel = _client.channel(
       'coop:$roomId',
-      opts: RealtimeChannelConfig(private: true, key: userId, ack: true),
+      // Gameplay snapshots are ephemeral and arrive many times per second.
+      // Waiting for a server acknowledgement serializes those frames and
+      // makes the replica board advance in visible network-sized steps.
+      opts: RealtimeChannelConfig(private: true, key: userId, ack: false),
     );
     _channel = channel;
     channel

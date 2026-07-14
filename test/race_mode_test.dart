@@ -23,6 +23,28 @@ void main() {
     expect(game.raceProgress, 0);
   });
 
+  test(
+    'race HUD can configure the bar before Flame lays out the board',
+    () async {
+      final game = BalancoGame(
+        isMultiplayer: true,
+        playerRole: 'BOTH',
+        randomSeed: 42,
+        isRaceMode: true,
+      );
+
+      expect(game.isLayoutReady, isFalse);
+      expect(() => game.configureRaceBarBottomInset(120), returnsNormally);
+
+      game.onGameResize(Vector2(400, 800));
+      await Future<void>.delayed(Duration.zero);
+
+      expect(game.isLayoutReady, isTrue);
+      expect(game.levelHeight - game.leftY, 120);
+      expect(game.levelHeight - game.rightY, 120);
+    },
+  );
+
   test('race games can suppress campaign tutorials without pausing', () {
     final game = BalancoGame(
       isMultiplayer: true,
@@ -74,23 +96,49 @@ void main() {
 
       expect(
         game.currentHeightMultiplier,
-        greaterThanOrEqualTo(BalancoGame.raceMinimumHeightMultiplier),
+        game.currentLevelData!.heightMultiplier,
       );
-      expect(game.levelHeight, greaterThan(game.size.y * 2));
-      expect(game.leftY, game.levelHeight - 55);
-      expect(game.rightY, game.levelHeight - 55);
-      expect(game.activeBalls.single.pos2D.y, game.levelHeight - 75);
+      expect(game.leftY, game.levelHeight - 60);
+      expect(game.rightY, game.levelHeight - 60);
+      expect(game.activeBalls.single.pos2D.y, game.levelHeight - 80);
       expect(game.activeBalls.single.pos2D.y, greaterThan(70));
-      expect(game.cameraOffsetY, game.levelHeight - game.size.y);
       expect(
-        game.teleportingGateComponent.position.y - game.cameraOffsetY,
-        lessThan(0),
+        game.cameraOffsetY,
+        (game.levelHeight - game.size.y).clamp(0, double.infinity),
       );
       expect(game.isSpawningLevel, isFalse);
       expect(game.teleportingGateComponent.isClosed, isFalse);
       expect(game.raceProgress, 0);
+
+      game
+        ..countdownTimer = 3
+        ..configureRaceBarBottomInset(120);
+      expect(game.leftY, game.levelHeight - 120);
+      expect(game.rightY, game.levelHeight - 120);
+      expect(game.activeBalls.single.pos2D.y, game.levelHeight - 140);
     },
   );
+
+  test('race loads the exact regular authored level definition', () async {
+    final regular = BalancoGame(
+      isMultiplayer: false,
+      playerRole: 'BOTH',
+      randomSeed: 42,
+      enableTutorials: false,
+    )..onGameResize(Vector2(400, 800));
+    final race = BalancoGame(
+      isMultiplayer: true,
+      playerRole: 'BOTH',
+      randomSeed: 42,
+      enableTutorials: false,
+      isRaceMode: true,
+    )..onGameResize(Vector2(400, 800));
+
+    await Future.wait([regular.onLoad(), race.onLoad()]);
+
+    expect(race.currentLevelData!.toJson(), regular.currentLevelData!.toJson());
+    expect(race.currentHeightMultiplier, regular.currentHeightMultiplier);
+  });
 
   test(
     'race camera scrolls up with the bar and reveals the distant gate',
@@ -105,6 +153,14 @@ void main() {
 
       await Future<void>.delayed(Duration.zero);
       await game.onLoad();
+      game
+        ..currentHeightMultiplier = 3
+        ..leftY = 2340
+        ..rightY = 2340
+        ..cameraOffsetY = 1600;
+      game.activeBalls.single
+        ..pos2D = Vector2(200, 2320)
+        ..holeImmunityTimer = 100;
       final startingCameraY = game.cameraOffsetY;
 
       game
@@ -220,6 +276,7 @@ void main() {
           'side': 'left',
           'ready': true,
           'is_host': true,
+          'race_wins': 3,
         },
         {
           'user_id': 'guest',
@@ -228,6 +285,7 @@ void main() {
           'side': 'right',
           'ready': true,
           'is_host': false,
+          'race_wins': 2,
         },
       ],
     });
@@ -239,6 +297,8 @@ void main() {
     expect(room.winnerElapsedMs, 72000);
     expect(room.raceEndKind, 'finish');
     expect(room.raceRestartKind, 'retry');
+    expect(room.memberFor('host').raceWins, 3);
+    expect(room.memberFor('guest').raceWins, 2);
   });
 
   test('race progress maps vertical advance to the finish gate', () {

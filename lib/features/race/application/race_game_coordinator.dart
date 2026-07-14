@@ -4,6 +4,8 @@ import 'package:balanco_game/features/coop/application/coop_realtime_session.dar
 import 'package:balanco_game/features/coop/data/coop_repository.dart';
 import 'package:balanco_game/features/coop/domain/coop_room.dart';
 import 'package:balanco_game/features/game/game_area.dart';
+import 'package:balanco_game/features/race/application/race_match_clock.dart';
+import 'package:balanco_game/features/race/application/race_remote_snapshot_interpolator.dart';
 import 'package:flutter/foundation.dart';
 
 class RaceGameCoordinator {
@@ -31,6 +33,12 @@ class RaceGameCoordinator {
   final ValueNotifier<bool> syncHealthy = ValueNotifier(false);
   final ValueNotifier<Duration> elapsed = ValueNotifier(Duration.zero);
   final ValueNotifier<bool> showBoardLabels = ValueNotifier(true);
+  final ValueNotifier<String?> actionError = ValueNotifier(null);
+  final RaceRemoteSnapshotInterpolator remoteInterpolator =
+      RaceRemoteSnapshotInterpolator();
+  final RaceMatchClock _matchClock = RaceMatchClock(
+    countdown: countdownDuration,
+  );
 
   StreamSubscription<Map<String, dynamic>>? _events;
   Timer? _snapshotTimer;
@@ -42,6 +50,7 @@ class RaceGameCoordinator {
   bool _reloading = false;
   bool _finishSubmitted = false;
   bool _lossSubmitted = false;
+  bool _actionInFlight = false;
   bool _disposed = false;
   int _sequence = 0;
   int _lastRemoteSequence = 0;
@@ -84,24 +93,21 @@ class RaceGameCoordinator {
   }
 
   void _updateDisplayState() {
-    if (_disposed || !localGame.isLayoutReady) return;
+    if (_disposed) return;
     final now = DateTime.now().toUtc();
-    final remaining = goAt.difference(now);
-    if (remaining > Duration.zero) {
-      final seconds = remaining.inMilliseconds / 1000.0;
-      localGame.countdownTimer = seconds;
-      localGame.countdownNotifier.value = seconds.ceil();
-      remoteGame.countdownTimer = seconds;
-      remoteGame.countdownNotifier.value = seconds.ceil();
-    } else {
-      localGame.countdownTimer = 0;
-      localGame.countdownNotifier.value = 0;
-      remoteGame.countdownTimer = 0;
-      remoteGame.countdownNotifier.value = 0;
+    final clock = _matchClock.update(
+      startedAt: room.value.startedAt,
+      running: room.value.isPlaying,
+      now: now,
+    );
+    elapsed.value = clock.elapsed;
+    localGame.countdownTimer = clock.countdownSeconds;
+    localGame.countdownNotifier.value = clock.countdownSeconds.ceil();
+    remoteGame.countdownTimer = clock.countdownSeconds;
+    remoteGame.countdownNotifier.value = clock.countdownSeconds.ceil();
+    if (localGame.isLayoutReady) {
+      localProgress.value = localGame.raceProgress;
     }
-    final runningFor = now.difference(goAt);
-    elapsed.value = runningFor.isNegative ? Duration.zero : runningFor;
-    localProgress.value = localGame.raceProgress;
   }
 
   Future<void> _sendSnapshot() async {
@@ -137,6 +143,7 @@ class RaceGameCoordinator {
         final sequence = event['sequence'] as int? ?? 0;
         if (sequence <= _lastRemoteSequence) return;
         _lastRemoteSequence = sequence;
+        remoteInterpolator.addSnapshot(event);
         remoteGame.applyCoopSnapshot(event);
         remoteProgress.value =
             (event['progress'] as num?)?.toDouble().clamp(0.0, 1.0) ?? 0;
@@ -180,39 +187,39 @@ class RaceGameCoordinator {
     }
   }
 
-  Future<void> surrender() async {
+  Future<void> surrender() => _runAction(() async {
     room.value = await repository.surrenderRace(room.value.id);
     await realtime.notifyRoomChanged();
     _applyRoomState();
-  }
+  });
 
-  Future<void> setPaused(bool paused) async {
+  Future<void> setPaused(bool paused) => _runAction(() async {
     room.value = await repository.setPaused(room.value.id, paused);
     _applyRoomState();
     await realtime.notifyRoomChanged();
-  }
+  });
 
-  Future<void> requestLeave() async {
+  Future<void> requestLeave() => _runAction(() async {
     room.value = await repository.voteLeave(room.value.id, false);
     _applyRoomState();
     await realtime.notifyRoomChanged();
-  }
+  });
 
-  Future<void> respondToLeave(bool approve) async {
+  Future<void> respondToLeave(bool approve) => _runAction(() async {
     room.value = await repository.voteLeave(room.value.id, approve);
     _applyRoomState();
     await realtime.notifyRoomChanged();
-  }
+  });
 
-  Future<void> requestPostgameExit() async {
+  Future<void> requestPostgameExit() => _runAction(() async {
     room.value = await repository.votePostgameExit(room.value.id, false);
     await realtime.notifyRoomChanged();
-  }
+  });
 
-  Future<void> respondToPostgameExit(bool approve) async {
+  Future<void> respondToPostgameExit(bool approve) => _runAction(() async {
     room.value = await repository.votePostgameExit(room.value.id, approve);
     await realtime.notifyRoomChanged();
-  }
+  });
 
   Future<void> requestRetry() => _requestRestart('retry');
 
@@ -225,10 +232,37 @@ class RaceGameCoordinator {
   }
 
   Future<void> _requestRestart(String kind) async {
-    final previousAttempt = room.value.attemptNumber;
-    room.value = await repository.voteRaceRestart(room.value.id, kind);
-    if (room.value.attemptNumber > previousAttempt) await _restartRace();
-    await realtime.notifyRoomChanged();
+    await _runAction(() async {
+      final previousAttempt = room.value.attemptNumber;
+      room.value = await repository.voteRaceRestart(room.value.id, kind);
+      if (room.value.attemptNumber > previousAttempt) await _restartRace();
+      await realtime.notifyRoomChanged();
+    });
+  }
+
+  Future<void> _runAction(Future<void> Function() action) async {
+    if (_actionInFlight || _disposed) return;
+    _actionInFlight = true;
+    actionError.value = null;
+    try {
+      await action();
+    } catch (error) {
+      actionError.value = _friendlyActionError(error);
+      await reloadRoom();
+    } finally {
+      _actionInFlight = false;
+    }
+  }
+
+  String _friendlyActionError(Object error) {
+    final message = error.toString();
+    if (message.contains('players selected different')) {
+      return 'Both players must choose the same retry option.';
+    }
+    if (message.contains('not ready to restart')) {
+      return 'The room changed before that retry could be sent. Try again.';
+    }
+    return 'The shared race action did not reach the room. Please try again.';
   }
 
   Future<void> reloadRoom() async {
@@ -250,10 +284,13 @@ class RaceGameCoordinator {
     _finishSubmitted = false;
     _lossSubmitted = false;
     _lastRemoteSequence = 0;
+    remoteInterpolator.clear();
     localProgress.value = 0;
     remoteProgress.value = 0;
     remoteHearts.value = 3;
     remoteStars.value = 0;
+    elapsed.value = Duration.zero;
+    _matchClock.reset();
     localGame.currentLevel.value = room.value.raceLevel;
     remoteGame.currentLevel.value = room.value.raceLevel;
     await Future.wait([
@@ -292,5 +329,7 @@ class RaceGameCoordinator {
     syncHealthy.dispose();
     elapsed.dispose();
     showBoardLabels.dispose();
+    actionError.dispose();
+    remoteInterpolator.dispose();
   }
 }

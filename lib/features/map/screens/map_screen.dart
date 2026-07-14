@@ -24,23 +24,18 @@ import 'package:balanco_game/core/theme/game_colors.dart';
 import 'package:balanco_game/core/widgets/cartoon_star.dart';
 import 'package:balanco_game/features/map/widgets/ball_theme_unlock_dialog.dart';
 
-Future<List<Offset>> _computeNodePositionsAsync(
-  Map<String, dynamic> data,
-) async {
-  final int totalLevels = data['totalLevels'] as int;
-  final double totalHeight = data['totalHeight'] as double;
-  final double bottomPadding = data['bottomPadding'] as double;
-  final double nodeSpacingY = data['nodeSpacingY'] as double;
-  final double centerX = data['centerX'] as double;
-
-  List<Offset> positions = [];
-  for (int i = 0; i < totalLevels; i++) {
-    double rawY = totalHeight - bottomPadding - (i * nodeSpacingY);
-    double y = (rawY ~/ 20) * 20 + 8.0;
-    positions.add(Offset(centerX, y));
-  }
-  return positions;
-}
+@visibleForTesting
+List<Offset> computeMapNodePositions({
+  required int totalLevels,
+  required double totalHeight,
+  required double bottomPadding,
+  required double nodeSpacingY,
+  required double centerX,
+}) => List<Offset>.generate(totalLevels, (index) {
+  final rawY = totalHeight - bottomPadding - (index * nodeSpacingY);
+  final y = (rawY ~/ 20) * 20 + 8.0;
+  return Offset(centerX, y);
+});
 
 class HomeScreen extends StatefulWidget {
   final ScrollController scrollController;
@@ -451,9 +446,8 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _isFirstLoad = false;
 
     setState(() {
-      highestLevel = profile.highestLevel;
-      currentLevel =
-          profile.highestLevel; // Always default to the highest unlocked level
+      highestLevel = profile.highestLevel.clamp(1, totalLevels);
+      currentLevel = highestLevel; // Default to the highest unlocked level.
       _displayedLevel = currentLevel;
       _levelStars = {for (var p in progresses) p.levelId: p.stars};
     });
@@ -503,35 +497,40 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return _scrollToLevel(currentLevel, animate: animate);
   }
 
-  bool _isCalculatingNodes = false;
   double _lastScreenWidth = 0;
+  double _lastBottomPadding = -1;
 
   void _calculateNodes(double screenWidth) {
-    if (_nodePositions.isNotEmpty && _lastScreenWidth == screenWidth) return;
-    if (_isCalculatingNodes) return;
-    _isCalculatingNodes = true;
+    final resolvedBottomPadding = bottomPadding;
+    if (_nodePositions.isNotEmpty &&
+        _lastScreenWidth == screenWidth &&
+        _lastBottomPadding == resolvedBottomPadding) {
+      return;
+    }
+    final isFirstCalculation = _nodePositions.isEmpty;
     _lastScreenWidth = screenWidth;
+    _lastBottomPadding = resolvedBottomPadding;
 
-    double totalHeight = _getVirtualHeight();
-    double centerX = screenWidth / 2;
+    _nodePositions
+      ..clear()
+      ..addAll(
+        computeMapNodePositions(
+          totalLevels: totalLevels,
+          totalHeight: _getVirtualHeight(),
+          bottomPadding: resolvedBottomPadding,
+          nodeSpacingY: nodeSpacingY,
+          centerX: screenWidth / 2,
+        ),
+      );
 
-    final localData = {
-      'totalLevels': totalLevels,
-      'totalHeight': totalHeight,
-      'bottomPadding': bottomPadding,
-      'nodeSpacingY': nodeSpacingY,
-      'centerX': centerX,
-    };
-
-    compute(_computeNodePositionsAsync, localData).then((positions) {
-      if (mounted) {
-        setState(() {
-          _nodePositions.clear();
-          _nodePositions.addAll(positions);
-        });
-      }
-      _isCalculatingNodes = false;
-    });
+    if (isFirstCalculation) {
+      // Loading the profile and calculating nodes used to race each other.
+      // Whichever finished first could miss the one chance to scroll to the
+      // player's unlocked level and leave the map apparently empty.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) scrollToCurrentLevel();
+      });
+    }
   }
 
   double _getVirtualHeight() {
@@ -813,7 +812,6 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     _calculateNodes(screenWidth);
-    if (_nodePositions.isEmpty) return const SizedBox.shrink();
 
     final double totalHeight = _getVirtualHeight();
 
