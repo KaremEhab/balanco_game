@@ -25,6 +25,8 @@ class RacePortraitMatchView extends StatelessWidget {
     required this.onLeave,
     required this.onPause,
     required this.onSettings,
+    required this.onLocalProfile,
+    required this.onOpponentProfile,
   });
 
   final CoopRoom room;
@@ -36,6 +38,8 @@ class RacePortraitMatchView extends StatelessWidget {
   final VoidCallback onLeave;
   final VoidCallback onPause;
   final VoidCallback onSettings;
+  final VoidCallback onLocalProfile;
+  final VoidCallback onOpponentProfile;
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
@@ -45,9 +49,9 @@ class RacePortraitMatchView extends StatelessWidget {
       final scale = math.min(width / 430, height / 932).clamp(0.78, 1.18);
       final horizontal = math.max(14.0, width * 0.048);
       final boardTop = (height * 0.13).clamp(108.0, 124.0);
-      final boardBottom = math.max(38.0, height * 0.042);
-      final joystickBottom = math.max(3.0, height * 0.012);
-      final joystickHeight = 132.0 * scale;
+      const boardBottom = 5.0;
+      const joystickBottom = 5.0;
+      final joystickHeight = 148.0 * scale;
       final raceBarInset =
           joystickBottom + joystickHeight + 5 + 12 * scale - boardBottom;
       localGame.configureRaceBarBottomInset(raceBarInset);
@@ -60,7 +64,7 @@ class RacePortraitMatchView extends StatelessWidget {
 
       return Stack(
         children: [
-          const Positioned.fill(child: _RaceBackdrop()),
+          Positioned.fill(child: _RaceBackdrop(level: room.raceLevel)),
           Positioned(
             left: horizontal,
             right: horizontal,
@@ -71,6 +75,7 @@ class RacePortraitMatchView extends StatelessWidget {
               remoteGame: remoteGame,
               remoteInterpolator: coordinator.remoteInterpolator,
               showLabels: coordinator.showBoardLabels,
+              level: room.raceLevel,
             ),
           ),
           Positioned(
@@ -88,6 +93,8 @@ class RacePortraitMatchView extends StatelessWidget {
               scale: scale,
               onLeave: onLeave,
               onSettings: onSettings,
+              onLocalProfile: onLocalProfile,
+              onOpponentProfile: onOpponentProfile,
             ),
           ),
           Positioned(
@@ -119,19 +126,65 @@ class RacePortraitMatchView extends StatelessWidget {
 }
 
 class _RaceBackdrop extends StatelessWidget {
-  const _RaceBackdrop();
+  const _RaceBackdrop({required this.level});
+
+  final int level;
 
   @override
-  Widget build(BuildContext context) => const DecoratedBox(
-    decoration: BoxDecoration(
-      gradient: RadialGradient(
-        center: Alignment.topCenter,
-        radius: 1.25,
-        colors: [Color(0xFF19377E), Color(0xFF091A51), Color(0xFF050F36)],
-        stops: [0, 0.54, 1],
+  Widget build(BuildContext context) {
+    final palette = _RacePalette.forLevel(level);
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 1100),
+      curve: Curves.easeInOutCubic,
+      decoration: BoxDecoration(
+        gradient: RadialGradient(
+          center: Alignment.topCenter,
+          radius: 1.25,
+          colors: palette.backdrop,
+          stops: const [0, 0.54, 1],
+        ),
       ),
-    ),
-  );
+    );
+  }
+}
+
+class _RacePalette {
+  const _RacePalette({
+    required this.backdrop,
+    required this.border,
+    required this.board,
+  });
+
+  final List<Color> backdrop;
+  final List<Color> border;
+  final List<Color> board;
+
+  static _RacePalette forLevel(int level) {
+    final accent = HSLColor.fromAHSL(
+      1,
+      ((level - 1) * 31.0 + 205) % 360,
+      0.72,
+      0.55,
+    ).toColor();
+    Color mix(Color base, double amount) => Color.lerp(base, accent, amount)!;
+    return _RacePalette(
+      backdrop: [
+        mix(const Color(0xFF19377E), 0.42),
+        mix(const Color(0xFF091A51), 0.25),
+        mix(const Color(0xFF050F36), 0.12),
+      ],
+      border: [
+        mix(const Color(0xFF5EDBFF), 0.3),
+        mix(const Color(0xFF8178FF), 0.55),
+        mix(const Color(0xFF2C8EFF), 0.3),
+      ],
+      board: [
+        mix(const Color(0xFF3157AE), 0.26),
+        mix(const Color(0xFF1E4093), 0.18),
+        mix(const Color(0xFF102C72), 0.12),
+      ],
+    );
+  }
 }
 
 class _RaceHeader extends StatelessWidget {
@@ -145,6 +198,8 @@ class _RaceHeader extends StatelessWidget {
     required this.scale,
     required this.onLeave,
     required this.onSettings,
+    required this.onLocalProfile,
+    required this.onOpponentProfile,
   });
 
   final CoopRoom room;
@@ -156,6 +211,8 @@ class _RaceHeader extends StatelessWidget {
   final double scale;
   final VoidCallback onLeave;
   final VoidCallback onSettings;
+  final VoidCallback onLocalProfile;
+  final VoidCallback onOpponentProfile;
 
   @override
   Widget build(BuildContext context) => Column(
@@ -172,6 +229,7 @@ class _RaceHeader extends StatelessWidget {
                   hearts: hearts,
                   accent: const Color(0xFF35DFFF),
                   avatarFirst: true,
+                  onProfileTap: onLocalProfile,
                 ),
               ),
             ),
@@ -193,6 +251,7 @@ class _RaceHeader extends StatelessWidget {
                   hearts: hearts,
                   accent: const Color(0xFFAEB4C1),
                   avatarFirst: false,
+                  onProfileTap: onOpponentProfile,
                 ),
               ),
             ),
@@ -264,12 +323,14 @@ class _PlayerIdentity extends StatelessWidget {
     required this.hearts,
     required this.accent,
     required this.avatarFirst,
+    required this.onProfileTap,
   });
 
   final CoopMember member;
   final int hearts;
   final Color accent;
   final bool avatarFirst;
+  final VoidCallback onProfileTap;
 
   AvatarShape get _shape => AvatarShape.values.firstWhere(
     (value) => value.name == member.avatarShape,
@@ -278,10 +339,24 @@ class _PlayerIdentity extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final avatar = ProfileAvatarWidget(
-      shape: _shape,
-      size: 46,
-      imageUrl: member.resolvedAvatarUrl,
+    final avatar = Tooltip(
+      message: 'View ${member.displayName} profile',
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onProfileTap,
+        child: Container(
+          padding: const EdgeInsets.all(2),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(color: accent, width: 2),
+          ),
+          child: ProfileAvatarWidget(
+            shape: _shape,
+            size: 42,
+            imageUrl: member.resolvedAvatarUrl,
+          ),
+        ),
+      ),
     );
     final details = Flexible(
       child: Column(
@@ -373,12 +448,14 @@ class _SharedRaceBoard extends StatefulWidget {
     required this.remoteGame,
     required this.remoteInterpolator,
     required this.showLabels,
+    required this.level,
   });
 
   final BalancoGame localGame;
   final BalancoGame remoteGame;
   final RaceRemoteSnapshotInterpolator remoteInterpolator;
   final ValueListenable<bool> showLabels;
+  final int level;
 
   @override
   State<_SharedRaceBoard> createState() => _SharedRaceBoardState();
@@ -412,56 +489,59 @@ class _SharedRaceBoardState extends State<_SharedRaceBoard>
   }
 
   @override
-  Widget build(BuildContext context) => DecoratedBox(
-    decoration: BoxDecoration(
-      gradient: const LinearGradient(
-        colors: [Color(0xFF5EDBFF), Color(0xFF8178FF), Color(0xFF2C8EFF)],
+  Widget build(BuildContext context) {
+    final palette = _RacePalette.forLevel(widget.level);
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 1100),
+      curve: Curves.easeInOutCubic,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(colors: palette.border),
+        borderRadius: BorderRadius.circular(33),
+        boxShadow: const [
+          BoxShadow(color: Color(0x99188EFF), blurRadius: 22, spreadRadius: 1),
+        ],
       ),
-      borderRadius: BorderRadius.circular(33),
-      boxShadow: const [
-        BoxShadow(color: Color(0x99188EFF), blurRadius: 22, spreadRadius: 1),
-      ],
-    ),
-    child: Padding(
-      padding: const EdgeInsets.all(3),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(30),
-        child: Stack(
-          children: [
-            const Positioned.fill(
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Color(0xFF3157AE),
-                      Color(0xFF1E4093),
-                      Color(0xFF102C72),
-                    ],
-                    stops: [0, 0.52, 1],
+      child: Padding(
+        padding: const EdgeInsets.all(3),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(30),
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 1100),
+                  curve: Curves.easeInOutCubic,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: palette.board,
+                      stops: const [0, 0.52, 1],
+                    ),
                   ),
                 ),
               ),
-            ),
-            Positioned.fill(
-              child: IgnorePointer(
-                child: Opacity(
-                  opacity: 0,
-                  child: GameWidget(game: widget.remoteGame),
+              Positioned.fill(
+                child: IgnorePointer(
+                  child: Opacity(
+                    opacity: 0,
+                    child: GameWidget(game: widget.remoteGame),
+                  ),
                 ),
               ),
-            ),
-            Positioned.fill(
-              child: IgnorePointer(child: CustomPaint(painter: _ghostPainter)),
-            ),
-            Positioned.fill(child: GameWidget(game: widget.localGame)),
-            _CountdownLabel(game: widget.localGame),
-          ],
+              Positioned.fill(
+                child: IgnorePointer(
+                  child: CustomPaint(painter: _ghostPainter),
+                ),
+              ),
+              Positioned.fill(child: GameWidget(game: widget.localGame)),
+              _CountdownLabel(game: widget.localGame),
+            ],
+          ),
         ),
       ),
-    ),
-  );
+    );
+  }
 }
 
 class _RemoteGhostPainter extends CustomPainter {
@@ -933,9 +1013,20 @@ class _VerticalRaceControl extends StatefulWidget {
 
 class _VerticalRaceControlState extends State<_VerticalRaceControl> {
   double _value = 0;
+  double _dragStartY = 0;
+  double _dragStartValue = 0;
 
-  void _update(Offset local, double height) {
-    final value = ((local.dy / height) * 2 - 1).clamp(-1.0, 1.0);
+  void _beginDrag(Offset local) {
+    _dragStartY = local.dy;
+    _dragStartValue = _value;
+  }
+
+  void _updateDrag(Offset local, double height, double knob) {
+    final travel = math.max(1.0, (height - knob) / 2);
+    final value = (_dragStartValue + (local.dy - _dragStartY) / travel).clamp(
+      -1.0,
+      1.0,
+    );
     setState(() => _value = value);
     widget.onChanged(value);
   }
@@ -947,15 +1038,16 @@ class _VerticalRaceControlState extends State<_VerticalRaceControl> {
 
   @override
   Widget build(BuildContext context) {
-    final height = 132.0 * widget.scale;
-    final width = 54.0 * widget.scale;
-    final knob = 47.0 * widget.scale;
+    final height = 148.0 * widget.scale;
+    final width = 62.0 * widget.scale;
+    final knob = 54.0 * widget.scale;
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onPanStart: (details) => _update(details.localPosition, height),
-      onPanUpdate: (details) => _update(details.localPosition, height),
-      onPanEnd: (_) => _release(),
-      onPanCancel: _release,
+      onVerticalDragStart: (details) => _beginDrag(details.localPosition),
+      onVerticalDragUpdate: (details) =>
+          _updateDrag(details.localPosition, height, knob),
+      onVerticalDragEnd: (_) => _release(),
+      onVerticalDragCancel: _release,
       child: Container(
         width: width,
         height: height,

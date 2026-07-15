@@ -142,21 +142,24 @@ class HoleComponent extends PositionComponent
   }
 
   void updateSuckRadius(double newRadius) {
-    suckRadius = newRadius;
+    suckRadius = max(0.0, newRadius);
     _createWindShader();
   }
 
   void _createWindShader() {
     final currentBiome = game.currentBiome;
     _windAreaPaint = Paint()
-      ..shader = RadialGradient(
-        center: Alignment.center,
-        radius: 1.0,
-        colors: [
-          currentBiome.primaryColor.withValues(alpha: 0.1),
-          Colors.transparent,
-        ],
-      ).createShader(Rect.fromCircle(center: Offset.zero, radius: suckRadius));
+      ..shader =
+          RadialGradient(
+            center: Alignment.center,
+            radius: 1.0,
+            colors: [
+              currentBiome.primaryColor.withValues(alpha: 0.1),
+              Colors.transparent,
+            ],
+          ).createShader(
+            Rect.fromCircle(center: Offset.zero, radius: max(0.01, suckRadius)),
+          );
   }
 
   @override

@@ -44,6 +44,7 @@ class RaceGameCoordinator {
   Timer? _snapshotTimer;
   Timer? _displayTimer;
   Timer? _roomTimer;
+  Timer? _presenceTimer;
   Timer? _healthTimer;
   Timer? _introTimer;
   bool _sending = false;
@@ -51,6 +52,7 @@ class RaceGameCoordinator {
   bool _finishSubmitted = false;
   bool _lossSubmitted = false;
   bool _actionInFlight = false;
+  bool _presenceInFlight = false;
   bool _disposed = false;
   int _sequence = 0;
   int _lastRemoteSequence = 0;
@@ -74,6 +76,11 @@ class RaceGameCoordinator {
     _roomTimer = Timer.periodic(
       const Duration(seconds: 1),
       (_) => reloadRoom(),
+    );
+    unawaited(_maintainPresence());
+    _presenceTimer = Timer.periodic(
+      const Duration(seconds: 10),
+      (_) => _maintainPresence(),
     );
     _scheduleBoardLabels();
     _applyRoomState();
@@ -193,6 +200,25 @@ class RaceGameCoordinator {
     _applyRoomState();
   });
 
+  Future<void> _maintainPresence() async {
+    if (_presenceInFlight || _disposed || room.value.isEnded) return;
+    _presenceInFlight = true;
+    final wasEnded = room.value.isEnded;
+    try {
+      final refreshed = await repository.maintainRacePresence(room.value.id);
+      _acceptRoomUpdate(refreshed);
+      _applyRoomState();
+      if (!wasEnded && room.value.endedByDisconnect) {
+        await realtime.notifyRoomChanged();
+      }
+    } catch (_) {
+      // Losing connectivity intentionally stops this heartbeat. The online
+      // opponent's server-validated heartbeat resolves the match after 2 min.
+    } finally {
+      _presenceInFlight = false;
+    }
+  }
+
   Future<void> setPaused(bool paused) => _runAction(() async {
     room.value = await repository.setPaused(room.value.id, paused);
     _applyRoomState();
@@ -270,7 +296,7 @@ class RaceGameCoordinator {
     _reloading = true;
     try {
       final previousAttempt = room.value.attemptNumber;
-      room.value = await repository.getRoom(room.value.id);
+      _acceptRoomUpdate(await repository.getRoom(room.value.id));
       if (room.value.attemptNumber > previousAttempt) await _restartRace();
       _applyRoomState();
     } catch (_) {
@@ -278,6 +304,16 @@ class RaceGameCoordinator {
     } finally {
       _reloading = false;
     }
+  }
+
+  void _acceptRoomUpdate(CoopRoom next) {
+    final current = room.value;
+    if (current.isEnded &&
+        !next.isEnded &&
+        next.attemptNumber <= current.attemptNumber) {
+      return;
+    }
+    room.value = next;
   }
 
   Future<void> _restartRace() async {
@@ -293,6 +329,8 @@ class RaceGameCoordinator {
     _matchClock.reset();
     localGame.currentLevel.value = room.value.raceLevel;
     remoteGame.currentLevel.value = room.value.raceLevel;
+    localGame.onlineLevelVersion = room.value.raceLevelVersion;
+    remoteGame.onlineLevelVersion = room.value.raceLevelVersion;
     await Future.wait([
       localGame.restartRaceRun(room.value.seed),
       remoteGame.restartRaceRun(room.value.seed),
@@ -318,6 +356,7 @@ class RaceGameCoordinator {
     _snapshotTimer?.cancel();
     _displayTimer?.cancel();
     _roomTimer?.cancel();
+    _presenceTimer?.cancel();
     _healthTimer?.cancel();
     _introTimer?.cancel();
     await _events?.cancel();

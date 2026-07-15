@@ -69,6 +69,7 @@ class CoopRoom {
     required this.endReason,
     required this.mode,
     required this.raceLevel,
+    required this.raceLevelVersion,
     required this.startedAt,
     required this.winnerId,
     required this.winnerFinishedAt,
@@ -93,6 +94,7 @@ class CoopRoom {
   final String? endReason;
   final String mode;
   final int raceLevel;
+  final int? raceLevelVersion;
   final DateTime? startedAt;
   final String? winnerId;
   final DateTime? winnerFinishedAt;
@@ -110,6 +112,8 @@ class CoopRoom {
   bool get hasLeaveVote => status == 'leave_vote';
   bool get isEnded => status == 'ended';
   bool get endedByAgreement => isEnded && endReason == 'leave';
+  bool get endedByDisconnect =>
+      isEnded && endReason == 'forfeit' && raceEndKind == 'disconnect';
   bool get hasPostgameExitVote =>
       isEnded && endReason == 'completed' && leaveRequestedBy != null;
   bool get canStart => members.length == 2 && members.every((m) => m.ready);
@@ -133,6 +137,7 @@ class CoopRoom {
       endReason: room['end_reason'] as String?,
       mode: room['mode'] as String? ?? 'coop',
       raceLevel: room['race_level'] as int? ?? 1,
+      raceLevelVersion: room['race_level_version'] as int?,
       startedAt: DateTime.tryParse(room['started_at'] as String? ?? ''),
       winnerId: room['winner_id'] as String?,
       winnerFinishedAt: DateTime.tryParse(

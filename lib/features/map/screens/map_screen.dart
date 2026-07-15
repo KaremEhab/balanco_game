@@ -67,14 +67,15 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           .bottom; // Ample padding at the bottom so lowest hole clears the UI
   final double topPadding = 140.0;
 
-  int highestLevel =
-      0; // Initialize to 0 so first load doesn't trigger unlock animation
+  int highestLevel = 1;
   int currentLevel = 1;
   int _displayedLevel = 1; // Used by BouncingLevelButton
   int _justUnlockedLevel = -1;
   bool _isFirstLoad = true;
 
   Map<int, int> _levelStars = {};
+
+  bool _isLevelUnlocked(int level) => level == 1 || level <= highestLevel;
 
   late MapTheme theme;
 
@@ -540,7 +541,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void _handleNodeTap(int level) async {
     if (_animatingLevel != null) return; // Prevent multiple taps
 
-    if (level <= highestLevel) {
+    if (_isLevelUnlocked(level)) {
       // If the tapped level is not the currently centered level, scroll to it first.
       if (level != currentLevel && level != _displayedLevel) {
         await _scrollToLevel(level, animate: true);
@@ -729,7 +730,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             drawPlatform:
                                 false, // Don't draw the platform while flying
                             drawBall: true,
-                            isLocked: level > highestLevel,
+                            isLocked: !_isLevelUnlocked(level),
                             biome: BiomeConfig.getBiomeForLevel(level),
                           ),
                         ),
@@ -899,7 +900,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         // Level Holes
                         ...List.generate(totalLevels, (index) {
                           final int level = index + 1;
-                          final bool isUnlocked = level <= highestLevel;
+                          final bool isUnlocked = _isLevelUnlocked(level);
                           if (index >= _nodePositions.length) {
                             return const SizedBox.shrink();
                           }
@@ -983,7 +984,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   _displayedLevel,
                 );
                 final ballBiome = BiomeConfig.getBiomeForLevel(
-                  min(_displayedLevel, highestLevel),
+                  min(_displayedLevel, highestLevel.clamp(1, totalLevels)),
                 );
                 final bool isTransitioning =
                     _isBiomeTransitioning &&
@@ -1056,7 +1057,9 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                 0.2
                                         ? _previousBiome!
                                         : currentBiome,
-                                    isLocked: _displayedLevel > highestLevel,
+                                    isLocked: !_isLevelUnlocked(
+                                      _displayedLevel,
+                                    ),
                                     onTap: () {
                                       HapticFeedback.lightImpact();
                                       _handleNodeTap(_displayedLevel);

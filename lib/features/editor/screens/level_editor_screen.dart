@@ -623,6 +623,40 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
                       ),
                     ),
 
+                    // Preview the exact saved suction radius independently
+                    // for every vortex instead of showing only the hole body.
+                    for (final item in _items)
+                      if (item.type == EditorItemType.suckingHole &&
+                          item.suckRadius > 0)
+                        Positioned(
+                          left: item.x * width - item.suckRadius,
+                          top: item.y * height - item.suckRadius,
+                          width: item.suckRadius * 2,
+                          height: item.suckRadius * 2,
+                          child: IgnorePointer(
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                gradient: RadialGradient(
+                                  colors: [
+                                    Colors.lightBlueAccent.withValues(
+                                      alpha: 0.22,
+                                    ),
+                                    Colors.blueAccent.withValues(alpha: 0.05),
+                                    Colors.transparent,
+                                  ],
+                                  stops: const [0, 0.72, 1],
+                                ),
+                                border: Border.all(
+                                  color: Colors.lightBlueAccent.withValues(
+                                    alpha: 0.55,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+
                     // Items
                     for (var item in _items)
                       Positioned(

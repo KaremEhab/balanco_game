@@ -39,9 +39,11 @@ import 'package:balanco_game/features/game/models/ball_data.dart';
 import 'package:balanco_game/features/game/models/level_data.dart';
 import 'package:balanco_game/features/game/level_generator.dart';
 import 'package:balanco_game/features/game/data/premade_levels.dart';
+import 'package:balanco_game/features/game/data/online_level_repository.dart';
 import 'package:balanco_game/features/game/level_system/campaign_level_repository.dart';
 import 'package:balanco_game/features/game/level_system/level_debug_overlay.dart';
 import 'package:balanco_game/features/game/level_system/level_definition_adapter.dart';
+import 'package:balanco_game/features/game/level_system/level_definition.dart';
 import 'package:balanco_game/features/map/theme/biome_config.dart';
 import 'package:balanco_game/features/map/models/biome_model.dart';
 import 'package:balanco_game/core/data/app_settings.dart';
@@ -57,6 +59,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   final Color? raceBallTint;
   final bool enableTutorials;
   final bool isRaceMode;
+  int? onlineLevelVersion;
 
   VoidCallback? onGameOver;
   VoidCallback? onLevelComplete;
@@ -327,6 +330,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     this.raceBallTint,
     this.enableTutorials = true,
     this.isRaceMode = false,
+    this.onlineLevelVersion,
     this.onGameOver,
     this.onLevelComplete,
   }) {
@@ -378,6 +382,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
           hData.size,
           hData.rotation,
           isSuckingHole: hData.isSuckingHole,
+          suckRadius: hData.suckRadius,
           isMovingHole: hData.isMovingHole,
           moveRange: hData.moveRange,
           moveSpeed: hData.moveSpeed,
@@ -403,6 +408,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
           hData.size,
           hData.rotation,
           isSuckingHole: hData.isSuckingHole,
+          suckRadius: hData.suckRadius,
           isMovingHole: hData.isMovingHole,
           moveRange: hData.moveRange,
           moveSpeed: hData.moveSpeed,
@@ -430,6 +436,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
           hData.size,
           hData.rotation,
           isSuckingHole: hData.isSuckingHole,
+          suckRadius: hData.suckRadius,
           isMovingHole: hData.isMovingHole,
           moveRange: hData.moveRange,
           moveSpeed: hData.moveSpeed,
@@ -598,6 +605,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
             hData.size,
             hData.rotation,
             isSuckingHole: hData.isSuckingHole,
+            suckRadius: hData.suckRadius,
             isMovingHole: hData.isMovingHole,
             moveRange: hData.moveRange,
             moveSpeed: hData.moveSpeed,
@@ -700,6 +708,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
               hData.size,
               hData.rotation,
               isSuckingHole: hData.isSuckingHole,
+              suckRadius: hData.suckRadius,
               isMovingHole: hData.isMovingHole,
               moveRange: hData.moveRange,
               moveSpeed: hData.moveSpeed,
@@ -802,6 +811,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
               'isMovingHole': h.isMovingHole,
               'moveRange': h.moveRange,
               'moveSpeed': h.moveSpeed,
+              'moveAxis': h.moveAxis,
               'behavior': h.behavior.name,
               'warningDuration': h.warningDuration,
               'activeDuration': h.activeDuration,
@@ -831,7 +841,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
             (b) => {
               'x': b.position.x / size.x,
               'y': (b.position.y - 120.0) / (levelHeight - 320.0),
-              'radius': b.radius * b.scale.x,
+              'size': b.radius * b.scale.x,
             },
           )
           .toList(),
@@ -840,7 +850,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
             (t) => {
               'x': t.position.x / size.x,
               'y': (t.position.y - 120.0) / (levelHeight - 320.0),
-              'radius': t.radius * t.scale.x,
+              'size': t.radius * t.scale.x,
               'pairId': t.index,
             },
           )
@@ -887,6 +897,20 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       'hasBomb': levelHasBomb,
       'bombCount': levelBombCount,
       'isDarkLevel': isDarknessLevel,
+      if (currentLevelData?.themeId != null)
+        'themeId': currentLevelData!.themeId,
+      if (currentLevelData?.generationSeed != null)
+        'generationSeed': currentLevelData!.generationSeed,
+      if (currentLevelData?.difficulty != null)
+        'difficulty': currentLevelData!.difficulty,
+      'safePath': (currentLevelData?.safePath ?? const <Vector2>[])
+          .map((point) => {'x': point.x, 'y': point.y})
+          .toList(),
+      'safeCorridorWidth': currentLevelData?.safeCorridorWidth ?? 0.3,
+      'darknessLightRadius': currentLevelData?.darknessLightRadius ?? 65.0,
+      'darknessStartLitSeconds':
+          currentLevelData?.darknessStartLitSeconds ?? 0.0,
+      'isNightmare': currentLevelData?.isNightmare ?? false,
     };
 
     // We should encode to JSON, import dart:convert at the top.
@@ -1691,24 +1715,28 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
           multiBalls: [],
           magnets: [],
         );
-      } else if (PremadeLevels.levelsJson.containsKey(levelToGenerate)) {
-        final jsonStr = PremadeLevels.levelsJson[levelToGenerate]!;
-        data = LevelData.fromJson(jsonDecode(jsonStr));
       } else {
-        final campaignLevel = await CampaignLevelRepository.instance.loadLevel(
-          levelToGenerate,
-        );
-        data =
-            campaignLevel?.toLevelData() ??
-            LevelData(
-              holes: [],
-              teleporters: [],
-              bumpers: [],
-              stars: [],
-              hearts: [],
-              multiBalls: [],
-              magnets: [],
-            );
+        final onlineLevel = await _loadOnlineLevel(levelToGenerate);
+        if (onlineLevel != null) {
+          data = onlineLevel;
+        } else if (PremadeLevels.levelsJson.containsKey(levelToGenerate)) {
+          final jsonStr = PremadeLevels.levelsJson[levelToGenerate]!;
+          data = LevelData.fromJson(jsonDecode(jsonStr));
+        } else {
+          final campaignLevel = await CampaignLevelRepository.instance
+              .loadLevel(levelToGenerate);
+          data =
+              campaignLevel?.toLevelData() ??
+              LevelData(
+                holes: [],
+                teleporters: [],
+                bumpers: [],
+                stars: [],
+                hearts: [],
+                multiBalls: [],
+                magnets: [],
+              );
+        }
       }
       isSpawningLevel = false;
       // Trigger setter to adjust camera and bar for the loaded height
@@ -1754,7 +1782,13 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
 
       queueTutorial('infinity_mode');
     } else {
-      if (PremadeLevels.levelsJson.containsKey(levelToGenerate)) {
+      final onlineLevel = await _loadOnlineLevel(
+        levelToGenerate,
+        version: isRaceMode ? onlineLevelVersion : null,
+      );
+      if (onlineLevel != null) {
+        data = onlineLevel;
+      } else if (PremadeLevels.levelsJson.containsKey(levelToGenerate)) {
         final jsonStr = PremadeLevels.levelsJson[levelToGenerate]!;
         data = LevelData.fromJson(jsonDecode(jsonStr));
       } else {
@@ -1867,6 +1901,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
         hData.size,
         hData.rotation,
         isSuckingHole: hData.isSuckingHole,
+        suckRadius: hData.suckRadius,
         isMovingHole: hData.isMovingHole,
         moveRange: hData.moveRange,
         moveSpeed: hData.moveSpeed,
@@ -2038,6 +2073,30 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
 
     if (isRaceMode) {
       _placeRaceBallAtStart();
+    }
+  }
+
+  Future<LevelData?> _loadOnlineLevel(int levelId, {int? version}) async {
+    final online = await OnlineLevelRepository.instance.loadLevel(
+      levelId,
+      version: version,
+    );
+    if (online == null || online.coordinateSpace != 'normalized_v1') {
+      return null;
+    }
+    try {
+      return switch (online.definitionFormat) {
+        'campaign_v1' => LevelDefinition.fromJson(
+          online.definition,
+        ).toLevelData(),
+        'level_data_v1' => LevelData.fromJson(online.definition),
+        _ => null,
+      };
+    } catch (error) {
+      debugPrint(
+        'Online level $levelId is invalid; using bundled level: $error',
+      );
+      return null;
     }
   }
 
@@ -3260,6 +3319,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
               hData.size,
               hData.rotation,
               isSuckingHole: hData.isSuckingHole,
+              suckRadius: hData.suckRadius,
               isMovingHole: hData.isMovingHole,
               moveRange: hData.moveRange <= 1.0
                   ? hData.moveRange * sizeX

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,6 +9,7 @@ import 'package:balanco_game/features/editor/screens/level_editor_screen.dart'; 
 import 'package:balanco_game/core/data/database_helper.dart';
 import 'package:balanco_game/features/game/screens/gameplay.dart';
 import 'package:balanco_game/features/game/data/premade_levels.dart';
+import 'package:balanco_game/features/game/data/online_level_repository.dart';
 import 'package:balanco_game/features/game/level_system/campaign_level_generator.dart';
 import 'package:balanco_game/core/data/app_settings.dart';
 import 'package:balanco_game/features/game/components/hole_component.dart';
@@ -299,6 +302,73 @@ class _EditorOverlayState extends State<EditorOverlay> {
     );
   }
 
+  Future<void> _loadOnlineLevel() async {
+    final levelId = widget.game.currentLevel.value;
+    if (levelId < 1) return;
+    final online = await OnlineLevelRepository.instance.loadLevel(levelId);
+    if (!mounted) return;
+    if (online == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No published online level found.')),
+      );
+      return;
+    }
+
+    if (online.definitionFormat == 'level_data_v1') {
+      await DatabaseHelper.instance.saveCustomLevel(
+        levelId,
+        jsonEncode(online.definition),
+      );
+      await widget.game.restartCurrentLevel();
+    } else {
+      await widget.game.loadEditorTemplate(levelId);
+    }
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Loaded online level v${online.version}.')),
+    );
+  }
+
+  Future<void> _publishOnlineLevel() async {
+    final levelId = widget.game.currentLevel.value;
+    if (levelId < 1) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Infinity templates are not published here.'),
+        ),
+      );
+      return;
+    }
+    try {
+      final repository = OnlineLevelRepository.instance;
+      if (!await repository.canPublish()) {
+        throw StateError('This account is not an authorized level editor.');
+      }
+      final current = await repository.loadLevel(levelId);
+      final definition = Map<String, dynamic>.from(
+        jsonDecode(widget.game.exportLevelData()) as Map,
+      );
+      final published = await repository.publishLevel(
+        levelId: levelId,
+        definition: definition,
+        expectedVersion: current?.version ?? 0,
+      );
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Level $levelId v${published.version} is live for every player.',
+          ),
+        ),
+      );
+    } catch (error) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Online publish failed: $error')));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -385,10 +455,14 @@ class _EditorOverlayState extends State<EditorOverlay> {
                 ],
               ),
 
-              Row(
-                children: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
+              Expanded(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  reverse: true,
+                  child: Row(
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
                       backgroundColor: GameColors.green300,
                     ),
                     onPressed: () async {
@@ -454,8 +528,23 @@ class _EditorOverlayState extends State<EditorOverlay> {
                       );
                     },
                   ),
+                  const SizedBox(width: 8),
+                  ElevatedButton(
+                    onPressed: _loadOnlineLevel,
+                    child: const Icon(Icons.cloud_download_rounded),
+                  ),
+                  const SizedBox(width: 8),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: GameColors.purpleAccent,
+                    ),
+                    onPressed: _publishOnlineLevel,
+                    child: const Icon(Icons.cloud_upload_rounded),
+                  ),
                 ],
               ),
+            ),
+          ),
             ],
           ),
         ),

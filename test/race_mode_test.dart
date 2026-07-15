@@ -1,5 +1,9 @@
+import 'dart:convert';
+
+import 'package:balanco_game/core/data/database_helper.dart';
 import 'package:balanco_game/features/coop/domain/coop_room.dart';
 import 'package:balanco_game/features/game/game_area.dart';
+import 'package:balanco_game/features/game/models/level_data.dart';
 import 'package:flame/components.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -140,6 +144,53 @@ void main() {
     expect(race.currentHeightMultiplier, regular.currentHeightMultiplier);
   });
 
+  test('saved vortex wind radius survives gameplay loading', () async {
+    const levelId = 499;
+    const savedWindRadius = 237.0;
+    final database = DatabaseHelper.instance;
+    final previousLevel = await database.getCustomLevel(levelId);
+    addTearDown(() async {
+      if (previousLevel == null) {
+        await database.deleteCustomLevel(levelId);
+      } else {
+        await database.saveCustomLevel(levelId, previousLevel);
+      }
+    });
+
+    final level = LevelData(
+      holes: [HoleData(Vector2(0.5, 0.5), 64, 0, true, savedWindRadius)],
+      stars: const [],
+      hearts: const [],
+    );
+    await database.saveCustomLevel(levelId, jsonEncode(level.toJson()));
+
+    final game =
+        BalancoGame(
+            isMultiplayer: false,
+            isEditMode: true,
+            playerRole: 'BOTH',
+            enableTutorials: false,
+          )
+          ..currentLevel.value = levelId
+          ..onGameResize(Vector2(400, 800));
+
+    await Future<void>.delayed(Duration.zero);
+    await game.onLoad();
+
+    expect(game.holes, hasLength(1));
+    final vortex = game.holes.single..scale = Vector2.all(1);
+    expect(vortex.suckRadius, savedWindRadius);
+    expect(game.currentLevelData!.holes.single.suckRadius, savedWindRadius);
+    expect(
+      vortex.forceAt(vortex.position + Vector2(savedWindRadius - 10, 0)).length,
+      greaterThan(0),
+    );
+    expect(
+      vortex.forceAt(vortex.position + Vector2(savedWindRadius + 1, 0)).length,
+      0,
+    );
+  });
+
   test(
     'race camera scrolls up with the bar and reveals the distant gate',
     () async {
@@ -259,6 +310,7 @@ void main() {
         'seed': 42,
         'mode': 'race',
         'race_level': 1,
+        'race_level_version': 7,
         'started_at': '2026-07-13T18:00:00Z',
         'winner_id': 'host',
         'winner_finished_at': '2026-07-13T18:01:12Z',
@@ -292,6 +344,7 @@ void main() {
 
     expect(room.isRace, isTrue);
     expect(room.raceLevel, 1);
+    expect(room.raceLevelVersion, 7);
     expect(room.startedAt, DateTime.utc(2026, 7, 13, 18));
     expect(room.winnerId, 'host');
     expect(room.winnerElapsedMs, 72000);
@@ -299,6 +352,37 @@ void main() {
     expect(room.raceRestartKind, 'retry');
     expect(room.memberFor('host').raceWins, 3);
     expect(room.memberFor('guest').raceWins, 2);
+  });
+
+  test('race room identifies an authoritative disconnect forfeit', () {
+    final room = CoopRoom.fromJson({
+      'room': {
+        'id': 'race-id',
+        'room_code': 'RACE42',
+        'host_id': 'host',
+        'host_side': 'left',
+        'status': 'ended',
+        'seed': 42,
+        'mode': 'race',
+        'race_level': 3,
+        'end_reason': 'forfeit',
+        'winner_id': 'host',
+        'race_end_kind': 'disconnect',
+      },
+      'members': [
+        {
+          'user_id': 'host',
+          'display_name': 'Kareem',
+          'player_code': 'KA27-A1B2C',
+          'side': 'left',
+          'ready': true,
+          'is_host': true,
+        },
+      ],
+    });
+
+    expect(room.endedByDisconnect, isTrue);
+    expect(room.winnerId, 'host');
   });
 
   test('race progress maps vertical advance to the finish gate', () {

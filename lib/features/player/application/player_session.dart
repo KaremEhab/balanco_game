@@ -36,8 +36,8 @@ class PlayerSession {
     final local = await DatabaseHelper.instance.getPlayerProfile();
     await DatabaseHelper.instance.updatePlayerProfile(
       local.copyWith(
-        highestLevel: account.highestLevel,
-        lastPlayedLevel: account.lastPlayedLevel,
+        highestLevel: account.highestLevel.clamp(1, 500),
+        lastPlayedLevel: account.lastPlayedLevel.clamp(1, 500),
         coins: account.coins,
         moneyCents: account.moneyCents,
         sparks: account.sparks,

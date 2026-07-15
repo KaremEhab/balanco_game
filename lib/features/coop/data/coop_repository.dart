@@ -1,4 +1,5 @@
 import 'package:balanco_game/features/coop/domain/coop_room.dart';
+import 'package:balanco_game/features/coop/domain/player_social_profile.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class CoopRepository {
@@ -67,6 +68,9 @@ class CoopRepository {
   Future<CoopRoom> surrenderRace(String roomId) =>
       _roomRpc('surrender_race', {'p_room_id': roomId});
 
+  Future<CoopRoom> maintainRacePresence(String roomId) =>
+      _roomRpc('maintain_race_presence', {'p_room_id': roomId});
+
   Future<CoopRoom> voteRaceRestart(String roomId, String kind) =>
       _roomRpc('vote_race_restart', {'p_room_id': roomId, 'p_kind': kind});
 
@@ -109,6 +113,38 @@ class CoopRepository {
         'respond_friend_request',
         params: {'p_request_id': requestId, 'p_accept': accept},
       );
+
+  Future<PlayerSocialProfile> getPlayerSocialProfile(String userId) async {
+    final result = await _client.rpc(
+      'get_player_social_profile',
+      params: {'p_user_id': userId},
+    );
+    final profile = PlayerSocialProfile.fromJson(
+      Map<String, dynamic>.from(result as Map),
+    );
+    if (!profile.isSelf) return profile;
+
+    try {
+      final wallet = await _client
+          .from('player_wallets')
+          .select()
+          .eq('user_id', userId)
+          .single();
+      final unlocks = await _client
+          .from('player_unlocks')
+          .select('user_id')
+          .eq('user_id', userId);
+      return profile.withPrivateStats(
+        coins: (wallet['coins'] as num?)?.toInt() ?? 0,
+        moneyCents: (wallet['money_cents'] as num?)?.toInt() ?? 0,
+        sparks: (wallet['sparks'] as num?)?.toInt() ?? 0,
+        maxSparks: (wallet['max_sparks'] as num?)?.toInt() ?? 5,
+        unlockedItems: unlocks.length,
+      );
+    } on PostgrestException {
+      return profile;
+    }
+  }
 
   Future<CoopRoom> _roomRpc(
     String function,

@@ -44,5 +44,9 @@ void main() {
     await tester.pump();
 
     expect(find.byType(AnimatedLevelNode), findsWidgets);
+    final firstLevel = tester
+        .widgetList<AnimatedLevelNode>(find.byType(AnimatedLevelNode))
+        .firstWhere((node) => node.level == 1);
+    expect(firstLevel.isUnlocked, isTrue);
   });
 }

@@ -327,6 +327,15 @@ CREATE TABLE pending_infinity_runs (
     return null;
   }
 
+  Future<void> deleteCustomLevel(int levelId) async {
+    final db = await instance.database;
+    await db.delete(
+      'custom_levels',
+      where: 'level_id = ?',
+      whereArgs: [levelId],
+    );
+  }
+
   // --- Tutorials ---
 
   Future<bool> hasSeenTutorial(String itemId) async {
