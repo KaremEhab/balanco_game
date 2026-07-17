@@ -59,13 +59,11 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final int totalLevels = 500;
-  final double nodeSpacingY = 180.0; // Increased spacing between level holes
+  double get nodeSpacingY => MediaQuery.sizeOf(context).height * 0.21;
   double get bottomPadding =>
-      320.0 +
-      MediaQuery.of(context)
-          .padding
-          .bottom; // Ample padding at the bottom so lowest hole clears the UI
-  final double topPadding = 140.0;
+      MediaQuery.sizeOf(context).height * 0.55 +
+      MediaQuery.paddingOf(context).bottom;
+  double get topPadding => MediaQuery.sizeOf(context).height * 0.16;
 
   int highestLevel = 1;
   int currentLevel = 1;
@@ -354,20 +352,24 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   double _getPlayButtonBottom(BuildContext context) {
-    double base = 110.0 + MediaQuery.of(context).padding.bottom;
+    double base =
+        MediaQuery.sizeOf(context).height * 0.13 +
+        MediaQuery.paddingOf(context).bottom;
     if (defaultTargetPlatform == TargetPlatform.iOS) base -= 20.0;
     return base;
   }
 
   double _getPlatformBottom(BuildContext context) {
-    double base = 190.0 + MediaQuery.of(context).padding.bottom;
+    double base =
+        MediaQuery.sizeOf(context).height * 0.22 +
+        MediaQuery.paddingOf(context).bottom;
     if (defaultTargetPlatform == TargetPlatform.iOS) base -= 20.0;
     return base;
   }
 
   double _getFocalOffsetFromTop(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
-    return screenHeight - (_getPlatformBottom(context) + 30.0);
+    double screenHeight = MediaQuery.sizeOf(context).height;
+    return screenHeight - (_getPlatformBottom(context) + 200.0);
   }
 
   void _onScroll() {
