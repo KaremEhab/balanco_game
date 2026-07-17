@@ -904,6 +904,7 @@ class _MainScreenState extends State<MainScreen> {
                               ),
                             ),
                             Row(
+                              spacing: 2,
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 _buildNavItem(

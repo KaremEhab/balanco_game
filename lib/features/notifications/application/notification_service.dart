@@ -23,6 +23,9 @@ class NotificationService {
   bool get isConfigured =>
       supportsNativePush && NotificationConfig.hasOneSignalApp;
 
+  bool get hasPermission =>
+      isConfigured && OneSignal.Notifications.permission;
+
   Future<void> initialize() async {
     if (_initialized || !isConfigured) return;
     OneSignal.initialize(NotificationConfig.oneSignalAppId);

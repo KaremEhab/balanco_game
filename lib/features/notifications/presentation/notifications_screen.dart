@@ -88,8 +88,10 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                   children: [
                     _Header(controller: controller),
                     const SizedBox(height: 12),
-                    _PushStatusCard(controller: controller),
-                    const SizedBox(height: 14),
+                    if (!NotificationService.instance.hasPermission) ...[
+                      _PushStatusCard(controller: controller),
+                      const SizedBox(height: 14),
+                    ],
                     if (!controller.signedIn)
                       const _EmptyState(
                         icon: Icons.person_off_rounded,
@@ -164,6 +166,7 @@ class _Header extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(height: 60),
               Text(
                 'NOTIFICATIONS',
                 style: GoogleFonts.luckiestGuy(
@@ -228,6 +231,10 @@ class _PushStatusCardState extends State<_PushStatusCard> {
 
   @override
   Widget build(BuildContext context) {
+    if (NotificationService.instance.hasPermission) {
+      return const SizedBox.shrink();
+    }
+
     final nativePush = NotificationService.instance.supportsNativePush;
     return Container(
       padding: const EdgeInsets.all(14),
