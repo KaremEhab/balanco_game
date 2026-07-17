@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'package:balanco_game/core/data/database_helper.dart';
 
 import 'package:balanco_game/core/theme/game_colors.dart';
 import 'package:balanco_game/features/coop/data/coop_repository.dart';
@@ -135,6 +137,7 @@ class _CoopSetupScreenState extends State<CoopSetupScreen> {
   Future<void> _inviteFriend(Map<String, dynamic> friend) async {
     setState(() => _busy = true);
     try {
+      await DatabaseHelper.instance.saveConfig('last_coop_friend', jsonEncode(friend));
       final room = await _repository.inviteFriend(
         playerCode: friend['player_code'] as String,
         side: _side,

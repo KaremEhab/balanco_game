@@ -6,6 +6,7 @@ import 'package:balanco_game/core/data/models.dart';
 import 'package:balanco_game/features/auth/data/supabase_auth_repository.dart';
 import 'package:balanco_game/features/auth/domain/auth_repository.dart';
 import 'package:balanco_game/features/auth/domain/player_account.dart';
+import 'dart:math' as math;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PlayerSession {
@@ -36,14 +37,14 @@ class PlayerSession {
     final local = await DatabaseHelper.instance.getPlayerProfile();
     await DatabaseHelper.instance.updatePlayerProfile(
       local.copyWith(
-        highestLevel: account.highestLevel.clamp(1, 500),
+        highestLevel: math.max(account.highestLevel, local.highestLevel).clamp(1, 500),
         lastPlayedLevel: account.lastPlayedLevel.clamp(1, 500),
         coins: account.coins,
         moneyCents: account.moneyCents,
         sparks: account.sparks,
         maxSparks: account.maxSparks,
         totalPoints: account.totalPoints,
-        infinityHighScore: account.infinityHighScore,
+        infinityHighScore: math.max(account.infinityHighScore, local.infinityHighScore),
       ),
     );
   }

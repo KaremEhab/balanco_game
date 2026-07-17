@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:balanco_game/core/data/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,8 +9,13 @@ import 'package:balanco_game/features/game/screens/gameplay.dart';
 import 'package:balanco_game/features/game/game_area.dart';
 import 'package:balanco_game/core/data/database_helper.dart';
 import 'package:balanco_game/features/coop/presentation/coop_setup_screen.dart';
+import 'package:balanco_game/features/coop/data/coop_repository.dart';
+import 'package:balanco_game/features/coop/domain/coop_room.dart';
+import 'package:balanco_game/features/coop/presentation/coop_waiting_room_screen.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:balanco_game/features/player/application/player_session.dart';
 import 'package:balanco_game/features/race/presentation/race_setup_screen.dart';
+import 'package:balanco_game/features/social/screens/friends_list_screen.dart';
 
 class ModesScreen extends StatefulWidget {
   final ScrollController scrollController;
@@ -27,6 +33,7 @@ class ModesScreen extends StatefulWidget {
 
 class _ModesScreenState extends State<ModesScreen> {
   int _infinityHighScore = 0;
+  Map<String, dynamic>? _lastCoopFriend;
 
   @override
   void initState() {
@@ -37,13 +44,43 @@ class _ModesScreenState extends State<ModesScreen> {
   Future<void> _loadHighScore() async {
     try {
       final profile = await DatabaseHelper.instance.getPlayerProfile();
+      final coopFriendStr = await DatabaseHelper.instance.getConfig('last_coop_friend');
+      Map<String, dynamic>? coopFriend;
+      if (coopFriendStr != null) {
+        coopFriend = jsonDecode(coopFriendStr);
+      }
+      
       if (mounted) {
         setState(() {
           _infinityHighScore = profile.infinityHighScore;
+          _lastCoopFriend = coopFriend;
         });
       }
     } catch (e) {
       debugPrint("Error loading high score: $e");
+    }
+  }
+
+  Future<void> _instantInviteCoop(Map<String, dynamic> friend) async {
+    final scaffold = ScaffoldMessenger.of(context);
+    scaffold.showSnackBar(SnackBar(content: Text('Inviting ${friend['display_name']}...')));
+    try {
+      final repo = CoopRepository(Supabase.instance.client);
+      final room = await repo.inviteFriend(
+        playerCode: friend['player_code'] as String,
+        side: CoopSide.left,
+      );
+      if (!mounted) return;
+      scaffold.hideCurrentSnackBar();
+      Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder: (_) => CoopWaitingRoomScreen(initialRoom: room),
+        ),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      scaffold.hideCurrentSnackBar();
+      scaffold.showSnackBar(SnackBar(content: Text('Failed to invite: $e')));
     }
   }
 
@@ -106,44 +143,56 @@ class _ModesScreenState extends State<ModesScreen> {
     required bool isSelected,
     required VoidCallback onTap,
     required Color activeColor,
+    Widget? badge,
   }) {
     return Expanded(
-      child: GestureDetector(
-        onTap: onTap,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          padding: const EdgeInsets.symmetric(vertical: 20),
-          decoration: BoxDecoration(
-            color: isSelected ? activeColor : GameColors.gray300,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: GameColors.brownDarkUi, width: 3.5),
-            boxShadow: [
-              BoxShadow(
-                color: GameColors.brownDarkUi,
-                offset: isSelected ? const Offset(0, 2) : const Offset(0, 6),
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          GestureDetector(
+            onTap: onTap,
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              decoration: BoxDecoration(
+                color: isSelected ? activeColor : GameColors.gray300,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: GameColors.brownDarkUi, width: 3.5),
+                boxShadow: [
+                  BoxShadow(
+                    color: GameColors.brownDarkUi,
+                    offset: isSelected ? const Offset(0, 2) : const Offset(0, 6),
+                  ),
+                ],
               ),
-            ],
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    icon,
+                    size: 40,
+                    color: isSelected ? GameColors.white : GameColors.brownDarkUi,
+                  ),
+                  const SizedBox(height: 8, width: double.infinity),
+                  Text(
+                    label,
+                    style: GoogleFonts.luckiestGuy(
+                      color: isSelected ? GameColors.white : GameColors.brownDarkUi,
+                      fontSize: 20,
+                      letterSpacing: 1.5,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                icon,
-                size: 40,
-                color: isSelected ? GameColors.white : GameColors.brownDarkUi,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                label,
-                style: GoogleFonts.luckiestGuy(
-                  color: isSelected ? GameColors.white : GameColors.brownDarkUi,
-                  fontSize: 20,
-                  letterSpacing: 1.5,
-                ),
-              ),
-            ],
-          ),
-        ),
+          if (badge != null)
+            Positioned(
+              top: -8,
+              right: -8,
+              child: badge,
+            ),
+        ],
       ),
     );
   }
@@ -254,6 +303,38 @@ class _ModesScreenState extends State<ModesScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          Align(
+            alignment: Alignment.centerRight,
+            child: ElevatedButton.icon(
+              onPressed: () {
+                if (!PlayerSession.instance.isAuthenticated) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Log in to see your friends list.'),
+                    ),
+                  );
+                  return;
+                }
+                Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (_) => const FriendsListScreen(),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.people_alt_rounded),
+              label: Text('FRIENDS', style: GoogleFonts.luckiestGuy(fontSize: 16)),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: GameColors.modesScreenColor1,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  side: const BorderSide(color: GameColors.brownDarkUi, width: 3),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
           BlocBuilder<AppBloc, AppState>(
             builder: (context, state) {
               final isMultiplayer = state.isMultiplayer;
@@ -285,6 +366,23 @@ class _ModesScreenState extends State<ModesScreen> {
                           icon: Icons.people,
                           isSelected: isMultiplayer,
                           activeColor: GameColors.modesScreenColor2, // Green
+                          badge: _lastCoopFriend != null
+                              ? GestureDetector(
+                                  onTap: () => _instantInviteCoop(_lastCoopFriend!),
+                                  child: CircleAvatar(
+                                    radius: 18,
+                                    backgroundColor: GameColors.brownDarkUi,
+                                    child: CircleAvatar(
+                                      radius: 15,
+                                      backgroundColor: GameColors.modesScreenColor1,
+                                      child: Text(
+                                        (_lastCoopFriend!['display_name'] as String)[0].toUpperCase(),
+                                        style: GoogleFonts.luckiestGuy(fontSize: 16, color: GameColors.white),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : null,
                           onTap: () {
                             if (!PlayerSession.instance.isAuthenticated) {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -441,6 +539,7 @@ class _ModesScreenState extends State<ModesScreen> {
                           .state
                           .isMultiplayer,
                       isInfinityMode: true,
+                      enableTutorials: false,
                       playerRole: context.read<AppBloc>().state.playerRole,
                       onLevelComplete: () {
                         Navigator.pop(context);

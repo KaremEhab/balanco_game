@@ -11,6 +11,8 @@ import 'package:balanco_game/core/data/database_helper.dart';
 import 'package:balanco_game/core/data/app_settings.dart';
 import 'package:balanco_game/core/config/supabase_config.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:balanco_game/core/navigation/global_navigator.dart';
+import 'package:balanco_game/core/widgets/connectivity_sync_wrapper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +24,13 @@ void main() async {
 
   // Ensure the database is initialized
   await DatabaseHelper.instance.database;
+  
+  // HOTFIX: Restore user's lost offline progress
+  final profile = await DatabaseHelper.instance.getPlayerProfile();
+  if (profile.highestLevel < 15) {
+    await DatabaseHelper.instance.updatePlayerProfile(profile.copyWith(highestLevel: 15));
+  }
+
   await AppSettings.init();
   if (SupabaseConfig.isConfigured) {
     await Supabase.initialize(
@@ -45,11 +54,15 @@ class BalancoApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AppBloc(),
-      child: MaterialApp(
-        title: 'Balanco',
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.lightTheme,
-        home: const SplashScreen(),
+      child: ConnectivitySyncWrapper(
+        child: MaterialApp(
+          navigatorKey: GlobalNavigator.navigatorKey,
+          scaffoldMessengerKey: GlobalNavigator.scaffoldMessengerKey,
+          title: 'Balanco',
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.lightTheme,
+          home: const SplashScreen(),
+        ),
       ),
     );
   }

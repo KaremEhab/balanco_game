@@ -1698,6 +1698,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     LevelData data;
     final int levelToGenerate = currentLevel.value;
     var loadedBakedCampaignLevel = false;
+    var isFallbackGeneratedLevel = false;
 
     if (isEditMode) {
       final customJsonStr = await DatabaseHelper.instance.getCustomLevel(
@@ -1810,6 +1811,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
             data = await Isolate.run(
               () => generateLevelData(levelToGenerate, fallbackSeed),
             );
+            isFallbackGeneratedLevel = true;
             // fallback generated levels don't specify height, so infer it if >= 10
             if (levelToGenerate >= 10) {
               data = LevelData(
@@ -1876,7 +1878,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
 
     isDarknessLevel =
         data.isDarkLevel ||
-        (!loadedBakedCampaignLevel && levelToGenerate >= 11);
+        (isFallbackGeneratedLevel && levelToGenerate >= 11);
     isDarknessLevelNotifier.value = isDarknessLevel;
     darknessBaseLightRadius = data.darknessLightRadius.clamp(62.0, 90.0);
     lightRadiusNotifier.value = darknessBaseLightRadius;
