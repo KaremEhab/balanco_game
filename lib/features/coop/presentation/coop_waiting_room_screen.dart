@@ -46,6 +46,8 @@ class _CoopWaitingRoomScreenState extends State<CoopWaitingRoomScreen> {
 
   bool get _isHost => _room.hostId == _userId;
   CoopMember get _me => _room.memberFor(_userId);
+  bool get _shouldEnterMatch =>
+      _room.isPlaying || _room.isPaused || _room.hasLeaveVote;
 
   @override
   void initState() {
@@ -78,6 +80,7 @@ class _CoopWaitingRoomScreenState extends State<CoopWaitingRoomScreen> {
       });
       await _voice.initialize();
       await _realtime.notifyRoomChanged();
+      if (_shouldEnterMatch) _enterMatch();
     } catch (error) {
       if (mounted) _message('Realtime connection failed: $error');
     }
@@ -90,7 +93,7 @@ class _CoopWaitingRoomScreenState extends State<CoopWaitingRoomScreen> {
       final room = await _repository.getRoom(_room.id);
       if (!mounted) return;
       setState(() => _room = room);
-      if (room.isPlaying) _enterMatch();
+      if (_shouldEnterMatch) _enterMatch();
     } catch (_) {
       // Realtime remains primary; the next fallback refresh retries quietly.
     } finally {
@@ -105,7 +108,7 @@ class _CoopWaitingRoomScreenState extends State<CoopWaitingRoomScreen> {
       if (!mounted) return;
       setState(() => _room = room);
       await _realtime.notifyRoomChanged();
-      if (room.isPlaying) _enterMatch();
+      if (_shouldEnterMatch) _enterMatch();
     } on PostgrestException catch (error) {
       _message(error.message);
     } finally {
@@ -131,27 +134,10 @@ class _CoopWaitingRoomScreenState extends State<CoopWaitingRoomScreen> {
   Future<void> _leaveRaceLobby() async {
     if (!_room.isRace || _leavingRace || !mounted) return;
     setState(() => _leavingRace = true);
-    try {
-      await _repository.leaveRaceRoom(_room.id);
-      try {
-        await _realtime.notifyRoomChanged();
-      } catch (_) {
-        // The room mutation is authoritative and the other clients poll too.
-      }
-      if (!mounted) return;
-      setState(() => _allowRacePop = true);
-      await WidgetsBinding.instance.endOfFrame;
-      if (mounted && Navigator.of(context).canPop()) {
-        Navigator.of(context).pop();
-      }
-    } on PostgrestException catch (error) {
-      if (!mounted) return;
-      setState(() => _leavingRace = false);
-      _message(error.message);
-    } catch (_) {
-      if (!mounted) return;
-      setState(() => _leavingRace = false);
-      _message('Could not leave the Race room. Please try again.');
+    setState(() => _allowRacePop = true);
+    await WidgetsBinding.instance.endOfFrame;
+    if (mounted && Navigator.of(context).canPop()) {
+      Navigator.of(context).pop();
     }
   }
 

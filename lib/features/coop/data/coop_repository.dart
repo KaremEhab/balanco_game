@@ -21,6 +21,12 @@ class CoopRepository {
   Future<CoopRoom> getRoom(String roomId) =>
       _roomRpc('get_coop_room_state', {'p_room_id': roomId});
 
+  Future<CoopRoom?> getMyActiveRoom() async {
+    final result = await _client.rpc('get_my_active_game_room');
+    if (result == null) return null;
+    return CoopRoom.fromJson(Map<String, dynamic>.from(result as Map));
+  }
+
   Future<CoopRoom> setReady(String roomId, bool ready) =>
       _roomRpc('set_coop_ready', {'p_room_id': roomId, 'p_ready': ready});
 

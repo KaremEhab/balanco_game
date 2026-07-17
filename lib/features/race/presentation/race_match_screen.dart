@@ -154,9 +154,9 @@ class _RaceMatchScreenState extends State<RaceMatchScreen> {
       pageBuilder: (dialogContext, _, _) => Center(
         child: _RaceDialogShell(
           icon: Icons.exit_to_app_rounded,
-          title: 'LEAVE RACE?',
+          title: 'EXIT RACE?',
           subtitle:
-              'You will leave immediately. The other racers can keep playing.',
+              'Your place stays reserved for two minutes so you can resume from Home.',
           accent: GameColors.red300,
           child: Row(
             children: [
@@ -172,7 +172,7 @@ class _RaceMatchScreenState extends State<RaceMatchScreen> {
               Expanded(
                 child: _RaceDialogButton(
                   icon: Icons.exit_to_app_rounded,
-                  label: 'LEAVE NOW',
+                  label: 'EXIT FOR NOW',
                   color: GameColors.red300,
                   onTap: () => Navigator.pop(dialogContext, true),
                 ),
@@ -182,7 +182,13 @@ class _RaceMatchScreenState extends State<RaceMatchScreen> {
         ),
       ),
     );
-    if (confirmed == true) await _leaveRaceImmediately();
+    if (confirmed == true) await _exitRaceTemporarily();
+  }
+
+  Future<void> _exitRaceTemporarily() async {
+    if (_leavingRace || !mounted) return;
+    setState(() => _leavingRace = true);
+    await _popRaceRoute();
   }
 
   Future<void> _leaveRaceImmediately() async {

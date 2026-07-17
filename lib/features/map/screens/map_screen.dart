@@ -369,7 +369,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   double _getFocalOffsetFromTop(BuildContext context) {
     double screenHeight = MediaQuery.sizeOf(context).height;
-    return screenHeight - (_getPlatformBottom(context) + 200.0);
+    return screenHeight - (_getPlatformBottom(context) + 150.0);
   }
 
   void _onScroll() {

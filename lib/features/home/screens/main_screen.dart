@@ -28,6 +28,10 @@ import 'package:balanco_game/core/theme/game_colors.dart';
 import 'package:balanco_game/features/notifications/application/notification_inbox_controller.dart';
 import 'package:balanco_game/features/notifications/application/notification_service.dart';
 import 'package:balanco_game/features/notifications/presentation/notifications_screen.dart';
+import 'package:balanco_game/features/coop/application/active_room_controller.dart';
+import 'package:balanco_game/features/coop/data/coop_repository.dart';
+import 'package:balanco_game/features/coop/presentation/active_room_resume_card.dart';
+import 'package:balanco_game/features/coop/presentation/coop_waiting_room_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class MainScreen extends StatefulWidget {
@@ -37,7 +41,7 @@ class MainScreen extends StatefulWidget {
   State<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   int _currentIndex = 0;
   final ScrollController _mapScrollController = ScrollController();
   final ScrollController _modesScrollController = ScrollController();
@@ -46,6 +50,7 @@ class _MainScreenState extends State<MainScreen> {
   final ScrollController _settingsScrollController = ScrollController();
   late PageController _pageController;
   late final NotificationInboxController _notificationInboxController;
+  late final ActiveRoomController _activeRoomController;
   final ValueNotifier<double> _expandProgressNotifier = ValueNotifier(0.0);
   final ValueNotifier<double> biomeTransitionProgress = ValueNotifier(0.0);
   final ValueNotifier<BiomeModel?> currentBiomeNotifier = ValueNotifier(null);
@@ -75,7 +80,12 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    _loadData();
+    WidgetsBinding.instance.addObserver(this);
+    _activeRoomController = ActiveRoomController(
+      CoopRepository(Supabase.instance.client),
+    );
+    unawaited(_activeRoomController.refresh());
+    unawaited(_loadData());
     _pageController = PageController(initialPage: _currentIndex);
     _notificationInboxController = NotificationInboxController(
       Supabase.instance.client,
@@ -162,6 +172,33 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      unawaited(_activeRoomController.refresh());
+    }
+  }
+
+  Future<void> _resumeActiveRoom() async {
+    final room = await _activeRoomController.prepareResume();
+    if (!mounted) return;
+    if (room == null) {
+      final message =
+          _activeRoomController.error ?? 'That room is no longer active.';
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(message)));
+      return;
+    }
+
+    await Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => CoopWaitingRoomScreen(initialRoom: room),
+      ),
+    );
+    if (mounted) unawaited(_activeRoomController.refresh());
+  }
+
   void _updateIndicator() {
     if (!mounted) return;
     final key = _navKeys[_currentIndex];
@@ -179,6 +216,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Future<void> _loadData() async {
+    unawaited(_activeRoomController.refresh());
     final profile = await DatabaseHelper.instance.getPlayerProfile();
     if (!mounted) return;
     setState(() {
@@ -220,6 +258,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _mapScrollController.removeListener(_scrollListener);
     _mapScrollController.dispose();
     _modesScrollController.removeListener(_scrollListener);
@@ -240,6 +279,7 @@ class _MainScreenState extends State<MainScreen> {
       _handleNotificationRoute,
     );
     _notificationInboxController.dispose();
+    _activeRoomController.dispose();
     _expandProgressNotifier.dispose();
     biomeTransitionProgress.dispose();
     super.dispose();
@@ -396,6 +436,25 @@ class _MainScreenState extends State<MainScreen> {
             right: 15,
             child: RepaintBoundary(child: _buildTopAppBar()),
           ),
+
+          if (_currentIndex == 0)
+            Positioned(
+              top: MediaQuery.of(context).padding.top + 92,
+              left: 14,
+              right: 14,
+              child: AnimatedBuilder(
+                animation: _activeRoomController,
+                builder: (context, _) {
+                  final room = _activeRoomController.room;
+                  if (room == null) return const SizedBox.shrink();
+                  return ActiveRoomResumeCard(
+                    room: room,
+                    busy: _activeRoomController.resuming,
+                    onResume: _resumeActiveRoom,
+                  );
+                },
+              ),
+            ),
 
           // Collapsible Center Navbar
           Positioned(
