@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:balanco_game/core/data/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,8 +9,6 @@ import 'package:balanco_game/features/game/game_area.dart';
 import 'package:balanco_game/core/data/database_helper.dart';
 import 'package:balanco_game/features/coop/presentation/coop_setup_screen.dart';
 import 'package:balanco_game/features/coop/data/coop_repository.dart';
-import 'package:balanco_game/features/coop/domain/coop_room.dart';
-import 'package:balanco_game/features/coop/presentation/coop_waiting_room_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:balanco_game/features/player/application/player_session.dart';
 import 'package:balanco_game/features/race/presentation/race_setup_screen.dart';
@@ -33,7 +30,8 @@ class ModesScreen extends StatefulWidget {
 
 class _ModesScreenState extends State<ModesScreen> {
   int _infinityHighScore = 0;
-  Map<String, dynamic>? _lastCoopFriend;
+  final _friendCode = TextEditingController();
+  Map<String, dynamic> _social = const {'friends': [], 'recent_players': []};
 
   @override
   void initState() {
@@ -41,47 +39,152 @@ class _ModesScreenState extends State<ModesScreen> {
     _loadHighScore();
   }
 
+  @override
+  void dispose() {
+    _friendCode.dispose();
+    super.dispose();
+  }
+
   Future<void> _loadHighScore() async {
     try {
       final profile = await DatabaseHelper.instance.getPlayerProfile();
-      final coopFriendStr = await DatabaseHelper.instance.getConfig('last_coop_friend');
-      Map<String, dynamic>? coopFriend;
-      if (coopFriendStr != null) {
-        coopFriend = jsonDecode(coopFriendStr);
-      }
-      
       if (mounted) {
         setState(() {
           _infinityHighScore = profile.infinityHighScore;
-          _lastCoopFriend = coopFriend;
         });
+      }
+      if (PlayerSession.instance.isAuthenticated) {
+        final social = await CoopRepository(
+          Supabase.instance.client,
+        ).listFriends();
+        if (mounted) setState(() => _social = social);
       }
     } catch (e) {
       debugPrint("Error loading high score: $e");
     }
   }
 
-  Future<void> _instantInviteCoop(Map<String, dynamic> friend) async {
-    final scaffold = ScaffoldMessenger.of(context);
-    scaffold.showSnackBar(SnackBar(content: Text('Inviting ${friend['display_name']}...')));
+  Future<void> _searchFriend() async {
+    final code = _friendCode.text.trim().toUpperCase();
+    if (code.length < 5) return;
     try {
-      final repo = CoopRepository(Supabase.instance.client);
-      final room = await repo.inviteFriend(
-        playerCode: friend['player_code'] as String,
-        side: CoopSide.left,
-      );
+      final repository = CoopRepository(Supabase.instance.client);
+      final player = await repository.findPlayer(code);
       if (!mounted) return;
-      scaffold.hideCurrentSnackBar();
-      Navigator.of(context).push(
-        MaterialPageRoute<void>(
-          builder: (_) => CoopWaitingRoomScreen(initialRoom: room),
-        ),
-      );
-    } catch (e) {
-      if (!mounted) return;
-      scaffold.hideCurrentSnackBar();
-      scaffold.showSnackBar(SnackBar(content: Text('Failed to invite: $e')));
+      if (player == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('No player found with that code.')),
+        );
+        return;
+      }
+      await repository.sendFriendRequest(code);
+      _friendCode.clear();
+      await _loadHighScore();
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Friend request sent to ${player.displayName}!'),
+          ),
+        );
+      }
+    } on PostgrestException catch (error) {
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(error.message)));
+      }
     }
+  }
+
+  Widget _buildSocialDiscovery() {
+    final recent = (_social['recent_players'] as List? ?? const []).take(5);
+    return _buildCartoonCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              const Icon(
+                Icons.people_alt_rounded,
+                color: GameColors.deepPurple,
+              ),
+              const SizedBox(width: 9),
+              Expanded(
+                child: Text(
+                  'FRIENDS',
+                  style: GoogleFonts.luckiestGuy(
+                    color: GameColors.brownDarkUi,
+                    fontSize: 22,
+                  ),
+                ),
+              ),
+              IconButton.filled(
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (_) => const FriendsListScreen(),
+                  ),
+                ),
+                icon: const Icon(Icons.arrow_forward_rounded),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          TextField(
+            controller: _friendCode,
+            textCapitalization: TextCapitalization.characters,
+            decoration: InputDecoration(
+              hintText: 'SEARCH BY PLAYER CODE',
+              prefixIcon: const Icon(Icons.search_rounded),
+              suffixIcon: IconButton(
+                onPressed: _searchFriend,
+                icon: const Icon(Icons.person_add_alt_1_rounded),
+              ),
+              filled: true,
+              fillColor: Colors.white.withValues(alpha: 0.72),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+            ),
+          ),
+          if (recent.isNotEmpty) ...[
+            const SizedBox(height: 14),
+            Text(
+              'PLAYED WITH RECENTLY',
+              style: GoogleFonts.luckiestGuy(
+                color: GameColors.orangeTextUi,
+                fontSize: 14,
+              ),
+            ),
+            const SizedBox(height: 7),
+            SizedBox(
+              height: 64,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: recent.length,
+                separatorBuilder: (_, _) => const SizedBox(width: 8),
+                itemBuilder: (_, index) {
+                  final player = Map<String, dynamic>.from(
+                    recent.elementAt(index) as Map,
+                  );
+                  return Tooltip(
+                    message: player['display_name'] as String,
+                    child: ActionChip(
+                      avatar: const CircleAvatar(
+                        child: Icon(Icons.person_rounded, size: 17),
+                      ),
+                      label: Text(player['display_name'] as String),
+                      onPressed: () {
+                        _friendCode.text = player['player_code'] as String;
+                      },
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
   }
 
   Widget _buildCartoonCard({required Widget child, bool disabled = false}) {
@@ -133,103 +236,6 @@ class _ModesScreenState extends State<ModesScreen> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildModeButton({
-    required String label,
-    required IconData icon,
-    required bool isSelected,
-    required VoidCallback onTap,
-    required Color activeColor,
-    Widget? badge,
-  }) {
-    return Expanded(
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          GestureDetector(
-            onTap: onTap,
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              decoration: BoxDecoration(
-                color: isSelected ? activeColor : GameColors.gray300,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: GameColors.brownDarkUi, width: 3.5),
-                boxShadow: [
-                  BoxShadow(
-                    color: GameColors.brownDarkUi,
-                    offset: isSelected ? const Offset(0, 2) : const Offset(0, 6),
-                  ),
-                ],
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    icon,
-                    size: 40,
-                    color: isSelected ? GameColors.white : GameColors.brownDarkUi,
-                  ),
-                  const SizedBox(height: 8, width: double.infinity),
-                  Text(
-                    label,
-                    style: GoogleFonts.luckiestGuy(
-                      color: isSelected ? GameColors.white : GameColors.brownDarkUi,
-                      fontSize: 20,
-                      letterSpacing: 1.5,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          if (badge != null)
-            Positioned(
-              top: -8,
-              right: -8,
-              child: badge,
-            ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildAnchorButton({
-    required String label,
-    required bool isSelected,
-    required VoidCallback onTap,
-  }) {
-    return Expanded(
-      child: GestureDetector(
-        onTap: onTap,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          padding: const EdgeInsets.symmetric(vertical: 14),
-          decoration: BoxDecoration(
-            color: isSelected ? GameColors.orangeTextUi : GameColors.gray300,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: GameColors.brownDarkUi, width: 3),
-            boxShadow: [
-              BoxShadow(
-                color: GameColors.brownDarkUi,
-                offset: isSelected ? const Offset(0, 2) : const Offset(0, 5),
-              ),
-            ],
-          ),
-          child: Center(
-            child: Text(
-              label,
-              style: GoogleFonts.luckiestGuy(
-                color: isSelected ? GameColors.white : GameColors.brownDarkUi,
-                fontSize: 18,
-                letterSpacing: 1.5,
-              ),
-            ),
-          ),
-        ),
       ),
     );
   }
@@ -303,163 +309,16 @@ class _ModesScreenState extends State<ModesScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Align(
-            alignment: Alignment.centerRight,
-            child: ElevatedButton.icon(
-              onPressed: () {
-                if (!PlayerSession.instance.isAuthenticated) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Log in to see your friends list.'),
-                    ),
-                  );
-                  return;
-                }
-                Navigator.of(context).push(
-                  MaterialPageRoute<void>(
-                    builder: (_) => const FriendsListScreen(),
-                  ),
-                );
-              },
-              icon: const Icon(Icons.people_alt_rounded),
-              label: Text('FRIENDS', style: GoogleFonts.luckiestGuy(fontSize: 16)),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: GameColors.modesScreenColor1,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                  side: const BorderSide(color: GameColors.brownDarkUi, width: 3),
-                ),
+          if (PlayerSession.instance.isAuthenticated)
+            _buildSocialDiscovery()
+          else
+            _buildCartoonCard(
+              child: const Text(
+                'Log in to search friends, invite players, and see recent racers.',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.w800),
               ),
             ),
-          ),
-          const SizedBox(height: 16),
-          BlocBuilder<AppBloc, AppState>(
-            builder: (context, state) {
-              final isMultiplayer = state.isMultiplayer;
-              final role = state.playerRole;
-              return _buildCartoonCard(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Row(
-                      children: [
-                        _buildModeButton(
-                          label: 'SOLO',
-                          icon: Icons.person,
-                          isSelected: !isMultiplayer,
-                          activeColor:
-                              GameColors.modesScreenColor1, // Light Blue
-                          onTap: () {
-                            context.read<AppBloc>().add(
-                              const ToggleMultiplayer(false),
-                            );
-                            context.read<AppBloc>().add(
-                              const ChangePlayerRole('BOTH'),
-                            );
-                          },
-                        ),
-                        const SizedBox(width: 16),
-                        _buildModeButton(
-                          label: 'CO-OP',
-                          icon: Icons.people,
-                          isSelected: isMultiplayer,
-                          activeColor: GameColors.modesScreenColor2, // Green
-                          badge: _lastCoopFriend != null
-                              ? GestureDetector(
-                                  onTap: () => _instantInviteCoop(_lastCoopFriend!),
-                                  child: CircleAvatar(
-                                    radius: 18,
-                                    backgroundColor: GameColors.brownDarkUi,
-                                    child: CircleAvatar(
-                                      radius: 15,
-                                      backgroundColor: GameColors.modesScreenColor1,
-                                      child: Text(
-                                        (_lastCoopFriend!['display_name'] as String)[0].toUpperCase(),
-                                        style: GoogleFonts.luckiestGuy(fontSize: 16, color: GameColors.white),
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              : null,
-                          onTap: () {
-                            if (!PlayerSession.instance.isAuthenticated) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                    'Log in with an online account to play co-op.',
-                                  ),
-                                ),
-                              );
-                              return;
-                            }
-                            context.read<AppBloc>().add(
-                              const ToggleMultiplayer(true),
-                            );
-                            context.read<AppBloc>().add(
-                              const ChangePlayerRole('LEFT'),
-                            );
-                            Navigator.of(context).push(
-                              MaterialPageRoute<void>(
-                                builder: (_) => const CoopSetupScreen(),
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-
-                    // Role Selection (Animated Size)
-                    AnimatedSize(
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeOutCubic,
-                      child: isMultiplayer
-                          ? Padding(
-                              padding: const EdgeInsets.only(top: 24.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'CHOOSE ANCHOR:',
-                                    style: GoogleFonts.luckiestGuy(
-                                      color: GameColors.brownDarkUi,
-                                      fontSize: 16,
-                                      letterSpacing: 1.2,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 12),
-                                  Row(
-                                    children: [
-                                      _buildAnchorButton(
-                                        label: 'LEFT',
-                                        isSelected: role == 'LEFT',
-                                        onTap: () =>
-                                            context.read<AppBloc>().add(
-                                              const ChangePlayerRole('LEFT'),
-                                            ),
-                                      ),
-                                      const SizedBox(width: 16),
-                                      _buildAnchorButton(
-                                        label: 'RIGHT',
-                                        isSelected: role == 'RIGHT',
-                                        onTap: () =>
-                                            context.read<AppBloc>().add(
-                                              const ChangePlayerRole('RIGHT'),
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            )
-                          : const SizedBox.shrink(),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
 
           const SizedBox(height: 32),
 
@@ -586,6 +445,40 @@ class _ModesScreenState extends State<ModesScreen> {
                   ),
                 ),
               ],
+            ),
+          ),
+
+          const SizedBox(height: 16),
+
+          GestureDetector(
+            onTap: () {
+              if (!PlayerSession.instance.isAuthenticated) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                      'Log in with an online account to play CO-OP.',
+                    ),
+                  ),
+                );
+                return;
+              }
+              context.read<AppBloc>()
+                ..add(const ToggleMultiplayer(true))
+                ..add(const ChangePlayerRole('LEFT'));
+              Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (_) => const CoopSetupScreen(),
+                ),
+              );
+            },
+            child: _buildCartoonCard(
+              child: _buildLockedModeRow(
+                icon: Icons.handshake_rounded,
+                iconBgColor: GameColors.modesScreenColor2,
+                title: 'ONLINE CO-OP',
+                subtitle: 'Two players · one shared balance challenge',
+                locked: false,
+              ),
             ),
           ),
 

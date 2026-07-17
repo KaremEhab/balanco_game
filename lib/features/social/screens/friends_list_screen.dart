@@ -5,6 +5,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
 import 'package:balanco_game/features/coop/data/coop_repository.dart';
 import 'package:balanco_game/features/player/application/player_session.dart';
+import 'package:balanco_game/features/coop/presentation/coop_waiting_room_screen.dart';
+import 'package:balanco_game/features/social/widgets/game_invite_flow.dart';
 
 class FriendsListScreen extends StatefulWidget {
   const FriendsListScreen({super.key});
@@ -118,10 +120,59 @@ class _FriendsListScreenState extends State<FriendsListScreen> {
     }
   }
 
+  Future<void> _inviteFriend(Map<String, dynamic> friend) async {
+    setState(() => _busy = true);
+    try {
+      final room = await showFriendGameInviteFlow(
+        context: context,
+        repository: _repository,
+        firstFriend: friend,
+      );
+      if (room == null || !mounted) return;
+      Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder: (_) => CoopWaitingRoomScreen(initialRoom: room),
+        ),
+      );
+    } on PostgrestException catch (error) {
+      _message(error.message);
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  Future<void> _respondGameInvite(
+    Map<String, dynamic> invite,
+    bool accept,
+  ) async {
+    setState(() => _busy = true);
+    try {
+      final room = await _repository.respondCoopInvite(
+        invite['invite_id'] as String,
+        accept,
+      );
+      if (!mounted) return;
+      if (room != null) {
+        Navigator.of(context).push(
+          MaterialPageRoute<void>(
+            builder: (_) => CoopWaitingRoomScreen(initialRoom: room),
+          ),
+        );
+      } else {
+        await _refreshAccountAndFriends();
+      }
+    } on PostgrestException catch (error) {
+      _message(error.message);
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final friends = _social['friends'] as List? ?? const [];
     final requests = _social['friend_requests'] as List? ?? const [];
+    final invites = _social['invites'] as List? ?? const [];
     final profile = _social['profile'] as Map<String, dynamic>?;
 
     return Scaffold(
@@ -140,7 +191,9 @@ class _FriendsListScreenState extends State<FriendsListScreen> {
         ],
       ),
       body: _busy && profile == null
-          ? const Center(child: CircularProgressIndicator(color: GameColors.white))
+          ? const Center(
+              child: CircularProgressIndicator(color: GameColors.white),
+            )
           : ListView(
               padding: const EdgeInsets.all(24),
               children: [
@@ -159,7 +212,10 @@ class _FriendsListScreenState extends State<FriendsListScreen> {
                     decoration: BoxDecoration(
                       color: GameColors.sandLightUi,
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: GameColors.brownDarkUi, width: 3),
+                      border: Border.all(
+                        color: GameColors.brownDarkUi,
+                        width: 3,
+                      ),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -173,9 +229,16 @@ class _FriendsListScreenState extends State<FriendsListScreen> {
                           ),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.copy_rounded, color: GameColors.brownDarkUi),
+                          icon: const Icon(
+                            Icons.copy_rounded,
+                            color: GameColors.brownDarkUi,
+                          ),
                           onPressed: () {
-                            Clipboard.setData(ClipboardData(text: profile['player_code'] as String));
+                            Clipboard.setData(
+                              ClipboardData(
+                                text: profile['player_code'] as String,
+                              ),
+                            );
                             _message('Copied to clipboard');
                           },
                         ),
@@ -206,7 +269,10 @@ class _FriendsListScreenState extends State<FriendsListScreen> {
                           fillColor: GameColors.sandLightUi,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
-                            borderSide: const BorderSide(color: GameColors.brownDarkUi, width: 3),
+                            borderSide: const BorderSide(
+                              color: GameColors.brownDarkUi,
+                              width: 3,
+                            ),
                           ),
                         ),
                         style: GoogleFonts.luckiestGuy(letterSpacing: 2),
@@ -220,42 +286,120 @@ class _FriendsListScreenState extends State<FriendsListScreen> {
                         padding: const EdgeInsets.all(16),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
-                          side: const BorderSide(color: GameColors.brownDarkUi, width: 3),
+                          side: const BorderSide(
+                            color: GameColors.brownDarkUi,
+                            width: 3,
+                          ),
                         ),
                       ),
-                      child: const Icon(Icons.person_add_rounded, color: GameColors.white),
+                      child: const Icon(
+                        Icons.person_add_rounded,
+                        color: GameColors.white,
+                      ),
                     ),
                   ],
                 ),
 
                 const SizedBox(height: 32),
 
+                if (invites.isNotEmpty) ...[
+                  Text(
+                    'GAME INVITES (${invites.length})',
+                    style: GoogleFonts.luckiestGuy(
+                      color: GameColors.orangeTextUi,
+                      fontSize: 18,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  ...invites.map((value) {
+                    final invite = Map<String, dynamic>.from(value as Map);
+                    final isRace = invite['mode'] == 'race';
+                    return Card(
+                      color: GameColors.sandLightUi,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        side: const BorderSide(
+                          color: GameColors.brownDarkUi,
+                          width: 2,
+                        ),
+                      ),
+                      child: ListTile(
+                        leading: Icon(
+                          isRace
+                              ? Icons.sports_score_rounded
+                              : Icons.handshake_rounded,
+                          color: isRace
+                              ? GameColors.deepPurple
+                              : GameColors.modesScreenColor2,
+                        ),
+                        title: Text(
+                          invite['display_name'] as String,
+                          style: GoogleFonts.luckiestGuy(),
+                        ),
+                        subtitle: Text(
+                          isRace
+                              ? 'Invited you to a ${invite['max_players']}-player Race'
+                              : 'Invited you to CO-OP',
+                        ),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              onPressed: _busy
+                                  ? null
+                                  : () => _respondGameInvite(invite, false),
+                              icon: const Icon(Icons.close_rounded),
+                            ),
+                            IconButton.filled(
+                              onPressed: _busy
+                                  ? null
+                                  : () => _respondGameInvite(invite, true),
+                              icon: const Icon(Icons.check_rounded),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
+                  const SizedBox(height: 24),
+                ],
+
                 if (requests.isNotEmpty) ...[
                   Text(
                     'REQUESTS (${requests.length})',
-                    style: GoogleFonts.luckiestGuy(color: GameColors.orangeTextUi, fontSize: 18),
+                    style: GoogleFonts.luckiestGuy(
+                      color: GameColors.orangeTextUi,
+                      fontSize: 18,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   ...requests.map((req) {
-                    final isIncoming = req['receiver_id'] == profile?['id'];
+                    final isIncoming = req['sender'] != null;
                     final other = isIncoming ? req['sender'] : req['receiver'];
                     return Card(
                       color: GameColors.sandLightUi,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
-                        side: const BorderSide(color: GameColors.brownDarkUi, width: 2),
+                        side: const BorderSide(
+                          color: GameColors.brownDarkUi,
+                          width: 2,
+                        ),
                       ),
                       child: ListTile(
                         leading: CircleAvatar(
                           backgroundColor: GameColors.brownDarkUi,
                           child: Text(
                             (other['display_name'] as String)[0].toUpperCase(),
-                            style: GoogleFonts.luckiestGuy(color: GameColors.white),
+                            style: GoogleFonts.luckiestGuy(
+                              color: GameColors.white,
+                            ),
                           ),
                         ),
                         title: Text(
                           other['display_name'] as String,
-                          style: GoogleFonts.luckiestGuy(color: GameColors.brownDarkUi),
+                          style: GoogleFonts.luckiestGuy(
+                            color: GameColors.brownDarkUi,
+                          ),
                         ),
                         subtitle: Text(
                           isIncoming ? 'Wants to be friends' : 'Request sent',
@@ -266,16 +410,28 @@ class _FriendsListScreenState extends State<FriendsListScreen> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   IconButton(
-                                    icon: const Icon(Icons.close_rounded, color: GameColors.redAccent),
+                                    icon: const Icon(
+                                      Icons.close_rounded,
+                                      color: GameColors.redAccent,
+                                    ),
                                     onPressed: () async {
-                                      await _repository.respondFriendRequest(req['id'] as String, false);
+                                      await _repository.respondFriendRequest(
+                                        req['id'] as String,
+                                        false,
+                                      );
                                       _refreshAccountAndFriends();
                                     },
                                   ),
                                   IconButton(
-                                    icon: const Icon(Icons.check_rounded, color: GameColors.modesScreenColor2),
+                                    icon: const Icon(
+                                      Icons.check_rounded,
+                                      color: GameColors.modesScreenColor2,
+                                    ),
                                     onPressed: () async {
-                                      await _repository.respondFriendRequest(req['id'] as String, true);
+                                      await _repository.respondFriendRequest(
+                                        req['id'] as String,
+                                        true,
+                                      );
                                       _refreshAccountAndFriends();
                                     },
                                   ),
@@ -290,33 +446,59 @@ class _FriendsListScreenState extends State<FriendsListScreen> {
 
                 Text(
                   'MY FRIENDS (${friends.length})',
-                  style: GoogleFonts.luckiestGuy(color: GameColors.white, fontSize: 18),
+                  style: GoogleFonts.luckiestGuy(
+                    color: GameColors.white,
+                    fontSize: 18,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 if (friends.isEmpty)
-                  const Text('Accepted friends will appear here.', style: TextStyle(color: GameColors.white)),
+                  const Text(
+                    'Accepted friends will appear here.',
+                    style: TextStyle(color: GameColors.white),
+                  ),
                 ...friends.map((friend) {
                   return Card(
                     color: GameColors.sandLightUi,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
-                      side: const BorderSide(color: GameColors.brownDarkUi, width: 2),
+                      side: const BorderSide(
+                        color: GameColors.brownDarkUi,
+                        width: 2,
+                      ),
                     ),
                     child: ListTile(
                       leading: CircleAvatar(
                         backgroundColor: GameColors.modesScreenColor1,
                         child: Text(
                           (friend['display_name'] as String)[0].toUpperCase(),
-                          style: GoogleFonts.luckiestGuy(color: GameColors.white),
+                          style: GoogleFonts.luckiestGuy(
+                            color: GameColors.white,
+                          ),
                         ),
                       ),
                       title: Text(
                         friend['display_name'] as String,
-                        style: GoogleFonts.luckiestGuy(color: GameColors.brownDarkUi, fontSize: 18),
+                        style: GoogleFonts.luckiestGuy(
+                          color: GameColors.brownDarkUi,
+                          fontSize: 18,
+                        ),
                       ),
                       subtitle: Text(
                         friend['player_code'] as String,
                         style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      trailing: FilledButton.icon(
+                        onPressed: _busy
+                            ? null
+                            : () => _inviteFriend(
+                                Map<String, dynamic>.from(friend as Map),
+                              ),
+                        icon: const Icon(Icons.sports_esports_rounded),
+                        label: Text(
+                          'INVITE',
+                          style: GoogleFonts.luckiestGuy(fontSize: 12),
+                        ),
                       ),
                     ),
                   );

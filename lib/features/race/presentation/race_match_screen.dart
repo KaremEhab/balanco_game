@@ -38,6 +38,8 @@ class _RaceMatchScreenState extends State<RaceMatchScreen> {
   late final BalancoGame _remoteGame;
   late final RaceGameCoordinator _coordinator;
   bool _disconnectExitScheduled = false;
+  bool _leavingRace = false;
+  bool _allowPop = false;
 
   @override
   void initState() {
@@ -85,7 +87,7 @@ class _RaceMatchScreenState extends State<RaceMatchScreen> {
   }
 
   void _handleRoomChange() {
-    if (!mounted) return;
+    if (!mounted || _leavingRace) return;
     final room = _coordinator.room.value;
     if (room.endedByDisconnect &&
         room.winnerId == _userId &&
@@ -95,11 +97,7 @@ class _RaceMatchScreenState extends State<RaceMatchScreen> {
       return;
     }
     if (!room.endedByAgreement) return;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted && Navigator.of(context).canPop()) {
-        Navigator.of(context).pop();
-      }
-    });
+    unawaited(_popRaceRoute());
   }
 
   Future<void> _returnWinnerToModes() async {
@@ -107,8 +105,7 @@ class _RaceMatchScreenState extends State<RaceMatchScreen> {
     // Modes screen that opened this Race flow.
     await Future<void>.delayed(const Duration(milliseconds: 1200));
     if (!mounted) return;
-    final navigator = Navigator.of(context);
-    if (navigator.canPop()) navigator.pop();
+    await _leaveRaceImmediately();
   }
 
   void _handleActionError() {
@@ -140,6 +137,7 @@ class _RaceMatchScreenState extends State<RaceMatchScreen> {
   }
 
   Future<void> _confirmLeave() async {
+    if (_leavingRace || !mounted) return;
     final confirmed = await showGeneralDialog<bool>(
       context: context,
       barrierDismissible: true,
@@ -156,9 +154,9 @@ class _RaceMatchScreenState extends State<RaceMatchScreen> {
       pageBuilder: (dialogContext, _, _) => Center(
         child: _RaceDialogShell(
           icon: Icons.exit_to_app_rounded,
-          title: 'LEAVE TOGETHER?',
+          title: 'LEAVE RACE?',
           subtitle:
-              'Your opponent must agree before this race closes for both players.',
+              'You will leave immediately. The other racers can keep playing.',
           accent: GameColors.red300,
           child: Row(
             children: [
@@ -173,8 +171,8 @@ class _RaceMatchScreenState extends State<RaceMatchScreen> {
               const SizedBox(width: 10),
               Expanded(
                 child: _RaceDialogButton(
-                  icon: Icons.handshake_rounded,
-                  label: 'ASK TO LEAVE',
+                  icon: Icons.exit_to_app_rounded,
+                  label: 'LEAVE NOW',
                   color: GameColors.red300,
                   onTap: () => Navigator.pop(dialogContext, true),
                 ),
@@ -184,7 +182,27 @@ class _RaceMatchScreenState extends State<RaceMatchScreen> {
         ),
       ),
     );
-    if (confirmed == true) await _coordinator.requestLeave();
+    if (confirmed == true) await _leaveRaceImmediately();
+  }
+
+  Future<void> _leaveRaceImmediately() async {
+    if (_leavingRace || !mounted) return;
+    setState(() => _leavingRace = true);
+    final left = await _coordinator.leaveRaceImmediately();
+    if (!left) {
+      if (mounted) setState(() => _leavingRace = false);
+      return;
+    }
+    await _popRaceRoute();
+  }
+
+  Future<void> _popRaceRoute() async {
+    if (!mounted) return;
+    setState(() => _allowPop = true);
+    await WidgetsBinding.instance.endOfFrame;
+    if (!mounted) return;
+    final navigator = Navigator.of(context);
+    if (navigator.canPop()) navigator.pop();
   }
 
   Future<void> _openMatchMenu() async {
@@ -296,9 +314,9 @@ class _RaceMatchScreenState extends State<RaceMatchScreen> {
 
   @override
   Widget build(BuildContext context) => PopScope(
-    canPop: false,
+    canPop: _allowPop,
     onPopInvokedWithResult: (didPop, _) {
-      if (!didPop) _confirmLeave();
+      if (!didPop && !_leavingRace) _confirmLeave();
     },
     child: Scaffold(
       backgroundColor: const Color(0xFF08194E),
@@ -320,12 +338,7 @@ class _RaceMatchScreenState extends State<RaceMatchScreen> {
                   onSettings: _openMatchMenu,
                   onLocalProfile: () =>
                       _showPlayerProfile(room.memberFor(_userId)),
-                  onOpponentProfile: () => _showPlayerProfile(
-                    room.members.firstWhere(
-                      (member) => member.userId != _userId,
-                      orElse: () => room.memberFor(_userId),
-                    ),
-                  ),
+                  onPlayerProfile: _showPlayerProfile,
                 ),
               ),
               if (room.isEnded)
@@ -343,7 +356,7 @@ class _RaceMatchScreenState extends State<RaceMatchScreen> {
                   onRetry: _coordinator.requestRetry,
                   onContinue: _coordinator.requestContinue,
                   onAccept: _coordinator.acceptRestartOffer,
-                  onExit: _coordinator.requestPostgameExit,
+                  onExit: () => unawaited(_leaveRaceImmediately()),
                 ),
               if (room.isPaused ||
                   room.hasLeaveVote ||
@@ -353,6 +366,7 @@ class _RaceMatchScreenState extends State<RaceMatchScreen> {
                   userId: _userId,
                   coordinator: _coordinator,
                   onSettings: _openMatchMenu,
+                  onLeave: _confirmLeave,
                 ),
             ],
           ),
@@ -905,11 +919,10 @@ class _RaceResultOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final local = room.memberFor(userId);
-    final opponent = room.members.firstWhere(
-      (member) => member.userId != userId,
+    final winner = room.members.firstWhere(
+      (member) => member.userId == room.winnerId,
       orElse: () => local,
     );
-    final winner = room.winnerId == local.userId ? local : opponent;
     final duration = Duration(milliseconds: room.winnerElapsedMs ?? 0);
     final time =
         '${duration.inMinutes.toString().padLeft(2, '0')}:'
@@ -937,9 +950,8 @@ class _RaceResultOverlay extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     _RaceWinScoreboard(
-                      localWins: local.raceWins,
+                      members: room.members,
                       level: room.raceLevel,
-                      opponentWins: opponent.raceWins,
                     ),
                     const SizedBox(height: 12),
                     Wrap(
@@ -994,8 +1006,8 @@ class _RaceResultOverlay extends StatelessWidget {
                         child: _RaceDialogButton(
                           icon: Icons.hourglass_bottom_rounded,
                           label: restartKind == 'retry'
-                              ? 'RETRY REQUEST SENT'
-                              : 'CONTINUE REQUEST SENT',
+                              ? 'RETRY ${room.restartVoteCount}/${room.requiredVotes}'
+                              : 'CONTINUE ${room.restartVoteCount}/${room.requiredVotes}',
                           color: GameColors.blueGray600,
                           enabled: false,
                           onTap: () {},
@@ -1045,15 +1057,10 @@ class _RaceResultOverlay extends StatelessWidget {
 }
 
 class _RaceWinScoreboard extends StatelessWidget {
-  const _RaceWinScoreboard({
-    required this.localWins,
-    required this.level,
-    required this.opponentWins,
-  });
+  const _RaceWinScoreboard({required this.members, required this.level});
 
-  final int localWins;
+  final List<CoopMember> members;
   final int level;
-  final int opponentWins;
 
   @override
   Widget build(BuildContext context) => Container(
@@ -1065,7 +1072,8 @@ class _RaceWinScoreboard extends StatelessWidget {
       border: Border.all(color: GameColors.brownDarkUi, width: 3),
     ),
     child: Text(
-      '$localWins  -  LVL $level  -  $opponentWins',
+      '${members.map((member) => member.sessionWins).join('  ·  ')}'
+      '   LVL $level',
       textAlign: TextAlign.center,
       style: GoogleFonts.luckiestGuy(
         color: Colors.white,
@@ -1129,12 +1137,14 @@ class _RaceAgreementOverlay extends StatelessWidget {
     required this.userId,
     required this.coordinator,
     required this.onSettings,
+    required this.onLeave,
   });
 
   final CoopRoom room;
   final String userId;
   final RaceGameCoordinator coordinator;
   final VoidCallback onSettings;
+  final VoidCallback onLeave;
 
   @override
   Widget build(BuildContext context) {
@@ -1211,14 +1221,26 @@ class _RaceAgreementOverlay extends StatelessWidget {
                         ),
                       if (room.rematchRequestedBy == null) ...[
                         const SizedBox(height: 11),
-                        SizedBox(
-                          width: double.infinity,
-                          child: _RaceDialogButton(
-                            icon: Icons.play_arrow_rounded,
-                            label: 'RESUME FOR BOTH',
-                            color: GameColors.green300,
-                            onTap: () => coordinator.setPaused(false),
-                          ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _RaceDialogButton(
+                                icon: Icons.exit_to_app_rounded,
+                                label: 'LEAVE NOW',
+                                color: GameColors.red300,
+                                onTap: onLeave,
+                              ),
+                            ),
+                            const SizedBox(width: 9),
+                            Expanded(
+                              child: _RaceDialogButton(
+                                icon: Icons.play_arrow_rounded,
+                                label: 'RESUME',
+                                color: GameColors.green300,
+                                onTap: () => coordinator.setPaused(false),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ],

@@ -13,6 +13,10 @@ import 'package:balanco_game/core/config/supabase_config.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:balanco_game/core/navigation/global_navigator.dart';
 import 'package:balanco_game/core/widgets/connectivity_sync_wrapper.dart';
+import 'package:balanco_game/features/notifications/application/notification_service.dart';
+
+import 'package:firebase_core/firebase_core.dart';
+import 'package:balanco_game/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,20 +28,27 @@ void main() async {
 
   // Ensure the database is initialized
   await DatabaseHelper.instance.database;
-  
+
   // HOTFIX: Restore user's lost offline progress
   final profile = await DatabaseHelper.instance.getPlayerProfile();
   if (profile.highestLevel < 15) {
-    await DatabaseHelper.instance.updatePlayerProfile(profile.copyWith(highestLevel: 15));
+    await DatabaseHelper.instance.updatePlayerProfile(
+      profile.copyWith(highestLevel: 15),
+    );
   }
 
   await AppSettings.init();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   if (SupabaseConfig.isConfigured) {
     await Supabase.initialize(
       url: SupabaseConfig.url,
       publishableKey: SupabaseConfig.publishableKey,
     );
   }
+  await NotificationService.instance.initialize();
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,

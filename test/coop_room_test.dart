@@ -40,4 +40,59 @@ void main() {
     expect(room.memberFor('host').side, CoopSide.left);
     expect(room.memberFor('guest').side, CoopSide.right);
   });
+
+  test(
+    'four-player race requires every selected slot and uses session wins',
+    () {
+      final room = CoopRoom.fromJson({
+        'room': {
+          'id': 'race-id',
+          'room_code': 'RACE44',
+          'host_id': 'p1',
+          'status': 'waiting',
+          'host_side': 'left',
+          'seed': 7,
+          'mode': 'race',
+          'max_players': 4,
+          'race_level': 3,
+          'restart_vote_count': 2,
+        },
+        'members': [
+          for (var index = 1; index <= 4; index++)
+            {
+              'user_id': 'p$index',
+              'display_name': 'Player $index',
+              'player_code': 'PL$index-CODE',
+              'side': 'slot$index',
+              'ready': true,
+              'is_host': index == 1,
+              'mic_muted': false,
+              'session_wins': index - 1,
+            },
+        ],
+      });
+
+      expect(room.canStart, isTrue);
+      expect(room.maxPlayers, 4);
+      expect(room.members.map((member) => member.sessionWins), [0, 1, 2, 3]);
+      expect(room.opponentsOf('p1'), hasLength(3));
+      expect(room.restartVoteCount, 2);
+    },
+  );
+
+  test('race session wins default to zero for a brand-new room', () {
+    final member = CoopMember.fromJson({
+      'user_id': 'new-player',
+      'display_name': 'New Player',
+      'player_code': 'NE20-12345',
+      'side': 'slot1',
+      'ready': false,
+      'is_host': true,
+      'mic_muted': false,
+      'race_wins': 99,
+    });
+
+    expect(member.raceWins, 99);
+    expect(member.sessionWins, 0);
+  });
 }

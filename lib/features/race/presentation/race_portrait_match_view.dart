@@ -26,7 +26,7 @@ class RacePortraitMatchView extends StatelessWidget {
     required this.onPause,
     required this.onSettings,
     required this.onLocalProfile,
-    required this.onOpponentProfile,
+    required this.onPlayerProfile,
   });
 
   final CoopRoom room;
@@ -39,7 +39,7 @@ class RacePortraitMatchView extends StatelessWidget {
   final VoidCallback onPause;
   final VoidCallback onSettings;
   final VoidCallback onLocalProfile;
-  final VoidCallback onOpponentProfile;
+  final ValueChanged<CoopMember> onPlayerProfile;
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
@@ -57,10 +57,6 @@ class RacePortraitMatchView extends StatelessWidget {
       localGame.configureRaceBarBottomInset(raceBarInset);
       remoteGame.configureRaceBarBottomInset(raceBarInset);
       final localMember = room.memberFor(userId);
-      final opponent = room.members.firstWhere(
-        (member) => member.userId != userId,
-        orElse: () => localMember,
-      );
 
       return Stack(
         children: [
@@ -73,7 +69,9 @@ class RacePortraitMatchView extends StatelessWidget {
             child: _SharedRaceBoard(
               localGame: localGame,
               remoteGame: remoteGame,
-              remoteInterpolator: coordinator.remoteInterpolator,
+              room: room,
+              userId: userId,
+              coordinator: coordinator,
               showLabels: coordinator.showBoardLabels,
               level: room.raceLevel,
             ),
@@ -86,7 +84,6 @@ class RacePortraitMatchView extends StatelessWidget {
             child: _RaceHeader(
               room: room,
               localMember: localMember,
-              opponent: opponent,
               localGame: localGame,
               coordinator: coordinator,
               voice: voice,
@@ -94,7 +91,7 @@ class RacePortraitMatchView extends StatelessWidget {
               onLeave: onLeave,
               onSettings: onSettings,
               onLocalProfile: onLocalProfile,
-              onOpponentProfile: onOpponentProfile,
+              onPlayerProfile: onPlayerProfile,
             ),
           ),
           Positioned(
@@ -191,7 +188,6 @@ class _RaceHeader extends StatelessWidget {
   const _RaceHeader({
     required this.room,
     required this.localMember,
-    required this.opponent,
     required this.localGame,
     required this.coordinator,
     required this.voice,
@@ -199,12 +195,11 @@ class _RaceHeader extends StatelessWidget {
     required this.onLeave,
     required this.onSettings,
     required this.onLocalProfile,
-    required this.onOpponentProfile,
+    required this.onPlayerProfile,
   });
 
   final CoopRoom room;
   final CoopMember localMember;
-  final CoopMember opponent;
   final BalancoGame localGame;
   final RaceGameCoordinator coordinator;
   final VoiceChatController voice;
@@ -212,7 +207,7 @@ class _RaceHeader extends StatelessWidget {
   final VoidCallback onLeave;
   final VoidCallback onSettings;
   final VoidCallback onLocalProfile;
-  final VoidCallback onOpponentProfile;
+  final ValueChanged<CoopMember> onPlayerProfile;
 
   @override
   Widget build(BuildContext context) => Column(
@@ -244,15 +239,12 @@ class _RaceHeader extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: ValueListenableBuilder<int>(
-                valueListenable: coordinator.remoteHearts,
-                builder: (_, hearts, _) => _PlayerIdentity(
-                  member: opponent,
-                  hearts: hearts,
-                  accent: const Color(0xFFAEB4C1),
-                  avatarFirst: false,
-                  onProfileTap: onOpponentProfile,
-                ),
+              child: _SpeakingPlayerIdentity(
+                room: room,
+                localMember: localMember,
+                coordinator: coordinator,
+                voice: voice,
+                onPlayerProfile: onPlayerProfile,
               ),
             ),
           ],
@@ -279,12 +271,12 @@ class _RaceHeader extends StatelessWidget {
                 border: Border.all(color: const Color(0xFF69DEFF), width: 1.5),
               ),
               child: Text(
-                '${localMember.raceWins}  -  LVL ${room.raceLevel}  -  '
-                '${opponent.raceWins}',
+                '${room.members.map((member) => member.sessionWins).join('  ·  ')}'
+                '   LVL ${room.raceLevel}',
                 style: GoogleFonts.luckiestGuy(
                   color: Colors.white,
-                  fontSize: 18 * scale,
-                  letterSpacing: 0.7,
+                  fontSize: 15 * scale,
+                  letterSpacing: 0.5,
                   shadows: const [
                     Shadow(color: Colors.black87, offset: Offset(1.5, 2.5)),
                   ],
@@ -324,6 +316,7 @@ class _PlayerIdentity extends StatelessWidget {
     required this.accent,
     required this.avatarFirst,
     required this.onProfileTap,
+    this.eyebrow,
   });
 
   final CoopMember member;
@@ -331,6 +324,7 @@ class _PlayerIdentity extends StatelessWidget {
   final Color accent;
   final bool avatarFirst;
   final VoidCallback onProfileTap;
+  final String? eyebrow;
 
   AvatarShape get _shape => AvatarShape.values.firstWhere(
     (value) => value.name == member.avatarShape,
@@ -366,7 +360,7 @@ class _PlayerIdentity extends StatelessWidget {
             : CrossAxisAlignment.end,
         children: [
           Text(
-            avatarFirst ? 'YOU' : 'OPPONENT',
+            eyebrow ?? (avatarFirst ? 'YOU' : 'OPPONENT'),
             maxLines: 1,
             style: TextStyle(
               color: accent,
@@ -397,6 +391,50 @@ class _PlayerIdentity extends StatelessWidget {
           : [details, const SizedBox(width: 5), avatar],
     );
   }
+}
+
+class _SpeakingPlayerIdentity extends StatelessWidget {
+  const _SpeakingPlayerIdentity({
+    required this.room,
+    required this.localMember,
+    required this.coordinator,
+    required this.voice,
+    required this.onPlayerProfile,
+  });
+
+  final CoopRoom room;
+  final CoopMember localMember;
+  final RaceGameCoordinator coordinator;
+  final VoiceChatController voice;
+  final ValueChanged<CoopMember> onPlayerProfile;
+
+  @override
+  Widget build(BuildContext context) => ValueListenableBuilder<String?>(
+    valueListenable: voice.activeSpeakerId,
+    builder: (_, speakerId, _) {
+      final opponents = room.opponentsOf(localMember.userId);
+      if (opponents.isEmpty) return const SizedBox.shrink();
+      final speaker = room.members.firstWhere(
+        (member) => member.userId == speakerId,
+        orElse: () => opponents.first,
+      );
+      return ValueListenableBuilder<Map<String, int>>(
+        valueListenable: coordinator.remoteHeartsByUser,
+        builder: (_, hearts, _) => _PlayerIdentity(
+          member: speaker,
+          hearts: speaker.userId == localMember.userId
+              ? 3
+              : hearts[speaker.userId] ?? 3,
+          accent: speakerId == speaker.userId
+              ? const Color(0xFF69F5A9)
+              : const Color(0xFFAEB4C1),
+          avatarFirst: false,
+          onProfileTap: () => onPlayerProfile(speaker),
+          eyebrow: speakerId == speaker.userId ? 'TALKING NOW' : 'RACER',
+        ),
+      );
+    },
+  );
 }
 
 class _HeartsRow extends StatelessWidget {
@@ -446,14 +484,18 @@ class _SharedRaceBoard extends StatefulWidget {
   const _SharedRaceBoard({
     required this.localGame,
     required this.remoteGame,
-    required this.remoteInterpolator,
+    required this.room,
+    required this.userId,
+    required this.coordinator,
     required this.showLabels,
     required this.level,
   });
 
   final BalancoGame localGame;
   final BalancoGame remoteGame;
-  final RaceRemoteSnapshotInterpolator remoteInterpolator;
+  final CoopRoom room;
+  final String userId;
+  final RaceGameCoordinator coordinator;
   final ValueListenable<bool> showLabels;
   final int level;
 
@@ -463,7 +505,7 @@ class _SharedRaceBoard extends StatefulWidget {
 
 class _SharedRaceBoardState extends State<_SharedRaceBoard>
     with SingleTickerProviderStateMixin {
-  late final _RemoteGhostPainter _ghostPainter;
+  late _RemoteGhostPainter _ghostPainter;
   late final AnimationController _renderClock;
 
   @override
@@ -473,13 +515,23 @@ class _SharedRaceBoardState extends State<_SharedRaceBoard>
       vsync: this,
       duration: const Duration(seconds: 1),
     )..repeat();
-    _ghostPainter = _RemoteGhostPainter(
-      localGame: widget.localGame,
-      remoteGame: widget.remoteGame,
-      remoteInterpolator: widget.remoteInterpolator,
-      showLabels: widget.showLabels,
-      frameClock: _renderClock,
-    );
+    _ghostPainter = _createPainter();
+  }
+
+  _RemoteGhostPainter _createPainter() => _RemoteGhostPainter(
+    localGame: widget.localGame,
+    remoteGame: widget.remoteGame,
+    room: widget.room,
+    userId: widget.userId,
+    coordinator: widget.coordinator,
+    showLabels: widget.showLabels,
+    frameClock: _renderClock,
+  );
+
+  @override
+  void didUpdateWidget(covariant _SharedRaceBoard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.room != widget.room) _ghostPainter = _createPainter();
   }
 
   @override
@@ -548,14 +600,16 @@ class _RemoteGhostPainter extends CustomPainter {
   _RemoteGhostPainter({
     required this.localGame,
     required this.remoteGame,
-    required this.remoteInterpolator,
+    required this.room,
+    required this.userId,
+    required this.coordinator,
     required this.showLabels,
     required Listenable frameClock,
   }) : super(
          repaint: Listenable.merge([
            localGame.cameraOffsetYNotifier,
            remoteGame.coopReplicaFrameNotifier,
-           remoteInterpolator,
+           coordinator.remoteHeartsByUser,
            showLabels,
            frameClock,
          ]),
@@ -563,9 +617,11 @@ class _RemoteGhostPainter extends CustomPainter {
 
   final BalancoGame localGame;
   final BalancoGame remoteGame;
-  final RaceRemoteSnapshotInterpolator remoteInterpolator;
+  final CoopRoom room;
+  final String userId;
+  final RaceGameCoordinator coordinator;
   final ValueListenable<bool> showLabels;
-  final Queue<Offset> _trail = Queue<Offset>();
+  final Map<String, Queue<Offset>> _trails = {};
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -588,83 +644,85 @@ class _RemoteGhostPainter extends CustomPainter {
           )
           .toList(growable: false),
     );
-    // During the synchronized countdown both silhouettes are deliberately
-    // pinned to the same local start pose. Once GO appears the buffered
-    // 60 FPS network timeline takes over.
-    final remote = localGame.countdownTimer > 0
-        ? startingState
-        : remoteInterpolator.sample() ?? startingState;
-
     final scaleX = size.width / localGame.size.x;
     final scaleY = size.height / localGame.size.y;
-    final remoteWorldScaleX = localGame.size.x / remote.worldWidth;
     Offset screenPoint(double x, double y) =>
         Offset(x * scaleX, (y - localGame.cameraOffsetY) * scaleY);
-    Offset remoteScreenPoint(double x, double y) => screenPoint(
-      x * remoteWorldScaleX,
-      y,
-    ); // Do not scale absolute Y coordinate by screen height ratio!
+    const remoteColors = [
+      Color(0xFFFFA43A),
+      Color(0xFFB879FF),
+      Color(0xFF67E28B),
+    ];
+    final opponents = room.opponentsOf(userId);
+    for (var index = 0; index < opponents.length; index++) {
+      final member = opponents[index];
+      final color = remoteColors[index % remoteColors.length];
+      final interpolator = coordinator.remoteInterpolators[member.userId];
+      // During countdown every racer is pinned to the exact same pose.
+      final remote = localGame.countdownTimer > 0
+          ? startingState
+          : interpolator?.sample() ?? startingState;
+      final remoteWorldScaleX = localGame.size.x / remote.worldWidth;
+      Offset remoteScreenPoint(double x, double y) =>
+          screenPoint(x * remoteWorldScaleX, y);
+      final left = remoteScreenPoint(remoteGame.barPadding, remote.leftY);
+      final right = remoteScreenPoint(
+        remote.worldWidth - remoteGame.barPadding,
+        remote.rightY,
+      );
+      _paintGhostBar(canvas, left, right, scaleY, color);
 
-    final left = remoteScreenPoint(remoteGame.barPadding, remote.leftY);
-    final right = remoteScreenPoint(
-      remote.worldWidth - remoteGame.barPadding,
-      remote.rightY,
-    );
-    _paintGhostBar(canvas, left, right, scaleY);
-
-    Offset? remoteBallCenter;
-    for (final ball in remote.balls) {
-      if (ball.dead || (ball.x == 0 && ball.y == 0)) continue;
-      final center = remoteScreenPoint(ball.x, ball.y);
-      if (center.dy < -45 || center.dy > size.height + 45) continue;
-      remoteBallCenter ??= center;
-      _paintGhostBall(canvas, center, ball.scale, scaleX, scaleY);
-    }
-
-    if (remoteBallCenter != null) {
-      if (_trail.isEmpty || (_trail.last - remoteBallCenter).distance > 1.6) {
-        _trail.add(remoteBallCenter);
-        while (_trail.length > 10) {
-          _trail.removeFirst();
+      Offset? ballCenter;
+      for (final ball in remote.balls) {
+        if (ball.dead || (ball.x == 0 && ball.y == 0)) continue;
+        final center = remoteScreenPoint(ball.x, ball.y);
+        if (center.dy < -45 || center.dy > size.height + 45) continue;
+        ballCenter ??= center;
+        _paintGhostBall(canvas, center, ball.scale, scaleX, scaleY, color);
+      }
+      final trail = _trails.putIfAbsent(member.userId, Queue<Offset>.new);
+      if (ballCenter == null) {
+        trail.clear();
+        continue;
+      }
+      if (trail.isEmpty || (trail.last - ballCenter).distance > 1.6) {
+        trail.add(ballCenter);
+        while (trail.length > 10) {
+          trail.removeFirst();
         }
       }
-      _paintTrail(canvas);
+      _paintTrail(canvas, trail, color);
       if (remote.shieldTime > 0) {
         canvas.drawCircle(
-          remoteBallCenter,
+          ballCenter,
           remoteGame.ballRadius * scaleX + 8,
           Paint()
-            ..color = const Color(0x668FE7FF)
+            ..color = color.withValues(alpha: 0.55)
             ..style = PaintingStyle.stroke
             ..strokeWidth = 3,
         );
       }
-    } else {
-      _trail.clear();
+      _paintLabel(canvas, member.displayName, ballCenter, color);
     }
 
-    if (showLabels.value) {
-      if (localGame.activeBalls.isNotEmpty) {
-        final ball = localGame.activeBalls.first;
-        _paintLabel(
-          canvas,
-          'YOU',
-          screenPoint(ball.pos2D.x, ball.pos2D.y),
-          const Color(0xFF53E8FF),
-        );
-      }
-      if (remoteBallCenter != null) {
-        _paintLabel(
-          canvas,
-          'OPPONENT',
-          remoteBallCenter,
-          const Color(0xA6D8DCE4),
-        );
-      }
+    if (localGame.activeBalls.isNotEmpty) {
+      final ball = localGame.activeBalls.first;
+      _paintLabel(
+        canvas,
+        'YOU',
+        screenPoint(ball.pos2D.x, ball.pos2D.y),
+        const Color(0xFF53E8FF),
+      );
     }
   }
 
-  void _paintGhostBar(Canvas canvas, Offset left, Offset right, double scaleY) {
+  void _paintGhostBar(
+    Canvas canvas,
+    Offset left,
+    Offset right,
+    double scaleY,
+    Color accent,
+  ) {
     final double barLength = (right - left).distance;
     final double angle = math.atan2(right.dy - left.dy, right.dx - left.dx);
     final double barHeight = 20.0 * scaleY;
@@ -691,6 +749,13 @@ class _RemoteGhostPainter extends CustomPainter {
     canvas.drawRRect(
       RRect.fromRectAndRadius(fullRect, const Radius.circular(10)),
       shadowPaint,
+    );
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(fullRect, const Radius.circular(10)),
+      Paint()
+        ..color = accent.withValues(alpha: 0.62)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2.4,
     );
     canvas.restore();
 
@@ -888,6 +953,7 @@ class _RemoteGhostPainter extends CustomPainter {
     double ballScale,
     double scaleX,
     double scaleY,
+    Color accent,
   ) {
     final radius = remoteGame.ballRadius * math.min(scaleX, scaleY) * ballScale;
     final rect = Rect.fromCircle(center: center, radius: radius);
@@ -897,6 +963,14 @@ class _RemoteGhostPainter extends CustomPainter {
       Paint()
         ..color = const Color(0x28C7CBD4)
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 7),
+    );
+    canvas.drawCircle(
+      center,
+      radius + 1,
+      Paint()
+        ..color = accent.withValues(alpha: 0.72)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2.2,
     );
     canvas.drawCircle(
       center,
@@ -923,16 +997,20 @@ class _RemoteGhostPainter extends CustomPainter {
     );
   }
 
-  void _paintTrail(Canvas canvas) {
-    if (_trail.length < 2) return;
+  void _paintTrail(Canvas canvas, Queue<Offset> trail, Color accent) {
+    if (trail.length < 2) return;
     var index = 0;
-    for (final point in _trail) {
-      final t = index / _trail.length;
+    for (final point in trail) {
+      final t = index / trail.length;
       canvas.drawCircle(
         point,
         1 + 3 * t,
         Paint()
-          ..color = Color.lerp(Colors.transparent, const Color(0x4DC7CBD4), t)!,
+          ..color = Color.lerp(
+            Colors.transparent,
+            accent,
+            t,
+          )!.withValues(alpha: 0.3),
       );
       index++;
     }

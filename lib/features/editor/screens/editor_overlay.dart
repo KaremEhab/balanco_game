@@ -463,88 +463,89 @@ class _EditorOverlayState extends State<EditorOverlay> {
                     children: [
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                      backgroundColor: GameColors.green300,
-                    ),
-                    onPressed: () async {
-                      final jsonString = widget.game.exportLevelData();
-                      await DatabaseHelper.instance.saveCustomLevel(
-                        widget.game.currentLevel.value,
-                        jsonString,
-                        isInfinity: widget.game.currentLevel.value == 0,
-                      );
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Saved locally for Testing!'),
-                          ),
-                        );
-                      }
-                    },
-                    child: const Icon(Icons.save),
+                          backgroundColor: GameColors.green300,
+                        ),
+                        onPressed: () async {
+                          final jsonString = widget.game.exportLevelData();
+                          await DatabaseHelper.instance.saveCustomLevel(
+                            widget.game.currentLevel.value,
+                            jsonString,
+                            isInfinity: widget.game.currentLevel.value == 0,
+                          );
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Saved locally for Testing!'),
+                              ),
+                            );
+                          }
+                        },
+                        child: const Icon(Icons.save),
+                      ),
+                      const SizedBox(width: 8),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: GameColors.blueAccent,
+                        ),
+                        onPressed: () async {
+                          final jsonString = widget.game.exportLevelData();
+                          await DatabaseHelper.instance.saveCustomLevel(
+                            widget.game.currentLevel.value,
+                            jsonString,
+                            isInfinity: widget.game.currentLevel.value == 0,
+                          );
+                          if (context.mounted) {
+                            final testGame = BalancoGame(
+                              isMultiplayer: false,
+                              playerRole: 'host',
+                              isInfinityMode:
+                                  widget.game.currentLevel.value == 0,
+                              isEditMode: false,
+                            );
+                            if (widget.game.currentLevel.value > 0) {
+                              testGame.currentLevel.value = widget
+                                  .game
+                                  .currentLevel
+                                  .value; // Play the exact level assigned
+                            }
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => GamePlayOverlay(game: testGame),
+                              ),
+                            );
+                          }
+                        },
+                        child: const Icon(Icons.play_arrow),
+                      ),
+                      const SizedBox(width: 8),
+                      ElevatedButton(
+                        child: const Icon(Icons.copy),
+                        onPressed: () {
+                          final jsonString = widget.game.exportLevelData();
+                          Clipboard.setData(ClipboardData(text: jsonString));
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Level Data Copied!')),
+                          );
+                        },
+                      ),
+                      const SizedBox(width: 8),
+                      ElevatedButton(
+                        onPressed: _loadOnlineLevel,
+                        child: const Icon(Icons.cloud_download_rounded),
+                      ),
+                      const SizedBox(width: 8),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: GameColors.purpleAccent,
+                        ),
+                        onPressed: _publishOnlineLevel,
+                        child: const Icon(Icons.cloud_upload_rounded),
+                      ),
+                    ],
                   ),
-                  const SizedBox(width: 8),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: GameColors.blueAccent,
-                    ),
-                    onPressed: () async {
-                      final jsonString = widget.game.exportLevelData();
-                      await DatabaseHelper.instance.saveCustomLevel(
-                        widget.game.currentLevel.value,
-                        jsonString,
-                        isInfinity: widget.game.currentLevel.value == 0,
-                      );
-                      if (context.mounted) {
-                        final testGame = BalancoGame(
-                          isMultiplayer: false,
-                          playerRole: 'host',
-                          isInfinityMode: widget.game.currentLevel.value == 0,
-                          isEditMode: false,
-                        );
-                        if (widget.game.currentLevel.value > 0) {
-                          testGame.currentLevel.value = widget
-                              .game
-                              .currentLevel
-                              .value; // Play the exact level assigned
-                        }
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => GamePlayOverlay(game: testGame),
-                          ),
-                        );
-                      }
-                    },
-                    child: const Icon(Icons.play_arrow),
-                  ),
-                  const SizedBox(width: 8),
-                  ElevatedButton(
-                    child: const Icon(Icons.copy),
-                    onPressed: () {
-                      final jsonString = widget.game.exportLevelData();
-                      Clipboard.setData(ClipboardData(text: jsonString));
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Level Data Copied!')),
-                      );
-                    },
-                  ),
-                  const SizedBox(width: 8),
-                  ElevatedButton(
-                    onPressed: _loadOnlineLevel,
-                    child: const Icon(Icons.cloud_download_rounded),
-                  ),
-                  const SizedBox(width: 8),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: GameColors.purpleAccent,
-                    ),
-                    onPressed: _publishOnlineLevel,
-                    child: const Icon(Icons.cloud_upload_rounded),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ),
             ],
           ),
         ),

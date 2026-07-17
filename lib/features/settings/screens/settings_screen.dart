@@ -8,11 +8,20 @@ import 'package:balanco_game/features/game/screens/gameplay.dart';
 import 'package:balanco_game/features/game/game_area.dart';
 import 'package:balanco_game/features/player/application/player_session.dart';
 import 'package:balanco_game/features/home/screens/splash/splash_screen.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   final ScrollController scrollController;
 
   const SettingsScreen({super.key, required this.scrollController});
+
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  bool _isAudioExpanded = false;
+
 
   Widget _buildCartoonCard({required Widget child, bool disabled = false}) {
     return Container(
@@ -246,7 +255,7 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      controller: scrollController,
+      controller: widget.scrollController,
       physics: const BouncingScrollPhysics(),
       padding: EdgeInsets.only(
         left: 24.0,
@@ -258,92 +267,106 @@ class SettingsScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _buildSectionHeader('AUDIO & FEEDBACK'),
-          _buildCartoonCard(
-            child: Column(
-              children: [
-                _buildToggleRow(
-                  icon: Icons.volume_up_rounded,
-                  iconColor: GameColors.blueAccent,
-                  title: 'All Sound',
-                  subtitle: 'Master audio control',
-                  notifier: AppSettings.soundEnabled,
-                  onChanged: AppSettings.setSoundEnabled,
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                _isAudioExpanded = !_isAudioExpanded;
+              });
+            },
+            child: _buildCartoonCard(
+              child: AnimatedSize(
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
+                alignment: Alignment.topCenter,
+                child: Column(
+                  children: [
+                    _buildToggleRow(
+                      icon: Icons.volume_up_rounded,
+                      iconColor: GameColors.blueAccent,
+                      title: 'All Sound',
+                      subtitle: 'Master audio control',
+                      notifier: AppSettings.soundEnabled,
+                      onChanged: AppSettings.setSoundEnabled,
+                    ),
+                    if (_isAudioExpanded) ...[
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16.0),
+                        child: Divider(
+                          height: 2,
+                          color: GameColors.brownDarkUi,
+                          thickness: 2,
+                        ),
+                      ),
+                      _buildToggleRow(
+                        icon: Icons.music_note_rounded,
+                        iconColor: GameColors.orange,
+                        title: 'Game Music',
+                        subtitle: 'Ambient gameplay sound',
+                        notifier: AppSettings.inGameMusicEnabled,
+                        onChanged: AppSettings.setInGameMusicEnabled,
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16.0),
+                        child: Divider(
+                          height: 2,
+                          color: GameColors.brownDarkUi,
+                          thickness: 2,
+                        ),
+                      ),
+                      _buildVolumeRow(
+                        icon: Icons.music_note_rounded,
+                        label: 'Music',
+                        notifier: AppSettings.musicVolume,
+                        onChanged: AppSettings.setMusicVolume,
+                      ),
+                      _buildVolumeRow(
+                        icon: Icons.sports_martial_arts_rounded,
+                        label: 'Impacts',
+                        notifier: AppSettings.impactsVolume,
+                        onChanged: (value) =>
+                            AppSettings.setChannelVolume(SoundChannel.impacts, value),
+                      ),
+                      _buildVolumeRow(
+                        icon: Icons.warning_amber_rounded,
+                        label: 'Hazards',
+                        notifier: AppSettings.hazardsVolume,
+                        onChanged: (value) =>
+                            AppSettings.setChannelVolume(SoundChannel.hazards, value),
+                      ),
+                      _buildVolumeRow(
+                        icon: Icons.auto_awesome_rounded,
+                        label: 'Rewards',
+                        notifier: AppSettings.rewardsVolume,
+                        onChanged: (value) =>
+                            AppSettings.setChannelVolume(SoundChannel.rewards, value),
+                      ),
+                      _buildVolumeRow(
+                        icon: Icons.touch_app_rounded,
+                        label: 'UI',
+                        notifier: AppSettings.uiVolume,
+                        onChanged: (value) =>
+                            AppSettings.setChannelVolume(SoundChannel.ui, value),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 12.0),
+                        child: Divider(
+                          height: 2,
+                          color: GameColors.brownDarkUi,
+                          thickness: 2,
+                        ),
+                      ),
+                      _buildToggleRow(
+                        icon: Icons.vibration,
+                        iconColor: GameColors.orangeAccent,
+                        title: 'Haptics',
+                        subtitle: 'Vibrations for impacts',
+                        notifier: AppSettings.hapticsEnabled,
+                        onChanged: AppSettings.setHapticsEnabled,
+                      ),
+                    ],
+                  ],
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 16.0),
-                  child: Divider(
-                    height: 2,
-                    color: GameColors.brownDarkUi,
-                    thickness: 2,
-                  ),
-                ),
-                _buildToggleRow(
-                  icon: Icons.music_note_rounded,
-                  iconColor: GameColors.orange,
-                  title: 'Game Music',
-                  subtitle: 'Ambient gameplay sound',
-                  notifier: AppSettings.inGameMusicEnabled,
-                  onChanged: AppSettings.setInGameMusicEnabled,
-                ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 16.0),
-                  child: Divider(
-                    height: 2,
-                    color: GameColors.brownDarkUi,
-                    thickness: 2,
-                  ),
-                ),
-                _buildVolumeRow(
-                  icon: Icons.music_note_rounded,
-                  label: 'Music',
-                  notifier: AppSettings.musicVolume,
-                  onChanged: AppSettings.setMusicVolume,
-                ),
-                _buildVolumeRow(
-                  icon: Icons.sports_martial_arts_rounded,
-                  label: 'Impacts',
-                  notifier: AppSettings.impactsVolume,
-                  onChanged: (value) =>
-                      AppSettings.setChannelVolume(SoundChannel.impacts, value),
-                ),
-                _buildVolumeRow(
-                  icon: Icons.warning_amber_rounded,
-                  label: 'Hazards',
-                  notifier: AppSettings.hazardsVolume,
-                  onChanged: (value) =>
-                      AppSettings.setChannelVolume(SoundChannel.hazards, value),
-                ),
-                _buildVolumeRow(
-                  icon: Icons.auto_awesome_rounded,
-                  label: 'Rewards',
-                  notifier: AppSettings.rewardsVolume,
-                  onChanged: (value) =>
-                      AppSettings.setChannelVolume(SoundChannel.rewards, value),
-                ),
-                _buildVolumeRow(
-                  icon: Icons.touch_app_rounded,
-                  label: 'UI',
-                  notifier: AppSettings.uiVolume,
-                  onChanged: (value) =>
-                      AppSettings.setChannelVolume(SoundChannel.ui, value),
-                ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 12.0),
-                  child: Divider(
-                    height: 2,
-                    color: GameColors.brownDarkUi,
-                    thickness: 2,
-                  ),
-                ),
-                _buildToggleRow(
-                  icon: Icons.vibration,
-                  iconColor: GameColors.orangeAccent,
-                  title: 'Haptics',
-                  subtitle: 'Vibrations for impacts',
-                  notifier: AppSettings.hapticsEnabled,
-                  onChanged: AppSettings.setHapticsEnabled,
-                ),
-              ],
+              ),
             ),
           ),
 
@@ -512,58 +535,60 @@ class SettingsScreen extends StatelessWidget {
 
           const SizedBox(height: 32),
 
-          _buildSectionHeader('DEVELOPER TOOLS'),
-          _buildCartoonCard(
-            child: Column(
-              children: [
-                _buildLinkRow(
-                  icon: Icons.code,
-                  title: 'Level Editor',
-                  onTap: () {
-                    AppSettings.stopBgm();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          final game = BalancoGame(
-                            isMultiplayer: false,
-                            playerRole: 'host',
-                            isEditMode: true,
-                          );
-                          game.currentLevel.value =
-                              AppSettings.lastEditedLevel.value;
-                          return GamePlayOverlay(game: game);
-                        },
-                      ),
-                    ).then((_) {
-                      AppSettings.playMenuBgm();
-                    });
-                  },
-                ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 12.0),
-                  child: Divider(
-                    height: 2,
-                    color: GameColors.brownDarkUi,
-                    thickness: 2,
+          if (Supabase.instance.client.auth.currentUser?.email == 'karemehab2323@gmail.com') ...[
+            _buildSectionHeader('DEVELOPER TOOLS'),
+            _buildCartoonCard(
+              child: Column(
+                children: [
+                  _buildLinkRow(
+                    icon: Icons.code,
+                    title: 'Level Editor',
+                    onTap: () {
+                      AppSettings.stopBgm();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            final game = BalancoGame(
+                              isMultiplayer: false,
+                              playerRole: 'host',
+                              isEditMode: true,
+                            );
+                            game.currentLevel.value =
+                                AppSettings.lastEditedLevel.value;
+                            return GamePlayOverlay(game: game);
+                          },
+                        ),
+                      ).then((_) {
+                        AppSettings.playMenuBgm();
+                      });
+                    },
                   ),
-                ),
-                _buildLinkRow(
-                  icon: Icons.code,
-                  title: 'Background Editor',
-                  onTap: () {
-                    AppSettings.stopBgm();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => const BgConfigScreen()),
-                    ).then((_) {
-                      AppSettings.playMenuBgm();
-                    });
-                  },
-                ),
-              ],
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 12.0),
+                    child: Divider(
+                      height: 2,
+                      color: GameColors.brownDarkUi,
+                      thickness: 2,
+                    ),
+                  ),
+                  _buildLinkRow(
+                    icon: Icons.code,
+                    title: 'Background Editor',
+                    onTap: () {
+                      AppSettings.stopBgm();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const BgConfigScreen()),
+                      ).then((_) {
+                        AppSettings.playMenuBgm();
+                      });
+                    },
+                  ),
+                ],
+              ),
             ),
-          ),
+          ],
 
           const SizedBox(height: 40),
           Center(

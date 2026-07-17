@@ -9,7 +9,8 @@ class CoopRepository {
   Future<CoopRoom> createRoom(CoopSide side) =>
       _roomRpc('create_coop_room', {'p_side': side.value});
 
-  Future<CoopRoom> createRaceRoom() => _roomRpc('create_race_room', const {});
+  Future<CoopRoom> createRaceRoom({int maxPlayers = 2}) =>
+      _roomRpc('create_race_room', {'p_max_players': maxPlayers});
 
   Future<CoopRoom> joinRoom(String code) =>
       _roomRpc('join_coop_room', {'p_code': code.trim().toUpperCase()});
@@ -68,6 +69,10 @@ class CoopRepository {
   Future<CoopRoom> surrenderRace(String roomId) =>
       _roomRpc('surrender_race', {'p_room_id': roomId});
 
+  Future<void> leaveRaceRoom(String roomId) async {
+    await _client.rpc('leave_race_room', params: {'p_room_id': roomId});
+  }
+
   Future<CoopRoom> maintainRacePresence(String roomId) =>
       _roomRpc('maintain_race_presence', {'p_room_id': roomId});
 
@@ -77,8 +82,24 @@ class CoopRepository {
   Future<CoopRoom> inviteFriend({
     required String playerCode,
     required CoopSide side,
-  }) => _roomRpc('invite_friend_to_coop', {
+  }) => invitePlayerToGame(
+    playerCode: playerCode,
+    mode: 'coop',
+    maxPlayers: 2,
+    side: side,
+  );
+
+  Future<CoopRoom> invitePlayerToGame({
+    required String playerCode,
+    required String mode,
+    required int maxPlayers,
+    String? roomId,
+    CoopSide side = CoopSide.left,
+  }) => _roomRpc('invite_friend_to_game', {
     'p_friend_code': playerCode.trim().toUpperCase(),
+    'p_mode': mode,
+    'p_max_players': maxPlayers,
+    'p_room_id': roomId,
     'p_side': side.value,
   });
 

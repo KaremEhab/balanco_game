@@ -137,7 +137,10 @@ class _CoopSetupScreenState extends State<CoopSetupScreen> {
   Future<void> _inviteFriend(Map<String, dynamic> friend) async {
     setState(() => _busy = true);
     try {
-      await DatabaseHelper.instance.saveConfig('last_coop_friend', jsonEncode(friend));
+      await DatabaseHelper.instance.saveConfig(
+        'last_coop_friend',
+        jsonEncode(friend),
+      );
       final room = await _repository.inviteFriend(
         playerCode: friend['player_code'] as String,
         side: _side,
@@ -219,7 +222,7 @@ class _CoopSetupScreenState extends State<CoopSetupScreen> {
                       Text('CHOOSE YOUR SIDE', style: _titleStyle()),
                       const SizedBox(height: 14),
                       Row(
-                        children: CoopSide.values
+                        children: coopControlSides
                             .map(
                               (side) => Expanded(
                                 child: Padding(
@@ -323,7 +326,11 @@ class _CoopSetupScreenState extends State<CoopSetupScreen> {
                             invite['display_name'] as String,
                             style: const TextStyle(fontWeight: FontWeight.w900),
                           ),
-                          subtitle: const Text('Invited you to play CO-OP'),
+                          subtitle: Text(
+                            invite['mode'] == 'race'
+                                ? 'Invited you to a ${invite['max_players'] ?? 2}-player Race'
+                                : 'Invited you to play CO-OP',
+                          ),
                           trailing: Wrap(
                             children: [
                               IconButton(

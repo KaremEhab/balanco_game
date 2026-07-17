@@ -17,6 +17,7 @@ class _RaceSetupScreenState extends State<RaceSetupScreen> {
   late final CoopRepository _repository;
   final _roomCode = TextEditingController();
   bool _busy = false;
+  int _maxPlayers = 2;
 
   @override
   void initState() {
@@ -88,8 +89,8 @@ class _RaceSetupScreenState extends State<RaceSetupScreen> {
                 ),
                 const SizedBox(height: 8),
                 const Text(
-                  'Both racers get the same level and start together. '
-                  'Your live boards appear side by side in landscape.',
+                  'Every racer gets the same level and synchronized start. '
+                  'Up to four live bars and balls share one portrait board.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,
@@ -97,11 +98,30 @@ class _RaceSetupScreenState extends State<RaceSetupScreen> {
                   ),
                 ),
                 const SizedBox(height: 18),
+                Text(
+                  'PLAYERS',
+                  style: GoogleFonts.luckiestGuy(color: Colors.white),
+                ),
+                const SizedBox(height: 8),
+                SegmentedButton<int>(
+                  segments: const [
+                    ButtonSegment(value: 2, label: Text('2')),
+                    ButtonSegment(value: 3, label: Text('3')),
+                    ButtonSegment(value: 4, label: Text('4')),
+                  ],
+                  selected: {_maxPlayers},
+                  onSelectionChanged: _busy
+                      ? null
+                      : (value) => setState(() => _maxPlayers = value.first),
+                ),
+                const SizedBox(height: 14),
                 _RaceButton(
                   label: 'CREATE RACE',
                   icon: Icons.add_link_rounded,
                   busy: _busy,
-                  onPressed: () => _open(_repository.createRaceRoom),
+                  onPressed: () => _open(
+                    () => _repository.createRaceRoom(maxPlayers: _maxPlayers),
+                  ),
                 ),
               ],
             ),

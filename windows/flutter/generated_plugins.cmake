@@ -6,6 +6,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   app_links
   audioplayers_windows
   connectivity_plus
+  firebase_core
   flutter_webrtc
   url_launcher_windows
 )

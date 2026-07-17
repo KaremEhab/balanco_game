@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 import 'package:balanco_game/core/data/database_helper.dart';
 import 'package:balanco_game/core/data/models.dart';
@@ -24,6 +25,10 @@ import 'package:balanco_game/features/game/components/game_background/level_grou
 
 import 'package:balanco_game/features/map/theme/biome_config.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
+import 'package:balanco_game/features/notifications/application/notification_inbox_controller.dart';
+import 'package:balanco_game/features/notifications/application/notification_service.dart';
+import 'package:balanco_game/features/notifications/presentation/notifications_screen.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -36,9 +41,11 @@ class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
   final ScrollController _mapScrollController = ScrollController();
   final ScrollController _modesScrollController = ScrollController();
+  final ScrollController _notificationsScrollController = ScrollController();
   final ScrollController _leaderboardScrollController = ScrollController();
   final ScrollController _settingsScrollController = ScrollController();
   late PageController _pageController;
+  late final NotificationInboxController _notificationInboxController;
   final ValueNotifier<double> _expandProgressNotifier = ValueNotifier(0.0);
   final ValueNotifier<double> biomeTransitionProgress = ValueNotifier(0.0);
   final ValueNotifier<BiomeModel?> currentBiomeNotifier = ValueNotifier(null);
@@ -58,6 +65,7 @@ class _MainScreenState extends State<MainScreen> {
     GlobalKey(),
     GlobalKey(),
     GlobalKey(),
+    GlobalKey(),
   ];
   double _indicatorLeft = 0;
   double _indicatorWidth = 0;
@@ -69,6 +77,13 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
     _loadData();
     _pageController = PageController(initialPage: _currentIndex);
+    _notificationInboxController = NotificationInboxController(
+      Supabase.instance.client,
+    );
+    unawaited(_notificationInboxController.start());
+    NotificationService.instance.requestedRoute.addListener(
+      _handleNotificationRoute,
+    );
     _screens = [
       HomeScreen(
         key: _homeKey,
@@ -82,19 +97,30 @@ class _MainScreenState extends State<MainScreen> {
         scrollController: _modesScrollController,
         onReturnFromGame: _loadData,
       ),
+      NotificationsScreen(
+        controller: _notificationInboxController,
+        scrollController: _notificationsScrollController,
+      ),
       LeaderboardScreen(scrollController: _leaderboardScrollController),
       SettingsScreen(scrollController: _settingsScrollController),
     ];
 
     _mapScrollController.addListener(_scrollListener);
     _modesScrollController.addListener(_scrollListener);
+    _notificationsScrollController.addListener(_scrollListener);
     _leaderboardScrollController.addListener(_scrollListener);
     _settingsScrollController.addListener(_scrollListener);
     _pageController.addListener(_onPageOrScrollChanged);
     _modesScrollController.addListener(_onPageOrScrollChanged);
+    _notificationsScrollController.addListener(_onPageOrScrollChanged);
     _leaderboardScrollController.addListener(_onPageOrScrollChanged);
     _settingsScrollController.addListener(_onPageOrScrollChanged);
-    WidgetsBinding.instance.addPostFrameCallback((_) => _updateIndicator());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _updateIndicator();
+      // A notification can launch Balanco before MainScreen attaches its
+      // listener. Consume the retained route after the first frame as well.
+      _handleNotificationRoute();
+    });
   }
 
   void _onPageOrScrollChanged() {
@@ -103,8 +129,8 @@ class _MainScreenState extends State<MainScreen> {
     double page = _pageController.hasClients
         ? (_pageController.page ?? _currentIndex.toDouble())
         : _currentIndex.toDouble();
-    // 0.0 at Leaderboard, 1.0 at Settings
-    double horizontalProgress = (page - 2.0).clamp(0.0, 1.0);
+    // 0.0 at Leaderboard, 1.0 at Settings.
+    double horizontalProgress = (page - 3.0).clamp(0.0, 1.0);
 
     double verticalProgress = 0.0;
     if (_settingsScrollController.hasClients) {
@@ -117,6 +143,23 @@ class _MainScreenState extends State<MainScreen> {
 
     _expandProgressNotifier.value =
         horizontalProgress * (1.0 - verticalProgress);
+  }
+
+  void _handleNotificationRoute() {
+    final route = NotificationService.instance.requestedRoute.value;
+    if (route == null || !mounted) return;
+    if (!_pageController.hasClients) {
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) => _handleNotificationRoute(),
+      );
+      return;
+    }
+    NotificationService.instance.requestedRoute.value = null;
+    _pageController.animateToPage(
+      2,
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeOutCubic,
+    );
   }
 
   void _updateIndicator() {
@@ -152,6 +195,8 @@ class _MainScreenState extends State<MainScreen> {
     } else if (_currentIndex == 1) {
       activeController = _modesScrollController;
     } else if (_currentIndex == 2) {
+      activeController = _notificationsScrollController;
+    } else if (_currentIndex == 3) {
       activeController = _leaderboardScrollController;
     } else {
       activeController = _settingsScrollController;
@@ -180,6 +225,9 @@ class _MainScreenState extends State<MainScreen> {
     _modesScrollController.removeListener(_scrollListener);
     _modesScrollController.removeListener(_onPageOrScrollChanged);
     _modesScrollController.dispose();
+    _notificationsScrollController.removeListener(_scrollListener);
+    _notificationsScrollController.removeListener(_onPageOrScrollChanged);
+    _notificationsScrollController.dispose();
     _leaderboardScrollController.removeListener(_scrollListener);
     _leaderboardScrollController.removeListener(_onPageOrScrollChanged);
     _leaderboardScrollController.dispose();
@@ -188,6 +236,10 @@ class _MainScreenState extends State<MainScreen> {
     _settingsScrollController.removeListener(_onPageOrScrollChanged);
     _settingsScrollController.removeListener(_scrollListener);
     _settingsScrollController.dispose();
+    NotificationService.instance.requestedRoute.removeListener(
+      _handleNotificationRoute,
+    );
+    _notificationInboxController.dispose();
     _expandProgressNotifier.dispose();
     biomeTransitionProgress.dispose();
     super.dispose();
@@ -236,11 +288,18 @@ class _MainScreenState extends State<MainScreen> {
                 _modesScrollController.jumpTo(0);
               }
               if (index != 2 &&
+                  _notificationsScrollController.hasClients &&
+                  _notificationsScrollController
+                      .position
+                      .hasContentDimensions) {
+                _notificationsScrollController.jumpTo(0);
+              }
+              if (index != 3 &&
                   _leaderboardScrollController.hasClients &&
                   _leaderboardScrollController.position.hasContentDimensions) {
                 _leaderboardScrollController.jumpTo(0);
               }
-              if (index != 3 &&
+              if (index != 4 &&
                   _settingsScrollController.hasClients &&
                   _settingsScrollController.position.hasContentDimensions) {
                 _settingsScrollController.jumpTo(0);
@@ -393,6 +452,8 @@ class _MainScreenState extends State<MainScreen> {
     } else if (_currentIndex == 1) {
       activeController = _modesScrollController;
     } else if (_currentIndex == 2) {
+      activeController = _notificationsScrollController;
+    } else if (_currentIndex == 3) {
       activeController = _leaderboardScrollController;
     } else {
       activeController = _settingsScrollController;
@@ -787,7 +848,7 @@ class _MainScreenState extends State<MainScreen> {
 
                       return Container(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
+                          horizontal: 8,
                           vertical: 10,
                         ),
                         decoration: BoxDecoration(
@@ -850,23 +911,29 @@ class _MainScreenState extends State<MainScreen> {
                                   label: 'Home',
                                   index: 0,
                                 ),
-                                const SizedBox(width: 10),
+                                const SizedBox(width: 4),
                                 _buildNavItem(
                                   icon: Icons.category,
                                   label: 'Modes',
                                   index: 1,
                                 ),
-                                const SizedBox(width: 10),
+                                const SizedBox(width: 4),
+                                _buildNavItem(
+                                  icon: Icons.notifications_rounded,
+                                  label: 'Inbox',
+                                  index: 2,
+                                ),
+                                const SizedBox(width: 4),
                                 _buildNavItem(
                                   icon: Icons.leaderboard_rounded,
                                   label: 'Rank',
-                                  index: 2,
+                                  index: 3,
                                 ),
-                                const SizedBox(width: 10),
+                                const SizedBox(width: 4),
                                 _buildNavItem(
                                   icon: Icons.settings,
                                   label: 'Settings',
-                                  index: 3,
+                                  index: 4,
                                 ),
                               ],
                             ),
@@ -908,8 +975,8 @@ class _MainScreenState extends State<MainScreen> {
         duration: const Duration(milliseconds: 250),
         color: Colors.transparent,
         padding: EdgeInsets.only(
-          left: 18,
-          right: 16,
+          left: 11,
+          right: 10,
           top: 10,
           bottom: isSelected ? 6 : 10,
         ),
@@ -931,6 +998,49 @@ class _MainScreenState extends State<MainScreen> {
                 CustomPaint(
                   size: Size(iconSize, iconSize),
                   painter: SettingsIconPainter(),
+                )
+              else if (icon == Icons.notifications_rounded)
+                AnimatedBuilder(
+                  animation: _notificationInboxController,
+                  builder: (context, child) {
+                    final unread = _notificationInboxController.unreadCount;
+                    return Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Icon(
+                          icon,
+                          color: GameColors.white.withValues(alpha: 0.85),
+                          size: iconSize,
+                        ),
+                        if (unread > 0)
+                          Positioned(
+                            right: -8,
+                            top: -8,
+                            child: Container(
+                              constraints: const BoxConstraints(minWidth: 17),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 4,
+                                vertical: 1,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.redAccent,
+                                borderRadius: BorderRadius.circular(9),
+                                border: Border.all(color: Colors.white),
+                              ),
+                              child: Text(
+                                unread > 99 ? '99+' : '$unread',
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 9,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
+                    );
+                  },
                 )
               else
                 Icon(

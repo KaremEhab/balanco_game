@@ -193,7 +193,9 @@ class BarComponent extends Component with HasGameReference<BalancoGame> {
       );
 
       final isGreyOpponent = game.raceBallTint == const Color(0xFFAEB4C1);
-      final glowColor = isGreyOpponent ? GameColors.gray400 : game.currentBiome.primaryColor;
+      final glowColor = isGreyOpponent
+          ? GameColors.gray400
+          : game.currentBiome.primaryColor;
 
       // 4. Glowing Groove
       Rect grooveRect = Rect.fromLTRB(
@@ -207,9 +209,7 @@ class BarComponent extends Component with HasGameReference<BalancoGame> {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            glowColor.withValues(
-              alpha: 0.6,
-            ), // Dark inner top
+            glowColor.withValues(alpha: 0.6), // Dark inner top
             glowColor, // Bright glow
             GameColors.white.withValues(
               alpha: 0.7,

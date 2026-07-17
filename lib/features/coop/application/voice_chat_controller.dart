@@ -5,6 +5,9 @@ import 'package:balanco_game/features/coop/application/coop_realtime_session.dar
 import 'package:flutter/foundation.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 
+/// A small WebRTC mesh suitable for Balanco's two-player CO-OP rooms and
+/// two-to-four-player Race rooms. Every signal is explicitly targeted so a
+/// third answer can never overwrite another player's peer connection.
 class VoiceChatController {
   VoiceChatController({
     required this.realtime,
@@ -17,18 +20,24 @@ class VoiceChatController {
   final String userId;
   final ValueNotifier<bool> muted = ValueNotifier(false);
   final ValueNotifier<bool> connected = ValueNotifier(false);
+  final ValueNotifier<int> connectedPeers = ValueNotifier(0);
+  final ValueNotifier<String?> activeSpeakerId = ValueNotifier(null);
   final ValueNotifier<String?> error = ValueNotifier(null);
-  RTCPeerConnection? _peer;
+
+  final Map<String, RTCPeerConnection> _peers = {};
+  final Map<String, List<RTCIceCandidate>> _pendingCandidates = {};
+  final Set<String> _remoteDescriptionReady = {};
+  final Set<String> _negotiating = {};
+  final Set<String> _connectedPeerIds = {};
+  final Map<String, String> _lastOfferSdp = {};
   MediaStream? _localStream;
   StreamSubscription<Map<String, dynamic>>? _subscription;
   Timer? _signalRetryTimer;
   Timer? _gameplayAudioRecoveryTimer;
-  final List<RTCIceCandidate> _pendingCandidates = [];
-  bool _remoteDescriptionReady = false;
-  bool _negotiating = false;
+  Timer? _audioLevelTimer;
   bool _initializing = false;
+  bool _samplingLevels = false;
   bool _disposed = false;
-  String? _lastOfferSdp;
 
   static const _turnUrl = String.fromEnvironment('BALANCO_TURN_URL');
   static const _turnUsername = String.fromEnvironment('BALANCO_TURN_USERNAME');
@@ -38,7 +47,7 @@ class VoiceChatController {
 
   Future<void> initialize() async {
     if (_disposed || _initializing) return;
-    if (_peer != null && _localStream != null) {
+    if (_localStream != null) {
       await recoverForGameplay();
       return;
     }
@@ -54,78 +63,104 @@ class VoiceChatController {
         'video': false,
       });
       await _configureCallAudio();
-      _peer = await createPeerConnection({
-        'sdpSemantics': 'unified-plan',
-        'iceServers': <Map<String, dynamic>>[
-          {
-            'urls': <String>[
-              'stun:stun.l.google.com:19302',
-              'stun:stun1.l.google.com:19302',
-            ],
-          },
-          if (_turnUrl.isNotEmpty)
-            {
-              'urls': _turnUrl,
-              'username': _turnUsername,
-              'credential': _turnCredential,
-            },
-        ],
-      });
-      for (final track in _localStream!.getAudioTracks()) {
-        await _peer!.addTrack(track, _localStream!);
-      }
-      _peer!.onIceCandidate = (candidate) {
-        if (candidate.candidate == null) return;
-        unawaited(
-          realtime.send('voice_ice', {
-            'candidate': candidate.candidate,
-            'sdp_mid': candidate.sdpMid,
-            'sdp_mline_index': candidate.sdpMLineIndex,
-          }),
-        );
-      };
-      _peer!.onTrack = (event) {
-        if (event.track.kind == 'audio') {
-          connected.value = true;
-          unawaited(_configureCallAudio());
-        }
-      };
-      _peer!.onConnectionState = (state) {
-        connected.value =
-            state == RTCPeerConnectionState.RTCPeerConnectionStateConnected;
-        if (connected.value) {
-          error.value = null;
-          unawaited(_configureCallAudio());
-        } else if (state ==
-            RTCPeerConnectionState.RTCPeerConnectionStateFailed) {
-          error.value = _turnUrl.isEmpty
-              ? 'Voice network path failed. Configure a TURN server for '
-                    'reliable calls across mobile networks.'
-              : 'Voice network path failed. Reconnecting…';
-        }
-      };
-      _peer!.onIceConnectionState = (state) {
-        if (state == RTCIceConnectionState.RTCIceConnectionStateFailed) {
-          _lastOfferSdp = null;
-          unawaited(_peer?.restartIce());
-          if (isHost) unawaited(_createOffer());
-        }
-      };
       _subscription = realtime.events.listen(
         (message) => unawaited(_handleSignalSafely(message)),
       );
       await realtime.send('voice_ready', const {});
       _signalRetryTimer = Timer.periodic(const Duration(seconds: 2), (_) {
-        if (!connected.value) {
+        if (connectedPeers.value < 1) {
           unawaited(realtime.send('voice_ready', const {}));
         }
       });
+      _audioLevelTimer = Timer.periodic(
+        const Duration(milliseconds: 250),
+        (_) => unawaited(_sampleAudioLevels()),
+      );
     } catch (exception) {
       error.value = 'Microphone unavailable: $exception';
       await _releaseMedia();
     } finally {
       _initializing = false;
     }
+  }
+
+  Future<RTCPeerConnection> _ensurePeer(String remoteId) async {
+    final existing = _peers[remoteId];
+    if (existing != null) return existing;
+    final peer = await createPeerConnection({
+      'sdpSemantics': 'unified-plan',
+      'iceServers': <Map<String, dynamic>>[
+        {
+          'urls': <String>[
+            'stun:stun.l.google.com:19302',
+            'stun:stun1.l.google.com:19302',
+          ],
+        },
+        if (_turnUrl.isNotEmpty)
+          {
+            'urls': _turnUrl,
+            'username': _turnUsername,
+            'credential': _turnCredential,
+          },
+      ],
+    });
+    _peers[remoteId] = peer;
+    _pendingCandidates.putIfAbsent(remoteId, () => []);
+    for (final track
+        in _localStream?.getAudioTracks() ?? <MediaStreamTrack>[]) {
+      await peer.addTrack(track, _localStream!);
+    }
+    peer.onIceCandidate = (candidate) {
+      if (candidate.candidate == null) return;
+      unawaited(
+        realtime.send('voice_ice', {
+          'target': remoteId,
+          'candidate': candidate.candidate,
+          'sdp_mid': candidate.sdpMid,
+          'sdp_mline_index': candidate.sdpMLineIndex,
+        }),
+      );
+    };
+    peer.onTrack = (event) {
+      if (event.track.kind == 'audio') {
+        _markPeerConnected(remoteId, true);
+        unawaited(_configureCallAudio());
+      }
+    };
+    peer.onConnectionState = (state) {
+      final isConnected =
+          state == RTCPeerConnectionState.RTCPeerConnectionStateConnected;
+      _markPeerConnected(remoteId, isConnected);
+      if (isConnected) {
+        error.value = null;
+        unawaited(_configureCallAudio());
+      } else if (state == RTCPeerConnectionState.RTCPeerConnectionStateFailed) {
+        error.value = _turnUrl.isEmpty
+            ? 'Voice network path failed. Configure a TURN server for '
+                  'reliable calls across mobile networks.'
+            : 'Voice network path failed. Reconnecting…';
+      }
+    };
+    peer.onIceConnectionState = (state) {
+      if (state == RTCIceConnectionState.RTCIceConnectionStateFailed) {
+        _lastOfferSdp.remove(remoteId);
+        unawaited(peer.restartIce());
+        if (_shouldOffer(remoteId)) unawaited(_createOffer(remoteId));
+      }
+    };
+    return peer;
+  }
+
+  bool _shouldOffer(String remoteId) => userId.compareTo(remoteId) < 0;
+
+  void _markPeerConnected(String remoteId, bool value) {
+    if (value) {
+      _connectedPeerIds.add(remoteId);
+    } else {
+      _connectedPeerIds.remove(remoteId);
+    }
+    connectedPeers.value = _connectedPeerIds.length;
+    connected.value = _connectedPeerIds.isNotEmpty;
   }
 
   Future<void> _configureCallAudio() async {
@@ -139,8 +174,6 @@ class VoiceChatController {
         AppleAudioConfiguration(
           appleAudioCategory: AppleAudioCategory.playAndRecord,
           appleAudioCategoryOptions: {
-            // HFP Bluetooth supports both the microphone and call audio.
-            // A2DP is output-only and can make iOS drop the mic input route.
             AppleAudioCategoryOption.allowBluetooth,
             AppleAudioCategoryOption.defaultToSpeaker,
           },
@@ -151,12 +184,9 @@ class VoiceChatController {
     }
   }
 
-  /// Flame/audio-player setup can replace AVAudioSession while the two Race
-  /// boards mount. Restore WebRTC's call category after gameplay is visible,
-  /// and retry once after asynchronous asset loading has settled.
   Future<void> recoverForGameplay() async {
     if (_disposed) return;
-    if (_peer == null || _localStream == null) {
+    if (_localStream == null) {
       await initialize();
       return;
     }
@@ -167,7 +197,11 @@ class VoiceChatController {
       }
       error.value = null;
       await realtime.send('voice_ready', const {});
-      if (isHost && !connected.value) await _createOffer();
+      for (final remoteId in _peers.keys) {
+        if (_shouldOffer(remoteId) && !_connectedPeerIds.contains(remoteId)) {
+          await _createOffer(remoteId);
+        }
+      }
     } catch (exception) {
       error.value = 'Voice audio recovery failed: $exception';
     }
@@ -186,68 +220,126 @@ class VoiceChatController {
   Future<void> _handleSignalSafely(Map<String, dynamic> message) async {
     try {
       await _handleSignal(message);
-      error.value = null;
     } catch (exception) {
       error.value = 'Voice connection failed: $exception';
     }
   }
 
   Future<void> _handleSignal(Map<String, dynamic> message) async {
-    if (message['from'] == userId) return;
+    final remoteId = message['from'] as String?;
+    if (remoteId == null || remoteId == userId) return;
+    final target = message['target'] as String?;
+    if (target != null && target != userId) return;
     final type = message['action'] as String?;
-    if (type == 'voice_ready' && isHost) {
-      await _createOffer();
-    } else if (type == 'voice_offer' && !isHost) {
-      await _peer?.setRemoteDescription(
+    if (!const {
+      'voice_ready',
+      'voice_offer',
+      'voice_answer',
+      'voice_ice',
+    }.contains(type)) {
+      return;
+    }
+    final peer = await _ensurePeer(remoteId);
+    if (type == 'voice_ready') {
+      if (_shouldOffer(remoteId)) await _createOffer(remoteId);
+    } else if (type == 'voice_offer') {
+      await peer.setRemoteDescription(
         RTCSessionDescription(message['sdp'] as String, 'offer'),
       );
-      _remoteDescriptionReady = true;
-      await _flushCandidates();
-      final answer = await _peer!.createAnswer();
-      await _peer!.setLocalDescription(answer);
-      await realtime.send('voice_answer', {'sdp': answer.sdp});
-    } else if (type == 'voice_answer' && isHost) {
-      await _peer?.setRemoteDescription(
+      _remoteDescriptionReady.add(remoteId);
+      await _flushCandidates(remoteId);
+      final answer = await peer.createAnswer();
+      await peer.setLocalDescription(answer);
+      await realtime.send('voice_answer', {
+        'target': remoteId,
+        'sdp': answer.sdp,
+      });
+    } else if (type == 'voice_answer') {
+      await peer.setRemoteDescription(
         RTCSessionDescription(message['sdp'] as String, 'answer'),
       );
-      _remoteDescriptionReady = true;
-      await _flushCandidates();
+      _remoteDescriptionReady.add(remoteId);
+      await _flushCandidates(remoteId);
     } else if (type == 'voice_ice') {
       final candidate = RTCIceCandidate(
         message['candidate'] as String?,
         message['sdp_mid'] as String?,
         message['sdp_mline_index'] as int?,
       );
-      if (_remoteDescriptionReady) {
-        await _peer?.addCandidate(candidate);
+      if (_remoteDescriptionReady.contains(remoteId)) {
+        await peer.addCandidate(candidate);
       } else {
-        _pendingCandidates.add(candidate);
+        _pendingCandidates[remoteId]!.add(candidate);
       }
     }
   }
 
-  Future<void> _createOffer() async {
-    if (_peer == null || _negotiating || connected.value) return;
-    if (_lastOfferSdp != null) {
-      await realtime.send('voice_offer', {'sdp': _lastOfferSdp});
+  Future<void> _createOffer(String remoteId) async {
+    final peer = _peers[remoteId];
+    if (peer == null ||
+        _negotiating.contains(remoteId) ||
+        _connectedPeerIds.contains(remoteId)) {
       return;
     }
-    _negotiating = true;
+    final cached = _lastOfferSdp[remoteId];
+    if (cached != null) {
+      await realtime.send('voice_offer', {'target': remoteId, 'sdp': cached});
+      return;
+    }
+    _negotiating.add(remoteId);
     try {
-      final offer = await _peer!.createOffer({'offerToReceiveAudio': true});
-      await _peer!.setLocalDescription(offer);
-      _lastOfferSdp = offer.sdp;
-      await realtime.send('voice_offer', {'sdp': offer.sdp});
+      final offer = await peer.createOffer({'offerToReceiveAudio': true});
+      await peer.setLocalDescription(offer);
+      if (offer.sdp != null) _lastOfferSdp[remoteId] = offer.sdp!;
+      await realtime.send('voice_offer', {
+        'target': remoteId,
+        'sdp': offer.sdp,
+      });
     } finally {
-      _negotiating = false;
+      _negotiating.remove(remoteId);
     }
   }
 
-  Future<void> _flushCandidates() async {
-    for (final candidate in _pendingCandidates) {
-      await _peer?.addCandidate(candidate);
+  Future<void> _flushCandidates(String remoteId) async {
+    final peer = _peers[remoteId];
+    for (final candidate in _pendingCandidates[remoteId] ?? const []) {
+      await peer?.addCandidate(candidate);
     }
-    _pendingCandidates.clear();
+    _pendingCandidates[remoteId]?.clear();
+  }
+
+  Future<void> _sampleAudioLevels() async {
+    if (_samplingLevels || _disposed) return;
+    _samplingLevels = true;
+    try {
+      String? loudestId;
+      var loudestLevel = 0.025;
+      for (final entry in _peers.entries) {
+        final reports = await entry.value.getStats();
+        for (final dynamic report in reports) {
+          final values = Map<String, dynamic>.from(report.values as Map);
+          final type = report.type?.toString() ?? '';
+          final kind = values['kind'] ?? values['mediaType'];
+          if (kind != 'audio' ||
+              (type != 'inbound-rtp' &&
+                  type != 'outbound-rtp' &&
+                  type != 'media-source')) {
+            continue;
+          }
+          final level = (values['audioLevel'] as num?)?.toDouble() ?? 0;
+          if (level > loudestLevel) {
+            loudestLevel = level;
+            loudestId = type == 'inbound-rtp' ? entry.key : userId;
+          }
+        }
+      }
+      activeSpeakerId.value = loudestId;
+    } catch (_) {
+      // Audio-level fields vary by WebRTC engine. Voice remains connected even
+      // when the optional speaking indicator is unavailable.
+    } finally {
+      _samplingLevels = false;
+    }
   }
 
   void toggleMute() {
@@ -256,12 +348,15 @@ class VoiceChatController {
         in _localStream?.getAudioTracks() ?? const <MediaStreamTrack>[]) {
       track.enabled = !muted.value;
     }
+    if (muted.value) activeSpeakerId.value = null;
     unawaited(realtime.send('mic_state', {'muted': muted.value}));
   }
 
   Future<void> _releaseMedia() async {
     _signalRetryTimer?.cancel();
+    _audioLevelTimer?.cancel();
     _signalRetryTimer = null;
+    _audioLevelTimer = null;
     await _subscription?.cancel();
     _subscription = null;
     for (final track
@@ -270,13 +365,18 @@ class VoiceChatController {
     }
     await _localStream?.dispose();
     _localStream = null;
-    await _peer?.close();
-    _peer = null;
+    for (final peer in _peers.values) {
+      await peer.close();
+    }
+    _peers.clear();
     _pendingCandidates.clear();
-    _remoteDescriptionReady = false;
-    _negotiating = false;
-    _lastOfferSdp = null;
+    _remoteDescriptionReady.clear();
+    _negotiating.clear();
+    _connectedPeerIds.clear();
+    _lastOfferSdp.clear();
+    connectedPeers.value = 0;
     connected.value = false;
+    activeSpeakerId.value = null;
   }
 
   Future<void> dispose() async {
@@ -285,6 +385,8 @@ class VoiceChatController {
     await _releaseMedia();
     muted.dispose();
     connected.dispose();
+    connectedPeers.dispose();
+    activeSpeakerId.dispose();
     error.dispose();
   }
 }

@@ -1,9 +1,21 @@
-enum CoopSide { left, right }
+enum CoopSide { left, right, slot1, slot2, slot3, slot4 }
+
+const coopControlSides = <CoopSide>[CoopSide.left, CoopSide.right];
 
 extension CoopSideValue on CoopSide {
   String get value => name;
-  CoopSide get opposite =>
-      this == CoopSide.left ? CoopSide.right : CoopSide.left;
+  CoopSide get opposite => switch (this) {
+    CoopSide.left => CoopSide.right,
+    CoopSide.right => CoopSide.left,
+    _ => this,
+  };
+
+  int get slotNumber => switch (this) {
+    CoopSide.left || CoopSide.slot1 => 1,
+    CoopSide.right || CoopSide.slot2 => 2,
+    CoopSide.slot3 => 3,
+    CoopSide.slot4 => 4,
+  };
 }
 
 class CoopMember {
@@ -18,6 +30,8 @@ class CoopMember {
     this.avatarUrl,
     this.avatarShape = 'circle',
     this.raceWins = 0,
+    this.sessionWins = 0,
+    this.eliminatedAt,
   });
 
   final String userId;
@@ -30,6 +44,10 @@ class CoopMember {
   final String? avatarUrl;
   final String avatarShape;
   final int raceWins;
+  final int sessionWins;
+  final DateTime? eliminatedAt;
+
+  bool get isEliminated => eliminatedAt != null;
 
   String get resolvedAvatarUrl {
     final saved = avatarUrl?.trim();
@@ -52,6 +70,8 @@ class CoopMember {
     avatarUrl: json['avatar_url'] as String?,
     avatarShape: json['avatar_shape'] as String? ?? 'circle',
     raceWins: (json['race_wins'] as num?)?.toInt() ?? 0,
+    sessionWins: (json['session_wins'] as num?)?.toInt() ?? 0,
+    eliminatedAt: DateTime.tryParse(json['eliminated_at'] as String? ?? ''),
   );
 }
 
@@ -79,6 +99,9 @@ class CoopRoom {
     required this.raceEndKind,
     required this.rematchRequestedBy,
     required this.raceRestartKind,
+    required this.maxPlayers,
+    required this.restartVoteCount,
+    required this.leaveVoteCount,
     required this.members,
   });
 
@@ -104,6 +127,9 @@ class CoopRoom {
   final String? raceEndKind;
   final String? rematchRequestedBy;
   final String? raceRestartKind;
+  final int maxPlayers;
+  final int restartVoteCount;
+  final int leaveVoteCount;
   final List<CoopMember> members;
 
   bool get isWaiting => status == 'waiting';
@@ -116,8 +142,14 @@ class CoopRoom {
       isEnded && endReason == 'forfeit' && raceEndKind == 'disconnect';
   bool get hasPostgameExitVote =>
       isEnded && endReason == 'completed' && leaveRequestedBy != null;
-  bool get canStart => members.length == 2 && members.every((m) => m.ready);
+  bool get canStart =>
+      members.length == (isRace ? maxPlayers : 2) &&
+      members.every((m) => m.ready);
   bool get isRace => mode == 'race';
+
+  int get requiredVotes => members.length;
+  List<CoopMember> opponentsOf(String userId) =>
+      members.where((member) => member.userId != userId).toList();
 
   CoopMember memberFor(String userId) =>
       members.firstWhere((member) => member.userId == userId);
@@ -149,6 +181,9 @@ class CoopRoom {
       raceEndKind: room['race_end_kind'] as String?,
       rematchRequestedBy: room['rematch_requested_by'] as String?,
       raceRestartKind: room['race_restart_kind'] as String?,
+      maxPlayers: (room['max_players'] as num?)?.toInt() ?? 2,
+      restartVoteCount: (room['restart_vote_count'] as num?)?.toInt() ?? 0,
+      leaveVoteCount: (room['leave_vote_count'] as num?)?.toInt() ?? 0,
       members: (json['members'] as List? ?? const [])
           .map(
             (value) =>

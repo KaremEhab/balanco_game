@@ -6,6 +6,7 @@ import 'package:balanco_game/core/data/models.dart';
 import 'package:balanco_game/features/auth/data/supabase_auth_repository.dart';
 import 'package:balanco_game/features/auth/domain/auth_repository.dart';
 import 'package:balanco_game/features/auth/domain/player_account.dart';
+import 'package:balanco_game/features/notifications/application/notification_service.dart';
 import 'dart:math' as math;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -33,18 +34,28 @@ class PlayerSession {
 
   Future<void> use(PlayerAccount account) async {
     player.value = account;
+    await NotificationService.instance.identify(
+      userId: account.id,
+      level: account.highestLevel,
+      playerCode: account.playerCode,
+    );
     AppSettings.setPlayerName(account.displayName);
     final local = await DatabaseHelper.instance.getPlayerProfile();
     await DatabaseHelper.instance.updatePlayerProfile(
       local.copyWith(
-        highestLevel: math.max(account.highestLevel, local.highestLevel).clamp(1, 500),
+        highestLevel: math
+            .max(account.highestLevel, local.highestLevel)
+            .clamp(1, 500),
         lastPlayedLevel: account.lastPlayedLevel.clamp(1, 500),
         coins: account.coins,
         moneyCents: account.moneyCents,
         sparks: account.sparks,
         maxSparks: account.maxSparks,
         totalPoints: account.totalPoints,
-        infinityHighScore: math.max(account.infinityHighScore, local.infinityHighScore),
+        infinityHighScore: math.max(
+          account.infinityHighScore,
+          local.infinityHighScore,
+        ),
       ),
     );
   }
@@ -211,6 +222,7 @@ class PlayerSession {
 
   Future<void> clear() async {
     player.value = null;
+    NotificationService.instance.clearIdentity();
     await repository?.signOut();
   }
 }

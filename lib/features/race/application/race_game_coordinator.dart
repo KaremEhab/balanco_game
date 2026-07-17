@@ -30,12 +30,22 @@ class RaceGameCoordinator {
   final ValueNotifier<double> remoteProgress = ValueNotifier(0);
   final ValueNotifier<int> remoteHearts = ValueNotifier(3);
   final ValueNotifier<int> remoteStars = ValueNotifier(0);
+  final ValueNotifier<Map<String, int>> remoteHeartsByUser = ValueNotifier(
+    const {},
+  );
+  final ValueNotifier<Map<String, int>> remoteStarsByUser = ValueNotifier(
+    const {},
+  );
+  final ValueNotifier<Map<String, double>> remoteProgressByUser = ValueNotifier(
+    const {},
+  );
   final ValueNotifier<bool> syncHealthy = ValueNotifier(false);
   final ValueNotifier<Duration> elapsed = ValueNotifier(Duration.zero);
   final ValueNotifier<bool> showBoardLabels = ValueNotifier(true);
   final ValueNotifier<String?> actionError = ValueNotifier(null);
   final RaceRemoteSnapshotInterpolator remoteInterpolator =
       RaceRemoteSnapshotInterpolator();
+  final Map<String, RaceRemoteSnapshotInterpolator> remoteInterpolators = {};
   final RaceMatchClock _matchClock = RaceMatchClock(
     countdown: countdownDuration,
   );
@@ -55,7 +65,7 @@ class RaceGameCoordinator {
   bool _presenceInFlight = false;
   bool _disposed = false;
   int _sequence = 0;
-  int _lastRemoteSequence = 0;
+  final Map<String, int> _lastRemoteSequenceByUser = {};
 
   DateTime get goAt =>
       (room.value.startedAt ?? DateTime.now().toUtc()).add(countdownDuration);
@@ -83,6 +93,7 @@ class RaceGameCoordinator {
       (_) => _maintainPresence(),
     );
     _scheduleBoardLabels();
+    _syncRemotePlayers();
     _applyRoomState();
     _updateDisplayState();
   }
@@ -140,7 +151,8 @@ class RaceGameCoordinator {
   }
 
   Future<void> _handleEvent(Map<String, dynamic> event) async {
-    if (event['from'] == userId) return;
+    final senderId = event['from'] as String?;
+    if (senderId == null || senderId == userId) return;
     switch (event['action']) {
       case 'race_snapshot':
         if (event['attempt'] != room.value.attemptNumber ||
@@ -148,14 +160,35 @@ class RaceGameCoordinator {
           return;
         }
         final sequence = event['sequence'] as int? ?? 0;
-        if (sequence <= _lastRemoteSequence) return;
-        _lastRemoteSequence = sequence;
-        remoteInterpolator.addSnapshot(event);
+        if (sequence <= (_lastRemoteSequenceByUser[senderId] ?? 0)) return;
+        _lastRemoteSequenceByUser[senderId] = sequence;
+        final interpolator = remoteInterpolators.putIfAbsent(
+          senderId,
+          RaceRemoteSnapshotInterpolator.new,
+        );
+        interpolator.addSnapshot(event);
+        if (senderId == _primaryOpponentId) {
+          remoteInterpolator.addSnapshot(event);
+        }
         remoteGame.applyCoopSnapshot(event);
-        remoteProgress.value =
+        final progress =
             (event['progress'] as num?)?.toDouble().clamp(0.0, 1.0) ?? 0;
-        remoteHearts.value = event['lives'] as int? ?? 3;
-        remoteStars.value = event['points'] as int? ?? 0;
+        final hearts = event['lives'] as int? ?? 3;
+        final stars = event['points'] as int? ?? 0;
+        remoteProgressByUser.value = {
+          ...remoteProgressByUser.value,
+          senderId: progress,
+        };
+        remoteHeartsByUser.value = {
+          ...remoteHeartsByUser.value,
+          senderId: hearts,
+        };
+        remoteStarsByUser.value = {...remoteStarsByUser.value, senderId: stars};
+        if (senderId == _primaryOpponentId) {
+          remoteProgress.value = progress;
+          remoteHearts.value = hearts;
+          remoteStars.value = stars;
+        }
         syncHealthy.value = true;
         _healthTimer?.cancel();
         _healthTimer = Timer(const Duration(milliseconds: 1200), () {
@@ -224,6 +257,28 @@ class RaceGameCoordinator {
     _applyRoomState();
     await realtime.notifyRoomChanged();
   });
+
+  Future<bool> leaveRaceImmediately() async {
+    if (_actionInFlight || _disposed) return false;
+    _actionInFlight = true;
+    actionError.value = null;
+    try {
+      await repository.leaveRaceRoom(room.value.id);
+      try {
+        await realtime.notifyRoomChanged();
+      } catch (_) {
+        // The database leave already succeeded. Remaining players also poll
+        // the authoritative room state, so a failed broadcast must not keep
+        // this player trapped on the Race screen.
+      }
+      return true;
+    } catch (error) {
+      actionError.value = _friendlyActionError(error);
+      return false;
+    } finally {
+      _actionInFlight = false;
+    }
+  }
 
   Future<void> requestLeave() => _runAction(() async {
     room.value = await repository.voteLeave(room.value.id, false);
@@ -314,17 +369,46 @@ class RaceGameCoordinator {
       return;
     }
     room.value = next;
+    _syncRemotePlayers();
+  }
+
+  String? get _primaryOpponentId => room.value.members
+      .where((member) => member.userId != userId)
+      .map((member) => member.userId)
+      .firstOrNull;
+
+  void _syncRemotePlayers() {
+    final opponentIds = room.value.members
+        .where((member) => member.userId != userId)
+        .map((member) => member.userId)
+        .toSet();
+    for (final id in opponentIds) {
+      remoteInterpolators.putIfAbsent(id, RaceRemoteSnapshotInterpolator.new);
+    }
+    final removed = remoteInterpolators.keys
+        .where((id) => !opponentIds.contains(id))
+        .toList();
+    for (final id in removed) {
+      remoteInterpolators.remove(id)?.dispose();
+      _lastRemoteSequenceByUser.remove(id);
+    }
   }
 
   Future<void> _restartRace() async {
     _finishSubmitted = false;
     _lossSubmitted = false;
-    _lastRemoteSequence = 0;
+    _lastRemoteSequenceByUser.clear();
     remoteInterpolator.clear();
+    for (final interpolator in remoteInterpolators.values) {
+      interpolator.clear();
+    }
     localProgress.value = 0;
     remoteProgress.value = 0;
     remoteHearts.value = 3;
     remoteStars.value = 0;
+    remoteHeartsByUser.value = const {};
+    remoteStarsByUser.value = const {};
+    remoteProgressByUser.value = const {};
     elapsed.value = Duration.zero;
     _matchClock.reset();
     localGame.currentLevel.value = room.value.raceLevel;
@@ -365,10 +449,17 @@ class RaceGameCoordinator {
     remoteProgress.dispose();
     remoteHearts.dispose();
     remoteStars.dispose();
+    remoteHeartsByUser.dispose();
+    remoteStarsByUser.dispose();
+    remoteProgressByUser.dispose();
     syncHealthy.dispose();
     elapsed.dispose();
     showBoardLabels.dispose();
     actionError.dispose();
     remoteInterpolator.dispose();
+    for (final interpolator in remoteInterpolators.values) {
+      interpolator.dispose();
+    }
+    remoteInterpolators.clear();
   }
 }

@@ -1697,7 +1697,6 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     // Offload level generation to an Isolate
     LevelData data;
     final int levelToGenerate = currentLevel.value;
-    var loadedBakedCampaignLevel = false;
     var isFallbackGeneratedLevel = false;
 
     if (isEditMode) {
@@ -1805,7 +1804,6 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
               .loadLevel(levelToGenerate);
           if (campaignLevel != null) {
             data = campaignLevel.toLevelData();
-            loadedBakedCampaignLevel = true;
           } else {
             final fallbackSeed = isRaceMode ? levelToGenerate * 104729 : null;
             data = await Isolate.run(
@@ -1877,8 +1875,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     nextBombSpawnThreshold = 15.0 + _random.nextDouble() * 10.0;
 
     isDarknessLevel =
-        data.isDarkLevel ||
-        (isFallbackGeneratedLevel && levelToGenerate >= 11);
+        data.isDarkLevel || (isFallbackGeneratedLevel && levelToGenerate >= 11);
     isDarknessLevelNotifier.value = isDarknessLevel;
     darknessBaseLightRadius = data.darknessLightRadius.clamp(62.0, 90.0);
     lightRadiusNotifier.value = darknessBaseLightRadius;

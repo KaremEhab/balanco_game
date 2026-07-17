@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "936173877697",
+    "project_id": "balanco-c0b06",
+    "storage_bucket": "balanco-c0b06.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:936173877697:android:460c9ce4444d08bd94d740",
+        "android_client_info": {
+          "package_name": "com.balanco.balanco"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA38gRqPdQv_uibHt2rm9FnuqP5eHDYiDE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
