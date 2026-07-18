@@ -13,6 +13,7 @@ import 'package:flame/game.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:balanco_game/core/widgets/level_gradient_background.dart';
 
 class RacePortraitMatchView extends StatelessWidget {
   const RacePortraitMatchView({
@@ -61,61 +62,67 @@ class RacePortraitMatchView extends StatelessWidget {
 
       return Stack(
         children: [
-          Positioned.fill(child: _RaceBackdrop(level: room.raceLevel)),
-          Positioned(
-            left: horizontal,
-            right: horizontal,
-            top: boardTop,
-            bottom: boardBottom,
-            child: _SharedRaceBoard(
-              localGame: localGame,
-              remoteGame: remoteGame,
-              room: room,
-              userId: userId,
-              coordinator: coordinator,
-              showLabels: coordinator.showBoardLabels,
-              level: room.raceLevel,
+          LevelGradientBackground(level: room.raceLevel),
+          SafeArea(
+            child: Stack(
+              children: [
+                Positioned(
+                  left: horizontal,
+                  right: horizontal,
+                  top: boardTop,
+                  bottom: boardBottom,
+                  child: _SharedRaceBoard(
+                    localGame: localGame,
+                    remoteGame: remoteGame,
+                    room: room,
+                    userId: userId,
+                    coordinator: coordinator,
+                    showLabels: coordinator.showBoardLabels,
+                    level: room.raceLevel,
+                  ),
+                ),
+                Positioned(
+                  left: horizontal,
+                  right: horizontal,
+                  top: 0,
+                  height: boardTop - 4,
+                  child: _RaceHeader(
+                    room: room,
+                    localMember: localMember,
+                    localGame: localGame,
+                    coordinator: coordinator,
+                    voice: voice,
+                    scale: scale,
+                    onLeave: onLeave,
+                    onSettings: onSettings,
+                    onLocalProfile: onLocalProfile,
+                    onPlayerProfile: onPlayerProfile,
+                  ),
+                ),
+                Positioned(
+                  left: math.max(8, horizontal + 40),
+                  bottom: joystickBottom,
+                  child: _VerticalRaceControl(
+                    scale: scale,
+                    onChanged: (value) => localGame.leftJoystickValue = value,
+                  ),
+                ),
+                Positioned(
+                  right: math.max(8, horizontal + 40),
+                  bottom: joystickBottom,
+                  child: _VerticalRaceControl(
+                    scale: scale,
+                    onChanged: (value) => localGame.rightJoystickValue = value,
+                  ),
+                ),
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: math.max(8, height * 0.012),
+                  child: _HelperDock(game: localGame, scale: scale, onPause: onPause),
+                ),
+              ],
             ),
-          ),
-          Positioned(
-            left: horizontal,
-            right: horizontal,
-            top: 0,
-            height: boardTop - 4,
-            child: _RaceHeader(
-              room: room,
-              localMember: localMember,
-              localGame: localGame,
-              coordinator: coordinator,
-              voice: voice,
-              scale: scale,
-              onLeave: onLeave,
-              onSettings: onSettings,
-              onLocalProfile: onLocalProfile,
-              onPlayerProfile: onPlayerProfile,
-            ),
-          ),
-          Positioned(
-            left: math.max(8, horizontal + 40),
-            bottom: joystickBottom,
-            child: _VerticalRaceControl(
-              scale: scale,
-              onChanged: (value) => localGame.leftJoystickValue = value,
-            ),
-          ),
-          Positioned(
-            right: math.max(8, horizontal + 40),
-            bottom: joystickBottom,
-            child: _VerticalRaceControl(
-              scale: scale,
-              onChanged: (value) => localGame.rightJoystickValue = value,
-            ),
-          ),
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: math.max(8, height * 0.012),
-            child: _HelperDock(game: localGame, scale: scale, onPause: onPause),
           ),
         ],
       );
@@ -123,67 +130,7 @@ class RacePortraitMatchView extends StatelessWidget {
   );
 }
 
-class _RaceBackdrop extends StatelessWidget {
-  const _RaceBackdrop({required this.level});
 
-  final int level;
-
-  @override
-  Widget build(BuildContext context) {
-    final palette = _RacePalette.forLevel(level);
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 1100),
-      curve: Curves.easeInOutCubic,
-      decoration: BoxDecoration(
-        gradient: RadialGradient(
-          center: Alignment.topCenter,
-          radius: 1.25,
-          colors: palette.backdrop,
-          stops: const [0, 0.54, 1],
-        ),
-      ),
-    );
-  }
-}
-
-class _RacePalette {
-  const _RacePalette({
-    required this.backdrop,
-    required this.border,
-    required this.board,
-  });
-
-  final List<Color> backdrop;
-  final List<Color> border;
-  final List<Color> board;
-
-  static _RacePalette forLevel(int level) {
-    final accent = HSLColor.fromAHSL(
-      1,
-      ((level - 1) * 31.0 + 205) % 360,
-      0.72,
-      0.55,
-    ).toColor();
-    Color mix(Color base, double amount) => Color.lerp(base, accent, amount)!;
-    return _RacePalette(
-      backdrop: [
-        mix(const Color(0xFF19377E), 0.42),
-        mix(const Color(0xFF091A51), 0.25),
-        mix(const Color(0xFF050F36), 0.12),
-      ],
-      border: [
-        mix(const Color(0xFF5EDBFF), 0.3),
-        mix(const Color(0xFF8178FF), 0.55),
-        mix(const Color(0xFF2C8EFF), 0.3),
-      ],
-      board: [
-        mix(const Color(0xFF3157AE), 0.26),
-        mix(const Color(0xFF1E4093), 0.18),
-        mix(const Color(0xFF102C72), 0.12),
-      ],
-    );
-  }
-}
 
 class _RaceHeader extends StatelessWidget {
   const _RaceHeader({
@@ -655,7 +602,7 @@ class _SharedRaceBoardState extends State<_SharedRaceBoard> {
 
   @override
   Widget build(BuildContext context) {
-    final palette = _RacePalette.forLevel(widget.level);
+    final palette = LevelPalette.forLevel(widget.level);
     return AnimatedContainer(
       duration: const Duration(milliseconds: 1100),
       curve: Curves.easeInOutCubic,

@@ -568,32 +568,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
           const SizedBox(height: 32),
 
-          _buildSectionHeader('DISPLAY'),
-          _buildCartoonCard(
-            child: Column(
-              children: [
-                _buildToggleRow(
-                  icon: Icons.layers,
-                  iconColor: GameColors.purpleAccent,
-                  title: 'Parallax Effect',
-                  subtitle: 'Smooth background animations',
-                  notifier: AppSettings.parallaxEnabled,
-                  onChanged: AppSettings.setParallaxEnabled,
-                ),
-                if (isOwner) ...[
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 16),
-                    child: Divider(
-                      height: 2,
-                      color: GameColors.brownDarkUi,
-                      thickness: 2,
-                    ),
-                  ),
+          if (isOwner) ...[
+            _buildSectionHeader('DISPLAY'),
+            _buildCartoonCard(
+              child: Column(
+                children: [
                   _buildFrameRateSelector(),
                 ],
-              ],
+              ),
             ),
-          ),
+          ],
 
           const SizedBox(height: 32),
 

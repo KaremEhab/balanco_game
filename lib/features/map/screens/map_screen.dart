@@ -42,6 +42,7 @@ class HomeScreen extends StatefulWidget {
   final ValueNotifier<double>? biomeTransitionProgress;
   final ValueNotifier<BiomeModel?>? currentBiomeNotifier;
   final ValueNotifier<BiomeModel?>? previousBiomeNotifier;
+  final ValueNotifier<int>? currentLevelNotifier;
   final VoidCallback? onReturnFromGame;
 
   const HomeScreen({
@@ -50,6 +51,7 @@ class HomeScreen extends StatefulWidget {
     this.biomeTransitionProgress,
     this.currentBiomeNotifier,
     this.previousBiomeNotifier,
+    this.currentLevelNotifier,
     this.onReturnFromGame,
   });
 
@@ -392,6 +394,9 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
       if (widget.currentBiomeNotifier != null) {
         widget.currentBiomeNotifier!.value = newBiome;
+      }
+      if (widget.currentLevelNotifier != null) {
+        widget.currentLevelNotifier!.value = calculatedLevel;
       }
 
       final transitionIsUnlocked =

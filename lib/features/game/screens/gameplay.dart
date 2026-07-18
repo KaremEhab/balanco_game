@@ -16,7 +16,7 @@ import 'package:balanco_game/features/game/screens/infinity/infinity_gameplay.da
 import 'package:balanco_game/features/map/theme/biome_config.dart';
 
 import 'package:balanco_game/features/game/widgets/gameplay_header.dart';
-import 'package:balanco_game/core/widgets/parallax_background_widget.dart';
+import 'package:balanco_game/core/widgets/level_gradient_background.dart';
 import 'package:balanco_game/features/game/screens/overlays/time_stop_overlay.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
 import 'package:balanco_game/features/editor/screens/editor_overlay.dart';
@@ -594,7 +594,7 @@ class _GamePlayOverlayState extends State<GamePlayOverlay> {
                               cameraOffsetY: widget.game.cameraOffsetYNotifier,
                               currentScore: widget.game.currentScore,
                             )
-                          : ParallaxBackgroundWidget(game: widget.game),
+                          : LevelGradientBackground(level: level),
                     ),
                   ],
                 ),

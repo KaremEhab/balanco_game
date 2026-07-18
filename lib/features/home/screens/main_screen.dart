@@ -16,14 +16,7 @@ import 'package:balanco_game/features/settings/screens/settings_screen.dart';
 import 'package:balanco_game/features/leaderboard/screens/leaderboard_screen.dart';
 import 'package:balanco_game/features/map/models/biome_model.dart';
 import 'package:balanco_game/core/data/app_settings.dart';
-import 'package:balanco_game/features/map/backgrounds/beach/sky_painter.dart';
-import 'package:balanco_game/features/map/backgrounds/beach/mountains_painter.dart';
-import 'package:balanco_game/features/map/backgrounds/beach/sea_painter.dart';
-import 'package:balanco_game/features/game/components/game_background/biome_background_transition.dart';
-import 'package:balanco_game/features/game/components/game_background/pyramids_painter.dart';
-import 'package:balanco_game/features/game/components/game_background/level_group_painters.dart';
-
-import 'package:balanco_game/features/map/theme/biome_config.dart';
+import 'package:balanco_game/core/widgets/level_gradient_background.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
 import 'package:balanco_game/features/notifications/application/notification_inbox_controller.dart';
 import 'package:balanco_game/features/notifications/application/notification_service.dart';
@@ -55,8 +48,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   final ValueNotifier<double> biomeTransitionProgress = ValueNotifier(0.0);
   final ValueNotifier<BiomeModel?> currentBiomeNotifier = ValueNotifier(null);
   final ValueNotifier<BiomeModel?> previousBiomeNotifier = ValueNotifier(null);
+  final ValueNotifier<int> currentLevelNotifier = ValueNotifier(1);
   double _lastOffset = 0;
-  double _lastScrollProgress = 1.0; // Default to bottom (Level 1)
 
   late List<Widget> _screens;
 
@@ -101,6 +94,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         biomeTransitionProgress: biomeTransitionProgress,
         currentBiomeNotifier: currentBiomeNotifier,
         previousBiomeNotifier: previousBiomeNotifier,
+        currentLevelNotifier: currentLevelNotifier,
         onReturnFromGame: _loadData,
       ),
       ModesScreen(
@@ -329,6 +323,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     _activeRoomController.dispose();
     _expandProgressNotifier.dispose();
     biomeTransitionProgress.dispose();
+    currentLevelNotifier.dispose();
     super.dispose();
   }
 
@@ -545,301 +540,11 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     );
   }
 
-  Widget _buildLayer(
-    CustomPainter painter, {
-    double dx = 0,
-    double dy = 0,
-    double scale = 1.0,
-    double depthMultiplier = 0.0,
-    bool parallaxEnabled = true,
-  }) {
-    double scrollProgress = 1.0;
-
-    ScrollController activeController;
-    if (_currentIndex == 0) {
-      activeController = _mapScrollController;
-    } else if (_currentIndex == 1) {
-      activeController = _modesScrollController;
-    } else if (_currentIndex == 2) {
-      activeController = _notificationsScrollController;
-    } else if (_currentIndex == 3) {
-      activeController = _leaderboardScrollController;
-    } else {
-      activeController = _settingsScrollController;
-    }
-
-    if (activeController.hasClients &&
-        activeController.position.hasContentDimensions) {
-      double scrollOffset = activeController.offset;
-      double maxScroll = activeController.position.maxScrollExtent;
-      if (maxScroll <= 0) maxScroll = 1.0;
-
-      if (_currentIndex == 0) {
-        scrollProgress = (scrollOffset / maxScroll).clamp(0.0, 1.0);
-      } else {
-        // Slow down parallax on Settings and Modes pages
-        // by dividing the offset by a larger fixed number instead of the small maxScroll
-        double simulatedMaxScroll = 2500.0;
-        scrollProgress =
-            1.0 + (scrollOffset / simulatedMaxScroll).clamp(0.0, 1.0);
-      }
-      _lastScrollProgress = scrollProgress;
-    } else {
-      scrollProgress = _lastScrollProgress;
-    }
-
-    // When scrollProgress is 1.0 (bottom, Level 1), the camera is at the bottom.
-    // When scrollProgress is 0.0 (top, max Level), the camera is at the top.
-    // So as the camera goes up (progress 1 -> 0), the background should move DOWN (positive dy).
-    double verticalParallax = parallaxEnabled
-        ? (1.0 - scrollProgress) * 250.0 * depthMultiplier
-        : 0.0;
-
-    return Transform.translate(
-      offset: Offset(dx, dy + verticalParallax),
-      child: Transform.scale(
-        scale: scale,
-        child: RepaintBoundary(
-          child: CustomPaint(size: const Size(1000, 475), painter: painter),
-        ),
-      ),
-    );
-  }
-
   Widget _buildParallaxBackground() {
-    return AnimatedBuilder(
-      animation: Listenable.merge([_mapScrollController]),
-      builder: (context, child) {
-        return ValueListenableBuilder<bool>(
-          valueListenable: AppSettings.parallaxEnabled,
-          builder: (context, isParallax, child) {
-            Widget beachParallax = SizedBox(
-              width: 1000,
-              height: 475,
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  _buildLayer(
-                    SkyPainter(),
-                    depthMultiplier: 0.05,
-                    parallaxEnabled: isParallax,
-                  ),
-                  _buildLayer(
-                    FirstCloudPainter(),
-                    dx: 193.1,
-                    dy: 46.5,
-                    scale: 0.39,
-                    depthMultiplier: 0.1,
-                    parallaxEnabled: isParallax,
-                  ),
-                  _buildLayer(
-                    SecondCloudPainter(),
-                    dx: -6.1,
-                    dy: 7.1,
-                    scale: 0.26,
-                    depthMultiplier: 0.12,
-                    parallaxEnabled: isParallax,
-                  ),
-                  _buildLayer(
-                    ThirdCloudPainter(),
-                    dx: 59.7,
-                    dy: 15.7,
-                    scale: 0.46,
-                    depthMultiplier: 0.14,
-                    parallaxEnabled: isParallax,
-                  ),
-                  _buildLayer(
-                    ForthCloudPainter(),
-                    dx: 305.0,
-                    dy: 27.0,
-                    scale: 0.63,
-                    depthMultiplier: 0.16,
-                    parallaxEnabled: isParallax,
-                  ),
-                  _buildLayer(
-                    FifthCloudPainter(),
-                    dx: 127.3,
-                    dy: -85.9,
-                    scale: 0.48,
-                    depthMultiplier: 0.18,
-                    parallaxEnabled: isParallax,
-                  ),
-                  _buildLayer(
-                    BirdsPainter(),
-                    dx: 230.1,
-                    dy: -11.4,
-                    scale: 0.57,
-                    depthMultiplier: 0.2,
-                    parallaxEnabled: isParallax,
-                  ),
-                  _buildLayer(
-                    FurtherSeaPainter(),
-                    dx: 0.0,
-                    dy: 214.0,
-                    scale: 1.05,
-                    depthMultiplier: 0.4,
-                    parallaxEnabled: isParallax,
-                  ),
-                  _buildLayer(
-                    MountainSeaShadowsPainter(),
-                    dx: 52.8,
-                    dy: 166.4,
-                    scale: 0.47,
-                    depthMultiplier: 0.5,
-                    parallaxEnabled: isParallax,
-                  ),
-                  _buildLayer(
-                    BackMountainPainter(),
-                    dx: 122.0,
-                    dy: 42.6,
-                    scale: 0.50,
-                    depthMultiplier: 0.3,
-                    parallaxEnabled: isParallax,
-                  ),
-                  _buildLayer(
-                    CloserSeaPainter(),
-                    dx: 166.9,
-                    dy: 401.3,
-                    scale: 1.42,
-                    depthMultiplier: 0.6,
-                    parallaxEnabled: isParallax,
-                  ),
-                  _buildLayer(
-                    SeaWaterDropsPainter(),
-                    dx: 112.6,
-                    dy: 246.1,
-                    scale: 0.51,
-                    depthMultiplier: 0.7,
-                    parallaxEnabled: isParallax,
-                  ),
-                  _buildLayer(
-                    FrontMountainPainter(),
-                    dx: 73.2,
-                    dy: 35.3,
-                    scale: 0.32,
-                    depthMultiplier: 0.8,
-                    parallaxEnabled: isParallax,
-                  ),
-                  _buildLayer(
-                    SeaMountainWaves(),
-                    dx: 7.1,
-                    dy: 9.6,
-                    scale: 0.27,
-                    depthMultiplier: 0.45,
-                    parallaxEnabled: isParallax,
-                  ),
-                ],
-              ),
-            );
-
-            Widget pyramidParallax = SizedBox(
-              width: 1000,
-              height: 475,
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  _buildLayer(
-                    PyramidSkyPainter(),
-                    depthMultiplier: 0.0,
-                    parallaxEnabled: isParallax,
-                  ),
-                  _buildLayer(
-                    WispyCloudPainter(),
-                    depthMultiplier: 0.1,
-                    parallaxEnabled: isParallax,
-                  ),
-                  _buildLayer(
-                    DistantMountainsPainter(),
-                    depthMultiplier: 0.2,
-                    parallaxEnabled: isParallax,
-                  ),
-                  _buildLayer(
-                    MainPyramidsPainter(),
-                    depthMultiplier: 0.4,
-                    parallaxEnabled: isParallax,
-                  ),
-                  _buildLayer(
-                    MidgroundDunesPainter(),
-                    depthMultiplier: 0.7,
-                    parallaxEnabled: isParallax,
-                  ),
-                  _buildLayer(
-                    ForegroundDunesPainter(),
-                    depthMultiplier: 1.0,
-                    parallaxEnabled: isParallax,
-                  ),
-                ],
-              ),
-            );
-
-            return ValueListenableBuilder<BiomeModel?>(
-              valueListenable: currentBiomeNotifier,
-              builder: (context, currentBiome, child) {
-                return ValueListenableBuilder<BiomeModel?>(
-                  valueListenable: previousBiomeNotifier,
-                  builder: (context, previousBiome, child) {
-                    return ValueListenableBuilder<double>(
-                      valueListenable: biomeTransitionProgress,
-                      builder: (context, progress, child) {
-                        final activeBiome =
-                            currentBiome ?? BiomeConfig.tropicalBeach;
-                        final outgoingBiome = previousBiome ?? activeBiome;
-
-                        Widget sceneFor(BiomeModel biome) {
-                          final index = BiomeConfig.getBiomeIndex(biome);
-                          if (index == 0) return beachParallax;
-                          if (index == 1) return pyramidParallax;
-                          return SizedBox(
-                            width: 1000,
-                            height: 475,
-                            child: Stack(
-                              clipBehavior: Clip.none,
-                              children: [
-                                for (final layer in levelGroupLayers(biome))
-                                  _buildLayer(
-                                    layer.painter,
-                                    dx: layer.dx,
-                                    dy: layer.dy,
-                                    scale: layer.scale,
-                                    depthMultiplier: layer.depth,
-                                    parallaxEnabled: isParallax,
-                                  ),
-                              ],
-                            ),
-                          );
-                        }
-
-                        final transitionProgress = previousBiome == null
-                            ? 1.0
-                            : progress;
-
-                        return Container(
-                          width: double.infinity,
-                          height: double.infinity,
-                          color: GameColors
-                              .mapAppBarCyanLightest, // fallback color
-                          child: FittedBox(
-                            fit: BoxFit.cover,
-                            child: BiomeBackgroundTransition(
-                              tropical: sceneFor(outgoingBiome),
-                              pyramids: sceneFor(activeBiome),
-                              progress: transitionProgress,
-                              tropicalTint: outgoingBiome.primaryColor
-                                  .withValues(alpha: 0.08),
-                              pyramidTint: activeBiome.primaryColor.withValues(
-                                alpha: 0.10,
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                );
-              },
-            );
-          },
-        );
+    return ValueListenableBuilder<int>(
+      valueListenable: currentLevelNotifier,
+      builder: (context, level, child) {
+        return LevelGradientBackground(level: level);
       },
     );
   }

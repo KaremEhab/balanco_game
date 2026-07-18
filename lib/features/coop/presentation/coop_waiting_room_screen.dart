@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:balanco_game/core/theme/game_colors.dart';
+import 'package:balanco_game/core/widgets/level_gradient_background.dart';
 import 'package:balanco_game/features/coop/application/coop_realtime_session.dart';
 import 'package:balanco_game/features/coop/application/voice_chat_controller.dart';
 import 'package:balanco_game/features/coop/data/coop_repository.dart';
@@ -276,7 +277,8 @@ class _CoopWaitingRoomScreenState extends State<CoopWaitingRoomScreen> {
         if (!didPop && _room.isRace) unawaited(_leaveRaceLobby());
       },
       child: Scaffold(
-        backgroundColor: const Color(0xFF76D7E8),
+        backgroundColor: Colors.transparent,
+        extendBodyBehindAppBar: true,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -285,8 +287,13 @@ class _CoopWaitingRoomScreenState extends State<CoopWaitingRoomScreen> {
             style: GoogleFonts.luckiestGuy(color: GameColors.brownDarkUi),
           ),
         ),
-        body: SafeArea(
-          child: ListView(
+        body: Stack(
+          children: [
+            Positioned.fill(
+              child: LevelGradientBackground(level: _room.raceStartLevel),
+            ),
+            SafeArea(
+              child: ListView(
             padding: const EdgeInsets.all(20),
             children: [
               Container(
@@ -512,9 +519,11 @@ class _CoopWaitingRoomScreenState extends State<CoopWaitingRoomScreen> {
             ],
           ),
         ),
-      ),
-    );
-  }
+      ],
+    ),
+  ),
+);
+}
 }
 
 class _PlayerSlot extends StatelessWidget {
