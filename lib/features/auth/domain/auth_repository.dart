@@ -1,7 +1,10 @@
 import 'package:balanco_game/features/auth/domain/player_account.dart';
 
+enum SocialAuthProvider { google, apple }
+
 abstract interface class AuthRepository {
   bool get hasSession;
+  Stream<PlayerAccount> get authCompletions;
 
   Future<PlayerAccount?> loadCurrentPlayer();
   Future<bool> signUp({
@@ -15,6 +18,7 @@ abstract interface class AuthRepository {
     required String email,
     required String password,
   });
+  Future<PlayerAccount?> signInWithSocial(SocialAuthProvider provider);
   Future<void> sendPasswordReset(String email);
   Future<void> signOut();
   Future<PlayerAccount> updateProfile({

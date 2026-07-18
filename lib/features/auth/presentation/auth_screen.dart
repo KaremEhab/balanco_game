@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:balanco_game/core/config/supabase_config.dart';
 import 'package:balanco_game/core/theme/game_colors.dart';
 import 'package:balanco_game/features/auth/domain/auth_repository.dart';
+import 'package:balanco_game/features/auth/domain/player_account.dart';
 import 'package:balanco_game/features/home/screens/main_screen.dart';
 import 'package:balanco_game/features/home/screens/splash/components/splash_beach_background.dart';
 import 'package:balanco_game/features/player/application/player_session.dart';
@@ -29,14 +31,25 @@ class _AuthScreenState extends State<AuthScreen>
   final _username = TextEditingController();
   final _age = TextEditingController();
   late final AnimationController _backgroundController;
+  StreamSubscription<PlayerAccount>? _authSubscription;
 
   _AuthMode _mode = _AuthMode.login;
   bool _submitting = false;
   bool _obscurePassword = true;
   String? _message;
   bool _messageIsError = false;
+  bool _openingGame = false;
+  bool _awaitingSocialCallback = false;
 
-  AuthRepository? get _repository => PlayerSession.instance.repository;
+  AuthRepository? get _repository {
+    if (!SupabaseConfig.isConfigured) return null;
+    try {
+      return PlayerSession.instance.repository;
+    } on AssertionError {
+      // Widget tests can render this screen without bootstrapping Supabase.
+      return null;
+    }
+  }
 
   @override
   void initState() {
@@ -45,11 +58,31 @@ class _AuthScreenState extends State<AuthScreen>
       vsync: this,
       duration: const Duration(seconds: 14),
     )..repeat();
+    _authSubscription = _repository?.authCompletions.listen(
+      (player) {
+        if (_awaitingSocialCallback) _finishSocialAuth(player);
+      },
+      onError: (Object error) {
+        _awaitingSocialCallback = false;
+        if (error is AuthException) {
+          _showError(error.message);
+        } else {
+          _showError('Could not finish social sign-in. Please try again.');
+        }
+      },
+    );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final player = PlayerSession.instance.player.value;
+      if (player?.needsProfileSetup ?? false) {
+        _finishSocialAuth(player!);
+      }
+    });
   }
 
   @override
   void dispose() {
     _backgroundController.dispose();
+    _authSubscription?.cancel();
     _email.dispose();
     _password.dispose();
     _confirmPassword.dispose();
@@ -134,6 +167,64 @@ class _AuthScreenState extends State<AuthScreen>
       _showError('Something went wrong. Check your connection and try again.');
     } finally {
       if (mounted) setState(() => _submitting = false);
+    }
+  }
+
+  Future<void> _signInWithSocial(SocialAuthProvider provider) async {
+    final repository = _repository;
+    if (repository == null) {
+      _showError('Supabase is not configured for this build yet.');
+      return;
+    }
+    setState(() {
+      _submitting = true;
+      _awaitingSocialCallback = true;
+      _message = null;
+    });
+    try {
+      final player = await repository.signInWithSocial(provider);
+      if (player != null) {
+        await _finishSocialAuth(player);
+      } else if (mounted) {
+        setState(() {
+          _message = 'Finish signing in securely, then return to Balanco.';
+          _messageIsError = false;
+        });
+      }
+    } on AuthException catch (error) {
+      _awaitingSocialCallback = false;
+      _showError(error.message);
+    } catch (_) {
+      _awaitingSocialCallback = false;
+      _showError('Social sign-in failed. Check your connection and try again.');
+    } finally {
+      if (mounted && !_openingGame) setState(() => _submitting = false);
+    }
+  }
+
+  Future<void> _finishSocialAuth(PlayerAccount player) async {
+    if (!mounted || _openingGame) return;
+    _openingGame = true;
+    try {
+      var completedPlayer = player;
+      if (player.needsProfileSetup) {
+        final result = await showDialog<PlayerAccount>(
+          context: context,
+          barrierDismissible: false,
+          builder: (_) =>
+              _SocialProfileDialog(repository: _repository!, player: player),
+        );
+        if (result == null) return;
+        completedPlayer = result;
+      }
+      await PlayerSession.instance.use(completedPlayer);
+      _openGame();
+    } finally {
+      _awaitingSocialCallback = false;
+      if (mounted) {
+        _openingGame = false;
+        setState(() => _submitting = false);
+      }
     }
   }
 
@@ -280,6 +371,17 @@ class _AuthScreenState extends State<AuthScreen>
                                 }),
                               ),
                               const SizedBox(height: 18),
+                              _SocialAuthSection(
+                                busy: _submitting,
+                                onGoogle: () => _signInWithSocial(
+                                  SocialAuthProvider.google,
+                                ),
+                                onApple: () =>
+                                    _signInWithSocial(SocialAuthProvider.apple),
+                              ),
+                              const SizedBox(height: 16),
+                              const _AuthDivider(),
+                              const SizedBox(height: 16),
                               if (_mode == _AuthMode.signup) ...[
                                 _CartoonField(
                                   controller: _displayName,
@@ -466,6 +568,294 @@ class _ModeTabs extends StatelessWidget {
         ),
       );
     }).toList(),
+  );
+}
+
+class _SocialAuthSection extends StatelessWidget {
+  const _SocialAuthSection({
+    required this.busy,
+    required this.onGoogle,
+    required this.onApple,
+  });
+
+  final bool busy;
+  final VoidCallback onGoogle;
+  final VoidCallback onApple;
+
+  @override
+  Widget build(BuildContext context) => Row(
+    children: [
+      Expanded(
+        child: _SocialAuthButton(
+          label: 'GOOGLE',
+          foregroundColor: GameColors.brownDarkUi,
+          backgroundColor: Colors.white,
+          onTap: busy ? null : onGoogle,
+          leading: const Text(
+            'G',
+            style: TextStyle(
+              color: Color(0xFF4285F4),
+              fontSize: 22,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
+        ),
+      ),
+      const SizedBox(width: 12),
+      Expanded(
+        child: _SocialAuthButton(
+          label: 'APPLE',
+          foregroundColor: Colors.white,
+          backgroundColor: Colors.black,
+          onTap: busy ? null : onApple,
+          leading: const Icon(Icons.apple, color: Colors.white, size: 25),
+        ),
+      ),
+    ],
+  );
+}
+
+class _SocialAuthButton extends StatelessWidget {
+  const _SocialAuthButton({
+    required this.label,
+    required this.foregroundColor,
+    required this.backgroundColor,
+    required this.leading,
+    required this.onTap,
+  });
+
+  final String label;
+  final Color foregroundColor;
+  final Color backgroundColor;
+  final Widget leading;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) => Opacity(
+    opacity: onTap == null ? 0.55 : 1,
+    child: Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(16),
+        child: Container(
+          height: 52,
+          decoration: BoxDecoration(
+            color: backgroundColor,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: GameColors.brownDarkUi, width: 2.5),
+            boxShadow: const [
+              BoxShadow(color: GameColors.brownDarkUi, offset: Offset(0, 4)),
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              leading,
+              const SizedBox(width: 8),
+              Flexible(
+                child: Text(
+                  label,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.luckiestGuy(
+                    color: foregroundColor,
+                    fontSize: 15,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+class _AuthDivider extends StatelessWidget {
+  const _AuthDivider();
+
+  @override
+  Widget build(BuildContext context) => Row(
+    children: [
+      const Expanded(child: Divider(color: GameColors.brownDarkUi)),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Text(
+          'OR USE EMAIL',
+          style: GoogleFonts.luckiestGuy(
+            color: GameColors.brownDarkUi.withValues(alpha: 0.72),
+            fontSize: 12,
+          ),
+        ),
+      ),
+      const Expanded(child: Divider(color: GameColors.brownDarkUi)),
+    ],
+  );
+}
+
+class _SocialProfileDialog extends StatefulWidget {
+  const _SocialProfileDialog({required this.repository, required this.player});
+
+  final AuthRepository repository;
+  final PlayerAccount player;
+
+  @override
+  State<_SocialProfileDialog> createState() => _SocialProfileDialogState();
+}
+
+class _SocialProfileDialogState extends State<_SocialProfileDialog> {
+  final _formKey = GlobalKey<FormState>();
+  late final TextEditingController _displayName;
+  final _username = TextEditingController();
+  final _age = TextEditingController();
+  bool _saving = false;
+  String? _error;
+
+  @override
+  void initState() {
+    super.initState();
+    final currentName = widget.player.displayName;
+    _displayName = TextEditingController(
+      text: currentName.startsWith('player_') ? '' : currentName,
+    );
+  }
+
+  @override
+  void dispose() {
+    _displayName.dispose();
+    _username.dispose();
+    _age.dispose();
+    super.dispose();
+  }
+
+  Future<void> _save() async {
+    if (!_formKey.currentState!.validate()) return;
+    setState(() {
+      _saving = true;
+      _error = null;
+    });
+    try {
+      final player = await widget.repository.updateProfile(
+        displayName: _displayName.text,
+        username: _username.text,
+        age: int.parse(_age.text),
+      );
+      if (mounted) Navigator.pop(context, player);
+    } on PostgrestException catch (error) {
+      if (!mounted) return;
+      setState(() {
+        _error = error.code == '23505'
+            ? 'That username is already taken. Try another one.'
+            : error.message;
+      });
+    } on AuthException catch (error) {
+      if (mounted) setState(() => _error = error.message);
+    } catch (_) {
+      if (mounted) {
+        setState(() => _error = 'Could not save your profile. Try again.');
+      }
+    } finally {
+      if (mounted) setState(() => _saving = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) => PopScope(
+    canPop: false,
+    child: AlertDialog(
+      backgroundColor: GameColors.sandLightUi,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(26),
+        side: const BorderSide(color: GameColors.brownDarkUi, width: 3),
+      ),
+      title: Column(
+        children: [
+          const Icon(
+            Icons.auto_awesome_rounded,
+            color: GameColors.orangeTextUi,
+            size: 38,
+          ),
+          Text(
+            'FINISH YOUR HERO',
+            textAlign: TextAlign.center,
+            style: GoogleFonts.luckiestGuy(color: GameColors.orangeTextUi),
+          ),
+          const SizedBox(height: 4),
+          const Text(
+            'Google and Apple never share your age. Add the Balanco details other players will see.',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+          ),
+        ],
+      ),
+      content: SizedBox(
+        width: 380,
+        child: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _CartoonField(
+                  controller: _displayName,
+                  label: 'DISPLAY NAME',
+                  icon: Icons.badge_rounded,
+                  textCapitalization: TextCapitalization.words,
+                  validator: (value) {
+                    final length = value?.trim().length ?? 0;
+                    return length >= 2 && length <= 30
+                        ? null
+                        : 'Use 2 to 30 characters';
+                  },
+                ),
+                const SizedBox(height: 12),
+                _CartoonField(
+                  controller: _username,
+                  label: 'USERNAME',
+                  icon: Icons.alternate_email_rounded,
+                  validator: (value) =>
+                      RegExp(
+                        r'^[A-Za-z0-9_]{3,20}$',
+                      ).hasMatch(value?.trim() ?? '')
+                      ? null
+                      : '3–20 letters, numbers or underscores',
+                ),
+                const SizedBox(height: 12),
+                _CartoonField(
+                  controller: _age,
+                  label: 'AGE',
+                  icon: Icons.cake_rounded,
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    final age = int.tryParse(value ?? '');
+                    return age != null && age >= 6 && age <= 120
+                        ? null
+                        : 'Choose an age from 6 to 120';
+                  },
+                ),
+                if (_error != null) ...[
+                  const SizedBox(height: 12),
+                  _StatusMessage(message: _error!, isError: true),
+                ],
+              ],
+            ),
+          ),
+        ),
+      ),
+      actionsAlignment: MainAxisAlignment.center,
+      actions: [
+        FilledButton.icon(
+          onPressed: _saving ? null : _save,
+          icon: _saving
+              ? const SizedBox.square(
+                  dimension: 18,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
+              : const Icon(Icons.rocket_launch_rounded),
+          label: const Text('START PLAYING'),
+        ),
+      ],
+    ),
   );
 }
 

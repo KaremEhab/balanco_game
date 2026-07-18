@@ -92,7 +92,10 @@ class _SplashScreenState extends State<SplashScreen>
     if (online) {
       if (PlayerSession.instance.isAuthenticated) {
         try {
-          await PlayerSession.instance.refresh();
+          final player = await PlayerSession.instance.refresh();
+          if (player?.needsProfileSetup ?? false) {
+            destination = const AuthScreen();
+          }
         } catch (_) {
           destination = const AuthScreen();
         }

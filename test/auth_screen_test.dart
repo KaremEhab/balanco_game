@@ -9,6 +9,9 @@ void main() {
     await tester.pumpWidget(const MaterialApp(home: AuthScreen()));
 
     expect(find.text('WELCOME BACK!'), findsOneWidget);
+    expect(find.text('GOOGLE'), findsOneWidget);
+    expect(find.text('APPLE'), findsOneWidget);
+    expect(find.text('OR USE EMAIL'), findsOneWidget);
     await tester.tap(find.text('SIGN UP'));
     await tester.pump(const Duration(milliseconds: 250));
 

@@ -16,6 +16,7 @@ class PlayerAccount {
     required this.infinityHighScore,
     required this.unlockedBallShapes,
     required this.unlockedBallColors,
+    this.profileCompleted = true,
   });
 
   final String id;
@@ -34,8 +35,10 @@ class PlayerAccount {
   final int infinityHighScore;
   final Set<String> unlockedBallShapes;
   final Set<String> unlockedBallColors;
+  final bool profileCompleted;
 
   String get formattedMoney => '\$${(moneyCents / 100).toStringAsFixed(2)}';
+  bool get needsProfileSetup => !profileCompleted;
 
   factory PlayerAccount.fromState(
     Map<String, dynamic> state, {
@@ -70,6 +73,7 @@ class PlayerAccount {
       infinityHighScore: (progress['infinity_high_score'] as num).toInt(),
       unlockedBallShapes: keysFor('ball_shape'),
       unlockedBallColors: keysFor('ball_color'),
+      profileCompleted: profile['profile_completed'] as bool? ?? true,
     );
   }
 }
