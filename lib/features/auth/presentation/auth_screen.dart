@@ -32,6 +32,7 @@ class _AuthScreenState extends State<AuthScreen>
   final _age = TextEditingController();
   late final AnimationController _backgroundController;
   StreamSubscription<PlayerAccount>? _authSubscription;
+  Timer? _socialCallbackTimer;
 
   _AuthMode _mode = _AuthMode.login;
   bool _submitting = false;
@@ -81,6 +82,7 @@ class _AuthScreenState extends State<AuthScreen>
 
   @override
   void dispose() {
+    _socialCallbackTimer?.cancel();
     _backgroundController.dispose();
     _authSubscription?.cancel();
     _email.dispose();
@@ -181,6 +183,17 @@ class _AuthScreenState extends State<AuthScreen>
       _awaitingSocialCallback = true;
       _message = null;
     });
+    _socialCallbackTimer?.cancel();
+    _socialCallbackTimer = Timer(const Duration(minutes: 2), () {
+      if (!mounted || !_awaitingSocialCallback || _openingGame) return;
+      setState(() {
+        _submitting = false;
+        _message =
+            'Balanco is still waiting for the browser. Close the browser and '
+            'try again if you did not see a request to open Balanco.';
+        _messageIsError = true;
+      });
+    });
     try {
       final player = await repository.signInWithSocial(provider);
       if (player != null) {
@@ -192,9 +205,11 @@ class _AuthScreenState extends State<AuthScreen>
         });
       }
     } on AuthException catch (error) {
+      _socialCallbackTimer?.cancel();
       _awaitingSocialCallback = false;
       _showError(error.message);
     } catch (_) {
+      _socialCallbackTimer?.cancel();
       _awaitingSocialCallback = false;
       _showError('Social sign-in failed. Check your connection and try again.');
     } finally {
@@ -204,6 +219,7 @@ class _AuthScreenState extends State<AuthScreen>
 
   Future<void> _finishSocialAuth(PlayerAccount player) async {
     if (!mounted || _openingGame) return;
+    _socialCallbackTimer?.cancel();
     _openingGame = true;
     try {
       var completedPlayer = player;

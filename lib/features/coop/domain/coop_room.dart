@@ -31,7 +31,12 @@ class CoopMember {
     this.avatarShape = 'circle',
     this.raceWins = 0,
     this.sessionWins = 0,
+    this.seriesStars = 0,
+    this.highestLevel = 1,
     this.eliminatedAt,
+    this.leftAt,
+    this.lastSeenAt,
+    this.isOnline = true,
   });
 
   final String userId;
@@ -45,9 +50,15 @@ class CoopMember {
   final String avatarShape;
   final int raceWins;
   final int sessionWins;
+  final int seriesStars;
+  final int highestLevel;
   final DateTime? eliminatedAt;
+  final DateTime? leftAt;
+  final DateTime? lastSeenAt;
+  final bool isOnline;
 
   bool get isEliminated => eliminatedAt != null;
+  bool get hasLeft => leftAt != null;
 
   String get resolvedAvatarUrl {
     final saved = avatarUrl?.trim();
@@ -71,7 +82,12 @@ class CoopMember {
     avatarShape: json['avatar_shape'] as String? ?? 'circle',
     raceWins: (json['race_wins'] as num?)?.toInt() ?? 0,
     sessionWins: (json['session_wins'] as num?)?.toInt() ?? 0,
+    seriesStars: (json['series_stars'] as num?)?.toInt() ?? 0,
+    highestLevel: (json['highest_level'] as num?)?.toInt() ?? 1,
     eliminatedAt: DateTime.tryParse(json['eliminated_at'] as String? ?? ''),
+    leftAt: DateTime.tryParse(json['left_at'] as String? ?? ''),
+    lastSeenAt: DateTime.tryParse(json['last_seen_at'] as String? ?? ''),
+    isOnline: json['is_online'] as bool? ?? true,
   );
 }
 
@@ -89,6 +105,8 @@ class CoopRoom {
     required this.endReason,
     required this.mode,
     required this.raceLevel,
+    required this.raceStartLevel,
+    required this.raceEndLevel,
     required this.raceLevelVersion,
     required this.startedAt,
     required this.winnerId,
@@ -97,12 +115,16 @@ class CoopRoom {
     required this.winnerHearts,
     required this.winnerStars,
     required this.raceEndKind,
+    required this.seriesWinnerId,
+    required this.seriesEndKind,
+    required this.seriesFinishedAt,
     required this.rematchRequestedBy,
     required this.raceRestartKind,
     required this.maxPlayers,
     required this.restartVoteCount,
     required this.leaveVoteCount,
     required this.members,
+    this.racePickupClaims = const [],
   });
 
   final String id;
@@ -117,6 +139,8 @@ class CoopRoom {
   final String? endReason;
   final String mode;
   final int raceLevel;
+  final int raceStartLevel;
+  final int raceEndLevel;
   final int? raceLevelVersion;
   final DateTime? startedAt;
   final String? winnerId;
@@ -125,12 +149,16 @@ class CoopRoom {
   final int? winnerHearts;
   final int? winnerStars;
   final String? raceEndKind;
+  final String? seriesWinnerId;
+  final String? seriesEndKind;
+  final DateTime? seriesFinishedAt;
   final String? rematchRequestedBy;
   final String? raceRestartKind;
   final int maxPlayers;
   final int restartVoteCount;
   final int leaveVoteCount;
   final List<CoopMember> members;
+  final List<CoopRacePickupClaim> racePickupClaims;
 
   bool get isWaiting => status == 'waiting';
   bool get isPlaying => status == 'playing';
@@ -146,8 +174,13 @@ class CoopRoom {
       members.length == (isRace ? maxPlayers : 2) &&
       members.every((m) => m.ready);
   bool get isRace => mode == 'race';
+  int get seriesRoundCount => raceEndLevel - raceStartLevel + 1;
+  int get seriesRoundNumber => raceLevel - raceStartLevel + 1;
+  bool get hasMoreSeriesLevels => raceLevel < raceEndLevel;
+  bool get isSeriesFinished => seriesFinishedAt != null;
+  bool get isSeriesDraw => seriesEndKind == 'draw';
 
-  int get requiredVotes => members.length;
+  int get requiredVotes => members.where((member) => !member.hasLeft).length;
   List<CoopMember> opponentsOf(String userId) =>
       members.where((member) => member.userId != userId).toList();
 
@@ -169,6 +202,8 @@ class CoopRoom {
       endReason: room['end_reason'] as String?,
       mode: room['mode'] as String? ?? 'coop',
       raceLevel: room['race_level'] as int? ?? 1,
+      raceStartLevel: room['race_start_level'] as int? ?? 1,
+      raceEndLevel: room['race_end_level'] as int? ?? 1,
       raceLevelVersion: room['race_level_version'] as int?,
       startedAt: DateTime.tryParse(room['started_at'] as String? ?? ''),
       winnerId: room['winner_id'] as String?,
@@ -179,6 +214,11 @@ class CoopRoom {
       winnerHearts: room['winner_hearts'] as int?,
       winnerStars: room['winner_stars'] as int?,
       raceEndKind: room['race_end_kind'] as String?,
+      seriesWinnerId: room['series_winner_id'] as String?,
+      seriesEndKind: room['series_end_kind'] as String?,
+      seriesFinishedAt: DateTime.tryParse(
+        room['series_finished_at'] as String? ?? '',
+      ),
       rematchRequestedBy: room['rematch_requested_by'] as String?,
       raceRestartKind: room['race_restart_kind'] as String?,
       maxPlayers: (room['max_players'] as num?)?.toInt() ?? 2,
@@ -190,8 +230,40 @@ class CoopRoom {
                 CoopMember.fromJson(Map<String, dynamic>.from(value as Map)),
           )
           .toList(),
+      racePickupClaims: (json['race_pickup_claims'] as List? ?? const [])
+          .map(
+            (value) => CoopRacePickupClaim.fromJson(
+              Map<String, dynamic>.from(value as Map),
+            ),
+          )
+          .toList(),
     );
   }
+}
+
+class CoopRacePickupClaim {
+  const CoopRacePickupClaim({
+    required this.pickupKey,
+    required this.pickupType,
+    required this.claimantId,
+    required this.claimantName,
+    required this.claimedAt,
+  });
+
+  final String pickupKey;
+  final String pickupType;
+  final String claimantId;
+  final String claimantName;
+  final DateTime? claimedAt;
+
+  factory CoopRacePickupClaim.fromJson(Map<String, dynamic> json) =>
+      CoopRacePickupClaim(
+        pickupKey: json['pickup_key'] as String,
+        pickupType: json['pickup_type'] as String,
+        claimantId: json['claimant_id'] as String,
+        claimantName: json['claimant_name'] as String? ?? 'Rival',
+        claimedAt: DateTime.tryParse(json['claimed_at'] as String? ?? ''),
+      );
 }
 
 class PlayerCodeResult {

@@ -29,18 +29,8 @@ void main() async {
   // Ensure the database is initialized
   await DatabaseHelper.instance.database;
 
-  // HOTFIX: Restore user's lost offline progress
-  final profile = await DatabaseHelper.instance.getPlayerProfile();
-  if (profile.highestLevel < 15) {
-    await DatabaseHelper.instance.updatePlayerProfile(
-      profile.copyWith(highestLevel: 15),
-    );
-  }
-
   await AppSettings.init();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   if (SupabaseConfig.isConfigured) {
     await Supabase.initialize(

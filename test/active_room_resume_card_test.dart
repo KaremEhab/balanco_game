@@ -13,6 +13,7 @@ void main() {
             room: _room(mode: 'race', status: 'playing'),
             busy: false,
             onResume: () => resumed = true,
+            onDismiss: () {},
           ),
         ),
       ),
@@ -20,6 +21,8 @@ void main() {
 
     expect(find.text('RACE  •  ABC123'), findsOneWidget);
     expect(find.textContaining('MATCH IN PROGRESS'), findsOneWidget);
+    expect(find.text('Kareem, Partner'), findsOneWidget);
+    expect(find.textContaining('2 ONLINE'), findsOneWidget);
     await tester.tap(find.text('RESUME'));
     expect(resumed, isTrue);
   });
@@ -32,6 +35,7 @@ void main() {
             room: _room(mode: 'coop', status: 'paused'),
             busy: false,
             onResume: () {},
+            onDismiss: () {},
           ),
         ),
       ),
@@ -39,6 +43,25 @@ void main() {
 
     expect(find.text('CO-OP  •  ABC123'), findsOneWidget);
     expect(find.textContaining('MATCH PAUSED'), findsOneWidget);
+  });
+
+  testWidgets('invokes dismiss from the close button', (tester) async {
+    var dismissed = false;
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: ActiveRoomResumeCard(
+            room: _room(mode: 'race', status: 'paused'),
+            busy: false,
+            onResume: () {},
+            onDismiss: () => dismissed = true,
+          ),
+        ),
+      ),
+    );
+
+    await tester.tap(find.byTooltip('Close and leave this room'));
+    expect(dismissed, isTrue);
   });
 }
 
@@ -55,6 +78,8 @@ CoopRoom _room({required String mode, required String status}) => CoopRoom(
   endReason: null,
   mode: mode,
   raceLevel: 1,
+  raceStartLevel: 1,
+  raceEndLevel: 1,
   raceLevelVersion: null,
   startedAt: DateTime.utc(2026, 7, 17),
   winnerId: null,
@@ -63,6 +88,9 @@ CoopRoom _room({required String mode, required String status}) => CoopRoom(
   winnerHearts: null,
   winnerStars: null,
   raceEndKind: null,
+  seriesWinnerId: null,
+  seriesEndKind: null,
+  seriesFinishedAt: null,
   rematchRequestedBy: null,
   raceRestartKind: null,
   maxPlayers: 2,

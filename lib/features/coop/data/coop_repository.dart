@@ -27,6 +27,13 @@ class CoopRepository {
     return CoopRoom.fromJson(Map<String, dynamic>.from(result as Map));
   }
 
+  Future<void> discardActiveRoom(String roomId) async {
+    await _client.rpc(
+      'discard_active_game_room',
+      params: {'p_room_id': roomId},
+    );
+  }
+
   Future<CoopRoom> setReady(String roomId, bool ready) =>
       _roomRpc('set_coop_ready', {'p_room_id': roomId, 'p_ready': ready});
 
@@ -35,6 +42,22 @@ class CoopRepository {
 
   Future<CoopRoom> startRoom(String roomId) =>
       _roomRpc('start_coop_room', {'p_room_id': roomId});
+
+  Future<CoopRoom> configureRaceSeries(
+    String roomId, {
+    required int startLevel,
+    required int endLevel,
+  }) => _roomRpc('configure_race_series', {
+    'p_room_id': roomId,
+    'p_start_level': startLevel,
+    'p_end_level': endLevel,
+  });
+
+  Future<CoopRoom> transferRaceHost(String roomId, String newHostId) =>
+      _roomRpc('transfer_race_host', {
+        'p_room_id': roomId,
+        'p_new_host_id': newHostId,
+      });
 
   Future<CoopRoom> setPaused(String roomId, bool paused) =>
       _roomRpc('set_coop_pause', {'p_room_id': roomId, 'p_paused': paused});
@@ -72,8 +95,33 @@ class CoopRepository {
     'p_stars': stars,
   });
 
+  Future<CoopRacePickupClaim> claimRacePickup({
+    required String roomId,
+    required int attemptNumber,
+    required int level,
+    required String pickupKey,
+    required String pickupType,
+  }) async {
+    final result = await _client.rpc(
+      'claim_race_pickup',
+      params: {
+        'p_room_id': roomId,
+        'p_attempt_number': attemptNumber,
+        'p_race_level': level,
+        'p_pickup_key': pickupKey,
+        'p_pickup_type': pickupType,
+      },
+    );
+    return CoopRacePickupClaim.fromJson(
+      Map<String, dynamic>.from(result as Map),
+    );
+  }
+
   Future<CoopRoom> surrenderRace(String roomId) =>
       _roomRpc('surrender_race', {'p_room_id': roomId});
+
+  Future<CoopRoom> drawRace(String roomId) =>
+      _roomRpc('draw_race', {'p_room_id': roomId});
 
   Future<void> leaveRaceRoom(String roomId) async {
     await _client.rpc('leave_race_room', params: {'p_room_id': roomId});

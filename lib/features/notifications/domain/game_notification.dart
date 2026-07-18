@@ -1,3 +1,14 @@
+enum GameNotificationKind {
+  friendRequest,
+  friendAccepted,
+  friendDeclined,
+  gameInvite,
+  gameInviteAccepted,
+  gameInviteDeclined,
+  gameInviteCancelled,
+  system,
+}
+
 class GameNotification {
   const GameNotification({
     required this.id,
@@ -22,10 +33,29 @@ class GameNotification {
   final DateTime? readAt;
 
   bool get isRead => readAt != null;
+  GameNotificationKind get kind => switch (type) {
+    'friend_request' => GameNotificationKind.friendRequest,
+    'friend_accepted' => GameNotificationKind.friendAccepted,
+    'friend_declined' => GameNotificationKind.friendDeclined,
+    'game_invite' => GameNotificationKind.gameInvite,
+    'game_invite_accepted' => GameNotificationKind.gameInviteAccepted,
+    'game_invite_declined' => GameNotificationKind.gameInviteDeclined,
+    'game_invite_cancelled' => GameNotificationKind.gameInviteCancelled,
+    _ => GameNotificationKind.system,
+  };
   bool get canRespondToFriendRequest =>
       type == 'friend_request' && data['request_id'] != null && !isRead;
   bool get canRespondToGameInvite =>
       type == 'game_invite' && data['invite_id'] != null && !isRead;
+  bool get hasResponseAction =>
+      canRespondToFriendRequest || canRespondToGameInvite;
+
+  String? get gameMode {
+    final mode = data['mode']?.toString().trim().toUpperCase();
+    return mode == null || mode.isEmpty ? null : mode;
+  }
+
+  int? get maxPlayers => (data['max_players'] as num?)?.toInt();
 
   factory GameNotification.fromJson(Map<String, dynamic> json) {
     final rawData = json['data'];

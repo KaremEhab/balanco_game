@@ -175,6 +175,7 @@ class LevelData {
   final List<TeleporterData> teleporters;
   final List<Vector2> multiBalls;
   final List<Vector2> magnets;
+  final List<Vector2> shields;
   final List<Vector2> shooterHelpers;
   final List<VillainData> villains;
   final double heightMultiplier;
@@ -200,6 +201,7 @@ class LevelData {
     this.teleporters = const [],
     this.multiBalls = const [],
     this.magnets = const [],
+    this.shields = const [],
     this.shooterHelpers = const [],
     this.villains = const [],
     this.heightMultiplier = 1.0,
@@ -227,6 +229,7 @@ class LevelData {
     'teleporters': teleporters.map((e) => e.toJson()).toList(),
     'multiBalls': multiBalls.map((e) => {'x': e.x, 'y': e.y}).toList(),
     'magnets': magnets.map((e) => {'x': e.x, 'y': e.y}).toList(),
+    'shields': shields.map((e) => {'x': e.x, 'y': e.y}).toList(),
     'shooterHelpers': shooterHelpers.map((e) => {'x': e.x, 'y': e.y}).toList(),
     'villains': villains.map((e) => e.toJson()).toList(),
     'heightMultiplier': heightMultiplier,
@@ -276,6 +279,11 @@ class LevelData {
         [],
     magnets:
         (json['magnets'] as List?)
+            ?.map((e) => Vector2(e['x'].toDouble(), e['y'].toDouble()))
+            .toList() ??
+        [],
+    shields:
+        (json['shields'] as List?)
             ?.map((e) => Vector2(e['x'].toDouble(), e['y'].toDouble()))
             .toList() ??
         [],

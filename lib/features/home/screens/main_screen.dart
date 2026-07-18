@@ -199,6 +199,53 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     if (mounted) unawaited(_activeRoomController.refresh());
   }
 
+  Future<void> _discardActiveRoom() async {
+    final room = _activeRoomController.room;
+    if (room == null) return;
+    final mode = room.isRace ? 'Race' : 'CO-OP';
+    final names = room.members
+        .map((member) => member.displayName)
+        .where((name) => name.trim().isNotEmpty)
+        .join(', ');
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        backgroundColor: GameColors.sandLightUi,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24),
+          side: const BorderSide(color: GameColors.brownDarkUi, width: 3),
+        ),
+        title: Text('LEAVE $mode ROOM?', style: GoogleFonts.luckiestGuy()),
+        content: Text(
+          'Room ${room.code} • ${room.members.length} players\n$names\n\n'
+          'This removes the resume card. A CO-OP room closes for both players; '
+          'in Race, only you leave.',
+          style: const TextStyle(fontWeight: FontWeight.w700),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: const Text('KEEP IT'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(dialogContext, true),
+            child: const Text('LEAVE ROOM'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !mounted) return;
+
+    final discarded = await _activeRoomController.discard();
+    if (!mounted) return;
+    final message = discarded
+        ? '$mode room closed.'
+        : (_activeRoomController.error ?? 'Could not close that room.');
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
+  }
+
   void _updateIndicator() {
     if (!mounted) return;
     final key = _navKeys[_currentIndex];
@@ -449,8 +496,11 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                   if (room == null) return const SizedBox.shrink();
                   return ActiveRoomResumeCard(
                     room: room,
-                    busy: _activeRoomController.resuming,
+                    busy:
+                        _activeRoomController.resuming ||
+                        _activeRoomController.discarding,
                     onResume: _resumeActiveRoom,
+                    onDismiss: _discardActiveRoom,
                   );
                 },
               ),

@@ -77,4 +77,9 @@ class CoinComponent extends PositionComponent
       ),
     );
   }
+
+  void dismiss() {
+    if (isCollected) return;
+    isCollected = true;
+  }
 }

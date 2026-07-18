@@ -9,6 +9,7 @@ class ActiveRoomController extends ChangeNotifier {
   CoopRoom? room;
   bool loading = true;
   bool resuming = false;
+  bool discarding = false;
   String? error;
   bool _refreshing = false;
   bool _disposed = false;
@@ -41,6 +42,25 @@ class ActiveRoomController extends ChangeNotifier {
       return null;
     } finally {
       resuming = false;
+      if (!_disposed) notifyListeners();
+    }
+  }
+
+  Future<bool> discard() async {
+    final activeRoom = room;
+    if (activeRoom == null || discarding || _disposed) return false;
+    discarding = true;
+    error = null;
+    notifyListeners();
+    try {
+      await _repository.discardActiveRoom(activeRoom.id);
+      room = null;
+      return true;
+    } catch (_) {
+      error = 'Could not close that room. Check your connection and try again.';
+      return false;
+    } finally {
+      discarding = false;
       if (!_disposed) notifyListeners();
     }
   }

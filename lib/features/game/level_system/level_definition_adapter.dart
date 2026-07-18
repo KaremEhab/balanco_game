@@ -89,6 +89,7 @@ extension LevelDefinitionAdapter on LevelDefinition {
     final hearts = <Vector2>[];
     final multiBalls = <Vector2>[];
     final magnets = <Vector2>[];
+    final shields = <Vector2>[];
 
     for (final pickup in pickups) {
       final position = _toLegacyPosition(pickup.x, pickup.y);
@@ -105,6 +106,9 @@ extension LevelDefinitionAdapter on LevelDefinition {
         case 'magnet':
           magnets.add(position);
           break;
+        case 'shield':
+          shields.add(position);
+          break;
       }
     }
 
@@ -117,6 +121,7 @@ extension LevelDefinitionAdapter on LevelDefinition {
       teleporters: teleporters,
       multiBalls: multiBalls,
       magnets: magnets,
+      shields: shields,
       shooterHelpers: _isBossLevel ? [Vector2(0.5, 0.18)] : const [],
       villains: _isBossLevel
           ? [

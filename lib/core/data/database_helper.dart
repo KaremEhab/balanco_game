@@ -236,6 +236,43 @@ CREATE TABLE pending_infinity_runs (
     profileNotifier.value = profile;
   }
 
+  /// Replaces the device-side gameplay state with the authenticated player's
+  /// cloud state. Balanco keeps one active local gameplay cache, so replacing
+  /// it on sign-in prevents levels and stars leaking between accounts while
+  /// the user-specific offline outbox remains untouched.
+  Future<void> replaceAuthenticatedPlayerState({
+    required String userId,
+    required PlayerProfile profile,
+    required Map<int, int> levelStars,
+  }) async {
+    final db = await instance.database;
+    await db.transaction((transaction) async {
+      await transaction.update(
+        'player_profile',
+        profile.toMap(),
+        where: 'id = ?',
+        whereArgs: [1],
+      );
+      await transaction.delete('level_progress');
+      for (final entry in levelStars.entries) {
+        await transaction.insert(
+          'level_progress',
+          LevelProgress(
+            levelId: entry.key,
+            stars: entry.value,
+            isUnlocked: true,
+          ).toMap(),
+          conflictAlgorithm: ConflictAlgorithm.replace,
+        );
+      }
+      await transaction.insert('app_config', {
+        'key': 'active_player_id',
+        'value': userId,
+      }, conflictAlgorithm: ConflictAlgorithm.replace);
+    });
+    profileNotifier.value = profile;
+  }
+
   // --- Level Progress ---
 
   Future<LevelProgress?> getLevelProgress(int levelId) async {

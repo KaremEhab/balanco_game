@@ -7,9 +7,15 @@ void main() {
     required int sentAt,
     required double x,
     required double y,
+    String streamId = 'stream-a',
+    int attempt = 1,
+    int level = 1,
   }) => {
     'sequence': sequence,
     'sent_at': sentAt,
+    'stream_id': streamId,
+    'attempt': attempt,
+    'level': level,
     'world_width': 400.0,
     'world_height': 700.0,
     'left_y': y + 20,
@@ -100,5 +106,78 @@ void main() {
     );
 
     expect(interpolator.snapshotCount, 40);
+  });
+
+  test('accepts a restarted sender sequence in a new stream', () {
+    final interpolator = RaceRemoteSnapshotInterpolator();
+    const base = 5000000;
+    interpolator.addSnapshot(
+      snapshot(sequence: 90, sentAt: base, x: 90, y: 100),
+      arrivalMicros: base,
+    );
+    interpolator.addSnapshot(
+      snapshot(
+        sequence: 1,
+        sentAt: base + 100000,
+        x: 5,
+        y: 100,
+        streamId: 'stream-after-reconnect',
+      ),
+      arrivalMicros: base + 100000,
+    );
+
+    expect(interpolator.snapshotCount, 1);
+    expect(interpolator.sample(nowMicros: base + 100000)!.balls.single.x, 5);
+  });
+
+  test('accepts sequence reset when a later race attempt starts', () {
+    final interpolator = RaceRemoteSnapshotInterpolator();
+    const base = 6000000;
+    interpolator.addSnapshot(
+      snapshot(sequence: 40, sentAt: base, x: 40, y: 100),
+      arrivalMicros: base,
+    );
+    interpolator.addSnapshot(
+      snapshot(sequence: 1, sentAt: base + 100000, x: 2, y: 100, attempt: 2),
+      arrivalMicros: base + 100000,
+    );
+
+    expect(interpolator.snapshotCount, 1);
+    expect(interpolator.sample(nowMicros: base + 100000)!.balls.single.x, 2);
+  });
+
+  test('maps both axes relative to different device viewport sizes', () {
+    const state = RaceRemoteRenderState(
+      worldWidth: 400,
+      worldHeight: 800,
+      leftY: 680,
+      rightY: 680,
+      shieldTime: 0,
+      balls: [],
+    );
+
+    expect(state.localX(200, 300), 150);
+    expect(state.localY(680, 1000), 850);
+    expect(state.localY(660, 1000), 825);
+  });
+
+  test('maps a long race track using the real start and finish points', () {
+    const state = RaceRemoteRenderState(
+      worldWidth: 400,
+      worldHeight: 800,
+      levelHeight: 2400,
+      barBottomY: 2280,
+      leftY: 2280,
+      rightY: 2280,
+      shieldTime: 0,
+      balls: [],
+    );
+
+    expect(state.localY(70, 1000, localBarBottomY: 2860), 70);
+    expect(state.localY(2280, 1000, localBarBottomY: 2860), 2860);
+    expect(
+      state.localY(1175, 1000, localBarBottomY: 2860),
+      closeTo(1465, 0.001),
+    );
   });
 }

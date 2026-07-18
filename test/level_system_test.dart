@@ -6,6 +6,7 @@ import 'package:balanco_game/features/game/level_system/endless_chunk_generator.
 import 'package:balanco_game/features/game/level_system/level_definition.dart';
 import 'package:balanco_game/features/game/level_system/level_definition_adapter.dart';
 import 'package:balanco_game/features/game/level_system/level_validator.dart';
+import 'package:balanco_game/features/game/models/level_data.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -235,6 +236,24 @@ void main() {
       );
     });
 
+    test('preserves every campaign pickup when adapting to gameplay', () {
+      final definition = CampaignLevelGenerator().generateLevel(12);
+      final data = definition.toLevelData();
+
+      int count(String type) =>
+          definition.pickups.where((pickup) => pickup.type == type).length;
+
+      expect(data.stars, hasLength(count('star')));
+      expect(data.hearts, hasLength(count('heart')));
+      expect(data.magnets, hasLength(count('magnet')));
+      expect(data.multiBalls, hasLength(count('extraBall')));
+      expect(data.shields, hasLength(count('shield')));
+      expect(data.shields, isNotEmpty);
+
+      final roundTrip = LevelData.fromJson(data.toJson());
+      expect(roundTrip.shields.single, data.shields.single);
+    });
+
     test('baked assets cover all 500 levels', () {
       final ids = <int>{};
 
@@ -253,6 +272,25 @@ void main() {
           final level = LevelDefinition.fromJson(
             (levelJson as Map).cast<String, dynamic>(),
           );
+          final data = level.toLevelData();
+          int pickupCount(String type) =>
+              level.pickups.where((pickup) => pickup.type == type).length;
+          expect(
+            level.pickups.map((pickup) => pickup.type).toSet().difference({
+              'star',
+              'heart',
+              'magnet',
+              'extraBall',
+              'shield',
+            }),
+            isEmpty,
+            reason: 'level ${level.id} has an unsupported pickup type',
+          );
+          expect(data.stars, hasLength(pickupCount('star')));
+          expect(data.hearts, hasLength(pickupCount('heart')));
+          expect(data.magnets, hasLength(pickupCount('magnet')));
+          expect(data.multiBalls, hasLength(pickupCount('extraBall')));
+          expect(data.shields, hasLength(pickupCount('shield')));
           ids.add(level.id);
         }
       }

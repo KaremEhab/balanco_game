@@ -22,7 +22,6 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   bool _isAudioExpanded = false;
 
-
   Widget _buildCartoonCard({required Widget child, bool disabled = false}) {
     return Container(
       padding: const EdgeInsets.all(20),
@@ -252,8 +251,110 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+  Widget _buildFrameRateSelector() {
+    return ValueListenableBuilder<int>(
+      valueListenable: AppSettings.gameplayFrameRate,
+      builder: (context, frameRate, _) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: GameColors.blueAccent,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: GameColors.brownDarkUi, width: 2),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: GameColors.brownDarkUi,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: const Icon(
+                  Icons.speed_rounded,
+                  size: 28,
+                  color: GameColors.white,
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Gameplay Frame Rate',
+                      style: GoogleFonts.luckiestGuy(
+                        color: GameColors.brownDarkUi,
+                        fontSize: 18,
+                        letterSpacing: 1,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      frameRate == 120
+                          ? 'Maximum smoothness; uses more battery'
+                          : 'Balanced performance and temperature',
+                      style: const TextStyle(
+                        color: GameColors.black87,
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          SegmentedButton<int>(
+            segments: const [
+              ButtonSegment<int>(
+                value: 60,
+                label: Text('60 FPS'),
+                icon: Icon(Icons.battery_saver_rounded),
+              ),
+              ButtonSegment<int>(
+                value: 120,
+                label: Text('120 FPS'),
+                icon: Icon(Icons.bolt_rounded),
+              ),
+            ],
+            selected: {frameRate},
+            showSelectedIcon: false,
+            onSelectionChanged: (selection) {
+              AppSettings.setGameplayFrameRate(selection.single);
+            },
+            style: ButtonStyle(
+              foregroundColor: WidgetStateProperty.resolveWith(
+                (states) => states.contains(WidgetState.selected)
+                    ? GameColors.white
+                    : GameColors.brownDarkUi,
+              ),
+              backgroundColor: WidgetStateProperty.resolveWith(
+                (states) => states.contains(WidgetState.selected)
+                    ? GameColors.settingsScreenColor1
+                    : GameColors.sandLightUi,
+              ),
+              side: const WidgetStatePropertyAll(
+                BorderSide(color: GameColors.brownDarkUi, width: 2),
+              ),
+              textStyle: WidgetStatePropertyAll(
+                GoogleFonts.luckiestGuy(fontSize: 14, letterSpacing: 1),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final isOwner = AppSettings.isOwnerEmail(
+      Supabase.instance.client.auth.currentUser?.email,
+    );
     return SingleChildScrollView(
       controller: widget.scrollController,
       physics: const BouncingScrollPhysics(),
@@ -323,29 +424,37 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         icon: Icons.sports_martial_arts_rounded,
                         label: 'Impacts',
                         notifier: AppSettings.impactsVolume,
-                        onChanged: (value) =>
-                            AppSettings.setChannelVolume(SoundChannel.impacts, value),
+                        onChanged: (value) => AppSettings.setChannelVolume(
+                          SoundChannel.impacts,
+                          value,
+                        ),
                       ),
                       _buildVolumeRow(
                         icon: Icons.warning_amber_rounded,
                         label: 'Hazards',
                         notifier: AppSettings.hazardsVolume,
-                        onChanged: (value) =>
-                            AppSettings.setChannelVolume(SoundChannel.hazards, value),
+                        onChanged: (value) => AppSettings.setChannelVolume(
+                          SoundChannel.hazards,
+                          value,
+                        ),
                       ),
                       _buildVolumeRow(
                         icon: Icons.auto_awesome_rounded,
                         label: 'Rewards',
                         notifier: AppSettings.rewardsVolume,
-                        onChanged: (value) =>
-                            AppSettings.setChannelVolume(SoundChannel.rewards, value),
+                        onChanged: (value) => AppSettings.setChannelVolume(
+                          SoundChannel.rewards,
+                          value,
+                        ),
                       ),
                       _buildVolumeRow(
                         icon: Icons.touch_app_rounded,
                         label: 'UI',
                         notifier: AppSettings.uiVolume,
-                        onChanged: (value) =>
-                            AppSettings.setChannelVolume(SoundChannel.ui, value),
+                        onChanged: (value) => AppSettings.setChannelVolume(
+                          SoundChannel.ui,
+                          value,
+                        ),
                       ),
                       const Padding(
                         padding: EdgeInsets.symmetric(vertical: 12.0),
@@ -461,13 +570,28 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
           _buildSectionHeader('DISPLAY'),
           _buildCartoonCard(
-            child: _buildToggleRow(
-              icon: Icons.layers,
-              iconColor: GameColors.purpleAccent,
-              title: 'Parallax Effect',
-              subtitle: 'Smooth background animations',
-              notifier: AppSettings.parallaxEnabled,
-              onChanged: AppSettings.setParallaxEnabled,
+            child: Column(
+              children: [
+                _buildToggleRow(
+                  icon: Icons.layers,
+                  iconColor: GameColors.purpleAccent,
+                  title: 'Parallax Effect',
+                  subtitle: 'Smooth background animations',
+                  notifier: AppSettings.parallaxEnabled,
+                  onChanged: AppSettings.setParallaxEnabled,
+                ),
+                if (isOwner) ...[
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    child: Divider(
+                      height: 2,
+                      color: GameColors.brownDarkUi,
+                      thickness: 2,
+                    ),
+                  ),
+                  _buildFrameRateSelector(),
+                ],
+              ],
             ),
           ),
 
@@ -535,7 +659,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
           const SizedBox(height: 32),
 
-          if (Supabase.instance.client.auth.currentUser?.email == 'karemehab2323@gmail.com') ...[
+          if (isOwner) ...[
             _buildSectionHeader('DEVELOPER TOOLS'),
             _buildCartoonCard(
               child: Column(
@@ -579,7 +703,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       AppSettings.stopBgm();
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (_) => const BgConfigScreen()),
+                        MaterialPageRoute(
+                          builder: (_) => const BgConfigScreen(),
+                        ),
                       ).then((_) {
                         AppSettings.playMenuBgm();
                       });

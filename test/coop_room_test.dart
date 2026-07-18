@@ -95,4 +95,114 @@ void main() {
     expect(member.raceWins, 99);
     expect(member.sessionWins, 0);
   });
+
+  test('race series exposes its round, champion, and cumulative stars', () {
+    final room = CoopRoom.fromJson({
+      'room': {
+        'id': 'series-id',
+        'room_code': 'SERIES',
+        'host_id': 'p1',
+        'status': 'ended',
+        'host_side': 'left',
+        'seed': 13,
+        'mode': 'race',
+        'race_level': 9,
+        'race_start_level': 5,
+        'race_end_level': 9,
+        'series_winner_id': 'p2',
+        'series_end_kind': 'winner',
+        'series_finished_at': '2026-07-18T12:00:00Z',
+      },
+      'members': [
+        {
+          'user_id': 'p1',
+          'display_name': 'Host',
+          'player_code': 'HO-CODE',
+          'side': 'slot1',
+          'ready': true,
+          'is_host': true,
+          'session_wins': 2,
+          'series_stars': 4,
+          'highest_level': 12,
+        },
+        {
+          'user_id': 'p2',
+          'display_name': 'Champion',
+          'player_code': 'CH-CODE',
+          'side': 'slot2',
+          'ready': true,
+          'is_host': false,
+          'session_wins': 2,
+          'series_stars': 6,
+          'highest_level': 20,
+        },
+      ],
+    });
+
+    expect(room.seriesRoundCount, 5);
+    expect(room.seriesRoundNumber, 5);
+    expect(room.hasMoreSeriesLevels, isFalse);
+    expect(room.isSeriesFinished, isTrue);
+    expect(room.seriesWinnerId, 'p2');
+    expect(room.memberFor('p2').seriesStars, 6);
+    expect(room.memberFor('p2').highestLevel, 20);
+  });
+
+  test('race room preserves departed racers and global pickup owners', () {
+    final room = CoopRoom.fromJson({
+      'room': {
+        'id': 'race-id',
+        'room_code': 'GLOBAL',
+        'host_id': 'p1',
+        'status': 'playing',
+        'host_side': 'left',
+        'seed': 9,
+        'mode': 'race',
+        'race_level': 4,
+        'attempt_number': 2,
+      },
+      'members': [
+        {
+          'user_id': 'p1',
+          'display_name': 'Player One',
+          'player_code': 'P1-CODE',
+          'side': 'slot1',
+          'ready': true,
+          'is_host': true,
+        },
+        {
+          'user_id': 'p2',
+          'display_name': 'Player Two',
+          'player_code': 'P2-CODE',
+          'side': 'slot2',
+          'ready': false,
+          'is_host': false,
+          'eliminated_at': '2026-07-18T09:00:00Z',
+          'left_at': '2026-07-18T09:00:00Z',
+        },
+      ],
+      'race_pickup_claims': [
+        {
+          'pickup_key': 'star:0',
+          'pickup_type': 'star',
+          'claimant_id': 'p1',
+          'claimant_name': 'Player One',
+          'claimed_at': '2026-07-18T08:59:58Z',
+        },
+        {
+          'pickup_key': 'magnet:0',
+          'pickup_type': 'magnet',
+          'claimant_id': 'p2',
+          'claimant_name': 'Player Two',
+          'claimed_at': '2026-07-18T08:59:59Z',
+        },
+      ],
+    });
+
+    expect(room.memberFor('p2').hasLeft, isTrue);
+    expect(room.requiredVotes, 1);
+    expect(room.racePickupClaims, hasLength(2));
+    expect(room.racePickupClaims.first.pickupKey, 'star:0');
+    expect(room.racePickupClaims.last.claimantId, 'p2');
+  });
 }

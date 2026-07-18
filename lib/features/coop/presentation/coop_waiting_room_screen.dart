@@ -34,6 +34,7 @@ class _CoopWaitingRoomScreenState extends State<CoopWaitingRoomScreen> {
   bool _reloading = false;
   bool _leavingRace = false;
   bool _allowRacePop = false;
+  String? _lobbyError;
 
   List<CoopSide> get _visibleSlots => _room.isRace
       ? const [
@@ -87,7 +88,7 @@ class _CoopWaitingRoomScreenState extends State<CoopWaitingRoomScreen> {
   }
 
   Future<void> _reload() async {
-    if (_reloading || _handoff) return;
+    if (_reloading || _handoff || _busy) return;
     _reloading = true;
     try {
       final room = await _repository.getRoom(_room.id);
@@ -102,15 +103,27 @@ class _CoopWaitingRoomScreenState extends State<CoopWaitingRoomScreen> {
   }
 
   Future<void> _mutate(Future<CoopRoom> Function() action) async {
-    setState(() => _busy = true);
+    setState(() {
+      _busy = true;
+      _lobbyError = null;
+    });
     try {
       final room = await action();
       if (!mounted) return;
-      setState(() => _room = room);
+      setState(() {
+        _room = room;
+        _lobbyError = null;
+      });
       await _realtime.notifyRoomChanged();
       if (_shouldEnterMatch) _enterMatch();
     } on PostgrestException catch (error) {
-      _message(error.message);
+      if (mounted) setState(() => _lobbyError = error.message);
+    } catch (error) {
+      if (mounted) {
+        setState(() {
+          _lobbyError = 'Could not update the race room. $error';
+        });
+      }
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -158,6 +171,81 @@ class _CoopWaitingRoomScreenState extends State<CoopWaitingRoomScreen> {
           .toList(),
     );
     if (updated != null && mounted) setState(() => _room = updated);
+  }
+
+  Future<void> _editRaceSeries() async {
+    if (!_room.isRace || !_isHost || _busy) return;
+    final selection = await showModalBottomSheet<List<int>>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => RaceSeriesPicker(
+        initialStart: _room.raceStartLevel,
+        initialEnd: _room.raceEndLevel,
+        highestLevel: _me.highestLevel,
+      ),
+    );
+    if (selection == null || !mounted) return;
+    // Let the bottom-sheet OverlayPortal and slider gesture detach before the
+    // authoritative room update rebuilds this route. Updating on the same
+    // frame can leave an inherited element with live dependents on Flutter.
+    await WidgetsBinding.instance.endOfFrame;
+    if (!mounted) return;
+    await _mutate(
+      () => _repository.configureRaceSeries(
+        _room.id,
+        startLevel: selection.first,
+        endLevel: selection.last,
+      ),
+    );
+  }
+
+  Future<void> _transferHost(CoopMember member) async {
+    if (!_isHost || member.userId == _userId || _busy) return;
+    final approved = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: GameColors.sandLightUi,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24),
+          side: const BorderSide(color: GameColors.brownDarkUi, width: 4),
+        ),
+        icon: const Icon(
+          Icons.workspace_premium_rounded,
+          color: GameColors.orangeTextUi,
+          size: 44,
+        ),
+        title: Text(
+          'PASS THE LEAD?',
+          textAlign: TextAlign.center,
+          style: GoogleFonts.luckiestGuy(color: GameColors.brownDarkUi),
+        ),
+        content: Text(
+          '${member.displayName} will choose the levels and start the race. '
+          'Everyone will mark ready again. If your range is above their '
+          'unlocked levels, it resets to Level 1.',
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontWeight: FontWeight.w800),
+        ),
+        actionsAlignment: MainAxisAlignment.center,
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('KEEP LEAD'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('MAKE HOST'),
+          ),
+        ],
+      ),
+    );
+    if (approved == true && mounted) {
+      await _mutate(
+        () => _repository.transferRaceHost(_room.id, member.userId),
+      );
+    }
   }
 
   @override
@@ -253,6 +341,14 @@ class _CoopWaitingRoomScreenState extends State<CoopWaitingRoomScreen> {
                 ),
               ),
               const SizedBox(height: 22),
+              if (_room.isRace) ...[
+                _RaceSeriesCard(
+                  room: _room,
+                  editable: _isHost && !_busy,
+                  onTap: _editRaceSeries,
+                ),
+                const SizedBox(height: 22),
+              ],
               IntrinsicHeight(
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -266,6 +362,22 @@ class _CoopWaitingRoomScreenState extends State<CoopWaitingRoomScreen> {
                             member: _room.members
                                 .where((m) => m.side == side)
                                 .firstOrNull,
+                            canTransferHost:
+                                _room.isRace &&
+                                _isHost &&
+                                _room.members.any(
+                                  (member) =>
+                                      member.side == side &&
+                                      member.userId != _userId,
+                                ),
+                            onTransferHost: () {
+                              final member = _room.members
+                                  .where((member) => member.side == side)
+                                  .firstOrNull;
+                              if (member != null) {
+                                unawaited(_transferHost(member));
+                              }
+                            },
                           ),
                         ),
                       ),
@@ -319,6 +431,13 @@ class _CoopWaitingRoomScreenState extends State<CoopWaitingRoomScreen> {
                 },
               ),
               const SizedBox(height: 12),
+              if (_lobbyError != null) ...[
+                _LobbyErrorCard(
+                  message: _lobbyError!,
+                  onDismiss: () => setState(() => _lobbyError = null),
+                ),
+                const SizedBox(height: 12),
+              ],
               ElevatedButton.icon(
                 onPressed: _busy
                     ? null
@@ -392,9 +511,16 @@ class _CoopWaitingRoomScreenState extends State<CoopWaitingRoomScreen> {
 }
 
 class _PlayerSlot extends StatelessWidget {
-  const _PlayerSlot({required this.side, required this.member});
+  const _PlayerSlot({
+    required this.side,
+    required this.member,
+    required this.canTransferHost,
+    required this.onTransferHost,
+  });
   final CoopSide side;
   final CoopMember? member;
+  final bool canTransferHost;
+  final VoidCallback onTransferHost;
   @override
   Widget build(BuildContext context) => Container(
     padding: const EdgeInsets.all(12),
@@ -442,6 +568,334 @@ class _PlayerSlot extends StatelessWidget {
               color: GameColors.orangeTextUi,
             ),
           ),
+        if (canTransferHost)
+          Tooltip(
+            message: 'Make ${member?.displayName ?? 'player'} the host',
+            child: IconButton(
+              visualDensity: VisualDensity.compact,
+              onPressed: onTransferHost,
+              icon: const Icon(
+                Icons.workspace_premium_rounded,
+                color: GameColors.orangeTextUi,
+              ),
+            ),
+          ),
+      ],
+    ),
+  );
+}
+
+class _RaceSeriesCard extends StatelessWidget {
+  const _RaceSeriesCard({
+    required this.room,
+    required this.editable,
+    required this.onTap,
+  });
+
+  final CoopRoom room;
+  final bool editable;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) => Container(
+    key: const Key('race-series-card'),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(30),
+      border: Border.all(color: GameColors.brownDarkUi, width: 4),
+      boxShadow: const [
+        BoxShadow(color: GameColors.brownDarkUi, offset: Offset(0, 6)),
+      ],
+    ),
+    child: Material(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(26),
+      clipBehavior: Clip.antiAlias,
+      child: Ink(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF6544CF), Color(0xFF2E84D7)],
+          ),
+        ),
+        child: InkWell(
+          onTap: editable ? onTap : null,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+            child: Row(
+              children: [
+                const CircleAvatar(
+                  radius: 27,
+                  backgroundColor: GameColors.orangeTextUi,
+                  child: Icon(
+                    Icons.emoji_events_rounded,
+                    color: Colors.white,
+                    size: 31,
+                  ),
+                ),
+                const SizedBox(width: 13),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'RACE SERIES',
+                        style: GoogleFonts.luckiestGuy(
+                          color: Colors.white,
+                          fontSize: 19,
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            'LEVEL ${room.raceStartLevel}  ->  ${room.raceEndLevel}  '
+                            '|  ${room.seriesRoundCount} ROUNDS',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w900,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const Text(
+                        'Most level wins | stars break a tie',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: Colors.white70,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Icon(
+                  editable ? Icons.tune_rounded : Icons.lock_clock_rounded,
+                  color: Colors.white,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+class RaceSeriesPicker extends StatefulWidget {
+  const RaceSeriesPicker({
+    super.key,
+    required this.initialStart,
+    required this.initialEnd,
+    required this.highestLevel,
+  });
+
+  final int initialStart;
+  final int initialEnd;
+  final int highestLevel;
+
+  @override
+  State<RaceSeriesPicker> createState() => RaceSeriesPickerState();
+}
+
+class RaceSeriesPickerState extends State<RaceSeriesPicker> {
+  late RangeValues _range;
+
+  int get _start => _range.start.round();
+  int get _end => _range.end.round();
+  int get _rounds => _end - _start + 1;
+  bool get _isOdd => _rounds.isOdd;
+
+  @override
+  void initState() {
+    super.initState();
+    final max = widget.highestLevel.clamp(1, 500);
+    _range = RangeValues(
+      widget.initialStart.clamp(1, max).toDouble(),
+      widget.initialEnd.clamp(1, max).toDouble(),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final max = widget.highestLevel.clamp(1, 500);
+    return SafeArea(
+      child: Container(
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.sizeOf(context).height * 0.92,
+        ),
+        decoration: const BoxDecoration(
+          color: GameColors.sandLightUi,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+          border: Border(
+            top: BorderSide(color: GameColors.brownDarkUi, width: 5),
+            left: BorderSide(color: GameColors.brownDarkUi, width: 5),
+            right: BorderSide(color: GameColors.brownDarkUi, width: 5),
+          ),
+        ),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(22, 20, 22, 22),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.flag_circle_rounded,
+                color: GameColors.deepPurple,
+                size: 46,
+              ),
+              Text(
+                'BUILD YOUR RACE',
+                style: GoogleFonts.luckiestGuy(
+                  color: GameColors.brownDarkUi,
+                  fontSize: 25,
+                ),
+              ),
+              const SizedBox(height: 5),
+              Text(
+                'You have Levels 1-$max unlocked. The inclusive range must '
+                'contain an odd number of levels.',
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontWeight: FontWeight.w800),
+              ),
+              const SizedBox(height: 16),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 13,
+                ),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFE8DDFD),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: GameColors.brownDarkUi, width: 3),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    _pickerValue('START', _start),
+                    const Icon(
+                      Icons.arrow_forward_rounded,
+                      color: GameColors.deepPurple,
+                    ),
+                    _pickerValue('END', _end),
+                    _pickerValue('ROUNDS', _rounds),
+                  ],
+                ),
+              ),
+              if (max > 1)
+                SliderTheme(
+                  data: SliderTheme.of(
+                    context,
+                  ).copyWith(showValueIndicator: ShowValueIndicator.never),
+                  child: RangeSlider(
+                    key: const Key('race-series-range-slider'),
+                    min: 1,
+                    max: max.toDouble(),
+                    divisions: max - 1,
+                    values: _range,
+                    onChanged: (value) => setState(() {
+                      _range = RangeValues(
+                        value.start.roundToDouble(),
+                        value.end.roundToDouble(),
+                      );
+                    }),
+                  ),
+                )
+              else
+                const Padding(
+                  padding: EdgeInsets.all(18),
+                  child: Text('Win Level 1 to unlock longer race series.'),
+                ),
+              AnimatedDefaultTextStyle(
+                duration: const Duration(milliseconds: 180),
+                style: GoogleFonts.luckiestGuy(
+                  color: _isOdd ? Colors.green : GameColors.red300,
+                  fontSize: 13,
+                ),
+                child: Text(
+                  _isOdd
+                      ? 'PERFECT - $_rounds ${_rounds == 1 ? 'ROUND' : 'ROUNDS'} HAS A CLEAR MAJORITY'
+                      : 'CHOOSE ONE MORE OR ONE FEWER LEVEL - $_rounds IS EVEN',
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const SizedBox(height: 15),
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton.icon(
+                  key: const Key('save-race-series-range'),
+                  onPressed: _isOdd
+                      ? () => Navigator.pop(context, [_start, _end])
+                      : null,
+                  icon: const Icon(Icons.check_circle_rounded),
+                  label: Text(
+                    'LOCK IN $_rounds ROUNDS',
+                    style: GoogleFonts.luckiestGuy(),
+                  ),
+                  style: FilledButton.styleFrom(
+                    backgroundColor: GameColors.deepPurple,
+                    padding: const EdgeInsets.all(16),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _pickerValue(String label, int value) => Column(
+    children: [
+      Text(
+        label,
+        style: GoogleFonts.luckiestGuy(
+          fontSize: 11,
+          color: GameColors.brownDarkUi,
+        ),
+      ),
+      Text(
+        '$value',
+        style: GoogleFonts.luckiestGuy(
+          fontSize: 24,
+          color: GameColors.deepPurple,
+        ),
+      ),
+    ],
+  );
+}
+
+class _LobbyErrorCard extends StatelessWidget {
+  const _LobbyErrorCard({required this.message, required this.onDismiss});
+
+  final String message;
+  final VoidCallback onDismiss;
+
+  @override
+  Widget build(BuildContext context) => Container(
+    padding: const EdgeInsets.fromLTRB(14, 10, 6, 10),
+    decoration: BoxDecoration(
+      color: const Color(0xFFFFE2DE),
+      borderRadius: BorderRadius.circular(18),
+      border: Border.all(color: GameColors.red300, width: 3),
+    ),
+    child: Row(
+      children: [
+        const Icon(Icons.error_outline_rounded, color: GameColors.red300),
+        const SizedBox(width: 9),
+        Expanded(
+          child: Text(
+            message,
+            style: const TextStyle(
+              color: GameColors.brownDarkUi,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+        ),
+        IconButton(
+          tooltip: 'Dismiss error',
+          onPressed: onDismiss,
+          icon: const Icon(Icons.close_rounded),
+        ),
       ],
     ),
   );

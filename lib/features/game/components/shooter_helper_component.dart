@@ -26,6 +26,12 @@ class ShooterHelperComponent extends PositionComponent
     removeFromParent();
   }
 
+  void dismiss() {
+    if (isCollected) return;
+    isCollected = true;
+    removeFromParent();
+  }
+
   @override
   void update(double dt) {
     super.update(dt);
@@ -34,6 +40,7 @@ class ShooterHelperComponent extends PositionComponent
 
   @override
   void render(Canvas canvas) {
+    if (isCollected) return;
     final center = Offset(size.x / 2, size.y / 2 + sin(_time * 4) * 2);
 
     // Outer floating ring

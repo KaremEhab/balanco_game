@@ -3,7 +3,11 @@ import 'dart:convert';
 import 'package:balanco_game/core/data/database_helper.dart';
 import 'package:balanco_game/features/coop/domain/coop_room.dart';
 import 'package:balanco_game/features/game/game_area.dart';
+import 'package:balanco_game/features/game/components/bomb_component.dart';
+import 'package:balanco_game/features/game/components/bomb_warning_component.dart';
 import 'package:balanco_game/features/game/models/level_data.dart';
+import 'package:balanco_game/features/game/models/race_pickup.dart';
+import 'package:balanco_game/features/race/application/race_match_clock.dart';
 import 'package:flame/components.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -25,6 +29,103 @@ void main() {
 
     expect(game.isLayoutReady, isFalse);
     expect(game.raceProgress, 0);
+  });
+
+  test('race timeout submits once, supports fractions, and can retry', () {
+    final guard = RaceTimeoutSubmissionGuard();
+    final started = DateTime.utc(2026, 7, 18, 12);
+
+    expect(
+      guard.take(
+        isRoomActive: true,
+        elapsed: const Duration(milliseconds: 60499),
+        limitSeconds: 60.5,
+        now: started,
+      ),
+      isFalse,
+    );
+    expect(
+      guard.take(
+        isRoomActive: true,
+        elapsed: const Duration(milliseconds: 60500),
+        limitSeconds: 60.5,
+        now: started,
+      ),
+      isTrue,
+    );
+    expect(
+      guard.take(
+        isRoomActive: true,
+        elapsed: const Duration(seconds: 70),
+        limitSeconds: 60.5,
+        now: started,
+      ),
+      isFalse,
+    );
+
+    expect(guard.recordFailure(started), isTrue);
+    expect(
+      guard.take(
+        isRoomActive: true,
+        elapsed: const Duration(seconds: 70),
+        limitSeconds: 60.5,
+        now: started.add(const Duration(milliseconds: 999)),
+      ),
+      isFalse,
+    );
+    expect(
+      guard.take(
+        isRoomActive: true,
+        elapsed: const Duration(seconds: 70),
+        limitSeconds: 60.5,
+        now: started.add(const Duration(seconds: 1)),
+      ),
+      isTrue,
+    );
+
+    expect(
+      guard.recordFailure(started.add(const Duration(seconds: 1))),
+      isTrue,
+    );
+    expect(
+      guard.take(
+        isRoomActive: true,
+        elapsed: const Duration(seconds: 70),
+        limitSeconds: 60.5,
+        now: started.add(const Duration(seconds: 3)),
+      ),
+      isTrue,
+    );
+    expect(
+      guard.recordFailure(started.add(const Duration(seconds: 3))),
+      isFalse,
+    );
+    expect(guard.exhausted, isTrue);
+    expect(guard.failures, 3);
+    expect(
+      guard.take(
+        isRoomActive: true,
+        elapsed: const Duration(minutes: 2),
+        limitSeconds: 60.5,
+        now: started.add(const Duration(minutes: 1)),
+      ),
+      isFalse,
+    );
+  });
+
+  test('race timeout can settle when pause lands exactly at zero', () {
+    final guard = RaceTimeoutSubmissionGuard();
+
+    expect(
+      guard.take(
+        // The coordinator treats playing or paused as an active room for
+        // timeout settlement while the clock itself remains frozen on pause.
+        isRoomActive: true,
+        elapsed: const Duration(seconds: 60),
+        limitSeconds: 60,
+      ),
+      isTrue,
+    );
   });
 
   test(
@@ -123,6 +224,31 @@ void main() {
     },
   );
 
+  test(
+    'race does not turn the shared timeout into a local heart loss',
+    () async {
+      final game = BalancoGame(
+        isMultiplayer: true,
+        playerRole: 'BOTH',
+        randomSeed: 42,
+        enableTutorials: false,
+        isRaceMode: true,
+      )..onGameResize(Vector2(400, 800));
+
+      await Future<void>.delayed(Duration.zero);
+      await game.onLoad();
+      game
+        ..countdownTimer = 0
+        ..isLevelTimerActive = true
+        ..levelTimer = 0.001;
+
+      game.update(1 / 60);
+
+      expect(game.currentLives.value, 3);
+      expect(game.showGameOverOverlay.value, isFalse);
+    },
+  );
+
   test('race loads the exact regular authored level definition', () async {
     final regular = BalancoGame(
       isMultiplayer: false,
@@ -142,6 +268,34 @@ void main() {
 
     expect(race.currentLevelData!.toJson(), regular.currentLevelData!.toJson());
     expect(race.currentHeightMultiplier, regular.currentHeightMultiplier);
+  });
+
+  test('race shield pickup is global and cannot grant twice', () async {
+    final game = BalancoGame(
+      isMultiplayer: true,
+      playerRole: 'BOTH',
+      randomSeed: 42,
+      enableTutorials: false,
+      isRaceMode: true,
+    )..onGameResize(Vector2(400, 800));
+    game.currentLevel.value = 12;
+
+    await Future<void>.delayed(Duration.zero);
+    await game.onLoad();
+
+    expect(game.shieldPickups, isNotEmpty);
+    final claim = RacePickupResolution(
+      pickupKey: 'shield:0',
+      type: RacePickupType.shield,
+      claimantId: 'player-1',
+      claimantName: 'Player 1',
+    );
+
+    game.applyRacePickupClaim(claim, grantEffect: true);
+    game.applyRacePickupClaim(claim, grantEffect: true);
+
+    expect(game.shieldPickups.first.isCollected, isTrue);
+    expect(game.remainingShields.value, 4);
   });
 
   test('saved vortex wind radius survives gameplay loading', () async {
@@ -269,6 +423,54 @@ void main() {
     expect(game.activeBalls.single.pos2D.y, lessThan(game.leftY));
   });
 
+  test(
+    'edge fall drops from the finish gate and lands in every mode',
+    () async {
+      for (final isRace in [false, true]) {
+        final game = BalancoGame(
+          isMultiplayer: isRace,
+          playerRole: 'BOTH',
+          randomSeed: 42,
+          enableTutorials: false,
+          isRaceMode: isRace,
+        )..onGameResize(Vector2(400, 800));
+
+        await Future<void>.delayed(Duration.zero);
+        await game.onLoad();
+        game
+          ..isSpawningLevel = false
+          ..countdownTimer = 0
+          ..leftY = game.levelHeight - (isRace ? 120 : 160)
+          ..rightY = game.levelHeight - (isRace ? 120 : 160);
+        game.activeBalls.single.isDead = true;
+
+        game.update(1 / 60);
+
+        expect(game.currentLives.value, 2, reason: 'race=$isRace');
+        expect(game.activeBalls.single.isRespawningFromEdge, isTrue);
+        expect(
+          game.activeBalls.single.pos2D,
+          game.teleportingGateComponent.position,
+        );
+
+        for (var frame = 0; frame < 360; frame++) {
+          game.update(1 / 60);
+        }
+
+        final respawned = game.activeBalls.single;
+        expect(respawned.isRespawningFromEdge, isFalse, reason: 'race=$isRace');
+        expect(respawned.isFreeFalling, isFalse, reason: 'race=$isRace');
+        expect(respawned.isDead, isFalse, reason: 'race=$isRace');
+        expect(game.isLevelTimerActive, isTrue, reason: 'race=$isRace');
+        expect(
+          respawned.pos2D.y,
+          closeTo((game.leftY + game.rightY) / 2 - game.ballRadius - 6, 1),
+          reason: 'race=$isRace',
+        );
+      }
+    },
+  );
+
   test('race restart rearms victory notification for the next level', () async {
     final game = BalancoGame(
       isMultiplayer: true,
@@ -298,6 +500,46 @@ void main() {
     game.showVictoryOverlay.value = true;
     expect(submittedVictories, 2);
   });
+
+  test(
+    'race restart removes bombs and warnings from the previous level',
+    () async {
+      final game = BalancoGame(
+        isMultiplayer: true,
+        playerRole: 'BOTH',
+        randomSeed: 42,
+        enableTutorials: false,
+        isRaceMode: true,
+      )..onGameResize(Vector2(400, 800));
+
+      await Future<void>.delayed(Duration.zero);
+      await game.onLoad();
+      game.levelContainer.addAll([
+        BombComponent(Vector2(200, 300)),
+        BombWarningComponent(),
+      ]);
+      game.update(1 / 60);
+
+      expect(
+        game.levelContainer.children.whereType<BombComponent>(),
+        isNotEmpty,
+      );
+      expect(
+        game.levelContainer.children.whereType<BombWarningComponent>(),
+        isNotEmpty,
+      );
+
+      game.currentLevel.value = 3;
+      await game.restartRaceRun(43);
+      game.update(1 / 60);
+
+      expect(game.levelContainer.children.whereType<BombComponent>(), isEmpty);
+      expect(
+        game.levelContainer.children.whereType<BombWarningComponent>(),
+        isEmpty,
+      );
+    },
+  );
 
   test('race room parses authoritative start and winner state', () {
     final room = CoopRoom.fromJson({

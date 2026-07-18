@@ -163,13 +163,18 @@ class SupabaseAuthRepository implements AuthRepository {
   }
 
   Future<void> _launchOAuth(OAuthProvider provider) async {
-    await _client.auth.signInWithOAuth(
+    final launched = await _client.auth.signInWithOAuth(
       provider,
       redirectTo: kIsWeb ? null : SupabaseConfig.authRedirectUrl,
       authScreenLaunchMode: kIsWeb
           ? LaunchMode.platformDefault
           : LaunchMode.externalApplication,
     );
+    if (!launched) {
+      throw const AuthException(
+        'Could not open the secure sign-in page. Please try again.',
+      );
+    }
   }
 
   @override

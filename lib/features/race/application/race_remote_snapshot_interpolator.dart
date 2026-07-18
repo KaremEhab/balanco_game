@@ -20,6 +20,8 @@ class RaceRemoteRenderState {
   const RaceRemoteRenderState({
     required this.worldWidth,
     required this.worldHeight,
+    this.levelHeight,
+    this.barBottomY,
     required this.leftY,
     required this.rightY,
     required this.shieldTime,
@@ -28,10 +30,39 @@ class RaceRemoteRenderState {
 
   final double worldWidth;
   final double worldHeight;
+  final double? levelHeight;
+  final double? barBottomY;
   final double leftY;
   final double rightY;
   final double shieldTime;
   final List<RaceRemoteBallRenderState> balls;
+
+  /// Converts a coordinate sent by another device into this device's race
+  /// world. Race levels are authored in normalized coordinates, so both axes
+  /// must be scaled; keeping the sender's raw Y value makes players start at
+  /// different heights whenever their playable viewports differ.
+  double localX(double remoteX, double localWorldWidth) =>
+      remoteX * localWorldWidth / worldWidth;
+
+  double localY(
+    double remoteY,
+    double localWorldHeight, {
+    double? localBarBottomY,
+  }) {
+    final remoteBottom = barBottomY;
+    if (remoteBottom != null &&
+        localBarBottomY != null &&
+        remoteBottom > 70 &&
+        localBarBottomY > 70) {
+      // Fixed HUD/safe-area insets do not scale with viewport height. Map
+      // against the actual playable track so every device agrees on both the
+      // starting bar and each player's relative progress to the finish gate.
+      const finishY = 70.0;
+      final progressFromFinish = (remoteY - finishY) / (remoteBottom - finishY);
+      return finishY + progressFromFinish * (localBarBottomY - finishY);
+    }
+    return remoteY * localWorldHeight / worldHeight;
+  }
 }
 
 /// Buffers incoming Race snapshots and renders slightly behind the network.
@@ -47,13 +78,24 @@ class RaceRemoteSnapshotInterpolator extends ChangeNotifier {
   final List<_RaceSnapshot> _snapshots = [];
   int _latestSequence = -1;
   double? _clockOffsetMicros;
+  String? _streamKey;
 
   @visibleForTesting
   int get snapshotCount => _snapshots.length;
 
   void addSnapshot(Map<String, dynamic> payload, {int? arrivalMicros}) {
-    final sequence = payload['sequence'] as int? ?? 0;
-    final sentAt = payload['sent_at'] as int?;
+    final attempt = (payload['attempt'] as num?)?.toInt();
+    final level = (payload['level'] as num?)?.toInt();
+    final streamId = (payload['stream_id'] as String?)?.trim();
+    final nextStreamKey =
+        '${attempt ?? -1}:${level ?? -1}:${streamId?.isNotEmpty == true ? streamId : 'legacy'}';
+    if (_streamKey != null && _streamKey != nextStreamKey) {
+      _clearBuffer();
+    }
+    _streamKey = nextStreamKey;
+
+    final sequence = (payload['sequence'] as num?)?.toInt() ?? 0;
+    final sentAt = (payload['sent_at'] as num?)?.toInt();
     if (sentAt == null || sequence <= _latestSequence) return;
 
     final snapshot = _RaceSnapshot.fromPayload(
@@ -117,10 +159,15 @@ class RaceRemoteSnapshotInterpolator extends ChangeNotifier {
   }
 
   void clear() {
+    _streamKey = null;
+    _clearBuffer();
+    notifyListeners();
+  }
+
+  void _clearBuffer() {
     _snapshots.clear();
     _latestSequence = -1;
     _clockOffsetMicros = null;
-    notifyListeners();
   }
 
   RaceRemoteRenderState _interpolate(
@@ -202,6 +249,8 @@ class RaceRemoteSnapshotInterpolator extends ChangeNotifier {
     return RaceRemoteRenderState(
       worldWidth: b.worldWidth,
       worldHeight: b.worldHeight,
+      levelHeight: b.levelHeight,
+      barBottomY: b.barBottomY,
       leftY: value(
         a.leftY,
         b.leftY,
@@ -259,6 +308,8 @@ class RaceRemoteSnapshotInterpolator extends ChangeNotifier {
     return RaceRemoteRenderState(
       worldWidth: latest.worldWidth,
       worldHeight: latest.worldHeight,
+      levelHeight: latest.levelHeight,
+      barBottomY: latest.barBottomY,
       leftY: extrapolate(previous.leftY, latest.leftY),
       rightY: extrapolate(previous.rightY, latest.rightY),
       shieldTime: latest.shieldTime,
@@ -308,6 +359,8 @@ class _RaceSnapshot {
     required this.arrivalMicros,
     required this.worldWidth,
     required this.worldHeight,
+    required this.levelHeight,
+    required this.barBottomY,
     required this.leftY,
     required this.rightY,
     required this.shieldTime,
@@ -318,6 +371,8 @@ class _RaceSnapshot {
   final int arrivalMicros;
   final double worldWidth;
   final double worldHeight;
+  final double? levelHeight;
+  final double? barBottomY;
   final double leftY;
   final double rightY;
   final double shieldTime;
@@ -361,6 +416,8 @@ class _RaceSnapshot {
       arrivalMicros: arrivalMicros,
       worldWidth: width,
       worldHeight: height,
+      levelHeight: (payload['level_height'] as num?)?.toDouble(),
+      barBottomY: (payload['bar_bottom_y'] as num?)?.toDouble(),
       leftY: left,
       rightY: right,
       shieldTime: (payload['shield_time'] as num?)?.toDouble() ?? 0,
@@ -371,6 +428,8 @@ class _RaceSnapshot {
   RaceRemoteRenderState toRenderState() => RaceRemoteRenderState(
     worldWidth: worldWidth,
     worldHeight: worldHeight,
+    levelHeight: levelHeight,
+    barBottomY: barBottomY,
     leftY: leftY,
     rightY: rightY,
     shieldTime: shieldTime,

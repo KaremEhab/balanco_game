@@ -8,6 +8,62 @@ class RaceMatchClockState {
   final double countdownSeconds;
 }
 
+/// Allows exactly one timeout submission while still permitting a retry when
+/// another room action was already in flight or the network request failed.
+class RaceTimeoutSubmissionGuard {
+  static const maxFailures = 3;
+
+  bool _submitted = false;
+  int _failures = 0;
+  DateTime? _retryAt;
+
+  int get failures => _failures;
+  bool get exhausted => _failures >= maxFailures;
+
+  bool take({
+    required bool isRoomActive,
+    required Duration elapsed,
+    required double limitSeconds,
+    DateTime? now,
+  }) {
+    final checkedAt = (now ?? DateTime.now()).toUtc();
+    if (_submitted ||
+        exhausted ||
+        !isRoomActive ||
+        limitSeconds <= 0 ||
+        (_retryAt?.isAfter(checkedAt) ?? false)) {
+      return false;
+    }
+    final limit = Duration(
+      microseconds: (limitSeconds * Duration.microsecondsPerSecond).round(),
+    );
+    if (elapsed < limit) return false;
+    _submitted = true;
+    return true;
+  }
+
+  void defer(DateTime now, {Duration delay = const Duration(seconds: 1)}) {
+    _submitted = false;
+    _retryAt = now.toUtc().add(delay);
+  }
+
+  /// Returns true while another bounded retry remains.
+  bool recordFailure(DateTime now) {
+    _failures += 1;
+    _submitted = false;
+    if (exhausted) return false;
+    final delay = Duration(seconds: 1 << (_failures - 1));
+    _retryAt = now.toUtc().add(delay);
+    return true;
+  }
+
+  void reset() {
+    _submitted = false;
+    _failures = 0;
+    _retryAt = null;
+  }
+}
+
 /// A local presentation clock driven by the authoritative room state.
 ///
 /// Paused and leave-vote time is removed from both the countdown and elapsed

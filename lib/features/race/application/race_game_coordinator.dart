@@ -4,9 +4,11 @@ import 'package:balanco_game/features/coop/application/coop_realtime_session.dar
 import 'package:balanco_game/features/coop/data/coop_repository.dart';
 import 'package:balanco_game/features/coop/domain/coop_room.dart';
 import 'package:balanco_game/features/game/game_area.dart';
+import 'package:balanco_game/features/game/models/race_pickup.dart';
 import 'package:balanco_game/features/race/application/race_match_clock.dart';
 import 'package:balanco_game/features/race/application/race_remote_snapshot_interpolator.dart';
 import 'package:flutter/foundation.dart';
+import 'package:uuid/uuid.dart';
 
 class RaceGameCoordinator {
   RaceGameCoordinator({
@@ -39,6 +41,8 @@ class RaceGameCoordinator {
   final ValueNotifier<Map<String, double>> remoteProgressByUser = ValueNotifier(
     const {},
   );
+  final ValueNotifier<Map<String, Map<String, int>>> pickupCountsByUser =
+      ValueNotifier(const {});
   final ValueNotifier<bool> syncHealthy = ValueNotifier(false);
   final ValueNotifier<Duration> elapsed = ValueNotifier(Duration.zero);
   final ValueNotifier<bool> showBoardLabels = ValueNotifier(true);
@@ -49,6 +53,7 @@ class RaceGameCoordinator {
   final RaceMatchClock _matchClock = RaceMatchClock(
     countdown: countdownDuration,
   );
+  final RaceTimeoutSubmissionGuard _timeoutGuard = RaceTimeoutSubmissionGuard();
 
   StreamSubscription<Map<String, dynamic>>? _events;
   Timer? _snapshotTimer;
@@ -62,16 +67,22 @@ class RaceGameCoordinator {
   bool _finishSubmitted = false;
   bool _lossSubmitted = false;
   bool _actionInFlight = false;
+  bool _timeoutSettlementInFlight = false;
   bool _presenceInFlight = false;
   bool _disposed = false;
   int _sequence = 0;
+  final String _snapshotStreamId = const Uuid().v4();
   final Map<String, int> _lastRemoteSequenceByUser = {};
+  final Map<String, String> _remoteSnapshotStreamByUser = {};
+  final Set<String> _knownPickupClaimKeys = {};
 
   DateTime get goAt =>
       (room.value.startedAt ?? DateTime.now().toUtc()).add(countdownDuration);
 
   void attach() {
     remoteGame.enableCoopReplica();
+    localGame.racePlayerId = userId;
+    localGame.onRacePickupClaim = _claimPickup;
     _events = realtime.events.listen(_handleEvent);
     localGame.showVictoryOverlay.addListener(_onLocalFinished);
     localGame.showGameOverOverlay.addListener(_onLocalGameOver);
@@ -94,6 +105,7 @@ class RaceGameCoordinator {
     );
     _scheduleBoardLabels();
     _syncRemotePlayers();
+    _syncPickupClaims();
     _applyRoomState();
     _updateDisplayState();
   }
@@ -126,6 +138,55 @@ class RaceGameCoordinator {
     if (localGame.isLayoutReady) {
       localProgress.value = localGame.raceProgress;
     }
+    if (localGame.showGameOverOverlay.value && !_lossSubmitted) {
+      _onLocalGameOver();
+    }
+
+    if (_timeoutGuard.take(
+      // A pause request can reach the room on the exact frame the clock hits
+      // zero. The elapsed clock is already frozen at the limit in that case,
+      // so the timeout must still settle instead of becoming stuck forever.
+      isRoomActive: room.value.isPlaying || room.value.isPaused,
+      elapsed: clock.elapsed,
+      limitSeconds: localGame.maxLevelTimer,
+      now: now,
+    )) {
+      unawaited(_submitTimeoutDraw());
+    }
+  }
+
+  Future<void> _submitTimeoutDraw() async {
+    final attemptedAt = DateTime.now().toUtc();
+    if (_timeoutSettlementInFlight || _disposed) {
+      _timeoutGuard.defer(
+        attemptedAt,
+        delay: const Duration(milliseconds: 500),
+      );
+      return;
+    }
+
+    // Timeout settlement has its own lock. A simultaneous pause/menu action
+    // must not prevent the authoritative draw RPC from reaching Supabase.
+    _timeoutSettlementInFlight = true;
+    try {
+      room.value = await repository.drawRace(room.value.id);
+      actionError.value = null;
+      _applyRoomState();
+      await realtime.notifyRoomChanged();
+    } catch (_) {
+      // Another device may have resolved the timeout even if this request or
+      // its Realtime broadcast failed. Refresh before deciding to retry.
+      await reloadRoom();
+      if (room.value.isEnded) return;
+      final willRetry = _timeoutGuard.recordFailure(DateTime.now().toUtc());
+      if (!willRetry) {
+        actionError.value =
+            'Time is up, but the room could not finish after 3 attempts. '
+            'Check your connection and reopen the match.';
+      }
+    } finally {
+      _timeoutSettlementInFlight = false;
+    }
   }
 
   Future<void> _sendSnapshot() async {
@@ -139,6 +200,7 @@ class RaceGameCoordinator {
     try {
       final delivered = await realtime.send('race_snapshot', {
         'sequence': ++_sequence,
+        'stream_id': _snapshotStreamId,
         'attempt': room.value.attemptNumber,
         'level': room.value.raceLevel,
         'progress': localGame.raceProgress,
@@ -155,11 +217,23 @@ class RaceGameCoordinator {
     if (senderId == null || senderId == userId) return;
     switch (event['action']) {
       case 'race_snapshot':
-        if (event['attempt'] != room.value.attemptNumber ||
-            event['level'] != room.value.raceLevel) {
+        final eventAttempt = (event['attempt'] as num?)?.toInt();
+        final eventLevel = (event['level'] as num?)?.toInt();
+        if (eventAttempt != room.value.attemptNumber ||
+            eventLevel != room.value.raceLevel) {
           return;
         }
-        final sequence = event['sequence'] as int? ?? 0;
+        final streamId = (event['stream_id'] as String?)?.trim();
+        final streamKey =
+            '$eventAttempt:$eventLevel:${streamId?.isNotEmpty == true ? streamId : 'legacy'}';
+        final previousStream = _remoteSnapshotStreamByUser[senderId];
+        if (previousStream != streamKey) {
+          _remoteSnapshotStreamByUser[senderId] = streamKey;
+          _lastRemoteSequenceByUser.remove(senderId);
+          remoteInterpolators[senderId]?.clear();
+          if (senderId == _primaryOpponentId) remoteInterpolator.clear();
+        }
+        final sequence = (event['sequence'] as num?)?.toInt() ?? 0;
         if (sequence <= (_lastRemoteSequenceByUser[senderId] ?? 0)) return;
         _lastRemoteSequenceByUser[senderId] = sequence;
         final interpolator = remoteInterpolators.putIfAbsent(
@@ -194,9 +268,111 @@ class RaceGameCoordinator {
         _healthTimer = Timer(const Duration(milliseconds: 1200), () {
           if (!_disposed) syncHealthy.value = false;
         });
+      case 'race_pickup_claimed':
+        final eventAttempt = (event['attempt'] as num?)?.toInt();
+        final eventLevel = (event['level'] as num?)?.toInt();
+        if (eventAttempt != room.value.attemptNumber ||
+            eventLevel != room.value.raceLevel) {
+          return;
+        }
+        final type = RacePickupType.fromWireName(
+          event['pickup_type'] as String? ?? '',
+        );
+        final key = event['pickup_key'] as String?;
+        final claimantId = event['claimant_id'] as String?;
+        if (type == null || key == null || claimantId == null) return;
+        _applyPickupClaim(
+          RacePickupResolution(
+            pickupKey: key,
+            type: type,
+            claimantId: claimantId,
+            claimantName: event['claimant_name'] as String? ?? 'Rival',
+          ),
+        );
       case 'room_changed':
         await reloadRoom();
     }
+  }
+
+  Future<RacePickupResolution> _claimPickup(
+    RacePickupType type,
+    String pickupKey,
+  ) async {
+    final claim = await repository.claimRacePickup(
+      roomId: room.value.id,
+      attemptNumber: room.value.attemptNumber,
+      level: room.value.raceLevel,
+      pickupKey: pickupKey,
+      pickupType: type.wireName,
+    );
+    final resolution = RacePickupResolution(
+      pickupKey: claim.pickupKey,
+      type: RacePickupType.fromWireName(claim.pickupType) ?? type,
+      claimantId: claim.claimantId,
+      claimantName: claim.claimantName,
+    );
+    _recordPickupCount(resolution);
+    if (claim.claimantId == userId) {
+      await realtime.send('race_pickup_claimed', {
+        'attempt': room.value.attemptNumber,
+        'level': room.value.raceLevel,
+        'pickup_key': claim.pickupKey,
+        'pickup_type': claim.pickupType,
+        'claimant_id': claim.claimantId,
+        'claimant_name': claim.claimantName,
+      });
+    }
+    return resolution;
+  }
+
+  void _applyPickupClaim(RacePickupResolution claim) {
+    localGame.applyRacePickupClaim(
+      claim,
+      grantEffect: claim.claimantId == userId,
+      animateOpponentClaim: claim.claimantId != userId,
+    );
+    remoteGame.applyRacePickupClaim(
+      claim,
+      grantEffect: false,
+      animateOpponentClaim: false,
+    );
+    _recordPickupCount(claim);
+  }
+
+  void _recordPickupCount(RacePickupResolution claim) {
+    if (!_knownPickupClaimKeys.add(claim.pickupKey)) return;
+    final existing = pickupCountsByUser.value;
+    final claimantCounts = Map<String, int>.from(
+      existing[claim.claimantId] ?? const {},
+    );
+    // Counts are rebuilt authoritatively during every room refresh. While a
+    // broadcast is in flight, only add a claim not already known locally.
+    claimantCounts[claim.type.wireName] =
+        (claimantCounts[claim.type.wireName] ?? 0) + 1;
+    pickupCountsByUser.value = {...existing, claim.claimantId: claimantCounts};
+  }
+
+  void _syncPickupClaims() {
+    final counts = <String, Map<String, int>>{};
+    for (final claim in room.value.racePickupClaims) {
+      final type = RacePickupType.fromWireName(claim.pickupType);
+      if (type == null) continue;
+      final userCounts = counts.putIfAbsent(claim.claimantId, () => {});
+      _knownPickupClaimKeys.add(claim.pickupKey);
+      userCounts[claim.pickupType] = (userCounts[claim.pickupType] ?? 0) + 1;
+      _applyPickupClaim(
+        RacePickupResolution(
+          pickupKey: claim.pickupKey,
+          type: type,
+          claimantId: claim.claimantId,
+          claimantName: claim.claimantName,
+        ),
+      );
+    }
+    pickupCountsByUser.value = {
+      for (final entry in counts.entries)
+        entry.key: Map<String, int>.unmodifiable(entry.value),
+    };
   }
 
   void _onLocalFinished() {
@@ -208,7 +384,20 @@ class RaceGameCoordinator {
   void _onLocalGameOver() {
     if (!localGame.showGameOverOverlay.value || _lossSubmitted) return;
     _lossSubmitted = true;
-    unawaited(surrender());
+    unawaited(_submitLocalLoss());
+  }
+
+  Future<void> _submitLocalLoss() async {
+    await surrender();
+    final localMember = room.value.members
+        .where((member) => member.userId == userId)
+        .firstOrNull;
+    // If Pause/Leave was already being submitted, _runAction deliberately
+    // skipped this request. Re-arm it so the next display tick still records
+    // zero hearts as an elimination and the final survivor becomes winner.
+    if (!room.value.isEnded && localMember?.isEliminated != true) {
+      _lossSubmitted = false;
+    }
   }
 
   Future<void> _submitFinish() async {
@@ -370,6 +559,7 @@ class RaceGameCoordinator {
     }
     room.value = next;
     _syncRemotePlayers();
+    _syncPickupClaims();
   }
 
   String? get _primaryOpponentId => room.value.members
@@ -391,13 +581,17 @@ class RaceGameCoordinator {
     for (final id in removed) {
       remoteInterpolators.remove(id)?.dispose();
       _lastRemoteSequenceByUser.remove(id);
+      _remoteSnapshotStreamByUser.remove(id);
     }
   }
 
   Future<void> _restartRace() async {
     _finishSubmitted = false;
     _lossSubmitted = false;
+    _sequence = 0;
     _lastRemoteSequenceByUser.clear();
+    _remoteSnapshotStreamByUser.clear();
+    _knownPickupClaimKeys.clear();
     remoteInterpolator.clear();
     for (final interpolator in remoteInterpolators.values) {
       interpolator.clear();
@@ -409,8 +603,10 @@ class RaceGameCoordinator {
     remoteHeartsByUser.value = const {};
     remoteStarsByUser.value = const {};
     remoteProgressByUser.value = const {};
+    pickupCountsByUser.value = const {};
     elapsed.value = Duration.zero;
     _matchClock.reset();
+    _timeoutGuard.reset();
     localGame.currentLevel.value = room.value.raceLevel;
     remoteGame.currentLevel.value = room.value.raceLevel;
     localGame.onlineLevelVersion = room.value.raceLevelVersion;
@@ -419,6 +615,7 @@ class RaceGameCoordinator {
       localGame.restartRaceRun(room.value.seed),
       remoteGame.restartRaceRun(room.value.seed),
     ]);
+    _syncPickupClaims();
     _scheduleBoardLabels();
     _applyRoomState();
   }
@@ -452,6 +649,7 @@ class RaceGameCoordinator {
     remoteHeartsByUser.dispose();
     remoteStarsByUser.dispose();
     remoteProgressByUser.dispose();
+    pickupCountsByUser.dispose();
     syncHealthy.dispose();
     elapsed.dispose();
     showBoardLabels.dispose();
@@ -461,5 +659,7 @@ class RaceGameCoordinator {
       interpolator.dispose();
     }
     remoteInterpolators.clear();
+    localGame.onRacePickupClaim = null;
+    localGame.racePlayerId = null;
   }
 }

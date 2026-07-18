@@ -354,6 +354,9 @@ class _RaceMatchScreenState extends State<RaceMatchScreen> {
                   room: room,
                   localGame: _localGame,
                   remoteStars: _coordinator.remoteStars.value,
+                  remoteHeartsByUser: _coordinator.remoteHeartsByUser.value,
+                  remoteProgressByUser: _coordinator.remoteProgressByUser.value,
+                  pickupCountsByUser: _coordinator.pickupCountsByUser.value,
                   rematchWaiting: room.rematchRequestedBy == _userId,
                   rematchOffered:
                       room.rematchRequestedBy != null &&
@@ -900,6 +903,9 @@ class _RaceResultOverlay extends StatelessWidget {
     required this.room,
     required this.localGame,
     required this.remoteStars,
+    required this.remoteHeartsByUser,
+    required this.remoteProgressByUser,
+    required this.pickupCountsByUser,
     required this.rematchWaiting,
     required this.rematchOffered,
     required this.restartKind,
@@ -914,6 +920,9 @@ class _RaceResultOverlay extends StatelessWidget {
   final CoopRoom room;
   final BalancoGame localGame;
   final int remoteStars;
+  final Map<String, int> remoteHeartsByUser;
+  final Map<String, double> remoteProgressByUser;
+  final Map<String, Map<String, int>> pickupCountsByUser;
   final bool rematchWaiting;
   final bool rematchOffered;
   final String? restartKind;
@@ -925,16 +934,25 @@ class _RaceResultOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final local = room.memberFor(userId);
+    final seriesFinished = room.isSeriesFinished;
+    final didWin = seriesFinished ? room.seriesWinnerId == userId : won;
     final winner = room.members.firstWhere(
-      (member) => member.userId == room.winnerId,
+      (member) =>
+          member.userId ==
+          (seriesFinished ? room.seriesWinnerId : room.winnerId),
       orElse: () => local,
     );
     final duration = Duration(milliseconds: room.winnerElapsedMs ?? 0);
     final time =
         '${duration.inMinutes.toString().padLeft(2, '0')}:'
         '${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
-    final accent = won ? GameColors.green300 : GameColors.orangeTextUi;
+    final isDraw = seriesFinished
+        ? room.isSeriesDraw
+        : room.raceEndKind == 'draw';
     final endedBySurrender = room.raceEndKind == 'surrender';
+    final accent = isDraw
+        ? const Color(0xFFAAB1C0)
+        : (didWin ? GameColors.green300 : GameColors.redAccent);
 
     return Positioned.fill(
       child: ColoredBox(
@@ -944,57 +962,141 @@ class _RaceResultOverlay extends StatelessWidget {
             child: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(vertical: 18),
               child: _RaceDialogShell(
-                icon: won
-                    ? Icons.emoji_events_rounded
-                    : Icons.sports_score_rounded,
-                title: won ? 'VICTORY!' : 'RACE COMPLETE',
-                subtitle: endedBySurrender
-                    ? '${winner.displayName} wins by surrender'
-                    : '${winner.displayName} reached the finish gate first',
+                icon: isDraw
+                    ? Icons.balance_rounded
+                    : (didWin
+                          ? Icons.emoji_events_rounded
+                          : Icons.sports_score_rounded),
+                title: seriesFinished
+                    ? (isDraw
+                          ? 'SERIES DRAW!'
+                          : (didWin ? 'RACE CHAMPION!' : 'SERIES COMPLETE'))
+                    : (isDraw
+                          ? "IT'S A DRAW"
+                          : (didWin ? 'LEVEL WON!' : 'LEVEL LOST')),
+                subtitle: seriesFinished
+                    ? (isDraw
+                          ? 'Points and stars are tied - you share the podium!'
+                          : '${winner.displayName} wins the ${room.seriesRoundCount}-level race series!')
+                    : (isDraw
+                          ? 'Time is up - every active racer earns +1 win!'
+                          : (endedBySurrender
+                                ? '${winner.displayName} wins by surrender'
+                                : '${winner.displayName} reached the finish gate first')),
                 accent: accent,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    _RaceWinScoreboard(
-                      members: room.members,
-                      level: room.raceLevel,
-                    ),
-                    const SizedBox(height: 12),
-                    Wrap(
-                      alignment: WrapAlignment.center,
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: [
-                        _RaceResultStat(
-                          icon: Icons.timer_outlined,
-                          label: endedBySurrender ? '--:--' : time,
-                          caption: 'FINISH TIME',
-                        ),
-                        _RaceResultStat(
-                          icon: Icons.favorite_rounded,
-                          label: '${room.winnerHearts ?? 0}',
-                          caption: 'WINNER HEARTS',
-                        ),
-                        _RaceResultStat(
-                          icon: Icons.star_rounded,
-                          label: '${room.winnerStars ?? 0}',
-                          caption: 'WINNER STARS',
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'YOU ${localGame.currentPoints.value} STARS   •   '
-                      'OPPONENT $remoteStars STARS',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.baloo2(
-                        color: GameColors.brownDarkUi,
-                        fontWeight: FontWeight.w900,
-                        fontSize: 13,
+                    _RaceWinScoreboard(room: room),
+                    if (seriesFinished) ...[
+                      const SizedBox(height: 10),
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.auto_awesome_rounded,
+                            color: Color(0xFFFFC33D),
+                            size: 28,
+                          ),
+                          SizedBox(width: 12),
+                          Icon(
+                            Icons.emoji_events_rounded,
+                            color: Color(0xFFFFC33D),
+                            size: 42,
+                          ),
+                          SizedBox(width: 12),
+                          Icon(
+                            Icons.auto_awesome_rounded,
+                            color: Color(0xFFFFC33D),
+                            size: 28,
+                          ),
+                        ],
                       ),
+                    ],
+                    const SizedBox(height: 12),
+                    if (isDraw && !seriesFinished) ...[
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 11,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFE9ECF3),
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(
+                            color: GameColors.brownDarkUi,
+                            width: 2.5,
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.add_circle_rounded,
+                              color: GameColors.green300,
+                            ),
+                            const SizedBox(width: 8),
+                            Flexible(
+                              child: Text(
+                                '+1 SESSION WIN FOR EVERY RACER',
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.luckiestGuy(
+                                  color: GameColors.brownDarkUi,
+                                  fontSize: 13,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ] else if (didWin && !seriesFinished) ...[
+                      Wrap(
+                        alignment: WrapAlignment.center,
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: [
+                          _RaceResultStat(
+                            icon: Icons.timer_outlined,
+                            label: isDraw
+                                ? '--:--'
+                                : (endedBySurrender ? '--:--' : time),
+                            caption: 'FINISH TIME',
+                          ),
+                          _RaceResultStat(
+                            icon: Icons.favorite_rounded,
+                            label: '${room.winnerHearts ?? 0}',
+                            caption: 'WINNER HEARTS',
+                          ),
+                          _RaceResultStat(
+                            icon: Icons.star_rounded,
+                            label: '${room.winnerStars ?? 0}',
+                            caption: 'WINNER STARS',
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'YOU ${localGame.currentPoints.value} STARS   •   '
+                        'OPPONENT $remoteStars STARS',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.baloo2(
+                          color: GameColors.brownDarkUi,
+                          fontWeight: FontWeight.w900,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ],
+                    const SizedBox(height: 15),
+                    _RaceResultsTable(
+                      userId: userId,
+                      room: room,
+                      localHearts: localGame.currentLives.value,
+                      remoteHeartsByUser: remoteHeartsByUser,
+                      pickupCountsByUser: pickupCountsByUser,
                     ),
                     const SizedBox(height: 15),
-                    if (rematchOffered)
+                    if (!seriesFinished && rematchOffered)
                       SizedBox(
                         width: double.infinity,
                         child: _RaceDialogButton(
@@ -1006,7 +1108,7 @@ class _RaceResultOverlay extends StatelessWidget {
                           onTap: onAccept,
                         ),
                       )
-                    else if (rematchWaiting)
+                    else if (!seriesFinished && rematchWaiting)
                       SizedBox(
                         width: double.infinity,
                         child: _RaceDialogButton(
@@ -1019,27 +1121,15 @@ class _RaceResultOverlay extends StatelessWidget {
                           onTap: () {},
                         ),
                       )
-                    else
-                      Row(
-                        children: [
-                          Expanded(
-                            child: _RaceDialogButton(
-                              icon: Icons.replay_rounded,
-                              label: 'RETRY',
-                              color: GameColors.purpleAccent,
-                              onTap: onRetry,
-                            ),
-                          ),
-                          const SizedBox(width: 9),
-                          Expanded(
-                            child: _RaceDialogButton(
-                              icon: Icons.arrow_forward_rounded,
-                              label: 'LEVEL ${room.raceLevel + 1}',
-                              color: GameColors.green300,
-                              onTap: onContinue,
-                            ),
-                          ),
-                        ],
+                    else if (!seriesFinished)
+                      SizedBox(
+                        width: double.infinity,
+                        child: _RaceDialogButton(
+                          icon: Icons.arrow_forward_rounded,
+                          label: 'NEXT: LEVEL ${room.raceLevel + 1}',
+                          color: GameColors.green300,
+                          onTap: onContinue,
+                        ),
                       ),
                     const SizedBox(height: 10),
                     SizedBox(
@@ -1062,11 +1152,135 @@ class _RaceResultOverlay extends StatelessWidget {
   }
 }
 
-class _RaceWinScoreboard extends StatelessWidget {
-  const _RaceWinScoreboard({required this.members, required this.level});
+class _RaceResultsTable extends StatelessWidget {
+  const _RaceResultsTable({
+    required this.userId,
+    required this.room,
+    required this.localHearts,
+    required this.remoteHeartsByUser,
+    required this.pickupCountsByUser,
+  });
 
-  final List<CoopMember> members;
-  final int level;
+  final String userId;
+  final CoopRoom room;
+  final int localHearts;
+  final Map<String, int> remoteHeartsByUser;
+  final Map<String, Map<String, int>> pickupCountsByUser;
+
+  @override
+  Widget build(BuildContext context) {
+    final racers = [...room.members]
+      ..sort((a, b) {
+        if (a.hasLeft != b.hasLeft) return a.hasLeft ? 1 : -1;
+        int ptsDiff = b.sessionWins.compareTo(a.sessionWins);
+        if (ptsDiff != 0) return ptsDiff;
+        final starDiff = b.seriesStars.compareTo(a.seriesStars);
+        if (starDiff != 0) return starDiff;
+        return _hearts(b).compareTo(_hearts(a));
+      });
+
+    Widget cell(String value, {bool header = false, Color? color}) => Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 7),
+      child: Text(
+        value,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: color ?? GameColors.brownDarkUi,
+          fontSize: header ? 8 : 9,
+          fontWeight: FontWeight.w900,
+        ),
+      ),
+    );
+
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFFF6EDDA),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: GameColors.brownDarkUi, width: 2),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: Table(
+        columnWidths: const {
+          0: FlexColumnWidth(1.55),
+          1: FlexColumnWidth(1.05),
+          2: FlexColumnWidth(0.8),
+          3: FlexColumnWidth(0.55),
+          4: FlexColumnWidth(0.7),
+        },
+        border: TableBorder(
+          horizontalInside: BorderSide(
+            color: GameColors.brownDarkUi.withValues(alpha: 0.16),
+          ),
+        ),
+        children: [
+          TableRow(
+            decoration: const BoxDecoration(color: Color(0xFF203B80)),
+            children: [
+              cell('PLAYER', header: true, color: Colors.white),
+              cell('RESULT', header: true, color: Colors.white),
+              cell('PTS', header: true, color: Colors.white),
+              cell('★', header: true, color: Colors.white),
+              cell('TIMER', header: true, color: Colors.white),
+            ],
+          ),
+          for (final member in racers)
+            TableRow(
+              decoration: BoxDecoration(
+                color: member.userId == userId
+                    ? GameColors.orangeTextUi.withValues(alpha: 0.12)
+                    : Colors.transparent,
+              ),
+              children: [
+                cell(member.userId == userId ? 'YOU' : member.displayName),
+                cell(
+                  member.userId ==
+                          (room.isSeriesFinished
+                              ? room.seriesWinnerId
+                              : room.winnerId)
+                      ? 'WINNER'
+                      : member.hasLeft
+                      ? 'LEFT'
+                      : room.raceEndKind == 'draw'
+                      ? 'DRAW'
+                      : 'LOST',
+                  color: member.userId == room.winnerId
+                      ? GameColors.green300
+                      : member.hasLeft
+                      ? GameColors.blueGray600
+                      : room.raceEndKind == 'draw'
+                      ? GameColors.black
+                      : GameColors.red300,
+                ),
+                cell('${member.sessionWins}'),
+                cell('${member.seriesStars}'),
+                cell(_time(member)),
+              ],
+            ),
+        ],
+      ),
+    );
+  }
+
+  int _hearts(CoopMember member) => member.userId == userId
+      ? localHearts
+      : remoteHeartsByUser[member.userId] ?? 0;
+
+  String _time(CoopMember member) {
+    if (member.userId == room.winnerId && room.raceEndKind != 'surrender') {
+      final duration = Duration(milliseconds: room.winnerElapsedMs ?? 0);
+      return '${duration.inMinutes.toString().padLeft(2, '0')}:'
+          '${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
+    }
+    return '--:--';
+  }
+}
+
+class _RaceWinScoreboard extends StatelessWidget {
+  const _RaceWinScoreboard({required this.room});
+
+  final CoopRoom room;
 
   @override
   Widget build(BuildContext context) => Container(
@@ -1078,8 +1292,8 @@ class _RaceWinScoreboard extends StatelessWidget {
       border: Border.all(color: GameColors.brownDarkUi, width: 3),
     ),
     child: Text(
-      '${members.map((member) => member.sessionWins).join('  ·  ')}'
-      '   LVL $level',
+      'ROUND ${room.seriesRoundNumber}/${room.seriesRoundCount}  |  '
+      'LEVEL ${room.raceLevel}',
       textAlign: TextAlign.center,
       style: GoogleFonts.luckiestGuy(
         color: Colors.white,

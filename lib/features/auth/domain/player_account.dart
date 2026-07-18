@@ -14,6 +14,7 @@ class PlayerAccount {
     required this.sparks,
     required this.maxSparks,
     required this.infinityHighScore,
+    required this.levelStars,
     required this.unlockedBallShapes,
     required this.unlockedBallColors,
     this.profileCompleted = true,
@@ -33,6 +34,7 @@ class PlayerAccount {
   final int sparks;
   final int maxSparks;
   final int infinityHighScore;
+  final Map<int, int> levelStars;
   final Set<String> unlockedBallShapes;
   final Set<String> unlockedBallColors;
   final bool profileCompleted;
@@ -48,6 +50,9 @@ class PlayerAccount {
     final progress = Map<String, dynamic>.from(state['progress'] as Map);
     final wallet = Map<String, dynamic>.from(state['wallet'] as Map);
     final unlocks = (state['unlocks'] as List? ?? const []).map(
+      (value) => Map<String, dynamic>.from(value as Map),
+    );
+    final levels = (state['levels'] as List? ?? const []).map(
       (value) => Map<String, dynamic>.from(value as Map),
     );
 
@@ -71,6 +76,11 @@ class PlayerAccount {
       sparks: wallet['sparks'] as int,
       maxSparks: wallet['max_sparks'] as int,
       infinityHighScore: (progress['infinity_high_score'] as num).toInt(),
+      levelStars: {
+        for (final level in levels)
+          (level['level_id'] as num).toInt(): (level['stars'] as num? ?? 0)
+              .toInt(),
+      },
       unlockedBallShapes: keysFor('ball_shape'),
       unlockedBallColors: keysFor('ball_color'),
       profileCompleted: profile['profile_completed'] as bool? ?? true,

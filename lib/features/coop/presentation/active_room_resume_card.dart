@@ -9,11 +9,13 @@ class ActiveRoomResumeCard extends StatelessWidget {
     required this.room,
     required this.busy,
     required this.onResume,
+    required this.onDismiss,
   });
 
   final CoopRoom room;
   final bool busy;
   final VoidCallback onResume;
+  final VoidCallback onDismiss;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,13 @@ class ActiveRoomResumeCard extends StatelessWidget {
     final accent = room.isRace
         ? const Color(0xFFFF8A3D)
         : const Color(0xFF2FC5F4);
+    final onlinePlayers = room.members
+        .where((member) => member.isOnline)
+        .length;
+    final participantNames = room.members
+        .map((member) => member.displayName.trim())
+        .where((name) => name.isNotEmpty)
+        .join(', ');
 
     return Semantics(
       button: true,
@@ -74,7 +83,7 @@ class ActiveRoomResumeCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '$status  •  ${room.members.length}/${room.isRace ? room.maxPlayers : 2} PLAYERS',
+                    '$status  •  ${room.members.length} PLAYERS  •  $onlinePlayers ONLINE',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -83,10 +92,34 @@ class ActiveRoomResumeCard extends StatelessWidget {
                       fontWeight: FontWeight.w900,
                     ),
                   ),
+                  const SizedBox(height: 2),
+                  Text(
+                    participantNames.isEmpty
+                        ? 'No player names available'
+                        : participantNames,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      color: GameColors.brownDarkUi,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                 ],
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: 4),
+            IconButton(
+              onPressed: busy ? null : onDismiss,
+              tooltip: 'Close and leave this room',
+              icon: const Icon(Icons.close_rounded),
+              color: GameColors.brownDarkUi,
+              style: IconButton.styleFrom(
+                backgroundColor: Colors.white.withValues(alpha: 0.72),
+                side: const BorderSide(color: GameColors.brownDarkUi, width: 2),
+              ),
+            ),
+            const SizedBox(width: 5),
             ElevatedButton.icon(
               onPressed: busy ? null : onResume,
               icon: busy

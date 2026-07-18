@@ -23,6 +23,7 @@ enum EditorItemType {
   teleporter,
   star,
   heart,
+  shield,
   magnet,
   multiBall,
   shooterHelper,
@@ -192,6 +193,16 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
           EditorItem(type: EditorItemType.heart, x: h.x, y: h.y, size: 30),
         );
       }
+      for (var shield in data.shields) {
+        _items.add(
+          EditorItem(
+            type: EditorItemType.shield,
+            x: shield.x,
+            y: shield.y,
+            size: 34,
+          ),
+        );
+      }
       for (var m in data.magnets) {
         _items.add(
           EditorItem(type: EditorItemType.magnet, x: m.x, y: m.y, size: 30),
@@ -250,6 +261,7 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
     final teleporters = <TeleporterData>[];
     final stars = <Vector2>[];
     final hearts = <Vector2>[];
+    final shields = <Vector2>[];
     final magnets = <Vector2>[];
     final multiBalls = <Vector2>[];
     final shooterHelpers = <Vector2>[];
@@ -333,6 +345,9 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
         case EditorItemType.heart:
           hearts.add(pos);
           break;
+        case EditorItemType.shield:
+          shields.add(pos);
+          break;
         case EditorItemType.magnet:
           magnets.add(pos);
           break;
@@ -359,6 +374,7 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
       holes: holes,
       stars: stars,
       hearts: hearts,
+      shields: shields,
       bumpers: bumpers,
       teleporters: teleporters,
       magnets: magnets,
@@ -745,6 +761,12 @@ class _LevelEditorScreenState extends State<LevelEditorScreen> {
         return const Icon(Icons.star, color: Colors.yellow, size: 30);
       case EditorItemType.heart:
         return const Icon(Icons.favorite, color: Colors.red, size: 30);
+      case EditorItemType.shield:
+        return const Icon(
+          Icons.shield_rounded,
+          color: Colors.lightBlueAccent,
+          size: 30,
+        );
       case EditorItemType.magnet:
         return const Icon(Icons.file_download, color: Colors.blue, size: 30);
       case EditorItemType.multiBall:

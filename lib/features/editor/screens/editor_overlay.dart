@@ -791,6 +791,11 @@ class _EditorOverlayState extends State<EditorOverlay> {
                         EditorItemType.heart,
                       ),
                       _buildPaletteButton(
+                        Icons.shield_rounded,
+                        Colors.lightBlueAccent,
+                        EditorItemType.shield,
+                      ),
+                      _buildPaletteButton(
                         Icons.circle,
                         Colors.grey,
                         EditorItemType.bumper,

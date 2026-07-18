@@ -7,7 +7,6 @@ import 'package:balanco_game/features/auth/data/supabase_auth_repository.dart';
 import 'package:balanco_game/features/auth/domain/auth_repository.dart';
 import 'package:balanco_game/features/auth/domain/player_account.dart';
 import 'package:balanco_game/features/notifications/application/notification_service.dart';
-import 'dart:math' as math;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PlayerSession {
@@ -34,6 +33,9 @@ class PlayerSession {
 
   Future<void> use(PlayerAccount account) async {
     player.value = account;
+    AppSettings.configureOwnerFrameRateAccess(
+      Supabase.instance.client.auth.currentUser?.email,
+    );
     await NotificationService.instance.identify(
       userId: account.id,
       level: account.highestLevel,
@@ -41,22 +43,10 @@ class PlayerSession {
     );
     AppSettings.setPlayerName(account.displayName);
     final local = await DatabaseHelper.instance.getPlayerProfile();
-    await DatabaseHelper.instance.updatePlayerProfile(
-      local.copyWith(
-        highestLevel: math
-            .max(account.highestLevel, local.highestLevel)
-            .clamp(1, 500),
-        lastPlayedLevel: account.lastPlayedLevel.clamp(1, 500),
-        coins: account.coins,
-        moneyCents: account.moneyCents,
-        sparks: account.sparks,
-        maxSparks: account.maxSparks,
-        totalPoints: account.totalPoints,
-        infinityHighScore: math.max(
-          account.infinityHighScore,
-          local.infinityHighScore,
-        ),
-      ),
+    await DatabaseHelper.instance.replaceAuthenticatedPlayerState(
+      userId: account.id,
+      profile: localProfileForAuthenticatedAccount(local, account),
+      levelStars: account.levelStars,
     );
   }
 
@@ -222,7 +212,25 @@ class PlayerSession {
 
   Future<void> clear() async {
     player.value = null;
+    AppSettings.configureOwnerFrameRateAccess(null);
     NotificationService.instance.clearIdentity();
     await repository?.signOut();
   }
+}
+
+@visibleForTesting
+PlayerProfile localProfileForAuthenticatedAccount(
+  PlayerProfile local,
+  PlayerAccount account,
+) {
+  return local.copyWith(
+    highestLevel: account.highestLevel.clamp(1, 500),
+    lastPlayedLevel: account.lastPlayedLevel.clamp(1, 500),
+    coins: account.coins,
+    moneyCents: account.moneyCents,
+    sparks: account.sparks,
+    maxSparks: account.maxSparks,
+    totalPoints: account.totalPoints,
+    infinityHighScore: account.infinityHighScore,
+  );
 }

@@ -96,7 +96,7 @@ class MultiBallItem extends PositionComponent
     _pulseTime += dt * 3.0;
 
     // Check collision with any active ball
-    if (!game.isSpawningLevel) {
+    if (!game.isSpawningLevel && !game.isRaceMode && !game.isCoopReplica) {
       for (var ball in game.activeBalls) {
         bool onBar =
             !ball.isFreeFalling &&
@@ -116,6 +116,7 @@ class MultiBallItem extends PositionComponent
   }
 
   void collect() {
+    if (isCollected) return;
     isCollected = true;
     HapticFeedback.heavyImpact();
 
@@ -152,6 +153,18 @@ class MultiBallItem extends PositionComponent
         Vector2.zero(),
         EffectController(duration: 0.2, curve: Curves.easeIn),
         onComplete: () => removeFromParent(),
+      ),
+    );
+  }
+
+  void dismiss() {
+    if (isCollected) return;
+    isCollected = true;
+    add(
+      ScaleEffect.to(
+        Vector2.zero(),
+        EffectController(duration: 0.18, curve: Curves.easeIn),
+        onComplete: removeFromParent,
       ),
     );
   }

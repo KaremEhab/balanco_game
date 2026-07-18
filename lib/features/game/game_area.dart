@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:isolate';
 import 'dart:math';
 import 'dart:io';
@@ -24,6 +25,7 @@ import 'package:balanco_game/features/game/components/bumper_component.dart';
 import 'package:balanco_game/features/game/components/teleporter_component.dart';
 import 'package:balanco_game/features/game/components/confetti_component.dart';
 import 'package:balanco_game/features/game/components/heart_component.dart';
+import 'package:balanco_game/features/game/components/shield_pickup_component.dart';
 import 'package:balanco_game/features/game/components/items/multi_ball_item.dart';
 import 'package:balanco_game/features/game/components/magnet_component.dart';
 import 'package:balanco_game/features/game/components/coin_component.dart';
@@ -31,12 +33,14 @@ import 'package:balanco_game/features/game/components/floating_text_component.da
 import 'package:balanco_game/features/game/components/bomb_warning_component.dart';
 import 'package:balanco_game/features/game/components/bomb_component.dart';
 import 'package:balanco_game/features/game/components/shooter_helper_component.dart';
+import 'package:balanco_game/features/game/components/race_pickup_claim_effect.dart';
 import 'package:balanco_game/features/game/components/shooter_projectile_component.dart';
 import 'package:balanco_game/features/game/components/villains/villain_component.dart';
 import 'package:balanco_game/features/game/components/game_background/darkness_component.dart';
 
 import 'package:balanco_game/features/game/models/ball_data.dart';
 import 'package:balanco_game/features/game/models/level_data.dart';
+import 'package:balanco_game/features/game/models/race_pickup.dart';
 import 'package:balanco_game/features/game/level_generator.dart';
 import 'package:balanco_game/features/game/data/premade_levels.dart';
 import 'package:balanco_game/features/game/data/online_level_repository.dart';
@@ -63,6 +67,8 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
 
   VoidCallback? onGameOver;
   VoidCallback? onLevelComplete;
+  RacePickupClaimHandler? onRacePickupClaim;
+  String? racePlayerId;
 
   bool isDarknessLevel = false;
   final ValueNotifier<bool> isDarknessLevelNotifier = ValueNotifier<bool>(
@@ -119,6 +125,8 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   bool _hasGameLayout = false;
   bool get isLayoutReady => _hasGameLayout;
   double _raceBarBottomInset = 60.0;
+  double _gameplayFrameAccumulator = 0.0;
+  int _lastGameplayFrameRate = 60;
 
   void configureRaceBarBottomInset(double inset) {
     if (!isRaceMode) return;
@@ -238,6 +246,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   final List<HoleComponent> holes = [];
   final List<StarComponent> stars = [];
   final List<HeartComponent> hearts = [];
+  final List<ShieldPickupComponent> shieldPickups = [];
   final List<BumperComponent> bumpers = [];
   final List<TeleporterComponent> teleporters = [];
   List<MultiBallItem> multiBallItems = [];
@@ -245,6 +254,9 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   List<CoinComponent> coins = [];
   final List<ShooterHelperComponent> shooterHelpers = [];
   final List<VillainComponent> villains = [];
+  final Set<String> _pendingRacePickupClaims = {};
+  final Set<String> _appliedRacePickupClaims = {};
+  int _racePickupGeneration = 0;
   bool shooterActive = false;
   double shooterFireTimer = 0.0;
   TeleporterComponent? activeExitTeleporter;
@@ -280,6 +292,151 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
 
   double get _barBottomY =>
       levelHeight - (isRaceMode ? _raceBarBottomInset : 160.0);
+
+  double get raceBarBottomY => _barBottomY;
+
+  String _racePickupKey(RacePickupType type, int index) =>
+      '${type.wireName}:$index';
+
+  void _requestRacePickup(
+    RacePickupType type,
+    int index,
+    Vector2 pickupPosition,
+  ) {
+    final handler = onRacePickupClaim;
+    if (!isRaceMode || handler == null) return;
+    final key = _racePickupKey(type, index);
+    if (_pendingRacePickupClaims.contains(key) ||
+        _appliedRacePickupClaims.contains(key)) {
+      return;
+    }
+    _pendingRacePickupClaims.add(key);
+    final generation = _racePickupGeneration;
+    unawaited(
+      handler(type, key)
+          .then((resolution) {
+            if (generation != _racePickupGeneration) return;
+            applyRacePickupClaim(
+              resolution,
+              grantEffect: resolution.claimantId == racePlayerId,
+              animateOpponentClaim: resolution.claimantId != racePlayerId,
+              fallbackPosition: pickupPosition,
+            );
+          })
+          .catchError((Object _) {
+            // A transient claim failure leaves the pickup available so the
+            // next collision can retry. The database remains authoritative.
+          })
+          .whenComplete(() => _pendingRacePickupClaims.remove(key)),
+    );
+  }
+
+  void applyRacePickupClaim(
+    RacePickupResolution resolution, {
+    required bool grantEffect,
+    bool animateOpponentClaim = true,
+    Vector2? fallbackPosition,
+  }) {
+    if (!isRaceMode ||
+        _appliedRacePickupClaims.contains(resolution.pickupKey)) {
+      return;
+    }
+    final expectedPrefix = '${resolution.type.wireName}:';
+    if (!resolution.pickupKey.startsWith(expectedPrefix)) return;
+    final index = int.tryParse(
+      resolution.pickupKey.substring(expectedPrefix.length),
+    );
+    if (index == null || index < 0) return;
+
+    Vector2? position = fallbackPosition?.clone();
+    var applied = false;
+    switch (resolution.type) {
+      case RacePickupType.star:
+        if (index >= stars.length) return;
+        final pickup = stars[index];
+        position ??= pickup.position.clone();
+        pickup.isCollected = true;
+        if (grantEffect) currentPoints.value += 1;
+        applied = true;
+      case RacePickupType.heart:
+        if (index >= hearts.length) return;
+        final pickup = hearts[index];
+        position ??= pickup.position.clone();
+        pickup.isCollected = true;
+        if (grantEffect) currentLives.value += 1;
+        applied = true;
+      case RacePickupType.magnet:
+        if (index >= magnets.length) return;
+        final pickup = magnets[index];
+        position ??= pickup.position.clone();
+        pickup.isCollected = true;
+        if (grantEffect) {
+          magnetTimer = 5.0;
+          magnetTimerNotifier.value = magnetTimer;
+        }
+        applied = true;
+      case RacePickupType.multiBall:
+        if (index >= multiBallItems.length) return;
+        final pickup = multiBallItems[index];
+        position ??= pickup.position.clone();
+        if (grantEffect) {
+          pickup.collect();
+        } else {
+          pickup.dismiss();
+        }
+        applied = true;
+      case RacePickupType.shield:
+        if (index >= shieldPickups.length) return;
+        final pickup = shieldPickups[index];
+        position ??= pickup.position.clone();
+        pickup.collect();
+        if (grantEffect) remainingShields.value += 1;
+        applied = true;
+      case RacePickupType.coin:
+        if (index >= coins.length) return;
+        final pickup = coins[index];
+        position ??= pickup.position.clone();
+        if (grantEffect) {
+          pickup.collect();
+        } else {
+          pickup.dismiss();
+        }
+        applied = true;
+      case RacePickupType.shooterHelper:
+        if (index >= shooterHelpers.length) return;
+        final pickup = shooterHelpers[index];
+        position ??= pickup.position.clone();
+        if (grantEffect) {
+          pickup.collect();
+        } else {
+          pickup.dismiss();
+        }
+        applied = true;
+    }
+    if (!applied) return;
+    _appliedRacePickupClaims.add(resolution.pickupKey);
+    _pendingRacePickupClaims.remove(resolution.pickupKey);
+
+    if (grantEffect) {
+      HapticFeedback.lightImpact();
+      try {
+        AppSettings.playSound('star.wav');
+      } catch (_) {}
+    } else if (animateOpponentClaim) {
+      levelContainer.add(
+        RacePickupClaimEffect(
+          position: position,
+          claimantName: resolution.claimantName,
+        ),
+      );
+    }
+  }
+
+  void resetRacePickupClaims() {
+    _racePickupGeneration += 1;
+    _pendingRacePickupClaims.clear();
+    _appliedRacePickupClaims.clear();
+  }
 
   final ValueNotifier<PositionComponent?> selectedEditComponent = ValueNotifier(
     null,
@@ -489,6 +646,10 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
         newComp = HeartComponent(Vector2.zero())..priority = 10;
         hearts.add(newComp as HeartComponent);
         break;
+      case EditorItemType.shield:
+        newComp = ShieldPickupComponent(Vector2.zero())..priority = 10;
+        shieldPickups.add(newComp as ShieldPickupComponent);
+        break;
       case EditorItemType.bumper:
         newComp = BumperComponent(Vector2.zero(), 40.0)..priority = 2;
         bumpers.add(newComp as BumperComponent);
@@ -528,6 +689,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       if (comp is HoleComponent) holes.remove(comp);
       if (comp is StarComponent) stars.remove(comp);
       if (comp is HeartComponent) hearts.remove(comp);
+      if (comp is ShieldPickupComponent) shieldPickups.remove(comp);
       if (comp is BumperComponent) bumpers.remove(comp);
       if (comp is TeleporterComponent) teleporters.remove(comp);
       if (comp is MagnetComponent) magnets.remove(comp);
@@ -556,6 +718,10 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       if (heart.parent != null) heart.removeFromParent();
     }
     hearts.clear();
+    for (final shield in shieldPickups) {
+      if (shield.parent != null) shield.removeFromParent();
+    }
+    shieldPickups.clear();
     for (final bumper in bumpers) {
       if (bumper.parent != null) bumper.removeFromParent();
     }
@@ -643,6 +809,15 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
           h.scale = Vector2.all(1.0);
           hearts.add(h);
           levelContainer.add(h);
+        }
+        for (final shieldPos in data.shields) {
+          final shield = ShieldPickupComponent(shieldPos)..priority = 10;
+          shield.position = Vector2(
+            shieldPos.x * size.x,
+            120.0 + shieldPos.y * (levelHeight - 320.0),
+          );
+          shieldPickups.add(shield);
+          levelContainer.add(shield);
         }
         for (final bData in data.bumpers) {
           final b = BumperComponent(bData.position, bData.size)..priority = 2;
@@ -747,6 +922,15 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
             hearts.add(h);
             levelContainer.add(h);
           }
+          for (final shieldPos in data.shields) {
+            final shield = ShieldPickupComponent(shieldPos)..priority = 10;
+            shield.position = Vector2(
+              shieldPos.x * size.x,
+              120.0 + shieldPos.y * (levelHeight - 320.0),
+            );
+            shieldPickups.add(shield);
+            levelContainer.add(shield);
+          }
           for (final bData in data.bumpers) {
             final b = BumperComponent(bData.position, bData.size)..priority = 2;
             b.position = Vector2(
@@ -833,6 +1017,14 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
             (h) => {
               'x': h.position.x / size.x,
               'y': (h.position.y - 120.0) / (levelHeight - 320.0),
+            },
+          )
+          .toList(),
+      'shields': shieldPickups
+          .map(
+            (shield) => {
+              'x': shield.position.x / size.x,
+              'y': (shield.position.y - 120.0) / (levelHeight - 320.0),
             },
           )
           .toList(),
@@ -927,6 +1119,10 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       "DEBUG: restartCurrentLevel called. Level: ${currentLevel.value}",
     );
     isSpawningLevel = true;
+    // A warning/bomb belongs to the attempt that created it. Remove it before
+    // any asynchronous level loading so it cannot resume or spawn behind the
+    // player after the next Race level becomes active.
+    _clearBombs();
     isBoardHidden = false;
     isLevelCompleteOverlayShown = false;
     showVictoryOverlay.value = false;
@@ -986,6 +1182,8 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   Map<String, dynamic> createCoopSnapshot() => {
     'world_width': size.x,
     'world_height': size.y,
+    'level_height': levelHeight,
+    'bar_bottom_y': _barBottomY,
     'left_y': leftY,
     'right_y': rightY,
     'camera_y': cameraOffsetY,
@@ -1037,6 +1235,9 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
         .toList(),
     'stars_collected': stars.map((star) => star.isCollected).toList(),
     'hearts_collected': hearts.map((heart) => heart.isCollected).toList(),
+    'shields_collected': shieldPickups
+        .map((shield) => shield.isCollected)
+        .toList(),
     'multi_balls_collected': multiBallItems
         .map((item) => item.isCollected)
         .toList(),
@@ -1217,6 +1418,16 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       index++
     ) {
       hearts[index].isCollected = remoteHearts[index] as bool;
+    }
+    final remoteShields = snapshot['shields_collected'] as List? ?? const [];
+    for (
+      var index = 0;
+      index < min(shieldPickups.length, remoteShields.length);
+      index++
+    ) {
+      if (remoteShields[index] as bool && !shieldPickups[index].isCollected) {
+        shieldPickups[index].collect();
+      }
     }
     final remoteMultiBalls =
         snapshot['multi_balls_collected'] as List? ?? const [];
@@ -1428,6 +1639,9 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       }
       for (final heart in hearts) {
         heart.reset();
+      }
+      for (final shield in shieldPickups) {
+        shield.reset();
       }
       for (final mb in multiBallItems) {
         mb.isCollected = false;
@@ -1651,6 +1865,8 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   }
 
   Future<void> generateLevel() async {
+    resetRacePickupClaims();
+    _clearBombs();
     for (final hole in holes) {
       if (hole.parent != null) hole.removeFromParent();
     }
@@ -1663,6 +1879,10 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       if (heart.parent != null) heart.removeFromParent();
     }
     hearts.clear();
+    for (final shield in shieldPickups) {
+      if (shield.parent != null) shield.removeFromParent();
+    }
+    shieldPickups.clear();
     for (final bumper in bumpers) {
       if (bumper.parent != null) bumper.removeFromParent();
     }
@@ -1820,6 +2040,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
                 teleporters: data.teleporters,
                 multiBalls: data.multiBalls,
                 magnets: data.magnets,
+                shields: data.shields,
                 heightMultiplier: 3.0,
               );
             }
@@ -1993,6 +2214,20 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       levelContainer.add(heart);
     }
 
+    for (final shieldPos in data.shields) {
+      final shield = ShieldPickupComponent(shieldPos)..priority = 5;
+      final targetPos = Vector2(
+        shieldPos.x * size.x,
+        120.0 + shieldPos.y * (levelHeight - 320.0),
+      );
+      targetPositions[shield] = targetPos;
+      shield.position = teleportingGateComponent.position.clone();
+      shield.scale = Vector2.zero();
+      pendingSpawns.add(shield);
+      shieldPickups.add(shield);
+      levelContainer.add(shield);
+    }
+
     for (final mbPos in data.multiBalls) {
       final mb = MultiBallItem(mbPos)..priority = 5;
 
@@ -2126,6 +2361,17 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
 
   @override
   void update(double dt) {
+    final targetFrameRate = AppSettings.effectiveGameplayFrameRate;
+    if (_lastGameplayFrameRate != targetFrameRate) {
+      _lastGameplayFrameRate = targetFrameRate;
+      _gameplayFrameAccumulator = 0.0;
+    }
+    _gameplayFrameAccumulator += dt.clamp(0.0, 0.1).toDouble();
+    final minimumFrameTime = 1.0 / targetFrameRate;
+    if (_gameplayFrameAccumulator + 0.0001 < minimumFrameTime) return;
+    dt = _gameplayFrameAccumulator;
+    _gameplayFrameAccumulator = 0.0;
+
     super.update(dt);
 
     if (size.x == 0 || size.y == 0) return;
@@ -2142,7 +2388,11 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       return;
     }
 
+    // Race uses the shared room clock in RaceGameCoordinator. Running a second
+    // per-device timer here can make one phone surrender while the room should
+    // resolve a draw, especially when frame rates differ.
     if (!isInfinityMode &&
+        !isRaceMode &&
         isLevelTimerActive &&
         activeBalls.any((b) => !b.isFalling) &&
         !isBoardHidden) {
@@ -2473,7 +2723,19 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     // --- Camera Logic ---
     if (size.y > 0) {
       double targetCameraY = 0.0;
-      if (isSpawningLevel) {
+      BallData? edgeRespawnBall;
+      for (final ball in activeBalls) {
+        if (ball.isRespawningFromEdge && !ball.isDead) {
+          edgeRespawnBall = ball;
+          break;
+        }
+      }
+      if (edgeRespawnBall != null && !isInfinityMode) {
+        targetCameraY = (edgeRespawnBall.pos2D.y - size.y / 2).clamp(
+          0.0,
+          max(0.0, levelHeight - size.y),
+        );
+      } else if (isSpawningLevel) {
         double mainBallY = activeBalls.isNotEmpty
             ? activeBalls.first.pos2D.y
             : size.y / 2;
@@ -2660,7 +2922,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     if (isSpawningLevel) {
       if (ball.spawnTimer > 0) {
         bool isBarAtBottom =
-            leftY >= (levelHeight - 165.0) && rightY >= (levelHeight - 165.0);
+            leftY >= (_barBottomY - 5.0) && rightY >= (_barBottomY - 5.0);
 
         if (ball.spawnTimer - dt <= 1.0 && !isBarAtBottom) {
           ball.spawnTimer = 1.0001;
@@ -2760,11 +3022,82 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       return;
     }
 
-    if ((ball.isRespawningFromHole && ball.activeHole != null) ||
-        ball.isRespawningFromEdge) {
+    if (ball.isRespawningFromEdge) {
+      if (ball.respawnTimer > 0.8) {
+        ball.respawnTimer = max(0.8, ball.respawnTimer - dt);
+        final materializeProgress = ((1.6 - ball.respawnTimer) / 0.8).clamp(
+          0.0,
+          1.0,
+        );
+        ball.pos2D = teleportingGateComponent.position.clone();
+        ball.scale = Curves.easeOutBack.transform(materializeProgress);
+        ball.freeFallVelocity.setZero();
+        if (teleportingGateComponent.isClosed ||
+            teleportingGateComponent.isClosing) {
+          teleportingGateComponent.open();
+        }
+        return;
+      }
+
+      if (!ball.isFreeFalling) {
+        ball.respawnTimer = 0;
+        ball.scale = 1;
+        ball.pos2D = teleportingGateComponent.position.clone();
+        ball.isFalling = false;
+        ball.isFreeFalling = true;
+        ball.freeFallVelocity.setZero();
+      }
+
+      ball.freeFallVelocity.y += 980 * dt;
+      ball.pos2D += ball.freeFallVelocity * dt;
+
+      final insideBar =
+          ball.pos2D.x > barPadding && ball.pos2D.x < size.x - barPadding;
+      if (insideBar) {
+        final t = (ball.pos2D.x - barPadding) / (size.x - 2 * barPadding);
+        final barYAtX = leftY + (rightY - leftY) * t;
+        final barSurface = barYAtX - (ballRadius + 6);
+        if (ball.pos2D.y >= barSurface - 5) {
+          ball.p = t * barLength;
+          ball.pos2D =
+              leftPoint + direction * ball.p + normal * (ballRadius + 6);
+          ball.velocity = 0;
+          ball.freeFallVelocity.setZero();
+          ball.isFreeFalling = false;
+          ball.isRespawningFromEdge = false;
+          ball.bounceTimer = 0.4;
+          ball.squashX = 1;
+          ball.squashY = 1;
+          ball.holeImmunityTimer = 1.5;
+          isLevelTimerActive = true;
+          HapticFeedback.heavyImpact();
+          try {
+            AppSettings.playSound('bounce.wav');
+          } catch (_) {}
+        }
+      }
+
+      // A malformed/custom bar position must not create another lost life or
+      // leave the respawn state hanging forever.
+      if (ball.pos2D.y > levelHeight + 100) {
+        ball.p = barLength / 2;
+        ball.pos2D = leftPoint + direction * ball.p + normal * (ballRadius + 6);
+        ball.velocity = 0;
+        ball.freeFallVelocity.setZero();
+        ball.isFreeFalling = false;
+        ball.isRespawningFromEdge = false;
+        ball.scale = 1;
+        ball.bounceTimer = 0.4;
+        ball.holeImmunityTimer = 1.5;
+        isLevelTimerActive = true;
+      }
+      return;
+    }
+
+    if (ball.isRespawningFromHole && ball.activeHole != null) {
       if (ball.respawnTimer > 0) {
         bool isBarAtBottom =
-            leftY >= (levelHeight - 165.0) && rightY >= (levelHeight - 165.0);
+            leftY >= (_barBottomY - 5.0) && rightY >= (_barBottomY - 5.0);
 
         if (ball.respawnTimer - dt <= 0.8 && !isBarAtBottom) {
           ball.respawnTimer = 0.8001;
@@ -2801,18 +3134,14 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
           double progress = 1.0 - (ball.respawnTimer / 1.6);
           if (progress < 0.5) {
             double p = progress / 0.5;
-            ball.pos2D = ball.isRespawningFromEdge
-                ? teleportingGateComponent.position.clone()
-                : ball.activeHole!.position.clone();
+            ball.pos2D = ball.activeHole!.position.clone();
             ball.scale = p;
           } else {
             double p = (progress - 0.5) / 0.5;
             double curvedP = Curves.easeIn.transform(p);
             Vector2 targetPos =
                 leftPoint + direction * ball.p + normal * (ballRadius + 6.0);
-            Vector2 startPos = ball.isRespawningFromEdge
-                ? teleportingGateComponent.position.clone()
-                : ball.activeHole!.position.clone();
+            Vector2 startPos = ball.activeHole!.position.clone();
             ball.pos2D = startPos + (targetPos - startPos) * curvedP;
             ball.scale = 1.0;
           }
@@ -3046,7 +3375,8 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
         }
 
         // Check star collisions & magnet logic
-        for (final star in stars) {
+        for (var starIndex = 0; starIndex < stars.length; starIndex++) {
+          final star = stars[starIndex];
           if (!star.isCollected) {
             Vector2 starPos = star.position.clone();
 
@@ -3067,23 +3397,58 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
             }
 
             if (ball.pos2D.distanceTo(starPos) < ballRadius + 15.0) {
-              star.isCollected = true;
-              currentPoints.value++;
-              HapticFeedback.lightImpact();
-              try {
-                AppSettings.playSound('star.wav');
-              } catch (_) {}
+              if (isRaceMode) {
+                _requestRacePickup(RacePickupType.star, starIndex, starPos);
+              } else {
+                star.isCollected = true;
+                currentPoints.value++;
+                HapticFeedback.lightImpact();
+                try {
+                  AppSettings.playSound('star.wav');
+                } catch (_) {}
+              }
             }
           }
         }
 
         // Check heart collisions
-        for (final heart in hearts) {
+        for (var heartIndex = 0; heartIndex < hearts.length; heartIndex++) {
+          final heart = hearts[heartIndex];
           if (!heart.isCollected) {
             Vector2 heartPos = heart.position;
             if (ball.pos2D.distanceTo(heartPos) < ballRadius + 15.0) {
-              heart.isCollected = true;
-              currentLives.value++;
+              if (isRaceMode) {
+                _requestRacePickup(RacePickupType.heart, heartIndex, heartPos);
+              } else {
+                heart.isCollected = true;
+                currentLives.value++;
+                HapticFeedback.lightImpact();
+                try {
+                  AppSettings.playSound('star.wav');
+                } catch (_) {}
+              }
+            }
+          }
+        }
+
+        // Check shield pickup collisions
+        for (
+          var shieldIndex = 0;
+          shieldIndex < shieldPickups.length;
+          shieldIndex++
+        ) {
+          final shield = shieldPickups[shieldIndex];
+          if (!shield.isCollected &&
+              ball.pos2D.distanceTo(shield.position) < ballRadius + 17) {
+            if (isRaceMode) {
+              _requestRacePickup(
+                RacePickupType.shield,
+                shieldIndex,
+                shield.position,
+              );
+            } else {
+              shield.collect();
+              remainingShields.value += 1;
               HapticFeedback.lightImpact();
               try {
                 AppSettings.playSound('star.wav');
@@ -3093,31 +3458,66 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
         }
 
         // Check magnet collisions
-        for (final mag in magnets) {
+        for (var magnetIndex = 0; magnetIndex < magnets.length; magnetIndex++) {
+          final mag = magnets[magnetIndex];
           if (!mag.isCollected) {
             Vector2 magPos = mag.position;
             if (ball.pos2D.distanceTo(magPos) < ballRadius + 15.0) {
-              mag.isCollected = true;
-              magnetTimer = 5.0; // Instantly activate!
-              HapticFeedback.lightImpact();
-              try {
-                AppSettings.playSound('star.wav');
-              } catch (_) {}
+              if (isRaceMode) {
+                _requestRacePickup(RacePickupType.magnet, magnetIndex, magPos);
+              } else {
+                mag.isCollected = true;
+                magnetTimer = 5.0; // Instantly activate!
+                HapticFeedback.lightImpact();
+                try {
+                  AppSettings.playSound('star.wav');
+                } catch (_) {}
+              }
             }
           }
         }
 
-        for (final helper in shooterHelpers) {
+        for (
+          var multiBallIndex = 0;
+          multiBallIndex < multiBallItems.length;
+          multiBallIndex++
+        ) {
+          final multiBall = multiBallItems[multiBallIndex];
+          if (!multiBall.isCollected &&
+              ball.pos2D.distanceTo(multiBall.position) < ballRadius + 15) {
+            _requestRacePickup(
+              RacePickupType.multiBall,
+              multiBallIndex,
+              multiBall.position,
+            );
+          }
+        }
+
+        for (
+          var helperIndex = 0;
+          helperIndex < shooterHelpers.length;
+          helperIndex++
+        ) {
+          final helper = shooterHelpers[helperIndex];
           if (!helper.isCollected &&
               ball.pos2D.distanceTo(helper.position) < ballRadius + 22) {
-            helper.collect();
-            HapticFeedback.mediumImpact();
-            AppSettings.playSound('star.wav', volume: 0.7);
+            if (isRaceMode) {
+              _requestRacePickup(
+                RacePickupType.shooterHelper,
+                helperIndex,
+                helper.position,
+              );
+            } else {
+              helper.collect();
+              HapticFeedback.mediumImpact();
+              AppSettings.playSound('star.wav', volume: 0.7);
+            }
           }
         }
 
         // Check coin collisions & magnet logic
-        for (final coin in coins) {
+        for (var coinIndex = 0; coinIndex < coins.length; coinIndex++) {
+          final coin = coins[coinIndex];
           if (!coin.isCollected) {
             Vector2 coinPos = coin.position.clone();
 
@@ -3133,11 +3533,15 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
             }
 
             if (ball.pos2D.distanceTo(coinPos) < ballRadius + coin.radius) {
-              coin.collect();
-              HapticFeedback.lightImpact();
-              try {
-                AppSettings.playSound('star.wav'); // Reuse star sound
-              } catch (_) {}
+              if (isRaceMode) {
+                _requestRacePickup(RacePickupType.coin, coinIndex, coinPos);
+              } else {
+                coin.collect();
+                HapticFeedback.lightImpact();
+                try {
+                  AppSettings.playSound('star.wav'); // Reuse star sound
+                } catch (_) {}
+              }
             }
           }
         }
@@ -3373,6 +3777,15 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       levelContainer.add(heart);
     }
 
+    for (final shieldPos in template.shields) {
+      final pos = mapPoint(shieldPos);
+      final shield = ShieldPickupComponent(pos)
+        ..position = pos
+        ..priority = 5;
+      shieldPickups.add(shield);
+      levelContainer.add(shield);
+    }
+
     for (final magnetPos in template.magnets) {
       final pos = mapPoint(magnetPos);
       final magnet = MagnetComponent(pos)
@@ -3509,10 +3922,12 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
 
   void _clearBombs() {
     bombSpawnTimer = 0.0;
-    for (var c in levelContainer.children.whereType<BombWarningComponent>()) {
+    for (final c
+        in levelContainer.children.whereType<BombWarningComponent>().toList()) {
       c.removeFromParent();
     }
-    for (var c in levelContainer.children.whereType<BombComponent>()) {
+    for (final c
+        in levelContainer.children.whereType<BombComponent>().toList()) {
       c.removeFromParent();
     }
   }
@@ -3745,6 +4160,14 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     hearts.removeWhere((heart) {
       if (heart.position.y > cullY) {
         heart.removeFromParent();
+        return true;
+      }
+      return false;
+    });
+
+    shieldPickups.removeWhere((shield) {
+      if (shield.position.y > cullY) {
+        shield.removeFromParent();
         return true;
       }
       return false;

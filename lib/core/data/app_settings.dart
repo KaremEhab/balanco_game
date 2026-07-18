@@ -5,6 +5,7 @@ import 'package:balanco_game/core/data/database_helper.dart';
 enum SoundChannel { impacts, hazards, rewards, ui }
 
 class AppSettings {
+  static const String ownerEmail = 'karemehab2323@gmail.com';
   static final ValueNotifier<bool> soundEnabled = ValueNotifier(true);
   static final ValueNotifier<bool> inGameMusicEnabled = ValueNotifier(true);
   static final ValueNotifier<double> musicVolume = ValueNotifier(0.75);
@@ -15,8 +16,20 @@ class AppSettings {
   static final ValueNotifier<bool> hapticsEnabled = ValueNotifier(true);
   static final ValueNotifier<bool> parallaxEnabled = ValueNotifier(true);
   static final ValueNotifier<double> joystickSensitivity = ValueNotifier(1.0);
+  static final ValueNotifier<int> gameplayFrameRate = ValueNotifier(60);
   static final ValueNotifier<int> lastEditedLevel = ValueNotifier(1);
   static final ValueNotifier<String> playerName = ValueNotifier('KAREEM EHAB');
+  static bool _ownerFrameRateAccess = false;
+
+  static bool isOwnerEmail(String? email) =>
+      email?.trim().toLowerCase() == ownerEmail;
+
+  static int get effectiveGameplayFrameRate =>
+      _ownerFrameRateAccess && gameplayFrameRate.value == 120 ? 120 : 60;
+
+  static void configureOwnerFrameRateAccess(String? email) {
+    _ownerFrameRateAccess = isOwnerEmail(email);
+  }
 
   static bool _bgmInitialized = false;
 
@@ -41,6 +54,12 @@ class AppSettings {
     final sensitivityConfig = await db.getConfig('joystick_sensitivity');
     if (sensitivityConfig != null) {
       joystickSensitivity.value = double.tryParse(sensitivityConfig) ?? 1.0;
+    }
+
+    final frameRateConfig = await db.getConfig('gameplay_frame_rate');
+    final savedFrameRate = int.tryParse(frameRateConfig ?? '');
+    if (savedFrameRate == 60 || savedFrameRate == 120) {
+      gameplayFrameRate.value = savedFrameRate!;
     }
 
     final hapticsConfig = await db.getConfig('haptics_enabled');
@@ -139,6 +158,15 @@ class AppSettings {
     DatabaseHelper.instance.saveConfig(
       'joystick_sensitivity',
       value.toString(),
+    );
+  }
+
+  static void setGameplayFrameRate(int value) {
+    final normalized = value == 120 ? 120 : 60;
+    gameplayFrameRate.value = normalized;
+    DatabaseHelper.instance.saveConfig(
+      'gameplay_frame_rate',
+      normalized.toString(),
     );
   }
 
