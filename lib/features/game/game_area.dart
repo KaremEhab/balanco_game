@@ -2004,7 +2004,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     } else {
       final onlineLevel = await _loadOnlineLevel(
         levelToGenerate,
-        version: isRaceMode ? onlineLevelVersion : null,
+        version: (isRaceMode || isMultiplayer) ? onlineLevelVersion : null,
       );
       if (onlineLevel != null) {
         data = onlineLevel;
@@ -2012,9 +2012,9 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
         final jsonStr = PremadeLevels.levelsJson[levelToGenerate]!;
         data = LevelData.fromJson(jsonDecode(jsonStr));
       } else {
-        // Race must be identical on every phone. Device-local editor levels
-        // are intentionally excluded from this authoritative mode.
-        final customJsonStr = isRaceMode
+        // Online Race and CO-OP levels must be identical on every phone.
+        // Device-local editor levels are intentionally excluded.
+        final customJsonStr = (isRaceMode || isMultiplayer)
             ? null
             : await DatabaseHelper.instance.getCustomLevel(levelToGenerate);
         if (customJsonStr != null) {
@@ -2025,7 +2025,9 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
           if (campaignLevel != null) {
             data = campaignLevel.toLevelData();
           } else {
-            final fallbackSeed = isRaceMode ? levelToGenerate * 104729 : null;
+            final fallbackSeed = (isRaceMode || isMultiplayer)
+                ? levelToGenerate * 104729
+                : null;
             data = await Isolate.run(
               () => generateLevelData(levelToGenerate, fallbackSeed),
             );

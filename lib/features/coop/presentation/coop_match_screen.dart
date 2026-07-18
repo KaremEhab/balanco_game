@@ -35,10 +35,12 @@ class _CoopMatchScreenState extends State<CoopMatchScreen> {
     final side = widget.room.memberFor(userId).side;
     _game = BalancoGame(
       isMultiplayer: true,
-      isInfinityMode: true,
+      isInfinityMode: false,
       playerRole: side.name.toUpperCase(),
       randomSeed: widget.room.seed,
-    );
+      enableTutorials: false,
+      onlineLevelVersion: widget.room.raceLevelVersion,
+    )..currentLevel.value = widget.room.raceLevel;
     _coordinator = CoopGameCoordinator(
       initialRoom: widget.room,
       userId: userId,

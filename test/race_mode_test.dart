@@ -270,6 +270,27 @@ void main() {
     expect(race.currentHeightMultiplier, regular.currentHeightMultiplier);
   });
 
+  test('co-op loads the exact regular authored level definition', () async {
+    final regular = BalancoGame(
+      isMultiplayer: false,
+      playerRole: 'BOTH',
+      randomSeed: 42,
+      enableTutorials: false,
+    )..onGameResize(Vector2(400, 800));
+    final coop = BalancoGame(
+      isMultiplayer: true,
+      isInfinityMode: false,
+      playerRole: 'LEFT',
+      randomSeed: 42,
+      enableTutorials: false,
+    )..onGameResize(Vector2(400, 800));
+
+    await Future.wait([regular.onLoad(), coop.onLoad()]);
+
+    expect(coop.currentLevelData!.toJson(), regular.currentLevelData!.toJson());
+    expect(coop.currentHeightMultiplier, regular.currentHeightMultiplier);
+  });
+
   test('race shield pickup is global and cannot grant twice', () async {
     final game = BalancoGame(
       isMultiplayer: true,

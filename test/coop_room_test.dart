@@ -96,6 +96,48 @@ void main() {
     expect(member.sessionWins, 0);
   });
 
+  test('co-op campaign exposes shared level range and end states', () {
+    final room = CoopRoom.fromJson({
+      'room': {
+        'id': 'coop-series',
+        'room_code': 'COOP55',
+        'host_id': 'p1',
+        'status': 'ended',
+        'host_side': 'left',
+        'seed': 17,
+        'mode': 'coop',
+        'race_level': 4,
+        'race_start_level': 2,
+        'race_end_level': 5,
+        'end_reason': 'completed',
+      },
+      'members': [
+        {
+          'user_id': 'p1',
+          'display_name': 'Host',
+          'player_code': 'HOST',
+          'side': 'left',
+          'ready': true,
+          'is_host': true,
+        },
+        {
+          'user_id': 'p2',
+          'display_name': 'Partner',
+          'player_code': 'PARTNER',
+          'side': 'right',
+          'ready': true,
+          'is_host': false,
+        },
+      ],
+    });
+
+    expect(room.levelRangeCount, 4);
+    expect(room.levelRangePosition, 3);
+    expect(room.isCoopLevelComplete, isTrue);
+    expect(room.hasMoreCoopLevels, isTrue);
+    expect(room.isCoopRunComplete, isFalse);
+  });
+
   test('race series exposes its round, champion, and cumulative stars', () {
     final room = CoopRoom.fromJson({
       'room': {

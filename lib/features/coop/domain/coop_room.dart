@@ -169,7 +169,9 @@ class CoopRoom {
   bool get endedByDisconnect =>
       isEnded && endReason == 'forfeit' && raceEndKind == 'disconnect';
   bool get hasPostgameExitVote =>
-      isEnded && endReason == 'completed' && leaveRequestedBy != null;
+      isEnded &&
+      (endReason == 'completed' || endReason == 'game_over') &&
+      leaveRequestedBy != null;
   bool get canStart =>
       members.length == (isRace ? maxPlayers : 2) &&
       members.every((m) => m.ready);
@@ -177,6 +179,13 @@ class CoopRoom {
   int get seriesRoundCount => raceEndLevel - raceStartLevel + 1;
   int get seriesRoundNumber => raceLevel - raceStartLevel + 1;
   bool get hasMoreSeriesLevels => raceLevel < raceEndLevel;
+  int get levelRangeCount => raceEndLevel - raceStartLevel + 1;
+  int get levelRangePosition => raceLevel - raceStartLevel + 1;
+  bool get hasMoreCoopLevels => !isRace && raceLevel < raceEndLevel;
+  bool get isCoopLevelComplete =>
+      !isRace && isEnded && endReason == 'completed';
+  bool get isCoopRunComplete => isCoopLevelComplete && !hasMoreCoopLevels;
+  bool get isCoopGameOver => !isRace && isEnded && endReason == 'game_over';
   bool get isSeriesFinished => seriesFinishedAt != null;
   bool get isSeriesDraw => seriesEndKind == 'draw';
 

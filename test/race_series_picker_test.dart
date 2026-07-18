@@ -67,4 +67,52 @@ void main() {
     expect(selected, [1, 5]);
     expect(tester.takeException(), isNull);
   });
+
+  testWidgets('co-op range accepts an even number of campaign levels', (
+    tester,
+  ) async {
+    List<int>? selected;
+    tester.view.physicalSize = const Size(390, 520);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: Builder(
+            builder: (context) => FilledButton(
+              onPressed: () {
+                unawaited(
+                  showModalBottomSheet<List<int>>(
+                    context: context,
+                    isScrollControlled: true,
+                    useSafeArea: true,
+                    builder: (_) => const RaceSeriesPicker(
+                      initialStart: 2,
+                      initialEnd: 5,
+                      highestLevel: 10,
+                      requireOdd: false,
+                      isCoop: true,
+                    ),
+                  ).then((value) => selected = value),
+                );
+              },
+              child: const Text('OPEN CO-OP'),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    await tester.tap(find.text('OPEN CO-OP'));
+    await tester.pumpAndSettle();
+    expect(find.text('4 LEVELS SELECTED'), findsOneWidget);
+    await tester.ensureVisible(find.byKey(const Key('save-race-series-range')));
+    await tester.tap(find.byKey(const Key('save-race-series-range')));
+    await tester.pumpAndSettle();
+
+    expect(selected, [2, 5]);
+    expect(tester.takeException(), isNull);
+  });
 }

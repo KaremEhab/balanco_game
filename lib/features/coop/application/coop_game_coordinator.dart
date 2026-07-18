@@ -45,6 +45,8 @@ class CoopGameCoordinator {
 
   void attach() {
     _subscription = realtime.events.listen(_handleEvent);
+    game.currentScore.value = room.value.score;
+    game.showVictoryOverlay.addListener(_onVictory);
     game.showGameOverOverlay.addListener(_onGameOver);
     if (isHost) {
       _snapshotTimer = Timer.periodic(
@@ -131,8 +133,16 @@ class CoopGameCoordinator {
   }
 
   Future<void> retryTogether() async {
+    await _requestLevelRestart('retry');
+  }
+
+  Future<void> continueTogether() async {
+    await _requestLevelRestart('continue');
+  }
+
+  Future<void> _requestLevelRestart(String kind) async {
     final previousAttempt = room.value.attemptNumber;
-    final next = await repository.retryRoom(room.value.id);
+    final next = await repository.voteCoopLevelRestart(room.value.id, kind);
     room.value = next;
     if (next.attemptNumber > previousAttempt) _restartLocalRun();
     await realtime.notifyRoomChanged();
@@ -187,7 +197,11 @@ class CoopGameCoordinator {
     _completed = false;
     _lastSnapshotAt = 0;
     rewardSynced.value = false;
-    game.restartCoopRun(room.value.seed);
+    game.currentLevel.value = room.value.raceLevel;
+    game.onlineLevelVersion = room.value.raceLevelVersion;
+    game.currentScore.value = room.value.score;
+    game.collectedCoins.value = 0;
+    unawaited(game.restartCoopRun(room.value.seed));
   }
 
   void _applyRoomState(CoopRoom state) {
@@ -231,15 +245,50 @@ class CoopGameCoordinator {
   void _onGameOver() {
     if (!game.showGameOverOverlay.value || !isHost || _completed) return;
     _completed = true;
-    unawaited(_completeRun());
+    unawaited(_submitGameOver());
   }
 
-  Future<void> _completeRun() async {
-    room.value = await repository.completeRun(
-      room.value.id,
-      score: game.currentScore.value,
-      coins: game.collectedCoins.value,
-    );
+  void _onVictory() {
+    if (!game.showVictoryOverlay.value || !isHost || _completed) return;
+    _completed = true;
+    unawaited(_submitVictory());
+  }
+
+  Future<void> _submitVictory() async {
+    try {
+      final stars = game.currentPoints.value.clamp(0, 3);
+      final points = game.calculateLevelRewardPoints();
+      game.earnedLevelPoints.value = points;
+      room.value = await repository.completeCoopLevel(
+        room.value.id,
+        points: points,
+        stars: stars,
+        coins: game.collectedCoins.value,
+      );
+      game.currentScore.value = room.value.score;
+      await _finishOutcomeSync();
+    } catch (_) {
+      _completed = false;
+      if (!_disposed) {
+        Timer(const Duration(seconds: 1), _onVictory);
+      }
+    }
+  }
+
+  Future<void> _submitGameOver() async {
+    try {
+      room.value = await repository.failCoopLevel(room.value.id);
+      await _finishOutcomeSync();
+    } catch (_) {
+      _completed = false;
+      if (!_disposed) {
+        Timer(const Duration(seconds: 1), _onGameOver);
+      }
+    }
+  }
+
+  Future<void> _finishOutcomeSync() async {
+    _applyRoomState(room.value);
     await PlayerSession.instance.refresh();
     rewardSynced.value = true;
     await realtime.notifyRoomChanged();
@@ -248,6 +297,7 @@ class CoopGameCoordinator {
   Future<void> dispose() async {
     _disposed = true;
     _pendingInput = null;
+    game.showVictoryOverlay.removeListener(_onVictory);
     game.showGameOverOverlay.removeListener(_onGameOver);
     _snapshotTimer?.cancel();
     _snapshotHealthTimer?.cancel();

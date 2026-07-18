@@ -53,6 +53,16 @@ class CoopRepository {
     'p_end_level': endLevel,
   });
 
+  Future<CoopRoom> configureCoopSeries(
+    String roomId, {
+    required int startLevel,
+    required int endLevel,
+  }) => _roomRpc('configure_coop_series', {
+    'p_room_id': roomId,
+    'p_start_level': startLevel,
+    'p_end_level': endLevel,
+  });
+
   Future<CoopRoom> transferRaceHost(String roomId, String newHostId) =>
       _roomRpc('transfer_race_host', {
         'p_room_id': roomId,
@@ -79,6 +89,26 @@ class CoopRepository {
     'p_score': score,
     'p_coins': coins,
   });
+
+  Future<CoopRoom> completeCoopLevel(
+    String roomId, {
+    required int points,
+    required int stars,
+    required int coins,
+  }) => _roomRpc('complete_coop_level', {
+    'p_room_id': roomId,
+    'p_points': points,
+    'p_stars': stars,
+    'p_coins': coins,
+  });
+
+  Future<CoopRoom> failCoopLevel(String roomId) =>
+      _roomRpc('fail_coop_level', {'p_room_id': roomId});
+
+  Future<CoopRoom> voteCoopLevelRestart(String roomId, String kind) => _roomRpc(
+    'vote_coop_level_restart',
+    {'p_room_id': roomId, 'p_kind': kind},
+  );
 
   Future<CoopRoom> retryRoom(String roomId) =>
       _roomRpc('retry_coop_room', {'p_room_id': roomId});

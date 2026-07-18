@@ -121,7 +121,7 @@ class _CoopWaitingRoomScreenState extends State<CoopWaitingRoomScreen> {
     } catch (error) {
       if (mounted) {
         setState(() {
-          _lobbyError = 'Could not update the race room. $error';
+          _lobbyError = 'Could not update the game room. $error';
         });
       }
     } finally {
@@ -173,8 +173,8 @@ class _CoopWaitingRoomScreenState extends State<CoopWaitingRoomScreen> {
     if (updated != null && mounted) setState(() => _room = updated);
   }
 
-  Future<void> _editRaceSeries() async {
-    if (!_room.isRace || !_isHost || _busy) return;
+  Future<void> _editLevelRange() async {
+    if (!_isHost || _busy) return;
     final selection = await showModalBottomSheet<List<int>>(
       context: context,
       isScrollControlled: true,
@@ -184,6 +184,8 @@ class _CoopWaitingRoomScreenState extends State<CoopWaitingRoomScreen> {
         initialStart: _room.raceStartLevel,
         initialEnd: _room.raceEndLevel,
         highestLevel: _me.highestLevel,
+        requireOdd: _room.isRace,
+        isCoop: !_room.isRace,
       ),
     );
     if (selection == null || !mounted) return;
@@ -192,13 +194,20 @@ class _CoopWaitingRoomScreenState extends State<CoopWaitingRoomScreen> {
     // frame can leave an inherited element with live dependents on Flutter.
     await WidgetsBinding.instance.endOfFrame;
     if (!mounted) return;
-    await _mutate(
-      () => _repository.configureRaceSeries(
+    await _mutate(() {
+      if (_room.isRace) {
+        return _repository.configureRaceSeries(
+          _room.id,
+          startLevel: selection.first,
+          endLevel: selection.last,
+        );
+      }
+      return _repository.configureCoopSeries(
         _room.id,
         startLevel: selection.first,
         endLevel: selection.last,
-      ),
-    );
+      );
+    });
   }
 
   Future<void> _transferHost(CoopMember member) async {
@@ -341,14 +350,12 @@ class _CoopWaitingRoomScreenState extends State<CoopWaitingRoomScreen> {
                 ),
               ),
               const SizedBox(height: 22),
-              if (_room.isRace) ...[
-                _RaceSeriesCard(
-                  room: _room,
-                  editable: _isHost && !_busy,
-                  onTap: _editRaceSeries,
-                ),
-                const SizedBox(height: 22),
-              ],
+              _LevelSeriesCard(
+                room: _room,
+                editable: _isHost && !_busy,
+                onTap: _editLevelRange,
+              ),
+              const SizedBox(height: 22),
               IntrinsicHeight(
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -585,8 +592,8 @@ class _PlayerSlot extends StatelessWidget {
   );
 }
 
-class _RaceSeriesCard extends StatelessWidget {
-  const _RaceSeriesCard({
+class _LevelSeriesCard extends StatelessWidget {
+  const _LevelSeriesCard({
     required this.room,
     required this.editable,
     required this.onTap,
@@ -637,7 +644,7 @@ class _RaceSeriesCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'RACE SERIES',
+                        room.isRace ? 'RACE SERIES' : 'CO-OP LEVEL RUN',
                         style: GoogleFonts.luckiestGuy(
                           color: Colors.white,
                           fontSize: 19,
@@ -649,7 +656,7 @@ class _RaceSeriesCard extends StatelessWidget {
                           fit: BoxFit.scaleDown,
                           child: Text(
                             'LEVEL ${room.raceStartLevel}  ->  ${room.raceEndLevel}  '
-                            '|  ${room.seriesRoundCount} ROUNDS',
+                            '|  ${room.seriesRoundCount} ${room.isRace ? 'ROUNDS' : 'LEVELS'}',
                             style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w900,
@@ -657,8 +664,10 @@ class _RaceSeriesCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const Text(
-                        'Most level wins | stars break a tie',
+                      Text(
+                        room.isRace
+                            ? 'Most level wins | stars break a tie'
+                            : 'Complete every selected level together',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -688,11 +697,15 @@ class RaceSeriesPicker extends StatefulWidget {
     required this.initialStart,
     required this.initialEnd,
     required this.highestLevel,
+    this.requireOdd = true,
+    this.isCoop = false,
   });
 
   final int initialStart;
   final int initialEnd;
   final int highestLevel;
+  final bool requireOdd;
+  final bool isCoop;
 
   @override
   State<RaceSeriesPicker> createState() => RaceSeriesPickerState();
@@ -705,6 +718,7 @@ class RaceSeriesPickerState extends State<RaceSeriesPicker> {
   int get _end => _range.end.round();
   int get _rounds => _end - _start + 1;
   bool get _isOdd => _rounds.isOdd;
+  bool get _isValid => !widget.requireOdd || _isOdd;
 
   @override
   void initState() {
@@ -744,7 +758,7 @@ class RaceSeriesPickerState extends State<RaceSeriesPicker> {
                 size: 46,
               ),
               Text(
-                'BUILD YOUR RACE',
+                widget.isCoop ? 'BUILD YOUR CO-OP RUN' : 'BUILD YOUR RACE',
                 style: GoogleFonts.luckiestGuy(
                   color: GameColors.brownDarkUi,
                   fontSize: 25,
@@ -752,8 +766,9 @@ class RaceSeriesPickerState extends State<RaceSeriesPicker> {
               ),
               const SizedBox(height: 5),
               Text(
-                'You have Levels 1-$max unlocked. The inclusive range must '
-                'contain an odd number of levels.',
+                widget.requireOdd
+                    ? 'You have Levels 1-$max unlocked. The inclusive range must contain an odd number of levels.'
+                    : 'You have Levels 1-$max unlocked. Pick the levels you want to complete together.',
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontWeight: FontWeight.w800),
               ),
@@ -803,32 +818,40 @@ class RaceSeriesPickerState extends State<RaceSeriesPicker> {
               else
                 const Padding(
                   padding: EdgeInsets.all(18),
-                  child: Text('Win Level 1 to unlock longer race series.'),
+                  child: Text('Win Level 1 to unlock a longer level range.'),
                 ),
-              AnimatedDefaultTextStyle(
-                duration: const Duration(milliseconds: 180),
-                style: GoogleFonts.luckiestGuy(
-                  color: _isOdd ? Colors.green : GameColors.red300,
-                  fontSize: 13,
+              if (widget.requireOdd)
+                AnimatedDefaultTextStyle(
+                  duration: const Duration(milliseconds: 180),
+                  style: GoogleFonts.luckiestGuy(
+                    color: _isOdd ? Colors.green : GameColors.red300,
+                    fontSize: 13,
+                  ),
+                  child: Text(
+                    _isOdd
+                        ? 'PERFECT - $_rounds ${_rounds == 1 ? 'ROUND' : 'ROUNDS'} HAS A CLEAR MAJORITY'
+                        : 'CHOOSE ONE MORE OR ONE FEWER LEVEL - $_rounds IS EVEN',
+                    textAlign: TextAlign.center,
+                  ),
+                )
+              else
+                Text(
+                  '$_rounds ${_rounds == 1 ? 'LEVEL' : 'LEVELS'} SELECTED',
+                  style: GoogleFonts.luckiestGuy(color: Colors.green),
                 ),
-                child: Text(
-                  _isOdd
-                      ? 'PERFECT - $_rounds ${_rounds == 1 ? 'ROUND' : 'ROUNDS'} HAS A CLEAR MAJORITY'
-                      : 'CHOOSE ONE MORE OR ONE FEWER LEVEL - $_rounds IS EVEN',
-                  textAlign: TextAlign.center,
-                ),
-              ),
               const SizedBox(height: 15),
               SizedBox(
                 width: double.infinity,
                 child: FilledButton.icon(
                   key: const Key('save-race-series-range'),
-                  onPressed: _isOdd
+                  onPressed: _isValid
                       ? () => Navigator.pop(context, [_start, _end])
                       : null,
                   icon: const Icon(Icons.check_circle_rounded),
                   label: Text(
-                    'LOCK IN $_rounds ROUNDS',
+                    widget.isCoop
+                        ? 'LOCK IN $_rounds LEVELS'
+                        : 'LOCK IN $_rounds ROUNDS',
                     style: GoogleFonts.luckiestGuy(),
                   ),
                   style: FilledButton.styleFrom(

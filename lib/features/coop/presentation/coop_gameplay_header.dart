@@ -32,50 +32,63 @@ class CoopGameplayHeader extends StatelessWidget {
         ),
         Positioned(
           top: 12,
-          child: ValueListenableBuilder<int>(
-            valueListenable: coordinator.game.currentScore,
-            builder: (_, score, _) => Container(
-              padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 10),
-              decoration: BoxDecoration(
-                color: GameColors.sandLightUi,
-                borderRadius: BorderRadius.circular(22),
-                border: Border.all(color: GameColors.brownDarkUi, width: 3),
-                boxShadow: const [
-                  BoxShadow(
-                    color: GameColors.brownDarkUi,
-                    offset: Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    '$score',
-                    style: GoogleFonts.luckiestGuy(
-                      fontSize: 28,
-                      color: GameColors.deepPurple,
+          child: ValueListenableBuilder(
+            valueListenable: coordinator.room,
+            builder: (_, room, _) => ValueListenableBuilder<int>(
+              valueListenable: coordinator.game.currentScore,
+              builder: (_, score, _) => Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 22,
+                  vertical: 10,
+                ),
+                decoration: BoxDecoration(
+                  color: GameColors.sandLightUi,
+                  borderRadius: BorderRadius.circular(22),
+                  border: Border.all(color: GameColors.brownDarkUi, width: 3),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: GameColors.brownDarkUi,
+                      offset: Offset(0, 4),
                     ),
-                  ),
-                  AnimatedBuilder(
-                    animation: Listenable.merge([
-                      coordinator.realtime.connected,
-                      coordinator.syncHealthy,
-                    ]),
-                    builder: (_, _) {
-                      final live = coordinator.realtime.connected.value;
-                      final healthy = coordinator.syncHealthy.value;
-                      return Text(
-                        live && healthy ? 'LIVE SYNC' : 'SYNCING...',
-                        style: TextStyle(
-                          fontSize: 9,
-                          fontWeight: FontWeight.w900,
-                          color: live && healthy ? Colors.green : Colors.red,
-                        ),
-                      );
-                    },
-                  ),
-                ],
+                  ],
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'LEVEL ${room.raceLevel}',
+                      style: GoogleFonts.luckiestGuy(
+                        fontSize: 22,
+                        color: GameColors.deepPurple,
+                      ),
+                    ),
+                    Text(
+                      '$score PTS',
+                      style: GoogleFonts.luckiestGuy(
+                        fontSize: 11,
+                        color: GameColors.orangeTextUi,
+                      ),
+                    ),
+                    AnimatedBuilder(
+                      animation: Listenable.merge([
+                        coordinator.realtime.connected,
+                        coordinator.syncHealthy,
+                      ]),
+                      builder: (_, _) {
+                        final live = coordinator.realtime.connected.value;
+                        final healthy = coordinator.syncHealthy.value;
+                        return Text(
+                          live && healthy ? 'LIVE SYNC' : 'SYNCING...',
+                          style: TextStyle(
+                            fontSize: 9,
+                            fontWeight: FontWeight.w900,
+                            color: live && healthy ? Colors.green : Colors.red,
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
