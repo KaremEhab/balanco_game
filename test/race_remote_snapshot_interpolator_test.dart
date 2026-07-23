@@ -45,7 +45,7 @@ void main() {
     expect(state.leftY, closeTo(130, 0.001));
   });
 
-  test('caps late-packet extrapolation at 220 milliseconds', () {
+  test('bridges a dropped packet for up to 450 milliseconds', () {
     final interpolator = RaceRemoteSnapshotInterpolator(
       interpolationDelay: Duration.zero,
     );
@@ -61,8 +61,8 @@ void main() {
 
     final state = interpolator.sample(nowMicros: base + 600000)!;
 
-    expect(state.balls.single.x, greaterThan(10));
-    expect(state.balls.single.x, lessThan(30));
+    expect(state.balls.single.x, greaterThan(40));
+    expect(state.balls.single.x, lessThan(50));
   });
 
   test(

@@ -31,6 +31,27 @@ void main() {
     expect(game.raceProgress, 0);
   });
 
+  test('race transport uses a compact motion-only snapshot', () async {
+    final game = BalancoGame(
+      isMultiplayer: true,
+      playerRole: 'BOTH',
+      randomSeed: 42,
+      enableTutorials: false,
+      isRaceMode: true,
+      isBattleRaceMode: true,
+    )..onGameResize(Vector2(400, 800));
+    await Future<void>.delayed(Duration.zero);
+    await game.onLoad();
+
+    final compact = game.createRaceSnapshot();
+    final full = game.createCoopSnapshot();
+
+    expect(compact['balls'], isNotEmpty);
+    expect(compact, isNot(contains('holes')));
+    expect(compact, isNot(contains('stars_collected')));
+    expect(jsonEncode(compact).length, lessThan(jsonEncode(full).length / 2));
+  });
+
   test('race timeout submits once, supports fractions, and can retry', () {
     final guard = RaceTimeoutSubmissionGuard();
     final started = DateTime.utc(2026, 7, 18, 12);

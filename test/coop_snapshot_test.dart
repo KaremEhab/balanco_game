@@ -97,4 +97,42 @@ void main() {
     expect(guest.leftY, greaterThan(450));
     expect(guest.cameraOffsetY, lessThan(host.cameraOffsetY));
   });
+
+  test('co-op replica merges lightweight frames into its last keyframe', () {
+    final host = BalancoGame(
+      isMultiplayer: true,
+      isInfinityMode: true,
+      playerRole: 'RIGHT',
+      randomSeed: 42,
+    )..onGameResize(Vector2(400, 800));
+    host
+      ..leftY = 500
+      ..rightY = 500;
+
+    final guest = BalancoGame(
+      isMultiplayer: true,
+      isInfinityMode: true,
+      playerRole: 'LEFT',
+      randomSeed: 42,
+    )..onGameResize(Vector2(400, 800));
+    final keyframe = host.createCoopSnapshot();
+    guest
+      ..enableCoopReplica()
+      ..applyCoopSnapshot({...keyframe, 'sent_at': 1000000})
+      ..update(1 / 60);
+
+    host
+      ..leftY = 460
+      ..rightY = 470;
+    final lightweight = host.createCoopSnapshot(includeWorldState: false);
+    expect(lightweight, isNot(contains('holes')));
+    expect(lightweight, isNot(contains('stars_collected')));
+
+    guest
+      ..applyCoopSnapshot({...lightweight, 'sent_at': 1100000})
+      ..update(1 / 30);
+
+    expect(guest.leftY, lessThan(500));
+    expect(guest.rightY, lessThan(500));
+  });
 }

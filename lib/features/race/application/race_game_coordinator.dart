@@ -96,18 +96,16 @@ class RaceGameCoordinator {
     localGame.racePlayerId = userId;
     localGame.onRacePickupClaim = _claimPickup;
     _events = realtime.events.listen(_handleEvent);
+    realtime.connected.addListener(_onRealtimeConnectionChanged);
     localGame.showVictoryOverlay.addListener(_onLocalFinished);
     localGame.showGameOverOverlay.addListener(_onLocalGameOver);
-    _snapshotTimer = Timer.periodic(
-      const Duration(milliseconds: 33),
-      (_) => _sendSnapshot(),
-    );
+    _scheduleNextSnapshot(Duration.zero);
     _displayTimer = Timer.periodic(
       const Duration(milliseconds: 33),
       (_) => _updateDisplayState(),
     );
     _roomTimer = Timer.periodic(
-      const Duration(seconds: 1),
+      const Duration(seconds: 2),
       (_) => reloadRoom(),
     );
     unawaited(_maintainPresence());
@@ -120,6 +118,38 @@ class RaceGameCoordinator {
     _syncPickupClaims();
     _applyRoomState();
     _updateDisplayState();
+  }
+
+  void _onRealtimeConnectionChanged() {
+    if (_disposed) return;
+    if (!realtime.connected.value) {
+      syncHealthy.value = false;
+      return;
+    }
+    // Push a fresh keyframe immediately after an automatic reconnect instead
+    // of waiting for the normal adaptive cadence.
+    _scheduleNextSnapshot(Duration.zero);
+    unawaited(reloadRoom());
+  }
+
+  void _scheduleNextSnapshot([Duration? delay]) {
+    if (_disposed) return;
+    _snapshotTimer?.cancel();
+    final activePlayers = room.value.members
+        .where((member) => !member.hasLeft)
+        .length
+        .clamp(2, 4);
+    final interval =
+        delay ??
+        RealtimeTrafficPolicy.raceSnapshotInterval(
+          activePlayers: activePlayers,
+          degraded:
+              !realtime.connected.value || !realtime.deliveryHealthy.value,
+        );
+    _snapshotTimer = Timer(interval, () async {
+      await _sendSnapshot();
+      _scheduleNextSnapshot();
+    });
   }
 
   void _scheduleBoardLabels() {
@@ -347,6 +377,7 @@ class RaceGameCoordinator {
   Future<void> _sendSnapshot() async {
     if (_sending ||
         _disposed ||
+        !realtime.connected.value ||
         !localGame.isLayoutReady ||
         !room.value.isPlaying) {
       return;
@@ -358,8 +389,8 @@ class RaceGameCoordinator {
         'stream_id': _snapshotStreamId,
         'attempt': room.value.attemptNumber,
         'level': room.value.raceLevel,
-        'progress': localGame.raceProgress,
-        ...localGame.createCoopSnapshot(),
+        'progress': (localGame.raceProgress * 10000).round() / 10000,
+        ...localGame.createRaceSnapshot(),
       });
       if (!delivered) syncHealthy.value = false;
     } finally {
@@ -399,7 +430,6 @@ class RaceGameCoordinator {
         if (senderId == _primaryOpponentId) {
           remoteInterpolator.addSnapshot(event);
         }
-        remoteGame.applyCoopSnapshot(event);
         final progress =
             (event['progress'] as num?)?.toDouble().clamp(0.0, 1.0) ?? 0;
         final hearts = event['lives'] as int? ?? 3;
@@ -440,7 +470,7 @@ class RaceGameCoordinator {
         }
         syncHealthy.value = true;
         _healthTimer?.cancel();
-        _healthTimer = Timer(const Duration(milliseconds: 1200), () {
+        _healthTimer = Timer(const Duration(milliseconds: 2400), () {
           if (!_disposed) syncHealthy.value = false;
         });
       case 'battle_weapon':
@@ -867,6 +897,7 @@ class RaceGameCoordinator {
 
   Future<void> dispose() async {
     _disposed = true;
+    realtime.connected.removeListener(_onRealtimeConnectionChanged);
     localGame.showVictoryOverlay.removeListener(_onLocalFinished);
     localGame.showGameOverOverlay.removeListener(_onLocalGameOver);
     _snapshotTimer?.cancel();

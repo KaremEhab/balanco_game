@@ -76,7 +76,7 @@ class RaceRemoteRenderState {
 class RaceRemoteSnapshotInterpolator extends ChangeNotifier {
   RaceRemoteSnapshotInterpolator({
     this.interpolationDelay = const Duration(milliseconds: 100),
-    this.maximumExtrapolation = const Duration(milliseconds: 220),
+    this.maximumExtrapolation = const Duration(milliseconds: 450),
   });
 
   final Duration interpolationDelay;

@@ -354,13 +354,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                 _isNavbarVisible = true;
               });
 
-              if (index != 0 &&
-                  _mapScrollController.hasClients &&
-                  _mapScrollController.position.hasContentDimensions) {
-                _mapScrollController.jumpTo(
-                  _mapScrollController.position.maxScrollExtent,
-                );
-              }
               if (index != 1 &&
                   _modesScrollController.hasClients &&
                   _modesScrollController.position.hasContentDimensions) {

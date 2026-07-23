@@ -41,26 +41,50 @@ class CoopGameCoordinator {
   int _snapshotSequence = 0;
   int _localInputSequence = 0;
   int _lastRemoteInputSequence = 0;
+  int _lastInputSentAtMicros = 0;
   double? _pendingInput;
 
   void attach() {
     _subscription = realtime.events.listen(_handleEvent);
+    realtime.connected.addListener(_onRealtimeConnectionChanged);
     game.currentScore.value = room.value.score;
     game.showVictoryOverlay.addListener(_onVictory);
     game.showGameOverOverlay.addListener(_onGameOver);
     if (isHost) {
-      _snapshotTimer = Timer.periodic(
-        const Duration(milliseconds: 50),
-        (_) => _sendSnapshot(),
-      );
+      _scheduleNextSnapshot(Duration.zero);
     } else {
       game.enableCoopReplica();
     }
     _roomRefreshTimer = Timer.periodic(
-      const Duration(seconds: 1),
+      const Duration(seconds: 2),
       (_) => reloadRoom(),
     );
     _applyRoomState(room.value);
+  }
+
+  void _onRealtimeConnectionChanged() {
+    if (_disposed) return;
+    if (!realtime.connected.value) {
+      syncHealthy.value = false;
+      return;
+    }
+    if (isHost) _scheduleNextSnapshot(Duration.zero);
+    unawaited(reloadRoom());
+  }
+
+  void _scheduleNextSnapshot([Duration? delay]) {
+    if (_disposed || !isHost) return;
+    _snapshotTimer?.cancel();
+    final interval =
+        delay ??
+        RealtimeTrafficPolicy.coopSnapshotInterval(
+          degraded:
+              !realtime.connected.value || !realtime.deliveryHealthy.value,
+        );
+    _snapshotTimer = Timer(interval, () async {
+      await _sendSnapshot();
+      _scheduleNextSnapshot();
+    });
   }
 
   Future<void> setLocalInput(double value) async {
@@ -78,6 +102,16 @@ class CoopGameCoordinator {
     _inputSending = true;
     try {
       while (_pendingInput != null && !_disposed) {
+        final minimumInterval = RealtimeTrafficPolicy.coopInputInterval(
+          degraded:
+              !realtime.connected.value || !realtime.deliveryHealthy.value,
+        );
+        final now = DateTime.now().microsecondsSinceEpoch;
+        final waitMicros =
+            minimumInterval.inMicroseconds - (now - _lastInputSentAtMicros);
+        if (waitMicros > 0) {
+          await Future<void>.delayed(Duration(microseconds: waitMicros));
+        }
         final value = _pendingInput!;
         _pendingInput = null;
         final sequence = ++_localInputSequence;
@@ -86,9 +120,9 @@ class CoopGameCoordinator {
           'value': value,
           'sequence': sequence,
         });
+        _lastInputSentAtMicros = DateTime.now().microsecondsSinceEpoch;
         if (!delivered) {
           _pendingInput ??= value;
-          await Future<void>.delayed(const Duration(milliseconds: 35));
         }
       }
     } finally {
@@ -221,9 +255,12 @@ class CoopGameCoordinator {
     }
     _snapshotSending = true;
     try {
+      final sequence = ++_snapshotSequence;
       syncHealthy.value = await realtime.send('snapshot', {
-        'sequence': ++_snapshotSequence,
-        ...game.createCoopSnapshot(),
+        'sequence': sequence,
+        ...game.createCoopSnapshot(
+          includeWorldState: sequence == 1 || sequence % 10 == 0,
+        ),
       });
     } finally {
       _snapshotSending = false;
@@ -237,7 +274,7 @@ class CoopGameCoordinator {
     game.applyCoopSnapshot(data);
     syncHealthy.value = true;
     _snapshotHealthTimer?.cancel();
-    _snapshotHealthTimer = Timer(const Duration(milliseconds: 1200), () {
+    _snapshotHealthTimer = Timer(const Duration(milliseconds: 2400), () {
       if (!_disposed) syncHealthy.value = false;
     });
   }
@@ -297,6 +334,7 @@ class CoopGameCoordinator {
   Future<void> dispose() async {
     _disposed = true;
     _pendingInput = null;
+    realtime.connected.removeListener(_onRealtimeConnectionChanged);
     game.showVictoryOverlay.removeListener(_onVictory);
     game.showGameOverOverlay.removeListener(_onGameOver);
     _snapshotTimer?.cancel();

@@ -1519,7 +1519,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
 
   bool get isCoopReplica => _isCoopReplica;
 
-  Map<String, dynamic> createCoopSnapshot() => {
+  Map<String, dynamic> createCoopSnapshot({bool includeWorldState = true}) => {
     'world_width': size.x,
     'world_height': size.y,
     'level_height': levelHeight,
@@ -1571,18 +1571,24 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
           },
         )
         .toList(),
-    'holes': holes
-        .map((hole) => {'x': hole.position.x, 'y': hole.position.y})
-        .toList(),
-    'stars_collected': stars.map((star) => star.isCollected).toList(),
-    'hearts_collected': hearts.map((heart) => heart.isCollected).toList(),
-    'shields_collected': shieldPickups
-        .map((shield) => shield.isCollected)
-        .toList(),
-    'multi_balls_collected': multiBallItems
-        .map((item) => item.isCollected)
-        .toList(),
-    'magnets_collected': magnets.map((magnet) => magnet.isCollected).toList(),
+    if (includeWorldState)
+      'holes': holes
+          .map((hole) => {'x': hole.position.x, 'y': hole.position.y})
+          .toList(),
+    if (includeWorldState)
+      'stars_collected': stars.map((star) => star.isCollected).toList(),
+    if (includeWorldState)
+      'hearts_collected': hearts.map((heart) => heart.isCollected).toList(),
+    if (includeWorldState)
+      'shields_collected': shieldPickups
+          .map((shield) => shield.isCollected)
+          .toList(),
+    if (includeWorldState)
+      'multi_balls_collected': multiBallItems
+          .map((item) => item.isCollected)
+          .toList(),
+    if (includeWorldState)
+      'magnets_collected': magnets.map((magnet) => magnet.isCollected).toList(),
     'bombs': levelContainer.children
         .whereType<BombComponent>()
         .map((bomb) => {'x': bomb.position.x, 'y': bomb.position.y})
@@ -1593,9 +1599,45 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
         .toList(),
   };
 
+  Map<String, dynamic> createRaceSnapshot() {
+    double compact(double value) => (value * 10).round() / 10;
+    return {
+      'world_width': size.x.round(),
+      'world_height': size.y.round(),
+      'level_height': levelHeight.round(),
+      'bar_bottom_y': _barBottomY.round(),
+      'left_y': compact(leftY),
+      'right_y': compact(rightY),
+      'lives': currentLives.value,
+      'points': currentPoints.value,
+      'shield_time': compact(shieldTimer),
+      if (isBattleRaceMode)
+        'battle': {
+          'phase': battlePlayerState.phase.name,
+          'respawns': battlePlayerState.respawnCount,
+          'knockouts': battlePlayerState.knockoutCount,
+        },
+      'balls': activeBalls
+          .map(
+            (ball) => {
+              'x': compact(ball.pos2D.x),
+              'y': compact(ball.pos2D.y),
+              'velocity': compact(ball.velocity),
+              'free_fall_x': compact(ball.freeFallVelocity.x),
+              'free_fall_y': compact(ball.freeFallVelocity.y),
+              'scale': compact(ball.scale),
+              'is_falling': ball.isFalling,
+              'is_free_falling': ball.isFreeFalling,
+              'is_dead': ball.isDead,
+            },
+          )
+          .toList(growable: false),
+    };
+  }
+
   void applyCoopSnapshot(Map<String, dynamic> snapshot) {
     _previousCoopSnapshot = _coopSnapshot;
-    _coopSnapshot = Map<String, dynamic>.from(snapshot);
+    _coopSnapshot = {...?_coopSnapshot, ...snapshot};
     _coopSnapshotAgeSeconds = 0.0;
   }
 
@@ -1626,7 +1668,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     final snapshotInterval = sentAt != null && previousSentAt != null
         ? (sentAt - previousSentAt) / Duration.microsecondsPerSecond
         : 0.0;
-    final predictionTime = min(_coopSnapshotAgeSeconds, 0.10);
+    final predictionTime = min(_coopSnapshotAgeSeconds, 0.22);
 
     double predict(dynamic current, dynamic previousValue) {
       final currentValue = (current as num).toDouble();

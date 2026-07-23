@@ -16,4 +16,17 @@ void main() {
     expect(event['type'], 'broadcast');
     expect(event['from'], 'partner-id');
   });
+
+  test('race snapshot cadence remains below the shared event limit', () {
+    expect(RealtimeTrafficPolicy.estimatedRaceEventsPerSecond(2), 80);
+    expect(RealtimeTrafficPolicy.estimatedRaceEventsPerSecond(3), lessThan(81));
+    expect(RealtimeTrafficPolicy.estimatedRaceEventsPerSecond(4), 80);
+    expect(
+      RealtimeTrafficPolicy.raceSnapshotInterval(
+        activePlayers: 4,
+        degraded: true,
+      ),
+      const Duration(milliseconds: 320),
+    );
+  });
 }
