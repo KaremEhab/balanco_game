@@ -67,6 +67,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   final bool enableTutorials;
   final bool isRaceMode;
   final bool isBattleRaceMode;
+  final bool isRaceHost;
   int? onlineLevelVersion;
 
   VoidCallback? onGameOver;
@@ -811,6 +812,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     this.enableTutorials = true,
     this.isRaceMode = false,
     this.isBattleRaceMode = false,
+    this.isRaceHost = true,
     this.onlineLevelVersion,
     this.onGameOver,
     this.onLevelComplete,
@@ -2085,13 +2087,18 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     // Create main ball
     BallData mainBall = BallData();
     double currentSizeX = size.x > 0 ? size.x : 400.0;
-    mainBall.p = (currentSizeX - 2 * barPadding) / 2.0;
+    
+    double offset = 0.0;
+    if (isBattleRaceMode) {
+      offset = isRaceHost ? -35.0 : 35.0;
+    }
+    mainBall.p = ((currentSizeX - 2 * barPadding) / 2.0) + offset;
 
     if (isRaceMode && isSpawningLevel) {
       teleportingGateComponent.reset();
       final barCenterY = (leftY + rightY) / 2.0;
       mainBall.pos2D = Vector2(
-        currentSizeX / 2.0,
+        (currentSizeX / 2.0) + offset,
         barCenterY - (ballRadius + 6.0),
       );
       mainBall.scale = 1.0;
@@ -2104,7 +2111,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       cameraOffsetYNotifier.value = cameraOffsetY;
     } else if (battleRespawn) {
       final barCenterY = (leftY + rightY) / 2;
-      mainBall.pos2D = Vector2(currentSizeX / 2, barCenterY - 82);
+      mainBall.pos2D = Vector2((currentSizeX / 2) + offset, barCenterY - 82);
       mainBall.scale = 0;
       mainBall.spawnTimer = 0;
       mainBall.isFreeFalling = false;
@@ -2178,7 +2185,11 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       mainBall.respawnTimer = 1.6;
       mainBall.pos2D = mainBall.activeHole!.position.clone();
       mainBall.scale = 0.0;
-      mainBall.p = (currentSizeX - 2 * barPadding) / 2.0;
+      double offset = 0.0;
+      if (isBattleRaceMode) {
+        offset = isRaceHost ? -35.0 : 35.0;
+      }
+      mainBall.p = ((currentSizeX - 2 * barPadding) / 2.0) + offset;
       shieldTimer = isMultiplayer ? 0.0 : 1.5;
       shieldTimerNotifier.value = shieldTimer;
     } else {
@@ -2187,7 +2198,11 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       mainBall.respawnTimer = 1.6;
       mainBall.pos2D = teleportingGateComponent.position.clone();
       mainBall.scale = 0.0;
-      mainBall.p = (currentSizeX - 2 * barPadding) / 2.0;
+      double offset = 0.0;
+      if (isBattleRaceMode) {
+        offset = isRaceHost ? -35.0 : 35.0;
+      }
+      mainBall.p = ((currentSizeX - 2 * barPadding) / 2.0) + offset;
       mainBall.isFreeFalling = false;
     }
 
@@ -2832,8 +2847,12 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     teleportingGateComponent.reset();
     if (activeBalls.isEmpty) return;
     final ball = activeBalls.first;
-    ball.p = (size.x - 2 * barPadding) / 2.0;
-    ball.pos2D = Vector2(size.x / 2.0, _barBottomY - (ballRadius + 6.0));
+    double offset = 0.0;
+    if (isBattleRaceMode) {
+      offset = isRaceHost ? -35.0 : 35.0;
+    }
+    ball.p = ((size.x - 2 * barPadding) / 2.0) + offset;
+    ball.pos2D = Vector2((size.x / 2.0) + offset, _barBottomY - (ballRadius + 6.0));
     ball.scale = 1.0;
     ball.spawnTimer = 0.0;
     ball.isFreeFalling = false;

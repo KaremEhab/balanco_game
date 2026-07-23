@@ -32,6 +32,7 @@ class CoopGameCoordinator {
   Timer? _snapshotTimer;
   Timer? _roomRefreshTimer;
   Timer? _snapshotHealthTimer;
+  Timer? _loadHintTimer;
   bool _completed = false;
   bool _reloadingRoom = false;
   bool _snapshotSending = false;
@@ -39,10 +40,17 @@ class CoopGameCoordinator {
   bool _disposed = false;
   int _lastSnapshotAt = 0;
   int _snapshotSequence = 0;
+  int _lastRemoteSnapshotSequence = 0;
   int _localInputSequence = 0;
   int _lastRemoteInputSequence = 0;
+  int _activeRealtimeRooms = 1;
   int _lastInputSentAtMicros = 0;
   double? _pendingInput;
+
+  String get _roomEpoch =>
+      '${room.value.id}:${room.value.attemptNumber}:'
+      '${room.value.raceLevel}:'
+      '${room.value.startedAt?.microsecondsSinceEpoch ?? 0}';
 
   void attach() {
     _subscription = realtime.events.listen(_handleEvent);
@@ -59,7 +67,20 @@ class CoopGameCoordinator {
       const Duration(seconds: 2),
       (_) => reloadRoom(),
     );
+    unawaited(_refreshRealtimeLoadHint());
+    _loadHintTimer = Timer.periodic(
+      const Duration(seconds: 30),
+      (_) => _refreshRealtimeLoadHint(),
+    );
     _applyRoomState(room.value);
+  }
+
+  Future<void> _refreshRealtimeLoadHint() async {
+    try {
+      _activeRealtimeRooms = await repository.getRealtimeActiveRoomCount();
+    } catch (_) {
+      // Keep the previous estimate while the REST API is unavailable.
+    }
   }
 
   void _onRealtimeConnectionChanged() {
@@ -68,7 +89,7 @@ class CoopGameCoordinator {
       syncHealthy.value = false;
       return;
     }
-    if (isHost) _scheduleNextSnapshot(Duration.zero);
+    if (isHost) _scheduleNextSnapshot();
     unawaited(reloadRoom());
   }
 
@@ -78,6 +99,7 @@ class CoopGameCoordinator {
     final interval =
         delay ??
         RealtimeTrafficPolicy.coopSnapshotInterval(
+          activeRooms: _activeRealtimeRooms,
           degraded:
               !realtime.connected.value || !realtime.deliveryHealthy.value,
         );
@@ -103,6 +125,7 @@ class CoopGameCoordinator {
     try {
       while (_pendingInput != null && !_disposed) {
         final minimumInterval = RealtimeTrafficPolicy.coopInputInterval(
+          activeRooms: _activeRealtimeRooms,
           degraded:
               !realtime.connected.value || !realtime.deliveryHealthy.value,
         );
@@ -119,6 +142,7 @@ class CoopGameCoordinator {
           'side': mySide.value,
           'value': value,
           'sequence': sequence,
+          'epoch': _roomEpoch,
         });
         _lastInputSentAtMicros = DateTime.now().microsecondsSinceEpoch;
         if (!delivered) {
@@ -141,7 +165,7 @@ class CoopGameCoordinator {
       game.activateShield();
       return;
     }
-    await realtime.send('shield_request', const {});
+    await realtime.send('shield_request', {'epoch': _roomEpoch});
   }
 
   Future<void> requestLeave() async {
@@ -187,6 +211,7 @@ class CoopGameCoordinator {
     switch (event['action']) {
       case 'control':
         if (!isHost) return;
+        if (event['epoch'] != _roomEpoch) return;
         final sequence = event['sequence'] as int? ?? 0;
         if (sequence <= _lastRemoteInputSequence) return;
         _lastRemoteInputSequence = sequence;
@@ -197,9 +222,9 @@ class CoopGameCoordinator {
           game.rightJoystickValue = value;
         }
       case 'snapshot':
-        if (!isHost) _applySnapshot(event);
+        if (!isHost && event['epoch'] == _roomEpoch) _applySnapshot(event);
       case 'shield_request':
-        if (isHost) game.activateShield();
+        if (isHost && event['epoch'] == _roomEpoch) game.activateShield();
       case 'room_changed':
         await reloadRoom();
       case 'mic_state':
@@ -230,6 +255,7 @@ class CoopGameCoordinator {
   void _restartLocalRun() {
     _completed = false;
     _lastSnapshotAt = 0;
+    _lastRemoteSnapshotSequence = 0;
     rewardSynced.value = false;
     game.currentLevel.value = room.value.raceLevel;
     game.onlineLevelVersion = room.value.raceLevelVersion;
@@ -258,6 +284,7 @@ class CoopGameCoordinator {
       final sequence = ++_snapshotSequence;
       syncHealthy.value = await realtime.send('snapshot', {
         'sequence': sequence,
+        'epoch': _roomEpoch,
         ...game.createCoopSnapshot(
           includeWorldState: sequence == 1 || sequence % 10 == 0,
         ),
@@ -270,7 +297,17 @@ class CoopGameCoordinator {
   void _applySnapshot(Map<String, dynamic> data) {
     final sentAt = data['sent_at'] as int? ?? 0;
     if (sentAt <= _lastSnapshotAt) return;
+    final sequence = (data['sequence'] as num?)?.toInt() ?? 0;
+    if (sequence <= _lastRemoteSnapshotSequence) return;
+    final skipped = _lastRemoteSnapshotSequence == 0
+        ? 0
+        : sequence - _lastRemoteSnapshotSequence - 1;
+    _lastRemoteSnapshotSequence = sequence;
     _lastSnapshotAt = sentAt;
+    realtime.recordMotionPacket(
+      streamId: data['from'] as String? ?? 'coop-host',
+      skippedPackets: skipped,
+    );
     game.applyCoopSnapshot(data);
     syncHealthy.value = true;
     _snapshotHealthTimer?.cancel();
@@ -340,6 +377,7 @@ class CoopGameCoordinator {
     _snapshotTimer?.cancel();
     _snapshotHealthTimer?.cancel();
     _roomRefreshTimer?.cancel();
+    _loadHintTimer?.cancel();
     await _subscription?.cancel();
     room.dispose();
     partnerMuted.dispose();

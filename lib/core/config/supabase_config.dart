@@ -11,6 +11,10 @@ class SupabaseConfig {
     'SUPABASE_AUTH_REDIRECT_URL',
     defaultValue: 'balanco://auth-callback/',
   );
+  static const region = String.fromEnvironment(
+    'SUPABASE_REGION',
+    defaultValue: 'eu-central-2 (Zurich)',
+  );
   static const googleWebClientId = String.fromEnvironment(
     'GOOGLE_WEB_CLIENT_ID',
     defaultValue:

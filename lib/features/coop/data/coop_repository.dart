@@ -26,6 +26,12 @@ class CoopRepository {
   Future<CoopRoom> getRoom(String roomId) =>
       _roomRpc('get_coop_room_state', {'p_room_id': roomId});
 
+  Future<int> getRealtimeActiveRoomCount() async {
+    final result = await _client.rpc('get_realtime_load_hint');
+    final payload = Map<String, dynamic>.from(result as Map);
+    return ((payload['active_rooms'] as num?)?.toInt() ?? 1).clamp(1, 20);
+  }
+
   Future<CoopRoom?> getMyActiveRoom() async {
     final result = await _client.rpc('get_my_active_game_room');
     if (result == null) return null;

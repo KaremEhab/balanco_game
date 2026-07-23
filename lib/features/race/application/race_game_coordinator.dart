@@ -67,6 +67,7 @@ class RaceGameCoordinator {
   Timer? _displayTimer;
   Timer? _roomTimer;
   Timer? _presenceTimer;
+  Timer? _loadHintTimer;
   Timer? _healthTimer;
   Timer? _introTimer;
   bool _sending = false;
@@ -78,10 +79,12 @@ class RaceGameCoordinator {
   bool _presenceInFlight = false;
   bool _disposed = false;
   int _sequence = 0;
+  int _activeRealtimeRooms = 1;
   int _battleActionSequence = DateTime.now().microsecondsSinceEpoch;
   final String _snapshotStreamId = const Uuid().v4();
   final Map<String, int> _lastRemoteSequenceByUser = {};
   final Map<String, String> _remoteSnapshotStreamByUser = {};
+  final Map<String, DateTime> _lastRemoteSnapshotAt = {};
   final Set<String> _knownPickupClaimKeys = {};
   final Map<String, int> _remoteBattleRespawns = {};
   final Map<String, String> _remoteBattlePhases = {};
@@ -90,6 +93,11 @@ class RaceGameCoordinator {
 
   DateTime get goAt =>
       (room.value.startedAt ?? DateTime.now().toUtc()).add(countdownDuration);
+
+  String get _roomEpoch =>
+      '${room.value.id}:${room.value.attemptNumber}:'
+      '${room.value.raceLevel}:'
+      '${room.value.startedAt?.microsecondsSinceEpoch ?? 0}';
 
   void attach() {
     remoteGame.enableCoopReplica();
@@ -113,6 +121,11 @@ class RaceGameCoordinator {
       const Duration(seconds: 10),
       (_) => _maintainPresence(),
     );
+    unawaited(_refreshRealtimeLoadHint());
+    _loadHintTimer = Timer.periodic(
+      const Duration(seconds: 30),
+      (_) => _refreshRealtimeLoadHint(),
+    );
     _scheduleBoardLabels();
     _syncRemotePlayers();
     _syncPickupClaims();
@@ -126,9 +139,9 @@ class RaceGameCoordinator {
       syncHealthy.value = false;
       return;
     }
-    // Push a fresh keyframe immediately after an automatic reconnect instead
-    // of waiting for the normal adaptive cadence.
-    _scheduleNextSnapshot(Duration.zero);
+    // Resume at the shared cadence. Broadcasting an immediate keyframe from
+    // every reconnecting player would create another synchronized burst.
+    _scheduleNextSnapshot();
     unawaited(reloadRoom());
   }
 
@@ -143,6 +156,7 @@ class RaceGameCoordinator {
         delay ??
         RealtimeTrafficPolicy.raceSnapshotInterval(
           activePlayers: activePlayers,
+          activeRooms: _activeRealtimeRooms,
           degraded:
               !realtime.connected.value || !realtime.deliveryHealthy.value,
         );
@@ -150,6 +164,14 @@ class RaceGameCoordinator {
       await _sendSnapshot();
       _scheduleNextSnapshot();
     });
+  }
+
+  Future<void> _refreshRealtimeLoadHint() async {
+    try {
+      _activeRealtimeRooms = await repository.getRealtimeActiveRoomCount();
+    } catch (_) {
+      // Keep the most recent conservative load estimate during API outages.
+    }
   }
 
   void _scheduleBoardLabels() {
@@ -208,6 +230,14 @@ class RaceGameCoordinator {
 
   void _resolveBattleCollisionWith(String opponentId) {
     if (_remoteBattlePhases[opponentId] != BattlePlayerPhase.active.name) {
+      return;
+    }
+    final receivedAt = _lastRemoteSnapshotAt[opponentId];
+    if (receivedAt == null ||
+        DateTime.now().toUtc().difference(receivedAt) >
+            const Duration(milliseconds: 220)) {
+      // Continue rendering a cautious extrapolation, but never let stale
+      // movement generate a new combat collision.
       return;
     }
     final remote = remoteInterpolators[opponentId]?.sample();
@@ -319,6 +349,7 @@ class RaceGameCoordinator {
       final delivered = await realtime.send('battle_weapon', {
         'attempt': room.value.attemptNumber,
         'level': room.value.raceLevel,
+        'epoch': _roomEpoch,
         'action_id': action['action_id'] ?? const Uuid().v4(),
         'server_at': action['server_at'],
         'weapon_id': weapon.id,
@@ -389,6 +420,7 @@ class RaceGameCoordinator {
         'stream_id': _snapshotStreamId,
         'attempt': room.value.attemptNumber,
         'level': room.value.raceLevel,
+        'epoch': _roomEpoch,
         'progress': (localGame.raceProgress * 10000).round() / 10000,
         ...localGame.createRaceSnapshot(),
       });
@@ -406,22 +438,35 @@ class RaceGameCoordinator {
         final eventAttempt = (event['attempt'] as num?)?.toInt();
         final eventLevel = (event['level'] as num?)?.toInt();
         if (eventAttempt != room.value.attemptNumber ||
-            eventLevel != room.value.raceLevel) {
+            eventLevel != room.value.raceLevel ||
+            event['epoch'] != _roomEpoch) {
           return;
         }
+        _lastRemoteSnapshotAt[senderId] = DateTime.now().toUtc();
         final streamId = (event['stream_id'] as String?)?.trim();
         final streamKey =
             '$eventAttempt:$eventLevel:${streamId?.isNotEmpty == true ? streamId : 'legacy'}';
         final previousStream = _remoteSnapshotStreamByUser[senderId];
+        var corrected = false;
         if (previousStream != streamKey) {
+          corrected = previousStream != null;
           _remoteSnapshotStreamByUser[senderId] = streamKey;
           _lastRemoteSequenceByUser.remove(senderId);
           remoteInterpolators[senderId]?.clear();
           if (senderId == _primaryOpponentId) remoteInterpolator.clear();
         }
         final sequence = (event['sequence'] as num?)?.toInt() ?? 0;
-        if (sequence <= (_lastRemoteSequenceByUser[senderId] ?? 0)) return;
+        final previousSequence = _lastRemoteSequenceByUser[senderId] ?? 0;
+        if (sequence <= previousSequence) return;
+        final skipped = previousSequence == 0
+            ? 0
+            : sequence - previousSequence - 1;
         _lastRemoteSequenceByUser[senderId] = sequence;
+        realtime.recordMotionPacket(
+          streamId: senderId,
+          skippedPackets: skipped,
+          corrected: corrected,
+        );
         final interpolator = remoteInterpolators.putIfAbsent(
           senderId,
           RaceRemoteSnapshotInterpolator.new,
@@ -479,7 +524,8 @@ class RaceGameCoordinator {
         final eventLevel = (event['level'] as num?)?.toInt();
         if (!localGame.isBattleRaceMode ||
             eventAttempt != room.value.attemptNumber ||
-            eventLevel != room.value.raceLevel) {
+            eventLevel != room.value.raceLevel ||
+            event['epoch'] != _roomEpoch) {
           return;
         }
         final actionId = event['action_id']?.toString();
@@ -524,7 +570,8 @@ class RaceGameCoordinator {
         final eventAttempt = (event['attempt'] as num?)?.toInt();
         final eventLevel = (event['level'] as num?)?.toInt();
         if (eventAttempt != room.value.attemptNumber ||
-            eventLevel != room.value.raceLevel) {
+            eventLevel != room.value.raceLevel ||
+            event['epoch'] != _roomEpoch) {
           return;
         }
         final type = RacePickupType.fromWireName(
@@ -576,6 +623,7 @@ class RaceGameCoordinator {
       await realtime.send('race_pickup_claimed', {
         'attempt': room.value.attemptNumber,
         'level': room.value.raceLevel,
+        'epoch': _roomEpoch,
         'pickup_key': claim.pickupKey,
         'pickup_type': claim.pickupType,
         'claimant_id': claim.claimantId,
@@ -856,6 +904,7 @@ class RaceGameCoordinator {
     _sequence = 0;
     _lastRemoteSequenceByUser.clear();
     _remoteSnapshotStreamByUser.clear();
+    _lastRemoteSnapshotAt.clear();
     _knownPickupClaimKeys.clear();
     remoteInterpolator.clear();
     for (final interpolator in remoteInterpolators.values) {
@@ -904,6 +953,7 @@ class RaceGameCoordinator {
     _displayTimer?.cancel();
     _roomTimer?.cancel();
     _presenceTimer?.cancel();
+    _loadHintTimer?.cancel();
     _healthTimer?.cancel();
     _introTimer?.cancel();
     _handledBattleActionIds.clear();

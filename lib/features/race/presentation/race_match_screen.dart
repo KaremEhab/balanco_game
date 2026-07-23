@@ -60,6 +60,7 @@ class _RaceMatchScreenState extends State<RaceMatchScreen> {
       isRaceMode: true,
       isBattleRaceMode: widget.room.isBattleRace,
       onlineLevelVersion: widget.room.raceLevelVersion,
+      isRaceHost: widget.room.hostId == _userId,
     )..currentLevel.value = widget.room.raceLevel;
     _remoteGame = BalancoGame(
       isMultiplayer: true,
@@ -70,6 +71,7 @@ class _RaceMatchScreenState extends State<RaceMatchScreen> {
       isRaceMode: true,
       isBattleRaceMode: widget.room.isBattleRace,
       onlineLevelVersion: widget.room.raceLevelVersion,
+      isRaceHost: widget.room.hostId != _userId,
     )..currentLevel.value = widget.room.raceLevel;
     _coordinator = RaceGameCoordinator(
       initialRoom: widget.room,
@@ -233,7 +235,7 @@ class _RaceMatchScreenState extends State<RaceMatchScreen> {
         child: _RaceDialogShell(
           icon: Icons.tune_rounded,
           title: 'RACE CONTROLS',
-          subtitle: 'Audio and shared match actions',
+          subtitle: 'Audio, connection, and shared match actions',
           accent: GameColors.purpleAccent,
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -278,6 +280,17 @@ class _RaceMatchScreenState extends State<RaceMatchScreen> {
                     },
                   ),
                   _MenuButton(
+                    icon: Icons.network_check_rounded,
+                    label: 'NETWORK',
+                    color: const Color(0xFF237DB6),
+                    onTap: () {
+                      Navigator.pop(dialogContext);
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        if (mounted) unawaited(_showNetworkDiagnostics());
+                      });
+                    },
+                  ),
+                  _MenuButton(
                     icon: Icons.exit_to_app_rounded,
                     label: 'LEAVE',
                     color: const Color(0xFFE84D4D),
@@ -292,6 +305,34 @@ class _RaceMatchScreenState extends State<RaceMatchScreen> {
               const _RaceAudioControls(),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _showNetworkDiagnostics() async {
+    if (!mounted) return;
+    await showGeneralDialog<void>(
+      context: context,
+      useRootNavigator: true,
+      barrierDismissible: true,
+      barrierLabel: 'Close network diagnostics',
+      barrierColor: const Color(0xB3081238),
+      transitionDuration: const Duration(milliseconds: 220),
+      transitionBuilder: (_, animation, _, child) => FadeTransition(
+        opacity: animation,
+        child: ScaleTransition(
+          scale: CurvedAnimation(parent: animation, curve: Curves.easeOutBack),
+          child: child,
+        ),
+      ),
+      pageBuilder: (_, _, _) => Center(
+        child: _RaceDialogShell(
+          icon: Icons.network_check_rounded,
+          title: 'NETWORK',
+          subtitle: 'Live route and match synchronization health',
+          accent: const Color(0xFF34C9FF),
+          child: _NetworkDiagnosticsPanel(session: widget.realtime),
         ),
       ),
     );
@@ -895,6 +936,207 @@ class _MenuButton extends StatelessWidget {
       label: label,
       color: color,
       onTap: onTap,
+    ),
+  );
+}
+
+class _NetworkDiagnosticsPanel extends StatefulWidget {
+  const _NetworkDiagnosticsPanel({required this.session});
+
+  final CoopRealtimeSession session;
+
+  @override
+  State<_NetworkDiagnosticsPanel> createState() =>
+      _NetworkDiagnosticsPanelState();
+}
+
+class _NetworkDiagnosticsPanelState extends State<_NetworkDiagnosticsPanel> {
+  Timer? _ageTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    _ageTimer = Timer.periodic(const Duration(milliseconds: 500), (_) {
+      if (mounted) setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _ageTimer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(
+    BuildContext context,
+  ) => ValueListenableBuilder<NetworkDiagnosticsSnapshot>(
+    valueListenable: widget.session.diagnostics,
+    builder: (_, report, _) {
+      final age = widget.session.snapshotAgeMs;
+      final quality = _quality(report, age);
+      return SizedBox(
+        width: 330,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              decoration: BoxDecoration(
+                color: const Color(0xFF122A67),
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: quality.color, width: 2),
+              ),
+              child: Row(
+                children: [
+                  Icon(quality.icon, color: quality.color, size: 24),
+                  const SizedBox(width: 9),
+                  Expanded(
+                    child: Text(
+                      quality.label,
+                      style: GoogleFonts.luckiestGuy(
+                        color: Colors.white,
+                        fontSize: 17,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    report.connected ? 'ONLINE' : 'RECONNECTING',
+                    style: GoogleFonts.luckiestGuy(
+                      color: quality.color,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 12),
+            _NetworkMetric(label: 'GAME SERVER', value: report.region),
+            _NetworkMetric(
+              label: 'ROUND TRIP',
+              value: report.rttMedianMs == null
+                  ? 'Sampling…'
+                  : '${report.rttMedianMs} ms median · '
+                        '${report.rttP95Ms} ms p95',
+            ),
+            _NetworkMetric(
+              label: 'JITTER',
+              value: report.jitterMedianMs == null
+                  ? 'Sampling…'
+                  : '${report.jitterMedianMs} ms median · '
+                        '${report.jitterP95Ms} ms p95',
+            ),
+            _NetworkMetric(
+              label: 'SNAPSHOT AGE',
+              value: age == null ? 'Waiting for rival' : '$age ms',
+            ),
+            _NetworkMetric(
+              label: 'EST. PACKET LOSS',
+              value:
+                  '${report.estimatedPacketLossPercent.toStringAsFixed(1)}% '
+                  '(${report.packetsSkipped} skipped)',
+            ),
+            _NetworkMetric(
+              label: 'RECONNECTS',
+              value:
+                  '${report.reconnects} recovered · '
+                  '${report.disconnects} drops'
+                  '${report.lastReconnectMs == null ? '' : ' · ${report.lastReconnectMs} ms last'}',
+            ),
+            _NetworkMetric(
+              label: 'CORRECTIONS',
+              value: '${report.corrections}',
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'RTT appears after a peer echo sample (up to 55 seconds). '
+              'No personal network details are collected.',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.nunito(
+                color: GameColors.brownDarkUi.withValues(alpha: 0.72),
+                fontSize: 11,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+
+  ({String label, Color color, IconData icon}) _quality(
+    NetworkDiagnosticsSnapshot report,
+    int? snapshotAge,
+  ) {
+    if (!report.connected) {
+      return (
+        label: 'CONNECTION LOST',
+        color: GameColors.red300,
+        icon: Icons.cloud_off_rounded,
+      );
+    }
+    final rtt = report.rttP95Ms ?? 0;
+    final loss = report.estimatedPacketLossPercent;
+    if (!report.deliveryHealthy ||
+        rtt >= 350 ||
+        loss >= 8 ||
+        (snapshotAge ?? 0) >= 900) {
+      return (
+        label: 'UNSTABLE',
+        color: const Color(0xFFFF8A3D),
+        icon: Icons.signal_cellular_alt_1_bar_rounded,
+      );
+    }
+    if (rtt >= 180 || loss >= 3 || (snapshotAge ?? 0) >= 400) {
+      return (
+        label: 'PLAYABLE',
+        color: const Color(0xFFFFC33D),
+        icon: Icons.signal_cellular_alt_2_bar_rounded,
+      );
+    }
+    return (
+      label: 'GOOD',
+      color: GameColors.green300,
+      icon: Icons.signal_cellular_alt_rounded,
+    );
+  }
+}
+
+class _NetworkMetric extends StatelessWidget {
+  const _NetworkMetric({required this.label, required this.value});
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.symmetric(vertical: 4),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 118,
+          child: Text(
+            label,
+            style: GoogleFonts.luckiestGuy(
+              color: const Color(0xFF34C9FF),
+              fontSize: 11,
+            ),
+          ),
+        ),
+        Expanded(
+          child: Text(
+            value,
+            textAlign: TextAlign.right,
+            style: GoogleFonts.nunito(
+              color: GameColors.brownDarkUi,
+              fontSize: 12,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+        ),
+      ],
     ),
   );
 }
