@@ -300,6 +300,27 @@ class BallComponent extends Component with HasGameReference<BalancoGame> {
       canvas.drawCircle(Offset.zero, game.ballRadius, _borderPaint);
     }
 
+    if (game.isBattleRaceMode && game.battlePulseNotifier.value > 0) {
+      final remaining = game.battlePulseNotifier.value;
+      final warning = remaining > 0.35;
+      final progress = warning
+          ? (0.60 - remaining) / 0.25
+          : 1 - remaining / 0.35;
+      final radius = warning
+          ? game.ballRadius + 6 + progress.clamp(0.0, 1.0) * 5
+          : game.ballRadius + 8 + progress.clamp(0.0, 1.0) * 48;
+      canvas.drawCircle(
+        Offset.zero,
+        radius,
+        Paint()
+          ..color =
+              (warning ? const Color(0xFFFFD54F) : const Color(0xFFFF7043))
+                  .withValues(alpha: warning ? 0.9 : 1 - progress.clamp(0, 1))
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = warning ? 4 : 5 - progress.clamp(0, 1) * 3,
+      );
+    }
+
     // 5. Shield Effect
     if (game.isShieldActive) {
       double pulse1 = (sin(game.shieldTimer * 8) + 1) / 2; // 0 to 1

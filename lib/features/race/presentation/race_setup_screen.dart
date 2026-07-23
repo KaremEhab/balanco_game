@@ -7,7 +7,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class RaceSetupScreen extends StatefulWidget {
-  const RaceSetupScreen({super.key});
+  const RaceSetupScreen({super.key, this.isBattleRace = false});
+
+  final bool isBattleRace;
 
   @override
   State<RaceSetupScreen> createState() => _RaceSetupScreenState();
@@ -38,6 +40,13 @@ class _RaceSetupScreenState extends State<RaceSetupScreen> {
       if (!room.isRace) {
         throw const FormatException('That code belongs to a CO-OP room.');
       }
+      if (room.isBattleRace != widget.isBattleRace) {
+        throw FormatException(
+          widget.isBattleRace
+              ? 'That code belongs to a regular Online Race.'
+              : 'That code belongs to a Battle Race.',
+        );
+      }
       if (!mounted) return;
       Navigator.of(context).pushReplacement(
         MaterialPageRoute<void>(
@@ -63,7 +72,10 @@ class _RaceSetupScreenState extends State<RaceSetupScreen> {
       backgroundColor: Colors.transparent,
       foregroundColor: Colors.white,
       elevation: 0,
-      title: Text('RACE MODE', style: GoogleFonts.luckiestGuy()),
+      title: Text(
+        widget.isBattleRace ? 'BATTLE RACE' : 'RACE MODE',
+        style: GoogleFonts.luckiestGuy(),
+      ),
     ),
     body: SafeArea(
       child: ListView(
@@ -73,13 +85,17 @@ class _RaceSetupScreenState extends State<RaceSetupScreen> {
             color: const Color(0xFF30BFF3),
             child: Column(
               children: [
-                const Icon(
-                  Icons.sports_score_rounded,
+                Icon(
+                  widget.isBattleRace
+                      ? Icons.flash_on_rounded
+                      : Icons.sports_score_rounded,
                   color: Colors.white,
                   size: 58,
                 ),
                 Text(
-                  'FIRST TO FINISH WINS',
+                  widget.isBattleRace
+                      ? 'BALANCE. BATTLE. FINISH.'
+                      : 'FIRST TO FINISH WINS',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.luckiestGuy(
                     color: Colors.white,
@@ -88,9 +104,14 @@ class _RaceSetupScreenState extends State<RaceSetupScreen> {
                   ),
                 ),
                 const SizedBox(height: 8),
-                const Text(
-                  'Every racer gets the same level and synchronized start. '
-                  'Up to four live bars and balls share one portrait board.',
+                Text(
+                  widget.isBattleRace
+                      ? 'Two to four racers share one course. Collect weapons, '
+                            'knock rivals off with physical collisions and Heat '
+                            'Wave, then reach the gate first. Falls have unlimited '
+                            'checkpoint recovery.'
+                      : 'Every racer gets the same level and synchronized start. '
+                            'Up to four live bars and balls share one portrait board.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,
@@ -116,11 +137,17 @@ class _RaceSetupScreenState extends State<RaceSetupScreen> {
                 ),
                 const SizedBox(height: 14),
                 _RaceButton(
-                  label: 'CREATE RACE',
+                  label: widget.isBattleRace ? 'CREATE BATTLE' : 'CREATE RACE',
                   icon: Icons.add_link_rounded,
                   busy: _busy,
                   onPressed: () => _open(
-                    () => _repository.createRaceRoom(maxPlayers: _maxPlayers),
+                    widget.isBattleRace
+                        ? () => _repository.createBattleRaceRoom(
+                            maxPlayers: _maxPlayers,
+                          )
+                        : () => _repository.createRaceRoom(
+                            maxPlayers: _maxPlayers,
+                          ),
                   ),
                 ),
               ],
@@ -164,11 +191,15 @@ class _RaceSetupScreenState extends State<RaceSetupScreen> {
                 ),
                 const SizedBox(height: 12),
                 _RaceButton(
-                  label: 'JOIN RACE',
+                  label: widget.isBattleRace ? 'JOIN BATTLE' : 'JOIN RACE',
                   icon: Icons.flag_rounded,
                   busy: _busy,
-                  onPressed: () =>
-                      _open(() => _repository.joinRaceRoom(_roomCode.text)),
+                  onPressed: () => _open(
+                    () => _repository.joinRaceRoom(
+                      _roomCode.text,
+                      battle: widget.isBattleRace,
+                    ),
+                  ),
                 ),
               ],
             ),

@@ -145,6 +145,16 @@ class _CoopWaitingRoomScreenState extends State<CoopWaitingRoomScreen> {
   void _message(String text) =>
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
 
+  Future<void> _retryVoice() async {
+    final connected = await _voice.reconnect();
+    if (!mounted) return;
+    _message(
+      connected
+          ? 'Microphone reconnected. Waiting for the other player…'
+          : 'Microphone is still offline. Check permission and network.',
+    );
+  }
+
   Future<void> _leaveRaceLobby() async {
     if (!_room.isRace || _leavingRace || !mounted) return;
     setState(() => _leavingRace = true);
@@ -283,7 +293,11 @@ class _CoopWaitingRoomScreenState extends State<CoopWaitingRoomScreen> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: Text(
-            _room.isRace ? 'RACE LOBBY' : 'WAITING ROOM',
+            _room.isBattleRace
+                ? 'BATTLE LOBBY'
+                : _room.isRace
+                ? 'RACE LOBBY'
+                : 'WAITING ROOM',
             style: GoogleFonts.luckiestGuy(color: GameColors.brownDarkUi),
           ),
         ),
@@ -294,236 +308,275 @@ class _CoopWaitingRoomScreenState extends State<CoopWaitingRoomScreen> {
             ),
             SafeArea(
               child: ListView(
-            padding: const EdgeInsets.all(20),
-            children: [
-              Container(
-                padding: const EdgeInsets.all(22),
-                decoration: BoxDecoration(
-                  color: GameColors.sandLightUi,
-                  borderRadius: BorderRadius.circular(28),
-                  border: Border.all(color: GameColors.brownDarkUi, width: 4),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: GameColors.brownDarkUi,
-                      offset: Offset(0, 7),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  children: [
-                    Text(
-                      'ROOM CODE',
-                      style: GoogleFonts.luckiestGuy(
+                padding: const EdgeInsets.all(20),
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(22),
+                    decoration: BoxDecoration(
+                      color: GameColors.sandLightUi,
+                      borderRadius: BorderRadius.circular(28),
+                      border: Border.all(
                         color: GameColors.brownDarkUi,
+                        width: 4,
                       ),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: GameColors.brownDarkUi,
+                          offset: Offset(0, 7),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 8),
-                    GestureDetector(
-                      onTap: () async {
-                        await Clipboard.setData(
-                          ClipboardData(text: _room.code),
-                        );
-                        _message('Room code copied—send it to your partner!');
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            _room.code,
+                    child: Column(
+                      children: [
+                        Text(
+                          'ROOM CODE',
+                          style: GoogleFonts.luckiestGuy(
+                            color: GameColors.brownDarkUi,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        GestureDetector(
+                          onTap: () async {
+                            await Clipboard.setData(
+                              ClipboardData(text: _room.code),
+                            );
+                            _message(
+                              'Room code copied—send it to your partner!',
+                            );
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                _room.code,
+                                style: GoogleFonts.luckiestGuy(
+                                  fontSize: 38,
+                                  letterSpacing: 7,
+                                  color: GameColors.deepPurple,
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              const Icon(Icons.copy_rounded),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        ValueListenableBuilder<int>(
+                          valueListenable: _realtime.onlinePlayers,
+                          builder: (_, count, _) => Text(
+                            '$count/${_room.isRace ? _room.maxPlayers : 2} ONLINE',
                             style: GoogleFonts.luckiestGuy(
-                              fontSize: 38,
-                              letterSpacing: 7,
-                              color: GameColors.deepPurple,
+                              color:
+                                  count == (_room.isRace ? _room.maxPlayers : 2)
+                                  ? Colors.green
+                                  : Colors.orange,
                             ),
                           ),
-                          const SizedBox(width: 10),
-                          const Icon(Icons.copy_rounded),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    ValueListenableBuilder<int>(
-                      valueListenable: _realtime.onlinePlayers,
-                      builder: (_, count, _) => Text(
-                        '$count/${_room.isRace ? _room.maxPlayers : 2} ONLINE',
-                        style: GoogleFonts.luckiestGuy(
-                          color: count == (_room.isRace ? _room.maxPlayers : 2)
-                              ? Colors.green
-                              : Colors.orange,
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 22),
-              _LevelSeriesCard(
-                room: _room,
-                editable: _isHost && !_busy,
-                onTap: _editLevelRange,
-              ),
-              const SizedBox(height: 22),
-              IntrinsicHeight(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    for (final side in _visibleSlots)
+                  ),
+                  const SizedBox(height: 22),
+                  _LevelSeriesCard(
+                    room: _room,
+                    editable: _isHost && !_busy,
+                    onTap: _editLevelRange,
+                  ),
+                  const SizedBox(height: 22),
+                  IntrinsicHeight(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        for (final side in _visibleSlots)
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 5,
+                              ),
+                              child: _PlayerSlot(
+                                side: side,
+                                member: _room.members
+                                    .where((m) => m.side == side)
+                                    .firstOrNull,
+                                canTransferHost:
+                                    _room.isRace &&
+                                    _isHost &&
+                                    _room.members.any(
+                                      (member) =>
+                                          member.side == side &&
+                                          member.userId != _userId,
+                                    ),
+                                onTransferHost: () {
+                                  final member = _room.members
+                                      .where((member) => member.side == side)
+                                      .firstOrNull;
+                                  if (member != null) {
+                                    unawaited(_transferHost(member));
+                                  }
+                                },
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 22),
+                  Row(
+                    children: [
                       Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          child: _PlayerSlot(
-                            side: side,
-                            member: _room.members
-                                .where((m) => m.side == side)
-                                .firstOrNull,
-                            canTransferHost:
-                                _room.isRace &&
-                                _isHost &&
-                                _room.members.any(
-                                  (member) =>
-                                      member.side == side &&
-                                      member.userId != _userId,
-                                ),
-                            onTransferHost: () {
-                              final member = _room.members
-                                  .where((member) => member.side == side)
-                                  .firstOrNull;
-                              if (member != null) {
-                                unawaited(_transferHost(member));
-                              }
-                            },
+                        child: ValueListenableBuilder<bool>(
+                          valueListenable: _voice.muted,
+                          builder: (_, muted, _) => ElevatedButton.icon(
+                            onPressed: _voice.toggleMute,
+                            icon: Icon(
+                              muted ? Icons.mic_off_rounded : Icons.mic_rounded,
+                            ),
+                            label: Text(
+                              muted ? 'UNMUTE MIC' : 'MUTE MIC',
+                              style: GoogleFonts.luckiestGuy(),
+                            ),
                           ),
                         ),
                       ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 22),
-              ValueListenableBuilder<bool>(
-                valueListenable: _voice.muted,
-                builder: (_, muted, _) => ElevatedButton.icon(
-                  onPressed: _voice.toggleMute,
-                  icon: Icon(muted ? Icons.mic_off_rounded : Icons.mic_rounded),
-                  label: Text(
-                    muted ? 'UNMUTE MIC' : 'MUTE MIC',
-                    style: GoogleFonts.luckiestGuy(),
+                      const SizedBox(width: 8),
+                      ValueListenableBuilder<bool>(
+                        valueListenable: _voice.reconnecting,
+                        builder: (_, retrying, _) => IconButton.filledTonal(
+                          tooltip: 'Reconnect microphone',
+                          onPressed: retrying ? null : _retryVoice,
+                          icon: retrying
+                              ? const SizedBox.square(
+                                  dimension: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2.5,
+                                  ),
+                                )
+                              : const Icon(Icons.refresh_rounded),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ),
-              ValueListenableBuilder<String?>(
-                valueListenable: _voice.error,
-                builder: (_, error, _) {
-                  if (error != null) {
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 8),
-                      child: Text(
-                        error,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          color: Colors.red,
-                          fontWeight: FontWeight.w800,
+                  ValueListenableBuilder<String?>(
+                    valueListenable: _voice.error,
+                    builder: (_, error, _) {
+                      if (error != null) {
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: Text(
+                            error,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              color: Colors.red,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                        );
+                      }
+                      return ValueListenableBuilder<int>(
+                        valueListenable: _voice.connectedPeers,
+                        builder: (_, peers, _) => Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: Text(
+                            peers > 0
+                                ? 'VOICE CONNECTED · $peers/${_room.members.length - 1}'
+                                : 'CONNECTING VOICE...',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: peers > 0 ? Colors.green : Colors.blueGrey,
+                              fontWeight: FontWeight.w900,
+                            ),
+                          ),
                         ),
-                      ),
-                    );
-                  }
-                  return ValueListenableBuilder<int>(
-                    valueListenable: _voice.connectedPeers,
-                    builder: (_, peers, _) => Padding(
-                      padding: const EdgeInsets.only(top: 8),
-                      child: Text(
-                        peers > 0
-                            ? 'VOICE CONNECTED · $peers/${_room.members.length - 1}'
-                            : 'CONNECTING VOICE...',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: peers > 0 ? Colors.green : Colors.blueGrey,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 12),
+                  if (_lobbyError != null) ...[
+                    _LobbyErrorCard(
+                      message: _lobbyError!,
+                      onDismiss: () => setState(() => _lobbyError = null),
                     ),
-                  );
-                },
-              ),
-              const SizedBox(height: 12),
-              if (_lobbyError != null) ...[
-                _LobbyErrorCard(
-                  message: _lobbyError!,
-                  onDismiss: () => setState(() => _lobbyError = null),
-                ),
-                const SizedBox(height: 12),
-              ],
-              ElevatedButton.icon(
-                onPressed: _busy
-                    ? null
-                    : () => _mutate(
-                        () => _repository.setReady(_room.id, !_me.ready),
-                      ),
-                icon: Icon(
-                  _me.ready
-                      ? Icons.check_circle_rounded
-                      : Icons.radio_button_unchecked_rounded,
-                ),
-                label: Text(
-                  _me.ready ? 'I AM READY!' : 'MARK ME READY',
-                  style: GoogleFonts.luckiestGuy(fontSize: 19),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: _me.ready
-                      ? Colors.green
-                      : GameColors.orangeTextUi,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.all(15),
-                ),
-              ),
-              if (_isHost) ...[
-                const SizedBox(height: 12),
-                if (_room.isRace && _room.members.length < _room.maxPlayers)
-                  OutlinedButton.icon(
-                    onPressed: _busy ? null : _inviteRacePlayers,
-                    icon: const Icon(Icons.group_add_rounded),
-                    label: Text(
-                      'INVITE MORE RACERS',
-                      style: GoogleFonts.luckiestGuy(),
-                    ),
-                  )
-                else if (!_room.isRace)
-                  OutlinedButton.icon(
+                    const SizedBox(height: 12),
+                  ],
+                  ElevatedButton.icon(
                     onPressed: _busy
                         ? null
-                        : () => _mutate(() => _repository.swapSides(_room.id)),
-                    icon: const Icon(Icons.swap_horiz_rounded),
+                        : () => _mutate(
+                            () => _repository.setReady(_room.id, !_me.ready),
+                          ),
+                    icon: Icon(
+                      _me.ready
+                          ? Icons.check_circle_rounded
+                          : Icons.radio_button_unchecked_rounded,
+                    ),
                     label: Text(
-                      'SWAP BOTH SIDES',
-                      style: GoogleFonts.luckiestGuy(),
+                      _me.ready ? 'I AM READY!' : 'MARK ME READY',
+                      style: GoogleFonts.luckiestGuy(fontSize: 19),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: _me.ready
+                          ? Colors.green
+                          : GameColors.orangeTextUi,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.all(15),
                     ),
                   ),
-                const SizedBox(height: 12),
-                ElevatedButton.icon(
-                  onPressed: _busy || !_room.canStart
-                      ? null
-                      : () => _mutate(() => _repository.startRoom(_room.id)),
-                  icon: const Icon(Icons.rocket_launch_rounded),
-                  label: Text(
-                    _room.canStart
-                        ? (_room.isRace ? 'START RACE!' : 'START CO-OP!')
-                        : 'WAITING FOR ${_room.isRace ? _room.maxPlayers : 2} PLAYERS',
-                    style: GoogleFonts.luckiestGuy(fontSize: 18),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: GameColors.deepPurple,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.all(17),
-                  ),
-                ),
-              ],
-            ],
-          ),
+                  if (_isHost) ...[
+                    const SizedBox(height: 12),
+                    if (_room.isRace && _room.members.length < _room.maxPlayers)
+                      OutlinedButton.icon(
+                        onPressed: _busy ? null : _inviteRacePlayers,
+                        icon: const Icon(Icons.group_add_rounded),
+                        label: Text(
+                          'INVITE MORE RACERS',
+                          style: GoogleFonts.luckiestGuy(),
+                        ),
+                      )
+                    else if (!_room.isRace)
+                      OutlinedButton.icon(
+                        onPressed: _busy
+                            ? null
+                            : () => _mutate(
+                                () => _repository.swapSides(_room.id),
+                              ),
+                        icon: const Icon(Icons.swap_horiz_rounded),
+                        label: Text(
+                          'SWAP BOTH SIDES',
+                          style: GoogleFonts.luckiestGuy(),
+                        ),
+                      ),
+                    const SizedBox(height: 12),
+                    ElevatedButton.icon(
+                      onPressed: _busy || !_room.canStart
+                          ? null
+                          : () =>
+                                _mutate(() => _repository.startRoom(_room.id)),
+                      icon: const Icon(Icons.rocket_launch_rounded),
+                      label: Text(
+                        _room.canStart
+                            ? (_room.isBattleRace
+                                  ? 'START BATTLE!'
+                                  : _room.isRace
+                                  ? 'START RACE!'
+                                  : 'START CO-OP!')
+                            : 'WAITING FOR ${_room.isRace ? _room.maxPlayers : 2} PLAYERS',
+                        style: GoogleFonts.luckiestGuy(fontSize: 18),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: GameColors.deepPurple,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.all(17),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ],
         ),
-      ],
-    ),
-  ),
-);
-}
+      ),
+    );
+  }
 }
 
 class _PlayerSlot extends StatelessWidget {

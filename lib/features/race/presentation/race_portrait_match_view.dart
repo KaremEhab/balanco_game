@@ -3,6 +3,7 @@ import 'dart:math' as math;
 
 import 'package:balanco_game/features/coop/application/voice_chat_controller.dart';
 import 'package:balanco_game/features/coop/domain/coop_room.dart';
+import 'package:balanco_game/features/battle/domain/battle_race_state.dart';
 import 'package:balanco_game/features/game/components/game_area/shield_icon_painter.dart';
 import 'package:balanco_game/features/game/game_area.dart';
 import 'package:balanco_game/features/race/application/race_game_coordinator.dart';
@@ -54,8 +55,23 @@ class RacePortraitMatchView extends StatelessWidget {
       const boardBottom = 5.0;
       const joystickBottom = 5.0;
       final joystickHeight = 148.0 * scale;
+      final joystickWidth = 62.0 * scale;
+      final joystickSideInset = width < 420
+          ? 12.0
+          : math.max(12.0, horizontal + 28);
+      final centerControlGap = math.max(
+        0.0,
+        width - 2 * (joystickSideInset + joystickWidth + 10),
+      );
+      final helperDockWidth = math.min(250.0, centerControlGap);
+      final helperButtonSize = ((helperDockWidth - 31) / 4).clamp(36.0, 43.0);
+      final helperBattleHeight =
+          39 + helperButtonSize + math.max(36.0, helperButtonSize - 3);
+      final reservedControlHeight = localGame.isBattleRaceMode
+          ? math.max(joystickHeight, helperBattleHeight)
+          : joystickHeight;
       final raceBarInset =
-          joystickBottom + joystickHeight + 5 + 12 * scale - boardBottom;
+          joystickBottom + reservedControlHeight + 5 + 12 * scale - boardBottom;
       localGame.configureRaceBarBottomInset(raceBarInset);
       remoteGame.configureRaceBarBottomInset(raceBarInset);
       final localMember = room.memberFor(userId);
@@ -100,7 +116,7 @@ class RacePortraitMatchView extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  left: math.max(8, horizontal + 40),
+                  left: joystickSideInset,
                   bottom: joystickBottom,
                   child: _VerticalRaceControl(
                     scale: scale,
@@ -108,7 +124,7 @@ class RacePortraitMatchView extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  right: math.max(8, horizontal + 40),
+                  right: joystickSideInset,
                   bottom: joystickBottom,
                   child: _VerticalRaceControl(
                     scale: scale,
@@ -119,7 +135,13 @@ class RacePortraitMatchView extends StatelessWidget {
                   left: 0,
                   right: 0,
                   bottom: math.max(8, height * 0.012),
-                  child: _HelperDock(game: localGame, scale: scale, onPause: onPause),
+                  child: _HelperDock(
+                    game: localGame,
+                    coordinator: coordinator,
+                    width: helperDockWidth,
+                    buttonSize: helperButtonSize,
+                    onPause: onPause,
+                  ),
                 ),
               ],
             ),
@@ -129,8 +151,6 @@ class RacePortraitMatchView extends StatelessWidget {
     },
   );
 }
-
-
 
 class _RaceHeader extends StatelessWidget {
   const _RaceHeader({
@@ -165,9 +185,12 @@ class _RaceHeader extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-              child: ValueListenableBuilder<int>(
-                valueListenable: localGame.currentLives,
-                builder: (_, hearts, _) => ValueListenableBuilder<String?>(
+              child: ListenableBuilder(
+                listenable: Listenable.merge([
+                  localGame.currentLives,
+                  localGame.battleKnockoutCountNotifier,
+                ]),
+                builder: (_, _) => ValueListenableBuilder<String?>(
                   valueListenable: voice.activeSpeakerId,
                   builder: (_, speakerId, _) {
                     final isLocalSpeaking =
@@ -175,7 +198,10 @@ class _RaceHeader extends StatelessWidget {
                         speakerId == localMember.userId;
                     return _PlayerIdentity(
                       member: localMember,
-                      hearts: hearts,
+                      hearts: localGame.currentLives.value,
+                      knockouts: localGame.isBattleRaceMode
+                          ? localGame.battleKnockoutCountNotifier.value
+                          : null,
                       accent: isLocalSpeaking
                           ? const Color(0xFF69F5A9)
                           : const Color(0xFF35DFFF),
@@ -281,6 +307,7 @@ class _PlayerIdentity extends StatelessWidget {
     required this.avatarFirst,
     required this.onProfileTap,
     this.eyebrow,
+    this.knockouts,
   });
 
   final CoopMember member;
@@ -289,6 +316,7 @@ class _PlayerIdentity extends StatelessWidget {
   final bool avatarFirst;
   final VoidCallback onProfileTap;
   final String? eyebrow;
+  final int? knockouts;
 
   AvatarShape get _shape => AvatarShape.values.firstWhere(
     (value) => value.name == member.avatarShape,
@@ -342,7 +370,11 @@ class _PlayerIdentity extends StatelessWidget {
               fontWeight: FontWeight.w800,
             ),
           ),
-          RaceMemberVitals(member: member, hearts: hearts),
+          RaceMemberVitals(
+            member: member,
+            hearts: hearts,
+            knockouts: knockouts,
+          ),
         ],
       ),
     );
@@ -384,13 +416,19 @@ class _SpeakingPlayerIdentity extends StatelessWidget {
       );
       if (speaker == null) return const SizedBox.shrink();
       final isSpeaking = !speaker.hasLeft && speakerId == speaker.userId;
-      return ValueListenableBuilder<Map<String, int>>(
-        valueListenable: coordinator.remoteHeartsByUser,
-        builder: (_, hearts, _) => _PlayerIdentity(
+      return ListenableBuilder(
+        listenable: Listenable.merge([
+          coordinator.remoteHeartsByUser,
+          coordinator.remoteKnockoutsByUser,
+        ]),
+        builder: (_, _) => _PlayerIdentity(
           member: speaker,
           hearts: speaker.userId == localMember.userId
               ? 3
-              : hearts[speaker.userId] ?? 3,
+              : coordinator.remoteHeartsByUser.value[speaker.userId] ?? 3,
+          knockouts: coordinator.localGame.isBattleRaceMode
+              ? coordinator.remoteKnockoutsByUser.value[speaker.userId] ?? 0
+              : null,
           accent: speaker.hasLeft
               ? const Color(0xFFFF7A7A)
               : isSpeaking
@@ -447,14 +485,38 @@ class RaceMemberVitals extends StatelessWidget {
     super.key,
     required this.member,
     required this.hearts,
+    this.knockouts,
   });
 
   final CoopMember member;
   final int hearts;
+  final int? knockouts;
 
   @override
   Widget build(BuildContext context) {
-    if (!member.hasLeft) return _HeartsRow(count: hearts);
+    if (!member.hasLeft) {
+      if (knockouts != null) {
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(
+              Icons.flash_on_rounded,
+              color: Color(0xFFFFD54F),
+              size: 12,
+            ),
+            Text(
+              'KO $knockouts',
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 9,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
+          ],
+        );
+      }
+      return _HeartsRow(count: hearts);
+    }
     return Container(
       key: ValueKey('race-player-left-${member.userId}'),
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
@@ -643,6 +705,8 @@ class _SharedRaceBoardState extends State<_SharedRaceBoard> {
               ),
               Positioned.fill(child: GameWidget(game: widget.localGame)),
               _CountdownLabel(game: widget.localGame),
+              if (widget.localGame.isBattleRaceMode)
+                _BattleStatusOverlay(game: widget.localGame),
             ],
           ),
         ),
@@ -1254,89 +1318,426 @@ class _VerticalRaceControlState extends State<_VerticalRaceControl> {
   }
 }
 
+class _BattleStatusOverlay extends StatelessWidget {
+  const _BattleStatusOverlay({required this.game});
+
+  final BalancoGame game;
+
+  @override
+  Widget build(BuildContext context) => IgnorePointer(
+    child: ListenableBuilder(
+      listenable: Listenable.merge([
+        game.battlePhaseNotifier,
+        game.battleRespawnCountNotifier,
+        game.battleRespawnTimerNotifier,
+        game.battleCheckpointNotifier,
+        game.battleAnnouncementNotifier,
+      ]),
+      builder: (_, _) {
+        final phase = game.battlePhaseNotifier.value;
+        final respawning = game.battlePlayerState.isRespawning;
+        final announcement = game.battleAnnouncementNotifier.value;
+        return Stack(
+          children: [
+            Positioned(
+              left: 12,
+              top: 12,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
+                decoration: BoxDecoration(
+                  color: const Color(0xC914285E),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: const Color(0x8853E8FF)),
+                ),
+                child: Text(
+                  'CP ${game.battleCheckpointNotifier.value + 1}/4  •  FALLS ${game.battleRespawnCountNotifier.value}',
+                  style: GoogleFonts.luckiestGuy(
+                    color: Colors.white,
+                    fontSize: 11,
+                  ),
+                ),
+              ),
+            ),
+            if (respawning)
+              Center(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 22,
+                    vertical: 14,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xE60A1747),
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(color: Colors.white, width: 2),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        phase == BattlePlayerPhase.respawnDelay
+                            ? 'RESPAWNING'
+                            : phase == BattlePlayerPhase.droppingBall
+                            ? 'LAND ON THE BAR'
+                            : 'STABILIZING',
+                        style: GoogleFonts.luckiestGuy(
+                          color: const Color(0xFFFFD54F),
+                          fontSize: 20,
+                        ),
+                      ),
+                      if (phase == BattlePlayerPhase.respawnDelay) ...[
+                        const SizedBox(height: 4),
+                        Text(
+                          game.battleRespawnTimerNotifier.value.toStringAsFixed(
+                            1,
+                          ),
+                          style: GoogleFonts.luckiestGuy(
+                            color: Colors.white,
+                            fontSize: 28,
+                          ),
+                        ),
+                        Text(
+                          'BAR LOCKED',
+                          style: GoogleFonts.luckiestGuy(
+                            color: const Color(0xFF9CB4E8),
+                            fontSize: 11,
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              )
+            else if (announcement != null)
+              Align(
+                alignment: const Alignment(0, -0.46),
+                child: Text(
+                  announcement,
+                  style: GoogleFonts.luckiestGuy(
+                    color: const Color(0xFFFFD54F),
+                    fontSize: 27,
+                    shadows: const [
+                      Shadow(color: Color(0xFF08194E), blurRadius: 8),
+                    ],
+                  ),
+                ),
+              ),
+          ],
+        );
+      },
+    ),
+  );
+}
+
 class _HelperDock extends StatelessWidget {
   const _HelperDock({
     required this.game,
-    required this.scale,
+    required this.coordinator,
+    required this.width,
+    required this.buttonSize,
     required this.onPause,
   });
 
   final BalancoGame game;
-  final double scale;
+  final RaceGameCoordinator coordinator;
+  final double width;
+  final double buttonSize;
   final VoidCallback onPause;
 
   @override
-  Widget build(BuildContext context) => Center(
-    child: Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: 10 * scale,
-        vertical: 8 * scale,
-      ),
-      decoration: BoxDecoration(
-        color: const Color(0xE615285E),
-        borderRadius: BorderRadius.circular(19 * scale),
-        border: Border.all(color: const Color(0xCCFFFFFF), width: 1.5),
-        boxShadow: const [BoxShadow(color: Colors.black54, blurRadius: 13)],
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ValueListenableBuilder<bool>(
-                valueListenable: game.isDarknessLevelNotifier,
-                builder: (_, isDark, _) => ValueListenableBuilder<double>(
-                  valueListenable: game.lightChargeTimerNotifier,
-                  builder: (_, timer, _) => ValueListenableBuilder<int>(
-                    valueListenable: game.lightChargesNotifier,
-                    builder: (_, count, _) => _DockButton(
-                      count: count,
-                      enabled: isDark && count > 0 && timer <= 0,
-                      active: isDark && timer > 0,
-                      onTap: game.useLightCharge,
-                      child: Icon(
-                        Icons.lightbulb_outline_rounded,
-                        color: const Color(0xFFFDEB71),
-                        size: 28 * scale,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(width: 8 * scale),
-              ValueListenableBuilder<double>(
-                valueListenable: game.shieldTimerNotifier,
-                builder: (_, _, _) => ValueListenableBuilder<int>(
-                  valueListenable: game.remainingShields,
-                  builder: (_, count, _) => _DockButton(
-                    count: count,
-                    enabled: count > 0 && !game.isShieldActive,
-                    active: game.isShieldActive,
-                    onTap: game.activateShield,
-                    child: CustomPaint(
-                      size: Size.square(26 * scale),
-                      painter: ShieldIconPainter(
-                        color: const Color(0xFF35DFFF),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
+  Widget build(BuildContext context) {
+    final utilitySize = math.max(36.0, buttonSize - 3);
+    return Center(
+      child: Container(
+        width: width,
+        padding: const EdgeInsets.fromLTRB(8, 7, 8, 8),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0xF21B3274), Color(0xF20D1D4F)],
           ),
-          SizedBox(height: 6 * scale),
-          _DockButton(
-            key: const ValueKey('race_pause_button'),
-            onTap: onPause,
-            child: Icon(
-              Icons.pause_rounded,
-              color: const Color(0xFFA990FF),
-              size: 29 * scale,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: const Color(0xFF6FCBFF), width: 1.4),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x66020A28),
+              blurRadius: 12,
+              offset: Offset(0, 5),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (game.isBattleRaceMode) ...[
+              _BattleWeaponRow(
+                game: game,
+                coordinator: coordinator,
+                buttonSize: buttonSize,
+              ),
+              const SizedBox(height: 5),
+              _BattleHeatStrip(game: game),
+              const SizedBox(height: 5),
+            ],
+            _UtilityControlRow(
+              game: game,
+              buttonSize: utilitySize,
+              onPause: onPause,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _BattleWeaponRow extends StatelessWidget {
+  const _BattleWeaponRow({
+    required this.game,
+    required this.coordinator,
+    required this.buttonSize,
+  });
+
+  final BalancoGame game;
+  final RaceGameCoordinator coordinator;
+  final double buttonSize;
+
+  @override
+  Widget build(BuildContext context) => ListenableBuilder(
+    listenable: Listenable.merge([
+      game.battleAttackCooldownNotifier,
+      game.battleInventoryNotifier,
+      game.battlePulseNotifier,
+    ]),
+    builder: (_, _) {
+      final cooldown = game.battleAttackCooldownNotifier.value;
+      final inventory = game.battleInventoryNotifier.value;
+      final visibleWeapons = BattleWeaponCatalog.values
+          .where(
+            (weapon) =>
+                !BattleWeaponCatalog.requiresPickup(weapon.id) ||
+                (inventory[weapon.id] ?? 0) > 0,
+          )
+          .toList(growable: false);
+      return AnimatedSize(
+        duration: const Duration(milliseconds: 180),
+        curve: Curves.easeOutCubic,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            for (var index = 0; index < visibleWeapons.length; index++) ...[
+              _DockButton(
+                key: ValueKey('battle_weapon_${visibleWeapons[index].id}'),
+                tooltip: visibleWeapons[index].name,
+                dimension: buttonSize,
+                count:
+                    BattleWeaponCatalog.requiresPickup(visibleWeapons[index].id)
+                    ? inventory[visibleWeapons[index].id]
+                    : null,
+                enabled:
+                    cooldown <= 0 &&
+                    game.battlePlayerState.canUseAttack(visibleWeapons[index]),
+                active:
+                    game.battlePulseNotifier.value > 0 &&
+                    game.battlePlayerState.attackWeaponId ==
+                        visibleWeapons[index].id,
+                onTap: () =>
+                    coordinator.activateBattleWeapon(visibleWeapons[index].id),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Icon(
+                      switch (visibleWeapons[index].id) {
+                        'battle_rocket' => Icons.rocket_launch_rounded,
+                        'battle_bomb' => Icons.brightness_1_rounded,
+                        'battle_nails' => Icons.change_history_rounded,
+                        _ => Icons.waves_rounded,
+                      },
+                      color: switch (visibleWeapons[index].id) {
+                        'battle_rocket' => const Color(0xFFFF6659),
+                        'battle_bomb' => const Color(0xFFC29BFF),
+                        'battle_nails' => const Color(0xFFD6E4F5),
+                        _ => const Color(0xFFFF744F),
+                      },
+                      size: buttonSize * 0.58,
+                    ),
+                    if (cooldown > 0 &&
+                        game.battlePlayerState.attackWeaponId ==
+                            visibleWeapons[index].id)
+                      Container(
+                        width: buttonSize - 8,
+                        height: buttonSize - 8,
+                        alignment: Alignment.center,
+                        decoration: const BoxDecoration(
+                          color: Color(0xAA0A1742),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Text(
+                          cooldown.ceil().toString(),
+                          style: GoogleFonts.luckiestGuy(
+                            color: Colors.white,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              if (index != visibleWeapons.length - 1) const SizedBox(width: 7),
+            ],
+          ],
+        ),
+      );
+    },
+  );
+}
+
+class _BattleHeatStrip extends StatelessWidget {
+  const _BattleHeatStrip({required this.game});
+
+  final BalancoGame game;
+
+  @override
+  Widget build(BuildContext context) => ValueListenableBuilder<double>(
+    valueListenable: game.battleHeatNotifier,
+    builder: (_, heat, _) => Row(
+      children: [
+        const Icon(
+          Icons.local_fire_department_rounded,
+          color: Color(0xFFFF8A4C),
+          size: 14,
+        ),
+        const SizedBox(width: 3),
+        Text(
+          'HEAT',
+          style: GoogleFonts.luckiestGuy(
+            color: const Color(0xFFFFD54F),
+            fontSize: 9,
+          ),
+        ),
+        const SizedBox(width: 6),
+        Expanded(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(5),
+            child: LinearProgressIndicator(
+              value: heat / 100,
+              minHeight: 5,
+              backgroundColor: const Color(0xFF263A78),
+              valueColor: const AlwaysStoppedAnimation(Color(0xFFFF7043)),
             ),
           ),
+        ),
+        const SizedBox(width: 6),
+        SizedBox(
+          width: 28,
+          child: Text(
+            '${heat.round()}%',
+            textAlign: TextAlign.right,
+            style: GoogleFonts.luckiestGuy(color: Colors.white, fontSize: 9),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+class _UtilityControlRow extends StatelessWidget {
+  const _UtilityControlRow({
+    required this.game,
+    required this.buttonSize,
+    required this.onPause,
+  });
+
+  final BalancoGame game;
+  final double buttonSize;
+  final VoidCallback onPause;
+
+  @override
+  Widget build(BuildContext context) => ValueListenableBuilder<bool>(
+    valueListenable: game.isDarknessLevelNotifier,
+    builder: (_, isDark, _) => Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        if (!game.isBattleRaceMode && isDark) ...[
+          ValueListenableBuilder<double>(
+            valueListenable: game.lightChargeTimerNotifier,
+            builder: (_, timer, _) => ValueListenableBuilder<int>(
+              valueListenable: game.lightChargesNotifier,
+              builder: (_, count, _) => _DockButton(
+                tooltip: 'Light charge',
+                dimension: buttonSize,
+                count: count,
+                enabled: count > 0 && timer <= 0,
+                active: timer > 0,
+                onTap: game.useLightCharge,
+                child: Icon(
+                  Icons.lightbulb_outline_rounded,
+                  color: const Color(0xFFFDEB71),
+                  size: buttonSize * 0.58,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 7),
         ],
-      ),
+        ValueListenableBuilder<double>(
+          valueListenable: game.shieldTimerNotifier,
+          builder: (_, _, _) => ValueListenableBuilder<int>(
+            valueListenable: game.remainingShields,
+            builder: (_, count, _) => _DockButton(
+              tooltip: 'Shield',
+              dimension: buttonSize,
+              count: count,
+              enabled: count > 0 && !game.isShieldActive,
+              active: game.isShieldActive,
+              onTap: game.activateShield,
+              child: CustomPaint(
+                size: Size.square(buttonSize * 0.56),
+                painter: ShieldIconPainter(color: const Color(0xFF35DFFF)),
+              ),
+            ),
+          ),
+        ),
+        if (game.isBattleRaceMode)
+          ValueListenableBuilder<double>(
+            valueListenable: game.raceBoostTimerNotifier,
+            builder: (_, _, _) => ValueListenableBuilder<int>(
+              valueListenable: game.remainingRaceBoosts,
+              builder: (_, count, _) => count <= 0
+                  ? const SizedBox.shrink()
+                  : Padding(
+                      padding: const EdgeInsets.only(left: 7),
+                      child: _DockButton(
+                        key: const ValueKey('battle_turbo_button'),
+                        tooltip: 'Turbo boost',
+                        dimension: buttonSize,
+                        count: count,
+                        enabled: !game.isRaceBoostActive,
+                        active: game.isRaceBoostActive,
+                        onTap: game.activateRaceBoost,
+                        child: Icon(
+                          Icons.bolt_rounded,
+                          color: const Color(0xFFFFD54F),
+                          size: buttonSize * 0.62,
+                        ),
+                      ),
+                    ),
+            ),
+          ),
+        const SizedBox(width: 7),
+        _DockButton(
+          key: const ValueKey('race_pause_button'),
+          tooltip: 'Pause',
+          dimension: buttonSize,
+          onTap: onPause,
+          child: Icon(
+            Icons.pause_rounded,
+            color: const Color(0xFFB9A4FF),
+            size: buttonSize * 0.62,
+          ),
+        ),
+      ],
     ),
   );
 }
@@ -1346,6 +1747,8 @@ class _DockButton extends StatelessWidget {
     super.key,
     required this.onTap,
     required this.child,
+    this.tooltip,
+    this.dimension = 43,
     this.count,
     this.enabled = true,
     this.active = false,
@@ -1353,54 +1756,84 @@ class _DockButton extends StatelessWidget {
 
   final VoidCallback onTap;
   final Widget child;
+  final String? tooltip;
+  final double dimension;
   final int? count;
   final bool enabled;
   final bool active;
 
   @override
-  Widget build(BuildContext context) => GestureDetector(
-    onTap: enabled ? onTap : null,
-    child: Opacity(
-      opacity: enabled || active ? 1 : 0.48,
-      child: Container(
-        width: 43,
-        height: 43,
-        decoration: BoxDecoration(
-          color: active ? const Color(0xFF5945A5) : const Color(0xFF263A78),
-          borderRadius: BorderRadius.circular(13),
-          border: Border.all(color: const Color(0xAAFFFFFF), width: 1.4),
-        ),
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            child,
-            if (count != null)
-              Positioned(
-                right: 1,
-                bottom: 1,
-                child: Container(
-                  width: 16,
-                  height: 16,
-                  alignment: Alignment.center,
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFE84D5B),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Text(
-                    '$count',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 9,
-                      fontWeight: FontWeight.w900,
+  Widget build(BuildContext context) {
+    final button = Semantics(
+      button: true,
+      enabled: enabled,
+      label: tooltip,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: enabled ? onTap : null,
+        child: AnimatedOpacity(
+          duration: const Duration(milliseconds: 150),
+          opacity: enabled || active ? 1 : 0.42,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 150),
+            width: dimension,
+            height: dimension,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: active
+                    ? const [Color(0xFF7059D4), Color(0xFF3B2A8D)]
+                    : const [Color(0xFF314B8E), Color(0xFF1C326F)],
+              ),
+              borderRadius: BorderRadius.circular(dimension * 0.30),
+              border: Border.all(
+                color: active
+                    ? const Color(0xFFFFD86B)
+                    : const Color(0xB3FFFFFF),
+                width: active ? 2 : 1.3,
+              ),
+              boxShadow: active
+                  ? const [BoxShadow(color: Color(0x66FFD54F), blurRadius: 8)]
+                  : null,
+            ),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                child,
+                if (count != null)
+                  Positioned(
+                    right: 0,
+                    bottom: 0,
+                    child: Container(
+                      constraints: const BoxConstraints(
+                        minWidth: 16,
+                        minHeight: 16,
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 3),
+                      alignment: Alignment.center,
+                      decoration: const BoxDecoration(
+                        color: Color(0xFFE84D5B),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Text(
+                        '$count',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 9,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-          ],
+              ],
+            ),
+          ),
         ),
       ),
-    ),
-  );
+    );
+    return tooltip == null ? button : Tooltip(message: tooltip!, child: button);
+  }
 }
 
 class _CircleAction extends StatelessWidget {

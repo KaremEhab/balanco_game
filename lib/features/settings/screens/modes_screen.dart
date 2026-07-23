@@ -552,6 +552,35 @@ class _ModesScreenState extends State<ModesScreen> {
 
           const SizedBox(height: 16),
 
+          GestureDetector(
+            onTap: () {
+              if (!PlayerSession.instance.isAuthenticated) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Log in to challenge a friend online.'),
+                  ),
+                );
+                return;
+              }
+              Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (_) => const RaceSetupScreen(isBattleRace: true),
+                ),
+              );
+            },
+            child: _buildCartoonCard(
+              child: _buildLockedModeRow(
+                icon: Icons.flash_on_rounded,
+                iconBgColor: GameColors.orangeTextUi,
+                title: 'BATTLE RACE',
+                subtitle: 'Race, collide, and blast your rival to the finish',
+                locked: false,
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 16),
+
           _buildCartoonCard(
             disabled: true,
             child: _buildLockedModeRow(

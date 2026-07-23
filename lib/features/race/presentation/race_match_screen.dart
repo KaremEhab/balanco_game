@@ -58,6 +58,7 @@ class _RaceMatchScreenState extends State<RaceMatchScreen> {
       raceBallTint: const Color(0xFF34C9FF),
       enableTutorials: false,
       isRaceMode: true,
+      isBattleRaceMode: widget.room.isBattleRace,
       onlineLevelVersion: widget.room.raceLevelVersion,
     )..currentLevel.value = widget.room.raceLevel;
     _remoteGame = BalancoGame(
@@ -67,6 +68,7 @@ class _RaceMatchScreenState extends State<RaceMatchScreen> {
       raceBallTint: const Color(0xFFAEB4C1),
       enableTutorials: false,
       isRaceMode: true,
+      isBattleRaceMode: widget.room.isBattleRace,
       onlineLevelVersion: widget.room.raceLevelVersion,
     )..currentLevel.value = widget.room.raceLevel;
     _coordinator = RaceGameCoordinator(
@@ -364,6 +366,7 @@ class _RaceMatchScreenState extends State<RaceMatchScreen> {
                   restartKind: room.raceRestartKind,
                   onRetry: _coordinator.requestRetry,
                   onContinue: _coordinator.requestContinue,
+                  onReplay: _coordinator.requestSeriesReplay,
                   onAccept: _coordinator.acceptRestartOffer,
                   onExit: () => unawaited(_leaveRaceImmediately()),
                 ),
@@ -911,6 +914,7 @@ class _RaceResultOverlay extends StatelessWidget {
     required this.restartKind,
     required this.onRetry,
     required this.onContinue,
+    required this.onReplay,
     required this.onAccept,
     required this.onExit,
   });
@@ -928,6 +932,7 @@ class _RaceResultOverlay extends StatelessWidget {
   final String? restartKind;
   final VoidCallback onRetry;
   final VoidCallback onContinue;
+  final VoidCallback onReplay;
   final VoidCallback onAccept;
   final VoidCallback onExit;
 
@@ -1132,15 +1137,47 @@ class _RaceResultOverlay extends StatelessWidget {
                         ),
                       ),
                     const SizedBox(height: 10),
-                    SizedBox(
-                      width: double.infinity,
-                      child: _RaceDialogButton(
-                        icon: Icons.home_rounded,
-                        label: 'RETURN TO MODES',
-                        color: GameColors.red300,
-                        onTap: onExit,
+                    if (seriesFinished)
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _RaceDialogButton(
+                              icon: rematchWaiting
+                                  ? Icons.hourglass_bottom_rounded
+                                  : Icons.replay_rounded,
+                              label: rematchWaiting
+                                  ? 'REPLAY ${room.restartVoteCount}/${room.requiredVotes}'
+                                  : rematchOffered
+                                  ? 'ACCEPT REPLAY'
+                                  : 'REPLAY SERIES',
+                              color: rematchWaiting
+                                  ? GameColors.blueGray600
+                                  : GameColors.purpleAccent,
+                              enabled: !rematchWaiting,
+                              onTap: rematchOffered ? onAccept : onReplay,
+                            ),
+                          ),
+                          const SizedBox(width: 9),
+                          Expanded(
+                            child: _RaceDialogButton(
+                              icon: Icons.home_rounded,
+                              label: 'RETURN TO MODES',
+                              color: GameColors.red300,
+                              onTap: onExit,
+                            ),
+                          ),
+                        ],
+                      )
+                    else
+                      SizedBox(
+                        width: double.infinity,
+                        child: _RaceDialogButton(
+                          icon: Icons.home_rounded,
+                          label: 'RETURN TO MODES',
+                          color: GameColors.red300,
+                          onTap: onExit,
+                        ),
                       ),
-                    ),
                   ],
                 ),
               ),

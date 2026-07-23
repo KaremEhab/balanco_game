@@ -124,6 +124,7 @@ class CoopRoom {
     required this.restartVoteCount,
     required this.leaveVoteCount,
     required this.members,
+    this.isBattleRace = false,
     this.racePickupClaims = const [],
   });
 
@@ -138,6 +139,7 @@ class CoopRoom {
   final String? leaveRequestedBy;
   final String? endReason;
   final String mode;
+  final bool isBattleRace;
   final int raceLevel;
   final int raceStartLevel;
   final int raceEndLevel;
@@ -176,6 +178,7 @@ class CoopRoom {
       members.length == (isRace ? maxPlayers : 2) &&
       members.every((m) => m.ready);
   bool get isRace => mode == 'race';
+  bool get isRegularRace => isRace && !isBattleRace;
   int get seriesRoundCount => raceEndLevel - raceStartLevel + 1;
   int get seriesRoundNumber => raceLevel - raceStartLevel + 1;
   bool get hasMoreSeriesLevels => raceLevel < raceEndLevel;
@@ -210,6 +213,7 @@ class CoopRoom {
       leaveRequestedBy: room['leave_requested_by'] as String?,
       endReason: room['end_reason'] as String?,
       mode: room['mode'] as String? ?? 'coop',
+      isBattleRace: room['is_battle_race'] as bool? ?? false,
       raceLevel: room['race_level'] as int? ?? 1,
       raceStartLevel: room['race_start_level'] as int? ?? 1,
       raceEndLevel: room['race_end_level'] as int? ?? 1,

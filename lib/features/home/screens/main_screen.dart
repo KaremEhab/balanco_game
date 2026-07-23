@@ -48,7 +48,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   final ValueNotifier<double> biomeTransitionProgress = ValueNotifier(0.0);
   final ValueNotifier<BiomeModel?> currentBiomeNotifier = ValueNotifier(null);
   final ValueNotifier<BiomeModel?> previousBiomeNotifier = ValueNotifier(null);
-  final ValueNotifier<int> currentLevelNotifier = ValueNotifier(1);
   double _lastOffset = 0;
 
   late List<Widget> _screens;
@@ -94,7 +93,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         biomeTransitionProgress: biomeTransitionProgress,
         currentBiomeNotifier: currentBiomeNotifier,
         previousBiomeNotifier: previousBiomeNotifier,
-        currentLevelNotifier: currentLevelNotifier,
         onReturnFromGame: _loadData,
       ),
       ModesScreen(
@@ -323,7 +321,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     _activeRoomController.dispose();
     _expandProgressNotifier.dispose();
     biomeTransitionProgress.dispose();
-    currentLevelNotifier.dispose();
     super.dispose();
   }
 
@@ -541,9 +538,22 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   }
 
   Widget _buildParallaxBackground() {
-    return ValueListenableBuilder<int>(
-      valueListenable: currentLevelNotifier,
-      builder: (context, level, child) {
+    return AnimatedBuilder(
+      animation: Listenable.merge([_mapScrollController]),
+      builder: (context, child) {
+        double scrollProgress = 1.0;
+        if (_mapScrollController.hasClients &&
+            _mapScrollController.position.hasContentDimensions) {
+          double scrollOffset = _mapScrollController.offset;
+          double maxScroll = _mapScrollController.position.maxScrollExtent;
+          if (maxScroll <= 0) maxScroll = 1.0;
+          scrollProgress = (scrollOffset / maxScroll).clamp(0.0, 1.0);
+        }
+
+        // When scrollProgress is 1.0 (bottom), it's Level 1.
+        // When scrollProgress is 0.0 (top), it's Level 500.
+        int level = ((1.0 - scrollProgress) * 499 + 1).round().clamp(1, 500);
+
         return LevelGradientBackground(level: level);
       },
     );

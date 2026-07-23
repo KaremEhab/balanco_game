@@ -96,6 +96,33 @@ void main() {
     expect(member.sessionWins, 0);
   });
 
+  test('regular Race and Battle Race remain distinct room variants', () {
+    Map<String, dynamic> roomJson({bool battle = false}) => {
+      'room': {
+        'id': battle ? 'battle-id' : 'race-id',
+        'room_code': battle ? 'BATTLE' : 'RACE22',
+        'host_id': 'host',
+        'status': 'waiting',
+        'host_side': 'left',
+        'seed': 42,
+        'mode': 'race',
+        'max_players': 2,
+        'is_battle_race': battle,
+      },
+      'members': const [],
+    };
+
+    final regularRace = CoopRoom.fromJson(roomJson());
+    final battleRace = CoopRoom.fromJson(roomJson(battle: true));
+
+    expect(regularRace.isRace, isTrue);
+    expect(regularRace.isRegularRace, isTrue);
+    expect(regularRace.isBattleRace, isFalse);
+    expect(battleRace.isRace, isTrue);
+    expect(battleRace.isRegularRace, isFalse);
+    expect(battleRace.isBattleRace, isTrue);
+  });
+
   test('co-op campaign exposes shared level range and end states', () {
     final room = CoopRoom.fromJson({
       'room': {

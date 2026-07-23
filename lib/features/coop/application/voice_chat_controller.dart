@@ -23,6 +23,7 @@ class VoiceChatController {
   final ValueNotifier<int> connectedPeers = ValueNotifier(0);
   final ValueNotifier<String?> activeSpeakerId = ValueNotifier(null);
   final ValueNotifier<String?> error = ValueNotifier(null);
+  final ValueNotifier<bool> reconnecting = ValueNotifier(false);
 
   final Map<String, RTCPeerConnection> _peers = {};
   final Map<String, List<RTCIceCandidate>> _pendingCandidates = {};
@@ -53,6 +54,7 @@ class VoiceChatController {
     }
     _initializing = true;
     try {
+      error.value = null;
       await _configureCallAudio();
       _localStream = await navigator.mediaDevices.getUserMedia({
         'audio': {
@@ -62,6 +64,9 @@ class VoiceChatController {
         },
         'video': false,
       });
+      for (final track in _localStream!.getAudioTracks()) {
+        track.enabled = !muted.value;
+      }
       await _configureCallAudio();
       _subscription = realtime.events.listen(
         (message) => unawaited(_handleSignalSafely(message)),
@@ -81,6 +86,19 @@ class VoiceChatController {
       await _releaseMedia();
     } finally {
       _initializing = false;
+    }
+  }
+
+  Future<bool> reconnect() async {
+    if (_disposed || reconnecting.value || _initializing) return false;
+    reconnecting.value = true;
+    try {
+      error.value = null;
+      await _releaseMedia();
+      await initialize();
+      return _localStream != null;
+    } finally {
+      reconnecting.value = false;
     }
   }
 
@@ -388,5 +406,6 @@ class VoiceChatController {
     connectedPeers.dispose();
     activeSpeakerId.dispose();
     error.dispose();
+    reconnecting.dispose();
   }
 }

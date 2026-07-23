@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:math' as math;
 
+import 'package:balanco_game/features/battle/domain/battle_race_state.dart';
 import 'package:balanco_game/features/coop/application/coop_realtime_session.dart';
 import 'package:balanco_game/features/coop/data/coop_repository.dart';
 import 'package:balanco_game/features/coop/domain/coop_room.dart';
@@ -7,6 +9,7 @@ import 'package:balanco_game/features/game/game_area.dart';
 import 'package:balanco_game/features/game/models/race_pickup.dart';
 import 'package:balanco_game/features/race/application/race_match_clock.dart';
 import 'package:balanco_game/features/race/application/race_remote_snapshot_interpolator.dart';
+import 'package:flame/game.dart' show Vector2;
 import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
 
@@ -38,6 +41,9 @@ class RaceGameCoordinator {
   final ValueNotifier<Map<String, int>> remoteStarsByUser = ValueNotifier(
     const {},
   );
+  final ValueNotifier<Map<String, int>> remoteKnockoutsByUser = ValueNotifier(
+    const {},
+  );
   final ValueNotifier<Map<String, double>> remoteProgressByUser = ValueNotifier(
     const {},
   );
@@ -47,6 +53,7 @@ class RaceGameCoordinator {
   final ValueNotifier<Duration> elapsed = ValueNotifier(Duration.zero);
   final ValueNotifier<bool> showBoardLabels = ValueNotifier(true);
   final ValueNotifier<String?> actionError = ValueNotifier(null);
+  final ValueNotifier<bool> battleActionInFlight = ValueNotifier(false);
   final RaceRemoteSnapshotInterpolator remoteInterpolator =
       RaceRemoteSnapshotInterpolator();
   final Map<String, RaceRemoteSnapshotInterpolator> remoteInterpolators = {};
@@ -71,10 +78,15 @@ class RaceGameCoordinator {
   bool _presenceInFlight = false;
   bool _disposed = false;
   int _sequence = 0;
+  int _battleActionSequence = DateTime.now().microsecondsSinceEpoch;
   final String _snapshotStreamId = const Uuid().v4();
   final Map<String, int> _lastRemoteSequenceByUser = {};
   final Map<String, String> _remoteSnapshotStreamByUser = {};
   final Set<String> _knownPickupClaimKeys = {};
+  final Map<String, int> _remoteBattleRespawns = {};
+  final Map<String, String> _remoteBattlePhases = {};
+  final Map<String, DateTime> _lastBattleInteraction = {};
+  final Set<String> _handledBattleActionIds = {};
 
   DateTime get goAt =>
       (room.value.startedAt ?? DateTime.now().toUtc()).add(countdownDuration);
@@ -137,6 +149,7 @@ class RaceGameCoordinator {
     remoteGame.countdownNotifier.value = clock.countdownSeconds.ceil();
     if (localGame.isLayoutReady) {
       localProgress.value = localGame.raceProgress;
+      _resolveBattleCollision();
     }
     if (localGame.showGameOverOverlay.value && !_lossSubmitted) {
       _onLocalGameOver();
@@ -154,6 +167,148 @@ class RaceGameCoordinator {
       unawaited(_submitTimeoutDraw());
     }
   }
+
+  void _resolveBattleCollision() {
+    if (!localGame.isBattleRaceMode || !localGame.isLayoutReady) return;
+    for (final opponent in room.value.opponentsOf(userId)) {
+      if (opponent.hasLeft) continue;
+      _resolveBattleCollisionWith(opponent.userId);
+    }
+  }
+
+  void _resolveBattleCollisionWith(String opponentId) {
+    if (_remoteBattlePhases[opponentId] != BattlePlayerPhase.active.name) {
+      return;
+    }
+    final remote = remoteInterpolators[opponentId]?.sample();
+    if (remote == null || remote.balls.isEmpty) return;
+    final ball = remote.balls.first;
+    if (ball.dead || remote.worldWidth <= 0) return;
+    final localX = remote.localX(ball.x, localGame.size.x);
+    final localY = remote.localY(
+      ball.y,
+      localGame.size.y,
+      localBarBottomY: localGame.raceBarBottomY,
+    );
+    final remoteLevelHeight = remote.levelHeight ?? remote.worldHeight;
+    final remoteBarDx = math.max(1.0, remote.worldWidth - 40);
+    final remoteBarDy = remote.rightY - remote.leftY;
+    final remoteBarLength = math.sqrt(
+      remoteBarDx * remoteBarDx + remoteBarDy * remoteBarDy,
+    );
+    final velocityX = ball.airborne
+        ? ball.velocityX
+        : ball.velocityX * remoteBarDx / remoteBarLength;
+    final velocityY = ball.airborne
+        ? ball.velocityY
+        : ball.velocityX * remoteBarDy / remoteBarLength;
+    final collided = localGame.applyRemoteBallCollision(
+      remotePlayerId: opponentId,
+      remoteXRatio: localX / localGame.size.x,
+      remoteYRatio: localY / localGame.levelHeight,
+      remoteVelocityX: velocityX * localGame.size.x / remote.worldWidth,
+      remoteVelocityY: remoteLevelHeight <= 0
+          ? 0
+          : velocityY * localGame.levelHeight / remoteLevelHeight,
+    );
+    if (collided) _lastBattleInteraction[opponentId] = DateTime.now().toUtc();
+  }
+
+  Vector2? _remoteBallWorldPosition(String opponentId) {
+    final remote = remoteInterpolators[opponentId]?.sample();
+    if (remote == null || remote.balls.isEmpty || remote.worldWidth <= 0) {
+      return null;
+    }
+    final ball = remote.balls.firstWhere(
+      (candidate) => !candidate.dead,
+      orElse: () => remote.balls.first,
+    );
+    if (ball.dead) return null;
+    return Vector2(
+      remote.localX(ball.x, localGame.size.x),
+      remote.localY(
+        ball.y,
+        localGame.size.y,
+        localBarBottomY: localGame.raceBarBottomY,
+      ),
+    );
+  }
+
+  void _playOutgoingBattleWeaponEffects(
+    BattleWeaponDefinition weapon,
+    Vector2 source,
+  ) {
+    for (final opponent in room.value.opponentsOf(userId)) {
+      if (opponent.hasLeft) continue;
+      final target = _remoteBallWorldPosition(opponent.userId);
+      if (target == null) continue;
+      localGame.playBattleWeaponVisual(
+        weaponId: weapon.id,
+        sourcePosition: source,
+        targetProvider: () =>
+            _remoteBallWorldPosition(opponent.userId) ?? target,
+      );
+    }
+  }
+
+  Future<bool> activateBattleWeapon(String weaponId) async {
+    final weapon = BattleWeaponCatalog.fromId(weaponId);
+    if (_disposed ||
+        weapon == null ||
+        battleActionInFlight.value ||
+        !localGame.isLayoutReady ||
+        localGame.activeBalls.isEmpty) {
+      return false;
+    }
+    final pickupKey = BattleWeaponCatalog.requiresPickup(weapon.id)
+        ? localGame.battlePlayerState.firstPickupKey(weapon.id)
+        : null;
+    if (!localGame.battlePlayerState.canUseAttack(weapon) ||
+        (BattleWeaponCatalog.requiresPickup(weapon.id) && pickupKey == null)) {
+      return false;
+    }
+    battleActionInFlight.value = true;
+    final ball = localGame.activeBalls.first;
+    final sourceTrackY = (ball.pos2D.y - 70) / (localGame.raceBarBottomY - 70);
+    try {
+      final action = await repository.submitBattleRaceAction(
+        roomId: room.value.id,
+        attemptNumber: room.value.attemptNumber,
+        actionType: weapon.id,
+        clientSequence: ++_battleActionSequence,
+        payload: {
+          'source_x': ball.pos2D.x / localGame.size.x,
+          'source_y': sourceTrackY,
+          'pickup_key': ?pickupKey,
+        },
+      );
+      if (action['accepted'] != true ||
+          !localGame.activateBattleWeapon(weapon, pickupKey: pickupKey)) {
+        return false;
+      }
+      final delivered = await realtime.send('battle_weapon', {
+        'attempt': room.value.attemptNumber,
+        'level': room.value.raceLevel,
+        'action_id': action['action_id'] ?? const Uuid().v4(),
+        'server_at': action['server_at'],
+        'weapon_id': weapon.id,
+        'source_x': ball.pos2D.x / localGame.size.x,
+        'source_y': sourceTrackY,
+      });
+      if (delivered) {
+        _playOutgoingBattleWeaponEffects(weapon, ball.pos2D.clone());
+      }
+      return delivered;
+    } catch (_) {
+      actionError.value = '${weapon.name} could not be validated. Try again.';
+      return false;
+    } finally {
+      battleActionInFlight.value = false;
+    }
+  }
+
+  Future<bool> activateShockPulse() =>
+      activateBattleWeapon(BattleWeaponCatalog.heatWave.id);
 
   Future<void> _submitTimeoutDraw() async {
     final attemptedAt = DateTime.now().toUtc();
@@ -263,11 +418,78 @@ class RaceGameCoordinator {
           remoteHearts.value = hearts;
           remoteStars.value = stars;
         }
+        if (localGame.isBattleRaceMode && event['battle'] is Map) {
+          final battle = Map<String, dynamic>.from(event['battle'] as Map);
+          _remoteBattlePhases[senderId] =
+              battle['phase']?.toString() ?? BattlePlayerPhase.active.name;
+          remoteKnockoutsByUser.value = {
+            ...remoteKnockoutsByUser.value,
+            senderId: (battle['knockouts'] as num?)?.toInt() ?? 0,
+          };
+          final respawns = (battle['respawns'] as num?)?.toInt() ?? 0;
+          final previous = _remoteBattleRespawns[senderId] ?? respawns;
+          _remoteBattleRespawns[senderId] = respawns;
+          final interaction = _lastBattleInteraction[senderId];
+          if (respawns > previous &&
+              interaction != null &&
+              DateTime.now().toUtc().difference(interaction) <=
+                  const Duration(milliseconds: 2500)) {
+            localGame.awardBattleKnockout();
+            _lastBattleInteraction.remove(senderId);
+          }
+        }
         syncHealthy.value = true;
         _healthTimer?.cancel();
         _healthTimer = Timer(const Duration(milliseconds: 1200), () {
           if (!_disposed) syncHealthy.value = false;
         });
+      case 'battle_weapon':
+      case 'battle_shock_pulse':
+        final eventAttempt = (event['attempt'] as num?)?.toInt();
+        final eventLevel = (event['level'] as num?)?.toInt();
+        if (!localGame.isBattleRaceMode ||
+            eventAttempt != room.value.attemptNumber ||
+            eventLevel != room.value.raceLevel) {
+          return;
+        }
+        final actionId = event['action_id']?.toString();
+        if (actionId == null || !_handledBattleActionIds.add(actionId)) return;
+        Map<String, dynamic> authoritative;
+        try {
+          authoritative = await repository.getBattleRaceAction(
+            roomId: room.value.id,
+            actionId: actionId,
+          );
+        } catch (_) {
+          _handledBattleActionIds.remove(actionId);
+          return;
+        }
+        final authoritativeType = authoritative['action_type'] == 'shock_pulse'
+            ? BattleWeaponCatalog.heatWave.id
+            : authoritative['action_type']?.toString();
+        final weapon = authoritativeType == null
+            ? null
+            : BattleWeaponCatalog.fromId(authoritativeType);
+        if (authoritative['user_id'] != senderId ||
+            weapon == null ||
+            authoritative['attempt_number'] != room.value.attemptNumber) {
+          return;
+        }
+        final payload = authoritative['payload'];
+        if (payload is! Map) return;
+        final sourceX = (payload['source_x'] as num?)?.toDouble();
+        final sourceY = (payload['source_y'] as num?)?.toDouble();
+        if (sourceX == null || sourceY == null) return;
+        localGame.playIncomingBattleWeapon(
+          weaponId: weapon.id,
+          sourceXRatio: sourceX,
+          sourceYRatio: sourceY,
+          onResolved: (hit) {
+            if (hit) {
+              _lastBattleInteraction[senderId] = DateTime.now().toUtc();
+            }
+          },
+        );
       case 'race_pickup_claimed':
         final eventAttempt = (event['attempt'] as num?)?.toInt();
         final eventLevel = (event['level'] as num?)?.toInt();
@@ -298,13 +520,21 @@ class RaceGameCoordinator {
     RacePickupType type,
     String pickupKey,
   ) async {
-    final claim = await repository.claimRacePickup(
-      roomId: room.value.id,
-      attemptNumber: room.value.attemptNumber,
-      level: room.value.raceLevel,
-      pickupKey: pickupKey,
-      pickupType: type.wireName,
-    );
+    final claim = type.isBattlePickup
+        ? await repository.claimBattleRacePickup(
+            roomId: room.value.id,
+            attemptNumber: room.value.attemptNumber,
+            level: room.value.raceLevel,
+            pickupKey: pickupKey,
+            pickupType: type.wireName,
+          )
+        : await repository.claimRacePickup(
+            roomId: room.value.id,
+            attemptNumber: room.value.attemptNumber,
+            level: room.value.raceLevel,
+            pickupKey: pickupKey,
+            pickupType: type.wireName,
+          );
     final resolution = RacePickupResolution(
       pickupKey: claim.pickupKey,
       type: RacePickupType.fromWireName(claim.pickupType) ?? type,
@@ -495,6 +725,8 @@ class RaceGameCoordinator {
 
   Future<void> requestContinue() => _requestRestart('continue');
 
+  Future<void> requestSeriesReplay() => _requestRestart('series_replay');
+
   Future<void> acceptRestartOffer() async {
     final kind = room.value.raceRestartKind;
     if (kind == null) return;
@@ -531,6 +763,9 @@ class RaceGameCoordinator {
     }
     if (message.contains('not ready to restart')) {
       return 'The room changed before that retry could be sent. Try again.';
+    }
+    if (message.contains('series replay')) {
+      return 'The series changed before that replay vote arrived. Try again.';
     }
     return 'The shared race action did not reach the room. Please try again.';
   }
@@ -640,6 +875,7 @@ class RaceGameCoordinator {
     _presenceTimer?.cancel();
     _healthTimer?.cancel();
     _introTimer?.cancel();
+    _handledBattleActionIds.clear();
     await _events?.cancel();
     room.dispose();
     localProgress.dispose();
@@ -648,12 +884,14 @@ class RaceGameCoordinator {
     remoteStars.dispose();
     remoteHeartsByUser.dispose();
     remoteStarsByUser.dispose();
+    remoteKnockoutsByUser.dispose();
     remoteProgressByUser.dispose();
     pickupCountsByUser.dispose();
     syncHealthy.dispose();
     elapsed.dispose();
     showBoardLabels.dispose();
     actionError.dispose();
+    battleActionInFlight.dispose();
     remoteInterpolator.dispose();
     for (final interpolator in remoteInterpolators.values) {
       interpolator.dispose();

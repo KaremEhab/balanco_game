@@ -12,11 +12,16 @@ class CoopRepository {
   Future<CoopRoom> createRaceRoom({int maxPlayers = 2}) =>
       _roomRpc('create_race_room', {'p_max_players': maxPlayers});
 
+  Future<CoopRoom> createBattleRaceRoom({int maxPlayers = 2}) =>
+      _roomRpc('create_battle_race_room', {'p_max_players': maxPlayers});
+
   Future<CoopRoom> joinRoom(String code) =>
       _roomRpc('join_coop_room', {'p_code': code.trim().toUpperCase()});
 
-  Future<CoopRoom> joinRaceRoom(String code) =>
-      _roomRpc('join_race_room', {'p_code': code.trim().toUpperCase()});
+  Future<CoopRoom> joinRaceRoom(String code, {bool battle = false}) => _roomRpc(
+    'join_race_room_variant',
+    {'p_code': code.trim().toUpperCase(), 'p_battle': battle},
+  );
 
   Future<CoopRoom> getRoom(String roomId) =>
       _roomRpc('get_coop_room_state', {'p_room_id': roomId});
@@ -145,6 +150,59 @@ class CoopRepository {
     return CoopRacePickupClaim.fromJson(
       Map<String, dynamic>.from(result as Map),
     );
+  }
+
+  Future<CoopRacePickupClaim> claimBattleRacePickup({
+    required String roomId,
+    required int attemptNumber,
+    required int level,
+    required String pickupKey,
+    required String pickupType,
+  }) async {
+    final result = await _client.rpc(
+      'claim_battle_race_pickup',
+      params: {
+        'p_room_id': roomId,
+        'p_attempt_number': attemptNumber,
+        'p_race_level': level,
+        'p_pickup_key': pickupKey,
+        'p_pickup_type': pickupType,
+      },
+    );
+    return CoopRacePickupClaim.fromJson(
+      Map<String, dynamic>.from(result as Map),
+    );
+  }
+
+  Future<Map<String, dynamic>> submitBattleRaceAction({
+    required String roomId,
+    required int attemptNumber,
+    required String actionType,
+    required int clientSequence,
+    required Map<String, dynamic> payload,
+  }) async {
+    final result = await _client.rpc(
+      'submit_battle_race_action',
+      params: {
+        'p_room_id': roomId,
+        'p_attempt_number': attemptNumber,
+        'p_action_type': actionType,
+        'p_client_sequence': clientSequence,
+        'p_payload': payload,
+      },
+    );
+    return Map<String, dynamic>.from(result as Map);
+  }
+
+  Future<Map<String, dynamic>> getBattleRaceAction({
+    required String roomId,
+    required String actionId,
+  }) async {
+    final result = await _client.rpc(
+      'get_battle_race_action',
+      params: {'p_room_id': roomId, 'p_action_id': actionId},
+    );
+    return Map<String, dynamic>.from(result as Map);
   }
 
   Future<CoopRoom> surrenderRace(String roomId) =>

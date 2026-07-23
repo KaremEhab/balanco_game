@@ -8,12 +8,18 @@ class RaceRemoteBallRenderState {
     required this.y,
     required this.scale,
     required this.dead,
+    this.velocityX = 0,
+    this.velocityY = 0,
+    this.airborne = false,
   });
 
   final double x;
   final double y;
   final double scale;
   final bool dead;
+  final double velocityX;
+  final double velocityY;
+  final bool airborne;
 }
 
 class RaceRemoteRenderState {
@@ -242,6 +248,9 @@ class RaceRemoteSnapshotInterpolator extends ChangeNotifier {
           ),
           scale: ballA.scale + (ballB.scale - ballA.scale) * t,
           dead: t < 0.5 ? ballA.dead : ballB.dead,
+          velocityX: ballA.velocityX + (ballB.velocityX - ballA.velocityX) * t,
+          velocityY: ballA.velocityY + (ballB.velocityY - ballA.velocityY) * t,
+          airborne: t < 0.5 ? ballA.airborne : ballB.airborne,
         ),
       );
     }
@@ -301,6 +310,9 @@ class RaceRemoteSnapshotInterpolator extends ChangeNotifier {
           y: extrapolate(old.y, current.y),
           scale: current.scale,
           dead: current.dead,
+          velocityX: current.velocityX,
+          velocityY: current.velocityY,
+          airborne: current.airborne,
         ),
       );
     }
@@ -345,12 +357,18 @@ class _RaceBallSnapshot {
     required this.y,
     required this.scale,
     required this.dead,
+    required this.velocityX,
+    required this.velocityY,
+    required this.airborne,
   });
 
   final double x;
   final double y;
   final double scale;
   final bool dead;
+  final double velocityX;
+  final double velocityY;
+  final bool airborne;
 }
 
 class _RaceSnapshot {
@@ -402,12 +420,22 @@ class _RaceSnapshot {
       final x = (ball['x'] as num?)?.toDouble();
       final y = (ball['y'] as num?)?.toDouble();
       if (x == null || y == null) continue;
+      final airborne =
+          (ball['is_free_falling'] as bool? ?? false) ||
+          (ball['is_falling'] as bool? ?? false);
       balls.add(
         _RaceBallSnapshot(
           x: x,
           y: y,
           scale: (ball['scale'] as num?)?.toDouble() ?? 1,
           dead: ball['is_dead'] as bool? ?? false,
+          velocityX: airborne
+              ? (ball['free_fall_x'] as num?)?.toDouble() ?? 0
+              : (ball['velocity'] as num?)?.toDouble() ?? 0,
+          velocityY: airborne
+              ? (ball['free_fall_y'] as num?)?.toDouble() ?? 0
+              : 0,
+          airborne: airborne,
         ),
       );
     }
@@ -440,6 +468,9 @@ class _RaceSnapshot {
             y: ball.y,
             scale: ball.scale,
             dead: ball.dead,
+            velocityX: ball.velocityX,
+            velocityY: ball.velocityY,
+            airborne: ball.airborne,
           ),
         )
         .toList(growable: false),

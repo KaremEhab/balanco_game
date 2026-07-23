@@ -5,11 +5,25 @@ enum RacePickupType {
   multiBall('multi_ball'),
   shield('shield'),
   coin('coin'),
-  shooterHelper('shooter_helper');
+  shooterHelper('shooter_helper'),
+  battleRocket('battle_rocket'),
+  battleBomb('battle_bomb'),
+  battleNails('battle_nails'),
+  battleShield('battle_shield'),
+  battleTurbo('battle_turbo');
 
   const RacePickupType(this.wireName);
 
   final String wireName;
+
+  bool get isBattlePickup => switch (this) {
+    battleRocket ||
+    battleBomb ||
+    battleNails ||
+    battleShield ||
+    battleTurbo => true,
+    _ => false,
+  };
 
   static RacePickupType? fromWireName(String value) {
     for (final type in values) {
