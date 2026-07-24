@@ -58,6 +58,8 @@ import 'package:balanco_game/features/battle/presentation/battle_pickup_componen
 import 'package:balanco_game/features/battle/presentation/battle_weapon_effect_component.dart';
 
 class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
+  static int _lastInfinityRunSeed = 0;
+
   final bool isMultiplayer;
   final bool isInfinityMode;
   final bool isEditMode;
@@ -500,6 +502,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   final Queue<HoleBehavior> _recentInfinityPrimaryBehaviors = Queue();
   late Random _random;
   late Random _worldRandom;
+  late int _effectiveWorldSeed;
   bool _isCoopReplica = false;
   bool _hasCoopSnapshot = false;
   Map<String, dynamic>? _coopSnapshot;
@@ -817,12 +820,35 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     this.onGameOver,
     this.onLevelComplete,
   }) : assert(!isBattleRaceMode || isRaceMode) {
-    _random = Random(randomSeed);
-    _worldRandom = Random((randomSeed ?? 0) ^ 0x5F3759DF);
+    final infinitySeed = isInfinityMode && randomSeed == null
+        ? _nextInfinityRunSeed()
+        : null;
+    _effectiveWorldSeed = randomSeed ?? infinitySeed ?? 0;
+    _random = Random(randomSeed ?? infinitySeed);
+    _worldRandom = Random(_effectiveWorldSeed ^ 0x5F3759DF);
     if (isBattleRaceMode) {
       remainingShields.value = 1;
       remainingRaceBoosts.value = 0;
     }
+  }
+
+  static int _nextInfinityRunSeed() {
+    var seed = DateTime.now().microsecondsSinceEpoch & 0x7FFFFFFF;
+    if (seed == _lastInfinityRunSeed) {
+      seed = (seed + 1) & 0x7FFFFFFF;
+    }
+    _lastInfinityRunSeed = seed;
+    return seed;
+  }
+
+  @visibleForTesting
+  int get effectiveWorldSeed => _effectiveWorldSeed;
+
+  void _startFreshInfinityLayout() {
+    final seed = _nextInfinityRunSeed();
+    _effectiveWorldSeed = seed;
+    _random = Random(seed);
+    _worldRandom = Random(seed ^ 0x5F3759DF);
   }
 
   @override
@@ -1464,6 +1490,9 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     currentPoints.value = 0;
     earnedLevelPoints.value = 0;
     if (isInfinityMode) {
+      if (!isMultiplayer && randomSeed == null) {
+        _startFreshInfinityLayout();
+      }
       currentScore.value = 0;
       collectedCoins.value = 0;
       lastInfinityScore = 0;
@@ -2087,7 +2116,7 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
     // Create main ball
     BallData mainBall = BallData();
     double currentSizeX = size.x > 0 ? size.x : 400.0;
-    
+
     double offset = 0.0;
     if (isBattleRaceMode) {
       offset = isRaceHost ? -35.0 : 35.0;
@@ -2852,7 +2881,10 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
       offset = isRaceHost ? -35.0 : 35.0;
     }
     ball.p = ((size.x - 2 * barPadding) / 2.0) + offset;
-    ball.pos2D = Vector2((size.x / 2.0) + offset, _barBottomY - (ballRadius + 6.0));
+    ball.pos2D = Vector2(
+      (size.x / 2.0) + offset,
+      _barBottomY - (ballRadius + 6.0),
+    );
     ball.scale = 1.0;
     ball.spawnTimer = 0.0;
     ball.isFreeFalling = false;
@@ -4381,15 +4413,25 @@ class BalancoGame extends FlameGame with KeyboardEvents, PanDetector {
   void _spawnInfinityStarterTemplate(LevelData template) {
     final sizeX = size.x > 0 ? size.x : 400.0;
     final sizeY = size.y > 0 ? size.y : 800.0;
-    final startY = sizeY - 250.0;
-    final spanY = max(520.0, sizeY * 1.15);
+    final startY = sizeY - 230.0 - _worldRandom.nextDouble() * 55.0;
+    final spanY =
+        max(520.0, sizeY * 1.15) * (0.92 + _worldRandom.nextDouble() * 0.16);
+    final mirrorHorizontally = _worldRandom.nextBool();
+    final horizontalShift = (_worldRandom.nextDouble() - 0.5) * sizeX * 0.16;
+    final wavePhase = _worldRandom.nextDouble() * pi * 2;
+    final waveAmplitude = sizeX * (0.035 + _worldRandom.nextDouble() * 0.045);
 
     double safeX(double value) => (value * sizeX)
         .clamp(barPadding + 24.0, sizeX - barPadding - 24.0)
         .toDouble();
 
     Vector2 mapPoint(Vector2 normalized) {
-      return Vector2(safeX(normalized.x), startY - normalized.y * spanY);
+      final baseX = mirrorHorizontally ? 1.0 - normalized.x : normalized.x;
+      final shiftedX =
+          baseX +
+          horizontalShift / sizeX +
+          sin(normalized.y * pi * 2 + wavePhase) * (waveAmplitude / sizeX);
+      return Vector2(safeX(shiftedX), startY - normalized.y * spanY);
     }
 
     for (final hData in template.holes) {
